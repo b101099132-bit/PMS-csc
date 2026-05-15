@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>術前資料填寫 — 心血管手術病人</title>
+<meta name="description" content="心血管手術病人術前基本資料登錄">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #FAF7F2;
+  --paper: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-soft: #5C5C5C;
+  --ink-faint: #8A8580;
+  --teal: #1F5A5A;
+  --teal-soft: #E6EDED;
+  --teal-tint: #F5F9F9;
+  --teal-hover: #2D6F6F;
+  --gold: #A87B4D;
+  --border: #E8E2D5;
+  --border-strong: #D4CDB8;
+  --error: #B85450;
+  --error-bg: #FBEFEE;
+  --success: #4A7A5A;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  padding: 24px 16px 80px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.container { max-width: 640px; margin: 0 auto; }
+
+/* ============ Header ============ */
+header {
+  text-align: center;
+  margin: 32px 0 40px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: clamp(26px, 5vw, 34px);
+  color: var(--ink);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.subtitle {
+  color: var(--ink-soft);
+  font-size: 15px;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin: 32px auto;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.divider::before { left: -10px; }
+.divider::after { right: -10px; }
+
+/* ============ Notice ============ */
+.notice {
+  background: var(--teal-tint);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 36px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.notice strong {
+  color: var(--teal);
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+/* ============ Section ============ */
+.section {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 32px 28px;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .section { padding: 28px 22px; }
+}
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding-bottom: 20px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+.section-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 21px;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+/* ============ Field ============ */
+.field { margin-bottom: 22px; }
+.field:last-child { margin-bottom: 0; }
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.req { color: var(--error); margin-left: 2px; font-weight: 600; }
+.hint {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-top: 6px;
+  margin-bottom: -2px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 16px;
+  background: var(--paper);
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  min-height: 48px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(31, 90, 90, 0.12);
+}
+textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%235C5C5C' stroke-width='1.5' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+/* ============ Radio Buttons (Pill-style) ============ */
+.radio-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+}
+.option { position: relative; }
+.option input { position: absolute; opacity: 0; pointer-events: none; }
+.option label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0;
+  cursor: pointer;
+  text-align: center;
+  min-height: 48px;
+  transition: all 0.15s ease;
+  background: var(--paper);
+  color: var(--ink);
+}
+.option label:hover { border-color: var(--teal); }
+.option input:checked + label {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: white;
+  font-weight: 500;
+}
+.option input:focus-visible + label {
+  box-shadow: 0 0 0 3px rgba(31, 90, 90, 0.2);
+}
+
+/* ============ Checkbox List ============ */
+.checkbox-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 520px) {
+  .checkbox-list { grid-template-columns: 1fr; }
+}
+.checkbox-item { position: relative; }
+.checkbox-item input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.checkbox-item label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 15px;
+  margin: 0;
+  min-height: 48px;
+  background: var(--paper);
+  transition: all 0.15s ease;
+}
+.checkbox-item label::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 3px;
+  flex-shrink: 0;
+  background: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  transition: all 0.15s ease;
+}
+.checkbox-item label:hover { border-color: var(--teal); }
+.checkbox-item input:checked + label {
+  border-color: var(--teal);
+  background: var(--teal-tint);
+}
+.checkbox-item input:checked + label::before {
+  background-color: var(--teal);
+  border-color: var(--teal);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+}
+
+/* ============ Row Layout ============ */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 480px) {
+  .row { grid-template-columns: 1fr; gap: 0; }
+  .row .field { margin-bottom: 22px; }
+}
+
+/* ============ Consent ============ */
+.consent-box {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 20px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 18px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.consent-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  color: var(--ink);
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.consent-box h4 + p { margin-bottom: 12px; }
+.consent-box h4:not(:first-child) { margin-top: 14px; }
+
+.consent-check {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border: 2px solid var(--teal);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.consent-check:hover { background: var(--teal-tint); }
+.consent-check input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--teal); }
+.consent-check span {
+  font-weight: 500;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ============ Submit ============ */
+.submit-area {
+  margin-top: 32px;
+  text-align: center;
+}
+button[type="submit"] {
+  width: 100%;
+  padding: 18px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.05em;
+}
+button[type="submit"]:hover:not(:disabled) {
+  background: var(--teal-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(31, 90, 90, 0.18);
+}
+button[type="submit"]:active:not(:disabled) {
+  transform: translateY(0);
+}
+button[type="submit"]:disabled {
+  background: var(--ink-faint);
+  cursor: not-allowed;
+}
+.submit-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ============ Validation ============ */
+.error-msg {
+  color: var(--error);
+  font-size: 13px;
+  margin-top: 6px;
+  display: none;
+  font-weight: 500;
+}
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: var(--error);
+  background: var(--error-bg);
+}
+.field.has-error .error-msg { display: block; }
+.field.has-error .option label { border-color: var(--error); }
+
+/* ============ Success Screen ============ */
+.success-screen {
+  display: none;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 72px 32px;
+  text-align: center;
+}
+.success-screen.show { display: block; }
+.success-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  background: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 38px;
+  font-weight: 300;
+}
+.success-screen h2 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.success-screen p {
+  color: var(--ink-soft);
+  font-size: 15px;
+  max-width: 420px;
+  margin: 0 auto 12px;
+  line-height: 1.7;
+}
+.success-screen .small-divider {
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+  margin: 24px auto;
+}
+
+/* ============ Footer ============ */
+footer {
+  text-align: center;
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+footer .clinic-name {
+  font-family: 'Noto Serif TC', serif;
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Patient Pre-Surgery Form</div>
+    <h1>術前基本資料填寫</h1>
+    <p class="subtitle">為了讓您安心接受手術，請花幾分鐘填寫以下資料。您的資料僅由主治醫師團隊使用。</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="notice" id="notice">
+    <strong>關於您的隱私</strong>
+    本表單蒐集的資料僅用於：(1) 手術前後的衛教與通知；(2) 醫師掌握您的健康狀況以提供更好的照護。資料依《個人資料保護法》保存，不會用於其他用途，您可隨時聯繫醫師團隊查詢、修改或刪除。
+  </div>
+
+  <form id="patientForm" novalidate>
+
+    <!-- 01 基本資料 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <span class="section-title">基本資料</span>
+      </div>
+
+      <div class="field">
+        <label for="name">姓名 <span class="req">*</span></label>
+        <input type="text" id="name" name="name" autocomplete="name" required>
+        <div class="error-msg">請填寫姓名</div>
+      </div>
+
+      <div class="row">
+        <div class="field" data-name="gender">
+          <label>性別 <span class="req">*</span></label>
+          <div class="radio-group">
+            <div class="option">
+              <input type="radio" id="g1" name="gender" value="男" required>
+              <label for="g1">男</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="g2" name="gender" value="女">
+              <label for="g2">女</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="g3" name="gender" value="其他">
+              <label for="g3">其他</label>
+            </div>
+          </div>
+          <div class="error-msg">請選擇性別</div>
+        </div>
+
+        <div class="field">
+          <label for="birthdate">出生年月日 <span class="req">*</span></label>
+          <input type="date" id="birthdate" name="birthdate" required>
+          <div class="error-msg">請選擇出生年月日</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="id_last4">身分證字號末 4 碼 <span class="req">*</span></label>
+        <input type="text" id="id_last4" name="id_last4" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
+        <div class="hint">用於建立病人識別碼，僅儲存 4 碼，不存全碼</div>
+        <div class="error-msg">請填寫 4 位數字</div>
+      </div>
+    </section>
+
+    <!-- 02 聯絡資訊 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">聯絡資訊</span>
+      </div>
+
+      <div class="field">
+        <label for="phone">聯絡電話 <span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="例：0912-345-678">
+        <div class="error-msg">請填寫聯絡電話</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="line_id">LINE ID</label>
+          <input type="text" id="line_id" name="line_id" placeholder="例：abc123（選填）" autocomplete="off">
+          <div class="hint">LINE App 主頁 → 設定 → 個人檔案 → ID；若無 LINE ID 可留空</div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" placeholder="（選填）">
+        </div>
+      </div>
+
+      <div class="field" data-name="contact_pref">
+        <label>偏好聯絡方式 <span class="req">*</span></label>
+        <div class="hint">我們會用此管道發送術前衛教、提醒與術後問卷</div>
+        <div class="radio-group" style="margin-top:10px">
+          <div class="option">
+            <input type="radio" id="c1" name="contact_pref" value="LINE" required>
+            <label for="c1">LINE</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="c2" name="contact_pref" value="Email">
+            <label for="c2">Email</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="c3" name="contact_pref" value="電話">
+            <label for="c3">電話</label>
+          </div>
+        </div>
+        <div class="error-msg">請選擇聯絡方式</div>
+      </div>
+    </section>
+
+    <!-- 03 緊急聯絡人 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <span class="section-title">緊急聯絡人</span>
+      </div>
+
+      <div class="field">
+        <label for="emerg_name">姓名 <span class="req">*</span></label>
+        <input type="text" id="emerg_name" name="emerg_name" required>
+        <div class="error-msg">請填寫緊急聯絡人姓名</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="emerg_relation">關係 <span class="req">*</span></label>
+          <select id="emerg_relation" name="emerg_relation" required>
+            <option value="">請選擇</option>
+            <option value="配偶">配偶</option>
+            <option value="子女">子女</option>
+            <option value="父母">父母</option>
+            <option value="兄弟姊妹">兄弟姊妹</option>
+            <option value="其他">其他</option>
+          </select>
+          <div class="error-msg">請選擇關係</div>
+        </div>
+        <div class="field">
+          <label for="emerg_phone">電話 <span class="req">*</span></label>
+          <input type="tel" id="emerg_phone" name="emerg_phone" required>
+          <div class="error-msg">請填寫緊急聯絡人電話</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 健康狀況 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <span class="section-title">健康狀況</span>
+      </div>
+
+      <div class="field">
+        <label for="allergy">過敏史</label>
+        <div class="hint">藥物、食物或其他過敏，請逐項說明；若無請填「無」</div>
+        <textarea id="allergy" name="allergy" placeholder="例：青黴素、海鮮"></textarea>
+      </div>
+
+      <div class="field">
+        <label>慢性疾病史</label>
+        <div class="hint">請勾選您目前有或曾被診斷的疾病</div>
+        <div class="checkbox-list" style="margin-top:10px">
+          <div class="checkbox-item">
+            <input type="checkbox" id="dm" name="comorbidity" value="DM">
+            <label for="dm">糖尿病 (DM)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="htn" name="comorbidity" value="HTN">
+            <label for="htn">高血壓 (HTN)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="cva" name="comorbidity" value="CVA">
+            <label for="cva">中風 (CVA)</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="esrd" name="comorbidity" value="ESRD">
+            <label for="esrd">末期腎臟病（洗腎）</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="cpr" name="comorbidity" value="CPR">
+            <label for="cpr">曾接受心肺復甦術</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="copd" name="comorbidity" value="COPD">
+            <label for="copd">慢性阻塞性肺病 (COPD)</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="other_disease">其他疾病或補充說明</label>
+        <textarea id="other_disease" name="other_disease" placeholder="例：心房顫動、曾接受冠狀動脈支架"></textarea>
+      </div>
+    </section>
+
+    <!-- 05 個資使用同意 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <span class="section-title">個資使用同意</span>
+      </div>
+
+      <div class="consent-box">
+        <h4>蒐集目的</h4>
+        <p>本診所將您所提供之個人資料用於：手術前後的衛教資料發送、手術相關聯繫與提醒、術後追蹤與滿意度調查、必要時的緊急聯絡。</p>
+        <h4>資料保存與權利</h4>
+        <p>您的資料將儲存於 Google Workspace，保存期間依《醫療法》規定之最低年限。您可隨時聯繫主治醫師團隊行使查詢、複製、補正、停止處理或刪除之權利。若您不提供必要資料，可能影響我們提供照護的完整性。</p>
+        <h4>第三方服務</h4>
+        <p>我們會透過 LINE / Email 等通訊管道與您聯繫。當您點擊衛教連結時，相關平台可能會記錄您的存取行為，請參考各平台之隱私政策。</p>
+      </div>
+
+      <label class="consent-check">
+        <input type="checkbox" id="consent" name="consent" value="是" required>
+        <span>我已閱讀並同意上述個人資料使用方式 <span class="req">*</span></span>
+      </label>
+      <div class="error-msg" id="consent-err" style="margin-top:8px">請勾選同意才能送出</div>
+    </section>
+
+    <div class="submit-area">
+      <button type="submit" id="submitBtn">送出資料</button>
+      <p class="submit-note">送出後將傳送至您的主治醫師團隊</p>
+    </div>
+  </form>
+
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2>資料已送出</h2>
+    <p>感謝您完成填寫。我們會盡快透過您選擇的聯絡方式，傳送術前衛教資訊給您。</p>
+    <div class="small-divider"></div>
+    <p>如需修改或詢問，請聯繫您的主治醫師團隊。</p>
+  </div>
+
+  <footer>
+    <div class="clinic-name">手術病人管理系統</div>
+    <div>表單版本 v1.0 · 依個資法妥善保護您的資料</div>
+  </footer>
+</div>
+
+<script>
+// ============================================================
+// ⚠️ 部署前請替換為您的 Google Apps Script Web App URL
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+
+const form = document.getElementById('patientForm');
+const submitBtn = document.getElementById('submitBtn');
+const successScreen = document.getElementById('successScreen');
+const consentErr = document.getElementById('consent-err');
+
+// 從 URL 參數預填欄位（醫師可寄送個人化連結）
+// 例如：?name=王小明
+const params = new URLSearchParams(window.location.search);
+['name', 'phone', 'email'].forEach(field => {
+  const val = params.get(field);
+  if (val) {
+    const el = document.getElementById(field);
+    if (el) el.value = val;
+  }
+});
+
+// 即時清除錯誤狀態
+form.addEventListener('input', (e) => {
+  const field = e.target.closest('.field');
+  if (field && field.classList.contains('has-error')) {
+    field.classList.remove('has-error');
+  }
+});
+form.addEventListener('change', (e) => {
+  const field = e.target.closest('.field');
+  if (field && field.classList.contains('has-error')) {
+    field.classList.remove('has-error');
+  }
+  if (e.target.id === 'consent' && e.target.checked) {
+    consentErr.style.display = 'none';
+  }
+});
+
+// 表單驗證與送出
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // 清除舊錯誤
+  document.querySelectorAll('.field.has-error').forEach(f => f.classList.remove('has-error'));
+  consentErr.style.display = 'none';
+
+  let isValid = true;
+  let firstErrorField = null;
+
+  // 必填文字 / 日期欄位
+  const requiredText = ['name', 'birthdate', 'id_last4', 'phone',
+                        'emerg_name', 'emerg_phone', 'emerg_relation'];
+  requiredText.forEach(n => {
+    const el = form.querySelector(`[name="${n}"]`);
+    if (!el.value.trim()) {
+      const fld = el.closest('.field');
+      fld.classList.add('has-error');
+      isValid = false;
+      if (!firstErrorField) firstErrorField = fld;
+    }
+  });
+
+  // 身分證末 4 碼必須是 4 位數字
+  const id4 = form.querySelector('[name="id_last4"]');
+  if (id4.value && !/^[0-9]{4}$/.test(id4.value)) {
+    const fld = id4.closest('.field');
+    fld.classList.add('has-error');
+    isValid = false;
+    if (!firstErrorField) firstErrorField = fld;
+  }
+
+  // 單選群組
+  [['gender', 'gender'], ['contact_pref', 'contact_pref']].forEach(([name]) => {
+    if (!form.querySelector(`[name="${name}"]:checked`)) {
+      const fld = form.querySelector(`.field[data-name="${name}"]`);
+      if (fld) {
+        fld.classList.add('has-error');
+        isValid = false;
+        if (!firstErrorField) firstErrorField = fld;
+      }
+    }
+  });
+
+  // 同意條款
+  const consent = form.querySelector('[name="consent"]');
+  if (!consent.checked) {
+    consentErr.style.display = 'block';
+    isValid = false;
+    if (!firstErrorField) firstErrorField = consentErr;
+  }
+
+  if (!isValid) {
+    if (firstErrorField) {
+      firstErrorField.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+    return;
+  }
+
+  // 鎖按鈕並送出
+  submitBtn.disabled = true;
+  submitBtn.textContent = '傳送中…';
+
+  try {
+    const formData = new FormData(form);
+    // 加上送出時間戳記
+    formData.append('submitted_at', new Date().toISOString());
+
+    // 使用 no-cors 避免 Apps Script 的 CORS 限制
+    // 注意：no-cors 模式下無法讀取回應，但資料仍會傳送成功
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData,
+    });
+
+    // 顯示成功畫面
+    form.style.display = 'none';
+    document.getElementById('notice').style.display = 'none';
+    successScreen.classList.add('show');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+
+  } catch (err) {
+    alert('送出失敗，請檢查網路連線後再試一次。\n若持續失敗，請聯繫醫師團隊。\n\n錯誤訊息：' + err.message);
+    submitBtn.disabled = false;
+    submitBtn.textContent = '送出資料';
+  }
+});
+</script>
+</body>
+</html>
