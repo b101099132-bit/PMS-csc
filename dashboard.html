@@ -1444,11 +1444,17 @@ function renderSatisfaction(sat) {
         </div>
       `;
     }
+    const scale = m.scale || 5;
+    // 推薦意願如果有 recommendPct（推薦率），加一行顯示
+    const extra = (m.recommendPct != null)
+      ? `<div class="meta" style="margin-top:4px;color:var(--gold);font-weight:500">推薦率（top-2 box）: ${m.recommendPct}%</div>`
+      : '';
     return `
       <div class="sat-big-card">
         <div class="lbl">${label}</div>
-        <div class="big">${m.avg}<span class="big-unit">/ 5</span></div>
+        <div class="big">${m.avg}<span class="big-unit">/ ${scale}</span></div>
         <div class="meta">${m.n} 份有效回覆</div>
+        ${extra}
       </div>
     `;
   };
