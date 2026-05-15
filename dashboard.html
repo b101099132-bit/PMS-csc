@@ -394,6 +394,42 @@ header {
   color: var(--ink-faint);
 }
 
+/* ========== Year tabs (historical section) ========== */
+.year-tab-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.year-tab {
+  padding: 5px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.year-tab:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.year-tab.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: white;
+  font-weight: 500;
+}
+.year-tab .yc {
+  font-size: 10px;
+  opacity: 0.85;
+  margin-left: 4px;
+}
+
 /* ========== Historical Baseline ========== */
 .hist-card {
   background: var(--paper);
@@ -745,8 +781,13 @@ function render(d) {
 
   // ===== 05 ERAS 指標率 =====
   const rt = d.metrics.rates;
-  const histOR = h ? { pct: h.rates.orExtubationPct, count: h.extubationTiming.inOR, total: h.totalPatients } : null;
-  const histEarly = h ? { pct: h.rates.earlyExtubationPct, count: h.extubationTiming.inOR + h.extubationTiming.early, total: h.totalPatients } : null;
+  let histOR = null, histEarly = null;
+  if (h && h.overall) {
+    const o = h.overall;
+    const extKnown = o.extubationTiming.inOR + o.extubationTiming.early + o.extubationTiming.late;
+    histOR = { pct: o.rates.orExtubationPct, count: o.extubationTiming.inOR, total: extKnown, label: '歷史 ' + o.totalPatients + ' 例' };
+    histEarly = { pct: o.rates.earlyExtubationPct, count: o.extubationTiming.inOR + o.extubationTiming.early, total: extKnown, label: '歷史 ' + o.totalPatients + ' 例' };
+  }
   html.push(`
     <h2 class="section-title">
       <span class="num">05</span>
@@ -782,7 +823,7 @@ function render(d) {
 
   $('content').innerHTML = html.join('');
 
-  // Tab binding
+  // Tab binding (patient lists)
   document.querySelectorAll('.tab').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -791,122 +832,170 @@ function render(d) {
       $('tab-' + btn.dataset.tab).style.display = 'block';
     });
   });
+
+  // Year tab binding (historical)
+  if (h) bindYearTabs();
 }
 
 // ===== Historical section renderer =====
+let _currentYear = 'overall';
+let _historicalCache = null;
+
 function renderHistorical(h) {
-  const yb = h.yearBreakdown || {};
-  const years = Object.keys(yb).sort();
-  const yearCells = years.map(y => `
-    <div class="year-cell"><div class="y">${y}</div><div class="n">${yb[y]}</div></div>
-  `).join('');
-
-  const pct = (n, total) => (n / total * 100).toFixed(1);
-  const erasPct = pct(h.pathway.eras, h.totalPatients);
-  const convPct = pct(h.pathway.conventional, h.totalPatients);
-  const orPct = pct(h.extubationTiming.inOR, h.totalPatients);
-  const earlyPct = pct(h.extubationTiming.early, h.totalPatients);
-  const latePct = pct(h.extubationTiming.late, h.totalPatients);
-
-  const m = h.metrics;
-  const co = h.comorbidities;
-  const out = h.outcomes;
-
+  _historicalCache = h;
+  // 預設選「overall」
   return `
     <h2 class="section-title">
       <span class="num">02</span>
       <span>歷史背景資料</span>
-      <span class="sub">系統啟用前累積</span>
+      <span class="sub">${escapeHtml(h.dateRange || '')}</span>
     </h2>
     <div class="hist-card">
-
-      <div class="hist-band">
-        <div class="total-num">${h.totalPatients}</div>
-        <div class="total-label"><strong>例</strong> 累積病人</div>
-        <div class="total-date">${escapeHtml(h.dateRange)}</div>
+      <div class="year-tab-bar" id="yearTabBar">
+        ${buildYearTabs(h)}
       </div>
+      <div id="histContent">${renderHistContent(getYearSummary(h, _currentYear))}</div>
+    </div>
+  `;
+}
 
-      <div class="hist-sub">年度分布</div>
-      <div class="year-bar">${yearCells}</div>
+function buildYearTabs(h) {
+  const allYears = ['overall', ...(h.years || [])];
+  return allYears.map(y => {
+    const summary = getYearSummary(h, y);
+    const label = y === 'overall' ? '全部' : y;
+    const count = summary ? summary.totalPatients : 0;
+    const active = (y === _currentYear) ? ' active' : '';
+    return `<button class="year-tab${active}" data-year="${y}">${label}<span class="yc">${count}</span></button>`;
+  }).join('');
+}
 
-      <div class="hist-sub">治療流程</div>
-      <div class="hist-row">
-        <div class="hist-stat">
-          <div class="lbl">ERAS 流程</div>
-          <div class="val">${h.pathway.eras} <span class="small">/ ${h.totalPatients} · ${erasPct}%</span></div>
-          <div class="pct-bar"><div class="fill" style="width:${erasPct}%"></div></div>
-        </div>
-        <div class="hist-stat">
-          <div class="lbl">傳統流程</div>
-          <div class="val">${h.pathway.conventional} <span class="small">/ ${h.totalPatients} · ${convPct}%</span></div>
-          <div class="pct-bar"><div class="fill" style="width:${convPct}%"></div></div>
-        </div>
+function getYearSummary(h, year) {
+  if (year === 'overall') return h.overall;
+  return (h.byYear || {})[year] || null;
+}
+
+function bindYearTabs() {
+  document.querySelectorAll('#yearTabBar .year-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _currentYear = btn.dataset.year;
+      // 更新 active 樣式
+      document.querySelectorAll('#yearTabBar .year-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // 重新渲染內容
+      const summary = getYearSummary(_historicalCache, _currentYear);
+      $('histContent').innerHTML = renderHistContent(summary);
+    });
+  });
+}
+
+function renderHistContent(s) {
+  if (!s) return '<div class="recent-empty">該年度無資料</div>';
+
+  const pct = (n, total) => total ? (n / total * 100).toFixed(1) : '0.0';
+  const erasPct = pct(s.pathway.eras, s.totalPatients);
+  const convPct = pct(s.pathway.conventional, s.totalPatients);
+  const extKnown = s.extubationTiming.inOR + s.extubationTiming.early + s.extubationTiming.late;
+  const orPct = pct(s.extubationTiming.inOR, extKnown);
+  const earlyPct = pct(s.extubationTiming.early, extKnown);
+  const latePct = pct(s.extubationTiming.late, extKnown);
+
+  const m = s.metrics;
+  const co = s.comorbidities;
+  const out = s.outcomes;
+
+  const fmtVal = (v) => (v == null || isNaN(v)) ? '—' : v;
+
+  return `
+    <div class="hist-band">
+      <div class="total-num">${s.totalPatients}</div>
+      <div class="total-label"><strong>例</strong> 病人</div>
+    </div>
+
+    <div class="hist-sub">治療流程</div>
+    <div class="hist-row">
+      <div class="hist-stat">
+        <div class="lbl">ERAS 流程</div>
+        <div class="val">${s.pathway.eras} <span class="small">/ ${s.totalPatients} · ${erasPct}%</span></div>
+        <div class="pct-bar"><div class="fill" style="width:${erasPct}%"></div></div>
       </div>
-
-      <div class="hist-sub">拔管時機分布</div>
-      <div class="hist-row">
-        <div class="hist-stat">
-          <div class="lbl">手術室中拔管</div>
-          <div class="val">${h.extubationTiming.inOR} <span class="small">· ${orPct}%</span></div>
-          <div class="pct-bar"><div class="fill" style="width:${orPct}%"></div></div>
-        </div>
-        <div class="hist-stat">
-          <div class="lbl">&lt; 6 小時拔管</div>
-          <div class="val">${h.extubationTiming.early} <span class="small">· ${earlyPct}%</span></div>
-          <div class="pct-bar"><div class="fill" style="width:${earlyPct}%"></div></div>
-        </div>
-        <div class="hist-stat">
-          <div class="lbl">&gt; 6 小時拔管</div>
-          <div class="val">${h.extubationTiming.late} <span class="small">· ${latePct}%</span></div>
-          <div class="pct-bar"><div class="fill" style="width:${latePct}%"></div></div>
-        </div>
+      <div class="hist-stat">
+        <div class="lbl">傳統流程</div>
+        <div class="val">${s.pathway.conventional} <span class="small">/ ${s.totalPatients} · ${convPct}%</span></div>
+        <div class="pct-bar"><div class="fill" style="width:${convPct}%"></div></div>
       </div>
+    </div>
 
-      <div class="hist-sub">平均指標</div>
-      <div class="hist-row">
-        <div class="hist-stat">
-          <div class="lbl">平均住院天數</div>
-          <div class="val">${m.hospitalLOSDays.avg} <span class="small">天 · 中位 ${m.hospitalLOSDays.median}</span></div>
-        </div>
-        <div class="hist-stat">
-          <div class="lbl">平均 ICU 天數</div>
-          <div class="val">${m.icuStayDays.avg} <span class="small">天 · 中位 ${m.icuStayDays.median}</span></div>
-        </div>
-        <div class="hist-stat">
-          <div class="lbl">平均術後插管天數</div>
-          <div class="val">${m.intubationDays.avg} <span class="small">天 · 中位 ${m.intubationDays.median}</span></div>
-        </div>
-        <div class="hist-stat">
-          <div class="lbl">平均術前 LVEF</div>
-          <div class="val">${m.preopLVEF.avg}<span class="small">%</span></div>
-        </div>
+    <div class="hist-sub">拔管時機分布</div>
+    <div class="hist-row">
+      <div class="hist-stat">
+        <div class="lbl">手術室中拔管</div>
+        <div class="val">${s.extubationTiming.inOR} <span class="small">· ${orPct}%</span></div>
+        <div class="pct-bar"><div class="fill" style="width:${orPct}%"></div></div>
       </div>
-
-      <div class="hist-sub">共病比例</div>
-      <div class="hist-row">
-        ${comoCard('糖尿病', co.DM)}
-        ${comoCard('高血壓', co.HTN)}
-        ${comoCard('慢性腎病', co.CKD)}
-        ${comoCard('腎病末期', co.ESRD)}
-        ${comoCard('腦血管病史', co.CVA)}
-        ${comoCard('COPD/Asthma', co.COPD)}
+      <div class="hist-stat">
+        <div class="lbl">&lt; 6 小時拔管</div>
+        <div class="val">${s.extubationTiming.early} <span class="small">· ${earlyPct}%</span></div>
+        <div class="pct-bar"><div class="fill" style="width:${earlyPct}%"></div></div>
       </div>
-
-      <div class="hist-sub">不良結果</div>
-      <div class="hist-row">
-        ${comoCard('術後併發症', out.complications)}
-        ${comoCard('住院死亡', out.inHospitalMortality)}
-        ${comoCard('術後 CPR', out.cpr)}
-        ${comoCard('術後中風', out.stroke)}
-        ${comoCard('術後洗腎', out.dialysis)}
-        ${comoCard('重新插管', out.reintubation)}
+      <div class="hist-stat">
+        <div class="lbl">&gt; 6 小時拔管</div>
+        <div class="val">${s.extubationTiming.late} <span class="small">· ${latePct}%</span></div>
+        <div class="pct-bar"><div class="fill" style="width:${latePct}%"></div></div>
       </div>
+    </div>
 
+    <div class="hist-sub">平均指標</div>
+    <div class="hist-row">
+      <div class="hist-stat">
+        <div class="lbl">平均住院天數</div>
+        <div class="val">${fmtVal(m.hospitalLOSDays.avg)} <span class="small">天 · 中位 ${fmtVal(m.hospitalLOSDays.median)}</span></div>
+      </div>
+      <div class="hist-stat">
+        <div class="lbl">平均 ICU 天數</div>
+        <div class="val">${fmtVal(m.icuStayDays.avg)} <span class="small">天 · 中位 ${fmtVal(m.icuStayDays.median)}</span></div>
+      </div>
+      <div class="hist-stat">
+        <div class="lbl">平均術後插管天數</div>
+        <div class="val">${fmtVal(m.intubationDays.avg)} <span class="small">天 · 中位 ${fmtVal(m.intubationDays.median)}</span></div>
+      </div>
+      <div class="hist-stat">
+        <div class="lbl">平均術前 LVEF</div>
+        <div class="val">${fmtVal(m.preopLVEF.avg)}<span class="small">%</span></div>
+      </div>
+    </div>
+
+    <div class="hist-sub">共病比例</div>
+    <div class="hist-row">
+      ${comoCard('糖尿病', co.DM)}
+      ${comoCard('高血壓', co.HTN)}
+      ${comoCard('慢性腎病', co.CKD)}
+      ${comoCard('腎病末期', co.ESRD)}
+      ${comoCard('腦血管病史', co.CVA)}
+      ${comoCard('COPD/Asthma', co.COPD)}
+    </div>
+
+    <div class="hist-sub">不良結果</div>
+    <div class="hist-row">
+      ${comoCard('術後併發症', out.complications)}
+      ${comoCard('住院死亡', out.inHospitalMortality)}
+      ${comoCard('術後 CPR', out.cpr)}
+      ${comoCard('術後中風', out.stroke)}
+      ${comoCard('術後洗腎', out.dialysis)}
+      ${comoCard('重新插管', out.reintubation)}
     </div>
   `;
 }
 
 function comoCard(label, p) {
+  if (p == null || isNaN(p)) {
+    return `
+      <div class="hist-stat">
+        <div class="lbl">${label}</div>
+        <div class="val">—</div>
+      </div>
+    `;
+  }
   return `
     <div class="hist-stat">
       <div class="lbl">${label}</div>
@@ -955,7 +1044,7 @@ function metricCard(label, m) {
 
 function rateCard(label, defText, r, histRef) {
   const histLine = histRef
-    ? `<div class="historical-ref">歷史 161 例：<span class="hist-val">${histRef.pct}%</span>（${histRef.count} / ${histRef.total}）</div>`
+    ? `<div class="historical-ref">${escapeHtml(histRef.label || '歷史')}：<span class="hist-val">${histRef.pct}%</span>（${histRef.count} / ${histRef.total}）</div>`
     : '';
   if (!r || r.pct == null) {
     return `
