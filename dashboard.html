@@ -394,6 +394,139 @@ header {
   color: var(--ink-faint);
 }
 
+/* ========== Historical Baseline ========== */
+.hist-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 22px;
+}
+.hist-band {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.hist-band .total-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.hist-band .total-label {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.hist-band .total-label strong { color: var(--ink); }
+.hist-band .total-date {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.hist-sub {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  color: var(--plum);
+  font-weight: 600;
+  margin: 14px 0 8px;
+  letter-spacing: 0.05em;
+}
+.hist-sub:first-child { margin-top: 0; }
+
+.year-bar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+@media (max-width: 600px) {
+  .year-bar { grid-template-columns: repeat(4, 1fr); }
+}
+.year-cell {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 8px 4px;
+  text-align: center;
+}
+.year-cell .y { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-faint); }
+.year-cell .n { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+
+.hist-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+.hist-stat {
+  background: var(--cream);
+  border-radius: 3px;
+  padding: 10px 12px;
+}
+.hist-stat .lbl {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.hist-stat .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.hist-stat .val .small {
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  margin-left: 4px;
+}
+.hist-stat .pct-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.hist-stat .pct-bar .fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 3px;
+}
+
+/* Historical reference in rate cards */
+.rate-card .historical-ref {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 12px;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.rate-card .historical-ref .hist-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+/* Overview card with split */
+.ov-card .ov-split {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+  font-size: 11px;
+  color: var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+}
+
 /* Alerts / loading */
 .alert {
   padding: 12px 16px;
@@ -546,26 +679,38 @@ function render(d) {
   $('asOf').textContent = d.asOf ? '資料時間：' + d.asOf : '';
 
   const html = [];
+  const h = d.historical || null;
+  const ov = d.overview;
 
   // ===== 01 總覽 =====
+  const split = (h && ov.currentSystemVolume != null)
+    ? `<div class="ov-split"><span>歷史 ${h.totalPatients}</span><span>本系統 ${ov.currentSystemVolume}</span></div>`
+    : '';
   html.push(`
     <h2 class="section-title">
       <span class="num">01</span>
       <span>總覽</span>
     </h2>
     <div class="overview-grid">
-      ${ovCard('teal', '累積服務量', d.overview.totalServiceVolume, '位')}
-      ${ovCard('gold', '待開刀', d.overview.pending, '位')}
-      ${ovCard('plum', '進行中', d.overview.inProgress, '位')}
-      ${ovCard('navy', '本月已完成', d.overview.completedThisMonth, '位')}
+      <div class="ov-card" data-accent="teal">
+        <div class="ov-label">累積服務量</div>
+        <div class="ov-value">${ov.totalServiceVolume}<span class="ov-unit">位</span></div>
+        ${split}
+      </div>
+      ${ovCard('gold', '待開刀', ov.pending, '位')}
+      ${ovCard('plum', '進行中', ov.inProgress, '位')}
+      ${ovCard('navy', '本月已完成', ov.completedThisMonth, '位')}
     </div>
   `);
 
-  // ===== 02 病人清單 =====
+  // ===== 02 歷史背景資料 =====
+  if (h) html.push(renderHistorical(h));
+
+  // ===== 03 病人清單 =====
   html.push(`
     <h2 class="section-title">
-      <span class="num">02</span>
-      <span>病人清單</span>
+      <span class="num">03</span>
+      <span>病人清單（本系統）</span>
     </h2>
     <div class="tabs" id="tabBar">
       <button type="button" class="tab active" data-tab="pending">待開刀 <span class="count">${d.lists.pending.length}</span></button>
@@ -579,12 +724,13 @@ function render(d) {
     </div>
   `);
 
-  // ===== 03 ERAS 原始數值 =====
+  // ===== 04 ERAS 原始數值 =====
   const rv = d.metrics.rawValues;
   html.push(`
     <h2 class="section-title">
-      <span class="num">03</span>
-      <span>ERAS 指標 · 原始數值（平均）</span>
+      <span class="num">04</span>
+      <span>ERAS 指標 · 原始數值（本系統平均）</span>
+      <span class="sub">歷史對照見上方背景區塊</span>
     </h2>
     <div class="metric-grid">
       ${metricCard('術後脫離呼吸器時間', rv.extubation)}
@@ -597,31 +743,35 @@ function render(d) {
     </div>
   `);
 
-  // ===== 04 ERAS 指標率 =====
+  // ===== 05 ERAS 指標率 =====
   const rt = d.metrics.rates;
+  const histOR = h ? { pct: h.rates.orExtubationPct, count: h.extubationTiming.inOR, total: h.totalPatients } : null;
+  const histEarly = h ? { pct: h.rates.earlyExtubationPct, count: h.extubationTiming.inOR + h.extubationTiming.early, total: h.totalPatients } : null;
   html.push(`
     <h2 class="section-title">
-      <span class="num">04</span>
+      <span class="num">05</span>
       <span>ERAS 指標 · 指標率</span>
     </h2>
     <div class="rate-grid">
       ${rateCard(
         '手術室中拔管比例',
         '拔管時間 &lt; 轉入加護病房時間',
-        rt.extubatedInOR
+        rt.extubatedInOR,
+        histOR
       )}
       ${rateCard(
         '術後立即拔管比例',
-        '術後脫離呼吸器時間 &lt; 6 小時',
-        rt.earlyExtubation
+        '術後脫離呼吸器時間 &lt; 6 小時（含手術室中拔管）',
+        rt.earlyExtubation,
+        histEarly
       )}
     </div>
   `);
 
-  // ===== 05 病患滿意度 =====
+  // ===== 06 病患滿意度 =====
   html.push(`
     <h2 class="section-title">
-      <span class="num">05</span>
+      <span class="num">06</span>
       <span>病患滿意度</span>
     </h2>
     <div class="placeholder-card">
@@ -641,6 +791,129 @@ function render(d) {
       $('tab-' + btn.dataset.tab).style.display = 'block';
     });
   });
+}
+
+// ===== Historical section renderer =====
+function renderHistorical(h) {
+  const yb = h.yearBreakdown || {};
+  const years = Object.keys(yb).sort();
+  const yearCells = years.map(y => `
+    <div class="year-cell"><div class="y">${y}</div><div class="n">${yb[y]}</div></div>
+  `).join('');
+
+  const pct = (n, total) => (n / total * 100).toFixed(1);
+  const erasPct = pct(h.pathway.eras, h.totalPatients);
+  const convPct = pct(h.pathway.conventional, h.totalPatients);
+  const orPct = pct(h.extubationTiming.inOR, h.totalPatients);
+  const earlyPct = pct(h.extubationTiming.early, h.totalPatients);
+  const latePct = pct(h.extubationTiming.late, h.totalPatients);
+
+  const m = h.metrics;
+  const co = h.comorbidities;
+  const out = h.outcomes;
+
+  return `
+    <h2 class="section-title">
+      <span class="num">02</span>
+      <span>歷史背景資料</span>
+      <span class="sub">系統啟用前累積</span>
+    </h2>
+    <div class="hist-card">
+
+      <div class="hist-band">
+        <div class="total-num">${h.totalPatients}</div>
+        <div class="total-label"><strong>例</strong> 累積病人</div>
+        <div class="total-date">${escapeHtml(h.dateRange)}</div>
+      </div>
+
+      <div class="hist-sub">年度分布</div>
+      <div class="year-bar">${yearCells}</div>
+
+      <div class="hist-sub">治療流程</div>
+      <div class="hist-row">
+        <div class="hist-stat">
+          <div class="lbl">ERAS 流程</div>
+          <div class="val">${h.pathway.eras} <span class="small">/ ${h.totalPatients} · ${erasPct}%</span></div>
+          <div class="pct-bar"><div class="fill" style="width:${erasPct}%"></div></div>
+        </div>
+        <div class="hist-stat">
+          <div class="lbl">傳統流程</div>
+          <div class="val">${h.pathway.conventional} <span class="small">/ ${h.totalPatients} · ${convPct}%</span></div>
+          <div class="pct-bar"><div class="fill" style="width:${convPct}%"></div></div>
+        </div>
+      </div>
+
+      <div class="hist-sub">拔管時機分布</div>
+      <div class="hist-row">
+        <div class="hist-stat">
+          <div class="lbl">手術室中拔管</div>
+          <div class="val">${h.extubationTiming.inOR} <span class="small">· ${orPct}%</span></div>
+          <div class="pct-bar"><div class="fill" style="width:${orPct}%"></div></div>
+        </div>
+        <div class="hist-stat">
+          <div class="lbl">&lt; 6 小時拔管</div>
+          <div class="val">${h.extubationTiming.early} <span class="small">· ${earlyPct}%</span></div>
+          <div class="pct-bar"><div class="fill" style="width:${earlyPct}%"></div></div>
+        </div>
+        <div class="hist-stat">
+          <div class="lbl">&gt; 6 小時拔管</div>
+          <div class="val">${h.extubationTiming.late} <span class="small">· ${latePct}%</span></div>
+          <div class="pct-bar"><div class="fill" style="width:${latePct}%"></div></div>
+        </div>
+      </div>
+
+      <div class="hist-sub">平均指標</div>
+      <div class="hist-row">
+        <div class="hist-stat">
+          <div class="lbl">平均住院天數</div>
+          <div class="val">${m.hospitalLOSDays.avg} <span class="small">天 · 中位 ${m.hospitalLOSDays.median}</span></div>
+        </div>
+        <div class="hist-stat">
+          <div class="lbl">平均 ICU 天數</div>
+          <div class="val">${m.icuStayDays.avg} <span class="small">天 · 中位 ${m.icuStayDays.median}</span></div>
+        </div>
+        <div class="hist-stat">
+          <div class="lbl">平均術後插管天數</div>
+          <div class="val">${m.intubationDays.avg} <span class="small">天 · 中位 ${m.intubationDays.median}</span></div>
+        </div>
+        <div class="hist-stat">
+          <div class="lbl">平均術前 LVEF</div>
+          <div class="val">${m.preopLVEF.avg}<span class="small">%</span></div>
+        </div>
+      </div>
+
+      <div class="hist-sub">共病比例</div>
+      <div class="hist-row">
+        ${comoCard('糖尿病', co.DM)}
+        ${comoCard('高血壓', co.HTN)}
+        ${comoCard('慢性腎病', co.CKD)}
+        ${comoCard('腎病末期', co.ESRD)}
+        ${comoCard('腦血管病史', co.CVA)}
+        ${comoCard('COPD/Asthma', co.COPD)}
+      </div>
+
+      <div class="hist-sub">不良結果</div>
+      <div class="hist-row">
+        ${comoCard('術後併發症', out.complications)}
+        ${comoCard('住院死亡', out.inHospitalMortality)}
+        ${comoCard('術後 CPR', out.cpr)}
+        ${comoCard('術後中風', out.stroke)}
+        ${comoCard('術後洗腎', out.dialysis)}
+        ${comoCard('重新插管', out.reintubation)}
+      </div>
+
+    </div>
+  `;
+}
+
+function comoCard(label, p) {
+  return `
+    <div class="hist-stat">
+      <div class="lbl">${label}</div>
+      <div class="val">${p}<span class="small">%</span></div>
+      <div class="pct-bar"><div class="fill" style="width:${p}%"></div></div>
+    </div>
+  `;
 }
 
 function ovCard(accent, label, value, unit) {
@@ -680,13 +953,17 @@ function metricCard(label, m) {
   `;
 }
 
-function rateCard(label, defText, r) {
+function rateCard(label, defText, r, histRef) {
+  const histLine = histRef
+    ? `<div class="historical-ref">歷史 161 例：<span class="hist-val">${histRef.pct}%</span>（${histRef.count} / ${histRef.total}）</div>`
+    : '';
   if (!r || r.pct == null) {
     return `
       <div class="rate-card">
         <div class="rate-label">${label}</div>
         <div class="rate-def">${defText}</div>
-        <div class="rate-value muted">尚無資料</div>
+        <div class="rate-value muted">本系統：尚無資料</div>
+        ${histLine}
       </div>
     `;
   }
@@ -695,7 +972,8 @@ function rateCard(label, defText, r) {
       <div class="rate-label">${label}</div>
       <div class="rate-def">${defText}</div>
       <div class="rate-value">${r.pct}<span class="unit">%</span></div>
-      <div class="rate-frac">${r.count} / ${r.total} 位</div>
+      <div class="rate-frac">本系統 ${r.count} / ${r.total} 位</div>
+      ${histLine}
     </div>
   `;
 }
