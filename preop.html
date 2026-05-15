@@ -475,7 +475,7 @@ footer .clinic-name {
 
   <div class="notice" id="notice">
     <strong>關於您的隱私</strong>
-    本表單蒐集的資料僅用於：(1) 手術前後的衛教與通知；(2) 醫師掌握您的健康狀況以提供更好的照護。資料依《個人資料保護法》保存，不會用於其他用途，您可隨時聯繫醫師團隊查詢、修改或刪除。
+    本表單蒐集的資料僅用於：(1) 手術前後的衛教與通知；(2) 醫師掌握您的健康狀況以提供更好的照護。資料依《個人資料保護法》保存，不會用於其他用途，您可隨時聯繫本院心臟加速康復團隊查詢、修改或刪除。
   </div>
 
   <form id="patientForm" novalidate>
@@ -669,7 +669,7 @@ footer .clinic-name {
         <h4>蒐集目的</h4>
         <p>本診所將您所提供之個人資料用於：手術前後的衛教資料發送、手術相關聯繫與提醒、術後追蹤與滿意度調查、必要時的緊急聯絡。</p>
         <h4>資料保存與權利</h4>
-        <p>您的資料將儲存於 Google Workspace，保存期間依《醫療法》規定之最低年限。您可隨時聯繫主治醫師團隊行使查詢、複製、補正、停止處理或刪除之權利。若您不提供必要資料，可能影響我們提供照護的完整性。</p>
+        <p>您的資料將儲存於 Google Workspace，保存期間依《醫療法》規定之最低年限。您可隨時聯繫本院心臟加速康復團隊行使查詢、複製、補正、停止處理或刪除之權利。若您不提供必要資料，可能影響我們提供照護的完整性。</p>
         <h4>第三方服務</h4>
         <p>我們會透過 LINE / Email 等通訊管道與您聯繫。當您點擊衛教連結時，相關平台可能會記錄您的存取行為，請參考各平台之隱私政策。</p>
       </div>
@@ -683,7 +683,7 @@ footer .clinic-name {
 
     <div class="submit-area">
       <button type="submit" id="submitBtn">送出資料</button>
-      <p class="submit-note">送出後將傳送至您的主治醫師團隊</p>
+      <p class="submit-note">送出後將傳送至本院心臟加速康復團隊</p>
     </div>
   </form>
 
@@ -692,7 +692,7 @@ footer .clinic-name {
     <h2>資料已送出</h2>
     <p>感謝您完成填寫。我們會盡快透過您選擇的聯絡方式，傳送術前衛教資訊給您。</p>
     <div class="small-divider"></div>
-    <p>如需修改或詢問，請聯繫您的主治醫師團隊。</p>
+    <p>如需修改或詢問，請聯繫本院心臟加速康復團隊。</p>
   </div>
 
   <footer>
@@ -824,7 +824,7 @@ form.addEventListener('submit', async (e) => {
     window.scrollTo({top: 0, behavior: 'smooth'});
 
   } catch (err) {
-    alert('送出失敗，請檢查網路連線後再試一次。\n若持續失敗，請聯繫醫師團隊。\n\n錯誤訊息：' + err.message);
+    alert('送出失敗，請檢查網路連線後再試一次。\n若持續失敗，請聯繫心臟加速康復團隊。\n\n錯誤訊息：' + err.message);
     submitBtn.disabled = false;
     submitBtn.textContent = '送出資料';
   }
