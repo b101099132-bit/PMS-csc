@@ -690,6 +690,108 @@ header {
 }
 .trend-chart .bar:hover { opacity: 0.75; }
 
+/* ========== Satisfaction Section ========== */
+.sat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+@media (max-width: 700px) {
+  .sat-grid { grid-template-columns: 1fr; }
+}
+.sat-big-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 20px 22px;
+  text-align: center;
+}
+.sat-big-card .lbl {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+.sat-big-card .big {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 44px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.sat-big-card .big-unit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: var(--ink-faint);
+  margin-left: 6px;
+}
+.sat-big-card .meta {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.sat-big-card .big.muted { color: var(--ink-faint); font-size: 28px; }
+
+.sat-q-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+.sat-q-card .sat-q-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--plum);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.sat-q-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sat-q {
+  display: grid;
+  grid-template-columns: 130px 36px 1fr 52px;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+.sat-q .lbl { color: var(--ink); }
+.sat-q .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+.sat-q .val.muted { color: var(--ink-faint); font-weight: 400; }
+.sat-bar {
+  height: 7px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sat-bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #d4a875);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.sat-q .n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-align: right;
+}
+@media (max-width: 600px) {
+  .sat-q { grid-template-columns: 1fr 50px; }
+  .sat-bar, .sat-q .n { grid-column: 1 / -1; }
+}
+
 footer {
   text-align: center;
   margin-top: 40px;
@@ -908,16 +1010,21 @@ function render(d) {
   `);
 
   // ===== 07 病患滿意度 =====
-  html.push(`
-    <h2 class="section-title">
-      <span class="num">07</span>
-      <span>病患滿意度</span>
-    </h2>
-    <div class="placeholder-card">
-      <div class="ph-title">敬請期待</div>
-      <div class="ph-desc">滿意度資料將從 Google Forms 問卷回填，預計後續啟用。</div>
-    </div>
-  `);
+  const sat = d.satisfaction;
+  if (sat && sat.totalResponses > 0) {
+    html.push(renderSatisfaction(sat));
+  } else {
+    html.push(`
+      <h2 class="section-title">
+        <span class="num">07</span>
+        <span>病患滿意度</span>
+      </h2>
+      <div class="placeholder-card">
+        <div class="ph-title">${sat ? '尚無問卷回覆' : '敬請期待'}</div>
+        <div class="ph-desc">問卷上線後，待病人填寫此區會顯示統計結果。</div>
+      </div>
+    `);
+  }
 
   $('content').innerHTML = html.join('');
 
@@ -1323,6 +1430,70 @@ function renderBarChart(opts) {
 
   svg += `</svg>`;
   return svg;
+}
+
+// ===== Satisfaction renderer =====
+function renderSatisfaction(sat) {
+  const renderBig = (label, m) => {
+    if (!m) {
+      return `
+        <div class="sat-big-card">
+          <div class="lbl">${label}</div>
+          <div class="big muted">—</div>
+          <div class="meta">尚無有效回覆</div>
+        </div>
+      `;
+    }
+    return `
+      <div class="sat-big-card">
+        <div class="lbl">${label}</div>
+        <div class="big">${m.avg}<span class="big-unit">/ 5</span></div>
+        <div class="meta">${m.n} 份有效回覆</div>
+      </div>
+    `;
+  };
+
+  const renderQ = (q) => {
+    if (q.avg == null) {
+      return `<div class="sat-q"><span class="lbl">${escapeHtml(q.label)}</span><span class="val muted">—</span><span></span><span class="n">n=0</span></div>`;
+    }
+    const fillPct = (q.avg / 5 * 100).toFixed(0);
+    return `
+      <div class="sat-q">
+        <span class="lbl">${escapeHtml(q.label)}</span>
+        <span class="val">${q.avg}</span>
+        <div class="sat-bar"><div class="fill" style="width:${fillPct}%"></div></div>
+        <span class="n">n=${q.n}</span>
+      </div>
+    `;
+  };
+
+  return `
+    <h2 class="section-title">
+      <span class="num">07</span>
+      <span>病患滿意度</span>
+      <span class="sub">${sat.totalResponses} 份回覆</span>
+    </h2>
+
+    <div class="sat-grid">
+      ${renderBig('整體滿意度', sat.overall)}
+      ${renderBig('推薦意願', sat.recommend)}
+    </div>
+
+    <div class="sat-q-card">
+      <div class="sat-q-title">CARE 指標（Q1–Q10）</div>
+      <div class="sat-q-list">
+        ${sat.careAvgs.map(renderQ).join('')}
+      </div>
+    </div>
+
+    <div class="sat-q-card">
+      <div class="sat-q-title">心臟手術專項（Q11–Q16）</div>
+      <div class="sat-q-list">
+        ${sat.cardiacAvgs.map(renderQ).join('')}
+      </div>
+    </div>
+  `;
 }
 
 function ovCard(accent, label, value, unit) {
