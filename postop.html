@@ -503,6 +503,126 @@ footer {
   font-size: 12px;
   color: var(--ink-faint);
 }
+
+/* ========== Recent Surgeries ========== */
+.recent-wrap { margin-bottom: 8px; }
+.recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+.recent-head .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  color: var(--plum);
+  font-weight: 600;
+}
+.btn-refresh {
+  padding: 6px 12px;
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.btn-refresh:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.recent-list { display: flex; flex-direction: column; gap: 8px; }
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  cursor: pointer;
+  background: var(--paper);
+  transition: all 0.15s ease;
+}
+.recent-item:hover {
+  border-color: var(--teal);
+  background: var(--teal-tint);
+}
+.recent-main { flex: 1; min-width: 0; }
+.recent-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.recent-name .small {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-left: 6px;
+}
+.recent-detail {
+  font-size: 13px;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.recent-detail .date {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: var(--ink);
+}
+.recent-detail .surgery {
+  color: var(--gold);
+  font-weight: 500;
+}
+.recent-status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.recent-status.pending {
+  background: #FFF4D6;
+  color: #8B6914;
+}
+.recent-status.done {
+  background: var(--success-bg);
+  color: var(--success);
+}
+.recent-empty {
+  padding: 18px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 13px;
+  font-style: italic;
+  background: var(--cream);
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+}
+
+.divider-or {
+  display: flex;
+  align-items: center;
+  margin: 24px 0 18px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Noto Serif TC', serif;
+}
+.divider-or::before, .divider-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.divider-or span { padding: 0 14px; }
 </style>
 </head>
 <body>
@@ -539,6 +659,16 @@ footer {
       <div class="section-header">
         <span class="section-num">01</span>
         <span class="section-title">查詢病人</span>
+      </div>
+
+      <!-- Recent surgeries quick list -->
+      <div class="recent-wrap" id="recentWrap" style="display:none">
+        <div class="recent-head">
+          <span class="label">最近 7 天的手術病人</span>
+          <button type="button" class="btn-refresh" id="refreshRecentBtn">↻ 重新整理</button>
+        </div>
+        <div class="recent-list" id="recentList"></div>
+        <div class="divider-or"><span>或者，查詢 7 天前的病人</span></div>
       </div>
 
       <div class="alert alert-error" id="lookupAlert"></div>
@@ -846,7 +976,10 @@ if (window.location.hash.startsWith('#k=')) {
 }
 $('doctor_key').addEventListener('change', () => {
   const v = $('doctor_key').value;
-  if (v) history.replaceState(null, '', '#k=' + encodeURIComponent(v));
+  if (v) {
+    history.replaceState(null, '', '#k=' + encodeURIComponent(v));
+    loadRecent();
+  }
 });
 
 // ========== JSONP ==========
@@ -865,28 +998,17 @@ function jsonp(url, params, timeoutMs = 15000) {
 }
 
 // ========== Lookup ==========
-$('lookupBtn').addEventListener('click', async () => {
+async function doLookup(pk) {
   $('lookupAlert').classList.remove('show');
-  $('lookup_birthdate').closest('.field').classList.remove('has-error');
-  $('lookup_id4').closest('.field').classList.remove('has-error');
-
-  const key = $('doctor_key').value.trim();
-  const birthdate = $('lookup_birthdate').value;
-  const id4 = $('lookup_id4').value.trim();
-
-  if (!key) { showAlert('lookupAlert', '請輸入通行碼'); return; }
-  let valid = true;
-  if (!birthdate) { $('lookup_birthdate').closest('.field').classList.add('has-error'); valid = false; }
-  if (!/^[0-9]{4}$/.test(id4)) { $('lookup_id4').closest('.field').classList.add('has-error'); valid = false; }
-  if (!valid) return;
-
-  const pk = birthdate.replace(/-/g, '') + '-' + id4;
-
   $('lookupBtn').disabled = true;
   $('lookupBtn').innerHTML = '<span class="loading"></span>查詢中…';
 
   try {
-    const res = await jsonp(APPS_SCRIPT_URL, { action: 'lookupPostop', pk, key });
+    const res = await jsonp(APPS_SCRIPT_URL, {
+      action: 'lookupPostop',
+      pk: pk,
+      key: $('doctor_key').value.trim()
+    });
 
     if (res.error === 'unauthorized') {
       showAlert('lookupAlert', '通行碼錯誤');
@@ -902,6 +1024,95 @@ $('lookupBtn').addEventListener('click', async () => {
     $('lookupBtn').disabled = false;
     $('lookupBtn').textContent = '查詢病人';
   }
+}
+
+$('lookupBtn').addEventListener('click', () => {
+  $('lookupAlert').classList.remove('show');
+  $('lookup_birthdate').closest('.field').classList.remove('has-error');
+  $('lookup_id4').closest('.field').classList.remove('has-error');
+
+  const key = $('doctor_key').value.trim();
+  const birthdate = $('lookup_birthdate').value;
+  const id4 = $('lookup_id4').value.trim();
+
+  if (!key) { showAlert('lookupAlert', '請輸入通行碼'); return; }
+  let valid = true;
+  if (!birthdate) { $('lookup_birthdate').closest('.field').classList.add('has-error'); valid = false; }
+  if (!/^[0-9]{4}$/.test(id4)) { $('lookup_id4').closest('.field').classList.add('has-error'); valid = false; }
+  if (!valid) return;
+
+  const pk = birthdate.replace(/-/g, '') + '-' + id4;
+  doLookup(pk);
+});
+
+// ========== Recent Surgeries ==========
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+
+async function loadRecent() {
+  const key = $('doctor_key').value.trim();
+  if (!key) {
+    $('recentWrap').style.display = 'none';
+    return;
+  }
+
+  const recentWrap = $('recentWrap');
+  const recentList = $('recentList');
+  recentWrap.style.display = 'block';
+  recentList.innerHTML = '<div class="recent-empty"><span class="loading"></span> 載入中…</div>';
+
+  try {
+    const res = await jsonp(APPS_SCRIPT_URL, { action: 'recentSurgeries', key });
+
+    if (res.error === 'unauthorized') {
+      recentWrap.style.display = 'none';
+      return;
+    }
+    if (!res.list || res.list.length === 0) {
+      recentList.innerHTML = '<div class="recent-empty">最近 7 天沒有手術病人</div>';
+      return;
+    }
+
+    recentList.innerHTML = res.list.map(p => {
+      const dayLabel = p.daysFromToday === 0 ? '今天' :
+                       p.daysFromToday === -1 ? '昨天' :
+                       Math.abs(p.daysFromToday) + ' 天前';
+      const dateNote = p.isActual ? '' : '（預定）';
+      const statusClass = p.hasRecord ? 'done' : 'pending';
+      const statusText = p.hasRecord ? '🟢 已記錄' : '🟡 待記錄';
+      return `
+        <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
+          <div class="recent-main">
+            <div class="recent-name">${escapeHtml(p.name)} <span class="small">${escapeHtml(p.gender || '')} · ${p.age != null ? p.age + ' 歲' : ''}</span></div>
+            <div class="recent-detail">
+              <span class="date">${p.surgeryDate}${dateNote} · ${dayLabel}</span>
+              <span class="surgery">${escapeHtml(p.surgery || '—')}</span>
+            </div>
+          </div>
+          <span class="recent-status ${statusClass}">${statusText}</span>
+        </div>
+      `;
+    }).join('');
+
+    recentList.querySelectorAll('.recent-item').forEach(item => {
+      item.addEventListener('click', () => {
+        doLookup(item.dataset.pk);
+      });
+    });
+  } catch (err) {
+    recentList.innerHTML = `<div class="recent-empty" style="color:var(--error)">載入失敗：${escapeHtml(err.message)}</div>`;
+  }
+}
+
+$('refreshRecentBtn').addEventListener('click', loadRecent);
+
+// 輸入通行碼時自動載入清單
+$('doctor_key').addEventListener('blur', () => {
+  if ($('doctor_key').value.trim()) loadRecent();
 });
 
 function showAlert(id, msg) {
@@ -1009,6 +1220,7 @@ function resetAll() {
 
 $('changePatientBtn').addEventListener('click', () => {
   resetAll();
+  loadRecent();
   $('lookupSection').scrollIntoView({ behavior: 'smooth' });
   setTimeout(() => $('lookup_birthdate').focus(), 300);
 });
@@ -1081,6 +1293,7 @@ $('anotherBtn').addEventListener('click', () => {
   $('mainForm').style.display = 'block';
   $('saveBtn').disabled = false;
   $('saveBtn').textContent = '儲存全部';
+  loadRecent(); // 重新載入清單以反映剛剛存好的狀態
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(() => $('lookup_birthdate').focus(), 300);
 });
@@ -1098,10 +1311,14 @@ document.addEventListener('input', (e) => {
   if (f && f.classList.contains('has-error')) f.classList.remove('has-error');
 });
 
-// Auto-focus on load
+// Auto-focus on load + load recent list if key is set
 window.addEventListener('load', () => {
-  if ($('doctor_key').value) $('lookup_birthdate').focus();
-  else $('doctor_key').focus();
+  if ($('doctor_key').value) {
+    loadRecent();
+    $('lookup_birthdate').focus();
+  } else {
+    $('doctor_key').focus();
+  }
 });
 </script>
 </body>
