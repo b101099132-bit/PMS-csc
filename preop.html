@@ -480,6 +480,60 @@ footer .clinic-name {
 
   <form id="patientForm" novalidate>
 
+    <!-- 隱藏欄位：Path B 從 LINE 進來時帶入的 userId -->
+    <input type="hidden" name="lid" id="lidField" value="">
+
+    <!-- 00 填寫者身份 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">00</span>
+        <span class="section-title">填寫者</span>
+      </div>
+
+      <div class="field" data-name="filler_type">
+        <label>誰在填寫這份表單？ <span class="req">*</span></label>
+        <div class="radio-group" style="margin-top:10px">
+          <div class="option">
+            <input type="radio" id="f1" name="filler_type" value="本人" required>
+            <label for="f1">病人本人</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="f2" name="filler_type" value="家屬">
+            <label for="f2">家屬代填</label>
+          </div>
+        </div>
+        <div class="error-msg">請選擇填寫者</div>
+      </div>
+
+      <div id="proxyFields" style="display:none; margin-top:8px; padding:12px 14px; background:#FAF7F1; border-left:3px solid #A87B4D">
+        <div class="row">
+          <div class="field">
+            <label for="proxy_name">代填者姓名 <span class="req">*</span></label>
+            <input type="text" id="proxy_name" name="proxy_name">
+            <div class="error-msg">請填寫代填者姓名</div>
+          </div>
+          <div class="field">
+            <label for="proxy_relation">與病人關係 <span class="req">*</span></label>
+            <select id="proxy_relation" name="proxy_relation">
+              <option value="">請選擇</option>
+              <option value="配偶">配偶</option>
+              <option value="子女">子女</option>
+              <option value="父母">父母</option>
+              <option value="兄弟姊妹">兄弟姊妹</option>
+              <option value="其他親屬">其他親屬</option>
+              <option value="朋友">朋友</option>
+              <option value="看護">看護</option>
+              <option value="其他">其他</option>
+            </select>
+            <div class="error-msg">請選擇關係</div>
+          </div>
+        </div>
+        <div class="hint" style="margin-top:8px">
+          系統會將後續衛教與提醒推播給<strong>代填者</strong>而非病人本人。
+        </div>
+      </div>
+    </section>
+
     <!-- 01 基本資料 -->
     <section class="section">
       <div class="section-header">
@@ -690,7 +744,26 @@ footer .clinic-name {
   <div class="success-screen" id="successScreen">
     <div class="success-icon">✓</div>
     <h2>資料已送出</h2>
-    <p>感謝您完成填寫。我們會盡快透過您選擇的聯絡方式，傳送術前衛教資訊給您。</p>
+    <p id="successMsg">感謝您完成填寫。</p>
+
+    <!-- Path A: 未綁定 LINE 時顯示 QR Code -->
+    <div id="lineBindSection" style="display:none; margin:24px auto; max-width:340px; padding:20px; background:#FAF7F1; border:1px solid #E8E2D5; border-radius:6px; text-align:center">
+      <div style="font-weight:600; color:#1F5A5A; margin-bottom:8px">完成 LINE 綁定接收推播</div>
+      <p style="font-size:13px; color:#5A5550; line-height:1.6; margin-bottom:14px">
+        請用 LINE 掃描下方 QR Code，將自動帶出問候訊息，按送出即完成綁定。
+      </p>
+      <img id="lineQr" alt="LINE 綁定 QR Code" style="width:240px; height:240px; display:block; margin:0 auto; border:1px solid #E8E2D5">
+      <div style="margin-top:14px; padding:10px; background:#FFFFFF; border-radius:4px">
+        <div style="font-size:11px; color:#8A8580">您的綁定碼</div>
+        <div id="bindCode" style="font-family:'Consolas', monospace; font-size:16px; font-weight:600; color:#A87B4D; letter-spacing:1px"></div>
+      </div>
+      <p style="font-size:11px; color:#8A8580; margin-top:12px">
+        若無法掃描，請手動加 LINE 官方帳號 <strong id="botIdShow"></strong><br>
+        並傳送：「我的綁定碼是 <span id="bindCodeInline"></span>」
+      </p>
+    </div>
+
+    <p style="margin-top:18px">我們會盡快透過您選擇的聯絡方式，傳送術前衛教資訊給您。</p>
     <div class="small-divider"></div>
     <p>如需修改或詢問，請聯繫本院心臟加速康復團隊。</p>
   </div>
@@ -703,9 +776,13 @@ footer .clinic-name {
 
 <script>
 // ============================================================
-// ⚠️ 部署前請替換為您的 Google Apps Script Web App URL
+// ⚠️ 部署前請替換為您的 Apps Script Web App URL 與 LINE Bot ID
 // ============================================================
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+
+// LINE 官方帳號的 Basic ID（@xxxxxxxx 開頭）
+// 取得方式：LINE Official Account Manager → 設定 → 基本檔案 → ID
+const LINE_BOT_ID = '@571ocfke';
 
 const form = document.getElementById('patientForm');
 const submitBtn = document.getElementById('submitBtn');
@@ -713,7 +790,8 @@ const successScreen = document.getElementById('successScreen');
 const consentErr = document.getElementById('consent-err');
 
 // 從 URL 參數預填欄位（醫師可寄送個人化連結）
-// 例如：?name=王小明
+// ?name=王小明 → 預填姓名
+// ?lid=Uxxxxx  → Path B：LINE 帶來的 userId（隱藏帶入）
 const params = new URLSearchParams(window.location.search);
 ['name', 'phone', 'email'].forEach(field => {
   const val = params.get(field);
@@ -721,6 +799,24 @@ const params = new URLSearchParams(window.location.search);
     const el = document.getElementById(field);
     if (el) el.value = val;
   }
+});
+
+// Path B：lid 寫入隱藏欄位
+const lidFromUrl = params.get('lid') || '';
+if (lidFromUrl) {
+  document.getElementById('lidField').value = lidFromUrl;
+}
+
+// 家屬代填欄位的顯示切換
+document.querySelectorAll('input[name="filler_type"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const isProxy = radio.value === '家屬' && radio.checked;
+    const proxyFields = document.getElementById('proxyFields');
+    proxyFields.style.display = isProxy ? 'block' : 'none';
+    // 切換 required
+    document.getElementById('proxy_name').required = isProxy;
+    document.getElementById('proxy_relation').required = isProxy;
+  });
 });
 
 // 即時清除錯誤狀態
@@ -817,9 +913,44 @@ form.addEventListener('submit', async (e) => {
       body: formData,
     });
 
-    // 顯示成功畫面
+    // 計算 PK 用於 QR Code（與後端公式一致：YYYYMMDD-XXXX）
+    const birthdate = document.getElementById('birthdate').value; // 'YYYY-MM-DD'
+    const id4 = document.getElementById('id_last4').value;
+    const pk = birthdate ? birthdate.replace(/-/g, '') + '-' + id4 : '';
+
+    // 隱藏表單，顯示成功
     form.style.display = 'none';
     document.getElementById('notice').style.display = 'none';
+
+    // Path A：沒有從 LINE 進來，需要顯示 QR Code 完成綁定
+    // Path B：已經從 LINE 帶 lid 進來，跳過 QR
+    const alreadyBound = !!lidFromUrl;
+    const contactPref = (document.querySelector('input[name="contact_pref"]:checked') || {}).value || '';
+    const wantsLine = (contactPref === 'LINE');
+
+    if (!alreadyBound && wantsLine && pk) {
+      // 顯示 QR Code
+      const greeting = '我的綁定碼是 ' + pk;
+      const deepLink = 'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_BOT_ID) + '/?' + encodeURIComponent(greeting);
+      const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&format=png&margin=10&data=' + encodeURIComponent(deepLink);
+
+      document.getElementById('lineQr').src = qrUrl;
+      document.getElementById('bindCode').textContent = pk;
+      document.getElementById('bindCodeInline').textContent = pk;
+      document.getElementById('botIdShow').textContent = LINE_BOT_ID;
+      document.getElementById('lineBindSection').style.display = 'block';
+      document.getElementById('successMsg').textContent =
+        '感謝您完成填寫。請完成下方 LINE 綁定以接收後續推播提醒。';
+    } else if (alreadyBound) {
+      // Path B：已綁定
+      document.getElementById('successMsg').textContent =
+        '感謝您完成填寫。我們會透過 LINE 與您聯繫。';
+    } else {
+      // 沒選 LINE 為偏好聯絡方式
+      document.getElementById('successMsg').textContent =
+        '感謝您完成填寫。我們會透過您選擇的聯絡方式與您聯繫。';
+    }
+
     successScreen.classList.add('show');
     window.scrollTo({top: 0, behavior: 'smooth'});
 
