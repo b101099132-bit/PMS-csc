@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>認識三種冠狀動脈繞道手術 — 心臟加速康復衛教</title>
-<meta name="description" content="OPCAB、On-pump Beating CABG、On-pump Arrested CABG 三種術式比較與本院選擇說明">
+<meta name="description" content="不停跳冠狀動脈繞道（OPCAB）、體外循環跳動下繞道（On-pump Beating CABG）、體外循環停跳繞道（On-pump Arrested CABG）三種術式比較與本院選擇說明">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
@@ -323,6 +323,15 @@ h1 {
   letter-spacing: 0.02em;
   border-bottom: 1px solid var(--border-strong);
 }
+.compare-table thead th .th-en {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  font-family: 'Noto Sans TC', sans-serif;
+  letter-spacing: 0.02em;
+}
 .compare-table thead th.featured {
   background: var(--highlight-bg);
   color: var(--gold);
@@ -437,10 +446,52 @@ h1 {
   border-top: 1px solid var(--border);
 }
 
+/* ============ References ============ */
+.references {
+  margin-top: 32px;
+  padding: 22px 24px;
+  background: transparent;
+  border-top: 1px solid var(--border);
+}
+.references .ref-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.references ol {
+  list-style: none;
+  padding: 0;
+  counter-reset: ref;
+}
+.references ol li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  counter-increment: ref;
+}
+.references ol li::before {
+  content: counter(ref);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.references em { color: var(--ink-faint); font-style: italic; }
+
 /* ============ Footer ============ */
 footer {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 32px;
   padding-top: 24px;
   border-top: 1px solid var(--border);
   font-size: 12px;
@@ -480,7 +531,7 @@ footer .clinic {
   <header>
     <div class="eyebrow">心臟加速康復衛教 · 01</div>
     <h1>認識三種冠狀動脈<br>繞道手術</h1>
-    <p class="subtitle">Coronary Artery Bypass Grafting · OPCAB / On-pump Beating / On-pump Arrested</p>
+    <p class="subtitle">不停跳 · 體外循環跳動下 · 體外循環停跳<br>Coronary Artery Bypass Grafting</p>
     <div class="divider"></div>
   </header>
 
@@ -488,7 +539,7 @@ footer .clinic {
   <div class="lead">
     <strong>什麼是冠狀動脈繞道手術？</strong>
     <p>當心臟的冠狀動脈嚴重阻塞、藥物或氣球擴張（支架）難以處理時，心臟外科醫師會從你身上取一段健康的血管（例如左胸內動脈、橈動脈或大腿隱靜脈），<strong style="display:inline;font-family:inherit;color:var(--teal)">繞過阻塞的路段</strong>，重新讓血液回流到心肌。就像在塞車的高速公路旁，另闢一條新的通行道路。</p>
-    <p>依照「手術時心臟是否跳動」與「是否使用體外循環機」，目前有三種主要做法。本院主要採用 <strong style="display:inline;font-family:inherit;color:var(--teal)">On-pump Beating CABG（體外循環支援、心臟跳動下繞道）</strong>，以下為三者比較。</p>
+    <p>依照「手術時心臟是否跳動」與「是否使用體外循環機」，目前有三種主要做法。本院主要採用 <strong style="display:inline;font-family:inherit;color:var(--teal)">體外循環支援、心臟跳動下繞道（On-pump Beating CABG）</strong>，以下為三者比較。</p>
   </div>
 
   <!-- Section: 三種術式 -->
@@ -497,7 +548,7 @@ footer .clinic {
   <!-- Method 1: OPCAB -->
   <article class="method-card">
     <div class="order">01</div>
-    <h3>OPCAB · 不停跳冠狀動脈繞道</h3>
+    <h3>不停跳冠狀動脈繞道（OPCAB）</h3>
     <div class="en-name">Off-pump Coronary Artery Bypass</div>
 
     <div class="visual-row">
@@ -542,7 +593,7 @@ footer .clinic {
   <article class="method-card highlight">
     <span class="badge">本院採用</span>
     <div class="order">02</div>
-    <h3>On-pump Beating CABG · 體外循環支援、心臟跳動下繞道</h3>
+    <h3>體外循環支援、心臟跳動下繞道（On-pump Beating CABG）</h3>
     <div class="en-name">On-pump Beating Heart CABG</div>
 
     <div class="visual-row highlight-bg">
@@ -572,7 +623,7 @@ footer .clinic {
         <div class="heading">優點</div>
         <ul>
           <li>心肌持續灌注，無缺血再灌注損傷</li>
-          <li>適合心臟功能較差、低 LVEF 病人</li>
+          <li>適合心臟功能較差（低 LVEF）病人</li>
           <li>血壓動力學穩定，手術視野穩定</li>
           <li>術後低心輸出症候群發生率較低</li>
         </ul>
@@ -590,8 +641,8 @@ footer .clinic {
   <!-- Method 3: On-pump Arrested -->
   <article class="method-card">
     <div class="order">03</div>
-    <h3>On-pump Arrested CABG · 體外循環下停跳繞道</h3>
-    <div class="en-name">On-pump Arrested Heart CABG（傳統做法）</div>
+    <h3>體外循環下停跳繞道（On-pump Arrested CABG）</h3>
+    <div class="en-name">On-pump Arrested Heart CABG · 傳統做法</div>
 
     <div class="visual-row">
       <div class="visual-item inactive">
@@ -643,9 +694,9 @@ footer .clinic {
       <thead>
         <tr>
           <th></th>
-          <th>OPCAB</th>
-          <th class="featured">On-pump<br>Beating</th>
-          <th>On-pump<br>Arrested</th>
+          <th>不停跳<br><span class="th-en">OPCAB</span></th>
+          <th class="featured">體外循環<br>跳動下<br><span class="th-en">On-pump Beating</span></th>
+          <th>體外循環<br>停跳<br><span class="th-en">On-pump Arrested</span></th>
         </tr>
       </thead>
       <tbody>
@@ -690,7 +741,7 @@ footer .clinic {
   </div>
 
   <!-- Why we choose -->
-  <div class="section-title">為什麼本院採用 On-pump Beating CABG</div>
+  <div class="section-title">為什麼本院採用體外循環跳動下繞道</div>
 
   <div class="why-box">
     <h3>結合兩種術式的優勢</h3>
@@ -721,6 +772,15 @@ footer .clinic {
     <p>最終手術方式仍由你的主治醫師依據冠狀動脈病變位置、心臟功能、合併疾病等綜合評估決定。</p>
     <p>對手術方式有任何疑問，歡迎在<strong style="color:var(--teal);font-weight:500">門診</strong>或<strong style="color:var(--teal);font-weight:500">術前訪視</strong>時與醫師討論。</p>
     <div class="signature">心臟加速康復團隊 · 與你並肩</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Wang J, Gu C, Yu W, et al. On-pump beating heart versus conventional on-pump coronary artery bypass grafting on clinical outcomes: a meta-analysis. <em>J Thorac Dis.</em> 2021;13(7):4169–4180.</li>
+    </ol>
   </div>
 
   <footer>
