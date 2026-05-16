@@ -382,14 +382,61 @@
     .sat-btn { font-size: 13px; padding: 10px 2px; }
     .satisfaction-row { gap: 3px; }
   }
+
+  /* ── i18n ZH/EN toggle ───────────────────────── */
+  html[lang="zh-TW"] .lang-en,
+  html[lang="zh"] .lang-en { display: none; }
+  html[lang="en"] .lang-zh { display: none; }
+
+  /* Language switcher (浮動於右上角) */
+  #lang-switcher {
+    position: fixed;
+    top: 60px;
+    right: 16px;
+    z-index: 99;
+    display: flex;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(13,43,69,.12);
+    font-family: var(--font-body);
+  }
+  .lang-btn {
+    background: transparent;
+    border: none;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .lang-btn:hover { color: var(--navy); background: #f5f7fa; }
+  .lang-btn.active {
+    background: var(--teal);
+    color: #ffffff;
+  }
+  @media (max-width: 480px) {
+    #lang-switcher { top: 54px; right: 10px; }
+    .lang-btn { padding: 5px 10px; font-size: 12px; }
+  }
+
 </style>
 </head>
 <body>
 
+<!-- Language switcher / 語言切換 -->
+<div id="lang-switcher" role="group" aria-label="Language">
+  <button type="button" class="lang-btn active" data-lang="zh" onclick="setLang('zh')">中</button>
+  <button type="button" class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+</div>
+
+
 <!-- Progress -->
 <div id="progress-wrap">
   <div id="progress-label">
-    <span id="progress-text">第 1 步，共 6 步</span>
+    <span id="progress-text"></span>
     <strong id="progress-pct">0%</strong>
   </div>
   <div id="progress-bar-track">
@@ -402,15 +449,16 @@
 
   <!-- Header -->
   <div class="header-card">
-    <div class="tag">PREMs ‧ 加速康復經驗問卷</div>
-    <h1>心臟加速康復<br>照護經驗問卷</h1>
+    <div class="tag"><span class="lang-zh">PREMs ‧ 加速康復經驗問卷</span><span class="lang-en">PREMs · Enhanced Recovery Care Survey</span></div>
+    <h1><span class="lang-zh">心臟加速康復<br>照護經驗問卷</span><span class="lang-en">Cardiac Enhanced Recovery<br>Care Experience Survey</span></h1>
     <p class="sub">Patient-Reported Experience Measures · Enhanced Recovery After Cardiac Surgery</p>
   </div>
 
   <div class="notice">
-    <strong>📋 填寫說明</strong>
-    本問卷旨在了解您在<strong>心臟加速康復團隊</strong>照護下的親身經驗（包含術前、手術、術後復健、出院後追蹤），協助我們持續精進加速康復的照護品質。
-    您的回覆將予以<strong>保密</strong>，不影響您的後續醫療照護。請依實際感受誠實填答，每題只能選擇一個答案。
+    <span class="lang-zh"><strong>📋 填寫說明</strong></span><span class="lang-en"><strong>📋 Instructions</strong></span>
+    <span class="lang-zh">本問卷旨在了解您在<strong>心臟加速康復團隊</strong>照護下的親身經驗（包含術前、手術、術後復健、出院後追蹤），協助我們持續精進加速康復的照護品質。
+    您的回覆將予以<strong>保密</strong>，不影響您的後續醫療照護。請依實際感受誠實填答，每題只能選擇一個答案。</span><span class="lang-en">This survey aims to understand your experience under our <strong>Cardiac Enhanced Recovery Team</strong>'s care (including pre-op, surgery, post-op rehabilitation, and post-discharge follow-up), helping us continuously improve care quality.
+    Your responses will be kept <strong>confidential</strong> and will not affect your subsequent medical care. Please answer honestly. Each question allows only one answer.</span>
   </div>
 
   <!-- ══════════════════════════════════════════
@@ -418,53 +466,53 @@
   ══════════════════════════════════════════ -->
   <div class="section active" id="sec-0">
     <div class="section-title">
-      <span class="num">①</span>基本資料
+      <span class="num">①</span><span class="lang-zh">基本資料</span><span class="lang-en">Basic Information</span>
     </div>
-    <p class="section-hint">請填寫以下基本資訊，以便後續追蹤與統計分析。</p>
+    <p class="section-hint"><span class="lang-zh">請填寫以下基本資訊，以便後續追蹤與統計分析。</span><span class="lang-en">Please fill in the following basic information for follow-up and statistical analysis.</span></p>
 
     <div class="q-card" id="qc-name">
-      <div class="q-label">姓名<span class="q-required">*</span></div>
-      <input class="text-input" id="q-name" type="text" placeholder="請輸入您的姓名">
-      <div class="error-msg">此欄位為必填</div>
+      <div class="q-label"><span class="lang-zh">姓名</span><span class="lang-en">Name</span><span class="q-required">*</span></div>
+      <input class="text-input" id="q-name" type="text" placeholder="請輸入您的姓名" data-placeholder-zh="請輸入您的姓名" data-placeholder-en="Please enter your name">
+      <div class="error-msg"><span class="lang-zh">此欄位為必填</span><span class="lang-en">This field is required</span></div>
     </div>
 
     <div class="q-card" id="qc-timing">
-      <div class="q-label">問卷填寫時間<span class="q-required">*</span></div>
+      <div class="q-label"><span class="lang-zh">問卷填寫時間</span><span class="lang-en">When are you completing this survey?</span><span class="q-required">*</span></div>
       <div class="options-list" id="timing-opts">
         <label class="option-item">
-          <input type="radio" name="timing" value="出院當天"> 出院當天
+          <input type="radio" name="timing" value="出院當天"> <span class="lang-zh">出院當天</span><span class="lang-en">Day of discharge</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="timing" value="出院後1週內"> 出院後 1 週內
+          <input type="radio" name="timing" value="出院後1週內"> <span class="lang-zh">出院後 1 週內</span><span class="lang-en">Within 1 week after discharge</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="timing" value="出院後1個月內"> 出院後 1 個月內
+          <input type="radio" name="timing" value="出院後1個月內"> <span class="lang-zh">出院後 1 個月內</span><span class="lang-en">Within 1 month after discharge</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="timing" value="出院後1-3個月"> 出院後 1–3 個月
+          <input type="radio" name="timing" value="出院後1-3個月"> <span class="lang-zh">出院後 1–3 個月</span><span class="lang-en">1–3 months after discharge</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="timing" value="出院3個月後"> 出院 3 個月後
+          <input type="radio" name="timing" value="出院3個月後"> <span class="lang-zh">出院 3 個月後</span><span class="lang-en">More than 3 months after discharge</span>
         </label>
       </div>
-      <div class="error-msg">請選擇填寫時間</div>
+      <div class="error-msg"><span class="lang-zh">請選擇填寫時間</span><span class="lang-en">Please select the timing</span></div>
     </div>
 
     <div class="q-card" id="qc-filler">
-      <div class="q-label">問卷填寫者<span class="q-required">*</span></div>
+      <div class="q-label"><span class="lang-zh">問卷填寫者</span><span class="lang-en">Survey respondent</span><span class="q-required">*</span></div>
       <div class="options-list" id="filler-opts">
         <label class="option-item">
-          <input type="radio" name="filler" value="本人自行填寫"> 本人自行填寫
+          <input type="radio" name="filler" value="本人自行填寫"> <span class="lang-zh">本人自行填寫</span><span class="lang-en">Completed by the patient</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="filler" value="家屬或照顧者協助"> 由家屬或照顧者協助填寫
+          <input type="radio" name="filler" value="家屬或照顧者協助"> <span class="lang-zh">由家屬或照顧者協助填寫</span><span class="lang-en">Completed with help from family/caregiver</span>
         </label>
       </div>
-      <div class="error-msg">請選擇填寫者</div>
+      <div class="error-msg"><span class="lang-zh">請選擇填寫者</span><span class="lang-en">Please select the respondent</span></div>
     </div>
 
     <div class="nav-bar">
-      <button class="btn btn-next" onclick="nextSection(0)">繼續 →</button>
+      <button class="btn btn-next" onclick="nextSection(0)"><span class="lang-zh">繼續 →</span><span class="lang-en">Continue →</span></button>
     </div>
   </div>
 
@@ -473,18 +521,19 @@
   ══════════════════════════════════════════ -->
   <div class="section" id="sec-1">
     <div class="section-title">
-      <span class="num">②</span>醫療團隊照護經驗（一）
+      <span class="num">②</span><span class="lang-zh">醫療團隊照護經驗（一）</span><span class="lang-en">Care Team Experience (Part 1)</span>
     </div>
     <p class="section-hint">
-      請評估您的<strong>心臟加速康復團隊</strong>在本次住院期間各方面的表現。<br>
-      <strong>1 = 非常差　2 = 尚可　3 = 良好　4 = 很好　5 = 優秀</strong>　（如不適用請選「N/A」）
+      <span class="lang-zh">請評估您的<strong>心臟加速康復團隊</strong>在本次住院期間各方面的表現。<br>
+      <strong>1 = 非常差　2 = 尚可　3 = 良好　4 = 很好　5 = 優秀</strong>　（如不適用請選「N/A」）</span><span class="lang-en">Please rate the performance of our <strong>Cardiac Enhanced Recovery Team</strong> during this hospitalization.<br>
+      <strong>1 = Poor   2 = Fair   3 = Good   4 = Very Good   5 = Excellent</strong>   (Select "N/A" if not applicable)</span>
     </p>
 
     <div id="care-q1" class="q-card">
-      <div class="q-label">第 1 題　讓您感到安心與放鬆<span class="q-required">*</span></div>
-      <div class="q-hint">術前充分說明、友善親切、尊重您；尤其在手術高度緊張情境下。</div>
+      <div class="q-label"><span class="lang-zh">第 1 題　讓您感到安心與放鬆</span><span class="lang-en">Q1. Making you feel at ease</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">術前充分說明、友善親切、尊重您；尤其在手術高度緊張情境下。</span><span class="lang-en">Welcoming, friendly, respectful pre-op explanation — especially in the high-stress context of surgery.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care1" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care1" data-v="1" onclick="selectScale(this)">1</button>
@@ -494,14 +543,14 @@
           <button class="scale-btn" data-q="care1" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q2" class="q-card">
-      <div class="q-label">第 2 題　讓您充分表達擔憂與疑問<span class="q-required">*</span></div>
-      <div class="q-hint">給予足夠時間說明您的感受，不打斷或催促。</div>
+      <div class="q-label"><span class="lang-zh">第 2 題　讓您充分表達擔憂與疑問</span><span class="lang-en">Q2. Letting you tell your story</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">給予足夠時間說明您的感受，不打斷或催促。</span><span class="lang-en">Giving you adequate time to express your feelings, without interrupting or rushing.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care2" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care2" data-v="1" onclick="selectScale(this)">1</button>
@@ -511,14 +560,14 @@
           <button class="scale-btn" data-q="care2" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q3" class="q-card">
-      <div class="q-label">第 3 題　確實聆聽您的描述<span class="q-required">*</span></div>
-      <div class="q-hint">專注傾聽您的症狀與不適，不因忙碌而忽視。</div>
+      <div class="q-label"><span class="lang-zh">第 3 題　確實聆聽您的描述</span><span class="lang-en">Q3. Really listening</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">專注傾聽您的症狀與不適，不因忙碌而忽視。</span><span class="lang-en">Paying close attention to your symptoms and discomfort, not dismissive due to busyness.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care3" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care3" data-v="1" onclick="selectScale(this)">1</button>
@@ -528,14 +577,14 @@
           <button class="scale-btn" data-q="care3" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q4" class="q-card">
-      <div class="q-label">第 4 題　關心您整體身心狀況<span class="q-required">*</span></div>
-      <div class="q-hint">關注您的情緒、家庭支持及生活品質，不僅是生理指標。</div>
+      <div class="q-label"><span class="lang-zh">第 4 題　關心您整體身心狀況</span><span class="lang-en">Q4. Being interested in you as a whole person</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">關注您的情緒、家庭支持及生活品質，不僅是生理指標。</span><span class="lang-en">Caring about emotions, family support, and quality of life — not just physiological measures.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care4" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care4" data-v="1" onclick="selectScale(this)">1</button>
@@ -545,14 +594,14 @@
           <button class="scale-btn" data-q="care4" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q5" class="q-card">
-      <div class="q-label">第 5 題　充分理解您術後的疑慮<span class="q-required">*</span></div>
-      <div class="q-hint">準確掌握您對手術結果、恢復過程的擔憂。</div>
+      <div class="q-label"><span class="lang-zh">第 5 題　充分理解您術後的疑慮</span><span class="lang-en">Q5. Fully understanding your post-op concerns</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">準確掌握您對手術結果、恢復過程的擔憂。</span><span class="lang-en">Accurately grasping your concerns about surgical outcomes and recovery.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care5" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care5" data-v="1" onclick="selectScale(this)">1</button>
@@ -562,12 +611,12 @@
           <button class="scale-btn" data-q="care5" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div class="nav-bar">
-      <button class="btn btn-prev" onclick="prevSection(1)">← 上一步</button>
-      <button class="btn btn-next" onclick="nextSection(1)">繼續 →</button>
+      <button class="btn btn-prev" onclick="prevSection(1)"><span class="lang-zh">← 上一步</span><span class="lang-en">← Previous</span></button>
+      <button class="btn btn-next" onclick="nextSection(1)"><span class="lang-zh">繼續 →</span><span class="lang-en">Continue →</span></button>
     </div>
   </div>
 
@@ -576,18 +625,19 @@
   ══════════════════════════════════════════ -->
   <div class="section" id="sec-2">
     <div class="section-title">
-      <span class="num">③</span>醫療團隊照護經驗（二）
+      <span class="num">③</span><span class="lang-zh">醫療團隊照護經驗（二）</span><span class="lang-en">Care Team Experience (Part 2)</span>
     </div>
     <p class="section-hint">
-      請繼續評估醫療團隊的照護表現。<br>
-      <strong>1 = 非常差　2 = 尚可　3 = 良好　4 = 很好　5 = 優秀</strong>
+      <span class="lang-zh">請繼續評估醫療團隊的照護表現。<br>
+      <strong>1 = 非常差　2 = 尚可　3 = 良好　4 = 很好　5 = 優秀</strong></span><span class="lang-en">Please continue to rate the care team's performance.<br>
+      <strong>1 = Poor   2 = Fair   3 = Good   4 = Very Good   5 = Excellent</strong></span>
     </p>
 
     <div id="care-q6" class="q-card">
-      <div class="q-label">第 6 題　展現關懷與同理心<span class="q-required">*</span></div>
-      <div class="q-hint">尤其在術後疼痛或情緒低落時，給予真誠的支持。</div>
+      <div class="q-label"><span class="lang-zh">第 6 題　展現關懷與同理心</span><span class="lang-en">Q6. Showing care and compassion</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">尤其在術後疼痛或情緒低落時，給予真誠的支持。</span><span class="lang-en">Genuine support especially during post-op pain or low mood.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care6" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care6" data-v="1" onclick="selectScale(this)">1</button>
@@ -597,14 +647,14 @@
           <button class="scale-btn" data-q="care6" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q7" class="q-card">
-      <div class="q-label">第 7 題　傳達正向且合理的期望<span class="q-required">*</span></div>
-      <div class="q-hint">誠實告知恢復進度，給予鼓勵但不過度承諾。</div>
+      <div class="q-label"><span class="lang-zh">第 7 題　傳達正向且合理的期望</span><span class="lang-en">Q7. Being positive</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">誠實告知恢復進度，給予鼓勵但不過度承諾。</span><span class="lang-en">Honestly informing you about recovery, encouraging without over-promising.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care7" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care7" data-v="1" onclick="selectScale(this)">1</button>
@@ -614,14 +664,14 @@
           <button class="scale-btn" data-q="care7" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q8" class="q-card">
-      <div class="q-label">第 8 題　清楚說明術後注意事項<span class="q-required">*</span></div>
-      <div class="q-hint">傷口護理、用藥、活動限制、回診時間等解說清晰易懂。</div>
+      <div class="q-label"><span class="lang-zh">第 8 題　清楚說明術後注意事項</span><span class="lang-en">Q8. Explaining post-op precautions clearly</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">傷口護理、用藥、活動限制、回診時間等解說清晰易懂。</span><span class="lang-en">Clear, understandable explanations of wound care, medications, activity restrictions, and follow-up schedules.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care8" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care8" data-v="1" onclick="selectScale(this)">1</button>
@@ -631,14 +681,14 @@
           <button class="scale-btn" data-q="care8" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q9" class="q-card">
-      <div class="q-label">第 9 題　協助您積極參與康復<span class="q-required">*</span></div>
-      <div class="q-hint">鼓勵心肺復健、自我監測、健康生活型態調整。</div>
+      <div class="q-label"><span class="lang-zh">第 9 題　協助您積極參與康復</span><span class="lang-en">Q9. Helping you take control of recovery</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">鼓勵心肺復健、自我監測、健康生活型態調整。</span><span class="lang-en">Encouraging cardiopulmonary rehab, self-monitoring, and healthy lifestyle adjustments.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care9" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care9" data-v="1" onclick="selectScale(this)">1</button>
@@ -648,14 +698,14 @@
           <button class="scale-btn" data-q="care9" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q10" class="q-card">
-      <div class="q-label">第 10 題　與您共同規劃出院後照護計畫<span class="q-required">*</span></div>
-      <div class="q-hint">討論回診安排、藥物調整、緊急聯絡方式等。</div>
+      <div class="q-label"><span class="lang-zh">第 10 題　與您共同規劃出院後照護計畫</span><span class="lang-en">Q10. Making a post-discharge care plan with you</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">討論回診安排、藥物調整、緊急聯絡方式等。</span><span class="lang-en">Discussing follow-up scheduling, medication adjustments, emergency contacts, etc.</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care10" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care10" data-v="1" onclick="selectScale(this)">1</button>
@@ -665,12 +715,12 @@
           <button class="scale-btn" data-q="care10" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div class="nav-bar">
-      <button class="btn btn-prev" onclick="prevSection(2)">← 上一步</button>
-      <button class="btn btn-next" onclick="nextSection(2)">繼續 →</button>
+      <button class="btn btn-prev" onclick="prevSection(2)"><span class="lang-zh">← 上一步</span><span class="lang-en">← Previous</span></button>
+      <button class="btn btn-next" onclick="nextSection(2)"><span class="lang-zh">繼續 →</span><span class="lang-en">Continue →</span></button>
     </div>
   </div>
 
@@ -679,18 +729,19 @@
   ══════════════════════════════════════════ -->
   <div class="section" id="sec-3">
     <div class="section-title">
-      <span class="num">④</span>心臟加速康復專項評估
+      <span class="num">④</span><span class="lang-zh">心臟加速康復專項評估</span><span class="lang-en">Cardiac Enhanced Recovery Specific Items</span>
     </div>
     <p class="section-hint">
-      以下為心臟加速康復照護的特定評估項目，請依實際經驗評分。<br>
-      <strong>1 = 非常差　2 = 尚可　3 = 良好　4 = 很好　5 = 優秀</strong>
+      <span class="lang-zh">以下為心臟加速康復照護的特定評估項目，請依實際經驗評分。<br>
+      <strong>1 = 非常差　2 = 尚可　3 = 良好　4 = 很好　5 = 優秀</strong></span><span class="lang-en">The following are cardiac enhanced recovery specific items. Please rate based on your actual experience.<br>
+      <strong>1 = Poor   2 = Fair   3 = Good   4 = Very Good   5 = Excellent</strong></span>
     </p>
 
     <div id="care-q11" class="q-card">
-      <div class="q-label">第 11 題　術前說明與知情同意<span class="q-required">*</span></div>
-      <div class="q-hint">手術風險、步驟及替代方案是否獲得充分且易懂的解釋。</div>
+      <div class="q-label"><span class="lang-zh">第 11 題　術前說明與知情同意</span><span class="lang-en">Q11. Pre-op explanation and informed consent</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">手術風險、步驟及替代方案是否獲得充分且易懂的解釋。</span><span class="lang-en">Were surgical risks, steps, and alternatives explained fully and clearly?</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care11" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care11" data-v="1" onclick="selectScale(this)">1</button>
@@ -700,14 +751,14 @@
           <button class="scale-btn" data-q="care11" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q12" class="q-card">
-      <div class="q-label">第 12 題　疼痛管理<span class="q-required">*</span></div>
-      <div class="q-hint">術後疼痛是否獲得及時、有效的處理。</div>
+      <div class="q-label"><span class="lang-zh">第 12 題　疼痛管理</span><span class="lang-en">Q12. Pain management</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">術後疼痛是否獲得及時、有效的處理。</span><span class="lang-en">Was your post-op pain managed promptly and effectively?</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care12" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care12" data-v="1" onclick="selectScale(this)">1</button>
@@ -717,14 +768,14 @@
           <button class="scale-btn" data-q="care12" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q13" class="q-card">
-      <div class="q-label">第 13 題　多面向復健指導<span class="q-required">*</span></div>
-      <div class="q-hint">包含<strong>認知復健、肺部復健、吞嚥復健、功能復健、心臟復健</strong>等。是否獲得清楚的指導與實際練習機會。</div>
+      <div class="q-label"><span class="lang-zh">第 13 題　多面向復健指導</span><span class="lang-en">Q13. Multidimensional rehabilitation guidance</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">包含<strong>認知復健、肺部復健、吞嚥復健、功能復健、心臟復健</strong>等。是否獲得清楚的指導與實際練習機會。</span><span class="lang-en">Including <strong>cognitive, pulmonary, swallowing, functional, and cardiac rehabilitation</strong>. Did you receive clear guidance and hands-on practice?</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care13" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care13" data-v="1" onclick="selectScale(this)">1</button>
@@ -734,14 +785,14 @@
           <button class="scale-btn" data-q="care13" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q14" class="q-card">
-      <div class="q-label">第 14 題　用藥說明<span class="q-required">*</span></div>
-      <div class="q-hint">出院藥物的用途、用法及副作用是否獲得清楚說明。</div>
+      <div class="q-label"><span class="lang-zh">第 14 題　用藥說明</span><span class="lang-en">Q14. Medication instructions</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">出院藥物的用途、用法及副作用是否獲得清楚說明。</span><span class="lang-en">Were the purpose, usage, and side effects of discharge medications clearly explained?</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care14" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care14" data-v="1" onclick="selectScale(this)">1</button>
@@ -751,14 +802,14 @@
           <button class="scale-btn" data-q="care14" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q15" class="q-card">
-      <div class="q-label">第 15 題　恢復速度超過您的預期<span class="q-required">*</span></div>
-      <div class="q-hint">在加速康復團隊照護下，您術後的活動、進食、出院時程等恢復進度，是否比原先預期還要快。</div>
+      <div class="q-label"><span class="lang-zh">第 15 題　恢復速度超過您的預期</span><span class="lang-en">Q15. Recovery faster than expected</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">在加速康復團隊照護下，您術後的活動、進食、出院時程等恢復進度，是否比原先預期還要快。</span><span class="lang-en">Under the enhanced recovery team's care, did your post-op mobility, eating, and discharge timing progress faster than originally expected?</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care15" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care15" data-v="1" onclick="selectScale(this)">1</button>
@@ -768,14 +819,14 @@
           <button class="scale-btn" data-q="care15" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div id="care-q16" class="q-card">
-      <div class="q-label">第 16 題　家屬溝通與支持<span class="q-required">*</span></div>
-      <div class="q-hint">醫療團隊是否妥善與您的家屬溝通，並給予適當支持。</div>
+      <div class="q-label"><span class="lang-zh">第 16 題　家屬溝通與支持</span><span class="lang-en">Q16. Family communication and support</span><span class="q-required">*</span></div>
+      <div class="q-hint"><span class="lang-zh">醫療團隊是否妥善與您的家屬溝通，並給予適當支持。</span><span class="lang-en">Did the medical team communicate well with your family and provide appropriate support?</span></div>
       <div class="scale-wrap">
-        <div class="scale-labels"><span>非常差</span><span>優秀</span></div>
+        <div class="scale-labels"><span><span class="lang-zh">非常差</span><span class="lang-en">Poor</span></span><span><span class="lang-zh">優秀</span><span class="lang-en">Excellent</span></span></div>
         <div class="scale-buttons">
           <button class="scale-btn na-btn" data-q="care16" data-v="N/A" onclick="selectScale(this)">N/A</button>
           <button class="scale-btn" data-q="care16" data-v="1" onclick="selectScale(this)">1</button>
@@ -785,12 +836,12 @@
           <button class="scale-btn" data-q="care16" data-v="5" onclick="selectScale(this)">5</button>
         </div>
       </div>
-      <div class="error-msg">請選擇評分</div>
+      <div class="error-msg"><span class="lang-zh">請選擇評分</span><span class="lang-en">Please select a rating</span></div>
     </div>
 
     <div class="nav-bar">
-      <button class="btn btn-prev" onclick="prevSection(3)">← 上一步</button>
-      <button class="btn btn-next" onclick="nextSection(3)">繼續 →</button>
+      <button class="btn btn-prev" onclick="prevSection(3)"><span class="lang-zh">← 上一步</span><span class="lang-en">← Previous</span></button>
+      <button class="btn btn-next" onclick="nextSection(3)"><span class="lang-zh">繼續 →</span><span class="lang-en">Continue →</span></button>
     </div>
   </div>
 
@@ -799,13 +850,13 @@
   ══════════════════════════════════════════ -->
   <div class="section" id="sec-4">
     <div class="section-title">
-      <span class="num">⑤</span>整體滿意度
+      <span class="num">⑤</span><span class="lang-zh">整體滿意度</span><span class="lang-en">Overall Satisfaction</span>
     </div>
-    <p class="section-hint">請評估您對本次心臟加速康復照護的整體感受。</p>
+    <p class="section-hint"><span class="lang-zh">請評估您對本次心臟加速康復照護的整體感受。</span><span class="lang-en">Please rate your overall experience of this cardiac enhanced recovery care.</span></p>
 
     <div class="q-card" id="qc-overall">
-      <div class="q-label">整體而言，您對本次心臟加速康復照護的滿意程度<span class="q-required">*</span></div>
-      <div class="q-hint" style="margin-bottom:16px">請選擇 1–10 分，10 分代表非常滿意。</div>
+      <div class="q-label"><span class="lang-zh">整體而言，您對本次心臟加速康復照護的滿意程度</span><span class="lang-en">Overall, how satisfied are you with this cardiac enhanced recovery care?</span><span class="q-required">*</span></div>
+      <div class="q-hint" style="margin-bottom:16px"><span class="lang-zh">請選擇 1–10 分，10 分代表非常滿意。</span><span class="lang-en">Please rate from 1 to 10, where 10 means extremely satisfied.</span></div>
       <div class="satisfaction-row">
         <button class="sat-btn s1"  data-v="1"  onclick="selectSat(this)">1</button>
         <button class="sat-btn s2"  data-v="2"  onclick="selectSat(this)">2</button>
@@ -818,35 +869,35 @@
         <button class="sat-btn s9"  data-v="9"  onclick="selectSat(this)">9</button>
         <button class="sat-btn s10" data-v="10" onclick="selectSat(this)">10</button>
       </div>
-      <div class="sat-sub"><span>非常不滿意</span><span>非常滿意</span></div>
-      <div class="error-msg">請選擇滿意度評分</div>
+      <div class="sat-sub"><span><span class="lang-zh">非常不滿意</span><span class="lang-en">Extremely dissatisfied</span></span><span><span class="lang-zh">非常滿意</span><span class="lang-en">Extremely satisfied</span></span></div>
+      <div class="error-msg"><span class="lang-zh">請選擇滿意度評分</span><span class="lang-en">Please select a satisfaction rating</span></div>
     </div>
 
     <div class="q-card" id="qc-recommend">
-      <div class="q-label">您是否會將本院的<strong>心臟加速康復團隊</strong>推薦給有需要的親友？<span class="q-required">*</span></div>
+      <div class="q-label"><span class="lang-zh">您是否會將本院的<strong>心臟加速康復團隊</strong>推薦給有需要的親友？</span><span class="lang-en">Would you recommend our <strong>Cardiac Enhanced Recovery Team</strong> to family/friends in need?</span><span class="q-required">*</span></div>
       <div class="options-list" id="recommend-opts">
         <label class="option-item">
-          <input type="radio" name="recommend" value="非常願意推薦"> 非常願意推薦
+          <input type="radio" name="recommend" value="非常願意推薦"> <span class="lang-zh">非常願意推薦</span><span class="lang-en">Strongly recommend</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="recommend" value="願意推薦"> 願意推薦
+          <input type="radio" name="recommend" value="願意推薦"> <span class="lang-zh">願意推薦</span><span class="lang-en">Recommend</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="recommend" value="不確定"> 不確定
+          <input type="radio" name="recommend" value="不確定"> <span class="lang-zh">不確定</span><span class="lang-en">Not sure</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="recommend" value="不太願意推薦"> 不太願意推薦
+          <input type="radio" name="recommend" value="不太願意推薦"> <span class="lang-zh">不太願意推薦</span><span class="lang-en">Probably would not recommend</span>
         </label>
         <label class="option-item">
-          <input type="radio" name="recommend" value="不願意推薦"> 不願意推薦
+          <input type="radio" name="recommend" value="不願意推薦"> <span class="lang-zh">不願意推薦</span><span class="lang-en">Would not recommend</span>
         </label>
       </div>
-      <div class="error-msg">請選擇一個選項</div>
+      <div class="error-msg"><span class="lang-zh">請選擇一個選項</span><span class="lang-en">Please select an option</span></div>
     </div>
 
     <div class="nav-bar">
-      <button class="btn btn-prev" onclick="prevSection(4)">← 上一步</button>
-      <button class="btn btn-next" onclick="nextSection(4)">繼續 →</button>
+      <button class="btn btn-prev" onclick="prevSection(4)"><span class="lang-zh">← 上一步</span><span class="lang-en">← Previous</span></button>
+      <button class="btn btn-next" onclick="nextSection(4)"><span class="lang-zh">繼續 →</span><span class="lang-en">Continue →</span></button>
     </div>
   </div>
 
@@ -855,53 +906,57 @@
   ══════════════════════════════════════════ -->
   <div class="section" id="sec-5">
     <div class="section-title">
-      <span class="num">⑥</span>開放式意見（選填）
+      <span class="num">⑥</span><span class="lang-zh">開放式意見（選填）</span><span class="lang-en">Open Comments (Optional)</span>
     </div>
-    <p class="section-hint">您的具體意見對我們改善服務最有幫助，感謝您撥冗填寫。</p>
+    <p class="section-hint"><span class="lang-zh">您的具體意見對我們改善服務最有幫助，感謝您撥冗填寫。</span><span class="lang-en">Your specific comments are most helpful for improving our service. Thank you for your time.</span></p>
 
     <div class="q-card">
-      <div class="q-label">1. 本次住院期間，您最滿意的照護經驗是什麼？</div>
-      <textarea class="textarea-input" id="q-open1" placeholder="請自由填寫……"></textarea>
-    </div>
-
-    <div class="q-card">
-      <div class="q-label">2. 您認為我們最需要改善的地方是什麼？</div>
-      <textarea class="textarea-input" id="q-open2" placeholder="請自由填寫……"></textarea>
+      <div class="q-label"><span class="lang-zh">1. 本次住院期間，您最滿意的照護經驗是什麼？</span><span class="lang-en">1. During this hospitalization, what was your most satisfying care experience?</span></div>
+      <textarea class="textarea-input" id="q-open1" placeholder="請自由填寫……" data-placeholder-zh="請自由填寫……" data-placeholder-en="Please feel free to write…"></textarea>
     </div>
 
     <div class="q-card">
-      <div class="q-label">3. 關於出院後的照護與追蹤，您有哪些疑慮或建議？</div>
-      <textarea class="textarea-input" id="q-open3" placeholder="請自由填寫……"></textarea>
+      <div class="q-label"><span class="lang-zh">2. 您認為我們最需要改善的地方是什麼？</span><span class="lang-en">2. What do you think we most need to improve?</span></div>
+      <textarea class="textarea-input" id="q-open2" placeholder="請自由填寫……" data-placeholder-zh="請自由填寫……" data-placeholder-en="Please feel free to write…"></textarea>
     </div>
 
     <div class="q-card">
-      <div class="q-label">4. 其他任何您想告訴我們的事</div>
-      <textarea class="textarea-input" id="q-open4" placeholder="請自由填寫……"></textarea>
+      <div class="q-label"><span class="lang-zh">3. 關於出院後的照護與追蹤，您有哪些疑慮或建議？</span><span class="lang-en">3. Do you have any concerns or suggestions about post-discharge care and follow-up?</span></div>
+      <textarea class="textarea-input" id="q-open3" placeholder="請自由填寫……" data-placeholder-zh="請自由填寫……" data-placeholder-en="Please feel free to write…"></textarea>
+    </div>
+
+    <div class="q-card">
+      <div class="q-label"><span class="lang-zh">4. 其他任何您想告訴我們的事</span><span class="lang-en">4. Anything else you would like to tell us</span></div>
+      <textarea class="textarea-input" id="q-open4" placeholder="請自由填寫……" data-placeholder-zh="請自由填寫……" data-placeholder-en="Please feel free to write…"></textarea>
     </div>
 
     <div class="nav-bar">
-      <button class="btn btn-prev" onclick="prevSection(5)">← 上一步</button>
+      <button class="btn btn-prev" onclick="prevSection(5)"><span class="lang-zh">← 上一步</span><span class="lang-en">← Previous</span></button>
       <button class="btn btn-submit" id="submit-btn" onclick="submitForm()">
-        提交問卷 ✓
+        <span class="lang-zh">提交問卷 ✓</span><span class="lang-en">Submit Survey ✓</span>
       </button>
     </div>
 
     <p class="form-footer">
-      ※ 本問卷改編自 CARE（Consultation and Relational Empathy）量表，<br>
+      <span class="lang-zh">※ 本問卷改編自 CARE（Consultation and Relational Empathy）量表，<br>
       原版由 Dr Stewart Mercer 等人開發（2000–2003）。<br>
-      您的填答將完全保密，僅用於醫療品質改善。
+      您的填答將完全保密，僅用於醫療品質改善。</span><span class="lang-en">※ This survey is adapted from the CARE (Consultation and Relational Empathy) Measure,<br>
+      originally developed by Dr Stewart Mercer et al. (2000–2003).<br>
+      Your responses are kept strictly confidential, used only for quality improvement.</span>
     </p>
   </div>
 
   <!-- Thank You -->
   <div id="thank-you">
     <div class="ty-icon">✓</div>
-    <h2>感謝您的填寫！</h2>
+    <h2><span class="lang-zh">感謝您的填寫！</span><span class="lang-en">Thank you for completing the survey!</span></h2>
     <div class="ty-divider"></div>
     <p>
-      您的回饋對我們持續精進心臟加速康復照護品質非常重要。<br>
+      <span class="lang-zh">您的回饋對我們持續精進心臟加速康復照護品質非常重要。<br>
       如有任何不適或疑問，請隨時與您的醫療團隊聯繫。<br><br>
-      祝您早日康復。
+      祝您早日康復。</span><span class="lang-en">Your feedback is invaluable for our continuous improvement of cardiac enhanced recovery care.<br>
+      If you experience any discomfort or have questions, please contact your medical team.<br><br>
+      Wishing you a swift recovery.</span>
     </p>
   </div>
 
@@ -1059,10 +1114,11 @@ function updateProgress() {
   const pct = Math.round((currentSection / TOTAL_SECTIONS) * 100);
   document.getElementById('progress-bar-fill').style.width = pct + '%';
   document.getElementById('progress-pct').textContent = pct + '%';
+  const lang = currentLang();
   document.getElementById('progress-text').textContent =
     currentSection < TOTAL_SECTIONS
-      ? `第 ${currentSection + 1} 步，共 ${TOTAL_SECTIONS} 步`
-      : '已完成';
+      ? I18N[lang].progressStep(currentSection + 1, TOTAL_SECTIONS)
+      : I18N[lang].progressDone;
 }
 
 // ── Collect all answers ───────────────────────────
@@ -1108,7 +1164,7 @@ async function submitForm() {
 
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>提交中…';
+  btn.innerHTML = '<span class="spinner"></span>' + I18N[currentLang()].submitting;
 
   const data = collectData();
 
@@ -1140,10 +1196,67 @@ async function submitForm() {
 
   document.getElementById('progress-bar-fill').style.width = '100%';
   document.getElementById('progress-pct').textContent = '100%';
-  document.getElementById('progress-text').textContent = '已完成';
+  document.getElementById('progress-text').textContent = I18N[currentLang()].progressDone;
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+
+// ── i18n: 中英切換 ────────────────────────────────
+// JS 動態文字字典(progress、submit、document.title)
+const I18N = {
+  zh: {
+    progressStep:   (n, total) => `第 ${n} 步，共 ${total} 步`,
+    progressDone:   '已完成',
+    submitting:     '提交中…',
+    docTitle:       '心臟加速康復照護經驗問卷 PREMs',
+  },
+  en: {
+    progressStep:   (n, total) => `Step ${n} of ${total}`,
+    progressDone:   'Completed',
+    submitting:     'Submitting…',
+    docTitle:       'Cardiac Enhanced Recovery Care Experience Survey (PREMs)',
+  },
+};
+
+function currentLang() {
+  return document.documentElement.lang === 'en' ? 'en' : 'zh';
+}
+
+function setLang(lang) {
+  const isEn = lang === 'en';
+  document.documentElement.lang = isEn ? 'en' : 'zh-TW';
+
+  // 按鈕 active 狀態
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === (isEn ? 'en' : 'zh'));
+  });
+
+  // document.title
+  document.title = I18N[isEn ? 'en' : 'zh'].docTitle;
+
+  // placeholder
+  document.querySelectorAll('[data-placeholder-zh]').forEach(el => {
+    el.placeholder = isEn ? el.dataset.placeholderEn : el.dataset.placeholderZh;
+  });
+
+  // 重跑 progress
+  if (typeof updateProgress === 'function') updateProgress();
+
+  // 記住偏好
+  try { localStorage.setItem('surveyLang', isEn ? 'en' : 'zh'); } catch (e) {}
+}
+
+// 載入時讀偏好
+(function initLang() {
+  try {
+    const saved = localStorage.getItem('surveyLang');
+    setLang(saved === 'en' ? 'en' : 'zh');
+  } catch (e) {
+    setLang('zh');
+  }
+})();
+
 
 // Init
 updateProgress();
