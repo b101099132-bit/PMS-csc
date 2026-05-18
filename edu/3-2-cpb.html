@@ -254,6 +254,67 @@
   margin-bottom: 0;
 }
 
+/* 鐵三角 — 三角色獨立視覺區塊 */
+.iron-triangle {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.iron-triangle .it-header {
+  margin-bottom: 16px;
+}
+.iron-triangle .it-eyebrow {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.iron-triangle .it-intro {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin: 0;
+}
+.iron-triangle .it-trio {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 640px) {
+  .iron-triangle .it-trio { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+}
+.iron-triangle .trio-role {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.iron-triangle .trio-role .role-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.iron-triangle .trio-role .role-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.iron-triangle .trio-role .role-desc {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
 @media (max-width: 480px) {
   .step-card { padding: 18px 18px; gap: 14px; }
   .step-card .step-num { font-size: 20px; width: 28px; }
@@ -393,7 +454,7 @@
     <div class="risk-block protect">
       <div class="heading">本院團隊的預防作為</div>
       <ul>
-        <li>術前評估主動脈與頸動脈狀況,必要時術中加做主動脈表面超音波,避開<strong>血管變硬的區域</strong></li>
+        <li>術前評估主動脈與頸動脈狀況,必要時術中加做<strong>主動脈表面超音波</strong>(Epiaortic Ultrasound,手術中將超音波探頭直接放在主動脈外壁掃描,即時看清楚血管內側有沒有粥狀硬化斑塊),避開<strong>血管變硬的區域</strong></li>
         <li>術中持續使用<strong>腦部血氧監測儀(NIRS)</strong>,掌握腦部供氧 <span style="color:var(--gold);font-size:11px;font-family:'Noto Serif TC',serif">連結 4-3</span></li>
         <li>體外循環師持續注意管路、控制流量,避免氣泡與微小血塊</li>
         <li>精準控管血壓,維持腦部血流</li>
@@ -414,7 +475,32 @@
     </div>
     <div class="team-body">
       <h4>體外循環師(Perfusionist)</h4>
-      <p>整個手術期間,會有一位專責的體外循環師全程坐在人工心肺機旁,監測流量、壓力、血氧、體溫與凝血狀況。心臟外科醫師、麻醉科醫師與體外循環師組成心臟守護的「鐵三角」,任何細微變化都會立即調整與通報,是人工心肺機安全運作最重要的守門人。</p>
+      <p>整個手術期間,會有一位專責的體外循環師全程坐在人工心肺機旁,監測流量、壓力、血氧、體溫與凝血狀況。但體外循環師<strong>不是獨自運作</strong> —— 而是與心臟外科、麻醉科組成「鐵三角」,任何細微變化都會立即調整與通報,共同守護病人。</p>
+    </div>
+  </div>
+
+  <!-- Iron triangle: 三角色明確點出 -->
+  <div class="iron-triangle">
+    <div class="it-header">
+      <div class="it-eyebrow">心臟守護的「鐵三角」</div>
+      <p class="it-intro">手術期間有三方專責人員互相支援,任何細微變化即時通報、即時調整。</p>
+    </div>
+    <div class="it-trio">
+      <div class="trio-role">
+        <div class="role-label">01</div>
+        <div class="role-name">心臟外科醫師</div>
+        <div class="role-desc">手術操作主導者,負責血管接合、心臟修補等執刀工作。</div>
+      </div>
+      <div class="trio-role">
+        <div class="role-label">02</div>
+        <div class="role-name">麻醉科醫師</div>
+        <div class="role-desc">監測麻醉深度、生命徵象與血流動力學,確保病人在手術全程的安全。</div>
+      </div>
+      <div class="trio-role">
+        <div class="role-label">03</div>
+        <div class="role-name">體外循環師</div>
+        <div class="role-desc">全程操作人工心肺機,持續調整流量、壓力、體溫與凝血指標。</div>
+      </div>
     </div>
   </div>
 
@@ -424,10 +510,26 @@
     <div class="sub">機器運作越順、停機越快,後續恢復越快</div>
     <ul>
       <li><strong>體溫管理</strong> —— 機器本身能調溫,降溫保護心臟與大腦,結束時的回溫精準 <span class="link-ref">連結 4-6</span></li>
-      <li><strong>少出血</strong> —— 配合 TXA、凝血因子精準補充 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>少出血</strong> —— 配合<strong>止血藥(Tranexamic Acid · TXA,中文常稱「傳明酸」,藥袋上常見品名 Transamin)</strong>、凝血因子精準補充 <span class="link-ref">連結 5-2</span></li>
       <li><strong>腦部守護</strong> —— NIRS、BIS、體外循環師三方互補 <span class="link-ref">連結 4-3 · 4-4</span></li>
       <li><strong>支援早期拔管</strong> —— 機器停止越順,病人越快恢復自主循環,越早能拔管 <span class="link-ref">連結 6-2</span></li>
     </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>中風守護鏈閱讀路徑</h4>
+    <div class="sub">體外循環雖然是圍術期中風的主要風險來源,但本院的中風守護不是只在「機器運作那段時間」,而是<strong>從術前停藥、術中監測、到術後辨識</strong>的完整鏈條。下面是構成這條鏈的關鍵單張。</div>
+    <ol>
+      <li class="current"><strong>體外循環機 CPB 3-2(您正在讀:中風風險來源與機器面預防)</strong></li>
+      <li>三種冠狀動脈繞道手術比較 3-1(心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露)</li>
+      <li>凝血功能與止血藥物 5-2(抗凝血藥停藥節奏 + 術中 TXA · 傳明酸)</li>
+      <li>NIRS 腦氧監測 4-3(術中即時看見腦部血氧變化,中風前兆的早期警示)</li>
+      <li>BIS 麻醉深度監測 4-4(避免過深麻醉,降低術後譫妄與認知併發症)</li>
+      <li>圍術期體溫管理 4-6(維持 ≥ 36°C,低體溫會增加凝血異常與感染)</li>
+      <li>譫妄專篇 8-2(術後認知混亂與中風的鑑別)</li>
+      <li>認知復健 病人版 8-1a、家屬版 8-1b(萬一出現認知變化,如何辨識 FAST 與復健)</li>
+    </ol>
   </div>
 
   <!-- Closing -->
