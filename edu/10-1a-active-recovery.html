@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>您也是康復團隊的一員 — 主動恢復入門篇</title>
+<meta name="description" content="病人主動參與是 ERAS 加速康復的關鍵,術前、術後早期、出院準備的三階段行動清單">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:三階段行動卡 + 康復團隊成員網格 */
+.phase-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 18px;
+  position: relative;
+}
+.phase-card.p1 { border-top: 3px solid var(--teal); }
+.phase-card.p2 { border-top: 3px solid var(--gold); }
+.phase-card.p3 { border-top: 3px solid #8E6840; }
+
+.phase-card .phase-tag {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-family: 'Noto Serif TC', serif;
+}
+.phase-card.p1 .phase-tag { color: var(--teal); }
+.phase-card.p2 .phase-tag { color: var(--gold); }
+.phase-card.p3 .phase-tag { color: #8E6840; }
+
+.phase-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.phase-card .phase-when {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.action-list { list-style: none; padding: 0; margin: 0; }
+.action-list li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 14px;
+  font-size: 14.5px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.action-list li:last-child { margin-bottom: 0; }
+.action-list li::before {
+  content: '';
+  position: absolute;
+  left: 6px; top: 9px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.phase-card.p1 .action-list li::before { background: var(--teal); }
+.phase-card.p2 .action-list li::before { background: var(--gold); }
+.phase-card.p3 .action-list li::before { background: #8E6840; }
+.action-list li strong {
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 2px;
+}
+.action-list li .why {
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  display: block;
+  margin-top: 2px;
+}
+
+/* 康復團隊成員網格 */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.member-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.member-card.highlight {
+  border-left-color: var(--gold);
+  background: var(--gold-soft);
+}
+.member-card h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.member-card.highlight h5 { color: var(--gold); }
+.member-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Bridge to 10-1b */
+.bridge-callout {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.bridge-callout h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.bridge-callout p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.bridge-callout p:last-child { margin-bottom: 0; }
+
+/* Final motivational callout */
+.final-call {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--highlight-bg) 100%);
+  border: 1px solid var(--highlight-border);
+  border-radius: 4px;
+  padding: 30px 30px;
+  margin: 0 0 24px;
+  text-align: center;
+}
+.final-call h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.final-call p {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.final-call p + p { margin-top: 12px; }
+.final-call .quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--teal);
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-style: italic;
+}
+
+@media (max-width: 480px) {
+  .phase-card { padding: 22px 22px; }
+  .final-call { padding: 24px 22px; }
+  .final-call h3 { font-size: 17px; }
+  .team-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 10-1a <span class="ver">入門篇</span></div>
+    <h1>您也是康復團隊<br>的一員</h1>
+    <p class="subtitle">主動恢復的核心心態 — ERAS 加速康復能比傳統做法快的關鍵<br>Patient as Active Partner · Introduction</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>加速康復不是「躺著等好」</strong>
+    <p>心臟加速康復(ERAS)是一套<span class="em">醫療團隊與病人共同合作</span>的照護模式。團隊負責所有複雜的醫療技術、監測與用藥,而您的主動參與,是讓這套系統「跑得快」的核心動力。</p>
+    <p>研究顯示,<span class="em">能主動配合 ERAS 流程的病人,住院天數平均縮短 1–3 天、併發症明顯減少、術後生活品質回復得更快</span>。每一個您做得到的小行動,都會回饋到您自己的恢復速度。</p>
+    <p>這份單張(10-1a)是<span class="em">「主動恢復的入門」</span> — 心態與基本實踐。讀完整套衛教其他單張後,可以接著閱讀 <span class="em">10-1b 整套衛教的整合與終身指南</span>,把所有累積串連起來。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">ERAS</span>
+      <span class="lex-def">英文 Enhanced Recovery After Surgery 的縮寫,中文「<strong>術後加速康復</strong>」。整合術前、術中、術後策略的照護模式,目標是<strong>縮短住院、減少併發症、加速恢復</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">主動恢復</span>
+      <span class="lex-def">病人從「<strong>被動接受治療</strong>」轉變為「<strong>主動執行康復計畫</strong>」的角色。是 ERAS 能比傳統做法快的核心動力。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">主動恢復鏈</span>
+      <span class="lex-def">從拔管後到出院的「主動恢復」核心節點 — 從<strong>被動點滴</strong>變為<strong>主動口渴喝水、飢餓進食、自主下床走動</strong>。詳細介紹請見 10-1b。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">康復團隊</span>
+      <span class="lex-def">心臟外科醫師、麻醉科醫師、護理師、復健師、營養師、社工師,以及<strong>家屬與病人本人</strong>。每一位都是不可取代的成員。</span>
+    </div>
+  </div>
+
+  <!-- Mindset -->
+  <div class="section-title">把自己從「病人」重新定義</div>
+
+  <div class="callout eras-banner">
+    <h4>從被動接受治療 → 主動的康復行動者</h4>
+    <p>傳統觀念裡,病人就是「躺好、聽醫囑、等出院」。但在 ERAS 的設計中,<span class="em-teal">您的每一個動作都是治療的一部分</span> —— 一次深呼吸、一次下床走幾步、一次配合咳痰,都直接影響您的肺功能、循環與傷口復原。</p>
+    <p>請把自己想成<strong>「正在執行康復計畫」</strong>的人,而不是「等待身體自己恢復」的人。</p>
+  </div>
+
+  <!-- Team members -->
+  <div class="section-title">康復團隊的成員</div>
+
+  <p class="section-intro">
+    「您也是康復團隊的一員」 —— 這句話的意思是,<span class="em">康復不是醫師單方面創造的</span>,而是由以下這些人共同完成的。每一個成員都不可取代。
+  </p>
+
+  <div class="team-grid">
+    <div class="member-card">
+      <h5>心臟外科醫師</h5>
+      <p>主導手術,術後監測恢復狀況,評估出院時機與長期追蹤</p>
+    </div>
+    <div class="member-card">
+      <h5>麻醉科醫師</h5>
+      <p>負責術中麻醉、止痛策略、ICU 監測 — 讓您「安全度過手術 + 舒適恢復」</p>
+    </div>
+    <div class="member-card">
+      <h5>護理師</h5>
+      <p>24 小時的觀察者 — 您的疼痛、傷口、引流、心理狀態,都由護理師第一時間掌握</p>
+    </div>
+    <div class="member-card">
+      <h5>復健師</h5>
+      <p>協助您從躺到坐、從坐到走、出院後的運動規劃 <span class="link-ref">連結 7-6a · 7-6b</span></p>
+    </div>
+    <div class="member-card">
+      <h5>營養師</h5>
+      <p>住院期間提供飲食諮詢,協助建立「給心臟的長效禮物」 <span class="link-ref">連結 9-3</span></p>
+    </div>
+    <div class="member-card">
+      <h5>社工師</h5>
+      <p>當您或家屬遇到經濟、心理、家庭壓力時,社工是您的支持系統</p>
+    </div>
+    <div class="member-card highlight">
+      <h5>家屬</h5>
+      <p>不是「訪客」,而是「<strong>不可取代的處方</strong>」 — 認知陪伴、譫妄預防、回家後的長期照顧 <span class="link-ref">連結 8-1b</span></p>
+    </div>
+    <div class="member-card highlight">
+      <h5>您本人</h5>
+      <p>每一次深呼吸、每一步走、每一口水,都是治療的一部分。您是這個團隊的中心</p>
+    </div>
+  </div>
+
+  <!-- Phase 1: Pre-op -->
+  <div class="section-title">術前您能做的事</div>
+
+  <article class="phase-card p1">
+    <div class="phase-tag">第一階段 · 術前</div>
+    <h3>為手術建立最佳體能基礎</h3>
+    <div class="phase-when">手術前 2–4 週開始 · 「黃金準備期」</div>
+
+    <ul class="action-list">
+      <li>
+        <strong>戒菸戒酒(術前 4 週起)</strong>
+        <span class="why">減少肺部併發症、傷口感染與心血管事件,效果與服藥同等重要。</span>
+      </li>
+      <li>
+        <strong>練習深呼吸與咳嗽</strong>
+        <span class="why">使用誘發性肺量計,每天規律訓練,術後拔管後就能立刻派上用場 <span class="link-ref">連結 7-1 · 7-2</span>。</span>
+      </li>
+      <li>
+        <strong>均衡飲食、補充蛋白質</strong>
+        <span class="why">手術是身體的「大型重建工程」,足夠的蛋白質與營養是修補材料。住院期間就是飲食調整的「黃金訓練期」 <span class="link-ref">連結 9-3</span>。</span>
+      </li>
+      <li>
+        <strong>規律輕度運動</strong>
+        <span class="why">日常散步、緩和有氧或物理治療師指導的訓練,提升體能儲備。</span>
+      </li>
+      <li>
+        <strong>控制血糖、血壓</strong>
+        <span class="why">術前數值穩定,能降低術中與術後的風險,尤其是感染與心血管事件。</span>
+      </li>
+      <li>
+        <strong>準備好提問清單</strong>
+        <span class="why">把疑問寫下來帶去門診,了解越多、焦慮越少、配合越順利。</span>
+      </li>
+      <li>
+        <strong>術前訪視時帶所有處方藥</strong>
+        <span class="why">由醫師逐一檢視,確認哪些術前要停(如 ACEi/ARB、SGLT2 抑制劑) <span class="link-ref">連結 8-4</span>。</span>
+      </li>
+    </ul>
+  </article>
+
+  <!-- Phase 2: Post-op early -->
+  <div class="section-title">術後當天到頭兩天您能做的事</div>
+
+  <article class="phase-card p2">
+    <div class="phase-tag">第二階段 · 術後早期</div>
+    <h3>越早動,恢復越快</h3>
+    <div class="phase-when">術後 0–48 小時 · 本院積極時程</div>
+
+    <ul class="action-list">
+      <li>
+        <strong>醒來後配合深呼吸與咳痰</strong>
+        <span class="why">用枕頭抱住胸口減輕傷口痛感,每小時做幾次,預防肺塌陷與肺炎 <span class="link-ref">連結 7-1 · 7-2</span>。</span>
+      </li>
+      <li>
+        <strong>誠實表達疼痛程度</strong>
+        <span class="why">疼痛分數請主動告訴護理師,多模式止痛能隨時調整。忍痛只會讓您不敢呼吸、不敢咳嗽 <span class="link-ref">連結 5-1b</span>。</span>
+      </li>
+      <li>
+        <strong>儘早嘗試坐起、下床</strong>
+        <span class="why">本院積極時程:<strong>拔管後 6 小時內坐起、24 小時內走路繞護理站一圈</strong>(比國際標準快 4 倍) <span class="link-ref">連結 7-6a · 7-6b</span>。每多一次下床,就少一次血栓風險。</span>
+      </li>
+      <li>
+        <strong>恢復進食與飲水</strong>
+        <span class="why">能吞嚥後依指示開始喝水、進食 — <strong>不需要從清流質慢慢進階</strong>。早一點吃,腸胃功能就早一點恢復 <span class="link-ref">連結 7-5 · 7-7</span>。</span>
+      </li>
+      <li>
+        <strong>配合拔管路</strong>
+        <span class="why">尿管、引流管、靜脈管路會依恢復狀況逐步移除。少一條管路,多一分自由 <span class="link-ref">連結 6-3 · 6-4</span>。</span>
+      </li>
+      <li>
+        <strong>家屬會客時主動互動</strong>
+        <span class="why">家屬的陪伴是「不可取代的處方」 — 對話、握手、看家人照片都能加速認知與譫妄恢復 <span class="link-ref">連結 8-1a · 8-1b</span>。</span>
+      </li>
+      <li>
+        <strong>注意異常並回報</strong>
+        <span class="why">傷口紅腫滲液、突然呼吸喘、心悸、發燒 —— 這些都是值得立即告訴護理師的訊號。</span>
+      </li>
+    </ul>
+  </article>
+
+  <!-- Phase 3: Discharge prep -->
+  <div class="section-title">出院前到返家後您能做的事</div>
+
+  <article class="phase-card p3">
+    <div class="phase-tag">第三階段 · 出院準備與返家</div>
+    <h3>把醫院的照護延續到日常</h3>
+    <div class="phase-when">出院前到出院後 4–6 週</div>
+
+    <ul class="action-list">
+      <li>
+        <strong>學會自己照顧傷口</strong>
+        <span class="why">清潔、觀察、敷料更換的方法,出院前請護理師示範到您會操作為止。</span>
+      </li>
+      <li>
+        <strong>記住「胸骨保護」六週原則</strong>
+        <span class="why">不單手出力、不推拉重物、不抱舉超過 5 公斤、起身改用「翻身側坐起」法 <span class="link-ref">連結 7-4</span>。</span>
+      </li>
+      <li>
+        <strong>用藥按時、不自行停藥</strong>
+        <span class="why">特別是抗血小板、降血壓、降血脂藥物,是減少再次心血管事件的關鍵。若有 POAF 或 AKI 病史,抗凝血劑、ACEi/ARB 恢復時機請與醫師確認 <span class="link-ref">連結 8-3 · 8-4</span>。</span>
+      </li>
+      <li>
+        <strong>每日自我監測</strong>
+        <span class="why">量體重、血壓、心跳、體溫、傷口狀況,做一份簡單紀錄,回診時帶給醫師。</span>
+      </li>
+      <li>
+        <strong>循序漸進恢復活動</strong>
+        <span class="why">從室內走動、到散步、到輕度家事,依照醫師建議與您的體力狀況逐步增加,不要急也不要怕動。</span>
+      </li>
+      <li>
+        <strong>維持住院期間建立的飲食標準</strong>
+        <span class="why">低鈉、好油、足蛋白、避免葡萄柚 — 「黃金訓練期」建立的口味標準變成日常 <span class="link-ref">連結 9-3</span>。</span>
+      </li>
+      <li>
+        <strong>知道何時該立刻就醫</strong>
+        <span class="why">傷口化膿、發燒、嚴重胸痛、新發胸悶或呼吸喘、單側下肢腫痛 —— 請直接掛急診。出院後完整警示徵兆請見 10-1b。</span>
+      </li>
+    </ul>
+  </article>
+
+  <!-- Reading map (簡短版) -->
+  <div class="reading-map">
+    <h4>整套衛教的入門路徑</h4>
+    <div class="sub">這份單張是「主動恢復」的入門。整套衛教完整俯瞰請見 10-1b</div>
+    <ol>
+      <li>3 系列:認識手術(3-1 ~ 3-4)</li>
+      <li>4 系列:術中精準照護(4-2 ~ 4-6)</li>
+      <li>5 系列:止痛與凝血(5-1 ~ 5-2)</li>
+      <li>6 系列:加護病房(6-1 ~ 6-6)</li>
+      <li>7 系列:主動恢復鏈(7-1 ~ 7-7)</li>
+      <li>8 系列:腦與術後併發症(8-1 ~ 8-4)</li>
+      <li>9 系列:出院後長期(9-3)</li>
+      <li class="current"><strong>10 系列:整合總結 — 10-1a 入門篇(您正在讀)</strong></li>
+      <li>10-1b 整套衛教的整合與終身指南(下一份)</li>
+    </ol>
+  </div>
+
+  <!-- Final motivational callout -->
+  <div class="section-title">最後想對您說的</div>
+
+  <div class="final-call">
+    <h3>您的努力,會成為康復速度的一部分</h3>
+    <p>我們無法替您呼吸、替您下床、替您進食。但團隊會把每一個讓您能放心動的條件準備好 —— 精準的麻醉、有效的止痛、即時的監測、專業的復健指導。</p>
+    <p>當您願意每一次多深吸一口氣、多走幾步、多喝幾口水,<strong style="color:var(--teal);font-weight:600">您就是康復這條跑道上的主角</strong>。</p>
+    <div class="quote">少躺一點,多動一點,恢復就快一點。</div>
+  </div>
+
+  <!-- Bridge to 10-1b -->
+  <div class="bridge-callout">
+    <h4>下一步 — 整套衛教的整合與終身指南</h4>
+    <p>這份單張(10-1a)是「<strong>主動恢復的入門</strong>」 — 心態、康復團隊、三階段基本實踐。</p>
+    <p>當您讀完整套衛教中的其他單張(認識手術、術中監測、止痛、加護病房、主動恢復鏈、術後併發症、飲食),請接著閱讀 <strong>10-1b 整套衛教的整合與終身指南</strong>。那份單張會把您讀過的所有累積串連起來,並提供出院後 6 週到終身的詳細指引 —— 包括本院 ERAS 的具體成果量化、4 階段完整時程、24 大論述策略總圖、家屬整合角色、12 條跨單張鏈條、整套衛教警示徵兆匯總、整套衛教金句總集。</p>
+    <p><strong>「您也是康復團隊的一員」從這份單張開始,在 10-1b 完整展開。</strong></p>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>ERAS 的成果,從來不是團隊單方面創造的,而是<span class="em">每一位病人主動參與的累積</span>。</p>
+    <p>對術前準備、術後活動或居家照護有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Gustafsson UO, Scott MJ, Hubner M, et al. Guidelines for Perioperative Care in Elective Colorectal Surgery: Enhanced Recovery After Surgery (ERAS®) Society Recommendations: 2018. <em>World J Surg.</em> 2019;43(3):659–695.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society, ERAS International Society, and the Society of Thoracic Surgeons (STS). <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

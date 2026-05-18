@@ -104,10 +104,156 @@
   line-height: 1.75; margin-bottom: 0;
 }
 
+/* 4-6 新增:監測部位清單(在 step-card 04 內) */
+.step-card .monitor-sites {
+  list-style: none;
+  padding: 8px 0 4px;
+  margin: 0;
+}
+.step-card .monitor-sites li {
+  position: relative;
+  padding: 4px 0 4px 18px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.step-card .monitor-sites li::before {
+  content: '·';
+  position: absolute;
+  left: 4px; top: 2px;
+  color: var(--gold);
+  font-size: 18px;
+  line-height: 1;
+}
+.step-card .monitor-sites li strong { color: var(--ink); font-weight: 600; }
+
+/* 4-6 新增:慢動作比喻段落(在 eras-banner 內的子段落) */
+.eras-banner .metaphor-line {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+.eras-banner .metaphor-line strong { color: var(--ink); font-weight: 600; }
+
+/* 4-6 新增:您會感覺到什麼 */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 4-6 新增:給家屬的話 */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.family-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.family-note ul li:last-child { margin-bottom: 0; }
+.family-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 4-6 新增:自費包套說明(對齊 4-2 TOF / 3-3 命名) */
+.cost-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.cost-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.cost-note .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.cost-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cost-note p:last-child { margin-bottom: 0; }
+.cost-note p strong { color: var(--ink); font-weight: 600; }
+.cost-note p.help-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+}
+.cost-note p.help-line strong { color: var(--safe); font-weight: 600; }
+
 @media (max-width: 480px) {
   .thermo { padding: 22px 16px; }
   .thermo-marker .marker-label { font-size: 12px; }
   .step-card { padding: 16px 18px; gap: 12px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .family-note { padding: 16px 18px; }
+  .cost-note { padding: 18px 20px; }
 }
 </style>
 </head>
@@ -126,6 +272,35 @@
     <strong>為什麼體溫這麼重要？</strong>
     <p>麻醉藥物會抑制人體自我調節體溫的能力，加上手術房環境較涼、皮膚與內臟暴露，<span class="em">大多數病人在開刀過程中會自然地慢慢失溫</span>。即使是輕度低體溫（核心體溫 35–35.9°C），也已被證實會增加多項術後併發症的風險。</p>
     <p>本院遵循國際心臟手術 ERAS 指引建議，整段圍術期都會主動為您維持<span class="em">核心體溫 ≥ 36°C</span>。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">核心體溫</span>
+      <span class="lex-def">身體中央的溫度(不是皮膚溫度),反映心臟、大腦、肝臟等重要器官的工作溫度。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">圍術期</span>
+      <span class="lex-def">從入手術室前到手術後 24-48 小時的完整時段,本院的體溫管理涵蓋整段時間。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">熱風加溫毯</span>
+      <span class="lex-def">Forced-air Warming Blanket,<strong>暖風吹進雙層毯內</strong>幫病人保溫,是國際 ERAS 指引建議的標準作法。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">輸液加溫器</span>
+      <span class="lex-def">Fluid Warmer,把輸液與血液<strong>升溫到接近體溫</strong>再輸入身體,避免冰冷液體把核心體溫拉低。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">寒顫</span>
+      <span class="lex-def">身體為了產熱而引發的<strong>不自主肌肉收縮</strong>,術後寒顫會明顯增加耗氧與不適,本院預防失溫就是為了避免這狀況。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">凝血酵素</span>
+      <span class="lex-def">血液凝固所需的<strong>蛋白質酶</strong>,在 36°C 以下活性會明顯降低,所以低體溫會增加出血。</span>
+    </div>
   </div>
 
   <!-- Thermometer scale -->
@@ -159,7 +334,7 @@
   <div class="callout tradeoffs">
     <h4>核心體溫低於 36°C，會造成 ——</h4>
     <ul>
-      <li><strong>凝血酵素活性下降</strong>，增加術後出血量與輸血需求</li>
+      <li><strong>凝血酵素活性下降</strong>（凝血酵素是血液凝固所需的酶,在 36°C 以下活性會明顯降低），增加術後出血量與輸血需求</li>
       <li><strong>傷口血流變差、白血球作用下降</strong>，提高傷口感染機率</li>
       <li><strong>麻醉藥代謝變慢</strong>，甦醒延遲、拔管時間拉長</li>
       <li><strong>心血管系統承受寒冷壓力</strong>，可能誘發心律不整或缺血</li>
@@ -178,7 +353,7 @@
     <div class="step-num">01</div>
     <div class="step-body">
       <h4>術前主動預熱</h4>
-      <p>進手術房前，使用<strong style="color:var(--teal);font-weight:500">熱風加溫毯（Forced-air Warming Blanket）</strong>幫您升溫至接近 37°C，讓核心體溫進入「飽和狀態」，可有效對抗麻醉導致的初期失溫。</p>
+      <p>進手術房前，使用<strong style="color:var(--teal);font-weight:500">熱風加溫毯（Forced-air Warming Blanket）</strong>幫您升溫至接近 37°C，讓核心體溫進入<strong>「飽和狀態」（身體存熱已達上限,接下來進入手術房才禁得起初期失溫)</strong>，可有效對抗麻醉導致的初期失溫。</p>
     </div>
   </article>
 
@@ -194,7 +369,7 @@
     <div class="step-num">03</div>
     <div class="step-body">
       <h4>輸液與輸血加溫</h4>
-      <p>靜脈點滴、輸血、人工心肺機灌注液都會經過<strong style="color:var(--teal);font-weight:500">加溫器（Fluid Warmer）</strong>升溫到接近體溫再進入身體，避免冰冷液體把核心體溫快速拉低。</p>
+      <p>靜脈點滴、輸血、人工心肺機<strong>灌注液(人工心肺機循環運送回病人體內的液體)</strong>都會經過<strong style="color:var(--teal);font-weight:500">加溫器（Fluid Warmer）</strong>升溫到接近體溫再進入身體，避免冰冷液體把核心體溫快速拉低。</p>
     </div>
   </article>
 
@@ -202,7 +377,14 @@
     <div class="step-num">04</div>
     <div class="step-body">
       <h4>核心體溫持續監測</h4>
-      <p>透過鼻咽、食道、膀胱或肺動脈導管監測核心體溫，數值即時顯示在麻醉螢幕上，團隊隨時調整加溫強度。</p>
+      <p>透過下列<strong>四個能反映核心溫度的部位</strong>監測,並把數值即時顯示在麻醉螢幕上:</p>
+      <ul class="monitor-sites">
+        <li><strong>鼻咽探溫</strong>(從鼻孔放入感應器,反映腦部附近溫度)</li>
+        <li><strong>食道探溫</strong>(吞嚥管路上的感應器,反映心臟附近溫度)</li>
+        <li><strong>膀胱探溫</strong>(尿管前端的感應器,反映身體中央溫度)</li>
+        <li><strong>肺動脈導管</strong>(從頸部進入心臟的特殊管路,部分高風險手術會用,反映心臟內溫度)</li>
+      </ul>
+      <p>團隊會依手術型態選用最合適的部位,隨時調整加溫強度。</p>
     </div>
   </article>
 
@@ -211,21 +393,94 @@
 
   <div class="callout eras-banner">
     <h4>不能太冷，也絕對不能太熱</h4>
-    <p>人工心肺機本身具有調溫功能，部分手術會視需要降溫到 32–34°C 以減少心臟與大腦的代謝需求。但結束時的<span class="em-teal">回溫過程必須緩慢且精準</span>。</p>
-    <p>研究顯示，回溫時若核心體溫超過 37.9°C，<strong>過熱會明顯增加術後神經損傷與譫妄的風險</strong>。體外循環師、麻醉科醫師會持續監測，把回溫速度與終點溫度都控制在安全範圍。</p>
+    <p>人工心肺機本身具有調溫功能，部分手術會視需要降溫到 32–34°C 以減少心臟與大腦的代謝需求。</p>
+    <p class="metaphor-line"><strong>用「慢動作播放」來想像</strong> —— 把身體降溫,就像把電影<strong>切換到慢動作</strong>:心臟、大腦的耗氧速度大幅下降,即使短暫缺血也比較禁得起。<strong>這不是「把人弄冷」,而是讓重要器官在最脆弱的時刻能撐得久一點</strong>。手術完成後再緩慢回到正常溫度,身體會「重新播放正常速度」。</p>
+    <p>但結束時的<span class="em-teal">回溫過程必須緩慢且精準</span>。研究顯示，回溫時若核心體溫超過 37.9°C，<strong>過熱會明顯增加術後神經損傷與譫妄的風險</strong>。體外循環師、麻醉科醫師會持續監測，把回溫速度與終點溫度都控制在安全範圍。</p>
   </div>
 
   <!-- ERAS benefits chain -->
   <div class="callout eras-benefits">
     <h4>體溫管理如何串連到加速康復</h4>
-    <div class="sub">少一點失溫，就少一分後續問題</div>
+    <div class="sub">少一點失溫,就少一分後續問題</div>
     <ul>
-      <li><strong>減少術後出血</strong> —— 凝血功能正常運作 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>減少術後出血</strong> —— 凝血酵素與血小板功能在 ≥ 36°C 才能正常運作 <span class="link-ref">連結 5-2</span></li>
       <li><strong>降低傷口感染</strong> —— 血流與免疫細胞作用維持</li>
-      <li><strong>加速麻醉甦醒、提早拔管</strong> —— 藥物代謝順暢 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>降低譫妄發生率</strong> —— 避免過熱對大腦的負擔</li>
-      <li><strong>減少寒顫與不適</strong> —— 醒來體感更舒服</li>
+      <li><strong>加速麻醉甦醒、提早拔管</strong> —— 麻醉藥物代謝順暢,與 TOF、BIS 共同支援手術室內拔管 <span class="link-ref">連結 4-2 · 4-4 · 6-2</span></li>
+      <li><strong>降低譫妄發生率</strong> —— 避免回溫過熱對大腦的負擔,與 NIRS、BIS 形成完整腦部安全網 <span class="link-ref">連結 4-3 · 4-4 · 8-2</span></li>
+      <li><strong>降低急性腎損傷風險</strong> —— 低體溫會影響腎臟血流灌注,維持 ≥ 36°C 是腎臟保護的基礎 <span class="link-ref">連結 8-4</span></li>
+      <li><strong>減少寒顫與不適</strong> —— 醒來體感更舒服,寒顫會增加耗氧、不利早期下床</li>
     </ul>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從進手術房到醒來,您可能會經驗到的體感</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">術前等候區</div>
+      <div class="tr-what">護理師會讓您穿上<strong>充氣式加溫毯</strong>(暖風會吹進毯內,類似暖被),讓您在等候時感覺溫暖。<strong>這不是讓您放鬆而已,是術前主動預熱的重要環節</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">麻醉誘導前後</div>
+      <div class="tr-what">您可能會感覺手術房有點涼(目的是減少手術人員的悶熱、確保器械無菌),但麻醉睡著後團隊會立刻幫您蓋上加溫毯,您不會感覺到冷。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">手術過程中</div>
+      <div class="tr-what">您已在麻醉狀態,完全沒有感覺。團隊會持續看著螢幕上的核心體溫(從 4 個監測部位之一讀出),維持在 36°C 以上。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">手術結束甦醒時</div>
+      <div class="tr-what">如果體溫管理做得好,您醒來時<strong>不會發抖、不會覺得冷</strong>;體感舒服、痛感較輕、咳嗽容易、更想早點下床走動。若您有感覺寒顫,請告訴護理師,團隊會立即加強保溫。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後 24-48 小時</div>
+      <div class="tr-what">本院會持續監測體溫,若<strong>核心體溫過熱(超過 37.9°C)</strong>,團隊會主動降溫(減少蓋被、低劑量退燒藥)。<strong>過熱也是要避免的</strong> —— 過熱會增加譫妄與神經損傷風險。</div>
+    </div>
+  </div>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>給家屬的話 — 體溫管理的常見好意干擾</h4>
+    <ul>
+      <li><strong>不要自行幫病人多蓋棉被或毛巾</strong> —— 團隊的加溫毯是「<strong>精準調控</strong>」,您的好意可能讓核心體溫過熱(超過 37.9°C),反而增加譫妄與神經損傷風險。如果想幫忙,請先問護理師。</li>
+      <li><strong>不要把濕毛巾敷在病人臉上</strong> —— 即使病人覺得熱,也應該由團隊判斷是否需要降溫,濕毛巾會干擾體溫監測。</li>
+      <li><strong>不要關空調或調高室溫</strong> —— 病房空調是依病人的核心體溫設計,擅自調整可能讓體溫管理失準。</li>
+      <li><strong>觀察到病人寒顫、發抖、覺得冷,請立即告訴護理師</strong> —— 寒顫會明顯增加耗氧、不利恢復,團隊需要知道才能加強保溫。</li>
+      <li><strong>不要拒絕「掀開被子」</strong> —— 若病人術後體溫偏高,團隊可能需要短暫掀開被子幫助散熱,這是必要的處置,不是疏忽。</li>
+    </ul>
+  </div>
+
+  <!-- Cost note -->
+  <div class="cost-note">
+    <h4>關於費用</h4>
+    <div class="sub">加溫毯與輸液加溫器在本院屬於麻醉自費包套的一部分</div>
+    <p><strong>麻醉自費包套</strong>:本院的麻醉自費為包套設計(含 TOF 監測、Sugammadex、神經阻斷止痛、BIS 腦波監測、<strong>保暖毯(熱風加溫毯)</strong>等項目),通常落在 <strong>5–7 萬元</strong>。麻醉科會在<strong>術前訪視</strong>時解釋整套包套內容,但實際使用哪些項目,是由麻醉科醫師依<strong>術中生命徵象(心跳、血壓、腦波、腦氧)與手術內容(傳統/微創/刀口大小)綜合判斷</strong> —— 不需要由您逐項選擇。</p>
+    <p class="help-line"><strong>如有經濟負擔考量</strong>,請直接告訴醫師或護理師。團隊會優先採用健保項目,<strong>麻醉科也有吸收自費的機制可申請</strong>協助您,必要時可協助轉介社工資源。</p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>術中精準照護鏈閱讀路徑</h4>
+    <div class="sub">本院的術中精準照護是<strong>監測 + 即時調整 + 雙端避免</strong>的整套系統。4-6 體溫管理只是其中一個面向,以下是構成這條鏈的其他單張。</div>
+    <ol>
+      <li>TOF 神經肌肉監測與反轉劑 4-2(肌肉鬆弛劑殘留:不過深、不過淺)</li>
+      <li>NIRS 腦氧監測 4-3(腦部供氧:基準下降 20% 或絕對值 < 50% 觸發警示)</li>
+      <li>BIS 麻醉深度監測 4-4(麻醉深度:過淺 = 術中清醒,過深 = 譫妄)</li>
+      <li class="current"><strong>圍術期體溫管理 4-6(您正在讀:核心體溫 — 過冷 = 出血,過熱 = 神經損傷)</strong></li>
+      <li>體外循環機 CPB 3-2(降溫到 32-34°C 的脈絡,以及回溫過程的精準控制)</li>
+      <li>凝血功能與止血藥物 5-2(低體溫如何影響凝血酵素活性)</li>
+      <li>早期拔管 6-2(體溫 ≥ 36°C 是麻醉藥代謝、提早拔管的前提)</li>
+      <li>譫妄專篇 8-2(回溫過熱與譫妄的關係)</li>
+      <li>急性腎損傷 AKI 8-4(體溫對腎臟血流的影響)</li>
+      <li>主動恢復入門 10-1a(體溫穩定支撐主動恢復)</li>
+      <li>整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

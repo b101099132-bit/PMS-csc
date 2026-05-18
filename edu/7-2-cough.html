@@ -216,7 +216,78 @@
   .pillow-hero { padding: 22px 22px; }
   .step-card { padding: 16px 18px; gap: 12px; }
   .sputum-row { grid-template-columns: 88px 1fr; padding: 12px 16px; gap: 12px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .family-note { padding: 16px 18px; }
 }
+
+/* 您會感覺到什麼(對齊整套系列) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 給家屬的話 */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.family-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.family-note ul li:last-child { margin-bottom: 0; }
+.family-note ul li strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -236,6 +307,43 @@
     <p>但<span class="em">不咳的代價比咳的不舒服更大</span>。痰液積在肺部 → 肺泡塌陷 → 細菌滋生 → 肺炎；殘留在胸腔的舊血水排不出去 → 影響呼吸與恢復。本院的目標是讓您<span class="em">配合多模式止痛、HFNC、抱枕固定法與坐姿</span>，舒服地咳、有效地咳。</p>
   </div>
 
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">咳嗽 / 咳痰</span>
+      <span class="lex-def">術後身體最直接的<strong>肺部清潔動作</strong>。不是壞事,是必要的恢復動作。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">痰</span>
+      <span class="lex-def">氣管與肺部分泌的<strong>黏液</strong>,正常時是「潤滑與防護」的角色;術後因麻醉與插管會暫時增多,需要咳出來避免堵塞。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肺塌陷 · 肺擴張不全</span>
+      <span class="lex-def">Atelectasis,<strong>肺部底部的小肺泡沒有完全打開、被壓扁</strong>。痰堵在小氣管會造成下游肺泡塌陷。詳見 <strong>7-1 誘發性肺量計</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">抱枕固定法</span>
+      <span class="lex-def">用抱枕(或捲起的毛巾、毯子)<strong>輕壓胸骨傷口</strong>,吸收咳嗽、深呼吸、翻身、打噴嚏時的震動,讓傷口被牽動的幅度減到最小。是術後最重要的「自帶工具」之一。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">「哈、哈」式咳嗽</span>
+      <span class="lex-def">本院推薦的有效咳嗽法 —— <strong>用腹部力量發出兩聲「哈!哈!」</strong>,不是輕咳清喉嚨,把痰真的咳出來。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">痰盆</span>
+      <span class="lex-def">床邊小托盤(類似深盤或便盆),用來<strong>收集咳出的痰</strong>,方便護理師觀察痰的顏色與量。沒有痰盆時用衛生紙也可以。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">VAP · 呼吸器相關肺炎</span>
+      <span class="lex-def">Ventilator-Associated Pneumonia,<strong>因為長時間插管引起的肺部感染</strong>。本院早期拔管 <span class="link-ref">連結 6-2</span> + 規律咳嗽,就是為了降低 VAP 與其他術後肺炎的風險。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">會呼吸的痛</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。咳嗽是「會呼吸的痛」中最被牽動的動作 —— 多模式止痛 + 抱枕能大幅化解。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+    </div>
+  </div>
+
   <!-- Why cough is necessary -->
   <div class="section-title">為什麼術後一定要咳</div>
 
@@ -251,8 +359,8 @@
     </article>
     <article class="reason-card">
       <div class="r-num">理由 02</div>
-      <h4>避免肺部塌陷</h4>
-      <p>痰積在小氣管裡，會讓對應的肺泡塌陷（atelectasis），<strong>血氧下降</strong>、細菌容易滋生引起肺炎。</p>
+      <h4>避免肺部塌陷、降低 VAP 與術後肺炎</h4>
+      <p>痰積在小氣管裡,會讓對應的肺泡塌陷(atelectasis),<strong>血氧下降</strong>、細菌容易滋生引起肺炎。本院透過<strong>早期拔管</strong>降低呼吸器相關肺炎(VAP)的風險 <span class="link-ref">連結 6-2</span>;但拔管後若不主動咳嗽,<strong>術後肺炎(HAP)仍可能發生</strong>。<strong>咳嗽,就是把「降低 VAP」的成果延續下去的關鍵動作</strong>。</p>
     </article>
     <article class="reason-card">
       <div class="r-num">理由 03</div>
@@ -268,7 +376,7 @@
     <h4>這些擔心都是合理的 ——</h4>
     <ul>
       <li><strong>胸口傷口會痛</strong>：這是會呼吸的痛，咳嗽會特別牽動 <span class="link-ref">連結 5-1</span></li>
-      <li><strong>害怕胸骨「裂開」或縫線斷掉</strong>：胸骨已經用鋼絲牢牢固定，正常咳嗽不會讓它移位</li>
+      <li><strong>害怕胸骨「裂開」或縫線斷掉</strong>:胸骨已經用鋼絲(或鋼板)牢牢固定,正常咳嗽不會讓它移位 <span class="link-ref">連結 3-4</span></li>
       <li><strong>怕扯到胸腔引流管</strong>：管子有縫線固定，正常咳嗽不會拉出來</li>
       <li><strong>咳出帶血絲的痰</strong>：早期少量血絲是正常的，不代表出血</li>
     </ul>
@@ -355,7 +463,7 @@
     <div class="step-num">05</div>
     <div class="step-body">
       <h4>把痰咳到喉嚨後吐出</h4>
-      <p>痰咳到喉嚨後，<strong>用衛生紙或痰盆吐出來</strong>，不要再吞下去。觀察痰的顏色與量（請參考下一段）。</p>
+      <p>痰咳到喉嚨後,<strong>用衛生紙或痰盆(床邊小托盤,方便護理師觀察痰色)吐出來</strong>,不要再吞下去。觀察痰的顏色與量(請參考下一段)。</p>
     </div>
   </article>
 
@@ -426,6 +534,88 @@
     </div>
 
     <p>所以本院鼓勵您<strong>儘早坐起、儘早下床</strong> —— 這不只是肌肉復健，更直接<strong>改善肺活量、增強咳嗽效力、加速胸腔血水排除</strong> <span class="link-ref">連結 7-6a</span>。</p>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">咳嗽時您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從第一次咳嗽到熟練,實際的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">第一次咳嗽前</div>
+      <div class="tr-what">會感覺<strong>本能地不敢咳</strong> — 怕痛、怕扯到管子、怕傷口裂開。這是正常的。<strong>請告訴護理師「我要咳了」</strong>,他們會協助您把抱枕、止痛、坐姿準備好,有人在身邊咳會比自己硬撐有信心很多。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">咳嗽當下</div>
+      <div class="tr-what">會感覺<strong>胸口傷口被牽動的痛</strong>(用抱枕後減半)、<strong>胸腔深處的氣流震動</strong>、有時候<strong>痰在喉嚨快要上來的感覺</strong>。<strong>不會傷到胸骨、不會把管子拉出來</strong> — 鋼絲固定 + 縫線固定都很牢。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">痰咳出來時</div>
+      <div class="tr-what">會明顯感覺<strong>胸口輕鬆許多</strong>,呼吸變順、不那麼喘。<strong>痰可能比想像中多</strong>(尤其第一次有效咳嗽時) — 那不代表您狀況差,而是<strong>之前一直積著、現在終於排出來</strong>的好事。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">咳完後 1-2 分鐘</div>
+      <div class="tr-what">可能會有輕微的<strong>胸口痠脹感、想再喘一下</strong>,這是正常的恢復期。<strong>休息 1-2 分鐘再咳下一輪</strong>,不要一口氣硬撐 10 下。許多病人發現「<strong>分輪咳比連續硬咳舒服很多</strong>」。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後第 3-5 天</div>
+      <div class="tr-what">您會自己感覺<strong>「咳嗽越來越不痛了」</strong> — 因為傷口在癒合 + 您已經熟悉如何用抱枕固定。這時候要保持<strong>「主動規律」</strong>的節奏,不要因為不痛了就停掉。</div>
+    </div>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">咳嗽期間 — 請立即告知護理師</div>
+
+  <div class="callout warnings">
+    <h4>這些情況代表可能有併發症</h4>
+    <ul>
+      <li><strong>咳出鮮紅色血、或痰中有大量血塊</strong>(少量血絲是正常的)</li>
+      <li><strong>突然劇烈胸痛、與傷口痛不同的新痛點</strong></li>
+      <li><strong>呼吸越來越喘、不只是咳完後</strong></li>
+      <li><strong>痰量明顯增加 + 顏色變黃綠 + 發燒</strong>(肺炎徵兆三件套)</li>
+      <li><strong>胸骨傷口處有「咯咯」的浮動感、聲響</strong>(可能胸骨不穩,需評估)</li>
+      <li><strong>咳嗽時胸管被拉出、引流箱液體顏色突然變鮮紅</strong></li>
+      <li><strong>嘴唇、指甲變紫</strong>(可能血氧下降)</li>
+      <li><strong>咳到頭暈、視線模糊、快暈倒</strong>(可能過度通氣或迷走神經反射)</li>
+    </ul>
+  </div>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>家屬可以怎麼幫</h4>
+    <ul>
+      <li><strong>提醒病人「每 1-2 小時主動咳一次」</strong> —— 病人常會因為怕痛、累、忘記而跳過。<strong>規律提醒比一次性激勵更有效</strong></li>
+      <li><strong>把抱枕放在病人手能拿到的地方</strong> —— 床邊桌、輪椅扶手。如果抱枕滑落到地上,病人可能就不咳了</li>
+      <li><strong>陪伴第一次咳嗽</strong> —— 病人對「第一次咳」最有心理障礙,家屬陪伴 + 一起說「準備好了,咳吧」會有很大幫助</li>
+      <li><strong>幫病人計時休息</strong> —— 一輪咳完後說「休息 1-2 分鐘再做下一輪」,讓病人有節奏</li>
+      <li><strong>觀察痰的顏色</strong> —— 顏色變黃綠、變鮮紅、量明顯增加,告訴護理師</li>
+      <li><strong>動作前提醒打止痛藥</strong> —— 病人常忍痛硬咳。動作前 5-10 分鐘提醒病人主動要止痛藥,效果會好很多 <span class="link-ref">連結 5-1b</span></li>
+      <li><strong>出院後也持續關心</strong> —— 出院後常被忽略,但<strong>規律咳嗽應該持續到回診評估</strong>。家屬定期問「今天咳了幾輪?」</li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>呼吸論述鏈閱讀路徑</h4>
+    <div class="sub">心臟手術後最關鍵的議題之一,就是「<strong>讓肺重新動起來</strong>」。下面是構成這條鏈的單張,7-2 是這條鏈中<strong>最具體可執行的核心動作</strong>。</div>
+    <ol>
+      <li>體外循環機 CPB 3-2(術中肺暫停運作 — 肺塌陷的源頭)</li>
+      <li>早期拔管 6-2(拔管 = 主動呼吸的起點,降低 VAP 風險)</li>
+      <li>HFNC 高流量鼻導管 6-6(拔管後的呼吸支援設備)</li>
+      <li>術後疼痛 5-1b(「會呼吸的痛」核心 — 止痛到位才敢咳)</li>
+      <li>誘發性肺量計 7-1(主動深呼吸的訓練器 — 與抱枕並列「兩個隨身工具」)</li>
+      <li class="current"><strong>術後咳嗽與咳痰 7-2(您正在讀:主動咳痰的核心動作)</strong></li>
+      <li>胸骨固定:鋼絲 vs 鋼板 3-4(咳嗽不會讓胸骨移位的依據)</li>
+      <li>認識胸管 6-3(咳嗽加速胸管引流 — 「主動推動」的核心)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(姿勢影響肺活量,坐起咳力道增加 20-30%)</li>
+      <li>主動恢復入門 10-1a(主動咳痰是主動恢復的核心動作)</li>
+      <li>整套衛教整合與終身指南 10-1b(呼吸論述鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

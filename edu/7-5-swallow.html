@@ -124,7 +124,239 @@
   .reason { padding: 16px 18px; }
   .step-card { padding: 16px 18px; gap: 12px; }
   .choke-box { padding: 16px 18px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .family-note { padding: 16px 18px; }
+  .total-timeline { padding: 18px 20px; }
+  .total-timeline .tt-row { grid-template-columns: 1fr; gap: 4px; }
+  .dietary-progression { padding: 16px 18px; }
+  .dietary-progression .dp-row { grid-template-columns: 1fr; gap: 4px; }
+  .choke-emergency { padding: 18px 20px; }
 }
+
+/* 您會感覺到什麼(對齊整套系列) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 給家屬的話(含 ⚠ 餵水警示) */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note ul {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+.family-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.family-note ul li:last-child { margin-bottom: 0; }
+.family-note ul li strong { color: var(--ink); font-weight: 600; }
+.family-note .warn-row-inline {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.family-note .warn-row-inline strong { color: var(--danger); font-weight: 700; }
+
+/* 24-72 小時 total-timeline(對齊 5-1b 設計) */
+.total-timeline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.total-timeline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.total-timeline .tt-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.total-timeline .tt-row:last-of-type { border-bottom: none; }
+.total-timeline .tt-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--teal);
+  line-height: 1.5;
+}
+.total-timeline .tt-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.total-timeline .tt-what strong { color: var(--ink); font-weight: 600; }
+
+/* 食物進階範例(澄清液體 → 軟質 → 一般) */
+.dietary-progression {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin: 12px 0 0;
+}
+.dietary-progression h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+.dietary-progression .dp-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.dietary-progression .dp-row:last-of-type { border-bottom: none; }
+.dietary-progression .dp-stage {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--gold);
+  line-height: 1.5;
+}
+.dietary-progression .dp-examples {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.dietary-progression .dp-examples strong { color: var(--ink); font-weight: 600; }
+
+/* 嗆到緊急應變 5 步驟 */
+.choke-emergency {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.choke-emergency h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+.choke-emergency .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.choke-emergency ol {
+  counter-reset: ce-step;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.choke-emergency ol li {
+  counter-increment: ce-step;
+  position: relative;
+  padding: 10px 0 10px 38px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.choke-emergency ol li:last-child { border-bottom: none; }
+.choke-emergency ol li::before {
+  content: counter(ce-step, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 12px;
+  width: 28px; height: 22px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--danger);
+  letter-spacing: 0.05em;
+  background: var(--paper);
+  border: 1px solid var(--danger);
+  border-radius: 2px;
+  text-align: center;
+  line-height: 22px;
+}
+.choke-emergency ol li strong { color: var(--ink); font-weight: 600; }
+.choke-emergency .severe-row {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.choke-emergency .severe-row strong { color: var(--danger); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -149,7 +381,7 @@
     <h4>名詞速查</h4>
     <div class="lex-row">
       <span class="lex-term">會厭</span>
-      <span class="lex-def">咽喉裡<strong>保護氣管的小蓋子</strong>，吞嚥時會自動蓋住氣管。</span>
+      <span class="lex-def">咽喉裡<strong>保護氣管的小蓋子</strong>,吞嚥時會自動蓋住氣管。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">吸入性肺炎</span>
@@ -158,6 +390,22 @@
     <div class="lex-row">
       <span class="lex-term">吞嚥評估</span>
       <span class="lex-def">由護理師或語言治療師<strong>評估能不能安全吞嚥</strong>的閘門式測試。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">TEE · 經食道超音波</span>
+      <span class="lex-def">Trans-Esophageal Echocardiography,<strong>從食道內進行的心臟超音波檢查</strong>。心臟手術中常用,術後可能造成<strong>暫時的吞嚥不適、喉嚨痛、聲音沙啞</strong>(1-3 天恢復)。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">語言治療師</span>
+      <span class="lex-def">Speech Therapist(ST),受過<strong>吞嚥功能評估與訓練</strong>專業訓練的醫療團隊成員。本院吞嚥困難病人會由 ST 介入,提供口腔肌肉運動、吞嚥姿勢調整、食物質地建議。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">安全閘門</span>
+      <span class="lex-def">Gateway,本院論述策略:把吞嚥評估從「<strong>手續性檢查</strong>」重新定位為<strong>「保護您不嗆到的關卡」</strong>。通過 4 步驟才會進入下一階段。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">澄清液體</span>
+      <span class="lex-def">指<strong>透明、無雜質、可看穿</strong>的液體 — 開水、清茶、清湯。是吞嚥恢復後的第一階段食物。</span>
     </div>
   </div>
 
@@ -184,6 +432,11 @@
       <h4>認知尚未完全清醒</h4>
       <p>如果腦袋還有點迷糊，吞嚥的「指揮中樞」也會跟著遲鈍。<strong style="color:var(--teal);font-weight:500">清醒，是安全吞嚥的前提</strong>。</p>
     </div>
+    <div class="reason">
+      <div class="r-num">原因 04</div>
+      <h4>TEE 食道探頭的暫時刺激</h4>
+      <p>心臟手術中常使用<strong>經食道超音波(TEE)</strong>檢查心臟功能 — 探頭從口腔放入食道,術後可能讓<strong>喉嚨、食道上段有暫時的刺激感、輕微痠痛、聲音沙啞</strong>。這些症狀通常 1-3 天緩解,但會讓最初幾次吞嚥更不順。 <span class="link-ref">連結 5-1b</span></p>
+    </div>
   </div>
 
   <!-- Risk factors -->
@@ -207,6 +460,11 @@
   <p class="section-intro">
     這是<span class="em">通往進食的「安全閘門」</span>。逐步通過，才會進入下一階段（喝水進食 <span class="link-ref">連結 7-7</span>）。
   </p>
+
+  <div style="margin: 10px 0 18px; padding: 14px 16px; background: var(--paper); border-radius: 3px; border-left: 2px solid var(--teal); font-size: 13px; line-height: 1.85; color: var(--ink-soft);">
+    <strong style="color:var(--teal);">為什麼需要這道閘門 — 研究依據</strong><br>
+    <strong>2014 年 Skoretz 等發表的系統性回顧</strong>指出:心臟手術後的吞嚥困難並非罕見現象 — <strong>插管時間越長,吞嚥功能受影響的比例越高</strong>(短時間插管 3-5%,長時間插管可達 25-50%)。其中<strong>「沉默吸入」(Silent Aspiration)</strong>是最危險的型態 — 液體進入氣管但<strong>不會引起明顯嗆咳</strong>,病人與家屬都察覺不到,卻可能引起吸入性肺炎。本院的吞嚥評估閘門就是為了攔截這種「<strong>沒有警報的危險</strong>」。
+  </div>
 
   <article class="step-card">
     <div class="step-num">01</div>
@@ -236,7 +494,23 @@
     <div class="step-num">04</div>
     <div class="step-body">
       <h4>通過閘門 → 進入「喝水進食」階段</h4>
-      <p>通過評估後，會由<strong>少量澄清液體 → 軟質食物 → 一般飲食</strong>逐步進階。詳細的進食建議請參考下一篇衛教。</p>
+      <p>通過評估後,會由<strong>少量澄清液體 → 軟質食物 → 一般飲食</strong>逐步進階。詳細的進食建議請參考下一篇衛教 <span class="link-ref">連結 7-7</span>。</p>
+
+      <div class="dietary-progression">
+        <h5>食物進階具體範例</h5>
+        <div class="dp-row">
+          <div class="dp-stage">第 1 階段<br>澄清液體</div>
+          <div class="dp-examples"><strong>開水、清茶、清湯(無油花)、米湯、運動飲料</strong>。第一次只喝 1-2 茶匙確認沒有嗆到,再慢慢增量。</div>
+        </div>
+        <div class="dp-row">
+          <div class="dp-stage">第 2 階段<br>濃稠液體 / 軟質</div>
+          <div class="dp-examples"><strong>稀粥、布丁、優格、蒸蛋、豆花、絞肉粥、軟麵條</strong>。質地像「布丁」或「軟蒸蛋」程度的容易吞嚥。</div>
+        </div>
+        <div class="dp-row">
+          <div class="dp-stage">第 3 階段<br>一般飲食</div>
+          <div class="dp-examples"><strong>恢復術前的飲食習慣</strong>。同時請參考心臟飲食原則:低鹽、適量水分、好油、優質蛋白 <span class="link-ref">連結 9-3</span>。<strong>避免</strong>:乾、硬、容易碎屑的食物(餅乾、堅果、爆米花)。</div>
+        </div>
+      </div>
     </div>
   </article>
 
@@ -248,7 +522,7 @@
     <ul>
       <li><strong>坐直 90 度進食</strong>，絕對不躺著進食或半坐臥進食</li>
       <li><strong>每口少量</strong>，分次慢慢吞，不要急</li>
-      <li><strong>下巴微微內收</strong>（不抬頭），讓會厭能順利蓋住氣管</li>
+      <li><strong>下巴微微內收</strong>(不抬頭) —— 想像「<strong>下巴想去看肚臍</strong>」的微微低頭姿勢,讓會厭能順利蓋住氣管。喝水時若仰頭(像喝瓶裝水那樣),氣管反而會被打開,嗆到風險大增</li>
       <li><strong>感覺有食物卡住時暫停</strong>，咳一咳再繼續</li>
       <li><strong>進食後維持坐姿 30 分鐘</strong>，避免胃內容物逆流</li>
       <li><strong>避免乾、硬、容易碎屑的食物</strong>（如餅乾、堅果、爆米花）</li>
@@ -256,26 +530,126 @@
   </div>
 
   <!-- Choking response -->
-  <div class="section-title">嗆到了怎麼辦</div>
+  <div class="section-title">嗆到了怎麼辦 — 緊急應變 5 步驟</div>
 
-  <div class="choke-row">
-    <div class="choke-box mild">
-      <h4>輕微嗆咳</h4>
-      <p><strong>用力咳出來就好。</strong>這是身體保護氣管的正常反射。咳完休息一下、確認舒服了再繼續吞下一口。</p>
-    </div>
-    <div class="choke-box severe">
-      <h4>嚴重嗆咳 / 持續異常</h4>
-      <p><strong>立刻停止進食、坐直、告訴護理師。</strong>特別是出現：嗆咳超過幾分鐘、聲音明顯沙啞、呼吸喘、發燒。這可能是吸入性肺炎的早期徵兆，需要立即評估。</p>
+  <div class="choke-emergency">
+    <h4>保持冷靜,按步驟處理就能安全度過</h4>
+    <div class="sub">輕微嗆咳是身體保護氣管的正常反射 — 重要的是「怎麼處理下一步」</div>
+    <ol>
+      <li><strong>立即停止吞嚥,不要再吞下一口</strong> — 這是最關鍵的一步。許多嗆到後的併發症,都是因為「想說咳咳就過去了」繼續吞</li>
+      <li><strong>坐直、身體微前傾、下巴內收</strong> — 利用重力幫助食物或液體從氣管落回口腔。<strong>不要平躺、不要仰頭拍背</strong>,那會把東西推進更深</li>
+      <li><strong>用力咳出來</strong> — 大聲、用腹部力量的「哈!哈!」式咳嗽(同 <span class="link-ref">7-2</span>),把氣管中的東西咳到口腔再吐出</li>
+      <li><strong>觀察咳完後的狀況</strong> — 聲音是否變沙啞?呼吸是否變喘?有沒有持續輕微咳嗽?痰中有食物殘渣?任一項出現就告訴護理師</li>
+      <li><strong>休息至少 5-10 分鐘再決定是否繼續</strong> — 不要硬撐繼續吃。如果同一餐連續嗆 2 次以上,<strong>停止進食、告訴護理師重新評估吞嚥</strong>(可能需要重做閘門評估或請語言治療師介入)</li>
+    </ol>
+
+    <div class="severe-row">
+      <strong>⚠ 嚴重嗆咳請立即按鈴 / 喊叫求救</strong>:咳超過幾分鐘無法停、呼吸明顯困難、嘴唇變紫、無法說話發聲、意識模糊 — 這些可能是<strong>食物完全卡住氣管</strong>,需要立即施行哈姆立克法 / 醫護處理。<strong>事後 24-72 小時也要觀察有無發燒、痰變黃綠、呼吸喘加重</strong>,這些是<strong>吸入性肺炎</strong>的早期徵兆,需要及早抗生素治療。
     </div>
   </div>
 
   <!-- Reassurance -->
   <div class="section-title">吞嚥困難會持續多久</div>
 
-  <div class="callout eras-banner">
-    <h4>絕大多數人 24–72 小時就會恢復</h4>
-    <p>絕大多數病人在<strong>拔管後 24–72 小時內，吞嚥功能就會恢復到能正常進食</strong>。少數高齡或本身已有吞嚥障礙者可能需要 <span class="em-teal">1–2 週</span>才能完全恢復。</p>
-    <p>如果這段時間仍有困難，本院的<strong>語言治療師（Speech Therapist）</strong>可以提供針對性的吞嚥訓練 —— 包括口腔肌肉運動、吞嚥姿勢調整、食物質地建議等，能明顯加速恢復。</p>
+  <div class="total-timeline">
+    <h4>從拔管到完全恢復的時間軸</h4>
+
+    <div class="tt-row">
+      <div class="tt-when">拔管後 0-6 小時</div>
+      <div class="tt-what"><strong>不可以喝水進食</strong>。咽喉組織還在「拔管後最腫」的階段,且麻醉藥未完全代謝。團隊會用<strong>濕棉棒沾水濕潤嘴唇</strong>緩解口乾,這是安全的。</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-when">拔管後 6-24 小時</div>
+      <div class="tt-what"><strong>意識完全清醒後</strong>,團隊會進行第一次<strong>吞嚥評估閘門</strong>。多數病人此時可以開始<strong>少量澄清液體</strong>(一茶匙水)。</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-when">24-72 小時</div>
+      <div class="tt-what"><strong>絕大多數病人在這個區間內,吞嚥功能會恢復到能正常進食</strong>。從澄清液體 → 軟質 → 一般飲食逐步進階。聲音沙啞、輕微喉嚨痛 1-3 天內緩解。</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-when">3-7 天</div>
+      <div class="tt-what"><strong>食物質地大致回到術前水準</strong>。可能仍有輕微「東西卡卡的感覺」 — 多喝水、進食時坐直、慢慢吞,通常會自行緩解。</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-when">1-2 週</div>
+      <div class="tt-what">少數<strong>高齡、長時間插管、或本身已有吞嚥障礙</strong>的病人可能需要這麼久才能完全恢復。本院的<strong>語言治療師(Speech Therapist)</strong>會介入提供針對性訓練 — 口腔肌肉運動、吞嚥姿勢調整、食物質地建議,能明顯加速恢復。</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-when">出院後</div>
+      <div class="tt-what">若仍偶有<strong>嗆咳、進食慢、體重下降</strong>,可在門診請主治醫師轉介語言治療師。<strong>「我是不是再也不能正常吃了」</strong> — 這個焦慮在 95% 以上的病人不會成真。</div>
+    </div>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">從拔管到正常進食,您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>每個階段實際的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">剛拔管時</div>
+      <div class="tr-what">會感覺<strong>喉嚨乾、有點痠痛、聲音沙啞</strong>(像感冒時聲音的樣子)。<strong>不要急著喝水</strong> — 護理師會用濕棉棒沾水濕潤嘴唇,這是安全的緩解方式。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">評估閘門前</div>
+      <div class="tr-what">可能會感覺<strong>「我明明很想喝水了,怎麼還不讓我喝」</strong>的焦躁。這是正常的 — 但<strong>請相信閘門</strong>。意識清醒、咳嗽反射 OK、聲音功能恢復 — 這三個條件達標,才是真的「安全可以喝」。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">第一茶匙水</div>
+      <div class="tr-what">會感覺<strong>水流過咽喉時略有「卡卡」感、或輕微想咳</strong>。輕微的不太順是正常的;只要<strong>沒有真的嗆咳、沒有變音、沒有呼吸異常</strong>,就是安全的。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">第一餐軟質食物</div>
+      <div class="tr-what">可能會發現<strong>「咀嚼比我以為的累」、「吞嚥要更專心」</strong>。這是因為您原本「不用想就吞」的反射動作,現在要稍微「<strong>有意識地配合</strong>」。幾餐後就會回到自然狀態。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">恢復一般飲食</div>
+      <div class="tr-what">您會自己感覺<strong>「不太需要再小心了」</strong>的自然感。但乾、硬、易碎屑的食物(餅乾、堅果、爆米花)仍建議再保守 1-2 週。</div>
+    </div>
+  </div>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>給家屬的話 — 進食期間的協助任務</h4>
+    <ul>
+      <li><strong>坐直 90 度進食 — 由您協助調整床頭</strong>:病人有時不會自己坐直,要靠家屬調好床頭角度。<strong>不可半坐臥或躺著餵食</strong></li>
+      <li><strong>提醒病人「下巴想去看肚臍」</strong>:這是預防嗆到最有效的姿勢。家屬看到病人仰頭喝水,立刻提醒</li>
+      <li><strong>準備合適質地的食物</strong>:從醫院出院帶餐回來時,確認是「軟質」階段。<strong>不要因為「家裡阿公愛吃硬的」就提供乾餅乾、堅果</strong></li>
+      <li><strong>注意「沉默吸入」的徵兆</strong>:有些病人嗆到不會大聲咳。觀察:進食中突然<strong>聲音變沙啞、輕微清喉嚨、眼睛泛淚</strong> — 這些是「沉默吸入」的徵兆,立刻停止餵食、告訴護理師</li>
+      <li><strong>進食後維持坐姿 30 分鐘</strong>:不要吃完就立刻躺下,避免胃內容物逆流引起嗆到</li>
+      <li><strong>留下「吃了什麼、有沒有嗆」的紀錄</strong>:輪班的家屬有共同的依據,護理師也能掌握進度</li>
+    </ul>
+    <div class="warn-row-inline">
+      <strong>⚠ 最常見的家屬好意陷阱 — 「他口乾,我餵他一口水就好」</strong><br>
+      家屬看到病人嘴唇乾、口乾抱怨,本能想<strong>餵一茶匙水緩解</strong>。但<strong>在還沒通過吞嚥評估閘門前,這「一口水」是吸入性肺炎最常見的原因</strong>。請改用<strong>濕棉棒沾水濕潤嘴唇、或冰塊輕觸嘴唇</strong>緩解口乾感 — 兩種都是安全的替代方式。<strong>「等護理師說可以喝水」</strong>是黃金原則,沒有例外。
+    </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>術後恢復鏈閱讀路徑</h4>
+    <div class="sub">「<strong>從拔管 → 進食</strong>」是一個漸進的過程,每一步都有保護機制。7-5 是這條鏈中的<strong>「安全閘門」節點</strong>。</div>
+    <ol>
+      <li>早期拔管 6-2(拔管 = 進食恢復的前提)</li>
+      <li>HFNC 高流量鼻導管 6-6(舒適呼吸支援 — 不影響說話喝水進食)</li>
+      <li>術後疼痛 5-1b(TEE 喉嚨痛、會呼吸的痛、止痛策略延續)</li>
+      <li class="current"><strong>拔管後吞嚥暫時困難 7-5(您正在讀:進食前的安全閘門)</strong></li>
+      <li>術後喝水進食 7-7(通過閘門後的正式進食 — 下一篇)</li>
+      <li>心臟飲食 9-3(出院後的長期飲食原則)</li>
+      <li>術後咳嗽 7-2(咳嗽反射是吞嚥安全的前提)</li>
+      <li>認知復健 8-1a · 8-1b(意識清醒度是吞嚥安全的前提)</li>
+      <li>主動恢復入門 10-1a(通過吞嚥閘門後的主動進食恢復)</li>
+      <li>整套衛教整合與終身指南 10-1b(術後恢復鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

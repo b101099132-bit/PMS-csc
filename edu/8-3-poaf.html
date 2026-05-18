@@ -570,6 +570,259 @@
   .discharge { padding: 20px 22px; }
   .lifestyle { padding: 18px 20px; }
   .outlook { padding: 18px 20px; }
+  .patient-actions { padding: 18px 20px; }
+  .family-self-care { padding: 18px 20px; }
+  .silent-warning { padding: 18px 20px; }
+  .cha2ds2-tier { padding: 16px 18px; }
+  .amio-warning { padding: 16px 18px; }
+  .kids-note { padding: 18px 20px; }
+  .cost-note { padding: 16px 18px; }
+}
+
+/* 病人「您能配合的事」 */
+.patient-actions {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-actions h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.patient-actions ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.patient-actions ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.patient-actions ul li:last-child { margin-bottom: 0; }
+.patient-actions ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 家屬 self-care(對等 8-1b / 8-2) */
+.family-self-care {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.family-self-care h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.family-self-care .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.family-self-care p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.family-self-care p strong { color: var(--ink); font-weight: 600; }
+.family-self-care ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.family-self-care ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.family-self-care ul li strong { color: var(--ink); font-weight: 600; }
+.family-self-care .help-channels {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.family-self-care .help-channels strong { color: var(--safe); font-weight: 700; }
+
+/* 無症狀獨立強警示 */
+.silent-warning {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 4px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin: 12px 0 24px;
+}
+.silent-warning h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+.silent-warning p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.silent-warning p:last-child { margin-bottom: 0; }
+.silent-warning p strong { color: var(--ink); font-weight: 600; }
+.silent-warning .key { color: var(--danger); font-weight: 700; }
+
+/* CHA₂DS₂-VASc 分數區隔 */
+.cha2ds2-tier {
+  margin: 12px 0 0;
+  padding: 18px 22px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+}
+.cha2ds2-tier h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+.cha2ds2-tier .ct-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.cha2ds2-tier .ct-row:last-of-type { border-bottom: none; }
+.cha2ds2-tier .ct-score {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gold);
+}
+.cha2ds2-tier .ct-meaning {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.cha2ds2-tier .ct-meaning strong { color: var(--ink); font-weight: 600; }
+
+/* amiodarone 長期副作用提醒 */
+.amio-warning {
+  margin: 10px 0 0;
+  padding: 14px 16px;
+  background: var(--danger-bg);
+  border-radius: 3px;
+  border-left: 2px solid var(--danger);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.amio-warning strong { color: var(--ink); font-weight: 600; }
+.amio-warning .label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  color: var(--danger);
+  font-size: 13px;
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+
+/* 12 歲以下小朋友議題 */
+.kids-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.kids-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.kids-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.kids-note p strong { color: var(--ink); font-weight: 600; }
+.kids-note ul {
+  margin: 8px 0 0;
+  padding-left: 22px;
+}
+.kids-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 5px;
+}
+.kids-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 自費 vs 健保(整套系列準則) */
+.cost-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--teal);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin: 12px 0 24px;
+}
+.cost-note h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.cost-note p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.cost-note p:last-child { margin-bottom: 0; }
+.cost-note p strong { color: var(--ink); font-weight: 600; }
+.cost-note ul {
+  margin: 4px 0 8px;
+  padding-left: 22px;
+}
+.cost-note ul li {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 3px;
+}
+.cost-note ul li strong { color: var(--ink); font-weight: 600; }
+.cost-note .help-line {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.7;
 }
 </style>
 </head>
@@ -613,6 +866,18 @@
     <div class="lex-row">
       <span class="lex-term">心律調節 vs 節律恢復</span>
       <span class="lex-def">兩種治療方向。<strong>心律調節</strong>:讓心跳慢下來但保持心顫;<strong>節律恢復</strong>:用藥或電擊把心顫轉回正常竇性節律。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">乙型阻斷劑(β-blocker)</span>
+      <span class="lex-def"><strong>讓心跳慢下來的藥</strong>(俗稱「擋心臟受刺激」的藥)。對抗腎上腺素類荷爾蒙對心臟的刺激,使心跳變慢、血壓下降、心臟負擔減輕。台灣常見:<strong>天諾敏(Atenolol)、康肯(Bisoprolol)、必效素(Inderal)</strong>。POAF 病人最常使用的核心藥物之一,<strong>術前不可自行停藥</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">amiodarone(臟得樂)</span>
+      <span class="lex-def">最常用的<strong>抗心律不整藥</strong>。能把心顫轉回正常心律、預防心顫再發。短期使用安全,但<strong>長期使用(超過 1 年)需定期檢查甲狀腺、肝、肺功能</strong> — 詳見下方「方向 02 · 節律恢復」內的長期副作用提醒。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">CHA₂DS₂-VASc 評分</span>
+      <span class="lex-def">國際通用的<strong>心顫中風風險計算工具</strong>。從<strong>年齡、性別、高血壓、糖尿病、心衰竭、過去中風</strong>等 7 項因子計算 0-9 分。<strong>分數越高,中風風險越大,使用抗凝血劑的好處越明顯</strong>。詳見下方「方向 03 · 抗凝血預防」內的具體分數區隔。</span>
     </div>
   </div>
 
@@ -735,6 +1000,14 @@
     </div>
   </div>
 
+  <!-- Silent POAF danger warning -->
+  <div class="silent-warning">
+    <h4>⚠ 「無症狀心顫」最危險 — 完全沒感覺,中風風險不會比較低</h4>
+    <p>很多病人會以為「我沒感覺,應該沒事」 — 但<strong>無症狀心顫的中風風險,跟有症狀的心顫一樣高</strong>。心顫造成中風的機轉是<strong>心房裡形成血塊 → 隨血流跑到腦部</strong> — 這個過程<span class="key">與您是否感覺到心跳異常無關</span>。</p>
+    <p><strong>為什麼無症狀反而危險?</strong>因為病人不會主動就醫、不知道要量脈搏、家屬也沒意識要觀察 — <strong>等到中風才發現「原來有心顫」</strong>。本院在住院期間用<strong>連續心電圖監測</strong>主動偵測,就是要攔截這種「沒警報的危險」。</p>
+    <p><strong>出院後怎麼辦?</strong><strong class="key">學會量脈搏(家屬也要學)</strong> + 定期回診做心電圖 + 任何「心跳怪怪的」感覺都告訴醫師。即使您完全沒感覺,如果醫師確認過 POAF,出院後仍須<strong>規律服用抗凝血劑與乙型阻斷劑</strong>。</p>
+  </div>
+
   <!-- Risk factors -->
   <div class="section-title">誰更容易發生 POAF</div>
 
@@ -848,6 +1121,12 @@
       <h4>恢復為正常心律</h4>
       <div class="t-en">Rhythm Control</div>
       <p>使用<strong>amiodarone(臟得樂,最常用)、ibutilide(伊布利特)</strong>等抗心律不整藥,或在必要時施行<strong>電擊整流</strong>(短暫麻醉下用電擊把心顫轉回正常)。目標是<strong>把心律拉回竇性節律</strong>。</p>
+
+      <div class="amio-warning">
+        <span class="label">⚠ amiodarone(臟得樂)長期使用提醒</span>
+        amiodarone 是最有效的抗心律不整藥之一,但<strong>長期使用(尤其超過 6-12 個月)有特殊副作用需要監測</strong>:<strong>甲狀腺異常</strong>(亢進或低下)、<strong>肺纖維化</strong>(罕見但嚴重)、<strong>肝功能異常</strong>、<strong>皮膚對陽光敏感(出現灰藍色色素沉澱)</strong>、<strong>角膜微小沉積</strong>(視力影響輕微但需追蹤)。<strong>使用 amiodarone 超過 3-6 個月的病人,本院會安排定期回診檢查甲狀腺功能、肝功能、胸部 X 光</strong>。請<strong>不要因為「短期沒事」就跳過追蹤</strong> — 這些副作用早期辨識都可逆。如果出現<strong>持續咳嗽、體重快速變化、皮膚異常變色、視力模糊</strong>,請主動回診。
+      </div>
+
       <div class="when">適合:<strong>60 歲以下、希望儘早回到正常生活、不想長期吃藥</strong>、症狀明顯影響生活、血壓不穩需立刻處理者</div>
     </article>
 
@@ -855,7 +1134,26 @@
       <div class="t-num">方向 03 · 抗凝血預防中風</div>
       <h4>避免血塊形成</h4>
       <div class="t-en">Anticoagulation</div>
-      <p>當心顫<strong>持續超過 48 小時</strong>,或<strong>醫師評估您的中風風險偏高</strong>時,醫師會用一個專業的風險計算工具(英文叫 CHA₂DS₂-VASc),把您的<strong>年齡、性別、是否高血壓、糖尿病、過去是否中風</strong>等綜合計算,<strong>算出您的中風風險級別</strong>。<strong>評分越高,使用抗凝血劑的好處越大</strong>。醫師會開立抗凝血劑(warfarin 或新型口服抗凝血劑 DOAC,如艾必克凝、拜瑞妥、普栓達)。<strong>多數情況下是暫時性</strong>(30 天到 3 個月)。如果您想知道自己的評分,請在出院前詢問醫師。</p>
+      <p>當心顫<strong>持續超過 48 小時</strong>,或<strong>醫師評估您的中風風險偏高</strong>時,醫師會用一個專業的風險計算工具(英文叫 CHA₂DS₂-VASc),把您的<strong>年齡、性別、是否高血壓、糖尿病、過去是否中風</strong>等綜合計算,<strong>算出您的中風風險級別</strong>。<strong>評分越高,使用抗凝血劑的好處越大</strong>。醫師會開立抗凝血劑(warfarin 或新型口服抗凝血劑 DOAC,如艾必克凝、拜瑞妥、普栓達)。<strong>多數情況下是暫時性</strong>(30 天到 3 個月)。</p>
+
+      <div class="cha2ds2-tier">
+        <h5>CHA₂DS₂-VASc 評分的臨床意義</h5>
+        <div class="ct-row">
+          <div class="ct-score">0 分</div>
+          <div class="ct-meaning"><strong>低中風風險</strong> — 一般不建議常規抗凝血治療。年度中風風險約 0.2%。即使心顫,通常以心律調節為主。</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-score">1 分</div>
+          <div class="ct-meaning"><strong>中等中風風險</strong> — 抗凝血治療可考慮(年度中風風險約 0.6-2%)。本院醫師會依您的整體狀況(出血風險、年齡、共病、抗凝血藥種類)個別討論利弊。</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-score">≥ 2 分</div>
+          <div class="ct-meaning"><strong>高中風風險,建議抗凝血治療</strong> — 年度中風風險 2-9% 以上。多數情況下抗凝血劑的「預防中風好處」遠大於「出血風險」,本院會主動建議使用。</div>
+        </div>
+        <p style="margin-top: 10px; font-size: 12.5px; color: var(--ink-faint); line-height: 1.75;">
+          ※ <strong>女性自動加 1 分</strong>(性別 V 因子) — 這是 CHA₂DS₂-VASc 中性別本身計入的設計。如果您想知道自己的具體評分與用藥建議,請<strong>在出院前直接詢問醫師</strong>。
+        </p>
+      </div>
       <div class="when">適合:<strong>心顫持續超過 48 小時</strong>、年齡 + 共病評估後中風風險偏高、即使心律暫時恢復仍需短期使用者</div>
     </article>
   </div>
@@ -903,10 +1201,87 @@
       <li><strong>學會量脈搏</strong> —— 把食指與中指放在病人手腕內側(大拇指那側),數 30 秒乘以 2 = 每分鐘心跳。<strong>正常 60–100 下且規律;心顫時通常 &gt; 100 且不規律</strong>。學會這個技巧,您能第一時間發現異常</li>
       <li><strong>提醒按時服藥</strong> —— 特別是抗凝血劑、乙型阻斷劑。病人可能因為「感覺不到症狀」而忘記吃 —— 協助設手機鬧鐘、放藥盒在顯眼處</li>
       <li><strong>辨識中風的 FAST 徵兆</strong> —— 臉部不對稱、單側手腳無力、講話不清 —— 一旦出現,<strong>立即叫救護車</strong>,不要自行開車送急診 <span class="link-ref">連結 8-1b</span></li>
-      <li><strong>觀察出血徵兆</strong> —— 黑便、血尿、嚴重瘀青、流鼻血止不住 —— 抗凝血劑可能讓出血加重</li>
+      <li><strong>觀察出血徵兆</strong> —— 黑便、血尿、嚴重瘀青、流鼻血止不住 —— 抗凝血劑可能讓出血加重 <span class="link-ref">連結 5-2</span></li>
       <li><strong>協助記錄症狀</strong> —— 病人可能會說「昨天好像有心悸」但忘了具體時間。家屬幫忙記錄(時間、持續多久、有沒有伴隨症狀),回診時告訴醫師</li>
       <li><strong>觀察跌倒風險</strong> —— 抗凝血劑使用中,<strong>跌倒撞到頭可能造成腦出血</strong>,協助確保居家環境安全(移除地毯絆腳處、浴室加裝扶手等)</li>
     </ul>
+  </div>
+
+  <!-- Patient actions -->
+  <div class="section-title">您能配合的事 — 病人視角</div>
+
+  <div class="patient-actions">
+    <h4>給病人本人:POAF 的住院期 + 出院後您能主動做的事</h4>
+    <ul>
+      <li><strong>主動告訴護理師「我心臟好像跳得怪怪的」</strong> — 即使不確定是不是 POAF,主動回報是讓團隊及早處理的關鍵</li>
+      <li><strong>有任何症狀(心悸、胸悶、頭暈、喘)都不要忍</strong> — 不要覺得「等查房再說」或「等下次抽血再問」。POAF 時間越早處理,需要的治療越輕</li>
+      <li><strong>學會自己量脈搏</strong> — 不只是家屬的事,您自己也可以。手腕內側兩指、數 30 秒乘 2。出院後每天 1-2 次,記錄起來</li>
+      <li><strong>絕對不要自行停藥</strong>(乙型阻斷劑、抗凝血劑) — 即使您感覺很好、覺得「應該不用吃了」。<strong>突然停乙型阻斷劑是 POAF 強誘因</strong>,自行停抗凝血劑可能讓累積的血塊脫落造成中風</li>
+      <li><strong>抗凝血劑使用期間的日常注意</strong>:刷牙改用軟毛刷、刮鬍子改用電動刮鬍刀、避免赤腳走路、流鼻血或瘀青擴大要主動回診</li>
+      <li><strong>戒酒、減少咖啡因、避免熬夜</strong> — 這些都是 POAF 強誘因。「假日心臟症候群」(短時間大量飲酒誘發心顫)對曾經 POAF 的人閾值更低</li>
+      <li><strong>對「長期吃藥」不要羞愧或抗拒</strong> — POAF 後可能需要 1-3 個月的藥物治療,少數人需要長期。<strong>長期管理的心顫,不是失敗,是與您身體共存的正常選項</strong></li>
+      <li><strong>主動配合定期回診與檢查</strong> — 24 小時心電圖、抽血(看肝、腎、甲狀腺功能,特別是 amiodarone 病人)、超音波。任何一項都不要跳過</li>
+    </ul>
+  </div>
+
+  <!-- Family self-care -->
+  <div class="section-title">給家屬的安心話 — 您也需要被照顧</div>
+
+  <div class="family-self-care">
+    <h4>陪伴 POAF 病人是一場長期戰役,不是短期事件</h4>
+    <div class="sub">您的體力、心理健康,是病人後續恢復的依靠</div>
+    <p>POAF 與譫妄的不同在於:譫妄是急性、會過去;<strong>POAF 可能變成需要長期管理的慢性議題</strong>。很多家屬會發現:住院期那 1-2 週的緊張結束後,出院後變成「<strong>無限期的提醒服藥、量脈搏、擔心中風</strong>」 — 這種<strong>長期照顧者疲勞</strong>是真實且常見的。</p>
+    <ul>
+      <li><strong>把監測責任分散給多位家人輪流</strong>,不要一個人扛 — 量脈搏、提醒服藥、回診接送可以輪班</li>
+      <li><strong>用工具減少記憶負擔</strong>:手機 app 設定服藥鬧鐘、藥盒按日分裝、回診時間寫在共用日曆</li>
+      <li><strong>不要把每一次心悸都當作大事</strong> — 確認量過脈搏、確認沒有 FAST 徵兆後,稍作休息觀察就好。<strong>把每次都當作緊急會耗盡您的心力</strong></li>
+      <li><strong>家屬也要照顧自己的心血管健康</strong> — 您現在的壓力、不規律飲食、睡眠不足,也會增加自己的心血管風險。<strong>不要為了照顧家人而犧牲自己的健康</strong></li>
+      <li>如果您發現自己<strong>失眠、食慾差、容易掉眼淚、對「萬一中風怎麼辦」過度焦慮</strong>,請主動求助</li>
+    </ul>
+    <div class="help-channels">
+      <strong>具體求助管道</strong>:院內社工師(請護理師代為聯絡)、院內臨床心理師、衛福部安心專線 <strong>1925</strong>(24 小時免費)、生命線 <strong>1995</strong>、心臟病友家屬支持團體(請洽心臟科門診)。<strong>長期照顧者的疲勞與焦慮,早期求助比晚期治療有效得多</strong>。
+    </div>
+  </div>
+
+  <!-- Kids under 12 -->
+  <div class="section-title">如果家中有 12 歲以下的小朋友</div>
+
+  <div class="kids-note">
+    <h4>「爺爺/奶奶/爸爸/媽媽心跳會亂跳」對小朋友的解釋</h4>
+    <p>POAF 的特殊性是<strong>「外觀通常看不出來」</strong> — 病人看起來正常、能說話能走路,但心臟內部有問題。對小朋友來說,這比譫妄、傷口、管路<strong>更難理解</strong> — 「<strong>為什麼爺爺看起來好好的卻還要一直吃藥?</strong>」</p>
+    <p><strong>建議做法</strong>:</p>
+    <ul>
+      <li><strong>用小朋友懂的比喻</strong>:「<strong>爺爺的心臟像一個節拍器,有時候會走得太快太亂。醫生開的藥就是讓節拍器走回正常速度</strong>」 — 比「心顫」「中風風險」這類術語有效得多</li>
+      <li><strong>讓大一點的孩子(8 歲以上)學量脈搏</strong> — 這是個簡單的科學遊戲,既能讓他們參與守護,也能化解「爺爺看起來好好的為什麼還要小心」的困惑</li>
+      <li><strong>不要說「爺爺隨時可能中風」</strong> — 這會讓孩子過度焦慮、害怕單獨陪伴。改說「<strong>爺爺吃藥就會很安全,我們會幫忙提醒他吃藥</strong>」</li>
+      <li><strong>避免讓小朋友看到出血徵兆的處理</strong>(如黑便檢查、嚴重瘀青) — 即使這在抗凝血劑使用中是正常監測,孩子可能會誤解</li>
+      <li><strong>讓小朋友參與「藥盒分裝」、「家屬日曆寫提醒」</strong> — 這把照顧變成全家共同的小任務,而不是大人的負擔</li>
+    </ul>
+  </div>
+
+  <!-- Cost note(整套系列已建立準則) -->
+  <div class="section-title">POAF 治療的自費與健保</div>
+
+  <div class="cost-note">
+    <h5>POAF 治療涉及的費用與健保項目</h5>
+    <p><strong>絕大多數 POAF 治療都在健保範圍內</strong>,本院的標準照護不會讓病人因為費用而錯過必要治療。</p>
+    <p><strong>健保涵蓋</strong>:</p>
+    <ul>
+      <li><strong>所有心律不整治療藥物</strong>(乙型阻斷劑、amiodarone、digoxin、鈣離子通道阻斷劑等)</li>
+      <li><strong>warfarin(可邁丁)抗凝血劑</strong>(傳統藥物)</li>
+      <li><strong>新型口服抗凝血劑(DOAC:艾必克凝、拜瑞妥、普栓達)</strong>在符合健保給付條件時涵蓋</li>
+      <li><strong>電擊整流(cardioversion)</strong>住院期間使用,健保涵蓋</li>
+      <li><strong>住院期間連續心電圖監測</strong></li>
+    </ul>
+    <p><strong>可能涉及自費</strong>:</p>
+    <ul>
+      <li><strong>不符健保條件的 DOAC</strong>(如腎功能不在指定範圍、評分未達門檻等) — 醫師會與您討論利弊</li>
+      <li><strong>24 小時連續心電圖外加付費型監測</strong>(如某些 7 天連續心律記錄器)</li>
+      <li><strong>電燒手術(catheter ablation)</strong> — 用於頑固性、復發性心顫,部分自費,需個別評估</li>
+    </ul>
+    <div class="help-line">
+      <strong>如有經濟負擔考量,請直接告訴醫師或護理師</strong>。團隊會優先採用健保項目,必要時可協助轉介社工資源。POAF 的核心治療(乙型阻斷劑 + 必要時抗凝血劑)都在健保範圍內,<strong>不會因為費用而影響您的治療品質</strong>。
+    </div>
   </div>
 
   <!-- Outlook -->
@@ -964,18 +1339,24 @@
 
   <!-- Reading map -->
   <div class="reading-map">
-    <h4>POAF 與心律相關的閱讀路徑</h4>
-    <div class="sub">這份單張在整套衛教中的位置</div>
+    <h4>POAF 與心律相關的閱讀路徑 — 術後併發症完整指引</h4>
+    <div class="sub">這份單張位於「<strong>術後併發症三部曲</strong>」第 2 部 — 與譫妄(8-2)、AKI(8-4)並列</div>
     <ol>
-      <li>三種冠狀動脈繞道手術比較(手術類型)</li>
-      <li>體外循環機 CPB(手術原理)</li>
-      <li>凝血功能與止血藥物(凝血基礎)</li>
-      <li>微創 vs 傳統開胸(微創 POAF 較低)</li>
-      <li>多模式止痛(減少誘因)</li>
-      <li>從躺到坐、從站到走(早期活動)</li>
-      <li>譫妄專篇 8-2(另一個常見併發症)</li>
-      <li class="current"><strong>術後心房顫動 POAF 8-3(您正在讀)</strong></li>
-      <li>心臟手術後飲食調整(warfarin 與綠葉蔬菜) 9-3</li>
+      <li>三種冠狀動脈繞道手術比較 3-1(手術類型 — POAF 風險與手術選擇相關)</li>
+      <li>體外循環機 CPB 3-2(手術原理 — CPB 是 POAF 強誘因)</li>
+      <li>微創 vs 傳統開胸 3-3(微創 POAF 較低)</li>
+      <li>凝血功能與止血藥物 5-2(抗凝血劑與止血藥的關係 — 出血/中風雙向風險)</li>
+      <li>多模式止痛 5-1 · 術後疼痛 5-1b(減少誘因 — 疼痛刺激自律神經)</li>
+      <li>早期拔管 6-2 · HFNC 6-6(縮短鎮靜 — 減少交感神經激發)</li>
+      <li>外科加護病房 6-1(住院監測環境)</li>
+      <li>術後神經學評估 病人版 8-1a · 家屬版 8-1b(FAST 中風辨識)</li>
+      <li>譫妄專篇 8-2(術後併發症三部曲第 1 部)</li>
+      <li class="current"><strong>術後心房顫動 POAF 8-3(您正在讀:術後併發症三部曲第 2 部)</strong></li>
+      <li>術後急性腎損傷 AKI 8-4(術後併發症三部曲第 3 部)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(早期活動降低 POAF)</li>
+      <li>心臟手術後飲食調整 9-3(warfarin 與綠葉蔬菜)</li>
+      <li>主動恢復入門 10-1a(出院後規律有氧運動)</li>
+      <li>整套衛教整合與終身指南 10-1b(術後併發症三部曲完整收束 — 集大成篇)</li>
     </ol>
   </div>
 

@@ -294,7 +294,48 @@
   .removal { padding: 22px 22px; }
   .training { padding: 18px 20px; }
   .warn-box { padding: 16px 18px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* 您會感覺到什麼(對齊 4-6 / 6-2 / 6-3 命名) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -310,7 +351,7 @@
   <!-- Lead -->
   <div class="lead">
     <strong>一條暫時的管子，做兩件對您恢復至關重要的事</strong>
-    <p>心臟手術後，您身上會有幾條暫時的管路，<span class="em">尿管（俗稱導尿管、Foley catheter）</span>是其中重要的一條。它在手術中放置、術後留置 1–2 天 —— 醒來後您可能會發現「<span class="em">自己沒有去廁所，但尿是自動流出來的</span>」，那就是這條管子在工作。</p>
+    <p>心臟手術後,您身上會有幾條暫時的管路,<span class="em">「尿管」(正式名稱是「導尿管」,英文 Foley catheter,因發明者命名)</span>是其中重要的一條 ——<strong>三個名稱指的是同一個東西</strong>,本份統一使用「尿管」。它在手術中放置、術後留置 1–2 天 —— 醒來後您可能會發現「<span class="em">自己沒有去廁所,但尿是自動流出來的</span>」,那就是這條管子在工作。</p>
     <p>尿管不是「插著好玩」 —— 它有兩個關鍵任務：<span class="em">避免您尿不出來、膀胱脹爆，並幫團隊精準掌握您的腎臟狀況</span>。當您能自己下床走到廁所、本院的早期活動進度達標，這條管子就會「畢業」，由您自己接手。</p>
   </div>
 
@@ -319,7 +360,7 @@
     <h4>名詞速查</h4>
     <div class="lex-row">
       <span class="lex-term">膀胱訓練</span>
-      <span class="lex-def">（Foley training）移除尿管前讓膀胱「重新學會」儲存與排空訊號的訓練過程。</span>
+      <span class="lex-def">(Foley training,病房常聽到「<strong>夾尿管訓練</strong>」就是這個)移除尿管前讓膀胱「重新學會」儲存與排空訊號的訓練過程。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">尿滯留</span>
@@ -353,7 +394,7 @@
       <h4>幫團隊精準掌握您的腎臟狀況</h4>
       <div class="why">尿量是反映腎臟血流與心臟輸出最直接的指標</div>
       <p>心臟手術過程中，<strong>腎臟對血流變化非常敏感</strong>。每一小時尿了多少 cc，是團隊判斷您<strong>腎臟有沒有得到足夠血液、心臟每分鐘打出的血量是否正常、身體含水量是否平衡</strong>的關鍵數據。</p>
-      <p>留置尿管能<strong>精準到每小時、每 cc</strong>的記錄。如果不靠尿管，依賴病人自己感覺與如廁，根本無法達到這種精準度。</p>
+      <p>留置尿管能<strong>精準到每小時、每 cc</strong>的記錄。如果不靠尿管,依賴病人自己感覺與如廁,根本無法達到這種精準度。這份數據是團隊判斷<strong>是否出現急性腎損傷(AKI)</strong>的最重要早期警示之一 <span class="link-ref">連結 8-4</span>。</p>
     </article>
   </div>
 
@@ -395,7 +436,7 @@
   <div class="section-title">Foley training 是什麼</div>
 
   <p class="section-intro">
-    移除尿管前，本院會做一個叫做<span class="em">「Foley training」（膀胱訓練）</span>的步驟 —— 這是為了讓膀胱「重新學會」自己工作。
+    移除尿管前,本院會做一個叫做<span class="em">「Foley training」(膀胱訓練,病房常聽到「<strong>夾尿管訓練</strong>」就是這個)</span>的步驟 —— 這是為了讓膀胱「重新學會」自己工作。
   </p>
 
   <div class="training">
@@ -425,12 +466,13 @@
 
   <div class="removal-process">
     <h4>許多病人最焦慮的時刻 —— 但其實過程很快</h4>
-    <div class="sub">整個過程 5–10 秒，可能短暫不適但不會劇烈疼痛</div>
+    <div class="sub">整個過程 5–10 秒,可能短暫不適但不會劇烈疼痛</div>
     <ol>
-      <li>護理師會先把氣球裡的水抽掉（<strong>讓氣球變回小管子</strong>），這個步驟您完全感覺不到</li>
-      <li>接著順著尿道把管子<strong>緩慢拉出</strong>，整個過程約 5–10 秒</li>
-      <li>可能會有<strong>短暫的擠壓感、輕微刺痛、或想尿的感覺</strong>，但<strong>不會是劇烈疼痛</strong></li>
-      <li>拔完後 1–2 小時內可能有<strong>輕微灼熱感</strong>，多喝水會明顯改善</li>
+      <li><strong>護理師會請您「深呼吸、慢慢吐氣、放鬆下半身」</strong> —— 這個動作很重要,<strong>放鬆的尿道阻力會比緊繃時小很多</strong>(就像水管彎折時水流不過去、伸直就順暢)。請不要因為緊張而<strong>提肛、夾緊</strong> —— 那會讓拔管當下更不舒服</li>
+      <li>護理師會先把氣球裡的水抽掉(<strong>讓氣球變回小管子</strong>),這個步驟您完全感覺不到</li>
+      <li>接著順著尿道把管子<strong>緩慢拉出</strong>,整個過程約 5–10 秒</li>
+      <li>可能會有<strong>短暫的擠壓感、輕微刺痛、或想尿的感覺</strong>,但<strong>不會是劇烈疼痛</strong></li>
+      <li>拔完後 1–2 小時內可能有<strong>輕微灼熱感</strong>,多喝水會明顯改善</li>
     </ol>
     <div class="duration">
       <strong>整個過程通常 5–10 秒就結束</strong> —— 不需要在前一個小時就開始緊張
@@ -478,6 +520,38 @@
     </div>
   </div>
 
+  <!-- Patient experience -->
+  <div class="section-title">留置期間您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從醒來到拔管的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">醒來時</div>
+      <div class="tr-what">您可能會發現<strong>自己沒有去廁所,但完全沒有想尿的感覺</strong> —— 這是麻醉藥與止痛藥讓膀胱反射暫時遲鈍的結果。<strong>不是「您忘了去廁所」</strong>,也<strong>不是「膀胱壞了」</strong>,而是團隊已經幫您處理好排尿。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">翻身 / 坐起時</div>
+      <div class="tr-what">會感覺<strong>下腹有輕微的牽扯感</strong>(管子隨著動作位移),這是正常的。動作前先確認尿管方向、不要壓到。<strong>不會劇痛</strong>,如果感覺刺痛或拉扯很厲害,告訴護理師。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">下床走路時</div>
+      <div class="tr-what">引流袋會掛在<strong>低於膀胱的位置</strong>(走路時護理師會用專用提袋,放在您手邊腰下高度)。第一次下床覺得「<strong>多了一個東西要顧</strong>」是正常的,走過一兩次就會習慣。引流袋輕,不影響行走平衡。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">夾尿管訓練期間</div>
+      <div class="tr-what">會感覺<strong>下腹漸漸有脹感、想尿的訊號</strong> —— 這就是膀胱在「重新學會工作」的證據。脹感應該是「<strong>有點想尿但能忍</strong>」的程度,不應該是劇烈脹痛。如果明顯不舒服,告訴護理師,團隊會提早放開引流。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">拔尿管後</div>
+      <div class="tr-what">短期可能有<strong>頻尿、輕微灼熱</strong>(尿道對管子的記憶感覺),多喝水會明顯改善。第一次自己去廁所可能有點緊張,<strong>但您會發現「身體還記得怎麼解尿」</strong> —— 這就是夾尿管訓練的成果。</div>
+    </div>
+  </div>
+
   <!-- What you can do -->
   <div class="section-title">您能配合的事</div>
 
@@ -486,9 +560,10 @@
     <ul>
       <li><strong>移動或翻身前確認管路位置</strong>：避免拉扯，請護理師或家屬協助</li>
       <li><strong>引流袋保持低於膀胱位置</strong>：避免尿液逆流回膀胱（增加感染風險）</li>
+      <li><strong>下床走路時引流袋的處理</strong>：由護理師示範後再嘗試,<strong>第一次必須有護理師陪同</strong>。引流袋會用<strong>專用提袋</strong>放在手邊腰下高度(保持低於膀胱),步伐要小、速度要慢,引流袋不要劇烈晃動。男生要特別注意褲子高度,避免管子被勾到</li>
       <li><strong>多喝水</strong>（除非醫師指示限水）：尿液稀釋、降低感染風險</li>
       <li><strong>觀察尿量與顏色</strong>：突然減少、顏色變深變紅 → 主動告知</li>
-      <li><strong>會陰部保持清潔</strong>：護理師每天會用無菌方式做尿管周圍清潔 —— 這是預防感染的標準照護。<strong>請放心，這是所有留尿管病人都會經歷的常規動作</strong></li>
+      <li><strong>會陰部(就是私密處周圍)保持清潔</strong>：護理師每天會用無菌方式做尿管周圍清潔 —— 這是預防感染的標準照護。<strong>護理師受過完整的專業訓練,這是所有留尿管病人都會經歷的常規動作,請不要覺得不好意思</strong>,您配合就好。如果有特別在意性別、或想要請特定性別的護理師協助,可以告訴護理長</li>
       <li><strong>移除後主動嘗試解尿</strong>：不要等到下腹很脹才去廁所</li>
       <li><strong>任何不適主動告知</strong>：刺痛、灼熱、尿從管子周圍流出</li>
     </ul>
@@ -513,19 +588,18 @@
 
   <!-- Reading map -->
   <div class="reading-map">
-    <h4>術後恢復的時序鏈</h4>
-    <div class="sub">這份單張在整套恢復鏈中的位置</div>
+    <h4>術後管路衛教鏈閱讀路徑</h4>
+    <div class="sub">所有管路都是<strong>暫時的橋樑</strong>,目標都是「畢業」。下面是構成這條鏈的單張與相關串連。</div>
     <ol>
-      <li>早期拔管（術後立即清醒）</li>
-      <li>HFNC · 高流量鼻導管（拔管後過渡）</li>
-      <li>多模式止痛（讓動作不痛、膀胱反射早恢復）</li>
-      <li>認知復健 — 病人版/家屬版（守護腦部）</li>
-      <li>吞嚥安全評估 · 喝水進食</li>
-      <li>術後咳嗽與咳痰</li>
-      <li>從躺到坐</li>
-      <li>從站到走</li>
-      <li class="current"><strong>認識術後尿管（您正在讀）</strong></li>
-      <li>認識胸管引流</li>
+      <li>早期拔管 6-2(術後第一個拔的管路:氣管內管)</li>
+      <li>HFNC 高流量鼻導管 6-6(拔氣管內管後的呼吸支援)</li>
+      <li>認識胸管引流 6-3(術後另一條重要管路 — 結構對等的姐妹篇)</li>
+      <li class="current"><strong>認識術後尿管 6-4(您正在讀)</strong></li>
+      <li>術中多模式止痛 5-1(用神經阻斷取代強效鴉片 → 膀胱反射更早恢復 → 尿管更早畢業)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(走到廁所的能力 = 尿管畢業的條件)</li>
+      <li>急性腎損傷 AKI 8-4(尿量是團隊判斷腎臟狀況的關鍵數據 — 任務 02 的延伸閱讀)</li>
+      <li>主動恢復入門 10-1a(尿管移除後的主動恢復)</li>
+      <li>整套衛教整合與終身指南 10-1b(術後管路衛教鏈完整收束 — 集大成篇)</li>
     </ol>
   </div>
 

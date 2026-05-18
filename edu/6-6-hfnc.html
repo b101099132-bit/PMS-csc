@@ -313,7 +313,132 @@
   .device-card .badge { top: 14px; right: 14px; padding: 3px 8px; font-size: 10px; }
   .why-hfnc { padding: 22px 22px; }
   .qa-item { padding: 18px 20px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .family-note { padding: 16px 18px; }
+  .cost-note-inline { padding: 18px 20px; }
 }
+
+/* 您會感覺到什麼(對齊 4-6 / 6-2 / 6-3 / 6-4 / 6-5 命名) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 給家屬的話 */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.family-note p:last-child { margin-bottom: 0; }
+.family-note p strong { color: var(--ink); font-weight: 600; }
+.family-note .calm-box {
+  background: var(--paper);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-size: 13px;
+  border-left: 2px solid var(--safe);
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+.family-note .calm-box strong { color: var(--safe); font-weight: 600; }
+
+/* 自費包套(含 4,500 元健保不符時自費) */
+.cost-note-inline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.cost-note-inline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.cost-note-inline .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.cost-note-inline p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cost-note-inline p:last-child { margin-bottom: 0; }
+.cost-note-inline p strong { color: var(--ink); font-weight: 600; }
+.cost-note-inline .conditional-cost {
+  padding: 12px 14px;
+  background: #FAF1E6;
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+.cost-note-inline .conditional-cost strong { color: var(--ink); font-weight: 600; }
+.cost-note-inline p.help-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+}
+.cost-note-inline p.help-line strong { color: var(--safe); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -332,6 +457,43 @@
     <p>手術室內拔管之後，雖然您已經能自主呼吸，但<span class="em">呼吸用的肌肉力量與肺部功能還在恢復中</span>，需要一段過渡時間。這時候醫療團隊會給予一定的氧氣支持，幫助您舒適、安全地走完這段恢復路。</p>
     <p>術後過渡期的呼吸支持有三種主要設備可以選擇。本院在手術室拔管後<span class="em">全面採用 HFNC（高流量鼻導管氧氣治療）</span>作為過渡期的呼吸幫手。為什麼選 HFNC？以下與另外兩種設備一一比較，您會看到答案。</p>
     <p>另外要特別說明：前面的 CPB、腦氧監測（NIRS）、麻醉深度（BIS）與「早期拔管」一路用<span class="em">「儘早讓您清醒」</span>來守護您的腦部 —— 而拔管後選擇 HFNC，正是<span class="em">這條中風守護鏈的延續</span>。因為 HFNC 不需要鎮靜藥物，您的意識保持清楚，團隊可以隨時與您互動、檢查神經學狀況，任何變化都能第一時間被發現。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">HFNC</span>
+      <span class="lex-def">High-Flow Nasal Cannula,<strong>高流量鼻導管氧氣治療</strong>。本院手術室拔管後的標準呼吸支援設備。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">BiPAP</span>
+      <span class="lex-def">Bi-level Positive Airway Pressure,<strong>雙陽壓面罩呼吸器</strong>。透過緊密貼合的面罩送氣,病人雖無需插管,但<strong>面罩悶感重、容易壓傷臉部</strong>,且無法吃喝說話。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">侵入性呼吸器</span>
+      <span class="lex-def">透過氣管內管直接連接機器代替您呼吸,<strong>需要持續鎮靜</strong>(讓您忍受插管),意識無法清醒。本院只在 HFNC/BiPAP 都不夠時才使用。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">流量</span>
+      <span class="lex-def">每分鐘輸送進鼻孔的氣體公升數。一般氧氣鼻管 <strong>最多 5–6 L/min</strong>,HFNC 可高達 <strong>60 L/min</strong>(約是一般鼻管的 10 倍)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">加溫加濕</span>
+      <span class="lex-def">把送進的氣體<strong>加溫到接近體溫(約 37°C)、加濕到接近 100%</strong>,避免冷乾的氣流刺激鼻腔黏膜。這是 HFNC 與一般鼻管最大的差異之一。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">正壓</span>
+      <span class="lex-def">氣流在呼吸道內形成的輕微氣壓,能<strong>幫助肺泡撐開、降低呼吸費力</strong>。HFNC 的高流量能產生約 3-5 cmH₂O 的輕微正壓。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">中風守護鏈</span>
+      <span class="lex-def">整套系列的核心概念之一:從 CPB(3-2)→ NIRS(4-3)→ BIS(4-4)→ 早期拔管(6-2)→ <strong>HFNC(6-6,本份)</strong>→ 認知復健(8-1a/b)→ 譫妄(8-2),共同守護您的腦部。詳見下方閱讀路徑。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">拔管後呼吸衰竭</span>
+      <span class="lex-def">拔氣管內管後因氧氣不足或呼吸費力,需要重新插管的狀況。HFNC 的核心目的之一就是<strong>降低拔管後呼吸衰竭、避免重新插管</strong>(2015 Stéphan JAMA RCT 證實)。</span>
+    </div>
   </div>
 
   <!-- Three devices comparison -->
@@ -479,13 +641,19 @@
     <h3>讓您「清醒、能說話、能進食」地恢復</h3>
     <div class="sub">這正是早期拔管想為您爭取的時光</div>
     <ul>
-      <li><strong>不需要鎮靜藥物，意識清楚</strong> —— 您的腦部狀態（意識、說話、肢體力量）能被團隊隨時觀察，<strong>這是術後最重要的中風監測方式</strong> <span class="link-ref">連結 8-1a</span></li>
+      <li><strong>不需要鎮靜藥物，意識清楚</strong> —— 您的腦部狀態(意識、說話、肢體力量)能被團隊隨時觀察,<strong>這是術後最重要的中風監測方式</strong> <span class="link-ref">連結 3-2 · 4-3 · 4-4 · 6-2 · 8-1a · 8-2(中風守護鏈)</span></li>
       <li><strong>可以說話</strong>，能告訴團隊您的感受、不舒服、有沒有痛</li>
       <li><strong>可以喝水進食</strong>，加速恢復進食流程 <span class="link-ref">連結 7-7</span></li>
       <li><strong>可以隨時翻身、做床邊復健</strong>，配合早期下床的目標 <span class="link-ref">連結 7-6</span></li>
       <li><strong>能與家屬正常對話</strong>，第一時間與家人說話，互相安心</li>
-      <li><strong>避免侵入性插管的併發症</strong>（呼吸器相關肺炎、譫妄、聲帶刺激）</li>
+      <li><strong>避免侵入性插管的併發症</strong>(呼吸器相關肺炎 VAP、譫妄、聲帶刺激)<span class="link-ref">連結 6-2 · 8-2</span></li>
+      <li><strong>降低呼吸費力</strong> —— 從源頭減少「會呼吸的痛」,讓您敢咳嗽、敢深呼吸 <span class="link-ref">連結 5-1b · 7-2</span></li>
     </ul>
+
+    <div style="margin-top:14px;padding:14px 16px;background:var(--paper);border-radius:3px;border-left:2px solid var(--teal);font-size:13px;line-height:1.8;color:var(--ink-soft);">
+      <strong style="color:var(--teal);">研究證據強度 — 為什麼本院選 HFNC</strong><br>
+      <strong>2015 年 Stéphan 等發表於 JAMA</strong> 的多中心隨機對照試驗(BiPOP 研究,830 位心臟胸腔術後病人)直接比較 HFNC 與 BiPAP,結果顯示:<strong>HFNC 在預防拔管後呼吸衰竭、避免重新插管上的效果不亞於 BiPAP</strong>,且<strong>病人舒適度明顯較高、皮膚壓傷率較低</strong>。<strong>2024 年 ERAS Cardiac Society 共識</strong>也明確建議:心臟術後病人優先使用 HFNC 作為拔管後支援。
+    </div>
   </div>
 
   <!-- Q&A -->
@@ -516,6 +684,102 @@
       <div class="q">家屬探視時可以做什麼？</div>
       <div class="a">這是 HFNC 最大的好處之一 —— 您可以與家屬<strong>正常對話、握手、表達需求</strong>。家屬若注意到您<strong>說話含糊、單側手腳無力、表情不對稱、視力模糊，或意識變得遲鈍</strong>，請立即告知護理人員 <span class="link-ref">連結 8-1b</span>。</div>
     </div>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">使用 HFNC 您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從拔管到完全脫離 HFNC 的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">剛拔管時</div>
+      <div class="tr-what">護理師會立刻把<strong>軟質鼻導管</strong>(比一般氧氣鼻管粗一些)放進您的兩個鼻孔。會感覺<strong>一股溫暖、潮濕的氣流</strong>輕輕吹進鼻孔 —— 像「<strong>有人在您耳邊輕輕吹氣</strong>」的感覺。<strong>不會痛、不會悶、可以正常張嘴呼吸</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">流量較大時</div>
+      <div class="tr-what">會聽到<strong>輕微的氣流聲</strong>(像電風扇開最弱檔的聲音)。這就是 Q&A 提到的「風聲」 —— 是真實的、但不致於吵到無法入睡。隨著恢復,團隊會逐步調降流量,聲音也會越來越小。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">說話 / 喝水 / 進食時</div>
+      <div class="tr-what">您可以<strong>正常進行這些動作</strong>。鼻管不會影響嘴巴 —— 這是 HFNC 與 BiPAP 面罩最大的不同。<strong>許多病人意外發現:第一次跟家人說話時,聲音清楚到讓家人感動到哭</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">睡覺時</div>
+      <div class="tr-what">鼻管會用<strong>柔軟的固定帶繞耳後固定</strong>,不會在睡覺翻身時掉落。可能會稍感到鼻孔處有壓迫感,如果不舒服請告訴護理師調整。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">脫離 HFNC 時</div>
+      <div class="tr-what">當血氧穩定、呼吸不費力時,團隊會逐步把流量從 60 L/min 降到 30、20、10 L/min,最後換成<strong>一般氧氣鼻管</strong>(同樣的鼻管,但流量小、無加溫加濕)。整個過程約 <strong>24-48 小時</strong>。您會自己感覺到「<strong>呼吸越來越輕鬆,不需要那麼多支援</strong>」。</div>
+    </div>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">使用 HFNC 期間 — 請立即告知護理師</div>
+
+  <div class="callout warnings">
+    <h4>這些情況代表呼吸狀況可能變化</h4>
+    <ul>
+      <li><strong>呼吸明顯比剛才喘、感覺氣不夠</strong></li>
+      <li><strong>嘴唇、指甲變紫</strong>(可能代表血氧下降)</li>
+      <li><strong>無法說完整的句子</strong>(說話被呼吸打斷)</li>
+      <li><strong>感覺胸口悶痛、不像剛才</strong></li>
+      <li><strong>頭暈、看到雙影、意識變模糊</strong>(可能是缺氧或中風徵兆)</li>
+      <li><strong>鼻管位置滑開、流量明顯降低</strong></li>
+      <li><strong>鼻孔處感覺乾痛、出血</strong>(加溫加濕系統可能異常)</li>
+      <li><strong>突然嗆到、無法吞口水</strong>(可能氣管異常)</li>
+    </ul>
+  </div>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>給家屬的話 — 進 SICU 看到 HFNC 不要驚慌</h4>
+    <p>家屬第一次走進 SICU 看到病人臉上戴著<strong>粗一點的鼻管</strong>、聽到<strong>嘶嘶的氣流聲</strong>,常會誤以為:</p>
+    <p>
+    ❌「病人是不是還在靠機器呼吸?」<br>
+    ❌「這個機器是不是呼吸器?」<br>
+    ❌「聲音這麼大,病人會不會喘?」
+    </p>
+    <p><strong>都不是</strong>。HFNC <strong>不是呼吸器</strong> —— 它是「協助呼吸的氧氣設備」,病人是<strong>自己在呼吸的</strong>,只是機器幫他輸送加溫加濕的氧氣,讓呼吸更輕鬆。氣流聲是設備正常運作的證據,不是病人喘的聲音。</p>
+    <div class="calm-box">
+      <strong>家屬會看到病人 ——</strong> 醒著、能對話、能眼神接觸、能小聲應答。如果看到病人能跟您正常說話、握手、能小口喝水,就代表「<strong>HFNC 在它的最佳工作狀態</strong>」。多陪伴病人說說話、握握手,這對腦部恢復是最好的支持 <span class="link-ref">連結 6-1 · 8-2</span>。
+    </div>
+  </div>
+
+  <!-- Cost note -->
+  <div class="cost-note-inline">
+    <h4>關於費用 — HFNC 的健保與自費</h4>
+    <div class="sub">本院 HFNC 屬於「條件式自費」設備,費用結構說明如下</div>
+    <p><strong>大多數心臟手術病人:健保給付</strong>。HFNC 在符合健保給付條件(如術後低血氧、特定診斷)下,屬於健保給付項目,病人不需另外付費。</p>
+    <div class="conditional-cost"><strong>若不符健保條件:自費約 4,500 元 / 天</strong>。少數病人因臨床狀況不符合健保給付條件,但團隊評估仍使用 HFNC 對恢復有利時,屬於自費項目。<strong>實際金額以本院最新公告為準</strong>。HFNC 通常使用 1-2 天,因此自費總額大多落在 <strong>4,500-9,000 元</strong>區間。</div>
+    <p><strong>麻醉自費包套</strong>:HFNC 也可能涵蓋在本院麻醉自費包套(5–7 萬元)的整體支援項目中;具體計費方式以您的<strong>麻醉同意書</strong>為準。麻醉科會在<strong>術前訪視</strong>時解釋整套包套內容,但實際使用哪些項目,是由麻醉科醫師依<strong>術中與術後生命徵象</strong>綜合判斷 —— 不需要由您逐項選擇。</p>
+    <p class="help-line"><strong>如有經濟負擔考量</strong>,請直接告訴醫師或護理師。團隊會優先採用健保項目,<strong>麻醉科也有吸收自費的機制可申請</strong>協助您,必要時可協助轉介社工資源。<strong>不要因為費用考量就拒絕 HFNC</strong> —— HFNC 是中風守護鏈的最後一環,費用問題可以事後協助處理。</p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>中風守護鏈 + 術後管路衛教鏈閱讀路徑</h4>
+    <div class="sub">HFNC 同時是<strong>中風守護鏈的最後一環</strong>(讓清醒得以維持)與<strong>術後管路衛教鏈的成員</strong>(拔氣管內管後的銜接)。下面是構成這兩條鏈的單張。</div>
+    <ol>
+      <li>體外循環機 CPB 3-2(中風守護鏈起點:機器接觸風險)</li>
+      <li>NIRS 腦氧監測 4-3(中風守護鏈:即時腦氧)</li>
+      <li>BIS 麻醉深度監測 4-4(中風守護鏈:麻醉深度控制)</li>
+      <li>圍術期體溫管理 4-6(中風守護鏈:過熱會增加神經損傷)</li>
+      <li>凝血功能與止血藥物 5-2(中風守護鏈:出血控制)</li>
+      <li>早期拔管 6-2(中風守護鏈:讓您清醒地進入恢復)</li>
+      <li class="current"><strong>HFNC 高流量鼻導管 6-6(您正在讀:讓清醒得以維持 — 中風守護鏈最後一環)</strong></li>
+      <li>外科加護病房 6-1(HFNC 後抵達的環境)</li>
+      <li>認識胸管 6-3 · 認識尿管 6-4(同屬術後管路衛教鏈)</li>
+      <li>認知復健 病人版 8-1a · 家屬版 8-1b(中風守護鏈下游)</li>
+      <li>譫妄專篇 8-2(中風守護鏈下游)</li>
+      <li>術中多模式止痛 5-1 · 術後疼痛 5-1b(HFNC 從源頭減少「會呼吸的痛」)</li>
+      <li>主動恢復入門 10-1a(HFNC 銜接拔管的主動恢復)</li>
+      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈關鍵節點完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

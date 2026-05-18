@@ -133,7 +133,163 @@
   .rule-card { padding: 18px 20px; }
   .timeline-call { padding: 22px 22px; }
   .timeline-week { width: 60px; font-size: 12px; }
+  .applicability-box { padding: 20px 22px; }
+  .applicability-row { grid-template-columns: 1fr; gap: 4px; }
+  .mechanism-box { padding: 18px 20px; }
+  .scenarios-grid { grid-template-columns: 1fr; }
+  .family-note { padding: 16px 18px; }
 }
+
+/* 對誰適用(本份最重要新區塊) */
+.applicability-box {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+.applicability-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.applicability-box .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.applicability-box .applicability-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.applicability-box .applicability-row:last-of-type { border-bottom: none; }
+.applicability-box .ar-type {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.applicability-box .ar-rules {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.applicability-box .ar-rules strong { color: var(--ink); font-weight: 600; }
+
+/* 為什麼會傷胸骨(機轉) */
+.mechanism-box {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.mechanism-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.mechanism-box p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.mechanism-box p:last-child { margin-bottom: 0; }
+.mechanism-box p strong { color: var(--ink); font-weight: 600; }
+.mechanism-box .force-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.mechanism-box .force-row:last-of-type { border-bottom: none; }
+.mechanism-box .fr-action {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--gold);
+  line-height: 1.5;
+}
+.mechanism-box .fr-effect {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.mechanism-box .fr-effect strong { color: var(--ink); font-weight: 600; }
+
+/* 不舉手過肩 — 6 個常見危險情境 */
+.scenarios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 0 6px;
+}
+.scenarios-grid .scenario-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--warn);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.scenarios-grid .scenario-card strong {
+  color: var(--ink);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12.5px;
+}
+.scenarios-grid .scenario-card .alt {
+  display: block;
+  margin-top: 4px;
+  color: var(--teal);
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+/* 給家屬的話 */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.family-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.family-note ul li:last-child { margin-bottom: 0; }
+.family-note ul li strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -151,6 +307,98 @@
     <strong>胸骨是骨頭，需要 6 週才能完全癒合</strong>
     <p>正中胸骨切開的傷口，皮膚雖然 1–2 週就會表面癒合，但<span class="em">胸骨本身的骨頭需要 4–6 週，才能恢復原本的強度</span>。</p>
     <p>這段「黃金保護期」內，如果動作不當讓胸骨兩半錯位或裂開，<span class="em">輕則延遲癒合，重則需要再次手術修補</span>。所以請務必遵守胸骨保護原則。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">正中胸骨切開</span>
+      <span class="lex-def">Median Sternotomy,<strong>從胸口正中央把胸骨垂直切開</strong>的傳統開心手術方式。手術結束後用鋼絲或鋼板把胸骨重新合上。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">微創手術 · MICS</span>
+      <span class="lex-def">Minimally Invasive Cardiac Surgery,<strong>從肋骨之間的小切口進入</strong>,不切胸骨。<strong>沒有胸骨需要保護</strong>,但仍有肋骨與軟組織需要小心。詳見 <strong>3-3</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">鋼絲固定</span>
+      <span class="lex-def">傳統胸骨閉合方式,健保給付。<strong>本份所有時程都以鋼絲固定為基準</strong>。詳見 <strong>3-4</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">鋼板固定</span>
+      <span class="lex-def">自費(約 10.8 萬)的胸骨閉合方式。<strong>承受力較高、活動限制較少、6 週時程可能略短</strong>。詳見 <strong>3-4</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">黃金保護期</span>
+      <span class="lex-def">術後 <strong>6 週</strong>,是胸骨從「靠鋼絲/鋼板固定」走到「骨頭本身癒合」的關鍵期間。這段期間動作不當的代價最高,也最容易因「我覺得我好了」而過早活動受傷。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">骨痂</span>
+      <span class="lex-def">骨頭癒合時,<strong>切緣周圍長出來的新骨組織</strong>,像「<strong>骨頭的疤痕</strong>」。第 3-4 週初步形成,第 5-6 週成熟,完全骨重塑需 3-6 個月。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">翻身側坐起</span>
+      <span class="lex-def">替代「直接用手撐起」的安全起身方法:<strong>先側躺 → 雙腿先放下床邊 → 用肚子(腹肌)力量帶動身體坐起</strong>。詳見 <strong>7-6a 從躺到坐</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">5 公斤</span>
+      <span class="lex-def">本份用為「重物」的具體標準。<strong>約 5 罐 600 mL 礦泉水、一袋 5 公斤白米、剛出生 1-2 個月的嬰兒</strong>。日常生活很多東西超過這個重量,要養成「先想再拿」的習慣。</span>
+    </div>
+  </div>
+
+  <!-- Applicability -->
+  <div class="section-title">這份單張適合誰</div>
+
+  <div class="applicability-box">
+    <h4>不同手術類型,胸骨保護原則不一樣</h4>
+    <div class="sub">這份內容主要對應「正中胸骨切開」的傳統開心手術。其他手術方式請看下表。</div>
+
+    <div class="applicability-row">
+      <div class="ar-type">傳統開心手術<br>+ 鋼絲固定</div>
+      <div class="ar-rules"><strong>本份完整適用</strong>,所有四不原則、6 週時程、警示徵兆都請嚴格遵守。這是本院最常見的手術方式 + 固定方式組合。</div>
+    </div>
+
+    <div class="applicability-row">
+      <div class="ar-type">傳統開心手術<br>+ 鋼板固定</div>
+      <div class="ar-rules"><strong>四不原則同樣適用,但時程可能略短</strong>。鋼板的固定力比鋼絲更強,部分病人 4 週後就能逐步放寬限制。<strong>實際時程以您的主治醫師回診評估為準</strong> <span class="link-ref">連結 3-4</span>。</div>
+    </div>
+
+    <div class="applicability-row">
+      <div class="ar-type">微創手術 MICS<br>(從肋骨間進入)</div>
+      <div class="ar-rules"><strong>沒有胸骨切開 → 不需要遵守本份的「胸骨四不」</strong>。但有<strong>肋骨間的小切口與軟組織傷口需要保護</strong> — 仍應避免單側肋骨大幅扭轉、不要提重物超過 5 公斤、保持兩側手平均出力。具體建議請與主治醫師確認 <span class="link-ref">連結 3-3</span>。</div>
+    </div>
+
+    <div class="applicability-row">
+      <div class="ar-type">機器人輔助手術</div>
+      <div class="ar-rules">同微創原則,<strong>沒有胸骨需要保護</strong>。傷口分散在右胸幾個小切口,具體保護細節請與主治醫師確認 <span class="link-ref">連結 3-3</span>。</div>
+    </div>
+  </div>
+
+  <!-- Why these actions hurt: mechanism -->
+  <div class="section-title">為什麼這些動作會傷到胸骨</div>
+
+  <div class="mechanism-box">
+    <h4>胸骨在癒合期最怕「左右不對稱」的力量</h4>
+    <p>胸骨切開後是<strong>「左右兩半」</strong>被鋼絲或鋼板「合」起來。在骨頭真正癒合之前,鋼絲/鋼板就像「<strong>暫時的繃帶</strong>」 — 它能擋住「壓緊」的力量(您按胸口、抱抱枕),但<strong>對「拉開」「扭轉」「單側拉扯」的力量耐受度低很多</strong>。</p>
+
+    <div class="force-row">
+      <div class="fr-action">單手出力</div>
+      <div class="fr-effect">力量集中在身體<strong>一側</strong> → 胸骨左右承受<strong>不對稱拉力</strong> → 鋼絲承受剪切力,容易讓胸骨錯位</div>
+    </div>
+    <div class="force-row">
+      <div class="fr-action">推 / 拉 / 提重</div>
+      <div class="fr-effect">胸大肌、肩部肌群<strong>用力時會牽拉胸骨</strong> → 兩半胸骨被往左右兩側拉開 → 增加裂開風險</div>
+    </div>
+    <div class="force-row">
+      <div class="fr-action">舉手過肩</div>
+      <div class="fr-effect">肩關節打開時<strong>胸大肌拉緊</strong> → 胸骨上半被往兩側拉 → 上半胸骨容易裂開或骨痂被破壞</div>
+    </div>
+    <div class="force-row">
+      <div class="fr-action">用手撐起身體</div>
+      <div class="fr-effect">手往下推、身體往上抬時 → <strong>胸骨承受全身體重的反作用力</strong> → 等於用胸骨「撐起」全身,這是癒合期最危險的動作之一</div>
+    </div>
+
+    <p>所以「四不」不是擔心過頭,是<strong>從胸骨生物力學推導出來的</strong>四個最危險的動作型態。其他動作只要不違反「不對稱、不拉開、不撐起」這三個核心原則,通常都可以。</p>
   </div>
 
   <!-- Core rules: 4 不 -->
@@ -172,13 +420,46 @@
     <article class="rule-card">
       <div class="rule-num">原則 03</div>
       <h4>不舉手過肩</h4>
-      <p><strong>雙手不要同時舉到肩膀以上</strong>。曬衣服、拿高處物品、伸懶腰要特別注意。短暫的單手動作（如梳頭、抹臉）通常還可以，但不要長時間維持。</p>
+      <p><strong>雙手不要同時舉到肩膀以上</strong>。曬衣服、拿高處物品、伸懶腰要特別注意。短暫的單手動作(如梳頭、抹臉)通常還可以,但不要長時間維持。</p>
+
+      <div class="scenarios-grid">
+        <div class="scenario-card">
+          <strong>① 從高櫃拿東西</strong>
+          要踮腳、雙手伸高的動作
+          <span class="alt">→ 請家人幫忙,或把常用物品先移到腰高的櫃子</span>
+        </div>
+        <div class="scenario-card">
+          <strong>② 曬衣服</strong>
+          雙手舉高夾衣架
+          <span class="alt">→ 用伸縮曬衣桿降下、或暫時請家人代勞</span>
+        </div>
+        <div class="scenario-card">
+          <strong>③ 穿頭套式衣服</strong>
+          雙手要伸進袖子、舉過頭
+          <span class="alt">→ 改穿前開扣、拉鍊式上衣</span>
+        </div>
+        <div class="scenario-card">
+          <strong>④ 開高處櫥櫃 / 冷氣</strong>
+          手要舉過肩、用力旋轉
+          <span class="alt">→ 用長柄遙控、或請家人代勞</span>
+        </div>
+        <div class="scenario-card">
+          <strong>⑤ 伸懶腰、打哈欠</strong>
+          習慣性雙手往上伸
+          <span class="alt">→ 改成「肩膀小幅旋轉」即可,不要伸到頂</span>
+        </div>
+        <div class="scenario-card">
+          <strong>⑥ 開車繫安全帶</strong>
+          要轉身、伸手拉帶
+          <span class="alt">→ 6 週內不開車,坐副駕時讓家人幫拉</span>
+        </div>
+      </div>
     </article>
 
     <article class="rule-card">
       <div class="rule-num">原則 04</div>
       <h4>不用手撐起身體</h4>
-      <p>起身請用<strong>「翻身側坐起」</strong>：先側身、雙腿先放下床邊、再用肚子力量坐起。不要直接從仰躺用手撐床坐起，這對胸骨拉力極大。</p>
+      <p>起身請用<strong>「翻身側坐起」</strong>:先側身、雙腿先放下床邊、再用肚子力量坐起。不要直接從仰躺用手撐床坐起,這對胸骨拉力極大 <span class="link-ref">連結 7-6a</span>。</p>
     </article>
   </div>
 
@@ -208,7 +489,7 @@
     </li>
     <li>
       <strong>性生活</strong>
-      <span class="why">通常術後 4–6 週可以恢復，但要<em>避免承受體重的姿勢</em>，建議與醫師討論。</span>
+      <span class="why">通常術後 4–6 週可以恢復,但要<em>避免用胸骨承重的姿勢</em>。<strong>建議的姿勢</strong>:由<strong>非開刀方(伴侶)主動</strong>,病人多採<strong>仰躺被動位</strong>,避免病人需要用手撐床、單手出力、舉手過肩、推拉。<strong>避免的姿勢</strong>:病人趴姿(胸口承重)、病人在上(需要手撐)、需要單側用力的姿勢。一切以「<strong>胸骨保護四不原則仍適用</strong>」為基本判斷。具體建議與時機請與醫師討論。</span>
     </li>
     <li>
       <strong>運動</strong>
@@ -252,8 +533,47 @@
     </div>
     <div class="timeline-row">
       <div class="timeline-week">第 6 週後</div>
-      <div class="timeline-text"><strong>逐步恢復重體力活動</strong>：依醫師評估漸進恢復重訓、游泳、運動。完全骨重塑可能需要 3–6 個月。</div>
+      <div class="timeline-text"><strong>逐步恢復重體力活動</strong>:依醫師評估漸進恢復重訓、游泳、運動。完全骨重塑可能需要 3–6 個月。</div>
     </div>
+  </div>
+
+  <p style="margin-top:14px;padding:12px 16px;background:var(--paper);border-radius:3px;border-left:2px solid var(--gold);font-size:13px;line-height:1.85;color:var(--ink-soft);"><strong style="color:var(--gold);">鋼板固定的時程可能略短</strong> — 鋼絲是「<strong>環繞綁住</strong>」胸骨,鋼板是「<strong>跨過切緣鎖在骨頭上</strong>」 — 鋼板的初始固定力更高,部分病人可能在 4 週後就能逐步放寬限制。但<strong>骨頭實際癒合速度仍需 4-6 週</strong>,「鋼板較強」不代表「可以更早大幅活動」。<strong>具體放寬時程以您的回診評估為準</strong> <span class="link-ref">連結 3-4</span>。</p>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>家屬可以怎麼幫 — 居家 6 週的協助任務</h4>
+    <ul>
+      <li><strong>環境改造(出院前完成)</strong> —— 把常用物品從高櫃移到腰高的櫃子;準備伸縮曬衣桿、長柄取物夾;把前開扣衣服洗好放最容易拿到的地方</li>
+      <li><strong>主動代勞「容易違反四不」的事</strong> —— 抱小孩、提購物袋、開重門、開高處櫥櫃。不要等病人開口,主動接手</li>
+      <li><strong>提醒「翻身側坐起」三步驟</strong> —— 病人剛開始會本能用手撐床。看到就立刻提醒「先側身、再放腳、用肚子起來」<span class="link-ref">連結 7-6a</span></li>
+      <li><strong>協助坐車繫安全帶</strong> —— 病人副駕時,幫忙拉安全帶到位置,並在<strong>胸口位置夾抱枕</strong>(緊急煞車時的保護)。後座時也要綁,不要因「短程就好」省略</li>
+      <li><strong>觀察「胸骨喀一聲」的警示</strong> —— 病人咳嗽、翻身、起身時,如果聽到或感覺到「喀」一聲、胸骨摸起來有移動感,<strong>立即就醫</strong>,不要等到回診</li>
+      <li><strong>傷口觀察 — 每天看一眼</strong> —— 紅腫熱痛、滲液、流膿、異味,任一項出現都要告訴醫師。出院 2-4 週是傷口感染的高峰期</li>
+      <li><strong>陪伴心理過渡</strong> —— 「6 週很久」對病人是心理壓力。家屬可以一起<strong>畫週曆打勾</strong>、慶祝每週里程碑、規劃「6 週後想做的事」 — 讓等待變成倒數</li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>居家照護與完整恢復時間軸</h4>
+    <div class="sub">這份是整套系列<strong>第一份「居家照護衛教」</strong>。下面是從手術到完全恢復的時間軸,把不同議題的癒合時程串成一條完整的恢復路線。</div>
+    <ol>
+      <li>微創手術 3-3 vs 傳統開胸:適用性的源頭差異</li>
+      <li>胸骨鋼絲 vs 鋼板 3-4(固定方式 → 影響本份時程)</li>
+      <li>術後疼痛 5-1b(出院初期止痛策略延續)</li>
+      <li>認識胸管 6-3(1-3 天移除後傷口癒合)</li>
+      <li>認識尿管 6-4(1-2 天後拔除)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(翻身側坐起的核心動作)</li>
+      <li>術後咳嗽 7-2(咳嗽時抱枕固定 — 與本份四不互相支援)</li>
+      <li>誘發性肺量計 7-1(隨身工具,出院後繼續用 1-2 週)</li>
+      <li class="current"><strong>胸骨保護注意事項 7-4(您正在讀:術後 6 週黃金保護期)</strong></li>
+      <li>心臟飲食 9-3(出院後長期飲食原則)</li>
+      <li>主動恢復入門 10-1a(胸骨保護是居家照護的核心)</li>
+      <li>整套衛教整合與終身指南 10-1b(居家照護鏈完整收束 — 集大成篇)</li>
+    </ol>
+    <p style="margin-top:14px;padding:12px 14px;background:var(--paper);border-radius:3px;border-left:2px solid var(--teal);font-size:12.5px;line-height:1.85;color:var(--ink-soft);">
+      <strong style="color:var(--teal);">「多久才完全好?」的完整答案</strong>:皮膚 1-2 週、胸管移除後傷口 1 週、胸骨 4-6 週、心臟功能與體力 3-6 個月。每個議題有自己的時程,不是「全部一起好」。
+    </p>
   </div>
 
   <!-- Closing -->

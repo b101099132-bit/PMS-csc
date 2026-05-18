@@ -162,7 +162,128 @@
   .qrow { grid-template-columns: 1fr; gap: 4px; }
   .qrow .q-reason { padding-left: 0; border-left: none; padding-top: 2px; }
   .reassure { padding: 22px 22px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .self-fast { padding: 18px 20px; }
+  .awake-link { padding: 18px 20px; }
 }
+
+/* 您會感覺到什麼 */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 病人自查 FAST(與 8-1b 對等) */
+.self-fast {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.self-fast h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+.self-fast .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.self-fast .sf-row {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.self-fast .sf-row:last-of-type { border-bottom: none; }
+.self-fast .sf-letter {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--danger);
+  text-align: center;
+  line-height: 1;
+}
+.self-fast .sf-body {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.self-fast .sf-body .sfname {
+  display: block;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+.self-fast .sf-body strong { color: var(--ink); font-weight: 600; }
+
+/* 您的清醒 = 不需約束(連結 6-5) */
+.awake-link {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.awake-link h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.awake-link p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.awake-link p:last-child { margin-bottom: 0; }
+.awake-link p strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -196,11 +317,19 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">譫妄</span>
-      <span class="lex-def">術後暫時性的意識混亂，通常會在幾天內恢復，<strong>跟失智不同</strong>。</span>
+      <span class="lex-def">術後暫時性的意識混亂,通常會在幾天內恢復,<strong>跟失智不同</strong>。詳見 <strong>8-2 譫妄專篇</strong>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">定向感</span>
-      <span class="lex-def">對時間、地點、人物的認知（例如知道今天幾號、自己在哪裡、誰是誰）。</span>
+      <span class="lex-def">對時間、地點、人物的認知(例如知道今天幾號、自己在哪裡、誰是誰)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">FAST</span>
+      <span class="lex-def">國際通用的<strong>中風快速辨識口訣</strong>:臉(Face)、手(Arm)、說話(Speech)、時間(Time)。<strong>您自己也可以做這個自查</strong> — 詳見下方「自我檢查 FAST」段落。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">保護性約束</span>
+      <span class="lex-def">當病人意識混亂、可能不自主拉扯管路時暫時的安全裝置。<strong>當您能清醒、能回答、能配合,本院就不需要使用約束</strong>。詳見 <strong>6-5 保護性約束</strong>。</span>
     </div>
   </div>
 
@@ -262,8 +391,81 @@
   </div>
 
   <p class="section-intro">
-    這些徵兆，<span class="em">只有在您清醒、能說話、能動的情況下才能被偵測</span>。這也正是本院採用「手術室內拔管」 <span class="link-ref">連結 6-2</span>、希望您儘早清醒的原因 —— 為了讓這份神經學評估能即時進行。
+    這些徵兆,<span class="em">只有在您清醒、能說話、能動的情況下才能被偵測</span>。這也正是本院採用「手術室內拔管」 <span class="link-ref">連結 6-2</span>、希望您儘早清醒的原因 —— 為了讓這份神經學評估能即時進行。
   </p>
+
+  <!-- Self FAST check -->
+  <div class="section-title">您也可以自我檢查 — FAST 口訣</div>
+
+  <div class="self-fast">
+    <h4>FAST · 您自己也能做的中風快速辨識</h4>
+    <div class="sub">家屬版 8-1b 教家屬怎麼觀察您;這份單張同時教您「<strong>怎麼自己檢查自己</strong>」</div>
+
+    <div class="sf-row">
+      <div class="sf-letter">F</div>
+      <div class="sf-body">
+        <span class="sfname">Face(臉)</span><strong>對著鏡子或手機相機笑一下</strong> — 嘴角是不是一邊比較沒力、明顯不對稱?如果突然感覺<strong>嘴角麻、流口水控制不住</strong>,也是徵兆。
+      </div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-letter">A</div>
+      <div class="sf-body">
+        <span class="sfname">Arm(手)</span><strong>雙手同時往前平舉 10 秒</strong> — 一邊是不是會自己掉下來、感覺特別重?或<strong>單手突然握不住手機、筷子、杯子</strong>?
+      </div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-letter">S</div>
+      <div class="sf-body">
+        <span class="sfname">Speech(說話)</span><strong>嘴裡念一句話:「今天天氣很好」</strong> — 是不是說得含糊、找不到字、口齒不清?或聽家人說話時<strong>突然聽不懂他在講什麼</strong>?
+      </div>
+    </div>
+    <div class="sf-row">
+      <div class="sf-letter">T</div>
+      <div class="sf-body">
+        <span class="sfname">Time(時間)</span>任何一項出現,<strong>立刻按鈴 / 大聲叫護理師</strong>。<strong>不要自己「再觀察一下」</strong> — 中風的黃金治療時間以分鐘計算。
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">您會感覺到什麼 — 神經學評估的體感</div>
+
+  <div class="patient-experience">
+    <h4>從拔管清醒到完全穩定的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">剛清醒時</div>
+      <div class="tr-what">會感覺<strong>「頭有點霧、想不太起來日期」</strong> — 這是麻醉藥代謝中的正常狀態。被問問題時可能會懊惱「我怎麼想不起來」 — <strong>不用緊張,團隊在意的不是「答對」,是「您現在的狀態」</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">被反覆問問題時</div>
+      <div class="tr-what">可能會覺得「<strong>怎麼又問一樣的</strong>」「<strong>他們是不是不信我</strong>」。請相信:<strong>每幾小時問一次,是在跟「您自己幾小時前的狀態」比較</strong>,不是質疑您。每一次回答,都是團隊掌握您腦部狀況的具體訊號。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">做肢體檢查時</div>
+      <div class="tr-what">會被請<strong>「用力握、再用力一點」「再舉久一點」</strong>。可能會覺得「我已經盡力了還要更用力嗎」 — <strong>請放心,團隊不是要看您多強,是要看「兩邊的對稱性」</strong>。即使力氣只剩平常一半,只要兩側對稱就是好訊號。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後 24-48 小時</div>
+      <div class="tr-what">您會自己感覺<strong>「想得起更多事了」「日期、家人的名字、來醫院的原因都清楚了」</strong>。這就是「<strong>麻醉藥完全代謝完</strong>」的具體訊號。此時的清醒度,會被團隊當作您的「<strong>新基準</strong>」。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">發現自己「不對勁」時</div>
+      <div class="tr-what">如果某一刻您發現<strong>「我剛才能答的,現在突然答不出」「我手剛剛還好好的,突然抬不起來」「我突然看不清楚」</strong> — <strong>立刻按鈴。不要等。不要想說「等護理師查房再講」</strong>。中風的黃金治療時間以分鐘計算。</div>
+    </div>
+  </div>
+
+  <!-- Awake = no restraint -->
+  <div class="awake-link">
+    <h4>您的清醒 = 不需要約束</h4>
+    <p>本院強調「<strong>儘早拔管、儘早清醒</strong>」還有一個重要原因:當您能清醒、能回答、能配合,<strong>本院就不需要使用保護性約束</strong>(綁手、綁腳保護管路) <span class="link-ref">連結 6-5</span>。</p>
+    <p>每一次您配合回答問題、配合做肢體檢查、主動告訴護理師不適,都是在告訴團隊:「<strong>我清醒,我配合,我可以自己保護自己</strong>。」這就是本院能把約束率對齊國際 ERAS 心臟中心 &lt; 10% 標準的關鍵 — <strong>不是少用約束,而是病人清醒到不需要</strong>。</p>
+    <p>如果您感覺到譫妄(意識混亂)的早期徵兆 —— 像看到不存在的人、覺得自己不在醫院、夜裡睡不著反而白天昏睡 —— 請主動告訴護理師。<strong>譫妄越早辨識、越早處理,需要約束的機率越低</strong> <span class="link-ref">連結 8-2</span>。</p>
+  </div>
 
   <!-- If you answer wrong -->
   <div class="section-title">如果答錯了會怎樣</div>
@@ -294,16 +496,21 @@
 
   <!-- Reading map -->
   <div class="reading-map">
-    <h4>您的腦部守護鏈</h4>
-    <div class="sub">這份單張在整套守護鏈中的位置</div>
+    <h4>您的腦部守護鏈 + 認知守護網絡</h4>
+    <div class="sub">這份單張在「中風守護鏈」與「認知守護網絡」中的位置</div>
     <ol>
-      <li>CPB · 體外循環機（認識手術）</li>
-      <li>NIRS · 腦氧監測（術中守護）</li>
-      <li>BIS · 麻醉深度監測（術中守護）</li>
-      <li>早期拔管（術後立即清醒）</li>
-      <li>HFNC · 高流量鼻導管（拔管後過渡）</li>
-      <li class="current"><strong>術後神經學評估 — 病人版（您正在讀）</strong></li>
-      <li>會客時的認知復健 — 家屬版（給家屬看）</li>
+      <li>體外循環機 CPB 3-2(中風守護鏈起點 — 認識手術設備)</li>
+      <li>NIRS 腦氧監測 4-3(術中即時腦氧守護)</li>
+      <li>BIS 麻醉深度監測 4-4(術中麻醉深度控制)</li>
+      <li>早期拔管 6-2(讓您清醒地進入恢復)</li>
+      <li>HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援 — 中風守護鏈最後一環)</li>
+      <li class="current"><strong>術後神經學評估 病人版 8-1a(您正在讀:能清醒、能回答的價值)</strong></li>
+      <li>會客時的認知復健 家屬版 8-1b(請鼓勵家人讀)</li>
+      <li>保護性約束 6-5(您的清醒 = 不需約束)</li>
+      <li>術後譫妄 8-2(意識混亂的早期辨識與預防)</li>
+      <li>外科加護病房 6-1(您所在環境的整體說明)</li>
+      <li>主動恢復入門 10-1a(您也是康復團隊的一員)</li>
+      <li>整套衛教整合與終身指南 10-1b(中風守護鏈完整收束 — 集大成篇)</li>
     </ol>
   </div>
 

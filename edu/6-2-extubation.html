@@ -80,7 +80,111 @@
 @media (max-width: 480px) {
   .time-marks li { padding-left: 88px; }
   .time-marks li .when { width: 76px; font-size: 11px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .family-note { padding: 16px 18px; }
+  .neuro-eval-box { padding: 16px 18px; }
 }
+
+/* 您會感覺到什麼(對齊 4-6 體溫格式) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 給家屬的話(對齊 4-6 / 5-2) */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.family-note p:last-child { margin-bottom: 0; }
+.family-note p strong { color: var(--ink); font-weight: 600; }
+.family-note .calm-box {
+  background: var(--paper);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-size: 13px;
+  border-left: 2px solid var(--safe);
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+.family-note .calm-box strong { color: var(--safe); font-weight: 600; }
+
+/* 神經學評估具體說明(加在「為什麼晚拔管反而有壞處」內) */
+.neuro-eval-box {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin: 10px 0 16px 24px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.neuro-eval-box h6 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.neuro-eval-box ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+.neuro-eval-box ul li { margin-bottom: 3px; }
+.neuro-eval-box strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -98,6 +202,43 @@
     <strong>越早脫離呼吸器，越早開始真正的康復</strong>
     <p>過去心臟手術後，會把病人帶著氣管內管送到加護病房，讓呼吸器繼續工作 6 至 24 小時，等狀況穩定再拔。這個做法在當年是為了「保險起見」，但現代研究發現：<span class="em">在條件允許的前提下，越早拔管，併發症越少，恢復越快</span>。</p>
     <p>本院遵循國際心臟手術 ERAS 指引建議，<span class="em">術後 6 小時內為基本目標，進一步追求在手術房內就完成拔管</span>。這是前面所有衛教（精準麻醉、止痛、止血、保溫、腦氧監測）共同努力的最終成果。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">氣管內管</span>
+      <span class="lex-def">從<strong>口腔放入氣管</strong>的軟管,連接呼吸器,讓機器代替您呼吸。手術中所有人都要插管,差別只在「<strong>什麼時候拔</strong>」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">早期拔管</span>
+      <span class="lex-def">術後 <strong>6 小時內</strong>移除氣管內管,讓您能自己呼吸、說話、配合復健。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">手術室內拔管</span>
+      <span class="lex-def">早期拔管的進階版 —— 在<strong>離開手術房之前</strong>就完成拔管,送到 SICU 時您已經是醒著、能眼神接觸的狀態。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">VAP · 呼吸器相關肺炎</span>
+      <span class="lex-def">Ventilator-Associated Pneumonia,<strong>因為長時間插管引起的肺部感染</strong>。氣管內管會把口腔細菌帶進肺部,插管時間越長機率越高,是延後拔管最大的代價之一。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">血流動力學</span>
+      <span class="lex-def"><strong>血壓與心跳的穩定狀態</strong>。要確認沒有需要持續加重升壓藥的情況,才適合拔管。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">酸鹼/電解質異常</span>
+      <span class="lex-def">血液中的酸鹼度(pH)、鈉/鉀/鈣等離子濃度<strong>偏離正常範圍</strong>。嚴重異常會影響意識、心律、呼吸肌力,需要先處理才能拔管。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">神經學評估</span>
+      <span class="lex-def">確認<strong>大腦、四肢、語言功能正常</strong>的床邊檢查 — 透過簡單問題(您叫什麼名字、現在幾月)與動作(握手、抬腳)就能完成。拔管後越早做,才能越早發現中風等併發症。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">TOF 比值 ≥ 0.9</span>
+      <span class="lex-def">肌肉鬆弛劑的代謝指標,<strong>≥ 0.9 代表呼吸肌已完全恢復</strong>,才能安全拔管。詳見 <strong>4-2 TOF 監測</strong>。</span>
+    </div>
   </div>
 
   <!-- Timeline comparison -->
@@ -134,10 +275,24 @@
   <div class="callout tradeoffs">
     <h4>插管時間越長，越容易發生 ——</h4>
     <ul>
-      <li><strong>呼吸器相關肺炎（VAP）</strong> —— 氣管內管旁的細菌容易進入下呼吸道</li>
-      <li><strong>呼吸肌萎縮</strong> —— 機器代替您呼吸越久，自己的呼吸肌耐力流失越多</li>
-      <li><strong>鎮靜藥物累積、術後譫妄</strong> —— 為了讓您忍受氣管內管，需要持續鎮靜，越久風險越高</li>
+      <li><strong>呼吸器相關肺炎(VAP · Ventilator-Associated Pneumonia)</strong> —— 氣管內管會把口腔細菌帶進肺部,插管時間越長機率越高</li>
+      <li><strong>呼吸肌萎縮</strong> —— 機器代替您呼吸越久,自己的呼吸肌耐力流失越多</li>
+      <li><strong>鎮靜藥物累積、術後譫妄</strong> —— 為了讓您忍受氣管內管,需要持續鎮靜,越久風險越高 <span class="link-ref">連結 8-2</span></li>
       <li><strong>神經學評估被延後</strong> —— 中風的早期徵兆要靠您的意識、肢體與言語才能判斷</li>
+    </ul>
+
+    <div class="neuro-eval-box">
+      <h6>神經學評估會發生什麼 — 具體可預期的問題</h6>
+      <p>拔管後護理師或醫師會做<strong>幾項非常簡單的床邊檢查</strong>,目的是<strong>及早發現中風或腦部併發症</strong>(心臟手術後中風機率約 1-3%,早 1 小時發現,能用的治療選項就多很多)。包括:</p>
+      <ul>
+        <li>「<strong>您叫什麼名字?</strong>」「<strong>現在幾月?在哪家醫院?</strong>」(評估定向感與語言)</li>
+        <li>「<strong>握一下我的手</strong>」「<strong>兩腳輪流抬一下</strong>」(評估四肢肌力對稱性)</li>
+        <li>「<strong>眼睛跟著我的手指</strong>」「<strong>笑一個</strong>」(評估眼球運動、臉部對稱)</li>
+      </ul>
+      <p style="margin-top:6px;">過程通常 <strong>1-2 分鐘</strong>,不會痛、不需要儀器。如果您覺得頭很重、講話困難,直接告訴護理師 — 那本身就是重要訊息。</p>
+    </div>
+
+    <ul>
       <li><strong>下床、進食、復健都被推遲</strong> —— 整段加速康復的時程都會被拖慢</li>
       <li><strong>家屬無法即時看到您清醒</strong> —— 互相安心的時刻被延後</li>
     </ul>
@@ -153,33 +308,33 @@
   <div class="pillars">
     <div class="pillar-mini">
       <div class="num">支柱 01</div>
-      <h5>多模式止痛</h5>
-      <p>用神經阻斷、脊髓內嗎啡與靜脈普拿疼取代大劑量鴉片類，意識清楚也不痛。</p>
+      <h5>多模式止痛 <span class="link-ref">5-1</span></h5>
+      <p>用神經阻斷、脊髓內嗎啡與靜脈普拿疼取代大劑量鴉片類,意識清楚也不痛。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 02</div>
-      <h5>TOF 與肌肉鬆弛反轉</h5>
-      <p>用 TOF 監測搭配 Sugammadex，確保呼吸肌力完全恢復。</p>
+      <h5>TOF 與肌肉鬆弛反轉 <span class="link-ref">4-2</span></h5>
+      <p>用 TOF 監測搭配 Sugammadex,確保呼吸肌力完全恢復(TOF 比值 ≥ 0.9)。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 03</div>
-      <h5>體溫維持 ≥ 36°C</h5>
-      <p>核心體溫穩定，沒有寒顫、沒有低體溫造成的凝血異常與意識遲鈍。</p>
+      <h5>體溫維持 ≥ 36°C <span class="link-ref">4-6</span></h5>
+      <p>核心體溫穩定,沒有寒顫、沒有低體溫造成的凝血異常與意識遲鈍。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 04</div>
-      <h5>有效止血</h5>
-      <p>氨甲環酸、凝血因子與凝血膠水三層止血到位，無持續出血。</p>
+      <h5>有效止血 <span class="link-ref">5-2</span></h5>
+      <p><strong>傳明酸(TXA)</strong>、凝血因子與凝血膠水三層止血到位,無持續出血。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 05</div>
-      <h5>腦氧監測穩定</h5>
-      <p>術中 NIRS 數值維持在安全範圍，腦部供氧無虞。</p>
+      <h5>腦氧監測穩定 <span class="link-ref">4-3 · 4-4</span></h5>
+      <p>術中 NIRS 數值維持在安全範圍,腦部供氧無虞;BIS 確認麻醉深度恰當。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 06</div>
       <h5>血流動力學穩定</h5>
-      <p>血壓、心律、心輸出量穩定，無需大量升壓藥支持。</p>
+      <p>血壓、心律、心輸出量穩定,無需逐步加重升壓藥支持。</p>
     </div>
   </div>
 
@@ -210,6 +365,70 @@
     <h4>延後拔管，也是負責任的決定</h4>
     <p>如果手術後出現出血量較多、體溫偏低、血壓需要持續支撐，或意識恢復較慢等情形，團隊會選擇<span class="em-teal">暫緩拔管、送加護病房繼續觀察</span>，等條件達標後再進行。</p>
     <p>請放心，這不代表<strong>「失敗」</strong>，而是團隊基於您當下狀態做出的<strong>最安全的判斷</strong>。每一個延後拔管的決定，都是為了避免不必要的呼吸併發症與重新插管。</p>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從手術結束到拔管的過程,您可能會感受到什麼</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">手術結束前 30 分鐘</div>
+      <div class="tr-what">麻醉科醫師會<strong>逐步減少麻醉藥</strong>、注射 Sugammadex 反轉肌肉鬆弛劑。<strong>您還在睡著的狀態</strong>,不會感覺到任何痛或不適。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">甦醒過程</div>
+      <div class="tr-what">您會像<strong>從深沈睡眠慢慢醒來</strong>。可能會先聽到團隊的聲音(例如「OOO 先生 / 太太,睜開眼睛看我」),然後感覺到喉嚨有管子 — 那就是氣管內管。<strong>請不要慌張、不要用力咳</strong>,團隊正在確認您可以拔管。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">拔管當下</div>
+      <div class="tr-what">麻醉醫師會請您<strong>「深吸一口氣,然後配合咳一下」</strong>。在您吐氣或咳的瞬間,管子會被輕輕拉出 — <strong>過程約 2-3 秒,有輕微異物感但不會痛</strong>。拔完後喉嚨會有點乾、想咳、聲音可能沙啞 — 這些都是正常的,通常 1-2 天內緩解。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">拔管後立即</div>
+      <div class="tr-what">會立刻為您戴上<strong>HFNC 高流量鼻導管</strong> <span class="link-ref">連結 6-6</span>,讓您呼吸更輕鬆。您可以小聲說話、能聽到家屬聲音、能眼神接觸。<strong>不痛、不喘、能自主呼吸</strong> — 這就是「手術室內拔管」的目標狀態。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">送 SICU 路上</div>
+      <div class="tr-what">您會<strong>清醒地</strong>被推往 SICU,可能會看到走廊燈光、聽到家屬第一時間的問候。許多病人事後反映:<strong>「醒來時看到家人,是整段手術最讓人安心的時刻」</strong>。</div>
+    </div>
+  </div>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>給家屬的話 — 在等候區您會看到什麼</h4>
+    <p>本院執行手術室內拔管時,家屬的等候體驗會跟傳統做法<strong>明顯不同</strong>:</p>
+    <p>
+    <strong>傳統做法</strong>:手術結束後,病人仍插管送 ICU。家屬通常 6-24 小時後才能看到病人,而且看到時可能病人還在鎮靜、無法說話。<br>
+    <strong>本院做法</strong>:手術結束後,病人在手術室拔管,送 SICU 時通常已經<strong>清醒、能眼神接觸、能小聲應答</strong>。家屬在等候室收到醫師說明後,進 SICU 探視時可看到病人本人是「醒著的」狀態。
+    </p>
+    <div class="calm-box"><strong>請有心理準備的兩件事</strong>:① 雖然病人是醒的,但<strong>聲音會沙啞、可能說話有點吃力</strong>(剛拔管的正常現象),請不要驚慌。② 病人臉上會戴 <strong>HFNC 高流量鼻導管</strong>(粗一點的鼻管,呼吸時可能聽到嘶嘶的氣流聲),這不是呼吸器,是「協助呼吸」的設備,代表病人狀況很好。</div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>術中精準照護鏈閱讀路徑</h4>
+    <div class="sub">手術室內拔管不是「衝快」,而是<strong>前面每一個精準醫療策略都到位</strong>後自然的成果。下面是構成這條鏈的單張。</div>
+    <ol>
+      <li>體外循環機 CPB 3-2(縮短體循時間、保護腦部 — 拔管的源頭起點)</li>
+      <li>TOF 神經肌肉監測 4-2(支柱 02 — 確認呼吸肌力恢復)</li>
+      <li>NIRS 腦氧監測 4-3(支柱 05 — 確認腦部供氧)</li>
+      <li>BIS 麻醉深度監測 4-4(支柱 05 — 確認麻醉深度恰當)</li>
+      <li>圍術期體溫管理 4-6(支柱 03 — 維持 ≥ 36°C)</li>
+      <li>術中多模式止痛 5-1(支柱 01 — 鴉片類減量)</li>
+      <li>凝血功能與止血藥物 5-2(支柱 04 — 三層止血策略)</li>
+      <li class="current"><strong>早期拔管 6-2(您正在讀:所有支柱到位 → 手術室內拔管)</strong></li>
+      <li>外科加護病房 6-1(拔管後抵達的環境 — 清醒地進入)</li>
+      <li>HFNC 高流量鼻導管 6-6(拔管後的呼吸支援)</li>
+      <li>術後疼痛 5-1b(拔管後的止痛策略延續)</li>
+      <li>主動恢復入門 10-1a(早期拔管 = 把控制權交還給您)</li>
+      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈起點完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

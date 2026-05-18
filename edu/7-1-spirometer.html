@@ -83,7 +83,217 @@
 
 @media (max-width: 480px) {
   .step-card { padding: 18px 18px; gap: 14px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .family-note { padding: 16px 18px; }
+  .why-collapse { padding: 18px 20px; }
+  .when-use { padding: 18px 20px; }
+  .cost-tool-note { padding: 16px 18px; }
+  .signature-tool { padding: 18px 20px; }
 }
+
+/* 為什麼術後特別容易肺塌陷(具體機轉) */
+.why-collapse {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.why-collapse h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 10px;
+}
+.why-collapse p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.why-collapse p:last-child { margin-bottom: 0; }
+.why-collapse p strong { color: var(--ink); font-weight: 600; }
+.why-collapse ul {
+  margin: 0 0 10px;
+  padding-left: 22px;
+}
+.why-collapse ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.why-collapse ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 什麼時候開始用(時序) */
+.when-use {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.when-use h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.when-use .when-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.when-use .when-row:last-of-type { border-bottom: none; }
+.when-use .wr-stage {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.when-use .wr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.when-use .wr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 您會感覺到什麼(對齊整套系列) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 給家屬的話 */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.family-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.family-note ul li:last-child { margin-bottom: 0; }
+.family-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 自費購買說明(整套系列首份「物品自費」說明) */
+.cost-tool-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.cost-tool-note h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.cost-tool-note p { margin: 0 0 6px; }
+.cost-tool-note p:last-child { margin: 0; }
+.cost-tool-note strong { color: var(--ink); font-weight: 600; }
+
+/* 整套系列「唯一隨身工具」金句區塊 */
+.signature-tool {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.signature-tool .eyebrow {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.signature-tool .quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.signature-tool .quote strong { color: var(--gold); }
+.signature-tool .explain {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin: 0 auto;
+  max-width: 520px;
+}
+.signature-tool .explain strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -101,6 +311,57 @@
     <strong>術後最常見的併發症之一，是肺塌陷</strong>
     <p>心臟手術後，由於<span class="em">傷口疼痛、麻醉藥殘餘、長時間躺臥</span>，許多病人不敢深呼吸。一旦深呼吸減少，<span class="em">肺部底部的小肺泡會逐漸塌陷</span>，造成血氧下降、容易感染，可能演變成肺炎。</p>
     <p>誘發性肺量計（Incentive Spirometer，俗稱呼吸訓練器）就是讓您在術後能<span class="em">主動、規律、有目標</span>地深呼吸的訓練器。看似簡單，卻是預防術後肺部併發症最有效的方法之一。</p>
+  </div>
+
+  <!-- Signature tool — 整套系列首發金句 -->
+  <div class="signature-tool">
+    <div class="eyebrow">整套衛教中的獨特位置</div>
+    <div class="quote">這是整套衛教中,<strong>唯一一個您自己拿著、自己練習、自己負責</strong>的工具</div>
+    <p class="explain">其他單張處理的議題(SICU 環境、約束、胸管、尿管、止痛策略、HFNC 等)都是「<strong>醫護來執行、病人被動接受</strong>」。<br>只有呼吸訓練器是「<strong>您自己的責任</strong>」 —— 也是您從「被照護者」轉變為「<strong>主動恢復者</strong>」的具體實踐工具。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">誘發性肺量計</span>
+      <span class="lex-def">Incentive Spirometer,俗稱<strong>「呼吸訓練器」</strong>。透明塑膠裝置 + 浮球 + 刻度,讓您看見每次深呼吸的「成績」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肺塌陷 · 肺擴張不全</span>
+      <span class="lex-def">Atelectasis,<strong>肺部底部的小肺泡沒有完全打開、被壓扁</strong>。心臟手術後最常見的併發症之一,規律使用呼吸訓練器是最有效的預防方法。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肺泡</span>
+      <span class="lex-def">肺部最末端的<strong>葡萄串狀小囊袋</strong>,實際進行氧氣與二氧化碳交換的地方。一個成人約有 <strong>3 億個肺泡</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">橫膈膜</span>
+      <span class="lex-def">分隔胸腔與腹腔的<strong>主要呼吸肌肉</strong>。深吸氣時橫膈膜下降,讓肺有空間擴張。上半身坐直能讓橫膈膜完整下降。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">會呼吸的痛</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。這是病人不敢深呼吸的主要原因 — 必須先處理好,呼吸訓練器才能用得起來。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">過度通氣</span>
+      <span class="lex-def">短時間內呼吸太快太深,造成<strong>頭暈、手腳麻、視線模糊</strong>。剛開始使用呼吸訓練器若操之過急可能發生,休息一下就會緩解。</span>
+    </div>
+  </div>
+
+  <!-- Why collapse: specific mechanism -->
+  <div class="section-title">為什麼術後特別容易肺塌陷</div>
+
+  <div class="why-collapse">
+    <h4>四個原因同時發生,所以呼吸訓練器特別重要</h4>
+    <p>心臟手術病人比一般病人更容易肺塌陷,主要因為這四個原因會同時發生:</p>
+    <ul>
+      <li><strong>體外循環機(CPB)期間肺暫停運作</strong> —— 手術中肺暫時休息,部分肺泡因失去「持續呼吸的張力」而塌陷 <span class="link-ref">連結 3-2</span></li>
+      <li><strong>「會呼吸的痛」讓人不敢深呼吸</strong> —— 胸口傷口、胸管牽扯,每次深呼吸都會被牽動,病人本能地淺呼吸 <span class="link-ref">連結 5-1b</span></li>
+      <li><strong>胸管的存在讓胸壁活動受限</strong> —— 不敢用力擴張胸壁,深呼吸幅度自然變小 <span class="link-ref">連結 6-3</span></li>
+      <li><strong>長時間平躺、缺乏活動</strong> —— 肺部底部的氣體交換變少,小肺泡更容易塌陷</li>
+    </ul>
+    <p>呼吸訓練器的設計目的,就是<strong>用一個具體可看見的工具</strong>(浮球到刻度幾),讓您即使在「會呼吸的痛」狀態下,也能<strong>有目標、有方法地把肺重新打開</strong>。</p>
   </div>
 
   <!-- How it works -->
@@ -169,6 +430,43 @@
     </div>
   </div>
 
+  <!-- When to use: 完整時序 -->
+  <div class="section-title">什麼時候開始用 — 完整時序</div>
+
+  <div class="when-use">
+    <h4>從術前到出院後的使用節奏</h4>
+
+    <div class="when-row">
+      <div class="wr-stage">術前 1-2 週</div>
+      <div class="wr-what"><strong>建議在術前訪視時購買、先開始練習</strong>。熟悉動作、知道自己的「基準刻度」 —— 這樣術後您不是在「最痛、最不舒服」的時候才學新工具,而是「已經會用了,只是繼續用」。</div>
+    </div>
+
+    <div class="when-row">
+      <div class="wr-stage">手術當天 / 拔管後</div>
+      <div class="wr-what">拔氣管內管後通常 <strong>1-2 小時內</strong>就會開始使用(在 HFNC <span class="link-ref">連結 6-6</span> 支援下執行)。剛拔管時可能只能吹到原本一半左右的刻度 — <strong>這完全正常</strong>,持續練習會逐步進步。</div>
+    </div>
+
+    <div class="when-row">
+      <div class="wr-stage">SICU 期間</div>
+      <div class="wr-what"><strong>每 1-2 小時做一輪(10 次/輪)</strong>。護理師與呼吸治療師會在床邊指導與評估。剛開始可能需要家屬或護理師提醒,慢慢會變成習慣。</div>
+    </div>
+
+    <div class="when-row">
+      <div class="wr-stage">普通病房</div>
+      <div class="wr-what">繼續每 1-2 小時一輪,並<strong>搭配下床走路</strong> <span class="link-ref">連結 7-6b</span>。<strong>站著或坐直做訓練器效果最好</strong>(橫膈膜能完整下降);躺著做效果會打折。</div>
+    </div>
+
+    <div class="when-row">
+      <div class="wr-stage">出院後 1-2 週</div>
+      <div class="wr-what"><strong>繼續使用,不要因為「出院了就好了」而停掉</strong>。出院後肺功能還在持續恢復,直到回診醫師告訴您可以停。建議每天早晚各做 3-4 輪。</div>
+    </div>
+
+    <div class="when-row">
+      <div class="wr-stage">回診評估</div>
+      <div class="wr-what">回診時告訴醫師「現在訓練器我能吹到刻度幾」 — 這是醫師評估您肺功能恢復狀況的具體指標。能穩定吹到術前的基準刻度,通常代表恢復良好。</div>
+    </div>
+  </div>
+
   <!-- Tips -->
   <div class="section-title">幾個小提醒</div>
 
@@ -187,9 +485,97 @@
   <div class="section-title">為什麼這不是可有可無的訓練</div>
 
   <div class="callout eras-banner">
-    <h4>規律使用，能讓肺部併發症減少 30–50%</h4>
-    <p>研究顯示，<span class="em-teal">規律使用呼吸訓練器，能讓術後肺塌陷與肺炎的發生率明顯下降</span>。每一次的深呼吸都是在主動撐開肺泡、把分泌物震鬆、預防感染。</p>
-    <p>請把它當成<strong>「術後最重要的功課」</strong>之一，而不是擺在床邊的裝飾。在醫院期間，護理師與復健師會協助您確認使用方式；返家後請持續使用，直到回診醫師告訴您可以停。</p>
+    <h4>規律使用,能讓肺部併發症減少 30–50%</h4>
+    <p>研究顯示,<span class="em-teal">規律使用呼吸訓練器,能讓術後肺塌陷與肺炎的發生率明顯下降</span>。每一次的深呼吸都是在主動撐開肺泡、把分泌物震鬆、預防感染。</p>
+    <p>請把它當成<strong>「術後最重要的功課」</strong>之一,而不是擺在床邊的裝飾。在醫院期間,護理師與復健師會協助您確認使用方式;返家後請持續使用,直到回診醫師告訴您可以停。</p>
+    <p style="margin-top:14px;padding:12px 14px;background:var(--paper);border-radius:3px;border-left:2px solid var(--teal);font-size:13px;line-height:1.8;"><strong style="color:var(--teal);">研究證據強度 — 2024 ERAS Cardiac Society 共識</strong>:呼吸訓練器在心臟手術 ERAS 指引中是<strong>「強烈建議(Strong recommendation)、中等到高品質證據」</strong>等級的處置。多項隨機對照試驗(RCT)證實:術前 1-2 週開始訓練 + 術後規律使用,能<strong>降低術後肺炎、肺塌陷、住院天數</strong>。它的有效性與成本效益比,讓 2019 / 2024 兩版 ERAS Cardiac Society 共識都把它列為心臟手術病人的<strong>常規工具</strong>。</p>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">使用呼吸訓練器,您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從拿起到吹到目標,實際的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">剛開始吸氣時</div>
+      <div class="tr-what">會感覺胸壁有<strong>輕微的擴張感</strong>,如果有胸口傷口會有牽扯感。<strong>用抱枕固定胸口能明顯減輕</strong> <span class="link-ref">連結 7-2</span>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">浮球往上升時</div>
+      <div class="tr-what">「<strong>慢慢來,不要用力</strong>」 — 用力吸氣浮球反而會被頂到頂端阻擋,不是有效的深呼吸。緩慢、平穩才能讓浮球穩定升到目標位置。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">在最高點憋氣 3-5 秒時</div>
+      <div class="tr-what">會感覺<strong>胸口飽滿</strong>,可能有輕微脹感 — 那是肺泡正在被完整撐開的感覺。<strong>這 3-5 秒是訓練最有效的關鍵</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">達不到刻度時</div>
+      <div class="tr-what"><strong>這完全正常,不要焦慮</strong>。剛拔管時可能只能吹到原本一半,術後第 2-3 天會明顯進步,出院前通常能回到術前 70-80% 的水準。<strong>「進步的軌跡」比「絕對的刻度」更重要</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">輕微頭暈時</div>
+      <div class="tr-what">剛開始可能因深呼吸而<strong>短暫頭暈或手腳麻</strong>(過度通氣)— 這是正常的,停下休息 1-2 分鐘就好,下一輪放慢速度即可。</div>
+    </div>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">使用期間 — 請立即告知護理師</div>
+
+  <div class="callout warnings">
+    <h4>這些情況代表呼吸狀況可能異常</h4>
+    <ul>
+      <li><strong>胸痛突然變嚴重</strong>(不是傷口痛,是新的、不同的胸痛)</li>
+      <li><strong>呼吸越來越喘、不只是訓練時</strong></li>
+      <li><strong>嘴唇、指甲變紫</strong>(可能血氧下降)</li>
+      <li><strong>咳嗽帶血、痰中有鮮紅血絲</strong></li>
+      <li><strong>持續嚴重頭暈、視線模糊、意識不清</strong>(不是訓練後短暫頭暈)</li>
+      <li><strong>發燒、寒顫</strong>(可能肺炎徵兆)</li>
+      <li><strong>刻度連續幾天明顯下降</strong>(而非進步)</li>
+    </ul>
+  </div>
+
+  <!-- Family note -->
+  <div class="family-note">
+    <h4>家屬可以怎麼幫</h4>
+    <ul>
+      <li><strong>提醒病人「每 1-2 小時做一輪」</strong> —— 病人可能因為痛、累、忘記而跳過。家屬定時提醒比醫護更有效</li>
+      <li><strong>記錄每天的最高刻度</strong> —— 用手機拍下浮球到達的位置,標註日期時間。<strong>看見「進步」是病人最大的鼓勵</strong></li>
+      <li><strong>陪伴練習</strong> —— 病人會更有動力。可以一起數「1、2、3、4、5 秒」陪憋氣</li>
+      <li><strong>提醒「坐直、不要躺著做」</strong> —— 病人常會偷懶躺著做,效果會大打折扣</li>
+      <li><strong>把訓練器放在病人手能拿到的地方</strong> —— 床邊桌、輪椅扶手,而不是放遠處</li>
+      <li><strong>出院後也持續關心</strong> —— 出院後是病人最容易停掉的時期,家屬定期問「今天做了幾輪?吹到刻度幾?」</li>
+    </ul>
+  </div>
+
+  <!-- Cost and purchase -->
+  <div class="cost-tool-note">
+    <h5>關於購買與費用</h5>
+    <p><strong>呼吸訓練器需自費購買(約 200–400 元),屬於個人衛材</strong>。可於本院的<strong>住院須知用品清單</strong>或<strong>醫療器材行</strong>購買,品牌與規格無太大差異,主流產品都符合需求。</p>
+    <p><strong>建議在術前訪視時就先購買</strong>,術前 1-2 週開始練習。一支訓練器可用到出院後 1-2 週,屬於<strong>一次性購買、整段恢復期使用</strong>的工具,費用負擔輕。</p>
+    <p>如有任何使用問題,可在<strong>術前訪視</strong>時請護理師示範,或詢問<strong>呼吸治療師</strong>。如有經濟負擔,告訴護理師,部分情況可協助提供。</p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>呼吸論述鏈閱讀路徑</h4>
+    <div class="sub">心臟手術後最關鍵的議題之一,就是「<strong>讓肺重新動起來</strong>」。下面是構成這條鏈的單張,呼吸訓練器是其中<strong>唯一隨身工具</strong>。</div>
+    <ol>
+      <li class="current"><strong>誘發性肺量計 7-1(您正在讀:主動訓練工具,從術前到出院後都用)</strong></li>
+      <li>術後咳嗽與咳痰 7-2(抱枕固定 + 配合呼吸訓練器把痰咳出)</li>
+      <li>術後疼痛 5-1b(「會呼吸的痛」核心議題,止痛到位才敢深呼吸)</li>
+      <li>早期拔管 6-2(呼吸肌力恢復是拔管的前提)</li>
+      <li>HFNC 高流量鼻導管 6-6(拔管後的呼吸支援,減少呼吸費力)</li>
+      <li>認識胸管 6-3(深呼吸主動推動胸管引流)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(站著或坐直做訓練器,效果最好)</li>
+      <li>體外循環機 CPB 3-2(術中肺暫停運作 — 肺塌陷的源頭之一)</li>
+      <li>主動恢復入門 10-1a(呼吸練習是主動恢復的核心動作)</li>
+      <li>整套衛教整合與終身指南 10-1b(呼吸論述鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

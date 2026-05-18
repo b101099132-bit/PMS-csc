@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>早期下床與漸進式活動 — 心臟加速康復衛教</title>
-<meta name="description" content="為什麼術後第一天就要下床、如何安全進行漸進式活動">
+<meta name="description" content="早期下床的整體哲學 — 入口頁,完整內容請看 7-6a 從躺到坐 / 7-6b 從站到走">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,51 +14,103 @@
 <!-- 共用 CSS -->
 <link rel="stylesheet" href="_shared/eras-shared.css">
 
-<!-- 本頁特有:時程卡片(canonical 沒有 sequential timeline pattern) -->
+<!-- 本頁特有:輕量入口頁 — 角色說明 + 雙篇導引卡 + 獨有金句 -->
 <style>
-.timeline-card {
-  background: var(--paper);
-  border: 1px solid var(--border);
+/* 入口頁角色說明 callout */
+.gateway-role {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 4px solid var(--gold);
   border-radius: 4px;
-  padding: 20px 22px;
-  margin-bottom: 12px;
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  padding: 18px 22px;
+  margin-bottom: 24px;
 }
-.timeline-card .t-when {
+.gateway-role h4 {
   font-family: 'Noto Serif TC', serif;
   font-size: 14px;
   font-weight: 600;
   color: var(--gold);
-  flex-shrink: 0;
-  width: 96px;
-  text-align: left;
-  line-height: 1.3;
-  padding-top: 2px;
-  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
 }
-.timeline-card .t-body h4 {
+.gateway-role p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin: 0;
+}
+.gateway-role p strong { color: var(--ink); font-weight: 600; }
+
+/* 雙篇導引卡 */
+.subpage-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+@media (max-width: 560px) { .subpage-nav { grid-template-columns: 1fr; } }
+.subpage-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 18px 20px;
+}
+.subpage-card .sp-eyebrow {
   font-family: 'Noto Serif TC', serif;
-  font-size: 15px;
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.subpage-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
   font-weight: 600;
   color: var(--ink);
-  margin-bottom: 4px;
-  line-height: 1.5;
+  margin-bottom: 8px;
+  line-height: 1.4;
 }
-.timeline-card .t-body p {
-  font-size: 14px;
+.subpage-card .when {
+  font-size: 12.5px;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.subpage-card p {
+  font-size: 13px;
   color: var(--ink-soft);
   line-height: 1.75;
+  margin-bottom: 0;
 }
-.timeline-card .t-body .em {
+.subpage-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 整體哲學金句區塊 */
+.philosophy-quote {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.philosophy-quote h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--teal);
-  font-weight: 500;
+  margin-bottom: 10px;
 }
-@media (max-width: 480px) {
-  .timeline-card { padding: 16px 18px; gap: 12px; }
-  .timeline-card .t-when { width: 80px; font-size: 13px; }
+.philosophy-quote p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
 }
+.philosophy-quote p:last-child { margin-bottom: 0; }
+.philosophy-quote p strong { color: var(--ink); font-weight: 600; }
+.philosophy-quote .em-teal { color: var(--teal); font-weight: 500; }
 </style>
 </head>
 <body>
@@ -67,106 +119,89 @@
   <header>
     <div class="eyebrow">心臟加速康復衛教 · 7-6</div>
     <h1>早期下床<br>與漸進式活動</h1>
-    <p class="subtitle">「越早動越好」是 ERAS 加速康復的核心原則之一<br>Early Mobilization</p>
+    <p class="subtitle">為什麼越早動越好 — 整體哲學與閱讀導引<br>Early Mobilization · Overview</p>
     <div class="divider"></div>
   </header>
+
+  <!-- Gateway role -->
+  <div class="gateway-role">
+    <h4>這份單張的角色</h4>
+    <p>這是<strong>「早期下床」議題的入口頁</strong>。本院把整個下床過程分為兩份詳細衛教:<strong>7-6a 從躺到坐</strong>(術後 0-6 小時) + <strong>7-6b 從站到走</strong>(術後 6-24 小時)。如果您要找具體的動作步驟、姿勢提醒、安全原則,請看下方兩份詳細版。本份單張只談「<strong>為什麼要這麼快</strong>」與「<strong>整體哲學</strong>」。</p>
+  </div>
 
   <!-- Lead -->
   <div class="lead">
     <strong>躺久了反而不好</strong>
-    <p>過去觀念認為「大手術後要多休息」，但近代研究一致證實：<span class="em">長時間臥床對心臟手術病人有害無益</span>。臥床每多一天，肌肉萎縮、肺部塌陷、深部靜脈血栓、譫妄、便祕的風險都會增加。</p>
-    <p>國際 ERAS 指引明確建議：<span class="em">術後第 1 天就應開始下床活動</span>。即使只是坐到床邊、站立幾分鐘，都比躺一整天好。</p>
+    <p>過去觀念認為「大手術後要多休息」,但近代研究一致證實:<span class="em">長時間臥床對心臟手術病人有害無益</span>。臥床每多一天,肌肉萎縮、肺部塌陷、深部靜脈血栓、譫妄、便祕的風險都會增加。</p>
+    <p>國際 ERAS 指引明確建議:<span class="em">術後第 1 天就應開始下床活動</span>。本院的目標更積極 — <strong>拔管後 6 小時內坐起、24 小時內走路繞護理站一圈</strong>。為什麼能做到這麼快?關鍵在「手術室內拔管」<span class="link-ref">連結 6-2</span>,讓「拔管後的時鐘」提早好幾個小時開始。</p>
   </div>
 
-  <!-- 漸進式時程 -->
-  <div class="section-title">漸進式下床時程</div>
+  <!-- Subpage navigation -->
+  <div class="section-title">兩份詳細衛教 — 請依時程閱讀</div>
 
-  <p class="section-intro">
-    每個人恢復速度不同，下面是<span class="em">最常見的時程</span>，實際進度由團隊依您的狀況評估。
-  </p>
-
-  <article class="timeline-card">
-    <div class="t-when">術後當天</div>
-    <div class="t-body">
-      <h4>床上活動</h4>
-      <p>若已拔管、意識清楚、生命徵象穩定，先做床上的雙手復健、腳踝幫浦運動。坐起到床邊靠著。</p>
+  <div class="subpage-nav">
+    <div class="subpage-card">
+      <div class="sp-eyebrow">第 7-6a 篇</div>
+      <h4>從躺到坐</h4>
+      <div class="when">拔管後 0-6 小時 · 起點</div>
+      <p>三階段坐起方法、翻身側坐起的完整步驟、坐起來幫您做的 7 件事、家屬陪伴指引。<strong>身體系統重新開機的訊號</strong>。</p>
     </div>
-  </article>
-
-  <article class="timeline-card">
-    <div class="t-when">術後第 1 天</div>
-    <div class="t-body">
-      <h4>床邊坐起、站立</h4>
-      <p><span class="em">在護理師協助下</span>翻身側坐起，雙腳放到床邊，停留 5–10 分鐘。若無頭暈，嘗試扶著床邊站立 1–2 分鐘。</p>
+    <div class="subpage-card">
+      <div class="sp-eyebrow">第 7-6b 篇</div>
+      <h4>從站到走</h4>
+      <div class="when">拔管後 6-24 小時 · 終點</div>
+      <p>漸進式站立三步驟、第一次走路五步驟、為什麼本院能做到 24 小時繞護理站、家屬陪伴指引。<strong>「我真的回來了」的最直接訊號</strong>。</p>
     </div>
-  </article>
+  </div>
 
-  <article class="timeline-card">
-    <div class="t-when">術後第 2 天</div>
-    <div class="t-body">
-      <h4>床邊走動</h4>
-      <p>扶著護理師或助行器，從床邊走幾步到病房門口。每次走 3–5 分鐘，一天 2–3 次。</p>
-    </div>
-  </article>
-
-  <article class="timeline-card">
-    <div class="t-when">術後 3–5 天</div>
-    <div class="t-body">
-      <h4>走廊散步</h4>
-      <p>在病房走廊步行 5–10 分鐘，一天 3–4 次。可開始自行如廁與洗漱。</p>
-    </div>
-  </article>
-
-  <article class="timeline-card">
-    <div class="t-when">出院前</div>
-    <div class="t-body">
-      <h4>日常活動恢復</h4>
-      <p>能自己穿衣、洗漱、上下樓梯（少量）、在病房內自由走動。為返家做準備。</p>
-    </div>
-  </article>
-
-  <!-- 好處 -->
-  <div class="section-title">為什麼早下床對你這麼好</div>
+  <!-- Why early mobilization matters -->
+  <div class="section-title">為什麼早下床對您這麼好</div>
 
   <div class="callout prep-actions">
     <h4>早期下床帶來的好處</h4>
     <ul>
-      <li><strong>預防深部靜脈血栓</strong>（DVT）與肺栓塞</li>
-      <li><strong>預防肺塌陷與肺炎</strong></li>
-      <li><strong>維持肌肉量</strong>，減少術後虛弱</li>
-      <li><strong>改善腸蠕動</strong>，減少便祕、加速恢復排便</li>
-      <li><strong>降低譫妄發生率</strong></li>
+      <li><strong>預防深部靜脈血栓(DVT)與肺栓塞</strong></li>
+      <li><strong>預防肺塌陷與肺炎</strong> <span class="link-ref">連結 7-1 · 7-2</span></li>
+      <li><strong>維持肌肉量</strong>,減少術後虛弱</li>
+      <li><strong>改善腸蠕動</strong>,減少便祕、加速恢復排便</li>
+      <li><strong>降低譫妄發生率</strong> <span class="link-ref">連結 8-2</span></li>
+      <li><strong>降低約束需求</strong> <span class="link-ref">連結 6-5</span></li>
+      <li><strong>能下床走到廁所 = 拔尿管的條件</strong> <span class="link-ref">連結 6-4</span></li>
       <li><strong>縮短住院天數</strong></li>
-      <li><strong>恢復自主感</strong>，減少焦慮</li>
+      <li><strong>恢復自主感</strong>,減少焦慮</li>
     </ul>
   </div>
 
-  <!-- 安全原則 -->
-  <div class="section-title">下床時的安全原則</div>
-
-  <div class="callout prep-actions">
-    <h4>每次下床都要遵守</h4>
-    <ul>
-      <li><strong>有護理師或家屬陪同</strong>，第一次下床絕不獨自進行</li>
-      <li><strong>動作要慢</strong>：坐起後先靠著休息 2–3 分鐘，再站起</li>
-      <li><strong>站起前轉頭活動一下</strong>，避免姿勢性低血壓造成頭暈</li>
-      <li><strong>穿防滑拖鞋或襪</strong></li>
-      <li><strong>注意管路</strong>：胸管引流瓶要拿低、靜脈管路不要拉扯</li>
-      <li><strong>感到頭暈、心悸、喘、胸痛立即坐下或回床</strong></li>
-    </ul>
-  </div>
-
-  <!-- 鼓勵 callout -->
-  <div class="callout eras-banner">
+  <!-- Philosophy / signature quote -->
+  <div class="philosophy-quote">
     <h4>「我覺得我還沒準備好」</h4>
-    <p>很多病人第一次被告知要下床時會緊張：「我會不會不行？」「會不會跌倒？」<span class="em-teal">護理師與復健師會評估您的當下狀況，只在安全條件下協助您下床</span>。團隊提出可以下床的建議，就是您已經到達了那個門檻。</p>
-    <p>您可能會發現：原來自己比想像的還強。</p>
+    <p>很多病人第一次被告知要下床時會緊張:「我會不會不行?」「會不會跌倒?」<span class="em-teal">護理師與復健師會評估您的當下狀況,只在安全條件下協助您下床</span>。團隊提出可以下床的建議,就是您已經到達了那個門檻。</p>
+    <p>具體的「<strong>身體會怎麼配合</strong>」「<strong>萬一頭暈怎麼辦</strong>」「<strong>家屬可以怎麼幫</strong>」,請看下方兩份詳細版。</p>
+    <p><strong>您可能會發現:原來自己比想像的還強。</strong></p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>早期下床三層閱讀路徑</h4>
+    <div class="sub">本份是入口頁;具體動作與步驟請看 7-6a 與 7-6b。</div>
+    <ol>
+      <li class="current"><strong>早期下床總覽 7-6(您正在讀:整體哲學與閱讀導引)</strong></li>
+      <li>從躺到坐 7-6a(0-6 小時 · 三階段坐起方法 + 翻身側坐起)</li>
+      <li>從站到走 7-6b(6-24 小時 · 漸進式站立 + 第一次走路 + 為什麼本院能做到 24 小時繞護理站)</li>
+      <li>早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</li>
+      <li>HFNC 6-6(拔管後呼吸支援 — 不影響活動)</li>
+      <li>多模式止痛 5-1 · 術後疼痛 5-1b(讓動作不痛)</li>
+      <li>認識尿管 6-4(走到廁所 = 拔尿管條件)</li>
+      <li>胸骨保護 7-4(翻身側坐起的居家延續)</li>
+      <li>主動恢復入門 10-1a(早期下床是主動恢復的核心)</li>
+      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->
   <div class="closing">
-    <p>每一步、每一次坐起，都是真實的康復。<span class="em">少躺一點，多動一點，恢復就快一點</span>。</p>
-    <p>對術後活動或復健安排有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、復健師討論。</p>
+    <p>每一步、每一次坐起,都是真實的康復。<span class="em">少躺一點,多動一點,恢復就快一點</span>。具體怎麼做、會感覺到什麼、家屬可以怎麼幫 — 請看 <strong>7-6a 從躺到坐</strong> 與 <strong>7-6b 從站到走</strong>。</p>
+    <p>對術後活動或復健安排有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、復健師討論。</p>
     <div class="signature">心臟加速康復團隊 · 與你同莘</div>
     <div class="signature-note">同莘 — 同心 · 耕莘</div>
   </div>

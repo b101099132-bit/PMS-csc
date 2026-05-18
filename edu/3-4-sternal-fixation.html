@@ -339,11 +339,36 @@
 }
 .risk-group ul li strong { color: var(--ink); font-weight: 600; }
 
+/* 經濟困難求助 — 與 family-discuss 配套的關懷段落 */
+.help-callout {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.help-callout h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--safe);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+.help-callout p { margin: 0; }
+.help-callout p strong { color: var(--ink); font-weight: 600; }
+.help-callout p strong.help-key { color: var(--safe); font-weight: 600; }
+
 @media (max-width: 480px) {
   .method-card { padding: 22px 22px; }
   .recovery-compare { padding: 18px 18px; }
   .value-table { padding: 20px 22px; }
   .risk-callout { padding: 22px 22px; }
+  .help-callout { padding: 16px 18px; }
 }
 </style>
 </head>
@@ -429,7 +454,7 @@
         <span class="pc-label">優點</span>
         <ul>
           <li>手術時間短</li>
-          <li>健保給付、無額外費用</li>
+          <li>核心費用健保給付(部分耗材仍可能自費,實際以手術同意書為準)</li>
           <li>大部分病人足夠</li>
           <li>不影響未來 MRI</li>
           <li>機場安檢通常不會響</li>
@@ -702,6 +727,12 @@
     </ul>
   </div>
 
+  <!-- Help callout: 經濟困難求助(範本第 3 段) -->
+  <div class="help-callout">
+    <h5>如果評估後仍有經濟負擔考量</h5>
+    <p><strong class="help-key">請直接告訴醫師或護理師</strong>。團隊會優先採用<strong>健保項目</strong>;<strong>麻醉科也有吸收自費的機制可申請</strong>協助您;必要時可協助<strong>轉介社工資源</strong>。<strong>不要因為費用考量就放棄評估</strong> —— 我們希望您能得到最合適的照護,而不是「先看您付不付得起」。</p>
+  </div>
+
   <!-- Warnings -->
   <div class="section-title">術後這些情況請立即告知(兩者皆適用)</div>
 
@@ -729,6 +760,8 @@
       <li>胸骨保護(術後 6–8 週)</li>
       <li>術後咳嗽與咳痰(抱枕固定法)</li>
       <li>從躺到坐、從站到走</li>
+      <li>主動恢復入門 10-1a(胸骨固定方式選擇後的居家照護)</li>
+      <li>整套衛教整合與終身指南 10-1b(居家照護鏈完整收束 — 集大成篇)</li>
     </ol>
   </div>
 

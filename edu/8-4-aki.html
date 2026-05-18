@@ -844,7 +844,258 @@
   .forever-avoid { padding: 20px 22px; }
   .lifestyle { padding: 18px 20px; }
   .outlook { padding: 18px 20px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .patient-actions { padding: 18px 20px; }
+  .family-self-care { padding: 18px 20px; }
+  .cost-note { padding: 16px 18px; }
+  .sglt2-detail { padding: 16px 18px; }
+  .med-alert-bracelet { padding: 14px 16px; }
 }
+
+/* 您會感覺到什麼 */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+.patient-experience .silent-note {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--danger-bg);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+}
+.patient-experience .silent-note strong { color: var(--danger); font-weight: 700; }
+
+/* 您能配合的事 */
+.patient-actions {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-actions h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.patient-actions ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.patient-actions ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.patient-actions ul li:last-child { margin-bottom: 0; }
+.patient-actions ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 家屬 self-care(對等 8-1b/8-2/8-3) */
+.family-self-care {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.family-self-care h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.family-self-care .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.family-self-care p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.family-self-care p strong { color: var(--ink); font-weight: 600; }
+.family-self-care ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.family-self-care ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.family-self-care ul li strong { color: var(--ink); font-weight: 600; }
+.family-self-care .help-channels {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.family-self-care .help-channels strong { color: var(--safe); font-weight: 700; }
+
+/* 健保 vs 自費 */
+.cost-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--teal);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.cost-note h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.cost-note p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.cost-note p:last-child { margin-bottom: 0; }
+.cost-note p strong { color: var(--ink); font-weight: 600; }
+.cost-note ul {
+  margin: 4px 0 8px;
+  padding-left: 22px;
+}
+.cost-note ul li {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 3px;
+}
+.cost-note ul li strong { color: var(--ink); font-weight: 600; }
+.cost-note .help-line {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+
+/* SGLT2 停藥指引 */
+.sglt2-detail {
+  margin: 10px 0 0;
+  padding: 16px 18px;
+  background: var(--danger-bg);
+  border-radius: 3px;
+  border-left: 3px solid var(--danger);
+}
+.sglt2-detail .sd-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  color: var(--danger);
+  font-size: 13px;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+.sglt2-detail p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.sglt2-detail p strong { color: var(--ink); font-weight: 600; }
+.sglt2-detail .timing-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.sglt2-detail .timing-row:last-of-type { border-bottom: none; }
+.sglt2-detail .timing-row .when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--danger);
+  font-size: 12.5px;
+}
+.sglt2-detail .timing-row .what {
+  color: var(--ink-soft);
+}
+.sglt2-detail .timing-row .what strong { color: var(--ink); font-weight: 600; }
+
+/* 醫療警示手環(第 4 個 ID 工具) */
+.med-alert-bracelet {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: var(--gold-soft);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+}
+.med-alert-bracelet .label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 13px;
+  margin-bottom: 4px;
+  display: block;
+}
+.med-alert-bracelet p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin: 0;
+}
+.med-alert-bracelet p strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -873,8 +1124,12 @@
       <span class="lex-def">腎臟在<strong>幾天內突然失去部分功能</strong>,與慢性腎臟病(逐年下降)完全不同。多數可恢復。</span>
     </div>
     <div class="lex-row">
-      <span class="lex-term">肌酸酐</span>
-      <span class="lex-def">血液中的一種廢物,<strong>由腎臟負責清除</strong>。腎臟功能變差時,肌酸酐會上升 —— 醫師主要靠它判斷腎臟狀況。</span>
+      <span class="lex-term">肌酸酐(Creatinine)</span>
+      <span class="lex-def">血液中的一種廢物,<strong>由腎臟負責清除</strong>。腎臟功能變差時,肌酸酐會上升 —— 醫師主要靠它判斷腎臟狀況。<strong>正常值範圍</strong>:男性約 <strong>0.7-1.3 mg/dL</strong>,女性約 <strong>0.6-1.1 mg/dL</strong>(實際範圍會因檢驗單位而略異,請對應您報告上的「參考值」)。<strong>每個人有自己的「基準值」</strong> — 醫師看的是「從您的基準上升多少」,而非單一絕對值。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">eGFR · 腎絲球過濾率</span>
+      <span class="lex-def">由肌酸酐 + 年齡 + 性別計算出的<strong>「腎功能總分」</strong>,單位 mL/min/1.73m²。<strong>正常 ≥ 90</strong>;<strong>60-89</strong> 為輕度下降;<strong>30-59</strong> 為中度下降;<strong>15-29</strong> 為重度下降;<strong>&lt; 15</strong> 為腎衰竭。心臟手術後追蹤腎功能時,看 eGFR 比看肌酸酐單一數值更準確。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">KDIGO</span>
@@ -1038,6 +1293,42 @@
     </div>
   </div>
 
+  <!-- Patient experience -->
+  <div class="section-title">您會感覺到什麼 — 從住院到出院後的體感</div>
+
+  <div class="patient-experience">
+    <h4>整合的體感變化 — AKI 與正常恢復的區分</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後 0-24 小時</div>
+      <div class="tr-what">您<strong>不會感覺到 AKI 任何徵兆</strong>。團隊在背景監測您的<strong>尿量、肌酸酐、體液平衡</strong>。如果您發現<strong>「尿量比平常少很多」「尿管引流袋幾小時都沒有變」</strong>,主動告訴護理師。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後 1-3 天</div>
+      <div class="tr-what">AKI 高峰期。<strong>絕大多數 AKI 在這個時段出現</strong>。您可能仍沒感覺,但團隊會密集抽血(每天 1-2 次)。如果發現<strong>「腳踝開始腫」「呼吸比預期喘」「特別疲倦想睡」</strong>,告訴護理師 — 這些可能是 AKI 進展的訊號。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後 4-7 天</div>
+      <div class="tr-what">多數第 1、2 級 AKI 在此時開始恢復。您可能不會「感覺到變好」 — 因為早期就沒有「壞」的感覺。<strong>恢復的訊號是肌酸酐數值回到接近基準</strong>,問醫師「我今天的肌酸酐多少了?」就能知道。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">出院前</div>
+      <div class="tr-what">您會記得 AKI 過程的程度<strong>因人而異</strong>:輕度 AKI 病人可能完全不記得有這個過程(因為沒症狀);中重度病人可能記得「腳很腫、特別累、有打點滴調整體液」。<strong>無論記不記得,出院前都要拿到您的「最終肌酸酐 + eGFR」數字</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">出院後</div>
+      <div class="tr-what">日常生活中,您<strong>幾乎不會「感覺到」腎功能變化</strong>。要靠規律抽血追蹤。<strong>需要立即就醫的徵兆</strong>:雙腳腫到鞋子穿不下、突然尿量大幅減少、明顯呼吸喘、噁心嘔吐合併疲倦 — 詳見下方警示徵兆。</div>
+    </div>
+
+    <div class="silent-note">
+      <strong>⚠ AKI 沒有「您能完全靠感覺判斷」的恢復訊號</strong>。這是 AKI 與譫妄(腦)、POAF(心律)最大的不同。您必須<strong>依賴抽血數值 + 醫師告知</strong>,不能依賴「感覺起來好像沒事」。<strong>主動問數字 = 主動守護腎臟</strong>。
+    </div>
+  </div>
+
   <!-- Risk factors -->
   <div class="section-title">誰更容易發生 AKI</div>
 
@@ -1113,7 +1404,34 @@
     </div>
 
     <div class="bring-meds">
-      <strong>請帶您目前所有的處方藥到術前訪視</strong>,由醫師逐一檢視。<strong>不只是這兩類</strong> —— 利尿劑、降血糖藥、抗凝血劑、糖尿病藥(特別是 <strong>SGLT2 抑制劑</strong>如恩排糖、福適佳,與 <strong>metformin</strong> 常見糖尿病藥,商品名如 Glucophage、Diaformin)都可能需要在術前調整。<strong>不要自己停藥或繼續吃,一切以術前訪視確認的清單為準</strong>。
+      <strong>請帶您目前所有的處方藥到術前訪視</strong>,由醫師逐一檢視。<strong>不只是這兩類</strong> —— 利尿劑、降血糖藥、抗凝血劑、糖尿病藥都可能需要在術前調整。<strong>不要自己停藥或繼續吃,一切以術前訪視確認的清單為準</strong>。
+
+      <div class="sglt2-detail">
+        <div class="sd-label">⚠ SGLT2 抑制劑停藥指引(糖尿病病人特別注意)</div>
+        <p><strong>SGLT2 抑制劑</strong>(商品名如<strong>恩排糖 Empagliflozin、福適佳 Dapagliflozin、可拉糖 Canagliflozin、適糖美 Ertugliflozin</strong>)是新一代糖尿病用藥,部分病人也用於心衰竭治療。<strong>術前必須暫停</strong> — 否則可能引起危險的「<strong>正常血糖酮酸中毒</strong>」(euglycemic DKA)。</p>
+
+        <div class="timing-row">
+          <div class="when">術前 3-4 天</div>
+          <div class="what"><strong>停用 SGLT2 抑制劑</strong>(由醫師確認停藥日期,通常選擇手術前 3 天的早晨開始停)</div>
+        </div>
+        <div class="timing-row">
+          <div class="when">術前 1 天</div>
+          <div class="what">繼續停藥;若血糖控制有困難,改用其他類降血糖藥(由醫師調整)</div>
+        </div>
+        <div class="timing-row">
+          <div class="when">手術當日</div>
+          <div class="what"><strong>絕對不可使用</strong>;若有任何疑慮立即告知麻醉科醫師</div>
+        </div>
+        <div class="timing-row">
+          <div class="when">術後</div>
+          <div class="what">由醫師依腎功能恢復狀況決定何時重新開始(通常需要肌酸酐回到基準 + 飲食已恢復正常)</div>
+        </div>
+
+        <p style="margin-top: 10px; font-size: 12.5px; color: var(--ink-faint);">
+          ※ <strong>metformin(降爾糖、Glucophage、Diaformin)</strong>:相對單純,通常術前 24-48 小時停藥,腎功能恢復後再開始。<br>
+          ※ <strong>其他糖尿病藥</strong>:DPP-4 抑制劑、磺醯尿素類等,術前訪視時逐一確認。
+        </p>
+      </div>
     </div>
   </div>
 
@@ -1137,7 +1455,7 @@
       <li><strong>維持充足的紅血球濃度</strong>(避免術中嚴重貧血讓腎臟缺氧) <span class="link-ref">連結 5-2</span></li>
       <li><strong>體溫維持 ≥ 36°C</strong> —— 低體溫會減少腎臟血流 <span class="link-ref">連結 4-6</span></li>
       <li><strong>血糖控制在合理範圍</strong> —— 高血糖會傷腎</li>
-      <li><strong>嚴格避免 NSAIDs 類止痛藥</strong> —— 用多模式止痛取代 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>嚴格避免 NSAIDs 類止痛藥</strong> —— 用多模式止痛取代 <span class="link-ref">連結 5-1 · 5-1b</span></li>
       <li><strong>抗生素依腎功能調整劑量</strong> —— 部分抗生素具腎毒性,需精算</li>
       <li><strong>術後每日監測肌酸酐與尿量</strong> —— 早期偵測 AKI</li>
       <li><strong>體液評估與利尿劑使用</strong> —— 避免術後水腫</li>
@@ -1260,7 +1578,24 @@
       <li><strong>看任何醫師都主動告知「我曾有過急性腎損傷」</strong> —— 這比您想像的還重要</li>
       <li><strong>避免脫水</strong> —— 腹瀉、嘔吐、發燒、大量流汗時要主動補水(若同時無法進食,盡早就醫)</li>
       <li><strong>戒菸</strong> —— 吸菸會加速腎臟功能下降</li>
-      <li><strong>適量運動、維持理想體重</strong> <span class="link-ref">連結 10-1</span></li>
+      <li><strong>適量運動、維持理想體重</strong> — 目標 <strong>BMI 18.5-24</strong>(肥胖 BMI ≥ 27 會增加腎臟負擔與糖尿病風險);<strong>每週至少 150 分鐘中等強度有氧運動</strong>(如快走、游泳、騎自行車 — 心臟手術康復後,醫師允許的範圍內) <span class="link-ref">連結 10-1</span></li>
+    </ul>
+  </div>
+
+  <!-- Patient actions -->
+  <div class="section-title">您能配合的事 — 病人視角</div>
+
+  <div class="patient-actions">
+    <h4>給病人本人:AKI 的住院期 + 終身保護的具體配合</h4>
+    <ul>
+      <li><strong>主動詢問自己的數字</strong> — 「我今天的肌酸酐多少?」「我的 eGFR 多少?」「跟術前比較變化了多少?」 — 這是 AKI 唯一「能感覺到」的訊號 <span class="link-ref">連結 5-1b</span></li>
+      <li><strong>主動回報「尿量比平常少很多」</strong>(尿管期看引流袋,移除尿管後看自己上廁所次數) — 不必精確計算,粗略觀察就好</li>
+      <li><strong>絕對不要忍痛而自己買 NSAIDs</strong> — 即使是輕度的肩頸痠痛、頭痛、生理痛。先回診請醫師評估,普拿疼(acetaminophen)對腎臟相對安全是首選</li>
+      <li><strong>看任何醫師(牙醫、家醫科、皮膚科、泌尿科、骨科、急診)都主動告知「我曾有過急性腎損傷」</strong> — 這比您想像的還重要,可能影響用藥選擇</li>
+      <li><strong>抽血追蹤絕對不要跳過</strong> — 即使您「感覺很好」。AKI 沒有「靠感覺判斷」的訊號,只有抽血數字會說話</li>
+      <li><strong>拒絕「天然就安全」迷思</strong> — 馬兜鈴酸、減肥茶、來路不明補品、過量保健食品都可能傷腎。家人親友推薦的「祖傳秘方」「補腎偏方」也要拒絕</li>
+      <li><strong>對「終身要小心」不要焦慮或自我設限</strong> — 終身保護不等於終身病人。<strong>絕大多數有過 AKI 的人,只要避開腎毒性藥物 + 控制血壓血糖 + 規律追蹤,就能過完全正常的生活</strong></li>
+      <li><strong>主動學習藥袋辨識</strong> — 看「-pril」「-sartan」結尾、看「消炎止痛」「NSAIDs」字樣、看「酚/普羅芬/洛芬/昔布」中文藥名 — 這些不是醫師的事,是您終身要會的事</li>
     </ul>
   </div>
 
@@ -1279,16 +1614,67 @@
     </ul>
   </div>
 
+  <!-- Family self-care -->
+  <div class="section-title">給家屬的安心話 — 您也需要被照顧</div>
+
+  <div class="family-self-care">
+    <h4>陪伴 AKI 病人是終身議題,不是住院期事件</h4>
+    <div class="sub">您的體力、心理健康,是病人後續恢復與終身保護的依靠</div>
+    <p>AKI 與譫妄、POAF 的不同在於:譫妄通常急性會過去;POAF 多為慢性管理;<strong>AKI 後是「終身警覺」</strong> — 每一次看醫師、每一次買藥、每一次受傷,都要主動提醒「我曾有過 AKI」。對家屬來說,這個責任很容易變成<strong>「無止盡的擔心」</strong>。</p>
+    <ul>
+      <li><strong>把終身保護的責任分散給多位家人</strong>,不要一個人扛 — 提醒抽血、把關買藥、緊急時告知病史等,可以輪流</li>
+      <li><strong>用工具減少記憶負擔</strong>:手機行事曆設抽血提醒、家裡常見藥盒貼「先問藥師」標籤、急救卡片放在多個家人手邊</li>
+      <li><strong>不要因為「沒事」就鬆懈,也不要因為「萬一」就過度焦慮</strong> — 終身保護是規律的習慣,不是隨時的緊張</li>
+      <li><strong>家屬也要照顧自己的腎臟健康</strong> — 您在照顧家人時可能熬夜、不規律飲食、壓力大 — 這些對您自己的腎臟也是傷害。<strong>不要為了照顧家人而犧牲自己的健康</strong></li>
+      <li>如果您發現自己<strong>對「萬一他/她再次 AKI 怎麼辦」過度焦慮</strong>、晚上睡不好、食慾差,請主動求助</li>
+    </ul>
+    <div class="help-channels">
+      <strong>具體求助管道</strong>:院內社工師(請護理師代為聯絡)、院內臨床心理師、衛福部安心專線 <strong>1925</strong>(24 小時免費)、生命線 <strong>1995</strong>、腎臟病友家屬支持團體(請洽腎臟內科門診)。<strong>長期照顧者的疲勞與焦慮,早期求助比晚期治療有效得多</strong>。
+    </div>
+  </div>
+
   <!-- ID reminder card -->
   <div class="discharge">
-    <h4>如何讓「告知醫師」變成習慣 — 三個具體工具</h4>
+    <h4>如何讓「告知醫師」變成習慣 — 四個具體工具</h4>
     <p>口頭告知容易被忽略(看牙醫、家醫科時往往倉促)。建議用以下<strong>具體可執行的工具</strong>:</p>
     <ul>
       <li><strong>手機備忘錄寫一段話</strong>:「我曾於 YYYY 年 MM 月做過心臟手術,術後發生急性腎損傷(AKI 第 X 級),請避免使用 NSAIDs、特定抗生素、顯影劑。」<strong>看醫師時打開給醫師看</strong>,比口頭說更清楚</li>
       <li><strong>錢包放一張卡片</strong> —— 寫上「<strong>心臟手術 + AKI 病史</strong>」與血型、過敏史,緊急時讓急救人員看到</li>
       <li><strong>常用藥的藥袋上做標記</strong> —— 用紅色筆寫「<strong>AKI 病史,避免 NSAIDs</strong>」,提醒自己也提醒藥師</li>
+      <li><strong>考慮配戴「醫療警示手環/項鍊」(Medical Alert Bracelet)</strong> — 國外常見、國內也可購買的不鏽鋼/矽膠手環,正面刻「<strong>AKI</strong>」或「<strong>NO NSAIDs</strong>」,反面可刻緊急聯絡電話。<strong>意識不清送急診時,這是急救人員第一眼會看到的訊息</strong></li>
     </ul>
+
+    <div class="med-alert-bracelet">
+      <span class="label">⊕ 醫療警示手環 — 何時最有價值</span>
+      <p>對<strong>長者、獨居者、有跌倒風險、失智早期、心血管植入物(支架/瓣膜/起搏器)</strong>的病人特別有幫助。當您意外昏倒、無法說話、被路人發現送醫,<strong>急救人員不會翻您的錢包,但會檢查手腕和頸部</strong>。台灣有部分廠商提供刻字服務,可洽社區藥局或網路搜尋「醫療警示手環」。</p>
+    </div>
+
     <p style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border)"><strong>讓「終身保護」從抽象觀念變成具體可執行的日常工具</strong>。</p>
+  </div>
+
+  <!-- Cost vs NHI -->
+  <div class="section-title">AKI 治療與終身保護的健保與自費</div>
+
+  <div class="cost-note">
+    <h5>AKI 涉及的費用 — 大多數都在健保範圍內</h5>
+    <p><strong>本院的標準 AKI 照護幾乎完全在健保範圍內</strong>,不會讓病人因為費用而錯過必要治療。</p>
+    <p><strong>健保涵蓋</strong>:</p>
+    <ul>
+      <li><strong>住院期間每日肌酸酐、電解質監測</strong></li>
+      <li><strong>AKI 治療藥物</strong>(暫停腎毒性藥物 + 體液電解質調整)</li>
+      <li><strong>必要時的透析治療</strong>(住院與門診)</li>
+      <li><strong>出院後第 1 年的密集追蹤抽血</strong>(肌酸酐、eGFR)</li>
+      <li><strong>普拿疼(acetaminophen)等較安全的止痛藥</strong></li>
+    </ul>
+    <p><strong>可能涉及自費</strong>:</p>
+    <ul>
+      <li><strong>進階腎功能標記檢測</strong>(如 NGAL、cystatin C 等,部分情況下非常規檢項)</li>
+      <li><strong>醫療警示手環/卡片</strong>(自行購買,通常 200-1000 元一次性費用)</li>
+      <li><strong>非健保給付的腎臟保護保健食品</strong>(本院不會建議使用,任何補品請先問腎臟科醫師)</li>
+    </ul>
+    <div class="help-line">
+      <strong>如有經濟負擔考量,請直接告訴醫師或護理師</strong>。團隊會優先採用健保項目,必要時可協助轉介社工資源。AKI 的核心治療與長期追蹤都在健保範圍內,<strong>不會因為費用而影響您的治療品質</strong>。
+    </div>
   </div>
 
   <!-- Outlook -->
@@ -1346,16 +1732,19 @@
   <!-- Reading map -->
   <div class="reading-map">
     <h4>AKI 與術後恢復相關的閱讀路徑</h4>
-    <div class="sub">這份單張在整套衛教中的位置 — 也是術後併發症三部曲之一</div>
+    <div class="sub">這份單張位於「<strong>術後併發症三部曲</strong>」第 3 部 — 也是整套系列「終身保護」議題的標竿</div>
     <ol>
-      <li>體外循環機 CPB(與 AKI 關係)</li>
-      <li>凝血功能與止血藥物(紅血球與腎臟保護)</li>
-      <li>圍術期低體溫(影響腎臟血流)</li>
-      <li>多模式止痛(避免 NSAIDs,本院多模式策略正好避開)</li>
-      <li>心臟手術後飲食調整(低鹽、適量蛋白質)</li>
-      <li>譫妄專篇 8-2(術後併發症三部曲:腦)</li>
-      <li>術後心房顫動 POAF 8-3(術後併發症三部曲:心律)</li>
-      <li class="current"><strong>術後急性腎損傷 8-4(您正在讀,三部曲:腎)</strong></li>
+      <li>體外循環機 CPB 3-2(與 AKI 關係 — CPB 時間長是 AKI 強誘因)</li>
+      <li>凝血功能與止血藥物 5-2(紅血球與腎臟保護)</li>
+      <li>圍術期低體溫 4-6(影響腎臟血流)</li>
+      <li>多模式止痛 5-1 · 術後疼痛 5-1b(避免 NSAIDs,本院多模式策略正好避開)</li>
+      <li>譫妄專篇 8-2(術後併發症三部曲第 1 部:腦)</li>
+      <li>術後心房顫動 POAF 8-3(術後併發症三部曲第 2 部:心律 — 抗凝血劑與腎功能的關係)</li>
+      <li class="current"><strong>術後急性腎損傷 AKI 8-4(您正在讀:術後併發症三部曲第 3 部:腎 — 終身議題)</strong></li>
+      <li>術後神經學評估 病人版 8-1a · 家屬版 8-1b(意識清醒時主動詢問數字)</li>
+      <li>心臟手術後飲食調整 9-3(低鹽、適量蛋白質 — 與 AKI 終身保護一致)</li>
+      <li>主動恢復入門 10-1a(出院後規律有氧運動 — BMI 與運動目標)</li>
+      <li>整套衛教整合與終身指南 10-1b(終身保護論述完整展開 — 集大成篇)</li>
     </ol>
   </div>
 

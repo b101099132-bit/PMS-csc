@@ -280,7 +280,84 @@
   }
   .strategy { padding: 18px 18px; }
   .prebuilt { padding: 18px 20px; }
+  .cost-note-inline { padding: 18px 20px; }
+  .dont-endure { padding: 22px 24px; }
 }
+
+/* 自費包套說明(三段標準範本) */
+.cost-note-inline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.cost-note-inline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.cost-note-inline .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.cost-note-inline p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cost-note-inline p:last-child { margin-bottom: 0; }
+.cost-note-inline p strong { color: var(--ink); font-weight: 600; }
+.cost-note-inline p.help-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+}
+.cost-note-inline p.help-line strong { color: var(--safe); font-weight: 600; }
+
+/* 「忍痛是錯的選擇」金句獨立呈現 */
+.dont-endure {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.dont-endure .eyebrow {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.dont-endure .quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.dont-endure .quote strong { color: var(--gold); }
+.dont-endure .explain {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin: 0;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.dont-endure .explain strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -371,7 +448,7 @@
   <article class="pain-card">
     <div class="pain-num">部位 04</div>
     <h3>喉嚨</h3>
-    <div class="pain-meta">來自手術中的氣管插管與<strong>經食道超音波（TEE）</strong></div>
+    <div class="pain-meta">來自手術中的氣管插管與<strong>經食道超音波(TEE,Transesophageal Echocardiography,從食道放入的特殊超音波探頭,可從心臟正後方即時看見心臟跳動與瓣膜狀況,是心臟手術的標準術中監測之一)</strong></div>
     <div class="pain-rows">
       <div class="row"><div class="label">痛感</div><div class="value">吞嚥不適、聲音沙啞，部分人感覺有異物</div></div>
       <div class="row"><div class="label">時程</div><div class="value">1–3 天通常自行緩解，含冰水或溫水有幫助</div></div>
@@ -434,7 +511,8 @@
     <div class="s-num">策略 02</div>
     <h4>區域神經阻斷</h4>
     <div class="en">Regional Nerve Block</div>
-    <p>手術前或手術中，麻醉醫師在胸壁附近的神經周圍打<strong>局部麻醉藥</strong>，直接阻斷胸壁的痛覺神經傳導。效果可<strong>持續術後 12–24 小時</strong>，剛好跨過最痛的時段，對「會呼吸的痛」效果最好。</p>
+    <p>手術前或手術中,麻醉醫師在胸壁附近的神經周圍打<strong>局部麻醉藥</strong>,直接阻斷胸壁的痛覺神經傳導。效果可<strong>持續術後 12–24 小時</strong>,剛好跨過最痛的時段,對「會呼吸的痛」效果最好。</p>
+    <p style="background:var(--safe-bg);border-left:2px solid var(--safe);padding:10px 14px;margin:10px 0 0;border-radius:3px;font-size:13.5px;line-height:1.75;"><strong style="color:var(--safe);">⓵ 您不會感覺到打針</strong> —— 這個阻斷是<strong>在您已經全身麻醉睡著後</strong>進行的,麻醉醫師會用超音波導引找到準確位置,整個過程<strong>您完全不會痛、不會有感覺</strong>。醒來時不會看到背部或胸壁有針孔,只會發現「該痛的位置不太痛」 —— 這就是它在運作的證據。</p>
   </article>
 
   <article class="strategy s3">
@@ -448,7 +526,7 @@
     <div class="s-num">策略 04</div>
     <h4>鴉片類「需要才用」</h4>
     <div class="en">Opioids · Rescue only</div>
-    <p>鴉片類不再是基礎用藥，<strong>只有當上述三項加起來仍不足時才追加</strong>，使用短效、低劑量配方。這樣能避免<strong>想吐、便祕、呼吸變慢變淺、意識混亂（譫妄）</strong>等副作用，<strong>不會拖慢拔管、下床、進食的進度</strong>。</p>
+    <p>鴉片類不再是基礎用藥,<strong>只有當上述三項加起來仍不足時才追加</strong>,使用短效、低劑量配方。這樣能避免<strong>想吐、便祕、呼吸變慢變淺、意識混亂(譫妄) <span class="link-ref">連結 8-2</span></strong>等副作用,<strong>不會拖慢拔管、下床、進食的進度</strong>。</p>
     <div class="strat-clarify">
       <span class="label">重要澄清：</span>這不是「醫院捨不得給強效藥」，而是「<strong>等真的需要才用，效果反而最好</strong>」。研究顯示，常規大劑量鴉片類反而會讓身體對止痛變得不敏感，後續需要更高劑量才有效。本院的策略是把鴉片類<strong>留在最該用的時候</strong>，確保它真正幫到您。
     </div>
@@ -487,11 +565,44 @@
     <h4>主動參與，痛就能控制得更好</h4>
     <ul>
       <li><strong>抱枕固定胸口</strong>：咳嗽、深呼吸、翻身時抱緊枕頭壓在傷口位置 <span class="link-ref">連結 7-2</span></li>
-      <li><strong>不要忍痛</strong>：忍痛會讓您不敢呼吸、不敢咳嗽、不敢動 —— 反而拖慢恢復。「忍痛是錯的選擇」</li>
       <li><strong>動作前 5–10 分鐘先告訴護理師</strong>：要咳嗽、翻身、下床等動作前，先給時間讓止痛藥起效。止痛藥從注射或服用到效果達到高峰，通常需要 5–15 分鐘</li>
       <li><strong>配合誘發性肺量計使用</strong>：每 1–2 小時做一輪，把肺撐開 <span class="link-ref">連結 7-1</span></li>
       <li><strong>規律下床活動</strong>：適度活動有助減少腰背痛與大腿取靜脈處的僵硬 <span class="link-ref">連結 7-6a</span></li>
+      <li><strong>誠實告訴護理師疼痛分數</strong>:用 0–10 分表達當下感覺,團隊才能精準調整(分數對應的場景請見上方表格)</li>
     </ul>
+  </div>
+
+  <!-- Don't endure: 整套系列態度最強金句 -->
+  <div class="dont-endure">
+    <div class="eyebrow">本院核心立場</div>
+    <div class="quote">忍痛<strong>不是堅強</strong>,而是<strong>錯的選擇</strong></div>
+    <p class="explain">忍痛會讓您<strong>不敢呼吸、不敢咳嗽、不敢動</strong> —— 反而拖慢恢復,增加肺部感染與譫妄風險。本院希望您的痛被<strong>「處理好」</strong>而不是被<strong>「忍下來」</strong>。<br>請放心按鈴、誠實表達疼痛分數,團隊會精準調整。</p>
+  </div>
+
+  <!-- Cost note -->
+  <div class="cost-note-inline">
+    <h4>關於費用</h4>
+    <div class="sub">神經阻斷與部分止痛藥屬於麻醉自費包套的一部分</div>
+    <p><strong>麻醉自費包套</strong>:本院的麻醉自費為包套設計(含 TOF 監測、Sugammadex、<strong>神經阻斷止痛</strong>、BIS 腦波監測、保暖毯等項目),通常落在 <strong>5–7 萬元</strong>。麻醉科會在<strong>術前訪視</strong>時解釋整套包套內容,但實際使用哪些項目,是由麻醉科醫師依<strong>術中生命徵象(心跳、血壓、腦波、腦氧)與手術內容(傳統/微創/刀口大小)綜合判斷</strong> —— 不需要由您逐項選擇。</p>
+    <p class="help-line"><strong>如有經濟負擔考量</strong>,請直接告訴醫師或護理師。團隊會優先採用健保項目,<strong>麻醉科也有吸收自費的機制可申請</strong>協助您,必要時可協助轉介社工資源。</p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>止痛論述鏈閱讀路徑</h4>
+    <div class="sub">本院的止痛不是讓您「舒服一點」,而是讓<strong>整套加速康復都能跑起來</strong>。下面是構成這條鏈的單張。</div>
+    <ol>
+      <li>術中多模式止痛 5-1(術中三項主力:神經阻斷 + 脊髓內嗎啡 + 乙醯胺酚)</li>
+      <li class="current"><strong>術後疼痛與多模式止痛 5-1b(您正在讀:術後四大策略 + 疼痛分數 + 抱枕固定)</strong></li>
+      <li>早期拔管 6-2(止痛到位才能拔管 — 多模式止痛是前提)</li>
+      <li>HFNC 高流量鼻導管 6-6(策略 01 — 從源頭減少「會呼吸的痛」)</li>
+      <li>術後咳嗽技巧 7-2(抱枕固定法 — 配合止痛才咳得出來)</li>
+      <li>誘發性肺量計 7-1(呼吸訓練 — 止痛到位才做得到)</li>
+      <li>從躺到坐 7-6a、從站到走 7-6b(止痛到位才能動)</li>
+      <li>譫妄專篇 8-2(鴉片類副作用之一,本院止痛策略減少譫妄風險)</li>
+      <li>主動恢復入門 10-1a(出院後止痛是居家恢復的關鍵)</li>
+      <li>整套衛教整合與終身指南 10-1b(止痛論述鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

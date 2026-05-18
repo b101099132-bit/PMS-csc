@@ -292,7 +292,75 @@
   .topics { padding: 16px 20px; }
   .fast-block { padding: 20px 22px; }
   .reassure-family { padding: 22px 22px; }
+  .kids-note { padding: 18px 20px; }
+  .help-contact { padding: 16px 18px; }
 }
+
+/* 12 歲以下小朋友議題(對齊 6-1 / 6-5) */
+.kids-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.kids-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.kids-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.kids-note p:last-child { margin-bottom: 0; }
+.kids-note p strong { color: var(--ink); font-weight: 600; }
+.kids-note ul {
+  margin: 6px 0 0;
+  padding-left: 22px;
+}
+.kids-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 4px;
+}
+.kids-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 向社工或心理師求助具體管道 */
+.help-contact {
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--safe);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.help-contact strong { color: var(--ink); font-weight: 600; }
+.help-contact .hc-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--safe);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: block;
+}
+.help-contact ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.help-contact ul li {
+  margin-bottom: 4px;
+}
+.help-contact ul li:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body>
@@ -332,6 +400,10 @@
     <div class="lex-row">
       <span class="lex-term">FAST</span>
       <span class="lex-def">國際通用的<strong>中風快速辨識口訣</strong>:臉(Face)、手(Arm)、說話(Speech)、時間(Time)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">保護性約束</span>
+      <span class="lex-def">病人意識混亂、可能不自主拉扯管路時的暫時安全裝置。<strong>家屬陪伴是降低約束需求最有效的方法</strong> — 您的存在、規律對話、定向感重建,讓病人不需要被約束就能安全度過混亂期。詳見 <strong>6-5 保護性約束</strong>。</span>
     </div>
   </div>
 
@@ -427,6 +499,28 @@
       <div class="line">「我陪你坐一下就好。」</div>
     </div>
   </div>
+
+  <div class="dialog-scenario">情境 04 · 沉默尷尬型</div>
+  <div class="dialog-pair">
+    <div class="dialog-box dont">
+      <div class="dlabel">不建議</div>
+      <div class="line">(站在床邊不知道說什麼,氣氛凝重)</div>
+      <div class="line">(滑手機、看電視,不跟病人互動)</div>
+      <div class="line">「我...我也不知道該說什麼...」</div>
+      <div class="line">(突然開始哭、表現得很沉重)</div>
+    </div>
+    <div class="dialog-box do">
+      <div class="dlabel">建議</div>
+      <div class="line">「老公,我來看你了。」</div>
+      <div class="line">(握住他的手,沉默 10 秒也沒關係)</div>
+      <div class="line">「今天外面下雨。」</div>
+      <div class="line">(報告一件外面的小事就好)</div>
+      <div class="line">「我陪你坐 15 分鐘。」</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin:8px 0 24px;padding:12px 16px;background:var(--paper);border-radius:3px;border-left:2px solid var(--teal);">
+    <strong style="color:var(--teal);">沉默不是失敗,是陪伴的一種形式</strong>。不必硬擠話題、不必假裝堅強、不必滑手機掩飾尷尬。<strong>握住手、陪坐、報告一件外面的小事</strong> — 三個簡單動作就夠了。病人會記得「<strong>那天你來陪我</strong>」,不會記得「<strong>那天你說了什麼</strong>」。
+  </p>
 
   <!-- Topics -->
   <div class="section-title">可以聊什麼(依場合分組)</div>
@@ -550,7 +644,8 @@
     </div>
 
     <div class="fast-time">
-      <strong>每延遲 1 分鐘 → 約 190 萬個腦細胞死亡</strong><br>不必確認、不必猶豫 —— 寧可虛驚一場,也不要錯過黃金時間
+      <strong>每延遲 1 分鐘 → 約 190 萬個腦細胞死亡</strong><br>不必確認、不必猶豫 —— 寧可虛驚一場,也不要錯過黃金時間<br>
+      <span style="font-size:11px; color:var(--ink-faint); font-weight:400; letter-spacing:0;">(數據來源:Saver JL. Time Is Brain — Quantified. <em>Stroke.</em> 2006;37(1):263-266.)</span>
     </div>
   </div>
 
@@ -567,6 +662,23 @@
   <p style="font-size:13.5px; color:var(--ink-soft); line-height:1.75; padding:12px 16px; background:var(--cream); border-radius:3px; border-left:2px solid var(--gold); margin-bottom:24px">
     <strong>寧可虛驚一場,也不要錯過早期處理的黃金時間。</strong>即使您不確定是不是有問題,也請告訴護理人員 —— 您的觀察永遠值得被重視。
   </p>
+
+  <!-- Kids under 12 -->
+  <div class="section-title">如果家中有 12 歲以下的小朋友</div>
+
+  <div class="kids-note">
+    <h4>「爺爺/奶奶/爸爸/媽媽在加護病房」對小朋友的特殊考量</h4>
+    <p>本院 ICU 探視原則:<strong>原則上 12 歲以下小朋友不直接進入 ICU</strong>(避免感染風險,並考量小朋友看到管路、儀器可能的心理衝擊)。但這不代表小朋友要被「<strong>遮蔽</strong>」 — 反而需要家屬幫助他們「理解、適度參與、釋放擔心」。</p>
+    <p><strong>建議做法</strong>:</p>
+    <ul>
+      <li><strong>用小朋友懂的語言解釋</strong>:「<strong>爺爺心臟修好了,現在在加護病房休息,醫生護士在照顧他</strong>」 — 不要說「爺爺很危險」「不確定能不能好」這種讓孩子焦慮的話</li>
+      <li><strong>用視訊或錄影片陪伴</strong>:會客時用手機讓病人看到小朋友、聽到他的聲音。即使病人還在迷糊,也常會記得「<strong>有看到孫子</strong>」</li>
+      <li><strong>讓小朋友畫畫、寫卡片帶來</strong>:貼在病人視線可及處。這也是病人定向感建立的好工具(「<strong>這是孫子畫的</strong>」)</li>
+      <li><strong>留意小朋友的情緒反應</strong>:有些小朋友會出現退化行為(尿床、不想上學、惡夢) — 這是正常壓力反應。<strong>持續超過 2 週仍未緩解,請告訴護理師或社工協助轉介心理諮商</strong></li>
+      <li><strong>避免「你要乖,不然爺爺會擔心」這類綁架式的話</strong> — 會讓小朋友把家人生病跟自己的行為連結,造成不必要的罪惡感</li>
+    </ul>
+    <p>同樣的原則適用於<strong>家中有失智長輩</strong>的情況 — 用簡單、規律、具體的話解釋,不要隱瞞,但也不要把焦慮傳遞過去。</p>
+  </div>
 
   <!-- Family reassurance -->
   <div class="section-title">給家屬的安心話</div>
@@ -585,23 +697,39 @@
         <li>每次會客結束,<strong>離開 ICU 後做一次深呼吸再走</strong></li>
         <li><strong>與其他家人輪流會客</strong>,不要一個人扛</li>
         <li>一天至少吃兩餐、睡 6 小時 —— <strong>您的體力是病人後續恢復的依靠</strong></li>
-        <li>如果您開始<strong>失眠、食慾差、容易掉眼淚</strong>,告訴護理人員或社工,我們有資源可以幫忙</li>
+        <li>如果您開始<strong>失眠、食慾差、容易掉眼淚、有負面想法</strong>,告訴護理人員或社工,我們有資源可以幫忙</li>
       </ul>
+
+      <div class="help-contact">
+        <span class="hc-label">向社工或心理師求助 — 具體管道</span>
+        <ul>
+          <li><strong>院內社工師</strong>:請護理師代為聯絡,可協助轉介心理諮商、家屬支持團體、社會福利資源、自費經濟困難協助申請</li>
+          <li><strong>院內心理師</strong>:本院提供住院期間家屬心理支持服務,需請護理師或社工協助轉介</li>
+          <li><strong>24 小時心理諮詢熱線</strong>:衛福部安心專線 <strong>1925</strong>(免付費 / 全年無休) / 生命線 <strong>1995</strong> / 張老師 <strong>1980</strong></li>
+          <li><strong>家屬支持團體</strong>:本院心臟外科有定期舉辦家屬經驗分享會,可請社工協助報名 — <strong>聽聽其他家屬怎麼度過,常比醫療資訊更有幫助</strong></li>
+          <li><strong>不必等到「很嚴重」才求助</strong> — 早期介入比晚期治療有效得多。「<strong>感覺撐不下去</strong>」「<strong>睡不著超過 3 天</strong>」「<strong>對什麼都提不起勁</strong>」就是適合求助的時機</li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <!-- Reading map -->
   <div class="reading-map">
-    <h4>您陪伴的腦部守護鏈</h4>
-    <div class="sub">這份單張在整套守護鏈中的位置</div>
+    <h4>您陪伴的腦部守護鏈 + 認知守護網絡</h4>
+    <div class="sub">這份單張在「中風守護鏈」與「家屬照顧者支援」中的位置</div>
     <ol>
-      <li>CPB · 體外循環機(認識手術)</li>
-      <li>NIRS · 腦氧監測(術中守護)</li>
-      <li>BIS · 麻醉深度監測(術中守護)</li>
-      <li>早期拔管(術後立即清醒)</li>
-      <li>HFNC · 高流量鼻導管(拔管後過渡)</li>
-      <li>術後神經學評估 — 病人版(<strong>請鼓勵病人讀</strong>)</li>
-      <li class="current"><strong>會客時的認知復健 — 家屬版(您正在讀)</strong></li>
+      <li>體外循環機 CPB 3-2(中風守護鏈起點 — 認識手術設備)</li>
+      <li>NIRS 腦氧監測 4-3(術中即時腦氧守護)</li>
+      <li>BIS 麻醉深度監測 4-4(術中麻醉深度控制)</li>
+      <li>早期拔管 6-2(讓病人清醒地進入恢復)</li>
+      <li>HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援)</li>
+      <li>外科加護病房 6-1(您要面對的環境 — 含 12 歲以下小朋友議題)</li>
+      <li>術後神經學評估 病人版 8-1a(<strong>請鼓勵病人讀</strong>)</li>
+      <li class="current"><strong>會客時的認知復健 家屬版 8-1b(您正在讀:最熟悉的觀察者價值)</strong></li>
+      <li>保護性約束 6-5(<strong>家屬陪伴 = 降低約束需求</strong>核心論述)</li>
+      <li>術後譫妄 8-2(意識混亂的早期辨識與預防 — 家屬是第一線觀察者)</li>
+      <li>主動恢復入門 10-1a(家屬也是康復團隊的一員)</li>
+      <li>整套衛教整合與終身指南 10-1b(「不可取代的處方」家屬角色完整收束 — 集大成篇)</li>
     </ol>
   </div>
 
@@ -618,6 +746,7 @@
     <div class="ref-title">參考資料</div>
     <ol>
       <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Saver JL. Time Is Brain — Quantified. <em>Stroke.</em> 2006;37(1):263–266.</li>
       <li>Rosa RG, Falavigna M, da Silva DB, et al. Effect of Flexible Family Visitation on Delirium Among Patients in the Intensive Care Unit: The ICU Visits Randomized Clinical Trial. <em>JAMA.</em> 2019;322(3):216–228.</li>
       <li>Mitchell ML, Kean S, Rattray JE, et al. A family intervention to reduce delirium in hospitalised ICU patients: A feasibility randomised controlled trial. <em>Intensive Crit Care Nurs.</em> 2017;40:77–84.</li>
     </ol>

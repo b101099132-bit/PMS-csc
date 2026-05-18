@@ -239,6 +239,46 @@
   .pain-timeline .phase { grid-template-columns: 1fr; gap: 4px; }
 }
 
+/* 費用說明區塊 — 三段標準寫法 */
+.cost-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.cost-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+.cost-note .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.cost-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cost-note p:last-child { margin-bottom: 0; }
+.cost-note p strong { color: var(--ink); font-weight: 600; }
+.cost-note p.help-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+}
+.cost-note p.help-line strong { color: var(--safe); font-weight: 600; }
+
 /* 恢復對照表 — floating-label */
 .recovery-compare {
   background: var(--paper);
@@ -567,7 +607,7 @@
           <li>適用任何心臟手術</li>
           <li>技術門檻較低</li>
           <li>緊急狀況可立即應對</li>
-          <li>健保給付、無自費</li>
+          <li>核心費用健保給付(部分耗材仍可能自費 — 詳見下方「關於費用」)</li>
         </ul>
       </div>
       <div class="pc-col cons">
@@ -801,7 +841,7 @@
       <li><strong>需要選擇性病例</strong>:不是每個病人都適合,醫師會嚴格評估</li>
       <li><strong>技術門檻較高</strong>:需要受過微創訓練的團隊,且需要特殊器械</li>
       <li><strong>視野有限</strong>:手術中如果發現問題,有時需要中途轉開傳統</li>
-      <li><strong>部分自費</strong>:依使用的特殊器械(部分人工血管、止血材料、特定縫合器等),可能有部分自費</li>
+      <li><strong>部分項目自費</strong>:微創會用到特殊器械,有部分耗材自費(詳見下方「關於費用」段落)</li>
     </ul>
   </div>
 
@@ -840,6 +880,15 @@
     <h4>關於「中途轉開傳統」</h4>
     <p>微創手術過程中,<strong>大約 1–5% 的病人會中途轉開為傳統開胸</strong>。這通常是因為:發現意外的解剖變異、輕微出血需要更好視野、技術上判斷傳統較安全等。<strong>這不是失敗,是預先準備好的安全機制</strong>。轉開後的結果與一開始就做傳統的結果相當。</p>
     <p><strong style="color:var(--danger)">重要觀念:轉開比例極低不見得越好</strong>。如果一家醫院的轉開比例 &lt; 1%,<strong>可能反而代表醫師太堅持微創而忽略安全</strong>。本院的標準是「<strong>安全第一</strong>」,該轉就轉。轉開比例落在合理範圍(1–5%),代表醫師有判斷力、有底線。</p>
+  </div>
+
+  <!-- Cost note -->
+  <div class="cost-note">
+    <h4>關於費用</h4>
+    <div class="sub">微創手術涉及兩類自費項目 — 手術耗材與麻醉包套。下方為本院的標準說明。</div>
+    <p><strong>手術耗材自費</strong>:由心臟外科醫師依您的個別狀況使用。<strong>可選擇的部分</strong>(如骨板、特定縫合器、止血材料)會在<strong>術前訪視</strong>時與您和家屬討論後勾選;<strong>視臨床狀況才使用的部分</strong>(如凝血因子、纖維蛋白原)則由醫師術中依需要使用,並於事後與家屬補簽同意書。具體品項與費用都會在<strong>手術同意書</strong>中逐項列出。</p>
+    <p><strong>麻醉自費包套</strong>:本院的麻醉自費為包套設計(含 TOF 監測、Sugammadex、神經阻斷止痛、BIS 腦波監測、保暖毯等項目),通常落在 <strong>5–7 萬元</strong>。麻醉科會在<strong>術前訪視</strong>時解釋整套包套內容,但實際使用哪些項目,是由麻醉科醫師依<strong>術中生命徵象(心跳、血壓、腦波、腦氧)與手術內容(傳統/微創/刀口大小)綜合判斷</strong> —— 不需要由您逐項選擇。</p>
+    <p class="help-line"><strong>如有經濟負擔考量</strong>,請直接告訴醫師或護理師。團隊會優先採用健保項目,<strong>麻醉科也有吸收自費的機制可申請</strong>協助您,必要時可協助轉介社工資源。</p>
   </div>
 
   <!-- Hospital choice logic -->
@@ -883,6 +932,8 @@
       <li>術後咳嗽技巧 7-2(切口疼痛影響咳嗽方式)</li>
       <li>胸骨保護動作 7-4(傳統 6–8 週、微創可縮短)</li>
       <li>從躺到坐 7-6a、從站到走 7-6b(術後活動恢復鏈)</li>
+      <li>主動恢復入門 10-1a(微創或傳統都是主動恢復的起點)</li>
+      <li>整套衛教整合與終身指南 10-1b(術式選擇延伸到終身守護 — 集大成篇)</li>
     </ol>
   </div>
 

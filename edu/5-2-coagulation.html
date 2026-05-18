@@ -17,6 +17,90 @@
 <style>
 /* 本頁專用:第三層用金色突出(本院特色) */
 .method-card.gold-side .m-tag { color: var(--gold); }
+
+/* 自費包套(含「不可選擇」紅色強調) */
+.cost-note-inline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.cost-note-inline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.cost-note-inline .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.cost-note-inline p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cost-note-inline p:last-child { margin-bottom: 0; }
+.cost-note-inline p strong { color: var(--ink); font-weight: 600; }
+.cost-note-inline p.unselectable {
+  padding: 12px 14px;
+  background: #FAF1E6;
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  margin-top: 8px;
+}
+.cost-note-inline p.unselectable strong.danger-key {
+  color: var(--danger);
+  font-weight: 600;
+}
+.cost-note-inline p.help-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+}
+.cost-note-inline p.help-line strong { color: var(--safe); font-weight: 600; }
+
+/* 給家屬的話 — 化解胸管引流恐慌 */
+.family-note {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.family-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.family-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.family-note p:last-child { margin-bottom: 0; }
+.family-note p strong { color: var(--ink); font-weight: 600; }
+.family-note .calm-box {
+  background: var(--paper);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-size: 13px;
+  border-left: 2px solid var(--safe);
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+.family-note .calm-box strong { color: var(--safe); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -52,8 +136,24 @@
       <span class="lex-def">手術中用來<strong>讓血液不要結塊</strong>的藥，避免人工心肺機內形成血塊。</span>
     </div>
     <div class="lex-row">
+      <span class="lex-term">TXA · 傳明酸</span>
+      <span class="lex-def">Tranexamic Acid,中文常稱「<strong>傳明酸</strong>」,藥袋上常見品名 Transamin。<strong>術中靜脈注射的止血藥</strong>,作用是<strong>阻止血塊形成後又被分解</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">ACT</span>
+      <span class="lex-def">Activated Clotting Time,<strong>活化凝血時間</strong>。床邊抽一滴血,<strong>幾秒內顯示血液要花多久才會凝固</strong>。用來確認肝素是否足量、結束時是否被中和。</span>
+    </div>
+    <div class="lex-row">
       <span class="lex-term">ROTEM / TEG</span>
-      <span class="lex-def">床邊即時的<strong>凝血功能監測儀</strong>，幾分鐘內告訴團隊哪一段出問題。</span>
+      <span class="lex-def">床邊即時的<strong>凝血功能監測儀</strong>。傳統實驗室凝血檢驗需 <strong>30–60 分鐘</strong>才有結果;ROTEM/TEG <strong>床邊 5–10 分鐘</strong>就告訴團隊「哪一段凝血路徑出問題」,是精準補充的關鍵。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">心包填塞</span>
+      <span class="lex-def">血塊或液體堆積在<strong>心臟外的「心包膜」袋子裡</strong>,壓迫心臟、影響跳動。是術後出血未控制的嚴重併發症,需立即處理。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">纖維蛋白溶解系統</span>
+      <span class="lex-def">身體自帶的「<strong>血塊清理機制</strong>」,平時負責分解多餘血塊。心臟手術中此系統會被過度活化,讓剛形成的血塊又被分解,所以需要 TXA 來抑制它。</span>
     </div>
   </div>
 
@@ -70,7 +170,7 @@
       <li>血液長時間接觸人工心肺機表面，<strong>血小板功能下降、凝血因子消耗</strong></li>
       <li>機器內的灌注液造成<strong>血液稀釋</strong>，凝血因子濃度被稀釋變低</li>
       <li>必要使用的肝素（Heparin）<strong>主動抑制凝血</strong></li>
-      <li>纖維蛋白溶解系統被活化，<strong>剛形成的血塊容易又被分解</strong></li>
+      <li><strong>纖維蛋白溶解系統(身體自帶的血塊清理機制)</strong>被過度活化,<strong>剛形成的血塊容易又被分解</strong></li>
       <li>術中若體溫偏低，<strong>凝血酵素活性也會下降</strong></li>
     </ul>
   </div>
@@ -84,23 +184,23 @@
 
   <article class="method-card teal-side">
     <div class="m-tag">第一層 · 預防</div>
-    <h3>氨甲環酸（Tranexamic Acid · TXA）</h3>
-    <div class="m-en">抗纖維蛋白溶解劑</div>
-    <p>在進入人工心肺機前由麻醉醫師靜脈注射，整個手術期間維持治療濃度。它的作用是<strong>阻止血塊形成後又被分解</strong>，是國際心臟手術 ERAS 指引中強烈建議的常規用藥。</p>
-    <p>大規模研究顯示，常規使用氨甲環酸能<strong>顯著減少術後出血量與輸血需求</strong>。</p>
+    <h3>止血藥(Tranexamic Acid · TXA · 傳明酸)</h3>
+    <div class="m-en">抗纖維蛋白溶解劑 · 藥袋上常見品名 Transamin</div>
+    <p>在進入人工心肺機前由麻醉醫師靜脈注射,整個手術期間維持治療濃度。它的作用是<strong>阻止血塊形成後又被分解</strong>(也就是抑制纖維蛋白溶解系統),是國際心臟手術 ERAS 指引中強烈建議的常規用藥。</p>
+    <p>大規模研究顯示,常規使用 TXA 能<strong>顯著減少術後出血量與輸血需求</strong>。</p>
   </article>
 
   <article class="method-card teal-side">
     <div class="m-tag">第二層 · 補充</div>
     <h3>凝血因子製劑</h3>
     <div class="m-en">Coagulation Factor Concentrates</div>
-    <p>當監測發現特定凝血因子不足，會針對性補充：</p>
+    <p>當監測發現特定凝血因子不足,會針對性補充:</p>
     <p>
-      ・<strong>纖維蛋白原濃縮劑（Fibrinogen Concentrate）</strong>—— 補充形成血塊核心的關鍵蛋白<br>
-      ・<strong>凝血酶原複合物（PCC）</strong>—— 同時補充第二、七、九、十因子，快速止血<br>
+      ・<strong>纖維蛋白原濃縮劑(Fibrinogen Concentrate)</strong>—— 補充形成血塊核心的關鍵蛋白<br>
+      ・<strong>凝血酶原複合物(PCC)</strong>—— 同時補充<strong>凝血鏈中的多個關鍵因子(第二、七、九、十因子,負責「快速啟動凝血」的核心成員)</strong>,適合急性止血<br>
       ・<strong>新鮮冷凍血漿、血小板</strong>—— 視需求補充
     </p>
-    <p>相較於早期「不分原因大量輸血」的做法，現代凝血治療更<strong>精準、用量少、副作用低</strong>。</p>
+    <p>相較於早期「不分原因大量輸血」的做法,現代凝血治療更<strong>精準、用量少、副作用低</strong>。</p>
   </article>
 
   <article class="method-card gold-side">
@@ -108,16 +208,22 @@
     <h3>凝血膠水（Fibrin Sealant）</h3>
     <div class="m-en">局部止血膠</div>
     <p>外科醫師會將纖維蛋白原與凝血酶兩種成分組合，<strong>直接塗布在縫合處或滲血點</strong>。兩者一接觸便會在數秒內形成穩固的人工血塊，覆蓋微小的滲血面。</p>
-    <p>對於難以縫合的位置（例如吻合口邊緣、心包膜表面），凝血膠水能補上縫線之外的「最後一道防線」。</p>
+    <p>對於難以縫合的位置(例如<strong>吻合口邊緣 —— 血管與血管接合處的微小縫隙</strong>、心包膜表面),凝血膠水能補上縫線之外的「最後一道防線」。</p>
   </article>
 
   <!-- Decision-making -->
   <div class="section-title">如何決定要用哪一種</div>
 
   <div class="callout eras-banner">
-    <h4>不是「用越多越好」，而是「對症給藥」</h4>
-    <p>過去的觀念認為「術後出血就大量輸血漿、輸血小板」，但研究證實這種做法反而會<strong>增加感染、肺損傷與血栓的風險</strong>。</p>
-    <p>本院採取<span class="em-teal">以即時凝血功能監測（ROTEM/TEG、ACT 活化凝血時間、纖維蛋白原濃度）為依據</span>的精準補充策略：哪一段凝血路徑出問題，就補哪一段，避免過度治療帶來的副作用，也讓您恢復得更順利。</p>
+    <h4>不是「用越多越好」,而是「對症給藥」</h4>
+    <p>過去的觀念認為「術後出血就大量輸血漿、輸血小板」,但研究證實這種做法反而會<strong>增加感染、肺損傷與血栓的風險</strong>。</p>
+    <p>本院採取<span class="em-teal">以即時凝血功能監測為依據</span>的精準補充策略,監測工具有三項:</p>
+    <ul>
+      <li><strong>ROTEM / TEG</strong>(床邊即時凝血儀)—— 傳統實驗室凝血檢驗需 <strong>30–60 分鐘</strong>,等結果回來病人可能已大量失血;ROTEM/TEG 床邊 <strong>5–10 分鐘</strong>就告訴團隊「哪一段路徑出問題」。</li>
+      <li><strong>ACT 活化凝血時間</strong>(Activated Clotting Time)—— 床邊抽一滴血,<strong>幾秒內告訴麻醉醫師</strong>「肝素是否足量、結束時是否被中和」。</li>
+      <li><strong>纖維蛋白原濃度</strong>—— 監測「血塊骨架原料」是否充足。</li>
+    </ul>
+    <p>哪一段凝血路徑出問題,就補哪一段,避免過度治療帶來的副作用,也讓您恢復得更順利。</p>
   </div>
 
   <!-- ERAS benefits chain -->
@@ -126,10 +232,58 @@
     <div class="sub">每一層都有其加速康復的角色</div>
     <ul>
       <li><strong>少出血、少輸血</strong> —— 減少輸血相關肺損傷與感染風險</li>
-      <li><strong>少血塊堆積</strong> —— 心包膜內血塊少，減少術後心包填塞風險、胸管引流量低、能更早拔胸管 <span class="link-ref">連結 6-3</span></li>
+      <li><strong>少血塊堆積</strong> —— 心包膜內血塊少,減少術後<strong>心包填塞(血塊壓迫心臟、影響跳動)</strong>風險、胸管引流量低、能更早拔胸管 <span class="link-ref">連結 6-3</span></li>
       <li><strong>少二次手術</strong> —— 因出血需重回手術室的機率下降</li>
-      <li><strong>更穩定的血流動力學</strong> —— 出血少 → 血壓穩 → 加護病房停留時間縮短</li>
+      <li><strong>更穩定的血流動力學(血壓與心跳的穩定狀態)</strong> —— 出血少 → 血壓穩 → 加護病房停留時間縮短</li>
+      <li><strong>支援早期拔管</strong> —— 出血少、循環穩定,才有早期拔管的前提 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>與術中體溫管理協同</strong> —— 體溫 ≥ 36°C 是凝血酵素正常運作的前提 <span class="link-ref">連結 4-6</span></li>
     </ul>
+  </div>
+
+  <!-- Cost note: 含「不可選擇」機制說明 -->
+  <div class="cost-note-inline">
+    <h4>關於費用 — 兩類自費機制請務必了解</h4>
+    <div class="sub">凝血藥物與止血膠涉及兩種不同的自費機制,本份特別說明</div>
+    <p><strong>手術耗材自費(可事先討論)</strong>:止血膠水(凝血膠水)等耗材,屬於可選擇項目,會在<strong>術前訪視</strong>時與您和家屬討論後勾選,品項與費用都會在<strong>手術同意書</strong>中逐項列出。</p>
+    <p class="unselectable"><strong class="danger-key">手術耗材自費(視臨床狀況才使用,事後補簽)</strong>:<strong>凝血因子、纖維蛋白原濃縮劑</strong>等急救類藥物,屬於「<strong>視臨床狀況才使用</strong>」的項目 ——<br><br>
+    <strong>這類藥物的特殊機制:</strong><br>
+    ① 由醫師在<strong>術中依即時凝血監測結果決定是否使用</strong>(因為無法預測哪位病人會大量出血)<br>
+    ② 用藥當下無法暫停手術詢問家屬,所以是<strong>先使用、結束後與家屬補簽同意書</strong><br>
+    ③ 這是<strong>國際心臟手術通行的做法</strong>(救命優先,費用其次),不是本院特殊規定<br>
+    ④ 若用到這類藥物,通常代表術中出血較多,醫師會在手術結束後主動向家屬說明用了哪些、為什麼需要用</p>
+    <p><strong>麻醉自費包套</strong>:本院的麻醉自費為包套設計(含 TOF 監測、Sugammadex、神經阻斷止痛、BIS 腦波監測、保暖毯等項目),通常落在 <strong>5–7 萬元</strong>。麻醉科會在術前訪視時解釋整套包套內容,但實際使用哪些項目,是由麻醉科醫師依<strong>術中生命徵象與手術內容綜合判斷</strong> —— 不需要由您逐項選擇。</p>
+    <p class="help-line"><strong>如有經濟負擔考量</strong>,請直接告訴醫師或護理師。團隊會優先採用健保項目,<strong>麻醉科也有吸收自費的機制可申請</strong>協助您,必要時可協助轉介社工資源。<strong>不要因為費用考量就抗拒急救類藥物</strong> —— 那些都是必要的救命用藥,費用問題可以事後協助處理。</p>
+  </div>
+
+  <!-- Family note: 化解胸管引流恐慌 -->
+  <div class="family-note">
+    <h4>給家屬的話 — 看到胸管引流袋有紅色液體別緊張</h4>
+    <p>家屬到 ICU 探視時,常會被床邊的<strong>胸管引流袋裡的紅色液體</strong>嚇到。這是正常的術後現象,本份說明的三層止血策略<strong>不是「完全沒出血」</strong>,而是「<strong>把出血量控制到可接受範圍</strong>」。</p>
+    <p><strong>正常的引流量大致是這樣的</strong>:</p>
+    <p>
+    ・術後第一個 6 小時:引流量會比較多,可能每小時 50–100 ml<br>
+    ・第二天起明顯減少,變淡紅、淡粉<br>
+    ・通常 <strong>2–3 天</strong>可拔除胸管 <span class="link-ref">連結 6-3</span>
+    </p>
+    <div class="calm-box"><strong>什麼情況才需要擔心:</strong>引流量<strong>突然大幅增加</strong>(每小時 > 200 ml 持續數小時)、或<strong>顏色變鮮紅</strong>且持續、或家人<strong>血壓開始不穩</strong>。團隊會持續監測這些訊號,有變化會在第一時間處置 —— 您看到液體在袋內<strong>不是壞事</strong>,代表引流系統正常工作。</div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>出血控制 / 中風守護鏈閱讀路徑</h4>
+    <div class="sub">本院的精準止血是「<strong>術前停藥 + 術中監測 + 術後觀察</strong>」整套系統。下面是構成這條鏈的單張。</div>
+    <ol>
+      <li>體外循環機 CPB 3-2(出血的源頭之一:機器接觸、肝素抗凝)</li>
+      <li>三種冠狀動脈繞道手術比較 3-1(心臟跳動下繞道:縮短體外循環時間 = 減少凝血干擾)</li>
+      <li>胸骨固定方式 3-4(出血少 = 骨癒合好,鋼板對高出血風險病人更有意義)</li>
+      <li>圍術期體溫管理 4-6(低體溫會讓凝血酵素活性下降,維持 ≥ 36°C 是基礎)</li>
+      <li class="current"><strong>凝血功能異常與止血藥物 5-2(您正在讀:三層止血策略 + 對症給藥)</strong></li>
+      <li>胸管引流 6-3(術後觀察出血的窗口 — 家屬最常看到的設備)</li>
+      <li>早期拔管 6-2(出血控制好才能早拔管)</li>
+      <li>NIRS 腦氧監測 4-3 · BIS 麻醉深度 4-4(出血影響灌注壓,腦氧監測能及早發現)</li>
+      <li>主動恢復入門 10-1a(凝血止血穩定後的主動恢復)</li>
+      <li>整套衛教整合與終身指南 10-1b(出血控制鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

@@ -455,7 +455,72 @@
   .step-card { padding: 16px 18px; gap: 12px; }
   .warn-box { padding: 16px 18px; }
   .emergency { padding: 20px 22px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .cost-mini { padding: 14px 16px; }
 }
+
+/* 您會感覺到什麼(對齊 4-6 / 6-2 命名) */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 20px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 自費簡要連結說明(連 5-2 自費包套) */
+.cost-mini {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.cost-mini h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.cost-mini p { margin: 0; }
+.cost-mini p strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -521,7 +586,7 @@
     <article class="reason-card">
       <div class="r-num">理由 03</div>
       <h4>監測出血狀況</h4>
-      <p>每小時引流量是團隊判斷<strong>術後是否再出血</strong>的關鍵指標。突然大量增加 → 立即處理;逐漸減少 → 代表恢復順利。</p>
+      <p>每小時引流量是團隊判斷<strong>術後是否再出血</strong>的關鍵指標。突然大量增加 → 立即處理;逐漸減少 → 代表恢復順利。胸管引流量是<strong>術中三層止血策略</strong>的最直接「成績單」 <span class="link-ref">連結 5-2</span>。</p>
     </article>
   </div>
 
@@ -535,7 +600,7 @@
       <li><strong>看到水面隨呼吸上下擺動</strong>:這是正常的,代表管路通暢,跟著您的呼吸換氣壓力動</li>
       <li><strong>看到引流箱中有水柱或氣泡</strong>:氣泡代表胸腔還有氣體在排出(常見於前幾小時或前幾天),會逐漸減少到沒有</li>
       <li><strong>引流箱一定要放在床下、低於胸部</strong>:靠重力幫助引流,<strong>絕對不可以舉高到心臟以上</strong>(否則液體會逆流回胸腔)</li>
-      <li><strong>看到液體顏色變化</strong>:從深紅 → 淡紅 → 黃色(漿液),是恢復的正常進程</li>
+      <li><strong>看到液體顏色變化</strong>:從深紅 → 淡紅 → 黃色清澈(漿液,像清水般的淡黃液體),是恢復的正常進程</li>
     </ul>
   </div>
 
@@ -678,6 +743,45 @@
   </article>
 
   <!-- What you can do -->
+  <!-- Patient experience -->
+  <div class="section-title">留置期間您會感覺到什麼</div>
+
+  <div class="patient-experience">
+    <h4>從醒來到拔管的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">醒來時</div>
+      <div class="tr-what">胸口下方會有<strong>輕微壓迫感</strong>,類似「有東西貼著胸壁」的感覺。咳嗽、深呼吸時會比較明顯,但不會劇痛(本院多模式止痛 <span class="link-ref">連結 5-1b</span> 的目標就是讓您敢咳、敢動)。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">坐起 / 翻身時</div>
+      <div class="tr-what"><strong>管子會跟著動,有輕微的牽扯感</strong> —— 這是正常的,管子是<strong>柔軟的塑膠管</strong>,不會在身體內被「拉扯」。但動作前先確認管子方向、不要壓到。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">下床走路時</div>
+      <div class="tr-what">需要<strong>手提引流箱在低於胸口的位置</strong>。第一次下床會覺得管路很煩、要顧很多東西 —— 這是正常的,走過幾次就熟悉了。<strong>引流箱輕,不會比一袋飲料重</strong>。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">咳嗽 / 深呼吸時</div>
+      <div class="tr-what">會感覺<strong>引流箱內的液體有水流聲</strong>,水面上下擺動 —— 這就是「您的動作正在主動推動胸腔清潔」的證據。<strong>不要因為「會牽扯到管子」就忍著不咳</strong>,那會讓血水累積在肺底,反而拖慢拔管。</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">引流量越來越少時</div>
+      <div class="tr-what">壓迫感、牽扯感都會逐漸變淡。您可能會自己感覺到「<strong>怎麼比較不痛了</strong>」 —— 這就是接近移除標準的徵兆。</div>
+    </div>
+  </div>
+
+  <!-- Cost note (minimal: link to 5-2) -->
+  <div class="cost-mini">
+    <h5>關於費用</h5>
+    <p>胸管本身屬於健保給付項目。若手術中使用<strong>止血膠水(凝血膠水)</strong>來降低胸管引流量,屬於可選擇的手術耗材自費,於術前訪視時與您和家屬討論勾選。完整自費包套說明請見 <strong>5-2 凝血功能異常與止血藥物</strong> <span class="link-ref">連結 5-2</span>。</p>
+  </div>
+
+  <!-- Patient cooperation -->
   <div class="section-title">胸管留置期間您能配合的事</div>
 
   <div class="callout prep-actions">
@@ -699,7 +803,7 @@
     <div class="warn-box">
       <h4>胸管留置期間</h4>
       <ul>
-        <li><strong>引流量突然大量增加</strong>(每小時 &gt; 200 mL)</li>
+        <li><strong>引流量突然大量增加</strong>(每小時 &gt; 200 mL,<strong>約一杯馬克杯的量</strong>)</li>
         <li><strong>引流液突然變回鮮紅色</strong>,量明顯增加</li>
         <li><strong>呼吸困難、胸悶、胸痛變嚴重</strong></li>
         <li><strong>胸管周圍漏液、漏氣,敷料濕透</strong></li>
@@ -744,6 +848,7 @@
       <li><strong>確認引流箱位置始終低於胸口</strong> —— 翻身、坐起、下床、上廁所等任何移動,先確認引流箱沒有被舉高</li>
       <li><strong>移動病人時注意管子位置</strong> —— 不要踩到、拉扯、彎折管路</li>
       <li><strong>觀察引流液顏色變化</strong> —— 突然變鮮紅、量明顯增加,告訴護理師</li>
+      <li><strong>用手機記錄引流量趨勢</strong>(很有幫助的具體任務)—— 每次會客時拍下引流箱的<strong>刻度數字 + 顏色 + 時間</strong>,在下次會客時對比。如果發現「突然增加」「顏色變鮮紅」,告訴護理師。這份記錄也能讓<strong>輪班的家屬有共同的依據</strong>,不會只靠口耳相傳</li>
       <li><strong>不要替病人提引流箱走太快</strong> —— 病人的步伐決定速度,家屬配合即可</li>
       <li><strong>看到引流箱水面隨呼吸上下擺動</strong> —— 這是正常的,不必擔心</li>
     </ul>
@@ -755,19 +860,20 @@
 
   <!-- Reading map -->
   <div class="reading-map">
-    <h4>術後恢復的時序鏈</h4>
-    <div class="sub">這份單張在整套恢復鏈中的位置</div>
+    <h4>術後管路衛教鏈閱讀路徑</h4>
+    <div class="sub">所有管路都是<strong>暫時的橋樑</strong>,目標都是「畢業」。下面是構成這條鏈的單張與相關串連。</div>
     <ol>
-      <li>早期拔管(術後立即清醒)</li>
-      <li>HFNC · 高流量鼻導管(拔管後過渡)</li>
-      <li>多模式止痛(讓動作不痛、拔胸管也不痛)</li>
-      <li>認知復健 — 病人版/家屬版</li>
-      <li>吞嚥安全評估 · 喝水進食</li>
-      <li>術後咳嗽與咳痰(<strong>主動推動胸管引流</strong>)</li>
-      <li>從躺到坐</li>
-      <li>從站到走</li>
-      <li>認識術後尿管</li>
-      <li class="current"><strong>認識胸管引流(您正在讀)</strong></li>
+      <li>凝血功能與止血藥物 5-2(三層止血策略 — 胸管引流量就是這份的「成績單」)</li>
+      <li>早期拔管 6-2(術後第一個拔的管路:氣管內管)</li>
+      <li>HFNC 高流量鼻導管 6-6(拔氣管內管後的呼吸支援)</li>
+      <li>術中多模式止痛 5-1 · 術後疼痛 5-1b(讓動作不痛、拔胸管也不痛)</li>
+      <li>術後咳嗽與咳痰 7-2(<strong>主動推動胸管引流</strong>的核心動作)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(下床活動如何配合引流箱)</li>
+      <li>誘發性肺量計 7-1(深呼吸訓練 — 同樣推動引流)</li>
+      <li>認識術後尿管 6-4(下一個處理的管路)</li>
+      <li class="current"><strong>認識胸管引流 6-3(您正在讀)</strong></li>
+      <li>主動恢復入門 10-1a(胸管移除後的主動恢復)</li>
+      <li>整套衛教整合與終身指南 10-1b(術後管路衛教鏈完整收束 — 集大成篇)</li>
     </ol>
   </div>
 

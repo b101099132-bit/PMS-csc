@@ -526,7 +526,183 @@
   .prevention { padding: 18px 20px; }
   .family-help-detail { padding: 18px 20px; }
   .outlook { padding: 18px 20px; }
+  .patient-actions { padding: 18px 20px; }
+  .family-self-care { padding: 18px 20px; }
+  .kids-note { padding: 18px 20px; }
+  .herbal-warning { padding: 18px 20px; }
 }
+
+/* 病人「您能配合的事」 */
+.patient-actions {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-actions h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.patient-actions .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.patient-actions ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.patient-actions ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.patient-actions ul li:last-child { margin-bottom: 0; }
+.patient-actions ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 家屬 self-care(對齊 8-1b) */
+.family-self-care {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.family-self-care h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.family-self-care .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.family-self-care p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.family-self-care p:last-child { margin-bottom: 0; }
+.family-self-care p strong { color: var(--ink); font-weight: 600; }
+.family-self-care ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.family-self-care ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.family-self-care ul li strong { color: var(--ink); font-weight: 600; }
+.family-self-care .delirium-special {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--paper);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.family-self-care .delirium-special strong { color: var(--danger); font-weight: 700; }
+
+/* 12 歲以下小朋友議題 */
+.kids-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.kids-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.kids-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.kids-note p strong { color: var(--ink); font-weight: 600; }
+.kids-note ul {
+  margin: 8px 0;
+  padding-left: 22px;
+}
+.kids-note ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 5px;
+}
+.kids-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 民間用藥強警示 */
+.herbal-warning {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 4px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.herbal-warning h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+.herbal-warning .hw-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.herbal-warning .hw-section {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+}
+.herbal-warning .hw-section:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.herbal-warning .hw-category {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+.herbal-warning .hw-items {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+.herbal-warning .hw-items strong { color: var(--ink); font-weight: 600; }
+.herbal-warning .hw-bottom-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.herbal-warning .hw-bottom-line strong { color: var(--danger); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -558,23 +734,27 @@
     <h4>名詞速查</h4>
     <div class="lex-row">
       <span class="lex-term">譫妄</span>
-      <span class="lex-def"><strong>急性、暫時性的意識混亂</strong>。發病快(幾小時內)、會起伏(時清醒時混亂)、注意力減退、思考跳躍。多數可恢復。</span>
+      <span class="lex-def"><strong>「譫」=多話/胡言、「妄」=不真實</strong> — 中文字面意思是「胡言亂語」,英文 <strong>delirium</strong>(語源自拉丁文 <em>delirare</em>,意為「偏離犁溝、走錯路」)。指<strong>急性、暫時性的意識混亂</strong>:發病快(幾小時內)、會起伏(時清醒時混亂)、注意力減退、思考跳躍。多數可恢復。</span>
     </div>
     <div class="lex-row">
-      <span class="lex-term">高活動型</span>
-      <span class="lex-def">病人<strong>躁動、坐立難安、想拔管、攻擊性</strong>。容易被看到 —— 但不是最危險的型態。</span>
+      <span class="lex-term">高活動型(Hyperactive)</span>
+      <span class="lex-def">病人<strong>躁動、坐立難安、想拔管、攻擊性</strong>。臨床又稱「<strong>過動型</strong>」。容易被看到 —— 但不是最危險的型態。</span>
     </div>
     <div class="lex-row">
-      <span class="lex-term">低活動型</span>
-      <span class="lex-def">病人<strong>安靜、嗜睡、無精打采、對話無反應</strong>。<strong>最容易被忽略,後續恢復狀況卻最差</strong>。</span>
+      <span class="lex-term">低活動型(Hypoactive)</span>
+      <span class="lex-def">病人<strong>安靜、嗜睡、無精打采、對話無反應</strong>。臨床又稱「<strong>低動型</strong>」或「<strong>沉默型譫妄</strong>」。<strong>最容易被忽略,後續恢復狀況卻最差</strong>。</span>
     </div>
     <div class="lex-row">
-      <span class="lex-term">混合型</span>
+      <span class="lex-term">混合型(Mixed)</span>
       <span class="lex-def">高活動與低活動<strong>交替出現</strong>,是最常見的型態。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">譫妄 vs 失智</span>
       <span class="lex-def">譫妄是<strong>急性、暫時性、可恢復</strong>;失智是<strong>慢性、進展性、不可逆</strong>。兩者完全不同。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">保護性約束</span>
+      <span class="lex-def">病人意識混亂、可能不自主拉扯管路時的暫時安全裝置。<strong>家屬主動陪伴 + 早期辨識譫妄,是降低約束需求最有效的非藥物方法</strong>。本院的約束率對齊國際 ERAS 心臟中心 &lt; 10% 標準。詳見 <strong>6-5 保護性約束</strong>。</span>
     </div>
   </div>
 
@@ -770,7 +950,7 @@
         <li>體外循環時間長</li>
         <li>過深麻醉(BIS 過低)</li>
         <li>使用大量鴉片類或苯二氮平類(常見鎮靜藥/安眠藥,如使蒂諾斯、安定文等;<strong>如果您平常有在使用,請術前告訴醫師</strong>)</li>
-        <li>術中體溫過低</li>
+        <li>術中體溫過低 <span class="link-ref">連結 4-6</span></li>
       </ul>
     </div>
     <div class="risk-group">
@@ -789,31 +969,39 @@
   <div class="section-title">本院的預防策略 — ERAS 多管齊下</div>
 
   <p class="section-intro">
-    譫妄沒有「特效藥」可以治療,<span class="em">預防遠遠重要於治療</span>。本院的 ERAS 加速康復策略中,<span class="em">有 11 項以上的元素</span>是針對譫妄預防設計的。
+    譫妄沒有「特效藥」可以治療,<span class="em">預防遠遠重要於治療</span>。本院的 ERAS 加速康復策略中,<span class="em">有 12 項以上的元素</span>是針對譫妄預防設計的。
   </p>
 
   <div class="prevention">
-    <h4>11 項本院 ERAS 預防元素</h4>
+    <h4>12 項本院 ERAS 預防元素</h4>
     <div class="sub">每一項都串連到整套系列中的其他單張</div>
     <ul>
       <li><strong>BIS 麻醉深度監測</strong> —— 避免過深麻醉,過深麻醉會明顯增加譫妄 <span class="link-ref">連結 4-4</span></li>
       <li><strong>NIRS 腦氧監測</strong> —— 即時監測腦部血氧,避免術中腦缺氧 <span class="link-ref">連結 4-3</span></li>
       <li><strong>體溫維持 ≥ 36°C</strong> —— 避免低體溫造成的代謝紊亂(身體裡的化學平衡被打亂) <span class="link-ref">連結 4-6</span></li>
-      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類是譫妄重要誘因,本院以多種低劑量取代 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類是譫妄重要誘因,本院以多種低劑量取代 <span class="link-ref">連結 5-1 · 5-1b</span></li>
       <li><strong>避免苯二氮平類鎮靜</strong> —— 苯二氮平類(常見鎮靜藥/安眠藥,如 midazolam、Ativan)是譫妄最強誘因之一,本院盡量不使用</li>
       <li><strong>手術室內拔管</strong> —— 縮短機械通氣(用呼吸器幫忙呼吸)與深鎮靜時間 <span class="link-ref">連結 6-2</span></li>
       <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、能說話、減少鎮靜需求 <span class="link-ref">連結 6-6</span></li>
-      <li><strong>早期下床(拔管後 6 小時坐起、24 小時走路)</strong> —— 活動是降低譫妄最有效的非藥物方法 <span class="link-ref">連結 7-6a · 7-6b</span></li>
-      <li><strong>早期進食、口服水分</strong> —— 縮短靜脈點滴、維持腸胃功能 <span class="link-ref">連結 7-7</span></li>
-      <li><strong>ICU 環境調整與家屬陪伴</strong> —— 維持晝夜節律、提供熟悉的人與物品</li>
+      <li><strong>早期下床(拔管後 6 小時坐起、24 小時走路)</strong> —— 活動是降低譫妄最有效的非藥物方法 <span class="link-ref">連結 7-6 · 7-6a · 7-6b</span></li>
+      <li><strong>早期進食、口服水分</strong> —— 縮短靜脈點滴、維持腸胃功能 <span class="link-ref">連結 7-5 · 7-7</span></li>
+      <li><strong>降低保護性約束需求</strong> —— 約束本身會<strong>加重譫妄</strong>形成惡性循環(綁手 → 焦慮 → 更躁動 → 更要綁)。家屬陪伴 + 早期譫妄辨識 + 早期下床,讓本院能把約束率對齊國際 ERAS &lt; 10% 標準 <span class="link-ref">連結 6-5</span></li>
+      <li><strong>ICU 環境調整與家屬陪伴</strong> —— 維持晝夜節律、提供熟悉的人與物品 <span class="link-ref">連結 6-1 · 8-1b</span></li>
       <li><strong>聽力、視力輔具不離身</strong> —— 助聽器、眼鏡儘早歸還,減少感官混亂</li>
     </ul>
   </div>
 
   <!-- Hospital actual performance callout -->
   <div class="callout eras-banner">
-    <h4>本院實際發生率</h4>
-    <p>本院實施完整 ERAS 策略後,<span class="em-teal">整體譫妄發生率通常較文獻平均明顯為低</span>。具體取決於每位病人的個別風險因子。</p>
+    <h4>本院實際發生率 — 具體成果</h4>
+    <p>本院實施完整 ERAS 策略後,<span class="em-teal">整體譫妄發生率通常較文獻平均明顯為低</span>。具體成果包含:</p>
+    <ul style="margin: 10px 0 6px; padding-left: 22px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.85;">
+      <li><strong>多數病人在 24-72 小時內完全恢復</strong>,真正進展到「持續多日明顯混亂」的比例不高</li>
+      <li><strong>嚴重高活動型(需要約束、危及自身)發生率低</strong>,這直接反映本院約束率 &lt; 10% 標準 <span class="link-ref">連結 6-5</span></li>
+      <li><strong>長期(出院後 1 年)持續認知影響的比例顯著低於傳統做法</strong>,特別是高齡病人</li>
+      <li><strong>家屬陪伴介入(規律會客 + 熟悉物品 + 重新定向)是這個成果的關鍵</strong> — 不是團隊單方面的努力</li>
+    </ul>
+    <p style="margin-top: 8px; font-size: 13px; color: var(--ink-faint);">具體數據因病人組成而異,實際個別風險請與心臟外科或麻醉科醫師討論。</p>
   </div>
 
   <!-- Family help (critical section) -->
@@ -899,9 +1087,105 @@
         <li><strong>不要嘲笑、不要錄影分享</strong></li>
         <li><strong>不要勉強病人「承認自己錯了」</strong></li>
         <li><strong>不要說「你怎麼變這樣」</strong>(會加重焦慮與羞愧)</li>
-        <li><strong>不要自行給病人服用任何「助眠」「鎮定」相關物品</strong>,包括:家裡的安眠藥(使蒂諾斯、悠樂丁等)、鎮定/抗焦慮藥(安定文、贊安諾等)、含抗組織胺的「夜用」感冒藥或止痛藥(如普拿疼夜)、助眠的中藥或保健食品(如褪黑激素、酸棗仁、纈草)、含酒精的「補品」(藥酒、保力達、維士比)。<strong>這些都可能與術後用藥交互作用或加重譫妄</strong>。任何想給病人的口服物,<strong>先告訴護理師</strong>。</li>
+        <li><strong>關於民間助眠/鎮靜用品 — 請看下方強警示區塊</strong></li>
       </ul>
     </div>
+  </div>
+
+  <!-- Patient actions (病人視角) -->
+  <div class="section-title">如果您正在讀這份 — 您能配合的事</div>
+
+  <div class="patient-actions">
+    <h4>給病人本人:如果您發現自己「不太對勁」</h4>
+    <div class="sub">譫妄期間您可能會時清醒時混亂 — 在清醒的當下,您能做這些幫助自己</div>
+    <ul>
+      <li><strong>在清醒的時刻告訴家屬或護理師「我剛才好像看到不在的東西」「我有點搞不清楚現在幾點」</strong> — 自我覺察是譫妄被早期辨識的關鍵</li>
+      <li><strong>不要為「我為什麼會這樣」而羞愧或自責</strong> — 譫妄不是個性缺陷、不是您不夠堅強,是手術後常見的暫時併發症,大多數人會完全恢復</li>
+      <li><strong>配合家屬的「重新定向」</strong> — 當家屬告訴您日期、地點、自己是誰,不要覺得「他們在考我」,把這當作幫助您腦袋重新校準的工具</li>
+      <li><strong>主動戴上眼鏡、助聽器、假牙</strong> — 感官清晰能大幅減少混亂感</li>
+      <li><strong>努力配合下床、進食、喝水</strong> — 即使覺得沒胃口、沒力氣,動起來是腦袋重新清晰最有效的方法 <span class="link-ref">連結 7-6 · 7-7</span></li>
+      <li><strong>不要私下吞家裡帶來的「助眠藥」「安眠藥」「保健品」</strong> — 這些可能加重譫妄。任何想吃的口服物,先告訴護理師</li>
+      <li><strong>晚上盡量配合睡覺,白天盡量保持清醒</strong> — 維持晝夜節律是恢復的關鍵</li>
+      <li><strong>如果出現幻覺,告訴自己「這是手術後的暫時現象」</strong> — 您的腦袋知道這個事實時,焦慮會減輕</li>
+    </ul>
+  </div>
+
+  <!-- Herbal / 民間用藥強警示(獨立區塊) -->
+  <div class="section-title">⚠ 民間助眠/鎮靜用品 — 強警示</div>
+
+  <div class="herbal-warning">
+    <h4>家屬請勿自行給病人服用任何「助眠」「鎮定」用品</h4>
+    <div class="hw-sub">這些用品可能與術後用藥<strong>交互作用</strong>、<strong>大幅加重譫妄</strong>,甚至引起嚴重副作用</div>
+
+    <div class="hw-section">
+      <div class="hw-category">① 處方安眠藥</div>
+      <div class="hw-items"><strong>使蒂諾斯(Zolpidem)、悠樂丁(Lorazepam)、安定文(Diazepam)、贊安諾(Alprazolam)</strong> — 這些屬於苯二氮平類或相關藥物,是<strong>譫妄最強誘因之一</strong>,本院在術後刻意避免使用。家裡帶來的同類藥物會直接破壞本院的預防策略。</div>
+    </div>
+
+    <div class="hw-section">
+      <div class="hw-category">② 含抗組織胺的「夜用」感冒藥/止痛藥</div>
+      <div class="hw-items"><strong>普拿疼夜、伏冒夜、各種「夜用」「晚安」配方</strong> — 含的「抗組織胺」會引起<strong>嗜睡 + 認知混亂</strong>,對譫妄病人是雙重打擊。</div>
+    </div>
+
+    <div class="hw-section">
+      <div class="hw-category">③ 助眠中藥/保健食品</div>
+      <div class="hw-items"><strong>褪黑激素、酸棗仁(湯)、纈草(Valerian)、薰衣草膠囊、安神養心丸</strong> — 雖然名為「天然」,但對術後病人的藥物代謝有不可預期的影響,且可能與心臟藥物交互作用。</div>
+    </div>
+
+    <div class="hw-section">
+      <div class="hw-category">④ 含酒精的「補品」</div>
+      <div class="hw-items"><strong>藥酒、保力達、維士比、米酒水、酒燉中藥</strong> — 酒精會<strong>直接加重譫妄</strong>,且與術後幾乎所有藥物都有不良互動。「補身體」是迷思,術後絕對禁忌。</div>
+    </div>
+
+    <div class="hw-bottom-line">
+      <strong>黃金原則 — 任何想給病人的口服物,先告訴護理師</strong>。這包括看似無害的薄荷糖、咖啡、提神飲料、保健食品。<strong>本院在意的不是您給了什麼,而是「團隊不知道病人吞了什麼」</strong> — 譫妄與藥物副作用的鑑別會因此失焦。
+    </div>
+  </div>
+
+  <!-- Family self-care(與 8-1b 對等) -->
+  <div class="section-title">給家屬的安心話 — 您也需要被照顧</div>
+
+  <div class="family-self-care">
+    <h4>陪伴譫妄病人是一場馬拉松,不是衝刺</h4>
+    <div class="sub">您的體力、心理健康,是病人後續恢復的依靠</div>
+    <p>看到家人突然認不得自己、看到不存在的東西、變得不像他平常的樣子 — 這是非常心痛的經驗。<strong>很多家屬會自責「是不是我陪得不夠」「我做了什麼讓他這樣」</strong> — 請放心,譫妄是手術後常見的暫時併發症,不是任何人的錯。</p>
+    <ul>
+      <li><strong>每次會客結束,離開 ICU 後做一次深呼吸再走</strong></li>
+      <li><strong>與其他家人輪流會客</strong>,不要一個人扛 — 病人在不同家屬眼前可能表現不同,輪流也讓團隊有更全面的觀察</li>
+      <li>一天至少吃兩餐、睡 6 小時 — <strong>您的體力是病人後續恢復的依靠</strong></li>
+      <li>如果您開始<strong>失眠、食慾差、容易掉眼淚、有負面想法</strong>,告訴護理人員或社工,我們有資源可以幫忙</li>
+    </ul>
+
+    <div class="delirium-special">
+      <strong>譫妄陪伴特殊困境</strong> — 看到家人「不像他」會引發強烈情緒反應:震驚、悲傷、害怕、罪惡感。<strong>這些都正常</strong>。如果您發現自己在會客結束後哭了很久、夜裡反覆夢到病人混亂的樣子、害怕下一次見面 — 這是「<strong>家屬替代性創傷</strong>」的徵兆,請主動求助。
+      <div style="margin-top: 8px;">
+        <strong style="color: var(--safe);">具體求助管道</strong>:
+        <ul style="margin: 4px 0 0; padding-left: 20px; font-size: 12.5px;">
+          <li>院內社工師(請護理師代為聯絡)— 家屬支持資源、心理諮商轉介</li>
+          <li>院內臨床心理師 — 處理家屬焦慮、創傷反應</li>
+          <li>家屬支持團體(請洽病房護理師)— 與其他病人家屬經驗交流</li>
+          <li>衛福部安心專線 <strong>1925</strong>(24 小時免費)/ 生命線 <strong>1995</strong> / 張老師 <strong>1980</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kids under 12(對齊 6-1 / 6-5 / 8-1b)-->
+  <div class="section-title">如果家中有 12 歲以下的小朋友</div>
+
+  <div class="kids-note">
+    <h4>譫妄期間 — 小朋友看到「爺爺變得不一樣」怎麼處理</h4>
+    <p>譫妄期間是<strong>小朋友最容易受到心理衝擊的時刻</strong>。看到熟悉的長輩突然認不得自己、講話混亂、看到不在的人,對 12 歲以下的孩子來說是非常困惑的經驗。</p>
+    <p><strong>建議做法</strong>:</p>
+    <ul>
+      <li><strong>譫妄高峰期(通常術後 24-72 小時)不要帶小朋友到病床邊</strong> — 即使本院 ICU 探視原則允許短暫陪伴,譫妄期間的影響超過健康時的「不在 ICU」原則</li>
+      <li><strong>用小朋友懂的語言解釋</strong>:「<strong>爺爺手術後腦袋暫時有點亂,像睡覺睡很深沒辦法叫醒一樣。醫生說過幾天就會好</strong>」 — 不要說「他不認識我們了」「他瘋了」這種讓孩子恐懼的話</li>
+      <li><strong>避免讓小朋友看到爺爺/奶奶躁動的影片或照片</strong> — 即使家屬群組分享只是想「讓大家知道狀況」,但這些畫面對孩子的影響可能持續很久</li>
+      <li><strong>讓小朋友畫畫、寫卡片、錄一段聲音留言</strong>,由您帶到病房 — 病人在清醒的時刻看到/聽到,常會記得「孫子有來」</li>
+      <li><strong>譫妄恢復後再帶小朋友來會客</strong>(通常術後第 4-7 天)— 此時病人通常已能微笑、認人,小朋友看到的是「恢復中的爺爺」,而不是「混亂的爺爺」</li>
+      <li><strong>留意小朋友的情緒反應</strong> — 退化行為(尿床、不想上學、惡夢)持續超過 2 週仍未緩解,請告訴護理師或社工協助轉介心理諮商</li>
+    </ul>
+    <p>同樣的原則適用於<strong>家中有失智長輩、孕婦、有焦慮症病史的家屬</strong> — 譫妄期間的陪伴,要保護這些<strong>更敏感的家庭成員</strong>不受過度衝擊。</p>
   </div>
 
   <!-- Outlook & timeline -->
@@ -961,18 +1245,24 @@
 
   <!-- Reading map -->
   <div class="reading-map">
-    <h4>譫妄與認知相關的閱讀路徑</h4>
-    <div class="sub">這份單張在整套衛教中的位置</div>
+    <h4>譫妄與認知相關的閱讀路徑 — 最深恐懼三部曲第 2 部</h4>
+    <div class="sub">這份單張同時位於「<strong>中風守護鏈最深處理節點</strong>」與「<strong>最深恐懼三部曲第 2 部(腦的變化恐懼)</strong>」</div>
     <ol>
-      <li>NIRS 腦氧監測(術中腦部守護)</li>
-      <li>BIS 麻醉深度(避免過深麻醉)</li>
-      <li>早期拔管(縮短鎮靜時間)</li>
-      <li>多模式止痛(減少鴉片類)</li>
-      <li>認知復健 — 病人版 8-1a</li>
-      <li>認知復健 — 家屬版 8-1b</li>
-      <li class="current"><strong>譫妄專篇 8-2(您正在讀)</strong></li>
-      <li>從躺到坐 · 從站到走(早期活動)</li>
-      <li>喝水進食 · 飲食調整(代謝穩定)</li>
+      <li>體外循環機 CPB 3-2(中風守護鏈起點)</li>
+      <li>NIRS 腦氧監測 4-3(術中即時腦氧守護)</li>
+      <li>BIS 麻醉深度監測 4-4(術中麻醉深度控制 — 避免過深麻醉)</li>
+      <li>圍術期體溫管理 4-6(體溫過低增加譫妄)</li>
+      <li>多模式止痛 5-1 · 術後疼痛 5-1b(減少鴉片類)</li>
+      <li>早期拔管 6-2(縮短鎮靜時間)</li>
+      <li>外科加護病房 6-1(最深恐懼三部曲第 1 部:環境隔離恐懼)</li>
+      <li>HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援)</li>
+      <li>術後神經學評估 病人版 8-1a · 家屬版 8-1b(基本陪伴策略)</li>
+      <li class="current"><strong>譫妄專篇 8-2(您正在讀:腦的變化恐懼 — 最深恐懼三部曲第 2 部 · 中風守護鏈最深處理節點)</strong></li>
+      <li>保護性約束 6-5(最深恐懼三部曲第 3 部:身體束縛恐懼 — 譫妄 → 約束 → 家屬陪伴鏈)</li>
+      <li>從躺到坐 7-6a · 從站到走 7-6b(早期活動降低譫妄)</li>
+      <li>術後吞嚥 7-5 · 喝水進食 7-7(代謝穩定促進譫妄恢復)</li>
+      <li>主動恢復入門 10-1a(您也是康復團隊的一員 — 譫妄恢復後的主動參與)</li>
+      <li>整套衛教整合與終身指南 10-1b(最深恐懼三部曲完整收束 — 集大成篇)</li>
     </ol>
   </div>
 

@@ -59,6 +59,45 @@
   color: var(--ink-soft);
   line-height: 1.7;
 }
+
+/* 自費包套說明(三段標準範本) */
+.cost-note-inline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.cost-note-inline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.cost-note-inline .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.cost-note-inline p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cost-note-inline p:last-child { margin-bottom: 0; }
+.cost-note-inline p strong { color: var(--ink); font-weight: 600; }
+.cost-note-inline p.help-line {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+}
+.cost-note-inline p.help-line strong { color: var(--safe); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -78,12 +117,24 @@
     <p>現代加速康復觀念採用<span class="em">多模式止痛（Multimodal Analgesia）</span> —— 結合多種不同機轉的藥物，每種用較低劑量，協同作用達到更好的止痛效果，同時把鴉片類用量大幅降低。</p>
   </div>
 
+  <!-- Breathing pain concept introduction -->
+  <div class="callout eras-banner">
+    <h4>本院止痛策略最關注的痛 ——「會呼吸的痛」</h4>
+    <p>心臟手術後最重要、最需要處理的痛是<strong>「會呼吸的痛」</strong> —— 胸口傷口與胸管周圍的痛感,會隨著每一次<strong>呼吸、咳嗽、深吸氣、翻身</strong>被牽動。</p>
+    <p>許多病人因此<strong>不敢深呼吸、不敢咳嗽</strong>,而這正是術後肺部塌陷、肺炎的主要原因。<span class="em-teal">控制好「會呼吸的痛」,不是讓您舒服一點,而是讓整套加速康復都能跑起來</span> —— 您能配合呼吸訓練、能咳出痰、能下床活動。</p>
+    <p>這份單張說明<strong>術中</strong>的止痛布局(讓您醒來時就已經有保護);術後的延續策略請參考 <strong>5-1b 術後疼痛與多模式止痛</strong>。</p>
+  </div>
+
   <!-- Lexicon -->
   <div class="lexicon">
     <h4>名詞速查</h4>
     <div class="lex-row">
       <span class="lex-term">鴉片類藥物</span>
       <span class="lex-def">嗎啡、芬太尼等強效止痛劑，<strong>止痛強但副作用多</strong>（噁心、便祕、呼吸抑制）。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">鴉片受體</span>
+      <span class="lex-def">分布在大腦、脊髓內的<strong>接收疼痛訊號的「接收器」</strong>。鴉片類藥物作用於此產生止痛效果。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">多模式止痛</span>
@@ -94,8 +145,24 @@
       <span class="lex-def">超音波導引下把<strong>局麻藥打在神經周圍</strong>，從疼痛訊號起點就阻斷。</span>
     </div>
     <div class="lex-row">
+      <span class="lex-term">超音波導引</span>
+      <span class="lex-def">用<strong>超音波即時看見神經位置</strong>再打針,精準度高、安全性高,類似「邊看地圖邊開車」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">ESP block</span>
+      <span class="lex-def"><strong>豎脊肌平面阻斷</strong>(Erector Spinae Plane block),在背部脊椎旁的肌肉平面注射局麻藥,涵蓋胸壁多節段疼痛。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">NSAIDs</span>
+      <span class="lex-def"><strong>非類固醇抗發炎藥</strong>(如布洛芬、口服止痛藥),止痛效果好,但會<strong>影響凝血、傷胃、傷腎</strong>,心臟手術後較少用。</span>
+    </div>
+    <div class="lex-row">
       <span class="lex-term">預防性止痛</span>
       <span class="lex-def"><strong>在切口之前就先止痛</strong>，避免神經敏感度被放大。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">會呼吸的痛</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。詳見 <strong>5-1b 術後疼痛</strong>。</span>
     </div>
   </div>
 
@@ -137,25 +204,49 @@
     <div class="m-tag">第一層 · 周邊神經</div>
     <h3>神經阻斷術（Nerve Block）</h3>
     <div class="m-en">在疼痛訊號的「起點」就阻斷</div>
-    <p>麻醉科醫師在超音波導引下，將局部麻醉藥精準注射在<strong>負責胸壁與切口區域的神經周圍</strong>，讓疼痛訊號還沒上傳到脊髓就被阻斷。</p>
-    <p>心臟手術常用的神經阻斷包括：胸骨旁神經阻斷、豎脊肌平面阻斷（ESP block）等。效果可持續 <strong>6–24 小時</strong>，是術後初期止痛的重要支柱。</p>
+    <p>麻醉科醫師在<strong>超音波導引下</strong>(用超音波即時看見神經位置,像「邊看地圖邊開車」),將局部麻醉藥精準注射在<strong>負責胸壁與切口區域的神經周圍</strong>,讓疼痛訊號還沒上傳到脊髓就被阻斷。</p>
+    <p>心臟手術常用的神經阻斷包括:胸骨旁神經阻斷、<strong>豎脊肌平面阻斷（ESP block,在背部脊椎旁的肌肉平面打針,涵蓋胸壁多節段疼痛）</strong>等。效果可持續 <strong>6–24 小時</strong>,是術後初期止痛的重要支柱。</p>
   </article>
 
   <article class="method-card teal-side">
     <div class="m-tag">第二層 · 脊髓</div>
     <h3>脊髓內嗎啡（Intrathecal Morphine）</h3>
     <div class="m-en">脊髓腔內極微量、效果持續一整天</div>
-    <p>在麻醉前由麻醉科醫師將<strong>極微量的嗎啡</strong>注射到脊髓腔，直接作用於脊髓內的鴉片受體。同等止痛效果下，<strong>用量約為靜脈嗎啡的百分之一</strong>。</p>
-    <p>一次注射可提供約 <strong>18–24 小時</strong>的持續止痛，剛好涵蓋術後最痛的時期，也大幅減少靜脈鴉片類的需求。</p>
+    <p>在麻醉前由麻醉科醫師將<strong>極微量的嗎啡</strong>注射到脊髓腔,直接作用於脊髓內的<strong>鴉片受體(疼痛訊號的「接收器」)</strong>。同等止痛效果下,<strong>用量約為靜脈嗎啡的百分之一</strong>。</p>
+    <p>一次注射可提供約 <strong>18–24 小時</strong>的持續止痛,剛好涵蓋術後最痛的時期,也大幅減少靜脈鴉片類的需求。</p>
   </article>
 
   <article class="method-card gold-side">
     <div class="m-tag">第三層 · 中樞</div>
     <h3>靜脈乙醯胺酚（IV Acetaminophen）</h3>
     <div class="m-en">最熟悉的「普拿疼」靜脈劑型</div>
-    <p>就是常見的<strong>普拿疼（Paracetamol）</strong>，但以靜脈注射形式給予，能在 15 分鐘內達到血中最高濃度。它作用在中樞神經系統的疼痛感知。</p>
-    <p>相較於傳統的非類固醇抗發炎藥（NSAIDs），乙醯胺酚<strong>不影響凝血、不傷胃、不傷腎</strong>，特別適合心臟手術後使用。每 6–8 小時規律給藥，是多模式止痛的基底用藥。</p>
+    <p>就是常見的<strong>普拿疼（Paracetamol）</strong>,但以靜脈注射形式給予,能在 15 分鐘內達到血中最高濃度。它作用在中樞神經系統的疼痛感知。</p>
+    <p>相較於傳統的<strong>非類固醇抗發炎藥(NSAIDs,例如布洛芬等口服止痛藥)</strong>,乙醯胺酚<strong>不影響凝血、不傷胃、不傷腎</strong>,特別適合心臟手術後使用。每 6–8 小時規律給藥,是多模式止痛的基底用藥。</p>
   </article>
+
+  <!-- Strategy bridge: 3 intraop + 1 postop = 4 total -->
+  <div class="callout eras-banner">
+    <h4>術中 3 項 + 術後 HFNC = 完整 4 項止痛策略</h4>
+    <p>本份單張說明的是<strong>術中</strong>建立的三項止痛主力(神經阻斷 + 脊髓內嗎啡 + 靜脈乙醯胺酚)。術後當您拔管轉到病房後,團隊會繼續用第四項:</p>
+    <ul>
+      <li><strong>HFNC 高流量鼻導管</strong>(策略 04 · 術後)—— 減少呼吸費力,從源頭降低「會呼吸的痛」 <span class="link-ref">連結 6-6</span></li>
+    </ul>
+    <p>4 項策略各自針對不同疼痛機轉、不同時段,協同覆蓋整個術後恢復期。詳細的術後策略呈現請見 <strong>5-1b 術後疼痛與多模式止痛</strong>。</p>
+  </div>
+
+  <!-- Patient prep -->
+  <div class="section-title">術前訪視時您可以做的事</div>
+
+  <div class="callout prep-actions">
+    <h4>您可以主動為自己的止痛策略加分</h4>
+    <ul>
+      <li><strong>主動告知過敏史與用藥史</strong>:過去用過嗎啡、普拿疼、NSAIDs 是否有過敏或副作用,告訴麻醉科醫師。包括<strong>長期使用阿斯匹靈、抗凝血藥</strong>也務必說明。</li>
+      <li><strong>告知慢性疼痛狀況</strong>:如果您本來就有腰背痛、關節痛、神經痛,並長期使用止痛藥,麻醉科醫師會調整術中與術後的止痛策略,避免藥效不夠。</li>
+      <li><strong>問清楚「會用哪些方式止痛」</strong>:術前訪視時可以問麻醉科醫師「我的手術會用哪幾種止痛方式」、「神經阻斷是哪一種」、「醒來時會痛嗎」 —— 知道之後比較不焦慮。</li>
+      <li><strong>跟家人說清楚您願意「按時止痛」</strong>:讓家屬知道「不忍痛」是本院的策略,他們才不會誤勸您「能忍就忍、不要吃太多藥」。</li>
+      <li><strong>記住「會呼吸的痛」這個關鍵詞</strong>:術後與護理師溝通時,直接說「我呼吸/咳嗽時會痛」,團隊就知道要優先處理。</li>
+    </ul>
+  </div>
 
   <!-- Benefits -->
   <div class="section-title">這樣做帶來的好處</div>
@@ -194,9 +285,34 @@
       <li><strong>支援手術室內拔管</strong> —— 意識清醒、呼吸有力 <span class="link-ref">連結 6-2</span></li>
       <li><strong>儘早下床活動</strong> —— 不痛才動得了 <span class="link-ref">連結 7-6</span></li>
       <li><strong>讓胸管拔除不痛</strong> —— 動作前可追加 <span class="link-ref">連結 6-3</span></li>
-      <li><strong>降低譫妄機率</strong> —— 配合腦氧監測一起保護腦部 <span class="link-ref">連結 4-3</span></li>
+      <li><strong>降低譫妄機率</strong> —— 配合腦氧監測一起保護腦部 <span class="link-ref">連結 4-3 · 8-2</span></li>
       <li><strong>更早恢復進食、排便</strong> —— 鴉片類減量,腸蠕動正常化</li>
     </ul>
+  </div>
+
+  <!-- Cost note -->
+  <div class="cost-note-inline">
+    <h4>關於費用</h4>
+    <div class="sub">神經阻斷與部分止痛藥屬於麻醉自費包套的一部分</div>
+    <p><strong>麻醉自費包套</strong>:本院的麻醉自費為包套設計(含 TOF 監測、Sugammadex、<strong>神經阻斷止痛</strong>、BIS 腦波監測、保暖毯等項目),通常落在 <strong>5–7 萬元</strong>。麻醉科會在<strong>術前訪視</strong>時解釋整套包套內容,但實際使用哪些項目,是由麻醉科醫師依<strong>術中生命徵象(心跳、血壓、腦波、腦氧)與手術內容(傳統/微創/刀口大小)綜合判斷</strong> —— 不需要由您逐項選擇。</p>
+    <p class="help-line"><strong>如有經濟負擔考量</strong>,請直接告訴醫師或護理師。團隊會優先採用健保項目,<strong>麻醉科也有吸收自費的機制可申請</strong>協助您,必要時可協助轉介社工資源。</p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>止痛論述鏈閱讀路徑</h4>
+    <div class="sub">本院的止痛不是讓您「舒服一點」,而是讓<strong>整套加速康復都能跑起來</strong>。下面是構成這條鏈的單張。</div>
+    <ol>
+      <li class="current"><strong>術中多模式止痛 5-1(您正在讀:術中三項主力的建立)</strong></li>
+      <li>術後疼痛與多模式止痛 5-1b(術後四大策略 + 疼痛分數 + 抱枕固定)</li>
+      <li>早期拔管 6-2(止痛到位才能拔管 — 多模式止痛是前提)</li>
+      <li>HFNC 高流量鼻導管 6-6(策略 04 — 從源頭減少「會呼吸的痛」)</li>
+      <li>術後咳嗽技巧 7-2(抱枕固定法 — 配合止痛才咳得出來)</li>
+      <li>早期下床活動 7-6(止痛到位才能動)</li>
+      <li>譫妄專篇 8-2(鴉片類副作用之一,本院止痛策略減少譫妄風險)</li>
+      <li>主動恢復入門 10-1a(止痛是主動恢復的前提 — 您能呼吸、能咳嗽、能下床)</li>
+      <li>整套衛教整合與終身指南 10-1b(止痛論述鏈完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

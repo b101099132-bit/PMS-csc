@@ -253,7 +253,235 @@
   .pillar { padding: 18px 18px; }
   .gradual { padding: 18px 20px; }
   .gradual .step-row .when { min-width: 76px; font-size: 12px; }
+  .patient-actions { padding: 18px 20px; }
+  .patient-experience { padding: 18px 20px; }
+  .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
+  .cost-note { padding: 16px 18px; }
+  .herbal-section { padding: 18px 20px; }
+  .warning-signs { padding: 18px 20px; }
+  .potassium-table { padding: 14px 16px; }
+  .potassium-table .pk-row { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* 病人「您能配合的事」 */
+.patient-actions {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-actions h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.patient-actions ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.patient-actions ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.patient-actions ul li:last-child { margin-bottom: 0; }
+.patient-actions ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 您會感覺到什麼 */
+.patient-experience {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.patient-experience .timeline-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.patient-experience .timeline-row:last-of-type { border-bottom: none; }
+.patient-experience .tr-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.patient-experience .tr-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* 健保 vs 自費 */
+.cost-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--teal);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.cost-note h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.cost-note p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.cost-note p:last-child { margin-bottom: 0; }
+.cost-note p strong { color: var(--ink); font-weight: 600; }
+.cost-note .help-line {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+
+/* 中草藥與保健食品強警示 */
+.herbal-section {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 4px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.herbal-section h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+.herbal-section .h-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.herbal-section .h-cat {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+}
+.herbal-section .h-cat:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.herbal-section .h-name {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+.herbal-section .h-body {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+.herbal-section .h-body strong { color: var(--ink); font-weight: 600; }
+.herbal-section .h-bottom {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.herbal-section .h-bottom strong { color: var(--danger); font-weight: 700; }
+
+/* 警示徵兆 */
+.warning-signs {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.warning-signs h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 10px;
+}
+.warning-signs ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.warning-signs ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.warning-signs ul li strong { color: var(--ink); font-weight: 600; }
+.warning-signs ul li:last-child { margin-bottom: 0; }
+
+/* 含鉀食物分組對照表 */
+.potassium-table {
+  margin: 10px 0 0;
+  padding: 16px 20px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+}
+.potassium-table h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.potassium-table .pk-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.potassium-table .pk-row:last-of-type { border-bottom: none; }
+.potassium-table .pk-level {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--gold);
+}
+.potassium-table .pk-foods {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.potassium-table .pk-foods strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -282,6 +510,10 @@
       <span class="lex-def">食鹽的主要成分。每日建議 &lt; 2,000 mg(<strong>約一茶匙鹽</strong>)。</span>
     </div>
     <div class="lex-row">
+      <span class="lex-term">鉀</span>
+      <span class="lex-def">維持<strong>心律穩定、肌肉收縮、血壓調節</strong>的關鍵電解質。正常血鉀 <strong>3.5-5.0 mEq/L</strong>。<strong>過低會引起心律不整(POAF 誘因)、肌肉無力</strong>;<strong>過高會引起危險心律不整甚至心跳停止</strong>。心臟手術後病人對血鉀變化特別敏感,飲食中含鉀量需要依藥物調整。</span>
+    </div>
+    <div class="lex-row">
       <span class="lex-term">反式脂肪</span>
       <span class="lex-def">人造油脂(食品標示常見「氫化」、「部分氫化」),<strong>會明顯傷害心血管</strong>。</span>
     </div>
@@ -290,8 +522,16 @@
       <span class="lex-def">深海魚與堅果中的<strong>好油</strong>,對心血管有保護作用。</span>
     </div>
     <div class="lex-row">
+      <span class="lex-term">全穀類與膳食纖維</span>
+      <span class="lex-def"><strong>全穀類</strong>(糙米、燕麥、藜麥、全麥麵包)保留麩皮與胚芽,富含<strong>膳食纖維、維他命 B 群、礦物質</strong>。膳食纖維能<strong>降低膽固醇、穩定血糖、促進腸蠕動</strong>。每日建議 <strong>25-30 公克</strong>。</span>
+    </div>
+    <div class="lex-row">
       <span class="lex-term">藥食交互作用</span>
-      <span class="lex-def">某些食物會影響藥效。<strong>葡萄柚、深綠色蔬菜、含鉀食物</strong>是常見要注意的。</span>
+      <span class="lex-def">某些食物會影響藥效。<strong>葡萄柚(CYP3A4 抑制)、深綠色蔬菜(影響 warfarin)、含鉀食物(影響利尿劑)</strong>是常見要注意的。詳見 <strong>7-7</strong>(葡萄柚)、<strong>8-3 POAF</strong>(warfarin)、<strong>8-4 AKI</strong>(NSAIDs)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">保鉀型 vs 排鉀型利尿劑</span>
+      <span class="lex-def">兩種利尿劑對含鉀食物的<strong>相反建議</strong>。<strong>保鉀型</strong>(Spironolactone / Aldactone / 安達通)→ 體內鉀容易偏高,<strong>含鉀食物要控制</strong>;<strong>排鉀型</strong>(Furosemide / Lasix / 來適泄)→ 體內鉀容易偏低,<strong>可適量增加含鉀食物</strong>。請拿藥袋給營養師或藥師看以確認。</span>
     </div>
   </div>
 
@@ -316,11 +556,11 @@
     </div>
   </div>
 
-  <!-- Five pillars -->
-  <div class="section-title">五大飲食原則</div>
+  <!-- Seven pillars -->
+  <div class="section-title">七大飲食原則</div>
 
   <p class="section-intro">
-    這五個原則是國際心臟手術 ERAS 指引、美國心臟協會(AHA)多年研究的共識。<span class="em">不需要一次到位,重點是大方向掌握、慢慢調整</span>。
+    這七個原則是國際心臟手術 ERAS 指引、美國心臟協會(AHA)多年研究的共識。<span class="em">不需要一次到位,重點是大方向掌握、慢慢調整</span>。
   </p>
 
   <article class="pillar p1">
@@ -380,12 +620,33 @@
     <div class="p-why">心臟手術後常用的藥物有些會與食物互相影響</div>
     <div class="p-body">
       <strong>三個重點 —— 拿藥袋對照,最簡單</strong>
-      <span class="sub-line"><strong>① 抗凝血劑(可邁丁 / Warfarin)</strong>:深綠色蔬菜(菠菜、地瓜葉、青花菜)含維生素 K,會降低藥效。<strong>重點不是不能吃,而是每天份量不要忽多忽少</strong> —— 平常每天吃半碗綠色蔬菜,就維持這個量;不要今天完全不吃、明天吃兩大盤。</span>
-      <span class="sub-line" style="background:rgba(184, 84, 80, 0.08); padding:8px 10px; border-radius:3px; border-left:2px solid var(--danger); display:block; margin-top:8px;"><strong style="color:var(--danger)">⚠ ② 葡萄柚與葡萄柚汁</strong>:會影響某些降血壓藥(鈣離子通道阻斷劑)與降膽固醇藥(史他汀類)。<strong>最簡單的做法是直接避免</strong>;如果想吃柑橘類,<strong>柳橙、橘子、檸檬都沒問題</strong>。</span>
-      <span class="sub-line"><strong>③ 鉀的攝取(依個人狀況)</strong>:</span>
-      <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「保鉀型」利尿劑</strong>(Spironolactone / Aldactone / 安達通) —— 體內鉀容易偏高,<strong>含鉀食物要控制份量</strong>(香蕉、奇異果、橘子、地瓜葉、菠菜、馬鈴薯)。</span>
+      <span class="sub-line"><strong>① 抗凝血劑(可邁丁 / Warfarin)</strong>:深綠色蔬菜(菠菜、地瓜葉、青花菜)含維生素 K,會降低藥效。<strong>重點不是不能吃,而是每天份量不要忽多忽少</strong> —— 平常每天吃半碗綠色蔬菜,就維持這個量;不要今天完全不吃、明天吃兩大盤。 <span class="link-ref">連結 8-3 POAF</span></span>
+      <span class="sub-line" style="background:rgba(184, 84, 80, 0.08); padding:8px 10px; border-radius:3px; border-left:2px solid var(--danger); display:block; margin-top:8px;"><strong style="color:var(--danger)">⚠ ② 葡萄柚與葡萄柚汁</strong>:葡萄柚中的「呋喃香豆素」會<strong>抑制肝臟 CYP3A4 酵素</strong> — 像「<strong>把藥的清除工人鎖在儲藏室</strong>」 — 讓某些降血壓藥(鈣離子通道阻斷劑)、降膽固醇藥(史他汀類)、抗凝血藥的濃度意外升高。<strong>最簡單的做法是直接避免</strong>;如果想吃柑橘類,<strong>柳橙、橘子、檸檬都沒問題</strong>。 <span class="link-ref">連結 7-7 喝水進食</span></span>
+      <span class="sub-line"><strong>③ 鉀的攝取(依個人狀況) — 整套系列首份「同一類藥物的相反建議」處理</strong> <span class="link-ref">連結 8-4 AKI</span>:</span>
+      <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「保鉀型」利尿劑</strong>(Spironolactone / Aldactone / 安達通) —— 體內鉀容易偏高,<strong>含鉀食物要控制份量</strong>。</span>
       <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「排鉀型」利尿劑</strong>(Furosemide / Lasix / 來適泄) —— 體內鉀容易偏低,<strong>可以適量增加含鉀食物</strong>。</span>
-      <span class="sub-line" style="color:var(--teal); font-weight:500">不確定自己吃哪種?<strong>請拿藥袋給營養師或藥師看</strong>,這是最準確的判斷方式。</span>
+
+      <div class="potassium-table">
+        <h5>含鉀食物分組對照表</h5>
+        <div class="pk-row">
+          <div class="pk-level">高鉀 ★★★</div>
+          <div class="pk-foods"><strong>香蕉、奇異果、楊桃、龍眼、酪梨、地瓜葉、菠菜、莧菜、紅鳳菜、馬鈴薯、地瓜、芋頭、堅果、運動飲料、鉀代鹽(低鈉鹽)、橘子汁/葡萄柚汁濃縮</strong> — 保鉀型利尿劑病人要控制;排鉀型利尿劑病人可適量補充</div>
+        </div>
+        <div class="pk-row">
+          <div class="pk-level">中鉀 ★★</div>
+          <div class="pk-foods"><strong>橘子、葡萄、芒果、木瓜、蘋果、番茄、青花菜、高麗菜、白蘿蔔、紅蘿蔔、洋蔥、米飯、糙米、燕麥、雞蛋、雞肉、豬肉、鮭魚</strong> — 一般正常份量可吃</div>
+        </div>
+        <div class="pk-row">
+          <div class="pk-level">低鉀 ★</div>
+          <div class="pk-foods"><strong>梨子、蘋果(去皮)、葡萄、鳳梨、西瓜(少量)、白米飯、白麵條、白吐司、豆腐、白蘿蔔、小黃瓜、絲瓜、冬瓜</strong> — 即使保鉀型利尿劑病人也較安全</div>
+        </div>
+        <p style="margin-top: 10px; font-size: 12.5px; color: var(--ink-faint); line-height: 1.75;">
+          ※ <strong>烹調技巧降鉀</strong>:蔬菜<strong>切小塊先川燙 5-10 分鐘倒掉水再炒</strong>,鉀含量可降低 30-50%。<strong>湯汁鉀含量最高</strong>(熬越久越高),保鉀型利尿劑病人少喝菜湯與雞精。<br>
+          ※ <strong>低鈉鹽 / 美味鹽 / 健康鹽</strong>:許多打著「低鈉」標籤的鹽是用<strong>氯化鉀取代部分氯化鈉</strong>,對保鉀型利尿劑病人很危險。<strong>看標籤如果含「氯化鉀」「鉀」就避免使用</strong>。
+        </p>
+      </div>
+
+      <span class="sub-line" style="color:var(--teal); font-weight:500; display:block; margin-top:12px;">不確定自己吃哪種?<strong>請拿藥袋給營養師或藥師看</strong>,這是最準確的判斷方式。</span>
     </div>
   </article>
 
@@ -397,6 +658,34 @@
       <strong>執行重點:感到口渴就喝、不需逐口計算。</strong>
       <span class="sub-line"><strong>例外</strong>:若您有心臟功能較差或合併腎臟問題,醫師會給<strong>每日水量上限</strong>,請依醫囑執行,不要自行加減。</span>
       <span class="sub-line"><strong>建議</strong>:白開水、無糖茶為主。<strong>避免含糖飲料、運動飲料當水喝</strong>。</span>
+    </div>
+  </article>
+
+  <article class="pillar p6">
+    <div class="p-num">原則 06</div>
+    <h4>全穀類與膳食纖維</h4>
+    <div class="p-why">穩定血糖、降低膽固醇、保護心血管</div>
+    <div class="p-body">
+      <strong>每日目標:膳食纖維 25-30 公克;主食有一半是全穀類</strong>
+      <span class="sub-line"><strong>主食換成全穀類</strong>:把白米飯的一半換成<strong>糙米、燕麥、藜麥、蕎麥</strong>;白麵包換成<strong>全麥麵包、雜糧麵包</strong>;白麵條偶爾換成<strong>蕎麥麵</strong>。</span>
+      <span class="sub-line"><strong>蔬菜每餐至少一份</strong>(一份約煮熟後半碗的量),搭配各色蔬菜(深綠色、黃橙色、紅紫色),營養更全面。</span>
+      <span class="sub-line"><strong>水果每天 2 份</strong>(一份約一個拳頭大),但<strong>不要榨成果汁</strong> — 果汁會失去纖維、糖份濃縮。</span>
+      <span class="sub-line"><strong>每天 1 把堅果</strong>(約 30 公克,無調味為佳):杏仁、核桃、腰果都好。注意總熱量。</span>
+      <span class="sub-line" style="color:var(--ink-faint); font-size:13px;"><strong>糖尿病病人請與醫師討論</strong>:全穀類雖然 GI 較低,仍需注意每餐主食份量。</span>
+    </div>
+  </article>
+
+  <article class="pillar p7">
+    <div class="p-num">原則 07</div>
+    <h4>維持理想體重</h4>
+    <div class="p-why">肥胖增加心臟負擔、提高再發風險與 AKI 機率</div>
+    <div class="p-body">
+      <strong>目標:BMI 18.5-24;腰圍男性 &lt; 90 cm、女性 &lt; 80 cm</strong>
+      <span class="sub-line"><strong>BMI 計算</strong>:體重(公斤) ÷ 身高(公尺) ÷ 身高(公尺)。<strong>18.5-24 為正常</strong>,24-27 為過重,≥ 27 為肥胖。</span>
+      <span class="sub-line"><strong>不要急著減重</strong>:術後 1-3 個月內,身體優先在做組織修復,過度減重可能影響傷口癒合。<strong>先穩定體重</strong>,等心臟功能恢復後(術後 3-6 個月)再開始有計畫減重。</span>
+      <span class="sub-line"><strong>減重目標</strong>:若 BMI ≥ 27,每月減重 1-2 公斤是健康速度。<strong>每週減重 0.5 公斤</strong>就足夠,過快會復胖也影響營養狀態。</span>
+      <span class="sub-line"><strong>方法</strong>:80% 靠飲食(份量控制、減少精緻糖、增加蔬果)、20% 靠運動 <span class="link-ref">連結 10-1</span>。<strong>不要靠減肥茶、減肥藥、極端節食</strong> — 對心臟與腎臟都有害。</span>
+      <span class="sub-line" style="color:var(--ink-faint); font-size:13px;"><strong>需要協助請告訴醫師</strong>:本院營養師可以提供個別化減重計畫,結合您的心臟狀況與藥物。</span>
     </div>
   </article>
 
@@ -448,6 +737,55 @@
     </ul>
   </div>
 
+  <!-- Patient actions -->
+  <div class="section-title">您能配合的事 — 病人視角</div>
+
+  <div class="patient-actions">
+    <h4>給病人本人:飲食調整不是家屬一個人的事</h4>
+    <ul>
+      <li><strong>把住院期間的醫院飲食當作「品味教材」</strong> — 認真嘗、認真記。「<strong>原來這樣淡的食物也能吃得下去</strong>」這個體驗,是出院後維持新習慣的關鍵</li>
+      <li><strong>主動跟營養師約諮詢</strong> — 不要等家屬幫您安排,自己跟護理師說「我想跟營養師談」。<strong>您是這個身體的主人</strong></li>
+      <li><strong>學會看食品營養標籤</strong> — 每份含鈉量 &lt; 400 mg 為佳、&gt; 800 mg/份是高鈉。出院前在病房就練習(用家屬帶來的食物包裝練)</li>
+      <li><strong>對「鹹」「油」「甜」的口味退讓不要視為犧牲</strong> — 給自己 3-4 週,味蕾會調整。<strong>等您適應後再吃舊口味,會覺得「怎麼這麼鹹」</strong></li>
+      <li><strong>絕對不要靠減肥茶、極端節食、來路不明的「補腎/補心」中藥減重</strong> <span class="link-ref">連結 8-4 AKI</span>。任何想吃的補品、保健食品,<strong>先問醫師或營養師</strong></li>
+      <li><strong>主動詢問自己用的藥物有沒有食物互動</strong> — 「我吃的這顆是哪種利尿劑?保鉀還是排鉀?」「我有沒有需要避免葡萄柚?」(對應 7-7 葡萄柚 CYP3A4 機轉) <span class="link-ref">連結 7-7</span></li>
+      <li><strong>主動告訴家屬「我想吃什麼/不想吃什麼」</strong> — 家屬好意但不一定知道您現在的食慾、味覺變化。<strong>溝通是好飲食的基礎</strong> <span class="link-ref">連結 7-7</span></li>
+      <li><strong>對「終身要小心」不要焦慮或自我設限</strong> — 飲食調整不是處罰,是與身體共存的新模式。偶爾外食、聚餐都可以,只要回到日常仍維持原則</li>
+    </ul>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">您會感覺到什麼 — 飲食調整期的體感</div>
+
+  <div class="patient-experience">
+    <h4>從住院到出院 1 個月的體感變化</h4>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後第 1 天</div>
+      <div class="tr-what"><strong>沒胃口、覺得味道怪、吞嚥怪</strong>是正常的(麻醉、止痛藥、插管後的暫時性味覺改變)。<strong>不要強迫自己吃</strong>,先讓胃口慢慢回來 <span class="link-ref">連結 7-7</span></div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後第 2-3 天</div>
+      <div class="tr-what">胃口逐漸回來,但<strong>會覺得醫院飲食「太淡了」「沒味道」</strong>。這是正常的「<strong>家裡口味比較重</strong>」反應。請相信:<strong>味蕾會在 3-4 週內調整,出院後您會發現自己「怎麼覺得外面食物這麼鹹」</strong></div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">術後第 4-7 天</div>
+      <div class="tr-what"><strong>排便可能不規律</strong>(便祕或軟便)。原因:止痛藥、活動量減少、飲食改變。<strong>多喝水、多吃膳食纖維(全穀類、蔬菜、水果)</strong>。若便祕超過 3 天請告訴護理師</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">出院前後</div>
+      <div class="tr-what"><strong>體重可能比術前多 2-4 公斤</strong>(術中與術後體液累積),這不是肥胖,是水分。<strong>跟著本院低鹽飲食 + 利尿劑,1-2 週會排出</strong>。<strong>不要因此急著節食</strong> — 此時優先在做組織修復</div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="tr-when">出院後 1 個月</div>
+      <div class="tr-what">味蕾完全適應新口味。<strong>會發現「怎麼以前都吃那麼鹹」</strong>。家庭飲食也跟著變健康。<strong>這就是「黃金訓練期」的成果</strong> — 把住院的訓練變成終身的習慣</div>
+    </div>
+  </div>
+
   <!-- Mediterranean diet -->
   <div class="section-title">大方向參考:地中海飲食</div>
 
@@ -490,9 +828,95 @@
       <li><strong>醃漬與煙燻食品</strong>(罐頭、泡菜、肉鬆、滷味) —— 鈉含量極高</li>
       <li><strong>速食與油炸物</strong>(炸雞、薯條、雞排) —— 反式脂肪、飽和脂肪、鈉三高</li>
       <li><strong>含糖飲料</strong>(手搖飲、果汁、汽水) —— 過量糖分會升高三酸甘油酯,增加心血管風險</li>
-      <li><strong>過量酒精</strong> —— 男性每日不超過 2 份、女性 1 份(1 份 = 啤酒 350 mL 或紅酒 150 mL)</li>
+      <li><strong>過量酒精</strong> —— 男性每日不超過 2 份、女性 1 份(1 份 = 啤酒 350 mL 或紅酒 150 mL) <span class="link-ref">連結 8-3 POAF</span></li>
       <li><strong>反式脂肪相關食品</strong>(部分酥油、人造奶油、酥皮糕點、奶精) —— 看標籤若有「氫化」「部分氫化」字樣請避免</li>
     </ul>
+  </div>
+
+  <!-- Herbal & supplements warning(對應 8-4) -->
+  <div class="section-title">⚠ 中草藥與保健食品 — 強警示</div>
+
+  <div class="herbal-section">
+    <h4>「天然就安全」是迷思 — 對心臟病人尤其危險</h4>
+    <div class="h-sub">這個區塊與 <strong>8-4 AKI</strong> 互相呼應 — 處理台灣文化中常見的「補品」議題</div>
+
+    <div class="h-cat">
+      <div class="h-name">① 來路不明的「補心」「補腎」中藥</div>
+      <div class="h-body"><strong>鹿茸、龜鹿二仙膠、十全大補、四神湯、人參、靈芝、燕窩、雞精濃縮、各種「祖傳秘方」</strong> — 這些不一定有毒,但對心臟手術後病人有<strong>兩個風險</strong>:(1) 與心臟藥物(抗凝血劑、降血壓藥、降血糖藥)<strong>不可預期的交互作用</strong>;(2) <strong>增加腎臟負擔</strong>。任何「補品」服用前,先問心臟外科或心臟內科醫師。</div>
+    </div>
+
+    <div class="h-cat">
+      <div class="h-name">② 馬兜鈴酸(已禁用但仍可能流通)</div>
+      <div class="h-body">過去常見於「<strong>青木香、關木通、廣防己、馬兜鈴</strong>」等中藥材,<strong>會直接造成腎臟損傷與膀胱癌</strong>。台灣已禁用,但<strong>仍可能在非合法管道流通</strong>。如果別人送您「祖傳秘方」「老中醫朋友推薦」,<strong>完全不能服用</strong>。</div>
+    </div>
+
+    <div class="h-cat">
+      <div class="h-name">③ 減肥茶/減肥藥/排毒茶/通便茶</div>
+      <div class="h-body">很多含<strong>腎毒性、心臟毒性、未明示的西藥成分</strong>(如利尿劑、瀉藥、安非他命類)。<strong>絕對避免</strong>。心臟手術後若有減重需求,請與醫師、營養師討論安全方法 <span class="link-ref">連結 8-4 AKI</span>。</div>
+    </div>
+
+    <div class="h-cat">
+      <div class="h-name">④ 過量保健食品</div>
+      <div class="h-body"><strong>維他命 C 過量會增加腎結石、維他命 E 過量會增加出血(影響抗凝血藥)、鈣片過量會影響鐵吸收、魚油過量會影響抗凝血藥、紅麴會與 statin 互動</strong>。<strong>不是「多吃就好」</strong>。任何保健食品在服用前先告訴醫師。</div>
+    </div>
+
+    <div class="h-cat">
+      <div class="h-name">⑤ 含酒精的「補品」</div>
+      <div class="h-body"><strong>藥酒、保力達、維士比、米酒水、酒燉中藥</strong> — 酒精會誘發心顫(POAF)、增加肝負擔、與多種心臟藥物互動。<strong>「補身體」是迷思,術後絕對禁忌</strong>。</div>
+    </div>
+
+    <div class="h-bottom">
+      <strong>黃金原則 — 任何想吃的口服物,先告訴醫師或營養師</strong>。這比「自己以為沒事」安全得多。本院醫師不會因為您問「能不能吃 XX」而覺得奇怪 — <strong>主動詢問是負責任的病人行為</strong>。
+    </div>
+  </div>
+
+  <!-- Warning signs -->
+  <div class="section-title">出現這些情況請立即就醫</div>
+
+  <div class="warning-signs">
+    <h4>飲食調整期間需要警覺的徵兆</h4>
+    <ul>
+      <li><strong>體重快速增加</strong> — 一週內增加 &gt; 2 公斤(可能是水分滯留、心臟功能變差的訊號)</li>
+      <li><strong>下肢/腳踝水腫</strong> — 按下去凹陷不會立刻彈回(可能是心臟或腎臟功能變化)</li>
+      <li><strong>呼吸喘變得明顯</strong> — 平常能走的距離突然走不到、平躺會喘需要墊高枕頭</li>
+      <li><strong>持續嘔吐、吃不下、嚴重食慾不振 &gt; 3 天</strong> — 可能是電解質問題、藥物副作用、或其他併發症</li>
+      <li><strong>持續便祕 &gt; 5 天</strong> — 解便用力對心臟與胸骨都有負擔,需要醫療處理</li>
+      <li><strong>站起來頭暈、眼前發黑</strong> — 可能是血壓過低、脫水、或鉀離子異常(若使用排鉀型利尿劑特別注意)</li>
+      <li><strong>抽筋、肌肉無力、心跳怪怪的</strong> — 可能是鉀離子異常(過低或過高都會引起,POAF 病人特別警覺) <span class="link-ref">連結 8-3 POAF</span></li>
+      <li><strong>突然出現黑便、血便、嚴重瘀青</strong> — 抗凝血劑使用中,可能是與飲食(綠葉蔬菜份量改變、保健食品)的交互作用,需要立即就醫</li>
+    </ul>
+  </div>
+
+  <!-- Cost note -->
+  <div class="section-title">飲食調整的健保與自費</div>
+
+  <div class="cost-note">
+    <h5>飲食調整涉及的費用</h5>
+    <p><strong>本院的標準營養諮詢與衛教都在健保範圍內</strong>,不會讓病人因為費用而錯過飲食調整資源。</p>
+    <p><strong>健保涵蓋</strong>:住院期間每位心臟手術病人都有的<strong>營養師諮詢</strong>(請主動向護理師預約);住院期間的<strong>低鹽、低油、心臟病飲食</strong>(由醫院供餐);出院後若有特殊需求(如心衰、腎功能下降合併心臟病)的<strong>個別化營養諮詢門診</strong>(需醫師轉介)。</p>
+    <p><strong>可能涉及自費</strong>:<strong>院外營養師個別諮詢</strong>(若希望出院後持續、密集的個別化指導);<strong>特殊配方營養品</strong>(如針對心衰、腎臟病的特定處方營養品,非健保給付);<strong>保健食品 / 中草藥 / 補品</strong>(本院不會建議使用,任何想吃的都請先問醫師)。</p>
+    <div class="help-line">
+      <strong>如有經濟負擔考量,請直接告訴醫師或護理師</strong>。團隊會優先採用健保項目,必要時可協助轉介社工資源。<strong>飲食調整的核心(七大原則 + 黃金訓練期)不需要任何額外花費</strong> — 只需要在病房好好嘗醫院飲食、聽營養師說明、回家後實踐就足夠。
+    </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>飲食調整在整套衛教中的位置 — 終身守護鏈最長一段</h4>
+    <div class="sub">這份單張是整套系列「<strong>術後 10-20 年最長守護鏈</strong>」與「<strong>居家照護鏈</strong>」的關鍵節點</div>
+    <ol>
+      <li>體外循環機 CPB 3-2(認識手術設備 — 出血/中風守護鏈起點)</li>
+      <li>凝血功能 5-2(warfarin 抗凝血藥背景)</li>
+      <li>術後疼痛 5-1b(NSAIDs 與飲食/腎臟的關係)</li>
+      <li>術後吞嚥 7-5(出院後吞嚥變化)</li>
+      <li>喝水進食 7-7(主動恢復鏈關鍵節點 + 葡萄柚 CYP3A4 機轉)</li>
+      <li>譫妄專篇 8-2(術後併發症三部曲第 1 部 — 民間用藥警示與飲食的關係)</li>
+      <li>術後心房顫動 POAF 8-3(術後併發症三部曲第 2 部 — warfarin 與綠葉蔬菜、酒精誘因)</li>
+      <li>術後急性腎損傷 AKI 8-4(術後併發症三部曲第 3 部 — 終身保護論述 + 中草藥警示)</li>
+      <li class="current"><strong>心臟手術後飲食調整 9-3(您正在讀:術後 10-20 年最長守護鏈節點 + 黃金訓練期論述)</strong></li>
+      <li>主動恢復入門 10-1a(出院後規律有氧運動 — 飲食 + 運動是長期心血管保護雙翼)</li>
+      <li>整套衛教整合與終身指南 10-1b(終身守護鏈最長一段在此完整收束 — 集大成篇)</li>
+    </ol>
   </div>
 
   <!-- Closing -->

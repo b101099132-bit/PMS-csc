@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>您讀完了 — 整套衛教的整合與終身指南 · 10-1b 集大成篇</title>
+<meta name="description" content="俯瞰整套 24 份單張、整合 24 大論述策略、本院 ERAS 具體成果量化、出院後 6 週到終身的完整指引、12 條跨單張鏈條總覽">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用 — 集大成篇 */
+
+/* Hero — 致謝您讀完 */
+.hero-complete {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--gold-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.hero-complete h2 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+.hero-complete h2 .accent {
+  color: var(--gold);
+}
+.hero-complete .hero-sub {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.hero-complete .badge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+.hero-complete .badge {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 12px 10px;
+}
+.hero-complete .badge .num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--teal);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hero-complete .badge .label {
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+
+/* Section 1 — 整套系列俯瞰圖 */
+.overview-map {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.overview-map h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.overview-map .om-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.overview-map .series-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.overview-map .series-row:last-of-type { border-bottom: none; }
+.overview-map .series-row .sr-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.overview-map .series-row .sr-content h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.overview-map .series-row .sr-content .sr-items {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.overview-map .series-row .sr-content .sr-items strong { color: var(--ink); font-weight: 600; }
+.overview-map .series-row .sr-content .sr-quote {
+  font-style: italic;
+  color: var(--teal);
+  font-size: 12.5px;
+  line-height: 1.7;
+  padding-left: 10px;
+  border-left: 2px solid var(--teal);
+}
+
+/* Section 2 — ERAS 具體成果量化 */
+.eras-numbers {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.eras-numbers h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.eras-numbers .en-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.eras-numbers .data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.eras-numbers .data-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.eras-numbers .data-card .dc-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--teal);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.eras-numbers .data-card .dc-label {
+  font-size: 12.5px;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.eras-numbers .data-card .dc-detail {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.eras-numbers .data-card .dc-detail strong { color: var(--ink); font-weight: 600; }
+.eras-numbers .data-card.highlight { border-left-color: var(--gold); }
+.eras-numbers .data-card.highlight .dc-num { color: var(--gold); }
+.eras-numbers .humble-note {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.75;
+  border-left: 2px solid var(--border-strong);
+}
+
+@media (max-width: 480px) {
+  .hero-complete { padding: 24px 22px; }
+  .hero-complete .badge-grid { grid-template-columns: 1fr; gap: 10px; }
+  .overview-map { padding: 20px 22px; }
+  .overview-map .series-row { grid-template-columns: 1fr; gap: 4px; }
+  .eras-numbers { padding: 22px 22px; }
+  .eras-numbers .data-grid { grid-template-columns: 1fr; gap: 10px; }
+  .phase-detail { padding: 20px 22px; }
+  .phase-detail .phase-timeline .pt-row { grid-template-columns: 1fr; gap: 4px; }
+  .strategy-grid { grid-template-columns: 1fr !important; }
+  .family-integrate { padding: 20px 22px; }
+  .cardiac-rehab { padding: 22px 22px; }
+  .cr-phases { grid-template-columns: 1fr !important; }
+  .warning-signals { padding: 22px 22px; }
+  .ws-grid { grid-template-columns: 1fr !important; }
+  .chains-overview { padding: 20px 22px; }
+  .chain-card { padding: 14px 16px; }
+  .quote-collection { padding: 22px 22px; }
+  .qc-grid { grid-template-columns: 1fr !important; }
+  .final-closing { padding: 30px 24px; }
+}
+
+/* Section 8 — 「您也是康復團隊的一員」金句總集 */
+.quote-collection {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.quote-collection > h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.quote-collection > .qc-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.qc-group {
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.qc-group:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.qc-group .qcg-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.qc-group .qcg-desc {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.qc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.qc-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.qc-card .qc-quote-text {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.55;
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.qc-card .qc-source {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+.qc-card .qc-source strong { color: var(--ink-soft); font-weight: 600; }
+.qc-card.spotlight {
+  border-left-color: var(--gold);
+  background: var(--gold-soft);
+}
+.qc-card.spotlight .qc-quote-text { color: var(--ink); }
+
+/* Final reading map — 整套衛教閱讀總路徑 */
+.final-reading-map {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.final-reading-map h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.final-reading-map .frm-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.final-reading-map .frm-series {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--border);
+}
+.final-reading-map .frm-series:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.final-reading-map .frm-tag {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.final-reading-map .frm-items {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+.final-reading-map .frm-items strong { color: var(--ink); font-weight: 600; }
+.final-reading-map .frm-current {
+  background: var(--gold-soft);
+  border-left: 3px solid var(--gold);
+  padding: 12px 16px;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+.final-reading-map .frm-current strong { color: var(--gold); font-weight: 700; }
+
+/* Final closing — 「您讀完了」收尾 */
+.final-closing {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--gold-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 40px 36px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.final-closing h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.final-closing h3 .accent {
+  color: var(--gold);
+  font-weight: 700;
+}
+.final-closing h3 .accent-double {
+  color: var(--teal);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+.final-closing .fc-tagline {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+.final-closing .fc-message {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.95;
+  margin-bottom: 14px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.final-closing .fc-message strong { color: var(--ink); font-weight: 600; }
+.final-closing .fc-message em { color: var(--gold); font-style: normal; font-weight: 600; }
+.final-closing .fc-signature {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--gold-border);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+.final-closing .fc-signature-note {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+
+/* Section 6 — 心臟復健計畫 */
+.cardiac-rehab {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.cardiac-rehab h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.cardiac-rehab .cr-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.cardiac-rehab > p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.cardiac-rehab > p strong { color: var(--ink); font-weight: 600; }
+.cardiac-rehab .cr-phases {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cardiac-rehab .cr-phase {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.cardiac-rehab .cr-phase .crp-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.cardiac-rehab .cr-phase h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.cardiac-rehab .cr-phase p {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin: 0;
+}
+.cardiac-rehab .cr-block {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--border);
+}
+.cardiac-rehab .cr-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.cardiac-rehab .cr-block-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.cardiac-rehab .cr-block ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.cardiac-rehab .cr-block ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.cardiac-rehab .cr-block ul li strong { color: var(--ink); font-weight: 600; }
+.cardiac-rehab .cr-cost {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--cream);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.cardiac-rehab .cr-cost strong { color: var(--gold); font-weight: 700; }
+
+/* Section 7 — 警示徵兆(主動回診的訊號) */
+.warning-signals {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.warning-signals h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.warning-signals .ws-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.warning-signals .ws-intro {
+  padding: 12px 16px;
+  background: var(--gold-soft);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+.warning-signals .ws-intro strong { color: var(--ink); font-weight: 600; }
+.warning-signals .ws-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.warning-signals .ws-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.warning-signals .ws-card.urgent {
+  border-left-color: var(--danger);
+  background: var(--danger-bg);
+}
+.warning-signals .ws-card h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.warning-signals .ws-card.urgent h5 { color: var(--danger); }
+.warning-signals .ws-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.warning-signals .ws-card ul li {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 3px;
+}
+.warning-signals .ws-card ul li:last-child { margin-bottom: 0; }
+.warning-signals .ws-card ul li strong { color: var(--ink); font-weight: 600; }
+.warning-signals .ws-card .ws-ref {
+  display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* Section 8 — 12 條跨單張鏈條 */
+.chains-overview {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.chains-overview h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.chains-overview .co-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.chain-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+.chain-card.signature {
+  border-left-color: var(--gold);
+  background: var(--gold-soft);
+}
+.chain-card .cc-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--teal);
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+.chain-card.signature .cc-num { color: var(--gold); }
+.chain-card h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.chain-card .cc-nodes {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.chain-card .cc-nodes strong { color: var(--ink); font-weight: 600; }
+.chain-card .cc-quote {
+  font-size: 12.5px;
+  color: var(--teal);
+  line-height: 1.7;
+  padding-left: 10px;
+  border-left: 2px solid var(--teal);
+  font-style: italic;
+}
+.chain-card.signature .cc-quote {
+  color: var(--gold);
+  border-left-color: var(--gold);
+}
+</style>
+
+/* Section 3 — Phase detail cards */
+.phase-detail {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.phase-detail.p1 { border-top: 3px solid var(--teal); }
+.phase-detail.p2 { border-top: 3px solid var(--gold); }
+.phase-detail.p3 { border-top: 3px solid #8E6840; }
+.phase-detail.p4 { border-top: 3px solid var(--safe); }
+.phase-detail .phase-tag {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-family: 'Noto Serif TC', serif;
+}
+.phase-detail.p1 .phase-tag { color: var(--teal); }
+.phase-detail.p2 .phase-tag { color: var(--gold); }
+.phase-detail.p3 .phase-tag { color: #8E6840; }
+.phase-detail.p4 .phase-tag { color: var(--safe); }
+.phase-detail h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.phase-detail .phase-when {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.phase-detail .phase-section {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--border);
+}
+.phase-detail .phase-section:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.phase-detail .ps-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--teal);
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.phase-detail.p2 .ps-label { color: var(--gold); }
+.phase-detail.p3 .ps-label { color: #8E6840; }
+.phase-detail.p4 .ps-label { color: var(--safe); }
+.phase-detail ul {
+  margin: 0;
+  padding-left: 22px;
+}
+.phase-detail ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.phase-detail ul li strong { color: var(--ink); font-weight: 600; }
+.phase-detail .phase-refs {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  padding: 10px 14px;
+  background: var(--cream);
+  border-radius: 3px;
+  border-left: 2px solid var(--border-strong);
+}
+.phase-detail .phase-refs strong { color: var(--ink); font-weight: 600; }
+.phase-detail p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin: 0;
+}
+.phase-detail p strong { color: var(--ink); font-weight: 600; }
+.phase-detail .phase-timeline {
+  margin-top: 4px;
+}
+.phase-detail .phase-timeline .pt-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.phase-detail .phase-timeline .pt-row:last-of-type { border-bottom: none; }
+.phase-detail .phase-timeline .pt-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--safe);
+  letter-spacing: 0.02em;
+}
+.phase-detail .phase-timeline .pt-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.phase-detail .phase-timeline .pt-what strong { color: var(--ink); font-weight: 600; }
+
+/* Section 4 — 24 大論述策略全圖 */
+.strategy-overview {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.strategy-overview > h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.strategy-overview > .so-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.strategy-group {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.strategy-group:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.strategy-group .sg-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.strategy-group .sg-desc {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.strategy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.strategy-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--teal);
+  border-radius: 3px;
+  padding: 12px 14px;
+}
+.strategy-card .sc-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+.strategy-card .sc-title {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.strategy-card .sc-source {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.strategy-card .sc-source strong { color: var(--ink); font-weight: 600; }
+
+/* Section 5 — 家屬整合角色 */
+.family-integrate {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+.family-integrate h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.family-integrate .fi-sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.family-integrate .fi-quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  color: var(--ink);
+  text-align: center;
+  padding: 18px 22px;
+  background: var(--paper);
+  border-radius: 3px;
+  margin-bottom: 18px;
+  line-height: 1.7;
+  border: 1px solid var(--gold-border);
+}
+.family-integrate .fi-quote strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+.family-integrate .fi-block {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--border);
+}
+.family-integrate .fi-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.family-integrate .fi-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.family-integrate .fi-block p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.family-integrate .fi-block p strong { color: var(--ink); font-weight: 600; }
+.family-integrate .fi-block ul {
+  margin: 4px 0 0;
+  padding-left: 22px;
+}
+.family-integrate .fi-block ul li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 5px;
+}
+.family-integrate .fi-block ul li strong { color: var(--ink); font-weight: 600; }
+.family-integrate .help-channels-final {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.family-integrate .help-channels-final strong { color: var(--safe); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 10-1b <span class="ver">集大成篇</span></div>
+    <h1>您讀完了 —<br>整套衛教的整合與終身指南</h1>
+    <p class="subtitle">俯瞰 24 份單張、24 大論述策略、本院 ERAS 具體成果與終身指引<br>The Complete Integration · Active Recovery for Life</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Hero — 致謝您讀完 -->
+  <div class="hero-complete">
+    <h2>您完成了一件<span class="accent">了不起的事</span></h2>
+    <div class="hero-sub">能讀到這裡的病人不多 — 您不只是接受了一場手術,<br>您把自己變成了<strong>真正能與心臟團隊並肩走完這條路</strong>的人。</div>
+    <div class="badge-grid">
+      <div class="badge">
+        <div class="num">24</div>
+        <div class="label">份單張</div>
+      </div>
+      <div class="badge">
+        <div class="num">24</div>
+        <div class="label">大論述策略</div>
+      </div>
+      <div class="badge">
+        <div class="num">12</div>
+        <div class="label">條跨單張鏈條</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>這份單張是整套衛教的「整合與展開」</strong>
+    <p>您剛讀完的 24 份單張,每一份都處理一個具體議題 — 從「<span class="em">手術會發生什麼</span>」到「<span class="em">出院後 10-20 年的飲食</span>」。但這些單張<span class="em">不是各自獨立的</span> — 它們彼此串連、互相支援,共同組成本院為您設計的<span class="em">「完整加速康復路徑」</span>。</p>
+    <p>這份 10-1b 的功能,是<span class="em">把您讀過的所有累積串連起來</span>,並提供從<span class="em">「住院期間」到「出院後 6 週、3 個月、1 年、終身」</span>的完整指引。包括:本院 ERAS 的具體成果量化、4 階段完整時程、24 大論述策略總圖、家屬整合角色、整套衛教警示徵兆匯總、12 條跨單張鏈條的閱讀地圖。</p>
+    <p>請<span class="em">在「需要時」回來查閱這份</span> — 不必一次讀完。它是您出院後的「整套衛教的索引與整合」,而不是又一份要記住的清單。</p>
+  </div>
+
+  <!-- Lexicon — 集大成 -->
+  <div class="lexicon">
+    <h4>名詞速查 · 整套衛教關鍵概念集成</h4>
+    <div class="lex-row">
+      <span class="lex-term">ERAS</span>
+      <span class="lex-def">Enhanced Recovery After Surgery,術後加速康復。整合術前、術中、術後策略的照護模式,目標是<strong>縮短住院、減少併發症、加速恢復</strong>,核心是「醫療團隊與病人共同合作」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">主動恢復</span>
+      <span class="lex-def">病人從「被動接受治療」轉變為「主動執行康復計畫」的角色 — ERAS 能比傳統做法快的核心動力,從 10-1a 入門延伸到本份的終身實踐。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">術後併發症三部曲</span>
+      <span class="lex-def">整套系列把心臟手術後最常被擔心的三大併發症統整為三部曲:<strong>8-2 譫妄(腦)+ 8-3 POAF(心律)+ 8-4 AKI(腎)</strong>。每一份都採相同結構模式,讓家屬從「散亂的擔心」變成「系統性的理解」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">最深恐懼三部曲</span>
+      <span class="lex-def">整套系列把 ICU 中最被害怕的三個議題統整為三部曲:<strong>6-1 SICU(環境隔離)+ 8-2 譫妄(腦的變化)+ 6-5 約束(身體束縛)</strong>。三份單張互相連結,共同構成整套系列「心理層面衛教」核心。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">中風守護鏈</span>
+      <span class="lex-def">從手術前到出院後守護腦部的完整鏈條:<strong>3-2 CPB → 4-3 NIRS → 4-4 BIS → 5-2 凝血 → 6-2 早期拔管 → 6-6 HFNC → 8-1a/8-1b 認知 → 8-2 譫妄</strong>。核心論述「清醒的腦 = 最早能被守護的腦」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">主動恢復鏈</span>
+      <span class="lex-def">從拔管後到出院的「主動恢復」核心節點:<strong>6-2 拔管 → 6-6 HFNC → 5-1 止痛 → 5-1b 術後疼痛 → 8-1a/8-1b 清醒 → 7-5 吞嚥 → 7-7 進食 → 7-6a/b 下床 → 9-3 飲食</strong>。從「被動點滴」到「主動口渴喝水、飢餓進食」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">終身守護鏈</span>
+      <span class="lex-def">整套系列從手術前涵蓋到出院後 10-20 年的最長鏈條:術中守護(NIRS/BIS/體溫/CPB)→ 術後立即(6-2/HFNC)→ 術後幾天(8-1a/b、6-5、5-1b)→ 出院前(8-2/8-3/8-4)→ <strong>出院後 10-20 年(9-3 飲食 + 10-1 主動恢復)</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">居家照護鏈</span>
+      <span class="lex-def">出院後的延伸照護:<strong>7-4 胸骨保護 → 3-3/3-4 手術相關 → 5-1b/6-3/6-4 出院初期 → 7-1/7-2/7-6 主動恢復延續 → 9-3 飲食 → 10-1 主動恢復</strong>。串起不同議題的癒合時程。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">黃金訓練期</span>
+      <span class="lex-def">9-3 飲食單張首創,把「住院期間」從「單純恢復時間」重新定位為「<strong>建立終身習慣的最佳時機</strong>」。可推廣至呼吸練習、運動、戒菸戒酒等所有需要長期習慣建立的議題。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">不可取代的處方</span>
+      <span class="lex-def">8-1b 家屬版首創金句,定位家屬陪伴為「<strong>醫療團隊無法替代</strong>」的處方。從「訪客」升級為「康復團隊不可取代的成員」。整套系列「家屬整合角色」的核心論述。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">與你同莘</span>
+      <span class="lex-def">本院心臟加速康復團隊的簽名 — 雙關「同莘」=「同心」+「耕莘」。意指<strong>本院與您同心陪伴、共同走完這條路</strong>。整套衛教結尾統一使用,代表團隊的承諾。</span>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 1 — 整套系列俯瞰圖                  -->
+  <!-- ============================================== -->
+  <div class="section-title">整套 24 份單張俯瞰圖</div>
+
+  <p class="section-intro">
+    整套衛教分為<span class="em">「3、4、5、6、7、8、9、10」八個系列</span>,從「認識手術」涵蓋到「出院後終身指引」。每個系列對應您手術旅程的<span class="em">一個階段或一類議題</span>。
+  </p>
+
+  <div class="overview-map">
+    <h4>八大系列 + 核心金句</h4>
+    <div class="om-sub">每個系列的核心金句來自該系列最具代表性的單張</div>
+
+    <div class="series-row">
+      <div class="sr-num">3 系列</div>
+      <div class="sr-content">
+        <h5>認識手術 — 從「不知道會發生什麼」到「能與醫師討論選項」</h5>
+        <div class="sr-items"><strong>3-1</strong> CABG 三種手術比較 / <strong>3-2</strong> 體外循環機 CPB / <strong>3-3</strong> 微創 vs 傳統開胸 / <strong>3-4</strong> 鋼絲 vs 鋼板固定</div>
+        <div class="sr-quote">「您不只是接受手術,您是與醫師一起選擇手術。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">4 系列</div>
+      <div class="sr-content">
+        <h5>術中精準照護 — 您睡著的時候,團隊在做的事</h5>
+        <div class="sr-items"><strong>4-2</strong> TOF 肌肉鬆弛監測 / <strong>4-3</strong> NIRS 腦氧監測 / <strong>4-4</strong> BIS 麻醉深度 / <strong>4-6</strong> 圍術期體溫管理</div>
+        <div class="sr-quote">「您睡得安全、不過深、體溫穩定、腦氧足夠 — 這是本院能讓您早期清醒拔管的前提。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">5 系列</div>
+      <div class="sr-content">
+        <h5>止痛與凝血 — 把疼痛變得可承受,把出血變得可控</h5>
+        <div class="sr-items"><strong>5-1</strong> 多模式止痛 / <strong>5-1b</strong> 術後疼痛管理 / <strong>5-2</strong> 凝血功能與止血藥物</div>
+        <div class="sr-quote">「3+2=5 種策略,讓您不靠單一鴉片類就能控制疼痛 — 您能呼吸、能咳嗽、能下床。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">6 系列</div>
+      <div class="sr-content">
+        <h5>加護病房 — 把陌生變熟悉,把恐懼變理解</h5>
+        <div class="sr-items"><strong>6-1</strong> SICU 環境 / <strong>6-2</strong> 早期拔管 / <strong>6-3</strong> 認識胸管 / <strong>6-4</strong> 認識尿管 / <strong>6-5</strong> 保護性約束 / <strong>6-6</strong> HFNC 高流量鼻導管</div>
+        <div class="sr-quote">「把控制權交還給您 — 越快清醒、越快移除管路、越快下床。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">7 系列</div>
+      <div class="sr-content">
+        <h5>主動恢復鏈 — 從第一口氣到完整生活</h5>
+        <div class="sr-items"><strong>7-1</strong> 呼吸訓練器 / <strong>7-2</strong> 咳嗽 / <strong>7-4</strong> 胸骨保護 / <strong>7-5</strong> 吞嚥 / <strong>7-6</strong> 早期下床(入口) / <strong>7-6a</strong> 從躺到坐 / <strong>7-6b</strong> 從站到走 / <strong>7-7</strong> 喝水進食</div>
+        <div class="sr-quote">「感到口渴、自己喝水、肚子餓了想吃 — 這些看似平常的事,正是最具體的康復指標。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">8 系列</div>
+      <div class="sr-content">
+        <h5>腦與術後併發症 — 最被擔心、最被誤解的議題</h5>
+        <div class="sr-items"><strong>8-1a</strong> 神經學評估 病人版 / <strong>8-1b</strong> 會客時的認知復健 家屬版 / <strong>8-2</strong> 譫妄 / <strong>8-3</strong> POAF 心房顫動 / <strong>8-4</strong> AKI 腎損傷</div>
+        <div class="sr-quote">「術後併發症三部曲(腦/心律/腎)— 本院主動預防、早期辨識、適當治療,讓絕大多數病人順利度過、回到正常生活。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">9 系列</div>
+      <div class="sr-content">
+        <h5>出院後長期 — 把住院的訓練變成終身的習慣</h5>
+        <div class="sr-items"><strong>9-3</strong> 心臟手術後飲食調整</div>
+        <div class="sr-quote">「飲食調整是給心臟最長效的禮物 — 在住院期間就開始,家屬一起學、病人逐步適應。」</div>
+      </div>
+    </div>
+
+    <div class="series-row">
+      <div class="sr-num">10 系列</div>
+      <div class="sr-content">
+        <h5>整合總結 — 您是康復團隊的一員</h5>
+        <div class="sr-items"><strong>10-1a</strong> 主動恢復入門篇 / <strong>10-1b</strong> 整套衛教的整合與終身指南(本份)</div>
+        <div class="sr-quote">「少躺一點,多動一點,恢復就快一點。您的努力,會成為康復速度的一部分。」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 2 — 本院 ERAS 具體成果量化            -->
+  <!-- ============================================== -->
+  <div class="section-title">本院 ERAS 的具體成果 — 用數字說話</div>
+
+  <p class="section-intro">
+    這些數字來自整套衛教各單張的「本院實際成果」段落集合。<span class="em">本院執行完整 ERAS 心臟手術照護策略後</span>,在每個關鍵指標上都呈現出與傳統做法明顯不同的成果。
+  </p>
+
+  <div class="eras-numbers">
+    <h4>本院 ERAS 心臟手術實際成果 — 對比文獻平均</h4>
+    <div class="en-sub">具體成果因病人組成而異,個別風險請與醫師個別討論</div>
+
+    <div class="data-grid">
+      <div class="data-card highlight">
+        <div class="dc-num">39% → 20%</div>
+        <div class="dc-label">POAF 心房顫動發生率</div>
+        <div class="dc-detail">文獻平均約 30-39%;本院透過 ERAS 多管齊下(術前持續乙型阻斷劑、避免高劑量鴉片、早期下床等)<strong>降到 20% 左右</strong> <span class="link-ref">連結 8-3</span></div>
+      </div>
+
+      <div class="data-card highlight">
+        <div class="dc-num">&lt; 10%</div>
+        <div class="dc-label">保護性約束率</div>
+        <div class="dc-detail">對齊國際 ERAS 心臟中心標準。家屬陪伴 + 早期譫妄辨識 + 早期下床,讓本院能做到「<strong>不是少用約束,而是病人清醒到不需要</strong>」 <span class="link-ref">連結 6-5</span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="dc-num">24-72h</div>
+        <div class="dc-label">譫妄完全恢復時間</div>
+        <div class="dc-detail">本院多數病人在 24-72 小時內完全恢復(約 70%),1 週累積恢復約 90%。真正進展到「持續多日明顯混亂」的比例不高 <span class="link-ref">連結 8-2</span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="dc-num">手術室內</div>
+        <div class="dc-label">拔管率</div>
+        <div class="dc-detail">本院傳統與微創心臟手術都採「<strong>手術室內拔管</strong>」(OR extubation),縮短鎮靜時間、減少譫妄、讓清醒得以維持 <span class="link-ref">連結 6-2</span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="dc-num">6 / 24 小時</div>
+        <div class="dc-label">坐起 / 走路目標</div>
+        <div class="dc-detail">本院執行「<strong>拔管後 6 小時坐起、24 小時走到護理站</strong>」 — 早期下床是降低譫妄、深部靜脈血栓、肺部併發症最有效的非藥物方法 <span class="link-ref">連結 7-6a · 7-6b</span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="dc-num">3 + 2 = 5</div>
+        <div class="dc-label">多模式止痛策略</div>
+        <div class="dc-detail">術前 3 種(神經阻斷、TIVA、Acetamal)+ 術後 2 種(Acetamal 延續、加強鎮痛) = <strong>5 種策略</strong>。減少對鴉片類依賴、不靠 PCA 也能舒適 <span class="link-ref">連結 5-1 · 5-1b</span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="dc-num">無 PCA</div>
+        <div class="dc-label">病人控制止痛</div>
+        <div class="dc-detail">本院 ERAS 不使用病人控制鴉片類止痛(PCA),改採多模式策略,減少鎮靜、譫妄、便祕、噁心 <span class="link-ref">連結 5-1b</span></div>
+      </div>
+
+      <div class="data-card">
+        <div class="dc-num">HFNC 銜接</div>
+        <div class="dc-label">高流量鼻導管</div>
+        <div class="dc-detail">手術室內拔管後立即使用 HFNC,讓您能<strong>說話、喝水、進食</strong>,維持清醒舒適 — 而不是傳統「拔管後仍在 ICU 用低流量鼻管或重新插管」 <span class="link-ref">連結 6-6</span></div>
+      </div>
+    </div>
+
+    <div class="humble-note">
+      ※ 上述具體數字為本院 ERAS 心臟團隊執行成果的範圍,實際個別表現受手術類型(傳統/微創/微創機器人)、病人基準(年齡、心臟功能、共病)、緊急程度等多項因素影響。個別風險請在<strong>術前訪視</strong>時與心臟外科、麻醉科醫師討論。
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 3 — 4 階段完整時程                    -->
+  <!-- ============================================== -->
+  <div class="section-title">4 階段完整時程 — 從手術前到出院後終身</div>
+
+  <p class="section-intro">
+    心臟手術後的恢復不是「<span class="em">出院 = 結束</span>」,而是進入<span class="em">不同階段的長期歷程</span>。每個階段有不同的核心任務、可能的議題、相關的衛教單張。
+  </p>
+
+  <article class="phase-detail p1">
+    <div class="phase-tag">第 1 階段 · 術前 2-4 週</div>
+    <h3>黃金準備期 — 為手術建立最佳基礎</h3>
+    <div class="phase-when">手術前 2-4 週 → 手術日</div>
+
+    <div class="phase-section">
+      <div class="ps-label">核心任務</div>
+      <ul>
+        <li><strong>強化體能基礎</strong> — 規律有氧運動、戒菸戒酒、規律進食、充足睡眠</li>
+        <li><strong>術前訪視評估</strong> — 心臟外科、麻醉科、營養師逐一見面</li>
+        <li><strong>藥物清單調整</strong> — 帶所有處方藥到訪視,由醫師判斷哪些術前要停、何時停</li>
+        <li><strong>家屬同步學習</strong> — 與病人一起讀衛教、了解陪伴角色</li>
+        <li><strong>心理準備</strong> — 認識手術會發生什麼、麻醉與監測、術後 ICU 與管路</li>
+      </ul>
+    </div>
+
+    <div class="phase-section">
+      <div class="ps-label">相關衛教單張</div>
+      <div class="phase-refs">
+        <strong>認識手術</strong>:3-1 CABG 比較 · 3-2 CPB · 3-3 微創 vs 傳統 · 3-4 鋼絲 vs 鋼板<br>
+        <strong>術中監測</strong>:4-2 TOF · 4-3 NIRS · 4-4 BIS · 4-6 體溫管理<br>
+        <strong>止痛策略</strong>:5-1 多模式止痛(神經阻斷由麻醉科術前安排)<br>
+        <strong>關鍵停藥</strong>:8-4 AKI(SGLT2 抑制劑術前 3-4 天停藥指引)
+      </div>
+    </div>
+
+    <div class="phase-section">
+      <div class="ps-label">本院 ERAS 在此階段的特色</div>
+      <p>手術同意書與麻醉訪視就會逐項說明<strong>自費包套</strong>(5-7 萬範圍,包套設計而非逐項選擇);<strong>經濟困難可申請麻醉科吸收自費</strong>。任何疑問都歡迎在訪視當下問清楚。</p>
+    </div>
+  </article>
+
+  <article class="phase-detail p2">
+    <div class="phase-tag">第 2 階段 · 術後 0-72 小時</div>
+    <h3>關鍵突破期 — ERAS 速度的決定點</h3>
+    <div class="phase-when">手術結束 → 出 ICU(通常 1-3 天)</div>
+
+    <div class="phase-section">
+      <div class="ps-label">核心任務</div>
+      <ul>
+        <li><strong>手術室內拔管</strong>(本院特色)→ HFNC 銜接 → 6 小時坐起 → 24 小時走到護理站</li>
+        <li><strong>主動配合神經學評估</strong>(回答問題、配合肢體檢查)— 「不是測驗,是聽您腦袋的聲音」</li>
+        <li><strong>3+2=5 多模式止痛策略</strong>運作中 — 不使用 PCA</li>
+        <li><strong>主動回報「異常感覺」</strong> — 心悸、呼吸怪、尿量少、看見不在的人</li>
+        <li><strong>家屬會客時的對話 6 原則</strong>運作中(短句、慢說、不替答、重新定向)</li>
+      </ul>
+    </div>
+
+    <div class="phase-section">
+      <div class="ps-label">3 大警示節點(本院主動偵測)</div>
+      <div class="phase-refs">
+        <strong>譫妄高峰</strong>:24-72 小時 — 家屬留意 FAST 徵兆 + 民間用藥警示(8-2)<br>
+        <strong>POAF 高峰</strong>:術後 2-3 天 — 家屬學會量脈搏 + 連續心電圖監測(8-3)<br>
+        <strong>AKI 高峰</strong>:術後 1-3 天 — 團隊每日抽血肌酸酐 + 觀察尿量(8-4)
+      </div>
+    </div>
+
+    <div class="phase-section">
+      <div class="ps-label">相關衛教單張</div>
+      <div class="phase-refs">
+        <strong>加護病房</strong>:6-1 SICU · 6-2 早期拔管 · 6-3 胸管 · 6-4 尿管 · 6-5 約束 · 6-6 HFNC<br>
+        <strong>主動恢復鏈</strong>:5-1b 術後疼痛 · 7-1 呼吸訓練器 · 7-2 咳嗽 · 7-5 吞嚥 · 7-6a/b 早期下床 · 7-7 喝水進食<br>
+        <strong>腦與併發症</strong>:8-1a/8-1b 認知 · 8-2 譫妄 · 8-3 POAF · 8-4 AKI
+      </div>
+    </div>
+  </article>
+
+  <article class="phase-detail p3">
+    <div class="phase-tag">第 3 階段 · 出院前</div>
+    <h3>整合確認期 — 帶答案回家,不要回家後才問</h3>
+    <div class="phase-when">出 ICU → 出院日(通常住院 5-7 天)</div>
+
+    <div class="phase-section">
+      <div class="ps-label">核心任務</div>
+      <ul>
+        <li><strong>出院 checklist 逐項確認</strong>(若有 POAF / AKI / 譫妄病史,更要逐項問清楚)</li>
+        <li><strong>藥袋對照表理解</strong> — 看「-pril」「-sartan」結尾、看「消炎止痛」字樣</li>
+        <li><strong>飲食計畫定案</strong>(住院期間是「黃金訓練期」)— 與營養師約諮詢</li>
+        <li><strong>準備 ID reminder card 4 工具</strong>(若有 AKI / POAF / 心血管植入物)</li>
+        <li><strong>回診時程確認</strong> + 哪些情況直接掛急診</li>
+      </ul>
+    </div>
+
+    <div class="phase-section">
+      <div class="ps-label">出院前必問清單(整合自 8-3 + 8-4 + 9-3)</div>
+      <div class="phase-refs">
+        <strong>數字</strong>:出院時的肌酸酐 / eGFR / 是否有 POAF / 是否有 AKI 病史<br>
+        <strong>藥物</strong>:每顆藥是什麼?多久?何時停?有沒有食物互動?<br>
+        <strong>警示</strong>:什麼情況需要立即就醫?到急診還是回門診?<br>
+        <strong>回診</strong>:下次抽血追蹤時間?第一次回診時間?需要做什麼檢查?<br>
+        <strong>居家</strong>:胸骨保護何時結束?能不能上下樓梯?能不能開車?
+      </div>
+    </div>
+  </article>
+
+  <article class="phase-detail p4">
+    <div class="phase-tag">第 4 階段 · 出院後 6 週至終身</div>
+    <h3>終身守護期 — 把住院的訓練變成終身習慣</h3>
+    <div class="phase-when">出院日 → 6 週 → 3 個月 → 6 個月 → 1 年 → 10-20 年</div>
+
+    <div class="phase-timeline">
+      <div class="pt-row">
+        <div class="pt-when">6 週</div>
+        <div class="pt-what"><strong>胸骨保護結束</strong> — 鋼絲固定者大致癒合(鋼板固定者更快)。可開始輕度上半身活動。<strong>傷口完全癒合</strong>。 <span class="link-ref">連結 7-4 · 3-4</span></div>
+      </div>
+      <div class="pt-row">
+        <div class="pt-when">3 個月</div>
+        <div class="pt-what"><strong>組織修復完成</strong> — 若需減重(BMI ≥ 27)可開始有計畫進行(每月 1-2 公斤)。<strong>規律有氧運動已成日常</strong>(每週 150 分鐘中等強度,如快走、游泳、騎自行車 — 在醫師允許的範圍內)。 <span class="link-ref">連結 9-3 · 10-1a</span></div>
+      </div>
+      <div class="pt-row">
+        <div class="pt-when">6 個月</div>
+        <div class="pt-what"><strong>心臟功能完整恢復</strong> — 多數病人可回到完整工作、正常運動強度。<strong>進入終身規律運動 + 飲食調整 + 規律追蹤的長期模式</strong>。</div>
+      </div>
+      <div class="pt-row">
+        <div class="pt-when">1 年</div>
+        <div class="pt-what"><strong>POAF 病人</strong>:若已恢復竇性節律,醫師會評估抗凝血劑是否停藥。<strong>AKI 病人</strong>:腎功能追蹤從第 1 年的密集追蹤改為每 6 個月一次。 <span class="link-ref">連結 8-3 · 8-4</span></div>
+      </div>
+      <div class="pt-row">
+        <div class="pt-when">10-20 年</div>
+        <div class="pt-what"><strong>終身守護鏈最長一段</strong> — 飲食調整(七大原則)、規律運動、規律抽血追蹤、按時服藥、避免腎毒性藥物、看任何醫師都主動告知病史。<strong>「終身保護 ≠ 終身病人」</strong>。 <span class="link-ref">連結 9-3 · 8-4</span></div>
+      </div>
+    </div>
+
+    <div class="phase-section">
+      <div class="ps-label">核心提醒</div>
+      <p><strong>恢復是長期的、不是直線的</strong>。有時感覺特別好、有時感覺退步,都是正常的。<strong>重點是趨勢,不是每一天</strong>。對任何「不太對勁」的感覺,主動回診比自己猜測安全得多。</p>
+    </div>
+  </article>
+
+  <!-- ============================================== -->
+  <!-- Section 4 — 24 大論述策略全圖                 -->
+  <!-- ============================================== -->
+  <div class="section-title">24 大論述策略全圖 — 整套衛教的設計手冊</div>
+
+  <p class="section-intro">
+    整套衛教不只是「<span class="em">把醫療知識翻成中文</span>」而已 — 它背後有一套<span class="em">系統性的論述設計</span>。這些策略在不同單張交織出現,形成<span class="em">「不同單張、同一聲音」</span>的整套衛教風格。
+  </p>
+
+  <div class="strategy-overview">
+    <h4>24 大論述策略 — 分 6 大群組</h4>
+    <div class="so-sub">每一項標示首發單張,可在該單張看到完整論述展開</div>
+
+    <div class="strategy-group">
+      <div class="sg-label">A 群:對病人的論述設計</div>
+      <div class="sg-desc">把「被動接受」翻轉為「主動參與」 — 給病人具體可執行的角色</div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="sc-num">策略 01</div>
+          <div class="sc-title">把控制權交還給您</div>
+          <div class="sc-source"><strong>首發 6-2</strong> 早期拔管 — 主動恢復的核心心態</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 02</div>
+          <div class="sc-title">您也是康復團隊的一員</div>
+          <div class="sc-source"><strong>首發 10-1a / 10-1b</strong> — 病人 = 不可取代的成員</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 03</div>
+          <div class="sc-title">日常小事 = 康復指標</div>
+          <div class="sc-source"><strong>首發 7-7</strong> — 口渴喝水、肚子餓吃,這些就是康復證明</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 04</div>
+          <div class="sc-title">您可以主動詢問</div>
+          <div class="sc-source"><strong>首發 8-4</strong> — ask-numbers 模板給病人具體問題範本</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 05</div>
+          <div class="sc-title">長期慢性病重新定位</div>
+          <div class="sc-source"><strong>首發 8-3</strong> — 永久心顫不是絕症,是長期管理的慢性病</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 06</div>
+          <div class="sc-title">終身保護 ≠ 終身病人</div>
+          <div class="sc-source"><strong>首發 8-4</strong> — 終身警覺不等於自我設限</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-group">
+      <div class="sg-label">B 群:對家屬的論述設計</div>
+      <div class="sg-desc">把家屬從「訪客」升級為「不可取代的處方」 — 13+ 篇給家屬內容串起完整支援</div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="sc-num">策略 07</div>
+          <div class="sc-title">不可取代的處方</div>
+          <div class="sc-source"><strong>首發 8-1b</strong> 家屬版 — 整套系列家屬角色核心金句</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 08</div>
+          <div class="sc-title">家屬好意但錯誤</div>
+          <div class="sc-source"><strong>跨單張</strong> 6-3 / 6-4 / 7-5 / 7-7 / 8-1b / 8-2 — 三段結構警示</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 09</div>
+          <div class="sc-title">家屬自學技能設計</div>
+          <div class="sc-source"><strong>首發 8-3</strong> — 學會量脈搏 / 觀察水腫 / FAST 辨識</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 10</div>
+          <div class="sc-title">家屬住院期間就開始學</div>
+          <div class="sc-source"><strong>首發 9-3</strong> — 試做幾餐、家裡清空高鈉食物</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 11</div>
+          <div class="sc-title">家屬替代性創傷 + 長期照顧者疲勞</div>
+          <div class="sc-source"><strong>首發 8-2 / 8-3 / 8-4</strong> — 整套系列「家屬照顧者支援」</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-group">
+      <div class="sg-label">C 群:結構設計</div>
+      <div class="sg-desc">當議題大到一份單張裝不下,用結構解決 — 雙篇模式、三層結構、並列卡片</div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="sc-num">策略 12</div>
+          <div class="sc-title">a/b 雙篇模式</div>
+          <div class="sc-source"><strong>標竿 8-1a/8-1b</strong> 病人/家屬 — 同議題不同對象的設計範本</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 13</div>
+          <div class="sc-title">三層結構設計</div>
+          <div class="sc-source"><strong>首發 7-6</strong> 入口頁 + 7-6a/7-6b 雙篇詳細</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 14</div>
+          <div class="sc-title">治療選項並列卡片</div>
+          <div class="sc-source"><strong>首發 8-3</strong> treatment-trio — 心律調節/節律恢復/抗凝</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 15</div>
+          <div class="sc-title">整套系列預防策略總覽</div>
+          <div class="sc-source"><strong>首發 8-2</strong>(12 項)/ 8-3(11 項)/ 8-4(13 項)— 集大成</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-group">
+      <div class="sg-label">D 群:特殊風險溝通</div>
+      <div class="sg-desc">處理最容易被忽略、最容易誤解、最容易在出院後失誤的議題</div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="sc-num">策略 16</div>
+          <div class="sc-title">沒警報的危險</div>
+          <div class="sc-source"><strong>首發 7-5</strong> 沉默吸入 + <strong>8-3</strong> 無症狀心顫 + <strong>8-4</strong> AKI 早期無症狀</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 17</div>
+          <div class="sc-title">直面恐懼</div>
+          <div class="sc-source"><strong>首發 6-3 / 6-4 / 7-5</strong> 不規避「可能會發生什麼壞事」</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 18</div>
+          <div class="sc-title">給家屬可預期的時間表</div>
+          <div class="sc-source"><strong>首發 8-2</strong> 24-72h / 1 週 / 1-2 週 / 1 年 — 化解「不知會持續多久」</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 19</div>
+          <div class="sc-title">出院 checklist 設計</div>
+          <div class="sc-source"><strong>首發 8-3</strong> 7 項出院前的關鍵確認</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 20</div>
+          <div class="sc-title">ERAS 數據化</div>
+          <div class="sc-source"><strong>首發 8-3</strong> 「39% → 20%」用數字說話</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-group">
+      <div class="sg-label">E 群:文化迷思破除</div>
+      <div class="sg-desc">處理台灣本土文化議題 — 民間用藥、中草藥、補品、保健食品</div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="sc-num">策略 21</div>
+          <div class="sc-title">民間用藥具體警示</div>
+          <div class="sc-source"><strong>首發 8-2</strong> — 4 類處方安眠藥 / 夜用感冒藥 / 助眠中藥 / 藥酒</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 22</div>
+          <div class="sc-title">中草藥/民俗具體警示</div>
+          <div class="sc-source"><strong>首發 8-4 / 9-3</strong> 馬兜鈴酸 / 補心補腎 / 減肥茶 — 「不是天然就安全」</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 23</div>
+          <div class="sc-title">藥袋對照表設計</div>
+          <div class="sc-source"><strong>首發 8-4</strong>「-pril」「-sartan」+ 中文藥名辨識 — 讓藥袋會說話</div>
+        </div>
+        <div class="strategy-card">
+          <div class="sc-num">策略 24</div>
+          <div class="sc-title">告訴病人可以吃什麼/可以做什麼</div>
+          <div class="sc-source"><strong>首發 9-3</strong> 葡萄柚不行,但柳橙橘子可以 — 不只說「不能」</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-group">
+      <div class="sg-label">F 群:跨單張結構性設計(底層架構)</div>
+      <div class="sg-desc">這些不是單點論述,而是「整套衛教如何形成一個整體」的設計原則</div>
+      <div class="strategy-grid">
+        <div class="strategy-card" style="border-left-color:var(--gold);background:var(--gold-soft);">
+          <div class="sc-num" style="color:var(--gold)">底層</div>
+          <div class="sc-title">12 條跨單張鏈條</div>
+          <div class="sc-source">中風守護鏈 / 主動恢復鏈 / 終身守護鏈 / 居家照護鏈 / 出血控制鏈 / 呼吸論述鏈 / 術後管路鏈 / 術後恢復鏈 / 術後併發症三部曲 / 最深恐懼三部曲 / 精準麻醉鏈 / 術中精準照護鏈</div>
+        </div>
+        <div class="strategy-card" style="border-left-color:var(--gold);background:var(--gold-soft);">
+          <div class="sc-num" style="color:var(--gold)">底層</div>
+          <div class="sc-title">「您會感覺到什麼」16 篇</div>
+          <div class="sc-source">分散於 4-4 / 4-6 / 6-2 ~ 6-6 / 7-1 / 7-2 / 7-5 / 7-7 / 8-1a / 8-2 ~ 8-4 / 9-3 — 5 段時間軸標竿設計</div>
+        </div>
+        <div class="strategy-card" style="border-left-color:var(--gold);background:var(--gold-soft);">
+          <div class="sc-num" style="color:var(--gold)">底層</div>
+          <div class="sc-title">「給家屬的話」14 篇</div>
+          <div class="sc-source">分散於 4-6 / 5-2 / 6-2 / 6-5 / 6-6 / 7-1 / 7-2 / 7-4 / 7-5 / 8-1b / 8-2 ~ 8-4 / 9-3</div>
+        </div>
+        <div class="strategy-card" style="border-left-color:var(--gold);background:var(--gold-soft);">
+          <div class="sc-num" style="color:var(--gold)">底層</div>
+          <div class="sc-title">「與你同莘」signature 統一</div>
+          <div class="sc-source">所有單張結尾統一使用 — 雙關「同莘=同心+耕莘」代表本院承諾</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 5 — 家屬整合角色                      -->
+  <!-- ============================================== -->
+  <div class="section-title">家屬整合角色 — ERAS 加速康復的不可取代成員</div>
+
+  <p class="section-intro">
+    整套衛教中,<span class="em">家屬不是「訪客」,而是 ERAS 加速康復鏈中不可取代的一員</span>。每一份單張都會在相關處說明家屬可學的具體技能 — 這個 Section 把這些<span class="em">與 ERAS 直接相關的家屬技能</span>統整起來,讓家屬<span class="em">在每個階段都知道自己該做什麼</span>。
+  </p>
+
+  <div class="family-integrate">
+    <h4>家屬 = 不可取代的處方(來自 8-1b 家屬版首創金句)</h4>
+    <div class="fi-sub">14 篇給家屬內容中與 ERAS 直接相關的技能統整</div>
+
+    <div class="fi-quote">
+      「您不是<strong>訪客</strong>,<br>您是<strong>康復團隊不可取代的成員</strong>。」
+    </div>
+
+    <div class="fi-block">
+      <div class="fi-label">家屬要學的具體技能(整套系列家屬自學技能設計)</div>
+      <p>這些技能<strong>直接加速 ERAS 流程</strong> — 家屬學會這些,病人在每個階段都能更安全、更快進入下一個階段。</p>
+      <ul>
+        <li><strong>會客時的對話 6 原則</strong>(8-1b)— 短句、慢說、不催促、用熟悉稱呼、重複關鍵資訊、不替答 → <strong>加速譫妄預防與認知恢復</strong></li>
+        <li><strong>FAST 中風快速辨識</strong>(8-1b)— 臉/手/說話/時間,每延遲 1 分鐘約 190 萬個腦細胞死亡 → <strong>中風守護鏈最後一道防線</strong></li>
+        <li><strong>抱枕固定法(咳嗽輔助)</strong>(7-2)— 用枕頭壓住胸骨減輕咳嗽不適 → <strong>讓病人敢咳痰、預防肺部併發症</strong></li>
+        <li><strong>提醒呼吸訓練</strong>(7-1)— 從術前到出院後 1-2 週,定時提醒每天 6-10 次 → <strong>加速肺擴張、減少肺部併發症</strong></li>
+        <li><strong>觀察尿量與水腫</strong>(8-4)— 出院後第一個月主動觀察 → <strong>AKI 早期辨識</strong></li>
+        <li><strong>量脈搏</strong>(8-3)— 食指中指放手腕內側,30 秒 × 2;心顫時 &gt; 100 且不規律 → <strong>POAF 出院後守護</strong></li>
+        <li><strong>提醒按時服藥</strong>(8-3 / 8-4)— 抗凝血劑、乙型阻斷劑、心臟藥物 → <strong>把住院的治療延續到家</strong></li>
+        <li><strong>學會看食品營養標籤</strong>(9-3)— 每份含鈉量 &lt; 400 mg 為佳 → <strong>把「黃金訓練期」延伸到終身飲食</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 6 — 警示徵兆(主動回診的訊號)        -->
+  <!-- ============================================== -->
+  <div class="section-title">主動回診的訊號 — ERAS 出院後守護的延伸</div>
+
+  <p class="section-intro">
+    ERAS 的核心是「<span class="em">主動恢復、主動偵測、主動處理</span>」 — 這個原則延伸到出院後,就是<span class="em">「對某些訊號主動回診,而不是等到事情變嚴重」</span>。這個 Section 把整套衛教中的警示徵兆統整成「<span class="em">回診的具體訊號</span>」。
+  </p>
+
+  <div class="warning-signals">
+    <h4>主動回診 vs 立即就醫 — 兩種訊號的區分</h4>
+    <div class="ws-sub">不是恐懼清單,是讓您「在對的時間做對的決定」的工具</div>
+
+    <div class="ws-intro">
+      <strong>整套衛教設計的原則:不要在家自行判斷「應該還好」或「再觀察一下」</strong>。<br>
+      下面的訊號是<strong>「主動回診」的具體觸發條件</strong> — 不是「一定有問題」,而是「值得讓醫師看一下」。本院希望您<strong>「寧可虛驚一場,也不要錯過早期處理的黃金時間」</strong>。
+    </div>
+
+    <div class="ws-grid">
+      <div class="ws-card urgent">
+        <h5>⚠ 立即叫救護車(不要自己開車)</h5>
+        <ul>
+          <li><strong>突然胸痛</strong>、冒冷汗、呼吸困難(可能是心肌梗塞或主動脈問題)</li>
+          <li><strong>FAST 中風徵兆</strong>:臉部不對稱 / 單側手腳無力 / 講話不清</li>
+          <li><strong>突然失去意識</strong>、嚴重頭暈到無法站立</li>
+          <li><strong>嚴重出血</strong>(尤其抗凝血劑使用中)— 黑便、大量血尿、流鼻血止不住</li>
+        </ul>
+        <span class="ws-ref">出處:8-1b FAST · 8-3 POAF · 8-4 AKI · 6-3 凝血</span>
+      </div>
+
+      <div class="ws-card urgent">
+        <h5>⚠ 直接掛急診(不必等門診)</h5>
+        <ul>
+          <li><strong>傷口紅腫化膿、發燒 &gt; 38.5°C</strong>(感染徵兆)</li>
+          <li><strong>胸骨「喀」一聲</strong>或胸骨明顯位移感(7-4 胸骨保護)</li>
+          <li><strong>單側下肢突然腫脹疼痛</strong>(可能是深部靜脈血栓 DVT)</li>
+          <li><strong>新出現的劇烈頭痛、視力突然改變</strong></li>
+          <li><strong>突然嚴重呼吸喘到無法平躺</strong></li>
+        </ul>
+        <span class="ws-ref">出處:7-4 胸骨保護 · 5-2 凝血 · 8-3 POAF · 9-3 飲食警示</span>
+      </div>
+
+      <div class="ws-card">
+        <h5>主動安排「儘快」回診(這幾天內)</h5>
+        <ul>
+          <li><strong>體重一週內 &gt; 2 公斤</strong>增加(可能心臟或腎臟功能變化)</li>
+          <li><strong>下肢/腳踝水腫</strong>持續、或越來越嚴重</li>
+          <li><strong>心悸越來越頻繁、或新出現的不規則心跳</strong></li>
+          <li><strong>持續嘔吐、吃不下 &gt; 3 天</strong></li>
+          <li><strong>持續便祕 &gt; 5 天</strong>(解便用力對心臟與胸骨負擔)</li>
+          <li><strong>站起來頭暈、眼前發黑</strong>(血壓 / 鉀離子問題)</li>
+        </ul>
+        <span class="ws-ref">出處:9-3 飲食 · 8-3 POAF · 8-4 AKI</span>
+      </div>
+
+      <div class="ws-card">
+        <h5>下次回診時主動提出</h5>
+        <ul>
+          <li><strong>抗凝血劑使用中的瘀青比過去明顯</strong>(評估是否需調整劑量)</li>
+          <li><strong>新出現的睡眠問題</strong> — 失眠、夜間呼吸停頓(可能是睡眠呼吸中止症,POAF 誘因)</li>
+          <li><strong>記憶力、注意力明顯比術前差,持續 &gt; 1 個月</strong>(可能是長期譫妄後遺症)</li>
+          <li><strong>新藥物使用後的副作用</strong> — 持續咳嗽、皮膚變色、體重快速變化(可能 amiodarone 長期副作用)</li>
+          <li><strong>家屬覺得「不太對勁但說不上來」</strong> — 家屬的觀察值得被重視</li>
+        </ul>
+        <span class="ws-ref">出處:8-2 譫妄後遺症 · 8-3 amiodarone · 8-1b 家屬觀察</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 18px; padding: 14px 16px; background: var(--cream); border-radius: 3px; border-left: 2px solid var(--teal); font-size: 13px; line-height: 1.85; color: var(--ink-soft);">
+      <strong style="color:var(--teal);">主動回診不是「麻煩醫師」</strong>。本院的設計理念是 — 早期偵測比晚期處理有效得多。<strong>您「主動」就是 ERAS 的核心精神延伸到出院後</strong>。
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 8 — 12 條跨單張鏈條總覽               -->
+  <!-- ============================================== -->
+  <div class="section-title">12 條跨單張鏈條總覽 — 整套衛教的結構地圖</div>
+
+  <p class="section-intro">
+    24 份單張不是各自獨立的 — 它們由<span class="em">12 條跨單張鏈條</span>串連起來,每條鏈條代表<span class="em">一個主題從術前到出院後的完整路徑</span>。看懂這 12 條鏈條,您就掌握了整套衛教的結構。
+  </p>
+
+  <div class="chains-overview">
+    <h4>12 條跨單張鏈條 — 從不同視角看整套衛教</h4>
+    <div class="co-sub">部分鏈條互相重疊,但角度不同 — 這正是「不同單張、同一聲音」的設計</div>
+
+    <div class="chain-card signature">
+      <div class="cc-num">鏈 01 · 整套系列最長</div>
+      <h5>終身守護鏈</h5>
+      <div class="cc-nodes"><strong>術中</strong>(NIRS / BIS / 體溫 / CPB)→ <strong>術後立即</strong>(6-2 / HFNC)→ <strong>術後幾天</strong>(8-1a/b / 6-5 / 5-1b)→ <strong>出院前</strong>(8-2 / 8-3 / 8-4)→ <strong>出院後 10-20 年</strong>(9-3 / 10-1)</div>
+      <div class="cc-quote">「手術不是終點,而是新習慣的起點」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 02</div>
+      <h5>中風守護鏈</h5>
+      <div class="cc-nodes">3-2 CPB → 4-3 NIRS → 4-4 BIS → 5-2 凝血 → 6-2 早期拔管 → 6-6 HFNC → 8-1a/8-1b 認知 → 8-2 譫妄</div>
+      <div class="cc-quote">「清醒的腦 = 最早能被守護的腦,而家屬是這份守護的延伸」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 03</div>
+      <h5>主動恢復鏈</h5>
+      <div class="cc-nodes">6-2 拔管 → 6-6 HFNC → 5-1 止痛 → 5-1b 術後疼痛 → 8-1a/8-1b 清醒 → 7-5 吞嚥 → 7-7 進食 → 7-6a/b 下床 → 9-3 飲食</div>
+      <div class="cc-quote">「從被動點滴 → 主動口渴喝水、飢餓進食」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 04</div>
+      <h5>居家照護鏈(出院後延伸)</h5>
+      <div class="cc-nodes">7-4 胸骨保護 → 3-3/3-4 手術相關 → 5-1b/6-3/6-4 出院初期 → 7-1/7-2/7-6 主動恢復延續 → 9-3 飲食 → 10-1 主動恢復</div>
+      <div class="cc-quote">「不同議題的癒合時程,串成一條完整恢復路線」</div>
+    </div>
+
+    <div class="chain-card signature">
+      <div class="cc-num">鏈 05 · 三部曲</div>
+      <h5>術後併發症三部曲</h5>
+      <div class="cc-nodes">8-2 譫妄(腦)+ 8-3 POAF(心律)+ 8-4 AKI(腎)— 統一結構:Lead 量化 → Lexicon → 什麼是 X → 發生率 → 時程 → 症狀 → 風險因子 → 預防策略總覽 → 治療方向 → 家屬幫助 → 長期預後 → 警示</div>
+      <div class="cc-quote">「最常見、最被誤解的三大併發症 — 本院主動預防、早期辨識、適當治療」</div>
+    </div>
+
+    <div class="chain-card signature">
+      <div class="cc-num">鏈 06 · 三部曲</div>
+      <h5>最深恐懼三部曲</h5>
+      <div class="cc-nodes">6-1 SICU(環境隔離恐懼)+ 8-2 譫妄(腦的變化恐懼)+ 6-5 約束(身體束縛恐懼)— ICU 中最被害怕的三個議題</div>
+      <div class="cc-quote">「不是『我會怎樣』,而是『我認識的他還在嗎』」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 07</div>
+      <h5>呼吸論述鏈</h5>
+      <div class="cc-nodes">7-1 呼吸訓練器 → 7-2 咳嗽 → 5-1b 會呼吸的痛 → 6-2 早期拔管 → 6-6 HFNC → 6-3 胸管 → 7-6a/b 下床促進 → 3-2 CPB 對肺影響</div>
+      <div class="cc-quote">「會呼吸 = 會咳痰 = 預防肺部併發症」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 08</div>
+      <h5>術後管路衛教鏈</h5>
+      <div class="cc-nodes">6-2 氣管插管(拔管即移除)→ 6-3 胸管 → 6-4 尿管 → 6-6 HFNC(銜接拔管)</div>
+      <div class="cc-quote">「越快移除管路,病人越早恢復自主」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 09</div>
+      <h5>術後恢復鏈(從拔管到進食)</h5>
+      <div class="cc-nodes">6-2 拔管(進食前提)→ 6-6 HFNC(不影響說話喝水)→ 5-1b 喉嚨痛 → 7-5 吞嚥安全閘門 → 7-7 正式進食 → 9-3 出院飲食</div>
+      <div class="cc-quote">「7-5 是安全閘門,7-7 是通過閘門後的正式進食」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 10</div>
+      <h5>精準麻醉鏈</h5>
+      <div class="cc-nodes">4-2 TOF → 4-3 NIRS → 4-4 BIS → 4-6 體溫 → 5-1 多模式止痛 → 6-2 早期拔管 → 6-6 HFNC → 7-2 咳嗽配合</div>
+      <div class="cc-quote">「睡得安全、不過深、體溫穩定、腦氧足夠 — 早期拔管的前提」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 11</div>
+      <h5>止痛論述鏈</h5>
+      <div class="cc-nodes">5-1 多模式止痛(3+2=5 策略)→ 5-1b 術後疼痛 → 8-4 NSAIDs 終身禁忌(若有 AKI)→ 7-2 咳嗽配合 → 7-6 下床配合</div>
+      <div class="cc-quote">「不靠單一鴉片類就能控制疼痛 — 您能呼吸、能咳嗽、能下床」</div>
+    </div>
+
+    <div class="chain-card">
+      <div class="cc-num">鏈 12</div>
+      <h5>出血控制鏈</h5>
+      <div class="cc-nodes">5-2 凝血基礎 → 3-2 CPB 影響 → 6-3 胸管引流觀察 → 7-4 胸骨保護 → 8-3 抗凝血劑(若 POAF)</div>
+      <div class="cc-quote">「化解胸管引流袋紅色液體的恐慌 — 紅色不等於失血」</div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Section 8 — 「您也是康復團隊的一員」金句總集  -->
+  <!-- ============================================== -->
+  <div class="section-title">「您也是康復團隊的一員」 — 整套衛教金句總集</div>
+
+  <p class="section-intro">
+    整套衛教中,<span class="em">每一份單張都有它的標誌性金句</span>。這些金句不是裝飾,而是<span class="em">把抽象的醫療概念翻譯成「您能感受、能執行」的精神</span>。讀完整套衛教,如果您只記得這些金句,也已經抓住整套衛教的核心。
+  </p>
+
+  <div class="quote-collection">
+    <h4>整套 24 份單張的標誌性金句 — 分 3 大主軸</h4>
+    <div class="qc-sub">這些金句是整套衛教「不同單張、同一聲音」的最具體展現</div>
+
+    <div class="qc-group">
+      <div class="qcg-label">主軸 A:把控制權交還給您 — 對病人的核心承諾</div>
+      <div class="qcg-desc">ERAS 的本質是讓病人從「被動接受」轉為「主動參與」 — 這些金句點出每個階段的具體精神</div>
+      <div class="qc-grid">
+        <div class="qc-card spotlight">
+          <div class="qc-quote-text">「把控制權交還給您」</div>
+          <div class="qc-source"><strong>6-2 早期拔管</strong> — 主動恢復鏈核心起點</div>
+        </div>
+        <div class="qc-card spotlight">
+          <div class="qc-quote-text">「少躺一點,多動一點,恢復就快一點」</div>
+          <div class="qc-source"><strong>10-1a 主動恢復入門</strong> — 整套系列入門核心金句</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「重新開機的訊號」</div>
+          <div class="qc-source"><strong>7-6a 從躺到坐</strong> — 主動恢復鏈第一步</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「我真的回來了」</div>
+          <div class="qc-source"><strong>7-6b 從站到走</strong> — 走出第一步的心理印記</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「不是測驗,是聽您腦袋的聲音」</div>
+          <div class="qc-source"><strong>8-1a 神經學評估病人版</strong> — 化解「為什麼一直問問題」的疑惑</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「感到口渴、自己喝水、肚子餓了想吃 — 這些日常小事就是康復指標」</div>
+          <div class="qc-source"><strong>7-7 喝水進食</strong> — 主動恢復鏈關鍵節點</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「永久心顫不是『絕症』,而是『需要長期管理的慢性病』」</div>
+          <div class="qc-source"><strong>8-3 POAF</strong> — 長期慢性病重新定位</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「終身保護 ≠ 終身病人」</div>
+          <div class="qc-source"><strong>8-4 AKI</strong> — 化解「終身議題」帶來的焦慮</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qc-group">
+      <div class="qcg-label">主軸 B:不可取代的處方 — 給家屬的承諾</div>
+      <div class="qcg-desc">家屬不是「訪客」 — 整套衛教把家屬定位為 ERAS 鏈條不可取代的成員</div>
+      <div class="qc-grid">
+        <div class="qc-card spotlight">
+          <div class="qc-quote-text">「您的陪伴是不可取代的處方」</div>
+          <div class="qc-source"><strong>8-1b 家屬版</strong> — 整套系列家屬角色核心金句</div>
+        </div>
+        <div class="qc-card spotlight">
+          <div class="qc-quote-text">「家屬陪伴 = 降低約束需求」</div>
+          <div class="qc-source"><strong>6-5 保護性約束</strong> — 家屬主動陪伴是 ERAS 約束率 < 10% 的關鍵</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「家屬是病人術後的『第二雙眼睛』」</div>
+          <div class="qc-source"><strong>8-1b FAST 中風辨識</strong> — 家屬自學技能設計</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「飲食調整不是懲罰,是給心臟的長效禮物」</div>
+          <div class="qc-source"><strong>9-3 心臟手術後飲食</strong> — 黃金訓練期論述</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qc-group">
+      <div class="qcg-label">主軸 C:本院的承諾 — 醫療團隊的設計哲學</div>
+      <div class="qcg-desc">這些金句點出本院 ERAS 在每個議題上的設計哲學 — 不是空泛承諾,是具體做法</div>
+      <div class="qc-grid">
+        <div class="qc-card spotlight">
+          <div class="qc-quote-text">「我們的目標和您一致」</div>
+          <div class="qc-source"><strong>6-5 約束</strong> — 醫病同盟論述標竿</div>
+        </div>
+        <div class="qc-card spotlight">
+          <div class="qc-quote-text">「不是少用約束,而是病人清醒到不需要」</div>
+          <div class="qc-source"><strong>6-5 約束</strong> — 本院 ERAS 約束率 < 10% 的核心精神</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「不等到病人感覺不舒服才處理」</div>
+          <div class="qc-source"><strong>8-4 AKI</strong> — 主動偵測 vs 被動反應</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「寧可虛驚一場,也不要錯過早期處理的黃金時間」</div>
+          <div class="qc-source"><strong>8-1b FAST · 8-3 POAF</strong> — 主動回診的訊號核心</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「先求接受,再求標準」</div>
+          <div class="qc-source"><strong>9-3 飲食調整</strong> — 過渡式調整設計</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「主動回診不是『麻煩醫師』」</div>
+          <div class="qc-source"><strong>10-1b 本份</strong> — 把 ERAS「主動偵測」延伸到出院後</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「不同單張、同一聲音」</div>
+          <div class="qc-source"><strong>整套衛教</strong> — 24 份單張的設計總原則</div>
+        </div>
+        <div class="qc-card">
+          <div class="qc-quote-text">「手術不是終點,而是新習慣的起點」</div>
+          <div class="qc-source"><strong>9-3 黃金訓練期</strong> — 終身守護鏈核心論述</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Final reading map — 整套衛教 24 篇閱讀總路徑    -->
+  <!-- ============================================== -->
+  <div class="section-title">整套衛教閱讀總路徑 — 24 份單張地圖</div>
+
+  <p class="section-intro">
+    這份 reading-map 是<span class="em">整套衛教的「最終索引」</span>。您可以依需要回頭查閱任何一份。
+  </p>
+
+  <div class="final-reading-map">
+    <h4>整套 24 份單張 + 篇號 + 主題</h4>
+    <div class="frm-sub">依手術旅程順序排列;斜體 = 與主議題相關的次要單張</div>
+
+    <div class="frm-series">
+      <div class="frm-tag">術前準備 · 3 系列 認識手術</div>
+      <div class="frm-items"><strong>3-1</strong> CABG 三種手術比較 · <strong>3-2</strong> 體外循環機 CPB · <strong>3-3</strong> 微創 vs 傳統開胸 · <strong>3-4</strong> 鋼絲 vs 鋼板固定</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">術中監測 · 4 系列 精準照護</div>
+      <div class="frm-items"><strong>4-2</strong> TOF 肌肉鬆弛 · <strong>4-3</strong> NIRS 腦氧監測 · <strong>4-4</strong> BIS 麻醉深度 · <strong>4-6</strong> 圍術期體溫管理</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">止痛凝血 · 5 系列</div>
+      <div class="frm-items"><strong>5-1</strong> 多模式止痛(3+2=5 策略)· <strong>5-1b</strong> 術後疼痛管理 · <strong>5-2</strong> 凝血功能與止血藥物</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">加護病房 · 6 系列</div>
+      <div class="frm-items"><strong>6-1</strong> SICU 環境 · <strong>6-2</strong> 早期拔管 · <strong>6-3</strong> 認識胸管 · <strong>6-4</strong> 認識尿管 · <strong>6-5</strong> 保護性約束 · <strong>6-6</strong> HFNC 高流量鼻導管</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">主動恢復鏈 · 7 系列</div>
+      <div class="frm-items"><strong>7-1</strong> 呼吸訓練器 · <strong>7-2</strong> 咳嗽 · <strong>7-4</strong> 胸骨保護 · <strong>7-5</strong> 吞嚥 · <strong>7-6</strong> 早期下床(入口頁) · <strong>7-6a</strong> 從躺到坐 · <strong>7-6b</strong> 從站到走 · <strong>7-7</strong> 喝水進食</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">腦與術後併發症 · 8 系列</div>
+      <div class="frm-items"><strong>8-1a</strong> 神經學評估病人版 · <strong>8-1b</strong> 會客時的認知復健家屬版 · <strong>8-2</strong> 譫妄 · <strong>8-3</strong> POAF 心房顫動 · <strong>8-4</strong> AKI 急性腎損傷</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">出院後長期 · 9 系列</div>
+      <div class="frm-items"><strong>9-3</strong> 心臟手術後飲食調整(七大原則 + 黃金訓練期 + 居家照護鏈)</div>
+    </div>
+
+    <div class="frm-series">
+      <div class="frm-tag">整合總結 · 10 系列</div>
+      <div class="frm-items"><strong>10-1a</strong> 主動恢復入門篇(您也是康復團隊的一員)</div>
+      <div class="frm-current"><strong>10-1b</strong> 整套衛教的整合與終身指南(您正在讀本份 — 集大成篇)</div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- Final closing — 您讀完了                       -->
+  <!-- ============================================== -->
+  <div class="final-closing">
+    <h3>您讀完了。<br>從這裡開始,是您<span class="accent-double">「心」</span>的人生</h3>
+
+    <div class="fc-tagline">
+      不是「<strong style="color:var(--gold);">新</strong>」的人生,<br>
+      而是真正屬於您的<strong style="color:var(--teal);">「心」</strong>的人生 — <br>
+      <em>有心臟、用心、同心</em>。
+    </div>
+
+    <p class="fc-message">
+      我們無法替您呼吸、替您下床、替您進食、替您終身規律抽血追蹤、替您每一次選擇要不要吃那一碗鹹的湯。<strong>但本院已經把每一個讓您能放心動的條件準備好了</strong> — 精準的麻醉、有效的止痛、即時的監測、清晰的衛教、家屬的支持。
+    </p>
+
+    <p class="fc-message">
+      從今天開始,您不再是「等待身體恢復的病人」 — <strong>您是康復團隊不可取代的成員</strong>。每一次深呼吸、每一步走、每一口水、每一次主動詢問,都是治療的一部分。
+    </p>
+
+    <p class="fc-message">
+      整套衛教的最後一句話,我們想對您說:<br>
+      <em>「不論未來這條路有多長,本院都與您同心走下去。」</em>
+    </p>
+
+    <div class="fc-signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="fc-signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society, ERAS International Society, and the Society of Thoracic Surgeons (STS). <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>Gustafsson UO, Scott MJ, Hubner M, et al. Guidelines for Perioperative Care in Elective Colorectal Surgery: Enhanced Recovery After Surgery (ERAS®) Society Recommendations: 2018. <em>World J Surg.</em> 2019;43(3):659–695.</li>
+      <li>Inouye SK, van Dyck CH, Alessi CA, et al. Clarifying confusion: the confusion assessment method. A new method for detection of delirium. <em>Ann Intern Med.</em> 1990;113(12):941–948.</li>
+      <li>Saver JL. Time Is Brain — Quantified. <em>Stroke.</em> 2006;37(1):263–266.</li>
+      <li>KDIGO Clinical Practice Guideline for Acute Kidney Injury. <em>Kidney Int Suppl.</em> 2012;2(1):1–138.</li>
+      <li>Lichtenstein AH, Appel LJ, Vadiveloo M, et al. 2021 Dietary Guidance to Improve Cardiovascular Health: A Scientific Statement From the American Heart Association. <em>Circulation.</em> 2021;144(23):e472–e487.</li>
+      <li>本份單張為整套衛教 24 份單張的整合彙整,各議題的詳細參考資料請見對應單張結尾。</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為整套衛教 24 份的「整合與終身指南」彙整版。個別議題的詳細內容、個別病人的醫療決定,以對應單張內容與心臟外科、麻醉科、心臟內科醫師依您的臨床狀況評估為準。如有疑問,歡迎在門診、術前訪視、住院中、出院前、回診時與醫療團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>
