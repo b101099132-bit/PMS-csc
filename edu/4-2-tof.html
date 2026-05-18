@@ -119,9 +119,100 @@
   letter-spacing: 0.03em;
 }
 
+/* TOF 條雙區強化 — 不可拔管 vs 可拔管 */
+.tof-zones {
+  position: relative;
+  margin: 0 6px 8px;
+  height: 18px;
+  display: flex;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.tof-zones .zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+.tof-zones .zone.unsafe {
+  width: 90%;
+  background: var(--warn-bg);
+  color: var(--warn);
+  margin-right: 2px;
+}
+.tof-zones .zone.safe {
+  width: 10%;
+  background: var(--safe-bg);
+  color: var(--safe);
+}
+
+/* 煞車比喻 */
+.metaphor-box {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.metaphor-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.metaphor-box p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.metaphor-box p:last-child { margin-bottom: 0; }
+.metaphor-box p strong { color: var(--ink); font-weight: 600; }
+.metaphor-box .key-line {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--teal);
+  font-size: 13.5px;
+}
+.metaphor-box .key-line strong { color: var(--teal); font-weight: 600; }
+
+/* 自費包套說明 */
+.cost-note {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.cost-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+.cost-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+.cost-note p strong { color: var(--ink); font-weight: 600; }
+
 @media (max-width: 480px) {
   .step-card { padding: 18px 18px; gap: 14px; }
   .tof-bar { padding: 20px 16px 14px; }
+  .metaphor-box { padding: 18px 20px; }
+  .cost-note { padding: 16px 18px; }
+  .tof-zones .zone { font-size: 9.5px; }
 }
 </style>
 </head>
@@ -139,7 +230,7 @@
   <div class="lead">
     <strong>為什麼麻醉需要使用肌肉鬆弛劑？</strong>
     <p>全身麻醉時，麻醉醫師會給予<span class="em">肌肉鬆弛劑（Neuromuscular Blocking Agent）</span>讓您的全身肌肉完全放鬆。這對心臟手術有兩個重要目的：方便氣管插管不損傷聲帶，以及讓您在術中完全靜止，外科醫師才能精準操作。</p>
-    <p>但這也帶來一個問題：手術結束時，如果<span class="em">肌肉力量還沒完全恢復</span>就拔管，可能導致呼吸無力、無法有效咳痰、誤吸，甚至需要重新插管。</p>
+    <p>但這也帶來一個問題：手術結束時，如果<span class="em">肌肉力量還沒完全恢復</span>就拔管，可能導致呼吸無力、無法有效咳痰、<span class="em">誤吸（食物或胃酸逆流進氣管，甚至跑到肺裡）</span>，甚至需要重新插管。</p>
   </div>
 
   <!-- Lexicon -->
@@ -177,7 +268,16 @@
       <div class="col-label">風險</div>
       <h3>殘留肌肉無力</h3>
       <div class="col-en">Residual NMB risk</div>
-      <div class="col-body">若拔管時殘餘藥效未退，會造成<strong>呼吸不順、咳痰無力、肺部併發症與重新插管</strong>。</div>
+      <div class="col-body">若拔管時殘餘藥效未退，<strong>肌力沒完全恢復</strong>，會造成<strong>呼吸不順、咳痰無力、肺部併發症與重新插管</strong>。</div>
+    </div>
+  </div>
+
+  <!-- Metaphor: car brake -->
+  <div class="metaphor-box">
+    <h4>用「汽車煞車」比喻</h4>
+    <p><strong>給肌肉鬆弛劑就像踩煞車</strong> —— 讓車（您的肌肉）完全停下來，外科醫師才能精準修補心臟。<strong>拔管前，必須先確認煞車已完全鬆開</strong> —— 否則車（您的呼吸肌）還沒能正常運作，就不能讓您「自己開車」（自主呼吸）。</p>
+    <div class="key-line">
+      <strong>TOF 監測 = 煞車狀態指示燈</strong>（看清楚煞車鬆開幾分了）；<strong>Sugammadex = 主動鬆開煞車的工具</strong>（不需要等煞車自己慢慢退）。
     </div>
   </div>
 
@@ -229,6 +329,10 @@
       <span>0.75</span>
       <span>1.0</span>
     </div>
+    <div class="tof-zones">
+      <div class="zone unsafe">不可拔管 · 肌力未恢復</div>
+      <div class="zone safe">可拔管</div>
+    </div>
   </div>
 
   <!-- Sugammadex -->
@@ -236,8 +340,15 @@
 
   <div class="callout eras-banner">
     <h4>不用「等」藥效自然退，可以「主動」反轉</h4>
-    <p><strong>Sugammadex（中文常譯：舒更葡糖鈉）</strong>是一種特殊的反轉劑，能像「分子捕手」一樣精準包裹特定肌肉鬆弛劑（Rocuronium 或 Vecuronium），<span class="em-teal">在 2–3 分鐘內就能讓肌肉力量完全恢復</span>。</p>
+    <p><strong>Sugammadex（中文常譯：舒更葡糖鈉，藥袋上常見品名 Bridion）</strong>是一種特殊的反轉劑，能像「分子捕手」一樣精準包裹特定肌肉鬆弛劑（<strong>Rocuronium、Vecuronium</strong>，是麻醉常用的兩種肌肉鬆弛劑學名），<span class="em-teal">在 2–3 分鐘內就能讓肌肉力量完全恢復</span>。</p>
     <p>相較於傳統反轉劑（Neostigmine）需要等待 15–30 分鐘且效果有限，Sugammadex 的反轉<strong>更快、更完整、副作用更少</strong>（不會出現心搏過慢、口乾、流口水等問題）。</p>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)"><strong>需要知道的風險</strong>：Sugammadex 整體安全性極高，<strong>過敏反應約一萬人中有一人</strong>。麻醉團隊在給藥時會隨時準備好處理藥物，若有反應可立即應變。</p>
+  </div>
+
+  <!-- Cost note -->
+  <div class="cost-note">
+    <h4>關於費用</h4>
+    <p>Sugammadex 在台灣<strong>健保僅於特定條件下給付</strong>（如急救或符合特定適應症）。心臟手術中常規使用通常屬於<strong>麻醉自費包套</strong>項目之一 —— 本院的麻醉自費包套（內含 TOF/BIS/NIRS 監測、神經阻斷止痛、Sugammadex 等多項精準麻醉技術）<strong>通常落在 5–7 萬元</strong>，詳細內容會在<strong>術前麻醉訪視</strong>時逐項說明，由您勾選是否使用。</p>
   </div>
 
   <!-- Benefits chain -->
@@ -245,12 +356,29 @@
     <h4>為什麼這對您的恢復很重要</h4>
     <div class="sub">TOF + Sugammadex 在加速康復鏈中的角色</div>
     <ul>
-      <li><strong>大幅降低殘餘肌肉無力的風險</strong> —— 呼吸力量完全恢復才拔管</li>
+      <li><strong>大幅降低殘餘肌肉無力（肌力沒完全恢復）的風險</strong> —— 呼吸力量完全恢復才拔管</li>
+      <li><strong>與 BIS 麻醉深度監測互補</strong> —— TOF 確認肌力、BIS 確認意識，<strong>兩項缺一不可</strong>，這是「手術室內拔管」的雙保險 <span class="link-ref">連結 4-4</span></li>
       <li><strong>支援「手術室內拔管」</strong> —— 配合多模式止痛與腦氧監測完整評估 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>減少術後肺部併發症</strong> —— 吸入性肺炎、肺塌陷</li>
+      <li><strong>肌力完全恢復 → 才能有效咳痰</strong> —— 預防術後吸入性肺炎、肺塌陷 <span class="link-ref">連結 7-2</span></li>
       <li><strong>減少重新插管的需要</strong> —— 避免二次傷害氣道</li>
       <li><strong>麻醉醫師能在最理想的時機放手</strong> —— 把控制權交回您身上</li>
     </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>精準麻醉鏈閱讀路徑</h4>
+    <div class="sub">本院的「手術室內拔管」不是單一決定，而是多項精準麻醉技術合作的結果。下面是構成這條鏈的關鍵單張。</div>
+    <ol>
+      <li class="current"><strong>TOF 神經肌肉監測與反轉劑 4-2（您正在讀：肌力恢復確認）</strong></li>
+      <li>NIRS 腦氧監測 4-3（術中腦部血氧的即時守護）</li>
+      <li>BIS 麻醉深度監測 4-4（意識恢復確認，與 TOF 缺一不可）</li>
+      <li>圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</li>
+      <li>術中多模式止痛 5-1（減少鴉片類用量，病人更快清醒）</li>
+      <li>早期拔管 6-2（精準麻醉鏈的最終成果：手術室內拔管）</li>
+      <li>HFNC 高流量鼻導管 6-6（拔管後的呼吸銜接）</li>
+      <li>術後咳嗽技巧 7-2（肌力完全恢復後才能有效咳痰）</li>
+    </ol>
   </div>
 
   <!-- Closing -->
