@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>譫妄 — 術後暫時性的意識混亂 — 心臟加速康復衛教</title>
+<meta name="description" content="心臟手術後最常見、最被誤解的併發症之一:認識譫妄三種類型、本院 11 項預防策略、家屬如何辨識與協助">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:譫妄 vs 失智對照表 + 三型卡 + 病人經驗 + 發生率 stats + 4 風險分組 + 11 項預防元素 + 家屬 7 件事 + 恢復時程 */
+
+/* 譫妄 vs 失智對照表 */
+.confuse-compare {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+.confuse-compare h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.cc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.cc-grid > div {
+  background: var(--paper);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.cc-grid .cc-header {
+  background: var(--cream-deep);
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+}
+.cc-grid .cc-header.deli { color: var(--gold); text-align: center; }
+.cc-grid .cc-header.dementia { color: var(--ink-faint); text-align: center; }
+.cc-grid .cc-label {
+  background: var(--cream);
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 12.5px;
+}
+.cc-grid .cc-deli, .cc-grid .cc-dementia {
+  text-align: center;
+  color: var(--ink-soft);
+}
+.cc-grid .cc-deli strong, .cc-grid .cc-dementia strong { color: var(--ink); font-weight: 600; }
+
+/* 三型卡 */
+.subtype-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.subtype-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  border-top: 3px solid var(--cold);
+}
+.subtype-card.hyperactive { border-top-color: var(--danger); }
+.subtype-card.hypoactive {
+  border-top-color: var(--warn);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--warn-bg) 100%);
+}
+.subtype-card.mixed { border-top-color: var(--cold); }
+.subtype-card .st-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.subtype-card.hyperactive .st-num { color: var(--danger); }
+.subtype-card.hypoactive .st-num { color: var(--warn); }
+.subtype-card.mixed .st-num { color: var(--cold); }
+.subtype-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.subtype-card .st-en {
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.subtype-card .st-rate {
+  display: inline-block;
+  background: var(--cream-deep);
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  font-family: 'Noto Serif TC', serif;
+}
+.subtype-card .st-section {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+.subtype-card .st-section:last-of-type { border-bottom: none; }
+.subtype-card .st-section .label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+.subtype-card .st-section strong { color: var(--ink); font-weight: 600; }
+.subtype-card .warning-tag {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: 3px;
+  font-size: 12.5px;
+  color: var(--danger);
+  line-height: 1.65;
+}
+.subtype-card .warning-tag strong { color: var(--danger); font-weight: 600; }
+
+/* 病人經驗區塊 */
+.experience {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.experience h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.experience .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.experience p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.experience p strong { color: var(--ink); font-weight: 600; }
+.experience ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.experience ul li {
+  position: relative;
+  padding: 6px 0 6px 24px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  border-bottom: 1px dashed var(--border);
+}
+.experience ul li:last-child { border-bottom: none; }
+.experience ul li::before {
+  content: '◦';
+  position: absolute;
+  left: 6px; top: 4px;
+  color: var(--teal);
+  font-size: 16px;
+}
+.experience ul li strong { color: var(--ink); font-weight: 600; }
+.experience .reassure {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--teal);
+  border-left: 2px solid var(--gold);
+}
+.experience .reassure strong { color: var(--teal); font-weight: 600; }
+
+/* 發生率 stats */
+.incidence {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.incidence h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.incidence .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.incidence .stat-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+}
+.incidence .stat-row:last-of-type { border-bottom: none; }
+.incidence .stat-row .stat-label { color: var(--ink); }
+.incidence .stat-row .stat-label .stat-sub {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+.incidence .stat-row .stat-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--gold);
+}
+.incidence .closing-note {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--teal);
+  line-height: 1.7;
+  font-weight: 500;
+}
+.incidence .closing-note strong { color: var(--ink); font-weight: 600; }
+
+/* 4 風險分組 */
+.risk-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .risk-groups { grid-template-columns: 1fr 1fr; } }
+.risk-group {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  border-top: 2px solid var(--gold);
+}
+.risk-group h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.risk-group ul {
+  list-style: none;
+  padding: 0;
+}
+.risk-group li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.risk-group li:last-child { margin-bottom: 0; }
+.risk-group li::before {
+  content: '·';
+  position: absolute;
+  left: 4px; top: -1px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 16px;
+}
+.risk-group li strong { color: var(--ink); font-weight: 600; }
+
+/* 預防元素列表 */
+.prevention {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.prevention h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.prevention .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.prevention ul {
+  list-style: none;
+  padding: 0;
+}
+.prevention ul li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.prevention ul li:last-child { border-bottom: none; }
+.prevention ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 10px;
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 14px;
+}
+.prevention ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 家屬 7 件事 — help-groups */
+.family-help-detail {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.family-help-detail h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--safe);
+  margin-bottom: 4px;
+}
+.family-help-detail .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.family-help-detail .help-group {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--safe-border);
+}
+.family-help-detail .help-group:last-of-type { border-bottom: none; }
+.family-help-detail .help-group .h-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--safe);
+  margin-bottom: 6px;
+}
+.family-help-detail .help-group ul {
+  list-style: none;
+  padding: 0;
+}
+.family-help-detail .help-group li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+.family-help-detail .help-group li:last-child { margin-bottom: 0; }
+.family-help-detail .help-group li::before {
+  content: '◇';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--safe);
+  font-size: 11px;
+}
+.family-help-detail .help-group li strong { color: var(--ink); font-weight: 600; }
+.family-help-detail .avoid {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+}
+.family-help-detail .avoid .h-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+.family-help-detail .avoid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.family-help-detail .avoid li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+.family-help-detail .avoid li:last-child { margin-bottom: 0; }
+.family-help-detail .avoid li::before {
+  content: '✕';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--danger);
+  font-size: 11px;
+}
+.family-help-detail .avoid li strong { color: var(--ink); font-weight: 600; }
+
+/* 恢復時程 */
+.outlook {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.outlook h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.outlook p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.outlook p:last-child { margin-bottom: 0; }
+.outlook p strong { color: var(--ink); font-weight: 600; }
+.outlook .timeline-mini {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+}
+.outlook .timeline-mini .tm-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.outlook .timeline-mini .tm-row + .tm-row {
+  border-top: 1px dashed var(--border);
+}
+.outlook .timeline-mini .tm-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 12px;
+  min-width: 80px;
+}
+.outlook .timeline-mini .tm-what { color: var(--ink-soft); }
+.outlook .timeline-mini .tm-what strong { color: var(--ink); font-weight: 600; }
+
+/* 支援資源 box (在 warnings 內) */
+.support-resources {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.support-resources strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .confuse-compare { padding: 18px 18px; }
+  .cc-grid > div { padding: 8px 10px; font-size: 12px; }
+  .subtype-card { padding: 16px 18px; }
+  .experience { padding: 18px 20px; }
+  .incidence { padding: 18px 20px; }
+  .prevention { padding: 18px 20px; }
+  .family-help-detail { padding: 18px 20px; }
+  .outlook { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 8-2</div>
+    <h1>譫妄</h1>
+    <p class="subtitle">術後暫時性的意識混亂 — 認識它、預防它、家屬如何幫助<br>Postoperative Delirium · Recognition, Prevention, Family Support</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>譫妄是心臟手術後最常見、也最被誤解的併發症之一</strong>
+    <p>譫妄(delirium)是一種<span class="em">急性、暫時性的意識混亂</span> —— 病人可能突然認不得家人、看到不存在的東西、白天嗜睡夜晚躁動、講話內容跳躍不合邏輯。對家屬來說,這個改變既驚嚇又心痛 ——「<span class="em">這還是我熟悉的爸爸／媽媽嗎?</span>」</p>
+    <p><span class="em">譫妄不是「失敗」,也不是「腦袋壞掉」</span> —— 心臟手術後有 <span class="em">25–50% 的病人會出現某種程度的譫妄</span>,特別是高齡者。這代表大多數病人能順利度過,即使出現也只是暫時性的混亂 —— <span class="em">大部分病人會在 24–72 小時內恢復,少數需要 1–2 週</span>。但譫妄期間若沒有妥善處理,可能增加長期認知影響的風險。</p>
+    <p>本院遵循國際 ERAS 心臟手術指引,整合<span class="em">麻醉、止痛、活動、進食、家屬陪伴</span>等多項策略,<span class="em">主動降低譫妄發生率與嚴重度</span>。家屬的早期辨識與正確陪伴,是後續恢復狀況最重要的因素之一。</p>
+  </div>
+
+  <!-- 閱讀建議 callout -->
+  <div class="callout discuss">
+    <h4>閱讀建議</h4>
+    <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.85;margin:0">如果您還沒讀過<strong style="color:var(--ink)">認知復健(病人版 8-1a、家屬版 8-1b)</strong>,建議<strong style="color:var(--ink)">先讀那兩份</strong> —— 那是輕度認知變化的基本陪伴策略。<strong style="color:var(--ink)">這份單張(8-2)是當 8-1 的策略已運作、但病人仍出現明顯混亂時,您需要的進階知識</strong> <span class="link-ref">連結 8-1a · 8-1b</span>。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">譫妄</span>
+      <span class="lex-def"><strong>急性、暫時性的意識混亂</strong>。發病快(幾小時內)、會起伏(時清醒時混亂)、注意力減退、思考跳躍。多數可恢復。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">高活動型</span>
+      <span class="lex-def">病人<strong>躁動、坐立難安、想拔管、攻擊性</strong>。容易被看到 —— 但不是最危險的型態。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">低活動型</span>
+      <span class="lex-def">病人<strong>安靜、嗜睡、無精打采、對話無反應</strong>。<strong>最容易被忽略,後續恢復狀況卻最差</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">混合型</span>
+      <span class="lex-def">高活動與低活動<strong>交替出現</strong>,是最常見的型態。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">譫妄 vs 失智</span>
+      <span class="lex-def">譫妄是<strong>急性、暫時性、可恢復</strong>;失智是<strong>慢性、進展性、不可逆</strong>。兩者完全不同。</span>
+    </div>
+  </div>
+
+  <!-- What is delirium vs dementia -->
+  <div class="section-title">譫妄是什麼?與失智有什麼不同</div>
+
+  <p class="section-intro">
+    很多家屬第一次看到病人混亂的樣子,會擔心<span class="em">「是不是失智了?」</span>這個擔心可以理解,但<span class="em">譫妄和失智是完全不同的兩件事</span>。
+  </p>
+
+  <div class="confuse-compare">
+    <h4>譫妄 vs 失智 — 五個關鍵差異</h4>
+    <div class="cc-grid">
+      <div class="cc-header"></div>
+      <div class="cc-header deli">譫妄</div>
+      <div class="cc-header dementia">失智</div>
+
+      <div class="cc-label">發病速度</div>
+      <div class="cc-deli"><strong>幾小時～幾天</strong></div>
+      <div class="cc-dementia">幾個月～幾年</div>
+
+      <div class="cc-label">意識起伏</div>
+      <div class="cc-deli"><strong>會起伏,時好時壞</strong></div>
+      <div class="cc-dementia">通常穩定</div>
+
+      <div class="cc-label">注意力</div>
+      <div class="cc-deli"><strong>明顯減退</strong></div>
+      <div class="cc-dementia">早期可保留</div>
+
+      <div class="cc-label">病程</div>
+      <div class="cc-deli"><strong>暫時性、多數可恢復</strong></div>
+      <div class="cc-dementia">慢性、進展性</div>
+
+      <div class="cc-label">誘因</div>
+      <div class="cc-deli"><strong>明確(手術、感染、用藥)</strong></div>
+      <div class="cc-dementia">通常不明</div>
+    </div>
+  </div>
+
+  <p class="section-intro" style="font-size:13.5px; background:var(--teal-tint); padding:12px 14px; border-radius:3px; border-left:2px solid var(--teal)">
+    <strong style="color:var(--teal)">關鍵理解:</strong>譫妄是<strong style="color:var(--ink)">「急性、暫時性、可恢復」</strong>。您看到的混亂、認不得人、講胡話 —— <strong style="color:var(--ink)">大部分會隨時間消退,回到原本的樣子</strong>。少數高齡或原本認知功能下降的病人,可能需要較長時間恢復。
+  </p>
+
+  <!-- Three subtypes -->
+  <div class="section-title">譫妄的三種類型</div>
+
+  <p class="section-intro">
+    家屬最需要知道的是:<span class="em">不是只有「激動、亂講話」才是譫妄</span>。<span class="em">安靜、嗜睡、無反應</span>也是譫妄,而且<span class="em">後續恢復狀況反而更差</span>。
+  </p>
+
+  <div class="subtype-grid">
+
+    <article class="subtype-card hyperactive">
+      <div class="st-num">類型 01 · 容易被看見</div>
+      <h4>高活動型</h4>
+      <div class="st-en">Hyperactive Delirium</div>
+      <span class="st-rate">較少見,但最容易被看到</span>
+      <div class="st-section">
+        <span class="label">外觀表現</span>
+        <strong>躁動、坐立難安</strong>、想拔管子、想下床、攻擊性、大聲喊叫、語速快、情緒激動
+      </div>
+      <div class="st-section">
+        <span class="label">重要特性</span>
+        因為行為明顯影響醫療作業,<strong>醫護人員會立刻發現</strong>
+      </div>
+      <div class="st-section">
+        <span class="label">家屬可以做的</span>
+        通常很驚嚇,但<strong>請保持冷靜聲音</strong>,不要強行制止或爭執
+      </div>
+    </article>
+
+    <article class="subtype-card hypoactive">
+      <div class="st-num">類型 02 · 最容易被忽略</div>
+      <h4>低活動型</h4>
+      <div class="st-en">Hypoactive Delirium</div>
+      <span class="st-rate">比例最高,卻最容易被忽略</span>
+      <div class="st-section">
+        <span class="label">外觀表現</span>
+        <strong>安靜、嗜睡、無精打采</strong>、對話無反應、眼神呆滯、不主動進食喝水、不主動翻身、看似「乖乖配合」
+      </div>
+      <div class="st-section">
+        <span class="label">重要特性</span>
+        因為<strong>看起來「沒事」、「在休息」、「配合度高」</strong>,醫護與家屬都容易誤判為「術後正常虛弱」
+      </div>
+      <div class="st-section">
+        <span class="label">家屬可以做的</span>
+        <strong>主動觀察</strong>:病人是不是叫名字反應變慢?是不是不認得家人?是不是<strong>視線無法跟著您</strong>(前提:病人在配戴他平常使用的眼鏡情況下;如果沒戴眼鏡先請他戴上再評估)?這些都要立刻告訴護理師
+      </div>
+      <div class="warning-tag">
+        <strong>⚠ 重要警示:</strong>低活動型譫妄的<strong>長期後續恢復狀況最差</strong>(包含 6 個月、18 個月死亡率較高)。家屬主動辨識非常關鍵。
+      </div>
+    </article>
+
+    <article class="subtype-card mixed">
+      <div class="st-num">類型 03 · 最常見</div>
+      <h4>混合型</h4>
+      <div class="st-en">Mixed Delirium</div>
+      <span class="st-rate">最普遍的呈現方式</span>
+      <div class="st-section">
+        <span class="label">外觀表現</span>
+        <strong>高活動與低活動交替出現</strong> —— 白天嗜睡、晚上躁動是最典型的模式(俗稱「日夜顛倒」)
+      </div>
+      <div class="st-section">
+        <span class="label">重要特性</span>
+        ICU 與病房環境的<strong>晝夜節律(身體分辨白天黑夜的生理時鐘)被打亂</strong>,加上各種感官刺激不規律,混合型成為最普遍的呈現
+      </div>
+      <div class="st-section">
+        <span class="label">家屬可以做的</span>
+        <strong>協助維持晝夜節律</strong>:白天拉開窗簾、鼓勵活動;夜晚降低燈光、減少噪音
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Patient experience -->
+  <div class="experience">
+    <h4>譫妄是什麼樣的經驗 —— 從病人的角度</h4>
+    <div class="sub">理解病人的世界,才能正確陪伴</div>
+    <p>對病人來說,譫妄期間的經驗常常是<strong>真實但混亂</strong>的:</p>
+    <ul>
+      <li><strong>時間錯亂</strong> —— 不知道現在幾點、今天是星期幾、已經住院幾天了</li>
+      <li><strong>地點錯亂</strong> —— 以為自己在家裡、在工作場所、在以前住過的地方</li>
+      <li><strong>視覺幻覺</strong> —— 看到不存在的人、動物、東西(牆上爬蟲、床邊有人)</li>
+      <li><strong>聽覺幻覺</strong> —— 聽到不存在的聲音、聽錯醫護人員說的話</li>
+      <li><strong>不認得家人</strong> —— 把家人錯認成別人、不知道您是誰</li>
+      <li><strong>強烈不安、被害感</strong> —— 覺得有人要害他、被綁架、被監禁</li>
+      <li><strong>記憶斷裂</strong> —— 對譫妄期間的事大部分模糊,但<strong>強烈的不安感與恐懼可能殘留很久</strong></li>
+    </ul>
+    <div class="reassure">
+      <strong>請記住:</strong>病人不是「裝的」也不是「故意的」 —— 對他而言,這些經驗在當下是<strong>完全真實</strong>的。所以<strong>不要與病人爭執、不要嘲笑、不要勉強他承認自己錯了</strong>。最重要的是讓他知道<strong>「你是安全的、我們在這裡陪你」</strong>。
+    </div>
+  </div>
+
+  <!-- Incidence -->
+  <div class="section-title">發生率 — 不是少見,但也不是不可避免</div>
+
+  <div class="incidence">
+    <h4>心臟手術後譫妄發生率</h4>
+    <div class="sub">依國際多項研究綜合(不同方法學略有差異)</div>
+    <div class="stat-row">
+      <div class="stat-label">整體發生率<span class="stat-sub">所有年齡層、所有心臟手術類型</span></div>
+      <div class="stat-num">25–50%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">75 歲以上長者<span class="stat-sub">高齡是最重要的單一危險因子</span></div>
+      <div class="stat-num">&gt; 50%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">合併失智或認知下降<span class="stat-sub">術前已有認知問題的病人</span></div>
+      <div class="stat-num">&gt; 60%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">急診/緊急手術<span class="stat-sub">無時間做完整 ERAS 準備</span></div>
+      <div class="stat-num">較高</div>
+    </div>
+    <div class="closing-note">
+      所以 <strong>譫妄不是「失敗」,是常見併發症</strong>。重點不是「會不會發生」,是<strong>「發生時能不能早期辨識、是否能順利恢復」</strong>。
+    </div>
+  </div>
+
+  <!-- Risk factors -->
+  <div class="section-title">誰更容易發生譫妄</div>
+
+  <p class="section-intro">
+    醫師會在<span class="em">術前訪視時評估您的個別風險</span>,並依此調整麻醉策略、ICU 安排、家屬陪伴計畫。
+  </p>
+
+  <div class="risk-groups">
+    <div class="risk-group">
+      <h5>術前體質與認知</h5>
+      <ul>
+        <li><strong>高齡(&gt; 75 歲)</strong></li>
+        <li>原本有失智、輕度認知障礙</li>
+        <li>術前憂鬱</li>
+        <li>聽力、視力較差(會增加感官混亂)</li>
+        <li>原本酒精、安眠藥使用</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>共病與身體狀況</h5>
+      <ul>
+        <li><strong>糖尿病</strong></li>
+        <li>頸動脈狹窄(脖子上供應腦部的血管變窄、影響腦部血流)</li>
+        <li>心臟功能差(NYHA III–IV,代表稍微活動就會喘)</li>
+        <li>慢性腎臟病</li>
+        <li>術前感染、發炎指數高(抽血看身體有沒有發炎的數值)</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>手術與麻醉因素</h5>
+      <ul>
+        <li><strong>手術時間長</strong></li>
+        <li>體外循環時間長</li>
+        <li>過深麻醉(BIS 過低)</li>
+        <li>使用大量鴉片類或苯二氮平類(常見鎮靜藥/安眠藥,如使蒂諾斯、安定文等;<strong>如果您平常有在使用,請術前告訴醫師</strong>)</li>
+        <li>術中體溫過低</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>術後環境</h5>
+      <ul>
+        <li><strong>ICU 停留時間長</strong></li>
+        <li>機械通氣時間長(用呼吸器幫忙呼吸)</li>
+        <li>術後睡眠中斷(噪音、光線)</li>
+        <li>術後感染、發炎</li>
+        <li>過長的活動限制</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Prevention - ERAS connections -->
+  <div class="section-title">本院的預防策略 — ERAS 多管齊下</div>
+
+  <p class="section-intro">
+    譫妄沒有「特效藥」可以治療,<span class="em">預防遠遠重要於治療</span>。本院的 ERAS 加速康復策略中,<span class="em">有 11 項以上的元素</span>是針對譫妄預防設計的。
+  </p>
+
+  <div class="prevention">
+    <h4>11 項本院 ERAS 預防元素</h4>
+    <div class="sub">每一項都串連到整套系列中的其他單張</div>
+    <ul>
+      <li><strong>BIS 麻醉深度監測</strong> —— 避免過深麻醉,過深麻醉會明顯增加譫妄 <span class="link-ref">連結 4-4</span></li>
+      <li><strong>NIRS 腦氧監測</strong> —— 即時監測腦部血氧,避免術中腦缺氧 <span class="link-ref">連結 4-3</span></li>
+      <li><strong>體溫維持 ≥ 36°C</strong> —— 避免低體溫造成的代謝紊亂(身體裡的化學平衡被打亂) <span class="link-ref">連結 4-6</span></li>
+      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類是譫妄重要誘因,本院以多種低劑量取代 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>避免苯二氮平類鎮靜</strong> —— 苯二氮平類(常見鎮靜藥/安眠藥,如 midazolam、Ativan)是譫妄最強誘因之一,本院盡量不使用</li>
+      <li><strong>手術室內拔管</strong> —— 縮短機械通氣(用呼吸器幫忙呼吸)與深鎮靜時間 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、能說話、減少鎮靜需求 <span class="link-ref">連結 6-6</span></li>
+      <li><strong>早期下床(拔管後 6 小時坐起、24 小時走路)</strong> —— 活動是降低譫妄最有效的非藥物方法 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>早期進食、口服水分</strong> —— 縮短靜脈點滴、維持腸胃功能 <span class="link-ref">連結 7-7</span></li>
+      <li><strong>ICU 環境調整與家屬陪伴</strong> —— 維持晝夜節律、提供熟悉的人與物品</li>
+      <li><strong>聽力、視力輔具不離身</strong> —— 助聽器、眼鏡儘早歸還,減少感官混亂</li>
+    </ul>
+  </div>
+
+  <!-- Hospital actual performance callout -->
+  <div class="callout eras-banner">
+    <h4>本院實際發生率</h4>
+    <p>本院實施完整 ERAS 策略後,<span class="em-teal">整體譫妄發生率通常較文獻平均明顯為低</span>。具體取決於每位病人的個別風險因子。</p>
+  </div>
+
+  <!-- Family help (critical section) -->
+  <div class="section-title">家屬如何幫助 — 您是預防與恢復的關鍵</div>
+
+  <p class="section-intro">
+    <span class="em">家屬的角色,無人能取代</span>。研究顯示,<span class="em">家屬主動陪伴與正確互動</span>,能明顯縮短譫妄持續時間、減輕嚴重度。
+  </p>
+
+  <div class="family-help-detail">
+    <h4>家屬可以做的 7 件事</h4>
+    <div class="sub">這些動作沒有特殊技巧,但效果非常大</div>
+
+    <div class="help-group">
+      <div class="h-label">01 · 帶熟悉的物品來</div>
+      <ul>
+        <li><strong>眼鏡、假牙、助聽器</strong>(可大幅改善感官、降低混亂)</li>
+        <li><strong>家人合照</strong>放在病床旁,協助病人定向</li>
+        <li><strong>熟悉的時鐘、月曆</strong>放在病人視線可及處</li>
+        <li>輕巧的小毛毯、家裡用慣的枕頭套</li>
+      </ul>
+    </div>
+
+    <div class="help-group">
+      <div class="h-label">02 · 經常重新定向</div>
+      <ul>
+        <li>溫和地告訴病人:「<strong>爸,現在是早上九點,你在耕莘醫院,前天剛開完心臟手術,我是大兒子小明</strong>」</li>
+        <li>每次來探視時都重複一次(重複是必要的,不是病人記性差)</li>
+        <li><strong>不要考病人</strong>(「你看我是誰?」會增加焦慮)</li>
+      </ul>
+    </div>
+
+    <div class="help-group">
+      <div class="h-label">03 · 保持冷靜的聲音</div>
+      <ul>
+        <li>即使病人講話混亂,<strong>用平穩、溫柔的聲音回應</strong></li>
+        <li>避免大聲、急促、否定(「你在胡說什麼?」會讓病人更不安)</li>
+        <li>必要時握著病人的手 —— 觸覺有定向作用</li>
+      </ul>
+    </div>
+
+    <div class="help-group">
+      <div class="h-label">04 · 維持晝夜節律</div>
+      <ul>
+        <li>白天<strong>拉開窗簾、開燈、鼓勵活動</strong>(如握握手、深呼吸)</li>
+        <li>夜晚<strong>降低燈光、減少打擾</strong>,幫病人入睡</li>
+        <li>白天不要讓病人睡太久(減少夜晚躁動)</li>
+      </ul>
+    </div>
+
+    <div class="help-group">
+      <div class="h-label">05 · 鼓勵活動、進食、喝水</div>
+      <ul>
+        <li>陪同護理師讓病人坐起、下床 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+        <li>鼓勵口服喝水 —— 脫水會加重譫妄 <span class="link-ref">連結 7-7</span></li>
+        <li>耐心陪同進食 —— 進食是腦部重新啟動的訊號</li>
+      </ul>
+    </div>
+
+    <div class="help-group">
+      <div class="h-label">06 · 主動觀察並告知護理師</div>
+      <ul>
+        <li><strong>叫名字反應變慢、眼神呆滯</strong> → 立刻告訴護理師(可能是低活動型)</li>
+        <li><strong>突然認不得人、看到不存在的東西</strong> → 立刻告訴護理師</li>
+        <li><strong>日夜顛倒、夜晚躁動</strong> → 告訴護理師,評估是否需要調整</li>
+      </ul>
+    </div>
+
+    <div class="help-group">
+      <div class="h-label">07 · 多人探視時的安排</div>
+      <ul>
+        <li><strong>一次 1–2 人即可</strong>,太多人圍著病床會加重混亂</li>
+        <li><strong>依本院 ICU 會客政策為主</strong> —— 在規定的會客時間內,30 分鐘是相對較佳的長度</li>
+        <li>如果您能<strong>多次短時間探視</strong>(例如分上下午各 30 分鐘),效果比一次來 1–2 小時更好</li>
+        <li>避免病床邊長時間多人聊天 —— 噪音是譫妄誘因</li>
+      </ul>
+    </div>
+
+    <div class="avoid">
+      <div class="h-label">家屬請避免的事</div>
+      <ul>
+        <li><strong>不要與病人爭執</strong>(對他而言幻覺是真實的)</li>
+        <li><strong>不要嘲笑、不要錄影分享</strong></li>
+        <li><strong>不要勉強病人「承認自己錯了」</strong></li>
+        <li><strong>不要說「你怎麼變這樣」</strong>(會加重焦慮與羞愧)</li>
+        <li><strong>不要自行給病人服用任何「助眠」「鎮定」相關物品</strong>,包括:家裡的安眠藥(使蒂諾斯、悠樂丁等)、鎮定/抗焦慮藥(安定文、贊安諾等)、含抗組織胺的「夜用」感冒藥或止痛藥(如普拿疼夜)、助眠的中藥或保健食品(如褪黑激素、酸棗仁、纈草)、含酒精的「補品」(藥酒、保力達、維士比)。<strong>這些都可能與術後用藥交互作用或加重譫妄</strong>。任何想給病人的口服物,<strong>先告訴護理師</strong>。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Outlook & timeline -->
+  <div class="section-title">如果發生了,會持續多久?</div>
+
+  <div class="outlook">
+    <h4>譫妄的恢復時程 — 給家屬可預期的時間表</h4>
+    <p>譫妄是<strong>急性、暫時性</strong>的。大部分病人的譫妄會在以下時程內恢復:</p>
+
+    <div class="timeline-mini">
+      <div class="tm-row">
+        <div class="tm-when">24–72 小時</div>
+        <div class="tm-what"><strong>大部分病人完全恢復</strong>(約 70%) —— 隨著鎮靜藥代謝、體內恢復、開始活動進食</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">1 週內</div>
+        <div class="tm-what">大部分剩餘的病人恢復(約 90% 累積恢復)</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">1–2 週</div>
+        <div class="tm-what">少部分病人仍有<strong>輕微混亂</strong>,但通常在出院前明顯改善</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">出院後</div>
+        <div class="tm-what">少數高齡病人可能有<strong>持續 6–12 個月的輕微認知影響</strong>(記憶力、注意力較差),多數能逐漸改善</div>
+      </div>
+    </div>
+
+    <p><strong>長期看(1 年後):</strong>大部分病人能<strong>完全回到術前的認知功能</strong>。少數(特別是高齡 + 嚴重譫妄者)可能有持續性的輕度認知影響。<strong>本院的整套 ERAS 預防策略,能明顯降低嚴重譫妄的發生率與長期影響</strong>。</p>
+
+    <p style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border)"><strong style="color:var(--teal)">給家屬的安慰:</strong>看到家人混亂、認不得自己,是很心痛的經驗。但<strong>絕大部分病人會回來</strong>,回到您熟悉的那個人。請保持耐心,這段時間家屬的陪伴是治療最重要的一部分。</p>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">出現這些情況請立即告知醫護</div>
+
+  <div class="callout warnings">
+    <h4>譫妄相關的警示徵兆</h4>
+    <ul>
+      <li><strong>突然認不得家人</strong>、視線無法跟著您、叫名字反應變慢</li>
+      <li><strong>嗜睡到難以叫醒</strong>、不主動進食喝水、長時間眼神呆滯</li>
+      <li><strong>嚴重躁動</strong>、想拔管子、想下床、可能危及自身安全</li>
+      <li><strong>出現新的神經學症狀(這可能是中風,不是譫妄)</strong>:單側手腳無力、講話含糊不清、嘴角下垂 —— 這需要團隊立即區分。<strong>中風與譫妄不同</strong>:中風是急性、有<strong>局部</strong>徵兆(一邊身體出問題);譫妄是全面性的意識混亂。<strong>任何上述徵兆都請立即按鈴</strong> <span class="link-ref">連結 8-1b FAST 口訣</span></li>
+      <li>譫妄症狀<strong>持續超過 1 週仍無改善</strong>,或出院前仍嚴重</li>
+      <li>出院後家人<strong>記憶力、注意力明顯比術前差</strong>,持續超過 1 個月</li>
+      <li><strong>家屬感到無法承受、嚴重睡眠不足</strong> —— 請主動尋求支持
+        <div class="support-resources">
+          <strong>病房護理師</strong>:可協助轉介相關資源<br>
+          <strong>醫院社工師</strong>:提供家屬支持資源、經濟協助評估<br>
+          <strong>臨床心理師</strong>:處理家屬的焦慮、創傷反應<br>
+          <strong>家屬支持團體</strong>:與其他病人家屬經驗交流(請洽病房護理師)<br>
+          <strong>衛福部安心專線 1925</strong>:24 小時免費心理諮詢
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>譫妄與認知相關的閱讀路徑</h4>
+    <div class="sub">這份單張在整套衛教中的位置</div>
+    <ol>
+      <li>NIRS 腦氧監測(術中腦部守護)</li>
+      <li>BIS 麻醉深度(避免過深麻醉)</li>
+      <li>早期拔管(縮短鎮靜時間)</li>
+      <li>多模式止痛(減少鴉片類)</li>
+      <li>認知復健 — 病人版 8-1a</li>
+      <li>認知復健 — 家屬版 8-1b</li>
+      <li class="current"><strong>譫妄專篇 8-2(您正在讀)</strong></li>
+      <li>從躺到坐 · 從站到走(早期活動)</li>
+      <li>喝水進食 · 飲食調整(代謝穩定)</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>譫妄 —— <span class="em">不是失敗,是常見併發症</span>。重要的不是「會不會發生」,而是<span class="em">「能不能早期辨識、是否順利恢復」</span>。</p>
+    <p>本院的整套 ERAS 預防策略,搭配<span class="em">家屬的辨識與陪伴</span>,能讓絕大多數病人安全度過這個階段。對譫妄有任何擔心,歡迎在<span class="em">門診</span>、<span class="em">術前訪視</span>、<span class="em">住院中</span>與醫療團隊討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society, ERAS International Society, and the Society of Thoracic Surgeons (STS). <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>American Geriatrics Society Expert Panel on Postoperative Delirium in Older Adults. Postoperative Delirium in Older Adults: Best Practice Statement. <em>J Am Coll Surg.</em> 2015;220(2):136–148.</li>
+      <li>Saczynski JS, Marcantonio ER, Quach L, et al. Cognitive Trajectories After Postoperative Delirium. <em>N Engl J Med.</em> 2012;367(1):30–39.</li>
+      <li>Stransky M, Schmidt C, Ganslmeier P, et al. Hypoactive Delirium After Cardiac Surgery as an Independent Risk Factor for Prolonged Mechanical Ventilation. <em>J Cardiothorac Vasc Anesth.</em> 2011;25(6):968–974.</li>
+      <li>Smulter N, Lingehall HC, Gustafson Y, et al. Delirium after Cardiac Surgery: Incidence and Risk Factors. <em>Interact Cardiovasc Thorac Surg.</em> 2013;17(5):790–796.</li>
+      <li>Lin Y, et al. Risk Factors of Postoperative Delirium After Cardiac Surgery: A Meta-Analysis. <em>J Cardiothorac Surg.</em> 2021;16:113.</li>
+      <li>Inouye SK, Westendorp RG, Saczynski JS. Delirium in Elderly People. <em>Lancet.</em> 2014;383(9920):911–922.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的譫妄風險評估與預防策略,以心臟外科醫師、麻醉科醫師、護理團隊依您的臨床狀況評估為準。對譫妄有任何疑問或家屬支援需求,請於門診、術前訪視、住院中與醫療團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>
