@@ -370,6 +370,20 @@
   font-size: 14px;
 }
 .qa-item .a strong { color: var(--ink); font-weight: 600; }
+.qa-item .a p {
+  margin: 0 0 8px;
+  line-height: 1.85;
+}
+.qa-item .a p:last-child { margin-bottom: 0; }
+.qa-item .a ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+.qa-item .a ul li {
+  line-height: 1.75;
+  margin-bottom: 6px;
+}
+.qa-item .a ul li:last-child { margin-bottom: 0; }
 
 @media (max-width: 480px) {
   .method-card { padding: 22px 22px; }
@@ -411,6 +425,10 @@
     <div class="lex-row">
       <span class="lex-term">On-pump Beating</span>
       <span class="lex-def"><strong>本院主流</strong>:體外循環機支援,但心臟仍持續跳動。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">On-pump Arrested</span>
+      <span class="lex-def"><strong>傳統做法</strong>:體外循環機支援,並用心臟麻痺液讓心臟暫時停跳,結束後再恢復跳動。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">心臟麻痺液</span>
@@ -512,7 +530,7 @@
         <div class="heading">優點</div>
         <ul>
           <li>心臟肌肉持續有血流供應,避免「斷血後再重新通血」造成的傷害</li>
-          <li>適合心臟功能較差(低 LVEF)的病人</li>
+          <li>適合心臟功能較差(<strong>低 LVEF</strong> —— 左心室射血分數,代表心臟每次跳動泵出血量的比例;正常 55–70%,低於 40% 表示心臟收縮力下降)的病人</li>
           <li>血壓穩定,手術視野穩定</li>
           <li>術後「心臟打出的血量不夠」的狀況較少發生</li>
         </ul>
@@ -641,14 +659,37 @@
     </div>
 
     <div class="qa-item">
-      <div class="q">這個做法會比較貴嗎？健保有給付嗎？</div>
-      <div class="a">三種繞道手術的核心費用(手術、麻醉、住院、藥品等)<strong>全部都在健保給付範圍內</strong>。差別主要在某些特殊耗材或自費項目(如部分人工血管、止血材料),醫師會在手術同意書中詳細說明,由您選擇。</div>
+      <div class="q">這個做法會比較貴嗎?健保有給付嗎?</div>
+      <div class="a">
+        <p>三種繞道手術的<strong>核心費用</strong>(手術、麻醉、基本住院、健保藥品等)<strong>全部都在健保給付範圍內</strong>。</p>
+        <p>另有兩類項目<strong>可由您選擇是否使用</strong>:</p>
+        <ul>
+          <li><strong>手術耗材</strong> —— 由心臟外科醫師依您的個別狀況討論選用(例如部分人工血管、止血材料、特定縫合器、骨板等)。<strong>單一項目費用差異較大</strong>,實際品項與費用會在<strong>手術同意書</strong>中逐項列出。</li>
+          <li><strong>麻醉自費包套</strong> —— 麻醉科團隊有一套自費組合(神經阻斷止痛、腦波導引麻醉、特定麻醉藥物等),<strong>本院已包套設計,通常落在 5–7 萬元</strong>。詳細內容會在<strong>術前麻醉訪視</strong>時說明。</li>
+        </ul>
+        <p>您會在<strong>手術同意書中看到每一項自費耗材的明細與金額,並由您勾選使用</strong>——<strong>不會有事後才被告知的狀況</strong>。如果有<strong>經濟負擔考量</strong>,可以直接告訴醫師或護理師,團隊會優先採用健保給付選項,必要時可協助轉介社工資源。</p>
+      </div>
     </div>
 
     <div class="qa-item">
       <div class="q">我會比較容易出問題嗎？</div>
       <div class="a">不會。研究顯示,<strong>「心臟跳動下繞道」並沒有增加併發症的風險</strong>,反而在心臟保護、輸血需求、術後恢復速度上有相對優勢,特別對心臟功能較差的病人尤其明顯。本院執行此術式已累積相當經驗,團隊配合熟練。</div>
     </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>CABG 相關的閱讀路徑</h4>
+    <div class="sub">這份單張著重在「三種繞道做法的選擇」。要更完整理解整個手術流程,建議搭配下面這幾份單張一起讀。</div>
+    <ol>
+      <li class="current"><strong>三種冠狀動脈繞道手術比較 3-1(您正在讀)</strong></li>
+      <li>體外循環機 CPB 3-2(深入認識手術用的「暫代心肺」機器)</li>
+      <li>微創 vs 傳統開胸 3-3(切開方式的選擇 — 部分繞道可微創)</li>
+      <li>胸骨固定方式 3-4(手術後傷口閉合的兩種做法)</li>
+      <li>NIRS 腦氧監測 4-3(CABG 術中重點關注的腦保護)</li>
+      <li>術中多模式止痛 5-1(減少鴉片類、降低譫妄)</li>
+      <li>外科加護病房 SICU 介紹 6-1(術後 1–2 天會待的環境)</li>
+    </ol>
   </div>
 
   <!-- Closing -->
