@@ -356,6 +356,120 @@ h1 { font-size: 30px; }
 }
 .dir-footer-note strong { color: var(--gold); font-weight: 600; }
 
+
+/* Timing index section (依發送時機) */
+html { scroll-padding-top: 16px; }
+.timing-index { margin-bottom: 36px; padding-bottom: 22px; border-bottom: 2px solid var(--border); }
+.timing-group {
+  margin-bottom: 22px;
+  scroll-margin-top: 16px;
+}
+.timing-group:last-child { margin-bottom: 0; }
+.t-group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.t-marker {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.t-label { font-weight: 600; }
+.t-count {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+.t-group-desc {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 10px;
+  font-style: italic;
+  padding-left: 22px;
+}
+.t-piece-list {
+  list-style: none;
+  padding: 0 0 0 22px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+@media (min-width: 640px) { .t-piece-list { grid-template-columns: 1fr 1fr; gap: 4px 16px; } }
+.t-item a {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.5;
+  transition: background 0.12s ease;
+  border-left: 2px solid transparent;
+}
+.t-item a:hover {
+  background: var(--cream-deep);
+  border-left-color: var(--gold);
+}
+.t-item .t-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  font-weight: 600;
+  min-width: 38px;
+  flex-shrink: 0;
+}
+.t-item .t-title {
+  flex: 1;
+  color: var(--ink);
+}
+.t-item.recent .t-num { color: var(--teal); }
+.t-item.recent .t-title::after {
+  content: 'NEW';
+  display: inline-block;
+  margin-left: 6px;
+  background: var(--teal);
+  color: var(--paper);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  vertical-align: 2px;
+}
+.t-item a .aud {
+  font-size: 10px;
+  padding: 0 5px;
+}
+
+/* Make legend-item clickable */
+a.legend-item {
+  text-decoration: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition: background 0.12s ease;
+}
+a.legend-item:hover {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
 @media (max-width: 480px) {
   .stats-bar { padding: 14px 16px; }
   .stats-bar .stat-num { font-size: 20px; }
@@ -401,11 +515,11 @@ h1 { font-size: 30px; }
   <div class="timing-legend">
     <div class="legend-title">發送時機色標</div>
     <div class="legend-items">
-      <span class="legend-item"><span class="dot" style="background:var(--teal)"></span>術前訪視</span>
-      <span class="legend-item"><span class="dot" style="background:var(--cold)"></span>ICU 期間</span>
-      <span class="legend-item"><span class="dot" style="background:var(--gold)"></span>病房恢復期</span>
-      <span class="legend-item"><span class="dot" style="background:var(--warn)"></span>出院前</span>
-      <span class="legend-item"><span class="dot" style="background:var(--safe)"></span>出院後 · 長期</span>
+      <a class="legend-item" href="#t-preop"><span class="dot" style="background:var(--teal)"></span>術前訪視</a>
+      <a class="legend-item" href="#t-icu"><span class="dot" style="background:var(--cold)"></span>ICU 期間</a>
+      <a class="legend-item" href="#t-ward"><span class="dot" style="background:var(--gold)"></span>病房恢復期</a>
+      <a class="legend-item" href="#t-disch"><span class="dot" style="background:var(--warn)"></span>出院前</a>
+      <a class="legend-item" href="#t-home"><span class="dot" style="background:var(--safe)"></span>出院後 · 長期</a>
     </div>
   </div>
 
@@ -435,6 +549,122 @@ h1 { font-size: 30px; }
     </div>
   </div>
 
+  <!-- ============================================ -->
+  <!-- 依發送時機快速瀏覽 -->
+  <!-- ============================================ -->
+  <section class="timing-index">
+    <div class="series-header">
+      <span class="series-num">⏱</span>
+      <span class="series-title">依發送時機快速瀏覽</span>
+      <span class="series-count">同一份單張可能跨多個時段</span>
+    </div>
+    <p class="series-desc">依據病人住院旅程的階段,把衛教單張分類索引。點上方色標可快速跳轉。</p>
+
+    <div class="timing-group" id="t-preop">
+      <h3 class="t-group-header">
+        <span class="t-marker" style="background:var(--teal)"></span>
+        <span class="t-label">術前訪視</span>
+        <span class="t-count">20 份</span>
+      </h3>
+      <p class="t-group-desc">術前訪視時提供,幫助病人與家屬認識手術全貌、降低未知焦慮。</p>
+      <ul class="t-piece-list">
+        <li class="t-item"><a href="3-1-cabg-comparison.html"><span class="t-num">3-1</span><span class="t-title">三種冠狀動脈繞道手術比較</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="3-2-cpb.html"><span class="t-num">3-2</span><span class="t-title">體外循環機 CPB</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="3-3-mics-vs-sternotomy.html"><span class="t-num">3-3</span><span class="t-title">微創 vs 傳統開胸</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="3-4-sternal-fixation.html"><span class="t-num">3-4</span><span class="t-title">胸骨固定方式</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="4-2-tof.html"><span class="t-num">4-2</span><span class="t-title">TOF 肌肉鬆弛監測</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="4-3-nirs.html"><span class="t-num">4-3</span><span class="t-title">NIRS 腦氧監測</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="4-4-bis.html"><span class="t-num">4-4</span><span class="t-title">BIS 麻醉深度監測</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="4-6-temperature.html"><span class="t-num">4-6</span><span class="t-title">圍術期體溫管理</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="5-1-multimodal.html"><span class="t-num">5-1</span><span class="t-title">術中多模式止痛</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="5-2-coagulation.html"><span class="t-num">5-2</span><span class="t-title">凝血功能與止血藥物</span><span class="aud">病人</span></a></li>
+        <li class="t-item recent"><a href="6-1-sicu.html"><span class="t-num">6-1</span><span class="t-title">外科加護病房 SICU 介紹</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item"><a href="6-2-extubation.html"><span class="t-num">6-2</span><span class="t-title">早期拔管</span><span class="aud">病人</span></a></li>
+        <li class="t-item recent"><a href="6-5-restraint.html"><span class="t-num">6-5</span><span class="t-title">保護性約束</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item"><a href="6-6-hfnc.html"><span class="t-num">6-6</span><span class="t-title">HFNC 高流量鼻導管</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-1-spirometer.html"><span class="t-num">7-1</span><span class="t-title">誘發性肺量計呼吸訓練</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="8-1a-cognitive-patient.html"><span class="t-num">8-1a</span><span class="t-title">認知復健 — 病人版</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="8-1b-cognitive-family.html"><span class="t-num">8-1b</span><span class="t-title">認知復健 — 家屬版</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item recent"><a href="8-2-delirium.html"><span class="t-num">8-2</span><span class="t-title">譫妄專篇</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item recent"><a href="8-3-poaf.html"><span class="t-num">8-3</span><span class="t-title">術後心房顫動 POAF</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item recent"><a href="8-4-aki.html"><span class="t-num">8-4</span><span class="t-title">術後急性腎損傷 AKI</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+      </ul>
+    </div>
+
+    <div class="timing-group" id="t-icu">
+      <h3 class="t-group-header">
+        <span class="t-marker" style="background:var(--cold)"></span>
+        <span class="t-label">ICU 期間</span>
+        <span class="t-count">8 份</span>
+      </h3>
+      <p class="t-group-desc">SICU 住院前或當下閱讀,認識環境、管路、監測與恢復節奏。</p>
+      <ul class="t-piece-list">
+        <li class="t-item"><a href="6-2-extubation.html"><span class="t-num">6-2</span><span class="t-title">早期拔管</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="6-3-chest-tube.html"><span class="t-num">6-3</span><span class="t-title">胸管引流</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="6-4-foley.html"><span class="t-num">6-4</span><span class="t-title">尿管照護</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="6-6-hfnc.html"><span class="t-num">6-6</span><span class="t-title">HFNC 高流量鼻導管</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-6-early-mobilization.html"><span class="t-num">7-6</span><span class="t-title">早期下床活動總論</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-6a-sit-up.html"><span class="t-num">7-6a</span><span class="t-title">從躺到坐 — 拔管 6 小時</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-6b-stand-walk.html"><span class="t-num">7-6b</span><span class="t-title">從站到走 — 拔管 24 小時</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-7-eating.html"><span class="t-num">7-7</span><span class="t-title">術後喝水進食</span><span class="aud">病人</span></a></li>
+      </ul>
+    </div>
+
+    <div class="timing-group" id="t-ward">
+      <h3 class="t-group-header">
+        <span class="t-marker" style="background:var(--gold)"></span>
+        <span class="t-label">病房恢復期</span>
+        <span class="t-count">14 份</span>
+      </h3>
+      <p class="t-group-desc">轉到一般病房後的主動恢復項目 — 活動、進食、咳嗽、復健。</p>
+      <ul class="t-piece-list">
+        <li class="t-item"><a href="5-1-multimodal.html"><span class="t-num">5-1</span><span class="t-title">術中多模式止痛</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="5-1b-postop-pain.html"><span class="t-num">5-1b</span><span class="t-title">術後疼痛管理</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="6-3-chest-tube.html"><span class="t-num">6-3</span><span class="t-title">胸管引流</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="6-4-foley.html"><span class="t-num">6-4</span><span class="t-title">尿管照護</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-1-spirometer.html"><span class="t-num">7-1</span><span class="t-title">誘發性肺量計呼吸訓練</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-2-cough.html"><span class="t-num">7-2</span><span class="t-title">術後咳嗽技巧</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-4-sternal-precaution.html"><span class="t-num">7-4</span><span class="t-title">胸骨保護動作</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-5-swallow.html"><span class="t-num">7-5</span><span class="t-title">術後吞嚥評估</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-6-early-mobilization.html"><span class="t-num">7-6</span><span class="t-title">早期下床活動總論</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-6b-stand-walk.html"><span class="t-num">7-6b</span><span class="t-title">從站到走 — 拔管 24 小時</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="7-7-eating.html"><span class="t-num">7-7</span><span class="t-title">術後喝水進食</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="8-1a-cognitive-patient.html"><span class="t-num">8-1a</span><span class="t-title">認知復健 — 病人版</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="8-1b-cognitive-family.html"><span class="t-num">8-1b</span><span class="t-title">認知復健 — 家屬版</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item recent"><a href="8-2-delirium.html"><span class="t-num">8-2</span><span class="t-title">譫妄專篇</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+      </ul>
+    </div>
+
+    <div class="timing-group" id="t-disch">
+      <h3 class="t-group-header">
+        <span class="t-marker" style="background:var(--warn)"></span>
+        <span class="t-label">出院前</span>
+        <span class="t-count">5 份</span>
+      </h3>
+      <p class="t-group-desc">出院前 24-48 小時提供,確認帶藥、追蹤、警示徵兆。</p>
+      <ul class="t-piece-list">
+        <li class="t-item"><a href="7-4-sternal-precaution.html"><span class="t-num">7-4</span><span class="t-title">胸骨保護動作</span><span class="aud">病人</span></a></li>
+        <li class="t-item recent"><a href="8-3-poaf.html"><span class="t-num">8-3</span><span class="t-title">術後心房顫動 POAF</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item recent"><a href="8-4-aki.html"><span class="t-num">8-4</span><span class="t-title">術後急性腎損傷 AKI</span><span class="aud">病人</span><span class="aud fam">家屬</span></a></li>
+        <li class="t-item"><a href="9-3-cardiac-diet.html"><span class="t-num">9-3</span><span class="t-title">心臟手術後飲食調整</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="10-1-active-recovery.html"><span class="t-num">10-1</span><span class="t-title">主動恢復計畫</span><span class="aud">病人</span></a></li>
+      </ul>
+    </div>
+
+    <div class="timing-group" id="t-home">
+      <h3 class="t-group-header">
+        <span class="t-marker" style="background:var(--safe)"></span>
+        <span class="t-label">出院後 · 長期</span>
+        <span class="t-count">2 份</span>
+      </h3>
+      <p class="t-group-desc">回家後的長期保養與生活調整,包含飲食與漸進式運動。</p>
+      <ul class="t-piece-list">
+        <li class="t-item"><a href="9-3-cardiac-diet.html"><span class="t-num">9-3</span><span class="t-title">心臟手術後飲食調整</span><span class="aud">病人</span></a></li>
+        <li class="t-item"><a href="10-1-active-recovery.html"><span class="t-num">10-1</span><span class="t-title">主動恢復計畫</span><span class="aud">病人</span></a></li>
+      </ul>
+    </div>
+
+  </section>
   <!-- ============================================ -->
   <!-- 1-x 入院前(尚未撰寫) -->
   <!-- ============================================ -->
@@ -625,296 +855,3 @@ h1 { font-size: 30px; }
         <div class="pc-head">
           <span class="pc-num">6-1</span>
         </div>
-        <div class="pc-title">外科加護病房 SICU 介紹<span class="aud">病人</span><span class="aud fam">家屬</span></div>
-        <div class="pc-sub">獨立病間、主動恢復、家屬陪伴 — 與想像中的加護病房不一樣</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span></div>
-        <div class="pc-foot"><span class="updated-recent">更新 2026-05-18</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="6-2-extubation.html">
-        <div class="pc-head">
-          <span class="pc-num">6-2</span>
-        </div>
-        <div class="pc-title">早期拔管<span class="aud">病人</span></div>
-        <div class="pc-sub">手術室內拔管 — 縮短鎮靜時間、降低譫妄</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim icu">ICU 期間</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="6-3-chest-tube.html">
-        <div class="pc-head">
-          <span class="pc-num">6-3</span>
-        </div>
-        <div class="pc-title">胸管引流<span class="aud">病人</span></div>
-        <div class="pc-sub">胸管功能、放置位置、移除時機、自我照護注意事項</div>
-        <div class="pc-timing"><span class="tim icu">ICU 期間</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="6-4-foley.html">
-        <div class="pc-head">
-          <span class="pc-num">6-4</span>
-        </div>
-        <div class="pc-title">尿管照護<span class="aud">病人</span></div>
-        <div class="pc-sub">為什麼需要、移除時機、移除後的排尿與感染預防</div>
-        <div class="pc-timing"><span class="tim icu">ICU 期間</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card recent" href="6-5-restraint.html">
-        <div class="pc-head">
-          <span class="pc-num">6-5</span>
-        </div>
-        <div class="pc-title">保護性約束<span class="aud">病人</span><span class="aud fam">家屬</span></div>
-        <div class="pc-sub">為什麼本院心臟手術後幾乎已不使用 — 最深恐懼三部曲之一</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span></div>
-        <div class="pc-foot"><span class="updated-recent">更新 2026-05-18</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="6-6-hfnc.html">
-        <div class="pc-head">
-          <span class="pc-num">6-6</span>
-        </div>
-        <div class="pc-title">HFNC 高流量鼻導管<span class="aud">病人</span></div>
-        <div class="pc-sub">拔管後的呼吸銜接、能說話且舒適、減少鎮靜需求</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim icu">ICU 期間</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ============================================ -->
-  <!-- 7-x 復健、活動、飲食 -->
-  <!-- ============================================ -->
-  <section class="series-section">
-    <div class="series-header">
-      <span class="series-num">7-x</span>
-      <span class="series-title">復健、活動、飲食</span>
-      <span class="series-count">8 份</span>
-    </div>
-    <p class="series-desc">呼吸訓練、咳嗽、胸骨保護、吞嚥、早期下床(坐起→走路)、喝水進食。</p>
-
-    <div class="piece-grid">
-
-      <a class="piece-card" href="7-1-spirometer.html">
-        <div class="pc-head">
-          <span class="pc-num">7-1</span>
-        </div>
-        <div class="pc-title">誘發性肺量計呼吸訓練<span class="aud">病人</span></div>
-        <div class="pc-sub">術前學習、術後每天練習、預防肺部併發症</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-2-cough.html">
-        <div class="pc-head">
-          <span class="pc-num">7-2</span>
-        </div>
-        <div class="pc-title">術後咳嗽技巧<span class="aud">病人</span></div>
-        <div class="pc-sub">抱枕固定胸骨、有效咳痰、預防肺部感染</div>
-        <div class="pc-timing"><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-4-sternal-precaution.html">
-        <div class="pc-head">
-          <span class="pc-num">7-4</span>
-        </div>
-        <div class="pc-title">胸骨保護動作<span class="aud">病人</span></div>
-        <div class="pc-sub">6 週內避免的動作、安全起身、開車與抱孫子時機</div>
-        <div class="pc-timing"><span class="tim ward">病房恢復期</span><span class="tim disch">出院前</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-5-swallow.html">
-        <div class="pc-head">
-          <span class="pc-num">7-5</span>
-        </div>
-        <div class="pc-title">術後吞嚥評估<span class="aud">病人</span></div>
-        <div class="pc-sub">拔管後吞嚥功能、嗆咳預防、漸進式飲食</div>
-        <div class="pc-timing"><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-6-early-mobilization.html">
-        <div class="pc-head">
-          <span class="pc-num">7-6</span>
-        </div>
-        <div class="pc-title">早期下床活動總論<span class="aud">病人</span></div>
-        <div class="pc-sub">6 小時坐起、24 小時走路 — 本院 ERAS 核心策略</div>
-        <div class="pc-timing"><span class="tim icu">ICU 期間</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-6a-sit-up.html">
-        <div class="pc-head">
-          <span class="pc-num">7-6a</span>
-        </div>
-        <div class="pc-title">從躺到坐 — 拔管 6 小時<span class="aud">病人</span></div>
-        <div class="pc-sub">床邊坐起的時機、正確姿勢、避免胸骨拉扯</div>
-        <div class="pc-timing"><span class="tim icu">ICU 期間</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-6b-stand-walk.html">
-        <div class="pc-head">
-          <span class="pc-num">7-6b</span>
-        </div>
-        <div class="pc-title">從站到走 — 拔管 24 小時<span class="aud">病人</span></div>
-        <div class="pc-sub">繞護理站第一圈、預防 DVT、漸進式延長距離</div>
-        <div class="pc-timing"><span class="tim icu">ICU 期間</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="7-7-eating.html">
-        <div class="pc-head">
-          <span class="pc-num">7-7</span>
-        </div>
-        <div class="pc-title">術後喝水進食<span class="aud">病人</span></div>
-        <div class="pc-sub">拔管後喝水時機、漸進式飲食、維持腸胃功能</div>
-        <div class="pc-timing"><span class="tim icu">ICU 期間</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ============================================ -->
-  <!-- 8-x 認知與併發症 -->
-  <!-- ============================================ -->
-  <section class="series-section">
-    <div class="series-header">
-      <span class="series-num">8-x</span>
-      <span class="series-title">認知與術後併發症</span>
-      <span class="series-count">5 份 · 含三部曲</span>
-    </div>
-    <p class="series-desc">認知復健(病人/家屬版) + 術後併發症三部曲(腦譫妄 · 心 POAF · 腎 AKI)。</p>
-
-    <div class="piece-grid">
-
-      <a class="piece-card" href="8-1a-cognitive-patient.html">
-        <div class="pc-head">
-          <span class="pc-num">8-1a</span>
-        </div>
-        <div class="pc-title">認知復健 — 病人版<span class="aud">病人</span></div>
-        <div class="pc-sub">術後輕度認知變化、自我練習與恢復策略</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card" href="8-1b-cognitive-family.html">
-        <div class="pc-head">
-          <span class="pc-num">8-1b</span>
-        </div>
-        <div class="pc-title">認知復健 — 家屬版<span class="aud fam">家屬</span></div>
-        <div class="pc-sub">家屬陪伴技巧、FAST 中風辨識、何時該擔心</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card recent" href="8-2-delirium.html">
-        <div class="pc-head">
-          <span class="pc-num">8-2</span>
-        </div>
-        <div class="pc-title">譫妄專篇<span class="aud">病人</span><span class="aud fam">家屬</span></div>
-        <div class="pc-sub">術後暫時性意識混亂、三種類型、家屬辨識與陪伴 — 三部曲之腦</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim ward">病房恢復期</span></div>
-        <div class="pc-foot"><span class="updated-recent">更新 2026-05-18</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card recent" href="8-3-poaf.html">
-        <div class="pc-head">
-          <span class="pc-num">8-3</span>
-        </div>
-        <div class="pc-title">術後心房顫動 POAF<span class="aud">病人</span><span class="aud fam">家屬</span></div>
-        <div class="pc-sub">20–50% 病人會經歷、中風風險與抗凝血劑、出院後生活調整 — 三部曲之心律</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim disch">出院前</span></div>
-        <div class="pc-foot"><span class="updated-recent">更新 2026-05-18</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-      <a class="piece-card recent" href="8-4-aki.html">
-        <div class="pc-head">
-          <span class="pc-num">8-4</span>
-        </div>
-        <div class="pc-title">術後急性腎損傷 AKI<span class="aud">病人</span><span class="aud fam">家屬</span></div>
-        <div class="pc-sub">KDIGO 三分級、終身要避開的腎毒性藥物(NSAIDs) — 三部曲之腎</div>
-        <div class="pc-timing"><span class="tim preop">術前訪視</span><span class="tim disch">出院前</span></div>
-        <div class="pc-foot"><span class="updated-recent">更新 2026-05-18</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ============================================ -->
-  <!-- 9-x 出院後飲食 -->
-  <!-- ============================================ -->
-  <section class="series-section">
-    <div class="series-header">
-      <span class="series-num">9-x</span>
-      <span class="series-title">出院後飲食</span>
-      <span class="series-count">1 份</span>
-    </div>
-    <p class="series-desc">心臟手術後的長期飲食調整 — 低鹽、適量蛋白質、warfarin 與綠葉蔬菜。</p>
-
-    <div class="piece-grid">
-
-      <a class="piece-card" href="9-3-cardiac-diet.html">
-        <div class="pc-head">
-          <span class="pc-num">9-3</span>
-        </div>
-        <div class="pc-title">心臟手術後飲食調整<span class="aud">病人</span></div>
-        <div class="pc-sub">低鹽 &lt; 2000 mg/day、抗凝血劑與綠葉蔬菜的穩定份量原則</div>
-        <div class="pc-timing"><span class="tim disch">出院前</span><span class="tim home">出院後</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ============================================ -->
-  <!-- 10-x 長期追蹤 -->
-  <!-- ============================================ -->
-  <section class="series-section">
-    <div class="series-header">
-      <span class="series-num">10-x</span>
-      <span class="series-title">長期追蹤</span>
-      <span class="series-count">1 份</span>
-    </div>
-    <p class="series-desc">出院後主動恢復計畫、漸進式運動、回診追蹤節奏。</p>
-
-    <div class="piece-grid">
-
-      <a class="piece-card" href="10-1-active-recovery.html">
-        <div class="pc-head">
-          <span class="pc-num">10-1</span>
-        </div>
-        <div class="pc-title">主動恢復計畫<span class="aud">病人</span></div>
-        <div class="pc-sub">回家後 6 週恢復節奏、漸進式運動、回診時程表</div>
-        <div class="pc-timing"><span class="tim disch">出院前</span><span class="tim home">出院後</span></div>
-        <div class="pc-foot"><span>更新 2026-05-17</span><span class="pc-read">≤ 3 分鐘</span></div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- Footer note -->
-  <div class="dir-footer-note">
-    <strong>關於這份目錄</strong> — 本目錄為心臟加速康復團隊內部維護的衛教資源總覽。各單張依病人個別情況,由醫療團隊透過 LINE / Email / 紙本等方式於合適時機提供給病人與家屬。如需擴充或調整單張內容,請聯繫心臟加速康復團隊。
-  </div>
-
-  <!-- Closing & signature(沿用衛教檔風格) -->
-  <div class="closing">
-    <p>每一份衛教單張,都是<span class="em">「讓病人不再害怕」</span>的努力。<span class="em">理解 → 預備 → 主動參與</span> — 這是本院 ERAS 加速康復的核心精神。</p>
-    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
-    <div class="signature-note">同莘 — 同心 · 耕莘</div>
-  </div>
-
-  <footer>
-    <div class="clinic">心臟加速康復團隊衛教資源</div>
-    <div class="disclaimer">本目錄列出之單張為一般性衛教資訊,個別病人的醫療決策請依心臟外科、麻醉科、護理團隊評估為準。<br>Patient Education Library · 由心臟加速康復團隊維護</div>
-  </footer>
-
-</div>
-</body>
-</html>
