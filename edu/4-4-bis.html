@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麻醉深度監測（BIS） — 心臟加速康復衛教</title>
+<meta name="description" content="BIS 麻醉深度監測,在心臟手術中扮演劑量儀表板與腦部缺血警報器兩種角色">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:三欄數值 fact-row、編號步驟卡、流程箭頭 */
+.fact-row {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .fact-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; } }
+.fact-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 18px;
+  text-align: center;
+}
+.fact-card.warn { border-top: 3px solid var(--warn); }
+.fact-card.safe { border-top: 3px solid var(--safe); }
+.fact-card.gold { border-top: 3px solid var(--gold); }
+.fact-card .fact-label {
+  font-size: 11px; letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.fact-card.warn .fact-label { color: var(--warn); }
+.fact-card.safe .fact-label { color: var(--safe); }
+.fact-card.gold .fact-label { color: var(--gold); }
+.fact-card .fact-value {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 26px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px; line-height: 1.2;
+}
+.fact-card p {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px; line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.step-card .step-body p strong { color: var(--ink); font-weight: 600; }
+
+/* 警報機制流程 */
+.alert-mech {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+.alert-mech h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.alert-mech p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+.alert-mech .arrow-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  align-items: center; justify-content: center;
+}
+.alert-mech .stage {
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.alert-mech .arrow {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .fact-card { padding: 16px 14px; }
+  .fact-card .fact-value { font-size: 22px; }
+  .step-card { padding: 16px 18px; gap: 12px; }
+  .alert-mech { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 4-4</div>
+    <h1>麻醉深度監測<br>（BIS）</h1>
+    <p class="subtitle">不只調整麻醉劑量，也是腦部缺血的「早期警報」<br>Bispectral Index Monitoring</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>一個額頭貼片，兩個重要任務</strong>
+    <p>麻醉深度監測（<span class="em">Bispectral Index，BIS</span>）會在您的額頭貼一片小型感測貼片，<span class="em">把您的腦波即時轉換成一個 0 到 100 的數字</span>顯示在麻醉螢幕上。</p>
+    <p>對病人來說，這個小裝置在心臟手術中做了兩件您會深深受益的事：<span class="em">①讓麻醉「剛剛好」，加速術後恢復、減少譫妄</span>；<span class="em">②當腦部突然血流不足時，第一時間發出警報</span>，幫助團隊在症狀發生前就採取行動，減少缺血性中風的風險。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">BIS</span>
+      <span class="lex-def">Bispectral Index，<strong>麻醉深度監測</strong>，數值 0–100。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">NIRS</span>
+      <span class="lex-def">近紅外光腦氧監測，<strong>看腦的供氧</strong>，與 BIS 互補使用。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">術中清醒</span>
+      <span class="lex-def">麻醉太淺造成<strong>手術過程中突然有感覺</strong>；BIS 幾乎可完全避免。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">術後譫妄</span>
+      <span class="lex-def">術後<strong>意識混亂、定向感失調</strong>；BIS 過深時段越長越容易發生。</span>
+    </div>
+  </div>
+
+  <!-- BIS roles overview -->
+  <div class="section-title">BIS 在心臟手術中的兩個角色</div>
+
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">角色 01</div>
+      <h3>麻醉劑量的「儀表板」</h3>
+      <div class="col-en">Anesthesia depth dashboard</div>
+      <div class="col-body">讓麻醉劑量精準到「剛剛好」 —— <strong>不會太淺（避免術中清醒）、不會太深</strong>（避免藥量累積、減少術後譫妄、加速甦醒）。</div>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">角色 02</div>
+      <h3>腦部血流的「警報器」</h3>
+      <div class="col-en">Cerebral perfusion alarm</div>
+      <div class="col-body">當腦部血流突然不足，腦波會立即變慢、BIS 數值會在麻醉沒變的前提下急降。團隊在症狀發生前就能採取行動，<strong>減少缺血性中風的風險</strong>。</div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="section-title">它如何運作</div>
+
+  <p class="section-intro">
+    麻醉前，麻醉醫師會在您的額頭貼一片含多個感應器的貼片，連接到 BIS 監測儀。儀器持續分析您的腦波，將複雜的訊號轉換成一個<span class="em">0 到 100 的數字</span>，數字越低代表麻醉越深。
+  </p>
+
+  <!-- Number ranges -->
+  <div class="section-title">數值範圍代表什麼</div>
+
+  <div class="fact-row cols-3">
+    <div class="fact-card warn">
+      <div class="fact-label">完全清醒</div>
+      <div class="fact-value">100</div>
+      <p>正常清醒、能對話、能配合指令</p>
+    </div>
+    <div class="fact-card safe">
+      <div class="fact-label">理想麻醉</div>
+      <div class="fact-value">40–60</div>
+      <p>手術期間的目標範圍：您完全睡著、無感、無記憶，但藥量沒有過量</p>
+    </div>
+    <div class="fact-card gold">
+      <div class="fact-label">麻醉過深</div>
+      <div class="fact-value">&lt; 40</div>
+      <p>藥量超過所需，可能延後甦醒、增加譫妄風險</p>
+    </div>
+  </div>
+
+  <!-- Role 1: anesthesia depth -->
+  <div class="section-title">角色 01：讓麻醉「剛剛好」</div>
+
+  <p class="section-intro">
+    沒有 BIS 的年代，麻醉劑量主要靠麻醉醫師的經驗、結合血壓心跳調整。但每個人對麻醉藥的敏感度不同 —— 同樣的劑量，有的人可能太淺、有的人可能太深。BIS 讓這件事第一次能<span class="em">「看數字、即時微調」</span>。
+  </p>
+
+  <div class="callout prep-actions">
+    <h4>把麻醉維持在「剛剛好」帶來的好處</h4>
+    <ul>
+      <li><strong>避免術中清醒</strong>：透過 BIS 把麻醉維持在足夠深度，幾乎排除「手術過程中突然有感覺」的風險</li>
+      <li><strong>減少不必要的藥量</strong>：不過深、不過淺，能加速術後甦醒</li>
+      <li><strong>降低術後譫妄</strong>：過深的麻醉（特別是 BIS &lt; 40 的時間過長）已被證實與較高的術後譫妄率有關</li>
+      <li><strong>支援早期拔管</strong>：精準的麻醉深度，加上 TOF 與多模式止痛，是手術室內拔管的必要條件 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>對年長者特別有幫助</strong>：年長者對麻醉藥較敏感，BIS 能避免劑量過量</li>
+    </ul>
+  </div>
+
+  <!-- Role 2: cerebral perfusion -->
+  <div class="section-title">角色 02：腦部缺血的「早期警報」</div>
+
+  <p class="section-intro">
+    這是 BIS 在<span class="em">心臟手術中尤其重要</span>的第二個角色。心臟手術過程中，腦部最害怕的事是「<span class="em">血流突然不足</span>」 —— 一旦發生，數分鐘內就可能造成缺血性中風。BIS 在這時是一個強有力的早期警示工具。
+  </p>
+
+  <div class="alert-mech">
+    <h4>背後的原理：腦缺血會讓腦波「變慢」</h4>
+    <p>當腦部血流突然不足，腦細胞的代謝會立刻下降，腦波也會跟著明顯變慢、甚至出現「靜止」的片段。<strong>即使您睡著、麻醉劑量沒有改變，BIS 數值仍會在數十秒內急速下降</strong> —— 這就是團隊的「警鈴」。</p>
+    <div class="arrow-row">
+      <span class="stage">腦部血流不足</span>
+      <span class="arrow">→</span>
+      <span class="stage">腦波變慢</span>
+      <span class="arrow">→</span>
+      <span class="stage">BIS 急降</span>
+      <span class="arrow">→</span>
+      <span class="stage">團隊介入</span>
+    </div>
+  </div>
+
+  <p class="section-intro">
+    心臟手術中可能造成腦部血流突然不足的情境包括：
+  </p>
+
+  <div class="callout tradeoffs">
+    <h4>什麼情況下 BIS 會幫您看見危險</h4>
+    <ul>
+      <li><strong>血壓突然下降</strong>（出血、藥物反應、體外循環流量變動）</li>
+      <li><strong>放入導管或夾住主動脈時</strong>，影響到頸動脈分支血流</li>
+      <li><strong>頸動脈本身已有狹窄</strong>（術前若有合併頸動脈狹窄者風險更高）</li>
+      <li><strong>微小血塊或氣泡</strong>進入腦部血管</li>
+      <li><strong>主動脈手術中的單側腦灌流</strong>位置或流量不理想</li>
+    </ul>
+  </div>
+
+  <!-- Team response -->
+  <div class="section-title">數值急降時，團隊會做什麼</div>
+
+  <p class="section-intro">
+    當 BIS 數值在<span class="em">麻醉沒變的前提下突然下降</span>，麻醉醫師、心臟外科醫師與體外循環師會立即啟動下列流程：
+  </p>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>確認血壓、心律、血氧</h4>
+      <p>排除是否為突發的循環問題，必要時立即<strong>用藥提升血壓</strong>。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>檢查腦部血氧監測儀（NIRS）的數值</h4>
+      <p>BIS 與 NIRS 是兩種互補的監測，<strong>當兩者同時警示時，腦部供血問題的可能性最高</strong>。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>檢查體外循環機流量與導管位置</h4>
+      <p>請體外循環師確認流量設定、檢查<strong>主動脈導管位置是否影響到供應腦部的血管</strong>，必要時調整。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>必要時暫停可能的操作</h4>
+      <p>若數值下降與外科操作（例如夾住血管）有時間相關，外科醫師會暫停該動作、重新評估。</p>
+    </div>
+  </article>
+
+  <!-- Dual protection -->
+  <div class="section-title">與 NIRS 互補:神經系統的雙重保護</div>
+
+  <div class="callout eras-banner">
+    <h4>BIS 看「腦的功能」,NIRS 看「腦的供氧」</h4>
+    <p><strong>NIRS（腦部血氧監測儀）</strong>看的是「腦組織當下含氧量夠不夠」，是直接的代謝指標。<strong>BIS</strong>看的是「腦細胞活動是否正常」，是功能性的指標。<span class="em-teal">兩個面向同時看，能及早抓到單一監測可能漏掉的狀況</span>。</p>
+    <p>本院在心臟手術中<strong>同時使用 BIS 與 NIRS</strong>，並由麻醉醫師整合解讀，形成完整的「腦部安全網」。</p>
+  </div>
+
+  <!-- Patient experience -->
+  <div class="section-title">您會感覺到什麼</div>
+
+  <p class="section-intro">
+    BIS 貼片只是<span class="em">被動接收您的腦波訊號</span>，不發出電流、不發熱、沒有任何感覺。整個過程在您睡著前貼上、麻醉結束後移除，不會留痕、不會影響其他監測。
+  </p>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>腦部守護系列 · 4 篇</h4>
+    <div class="sub">這份單張在腦部保護系列中的位置</div>
+    <ol>
+      <li>體外循環機（CPB）— 認識手術風險</li>
+      <li>術中腦氧監測（NIRS）— 即時掌握腦部供氧</li>
+      <li class="current"><strong>麻醉深度監測（BIS）— 與 NIRS 互補的腦波監測（您正在讀）</strong></li>
+      <li>早期拔管 — 術後神經學評估的關鍵</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>BIS 是現代心臟手術麻醉的<span class="em">「腦部儀表板」</span>。它讓麻醉劑量精準到剛剛好，加速您的術後恢復；同時也是腦部血流突發狀況的早期警報，與 NIRS 一起守護您最重要的器官。</p>
+    <p>對麻醉用藥或腦部保護有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Sulaiman S. Integrating BIS and cerebral oximetry in anesthesia: a narrative review on advanced monitoring for cardiac surgery. <em>Anesthesiol Perioper Sci.</em> 2026;4(1):13.</li>
+      <li>Chew WZ, Teoh WY, Sivanesan N, et al. Bispectral Index (BIS) Monitoring and Postoperative Delirium in Elderly Patients Undergoing Surgery: A Systematic Review and Meta-Analysis With Trial Sequential Analysis. <em>J Cardiothorac Vasc Anesth.</em> 2022;36(12):4449–4459.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>胸骨固定方式(鋼絲 vs 鋼板) — 心臟加速康復衛教</title>
+<meta name="description" content="傳統鋼絲與鈦合金鋼板兩種胸骨固定方式比較、誰適合鋼板、11 萬自費換到什麼、本院的選擇邏輯">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:雙術式卡(鋼絲/鋼板) + 恢復對照表 + 11 萬價值表 + 風險族群分組 */
+.method-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 14px;
+}
+.method-card.wire { border-left: 3px solid var(--ink-faint); }
+.method-card.plate {
+  border: 1.5px solid var(--gold);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+}
+.method-card .m-tag {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.method-card.wire .m-tag { color: var(--ink-faint); }
+.method-card.plate .m-tag { color: var(--gold); }
+.method-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.method-card .m-en {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.method-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.method-card p strong { color: var(--ink); font-weight: 600; }
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+@media (min-width: 480px) { .pros-cons { grid-template-columns: 1fr 1fr; } }
+.pc-col {
+  padding: 12px 14px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.pc-col.pros { background: var(--safe-bg); border-left: 2px solid var(--safe); }
+.pc-col.cons { background: var(--warn-bg); border-left: 2px solid var(--warn); }
+.pc-col .pc-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px; letter-spacing: 0.15em;
+  font-weight: 600; margin-bottom: 6px; display: block;
+}
+.pc-col.pros .pc-label { color: var(--safe); }
+.pc-col.cons .pc-label { color: var(--warn); }
+.pc-col ul { list-style: none; padding: 0; }
+.pc-col ul li {
+  position: relative; padding-left: 14px;
+  margin-bottom: 4px; color: var(--ink-soft);
+}
+.pc-col.pros ul li::before { content: '+'; position: absolute; left: 0; color: var(--safe); font-weight: 700; }
+.pc-col.cons ul li::before { content: '−'; position: absolute; left: 0; color: var(--warn); font-weight: 700; }
+
+/* 恢復對照表 */
+.recovery-compare {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+.recovery-compare h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.recovery-compare .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.rc-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 2px solid var(--border-strong);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+.rc-header .h-metric { color: var(--ink); }
+.rc-header .h-wire { text-align: center; color: var(--ink-faint); }
+.rc-header .h-plate { text-align: center; color: var(--gold); }
+.rc-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: center;
+}
+.rc-row:last-of-type { border-bottom: none; }
+.rc-row .metric {
+  font-size: 13.5px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.rc-row .sub-metric {
+  display: block; font-size: 11px;
+  color: var(--ink-faint);
+  font-weight: 400; margin-top: 2px;
+}
+.rc-row .wire, .rc-row .plate {
+  text-align: center; font-size: 13px;
+  color: var(--ink-soft);
+}
+.rc-row .plate { color: var(--gold); font-weight: 500; }
+.rc-source {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11.5px; color: var(--ink-faint);
+  line-height: 1.7; font-style: italic;
+}
+.rc-source strong { color: var(--teal); font-weight: 600; font-style: normal; }
+.interp {
+  margin-top: 12px; padding: 12px 14px;
+  background: var(--gold-soft);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  font-size: 13px; color: var(--ink-soft);
+  line-height: 1.75;
+}
+.interp strong { color: var(--ink); font-weight: 600; }
+
+/* 11 萬價值表 */
+.value-table {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.value-table h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.value-table .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.value-table ul {
+  list-style: none; padding: 0;
+}
+.value-table ul li {
+  position: relative;
+  padding: 8px 0 8px 24px;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.value-table ul li:last-child { border-bottom: none; }
+.value-table ul li::before {
+  content: '◆';
+  position: absolute;
+  left: 4px; top: 8px;
+  color: var(--gold);
+  font-size: 11px;
+}
+.value-table ul li strong { color: var(--ink); font-weight: 600; }
+.value-table .closing-em {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--teal);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.value-table .closing-em strong { color: var(--ink); font-weight: 600; }
+
+/* 風險族群分組 */
+.risk-callout {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.risk-callout h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+.risk-callout .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.risk-callout > p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.85; margin-bottom: 14px;
+}
+.risk-callout > p strong { color: var(--ink); font-weight: 600; }
+.risk-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+@media (min-width: 560px) { .risk-groups { grid-template-columns: 1fr 1fr; } }
+.risk-group {
+  background: var(--danger-bg);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+.risk-group .rg-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--danger);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.risk-group ul { list-style: none; padding: 0; }
+.risk-group ul li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.risk-group ul li::before {
+  content: '!';
+  position: absolute;
+  left: 4px; top: -1px;
+  color: var(--danger);
+  font-weight: 700;
+}
+.risk-group ul li strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .method-card { padding: 22px 22px; }
+  .recovery-compare { padding: 18px 18px; }
+  .value-table { padding: 20px 22px; }
+  .risk-callout { padding: 22px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 3-4</div>
+    <h1>胸骨固定方式</h1>
+    <p class="subtitle">鋼絲與鋼板 — 您會用哪一種,由什麼決定<br>Sternal Closure · Wire vs Rigid Plate Fixation</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>手術結束時,醫師會把切開的胸骨重新固定 —— 用「鋼絲」或「鋼板」</strong>
+    <p>心臟手術需要從中央切開胸骨(<span class="em">胸骨正中切開</span>)才能操作心臟。手術完成後,醫師會把切開的胸骨重新固定起來,讓它在接下來的 6–8 週慢慢癒合。</p>
+    <p>固定方式主要有兩種:<span class="em">傳統的不鏽鋼鋼絲</span>(70 多年的標準做法、適合大多數人)與<span class="em">鈦合金鋼板</span>(較新、剛性更強、適合高風險族群)。沒有絕對好壞,醫師會依您的<span class="em">個別風險因子</span>決定最適合的方式。</p>
+    <p>這個選擇也是<span class="em">本院 ERAS 加速康復策略的一個關鍵節點</span> —— 對的固定方式能讓您更早能咳嗽、更早能下床、更少胸骨併發症、住院天數更短。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">胸骨正中切開</span>
+      <span class="lex-def">心臟手術最常見的入路 —— 從胸口正中央把胸骨垂直切開、像翻書一樣打開,做完後再合起來固定。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">胸骨裂開</span>
+      <span class="lex-def">術後胸骨兩半沒有順利長合在一起,<strong>整體發生率約 1–3%</strong>,高風險族群可能更高。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">微動</span>
+      <span class="lex-def">胸骨兩半在癒合過程中<strong>輕微來回晃動</strong>,會干擾骨頭癒合。鋼絲較難消除微動,鋼板接近完全固定。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">不鏽鋼鋼絲</span>
+      <span class="lex-def">用 4–6 條粗鋼絲環繞胸骨綁緊(像綁鞋帶)。1957 年起為國際標準做法。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">鈦合金鋼板</span>
+      <span class="lex-def">2–4 片小型鈦合金板加螺絲固定(類似四肢骨折的開放固定)。<strong>不需要移除、可以做 MRI</strong>。</span>
+    </div>
+  </div>
+
+  <!-- Why two options -->
+  <div class="section-title">為什麼有兩種選擇</div>
+
+  <p class="section-intro">
+    心臟手術後的胸骨需要 <span class="em">6–8 週的時間</span> 才能完全癒合。<strong>大部分病人</strong>用傳統鋼絲固定就足夠 —— 健康的骨頭、良好的肌肉支撐、規律的活動進度,骨頭會自己慢慢長合。但<strong>某些「高風險族群」</strong>的骨頭癒合條件較差,鋼絲固定的微動可能造成癒合延遲、胸骨裂開、感染。這時就需要<strong>更穩固的鋼板固定</strong>。
+  </p>
+
+  <!-- Compare overview -->
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">傳統做法</div>
+      <h3>不鏽鋼鋼絲固定</h3>
+      <div class="col-en">Stainless Steel Wire Cerclage</div>
+      <div class="col-body">
+        4–6 條粗不鏽鋼鋼絲,環繞胸骨綁緊。<strong>70 多年的標準</strong>,全世界大部分心臟中心使用。簡單、可靠、健保給付。
+      </div>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">剛性固定 · 完全不晃動</div>
+      <h3>鈦合金鋼板固定</h3>
+      <div class="col-en">Rigid Titanium Plate Fixation</div>
+      <div class="col-body">
+        2–4 片鈦合金板加螺絲固定。<strong>近 15 年發展成熟的新方式</strong>,國際 ERAS 指引建議用於高風險族群。較穩固、骨癒合更快、自費部分較高。
+      </div>
+    </div>
+  </div>
+
+  <!-- Method 1: Wire -->
+  <article class="method-card wire">
+    <div class="m-tag">方式 01 · 傳統可靠</div>
+    <h3>不鏽鋼鋼絲固定</h3>
+    <div class="m-en">Stainless Steel Wire Cerclage</div>
+    <p>醫師將 <strong>4–6 條粗不鏽鋼鋼絲</strong> 穿過胸骨兩側,<strong>環繞綁緊</strong>(像綁鞋帶把兩邊綁起來),讓胸骨兩半貼合、靠骨頭自己癒合。</p>
+    <p>這是 <strong>1957 年起的國際標準做法</strong>,70 多年來經過大量臨床驗證,<strong>對大部分病人來說已經足夠</strong>。本院的鋼絲固定是經過嚴格訓練的標準技術。</p>
+    <div class="pros-cons">
+      <div class="pc-col pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>手術時間短</li>
+          <li>健保給付、無額外費用</li>
+          <li>大部分病人足夠</li>
+          <li>不影響未來 MRI</li>
+          <li>機場安檢通常不會響</li>
+        </ul>
+      </div>
+      <div class="pc-col cons">
+        <span class="pc-label">取捨</span>
+        <ul>
+          <li>有「微動」風險</li>
+          <li>高風險者癒合較慢</li>
+          <li>需要嚴格抱枕保護 6–8 週</li>
+          <li>咳嗽、起身需特別小心</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Method 2: Plate -->
+  <article class="method-card plate">
+    <div class="m-tag">方式 02 · 剛性固定(完全不會晃動)</div>
+    <h3>鈦合金鋼板固定</h3>
+    <div class="m-en">Rigid Titanium Plate Fixation</div>
+    <p>醫師用 <strong>2–4 片小型鈦合金板</strong>,搭配 <strong>多顆鈦合金螺絲</strong>,把胸骨兩半「夾住」固定 —— 類似四肢骨折時的開放性鋼板固定,剛性遠大於鋼絲。</p>
+    <p>近 15 年國際發展成熟的方式。<strong>2017 年的大型隨機對照試驗</strong>(Allen 等人,236 位高風險病人)顯示鋼板在多項指標上明顯優於鋼絲,<strong>2019 年國際 ERAS 心臟手術指引</strong>明確建議:「對高風險族群應考慮使用剛性胸骨固定」。</p>
+    <div class="pros-cons">
+      <div class="pc-col pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>胸骨幾乎完全不微動</li>
+          <li>骨癒合明顯加快</li>
+          <li>胸骨裂開率大幅降低</li>
+          <li>胸骨疼痛較少</li>
+          <li>能更早咳嗽、下床、出院</li>
+          <li>不需要移除(除非感染)</li>
+        </ul>
+      </div>
+      <div class="pc-col cons">
+        <span class="pc-label">取捨</span>
+        <ul>
+          <li>需要自費約 11 萬元</li>
+          <li>機場安檢可能會響</li>
+          <li>需 MRI 相容性確認</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Recovery comparison -->
+  <div class="section-title">兩者的恢復時程具體比較</div>
+
+  <p class="section-intro">
+    病人最關心的問題是:<span class="em">「鋼板真的能讓我比較快恢復嗎?快多少?」</span>下表整理國際大型 RCT 與本院臨床經驗的具體數字。
+  </p>
+
+  <div class="recovery-compare">
+    <h4>研究數據對照</h4>
+    <div class="sub">依 Allen 等人 2017/2018 RCT(236 位高風險病人)與 Matsuyama 2011 觀察性研究</div>
+
+    <div class="rc-header">
+      <div class="h-metric">指標</div>
+      <div class="h-wire">鋼絲</div>
+      <div class="h-plate">鋼板</div>
+    </div>
+
+    <div class="rc-row">
+      <div class="metric">咳嗽時無胸骨痛<span class="sub-metric">術後 3 週</span></div>
+      <div class="wire">約 20%</div>
+      <div class="plate">約 41%</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">咳嗽時無胸骨痛<span class="sub-metric">術後 6 週</span></div>
+      <div class="wire">約 35%</div>
+      <div class="plate">約 55%</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">休息時無胸骨痛<span class="sub-metric">術後 6 週</span></div>
+      <div class="wire">約 59%</div>
+      <div class="plate">約 74%</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">CT 顯示完全骨癒合<span class="sub-metric">術後 6 個月</span></div>
+      <div class="wire">24%</div>
+      <div class="plate">70%</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">術後拔管時間<span class="sub-metric">平均小時數</span></div>
+      <div class="wire">較長</div>
+      <div class="plate">縮短約 60%</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">ICU 停留時間<span class="sub-metric">平均小時數</span></div>
+      <div class="wire">約 99 hr</div>
+      <div class="plate">約 58 hr</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">術後住院天數<span class="sub-metric">平均天數</span></div>
+      <div class="wire">約 8.4 天</div>
+      <div class="plate">約 7.0 天</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">抱枕保護期建議<span class="sub-metric">本院臨床建議</span></div>
+      <div class="wire">6–8 週</div>
+      <div class="plate">4–6 週起評估</div>
+    </div>
+
+    <div class="rc-source"><strong>資料來源</strong>:Allen KB et al. 2017 (J Thorac Cardiovasc Surg)、Allen KB et al. 2018、Matsuyama et al. 2011。CT 癒合評分滿分 6 分。</div>
+
+    <div class="interp">
+      <strong>如何解讀這些數字:</strong>鋼板不是「1 個月就完全好」,而是<strong>把恢復時程的每一階段都「往前推進」</strong> —— 3 週時不痛的人約是鋼絲組的 2 倍、6 個月時骨癒合的人約是鋼絲組的 3 倍。<strong>對怕痛、需要早回工作、有體力需求的病人,這個差異很有感</strong>。<br><br>
+      <strong style="color:var(--teal)">重要提醒(給用鋼絲的病人):</strong>這些是<strong>術後 3 週、6 週的早期數字</strong>。<strong style="color:var(--teal)">6 個月後,鋼絲組與鋼板組的疼痛、活動差異會大幅縮小</strong>。如果您不屬於高風險族群,<strong>鋼絲固定一樣能讓您完整康復,只是恢復速度比鋼板慢一些</strong>,不是「不好」。
+    </div>
+  </div>
+
+  <!-- Value table: 11萬換到什麼 -->
+  <div class="value-table">
+    <h4>如果您屬於高風險族群,11 萬元具體換到什麼</h4>
+    <div class="sub">把抽象的金額轉換成具體獲益</div>
+    <ul>
+      <li><strong>平均住院少 1.4 天</strong> —— 約省 1–2 萬元病房自費差額(單人房、雙人房)</li>
+      <li><strong>平均 ICU 少約 41 小時</strong> —— 約省 1–2 萬元 ICU 自費差額與相關照護費</li>
+      <li><strong>早 1–2 週恢復正常活動</strong> —— 對需要早回工作、有家庭照顧責任的人很有價值</li>
+      <li><strong>骨癒合機率約 3 倍</strong> —— 大幅降低胸骨裂開、再開刀的風險(再開刀成本遠超過 11 萬)</li>
+      <li><strong>咳嗽時不痛的機率約 2 倍</strong> —— 配合多模式止痛能更有效控制痛,敢咳痰、減少肺部併發症</li>
+      <li><strong>譫妄與認知功能風險降低</strong> —— ICU 縮短近一半,降低術後認知混亂風險 <span class="link-ref">連結 8-1a</span></li>
+    </ul>
+    <div class="closing-em">
+      對<strong>有高風險因子的人</strong>,這 11 萬通常是「換到大幅降低胸骨裂開風險 + 加速康復」的價值。對<strong>沒有高風險因子的人</strong>,這個錢不見得划算 —— 鋼絲就足夠。
+    </div>
+  </div>
+
+  <!-- Who benefits more -->
+  <div class="section-title">誰特別適合鋼板固定</div>
+
+  <div class="risk-callout">
+    <h3>有以下因子之一,鋼板固定可能對您受益更大</h3>
+    <div class="sub">本院會依您的個別狀況評估</div>
+
+    <p>胸骨癒合受身體狀況、用藥、手術方式多方面影響。<strong>有以下任一因子的病人</strong>,傳統鋼絲固定的胸骨裂開風險會明顯上升 —— 這時候改用鋼板固定,能把風險降回接近一般人的水準。</p>
+
+    <div class="risk-groups">
+      <div class="risk-group">
+        <div class="rg-label">代謝與身體狀況</div>
+        <ul>
+          <li><strong>糖尿病</strong>(特別是血糖控制不佳)</li>
+          <li><strong>肥胖</strong>(BMI &gt; 30)</li>
+          <li><strong>慢性阻塞性肺病(COPD)</strong></li>
+          <li>慢性腎臟病</li>
+        </ul>
+      </div>
+      <div class="risk-group">
+        <div class="rg-label">骨質與年齡</div>
+        <ul>
+          <li><strong>骨質疏鬆</strong></li>
+          <li><strong>高齡</strong>(&gt; 75 歲特別需要評估)</li>
+          <li>停經後女性</li>
+        </ul>
+      </div>
+      <div class="risk-group">
+        <div class="rg-label">手術相關</div>
+        <ul>
+          <li><strong>雙側乳內動脈取用</strong>(影響胸骨血流)</li>
+          <li><strong>重做心臟手術</strong></li>
+          <li>手術時間預計較長</li>
+        </ul>
+      </div>
+      <div class="risk-group">
+        <div class="rg-label">用藥與生活</div>
+        <ul>
+          <li><strong>長期類固醇使用</strong></li>
+          <li>免疫抑制劑使用</li>
+          <li>吸菸(特別是術前未戒)</li>
+          <li>預期術後咳嗽多</li>
+        </ul>
+      </div>
+    </div>
+
+    <p><strong>如果您有 2 個以上的因子</strong>,本院通常會主動建議鋼板固定,並在術前訪視時與您討論。<strong>沒有這些因子</strong>的病人,鋼絲固定就完全足夠,不需要多花錢。</p>
+  </div>
+
+  <!-- ERAS connection -->
+  <div class="section-title">為什麼這是 ERAS 加速康復的關鍵節點</div>
+
+  <p class="section-intro">
+    胸骨固定方式的選擇,不只是「術後不要裂開」這麼簡單 —— 它會 <span class="em">直接決定您接下來幾天敢不敢咳、敢不敢動</span>。對的固定方式,整套加速康復策略才能跑得起來。
+  </p>
+
+  <div class="callout eras-benefits">
+    <h4>鋼板固定如何串連到整套 ERAS 策略</h4>
+    <div class="sub">為高風險族群特別重要</div>
+    <ul>
+      <li><strong>胸骨疼痛減少</strong> —— 微動越少、痛感越輕 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>咳嗽更敢用力</strong> —— 胸骨夠穩,能配合抱枕、用腹部力量咳出痰 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>更早能坐起</strong> —— 胸骨穩定,從躺到坐時較不擔心牽動 <span class="link-ref">連結 7-6a</span></li>
+      <li><strong>更早能下床走路</strong> —— 站立、走路時胸骨承受的微動少 <span class="link-ref">連結 7-6b</span></li>
+      <li><strong>抱枕保護期可能縮短</strong> —— 一般病人需要嚴格抱枕保護 6–8 週;<strong>鋼板病人可能可以縮短到 4–6 週</strong>,具體解除時間由醫師依癒合狀況評估 <span class="link-ref">連結 7-4</span></li>
+      <li><strong>住院天數可能縮短</strong> —— 早期活動加速、併發症減少,平均住院天數通常縮短 1–2 天</li>
+      <li><strong>譫妄與認知風險降低</strong> —— ICU 停留時間縮短近一半 <span class="link-ref">連結 8-1a</span></li>
+      <li><strong>胸骨感染率降低</strong> —— 微動是傷口感染的危險因子之一,剛性固定能降低</li>
+    </ul>
+  </div>
+
+  <!-- Trade-offs -->
+  <div class="section-title">鋼板固定的取捨</div>
+
+  <div class="callout tradeoffs">
+    <h4>不是「越貴越好」 —— 鋼板固定也有需要考慮的事</h4>
+    <ul>
+      <li><strong>自費部分</strong>:本院的鋼板固定屬於健保不給付項目,<strong>自費約 11 萬元</strong>(實際金額依使用片數略有差異)</li>
+      <li><strong>機場安檢可能會響</strong>:金屬探測器有時偵測得到,本院會給您一張「植入物識別卡」,過安檢時出示即可</li>
+      <li><strong>未來 MRI 相容性</strong>(看大腦、脊椎時會用到的儀器):本院使用的鈦合金鋼板都是 <strong>MRI 相容</strong>的,術後會給您產品說明書留存</li>
+      <li><strong>通常不需要移除</strong>:與牙科植體類似,永久留在體內。極少數情況(感染、不適)才需要取出</li>
+      <li><strong>沒這些因子的病人不見得划算</strong>:低風險族群用鋼絲就足夠,不需要多花 11 萬</li>
+    </ul>
+  </div>
+
+  <!-- Hospital choice logic -->
+  <div class="callout eras-banner">
+    <h4>本院的選擇邏輯</h4>
+    <p>本院遵循 <strong>2019 年 JAMA Surg 國際心臟手術 ERAS 指引</strong> 與 <strong>2024 年最新 ERAS 共識</strong>:</p>
+    <p>對<span class="em-teal">大部分低風險病人</span> → 使用<strong>標準鋼絲固定</strong>,搭配嚴格抱枕保護、規律早期活動。</p>
+    <p>對<span class="em-teal">高風險族群</span> → 在術前訪視時與您討論<strong>鋼板固定</strong>選項,讓您能評估自費部分與獲益。</p>
+    <p>這個選擇不是「醫院推銷」,是<strong>有國際證據支持的、針對您個別狀況的醫療決定</strong>。</p>
+  </div>
+
+  <!-- Discuss with doctor -->
+  <div class="section-title">術前訪視時您可以問醫師</div>
+
+  <div class="callout discuss">
+    <h4>幫助您做出最合適的選擇</h4>
+    <ul>
+      <li><strong>我有沒有「高風險因子」?</strong>有幾個?嚴重程度?</li>
+      <li><strong>以我的狀況,鋼板固定的預期獲益是多少?</strong>胸骨裂開風險能降低多少?</li>
+      <li><strong>如果選擇鋼絲,要特別注意什麼?</strong>抱枕保護期、咳嗽限制是否要延長?</li>
+      <li><strong>鋼板固定的自費金額確認?</strong>本院約 11 萬元</li>
+      <li><strong>選擇鋼板後,恢復進度大約能比鋼絲快多少?</strong>抱枕保護期是否能縮短?</li>
+      <li><strong>有沒有 MRI 或機場安檢上的考量?</strong></li>
+      <li><strong>能不能參考其他做過鋼板固定病人的恢復狀況?</strong></li>
+    </ul>
+  </div>
+
+  <!-- Family discuss -->
+  <div class="callout family-discuss">
+    <h4>如何與家屬一起討論這個自費選擇</h4>
+    <ul>
+      <li><strong>帶家屬一起參加術前訪視</strong> —— 鋼板與鋼絲的選擇是「醫療決定 + 財務決定」,家屬一起聽會更清楚</li>
+      <li><strong>不必馬上決定</strong> —— 術前訪視時可以先問清楚,回家討論後再回覆,不需要當下做決定</li>
+      <li><strong>不要因為「不想麻煩家人」就放棄評估</strong> —— 如果您屬於高風險族群,改用鋼板的整體醫療獲益可能遠超過 11 萬</li>
+      <li><strong>如果家屬覺得「太貴」</strong> —— 把這份單張交給家屬讀,讓他們看到具體數字與獲益對照</li>
+      <li><strong>反過來,如果您不屬於高風險族群</strong> —— 也不需要因為「家屬要求最好的」就花這 11 萬,鋼絲對您來說就是足夠的</li>
+    </ul>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">術後這些情況請立即告知(兩者皆適用)</div>
+
+  <div class="callout warnings">
+    <h4>胸骨不穩定或感染的警示徵兆 — 術後 6–8 週最需警覺</h4>
+    <ul>
+      <li><strong>胸骨「咯咯聲」、摩擦感、或感覺胸骨在動</strong> —— 可能是胸骨不穩定的訊號</li>
+      <li><strong>胸骨明顯凹陷、變形、或左右不對稱</strong></li>
+      <li><strong>切口紅腫、滲液、流膿</strong> —— 可能是傷口感染</li>
+      <li><strong>不明原因發燒</strong>(&gt; 38°C)持續超過 24 小時</li>
+      <li><strong>胸骨疼痛突然變嚴重、與時間進展不符</strong>(應該越來越輕才對)</li>
+      <li><strong>呼吸時胸骨痛變得無法忍受</strong>,配合多模式止痛仍無法改善</li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>胸骨相關的閱讀路徑</h4>
+    <div class="sub">這份單張與術前選擇、術後保護的串連</div>
+    <ol>
+      <li>三種冠狀動脈繞道手術比較(術前選擇)</li>
+      <li>體外循環機 CPB(手術原理)</li>
+      <li>微創 vs 傳統開胸</li>
+      <li class="current"><strong>胸骨固定方式(您正在讀)</strong></li>
+      <li>胸骨保護(術後 6–8 週)</li>
+      <li>術後咳嗽與咳痰(抱枕固定法)</li>
+      <li>從躺到坐、從站到走</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>胸骨固定方式 —— 不論是<span class="em">傳統鋼絲</span>還是<span class="em">鈦合金鋼板</span> —— 都是經過國際驗證的有效方式。<span class="em">選擇哪一種,由您的個別狀況、風險因子、醫師評估決定</span>。</p>
+    <p>本院的原則是:<span class="em">該用鋼絲就鋼絲、該用鋼板就鋼板</span>,不過度建議、也不錯失改善機會。對胸骨固定有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Allen KB, Thourani VH, Naka Y, et al. Randomized, Multicenter Trial Comparing Sternotomy Closure With Rigid Plate Fixation to Wire Cerclage. <em>J Thorac Cardiovasc Surg.</em> 2017;153(4):888–896.</li>
+      <li>Allen KB, Thourani VH, Naka Y, et al. Rigid Plate Fixation Versus Wire Cerclage: Patient-Reported and Economic Outcomes From a Randomized Trial. <em>Ann Thorac Surg.</em> 2018;105(5):1344–1350.</li>
+      <li>Raman J, Lehmann S, Zehr K, et al. Sternal Closure With Rigid Plate Fixation Versus Wire Closure: A Randomized Controlled Multicenter Trial. <em>Ann Thorac Surg.</em> 2012;94(6):1854–1861.</li>
+      <li>Matsuyama K, Matsumoto M, Sugita T, et al. Rigid Sternal Fixation Improves Postoperative Recovery. <em>Open Cardiovasc Med J.</em> 2011;5:148–152.</li>
+      <li>Tang Y, Ren X, Du H, et al. Rigid Plate Fixation Versus Wire Cerclage for Sternotomy Closure: A Meta-Analysis. <em>Heart Surg Forum.</em> 2020;23(5):E575–E580.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的胸骨固定方式選擇以心臟外科醫師依您的臨床狀況評估為準。對自費項目、術前準備有任何疑問,請於門診或術前訪視時與醫療團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>

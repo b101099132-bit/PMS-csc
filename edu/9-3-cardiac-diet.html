@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心臟手術後的飲食調整 — 心臟加速康復衛教</title>
+<meta name="description" content="住院期間就要開始的五大飲食原則,低鈉、健康油脂、蛋白質、藥食交互作用、口渴中樞調節,過渡式調整與地中海飲食">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:住院黃金期 callout + 五大原則卡 + 過渡時程表 + 地中海飲食食材區 */
+.window-callout {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.window-callout h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.window-callout .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.window-callout p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.window-callout p strong { color: var(--ink); font-weight: 600; }
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+@media (min-width: 480px) {
+  .compare-row { grid-template-columns: 1fr 1fr; }
+}
+.compare-row .col {
+  padding: 14px 16px;
+  border-radius: 3px;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+.compare-row .col.bad {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--warn);
+}
+.compare-row .col.good {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--safe);
+}
+.compare-row .col .col-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.compare-row .col.bad .col-label { color: var(--warn); }
+.compare-row .col.good .col-label { color: var(--safe); }
+
+/* 五大原則卡 */
+.pillar {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--teal);
+}
+.pillar.p2 { border-left-color: var(--gold); }
+.pillar.p3 { border-left-color: var(--safe); }
+.pillar.p4 { border-left-color: var(--danger); }
+.pillar.p5 { border-left-color: var(--cold); }
+.pillar .p-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pillar.p1 .p-num { color: var(--teal); }
+.pillar.p2 .p-num { color: var(--gold); }
+.pillar.p3 .p-num { color: var(--safe); }
+.pillar.p4 .p-num { color: var(--danger); }
+.pillar.p5 .p-num { color: var(--cold); }
+.pillar h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.pillar .p-why {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.pillar .p-body {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+.pillar .p-body strong { color: var(--ink); font-weight: 600; }
+.pillar .sub-line {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+.avoid-choose {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+@media (min-width: 480px) {
+  .avoid-choose { grid-template-columns: 1fr 1fr; }
+}
+.avoid-choose .ac-col {
+  padding: 10px 12px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.avoid-choose .ac-col.minus {
+  background: var(--warn-bg);
+  border-left: 2px solid var(--warn);
+}
+.avoid-choose .ac-col.plus {
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+}
+.avoid-choose .ac-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.avoid-choose .ac-col.minus .ac-label { color: var(--warn); }
+.avoid-choose .ac-col.plus .ac-label { color: var(--safe); }
+
+/* 漸進式調整時程 */
+.gradual {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.gradual h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.gradual .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.gradual .step-row {
+  display: flex; gap: 14px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.gradual .step-row:last-child { border-bottom: none; }
+.gradual .step-row .when {
+  flex-shrink: 0;
+  min-width: 92px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+}
+.gradual .step-row .what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.gradual .step-row .what strong { color: var(--ink); font-weight: 600; }
+
+/* Mediterranean diet 食材區 */
+.med-diet {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.med-diet h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.med-diet .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.med-diet p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.med-diet p strong { color: var(--ink); font-weight: 600; }
+.med-foods {
+  padding: 10px 0;
+  font-size: 13px;
+}
+.med-foods .item {
+  display: inline-block;
+  margin: 3px 4px 3px 0;
+  padding: 4px 10px;
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+@media (max-width: 480px) {
+  .window-callout { padding: 22px 22px; }
+  .pillar { padding: 18px 18px; }
+  .gradual { padding: 18px 20px; }
+  .gradual .step-row .when { min-width: 76px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 9-3</div>
+    <h1>心臟手術後的<br>飲食調整</h1>
+    <p class="subtitle">為什麼從住院期間就要開始學、家屬如何準備、給心臟最長效的禮物<br>Long-term Dietary Adjustment after Cardiac Surgery</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>飲食調整是手術之後，給心臟最長效的禮物</strong>
+    <p>心臟手術修好了血管或瓣膜，但<span class="em">接下來的飲食習慣，會決定這顆心臟未來能撐多久</span>。是 5 年再次回診治療，還是 20 年都不需要再進開刀房？很大一部分由您「吃什麼、怎麼吃」決定。</p>
+    <p>本院強烈建議：<span class="em">飲食調整要在住院期間就開始</span>，而不是出院後才開始學。這段時間是建立新習慣的<span class="em">「黃金訓練期」</span> —— 病人對改變最有動機、家屬有時間學習、營養師隨時可以諮詢、醫院飲食可以直接當作練習教材。</p>
+    <p>從更長的視角來看：CPB、NIRS、BIS、早期拔管這些術中與術後立即的監測，守護了您<span class="em">「度過手術」</span>這一關。而飲食調整，守護的是<span class="em">「接下來 10 年、20 年」</span> —— 是這條中風與心血管守護鏈中<span class="em">最長的一段</span>。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">鈉</span>
+      <span class="lex-def">食鹽的主要成分。每日建議 &lt; 2,000 mg(<strong>約一茶匙鹽</strong>)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">反式脂肪</span>
+      <span class="lex-def">人造油脂(食品標示常見「氫化」、「部分氫化」),<strong>會明顯傷害心血管</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">Omega-3</span>
+      <span class="lex-def">深海魚與堅果中的<strong>好油</strong>,對心血管有保護作用。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">藥食交互作用</span>
+      <span class="lex-def">某些食物會影響藥效。<strong>葡萄柚、深綠色蔬菜、含鉀食物</strong>是常見要注意的。</span>
+    </div>
+  </div>
+
+  <!-- Why hospital is golden window -->
+  <div class="section-title">為什麼住院期間是「黃金訓練期」</div>
+
+  <div class="window-callout">
+    <h3>出院後再開始 —— 通常來不及</h3>
+    <div class="sub">住院期間是病人與家屬接受度最高的時刻</div>
+    <p>很多人以為「等出院、體力恢復了再來改變飲食」就可以，但研究與臨床經驗一致顯示：<strong>出院後才開始飲食調整，持續執行的程度（順從性）很低、容易半途而廢</strong>。原因是：回到家之後，習慣的食物、舊的烹調方式、家庭聚餐的氛圍都會把人拉回原本的軌道。</p>
+    <p>反觀<strong>住院的這幾天</strong>：病人剛經歷重大事件，對「為了健康而改變」的接受度最高；家屬有時間靜下來學習；醫院飲食本來就是低鈉、健康的範本，可以直接當教材；護理師、營養師就在身邊隨時可以詢問。這是最好的訓練機會。</p>
+
+    <div class="compare-row">
+      <div class="col bad">
+        <div class="col-label">✕ 出院後才開始</div>
+        熟悉的食物與口味在等您 · 家人不知怎麼準備 · 「明天再開始」一拖就過 · 變回原本飲食習慣
+      </div>
+      <div class="col good">
+        <div class="col-label">✓ 住院期間開始</div>
+        接受度最高 · 醫院飲食是現成範本 · 家屬一起學 · 出院時新習慣已建立
+      </div>
+    </div>
+  </div>
+
+  <!-- Five pillars -->
+  <div class="section-title">五大飲食原則</div>
+
+  <p class="section-intro">
+    這五個原則是國際心臟手術 ERAS 指引、美國心臟協會(AHA)多年研究的共識。<span class="em">不需要一次到位,重點是大方向掌握、慢慢調整</span>。
+  </p>
+
+  <article class="pillar p1">
+    <div class="p-num">原則 01</div>
+    <h4>低鈉(限鹽)</h4>
+    <div class="p-why">過多的鈉會留住水分、增加心臟負擔、升高血壓</div>
+    <div class="p-body">
+      <strong>每日鈉建議 &lt; 2,000 mg</strong>(約等於鹽 &lt; 5 g,一茶匙)。
+      <span class="sub-line">隱藏的鈉來源比您想像的多:醬油、味噌、雞精、湯品、加工食品、罐頭、滷味、火鍋湯底。</span>
+      <div class="avoid-choose">
+        <div class="ac-col minus">
+          <div class="ac-label">減少</div>
+          醬油、滷味、加工肉品、罐頭、泡麵、味噌湯
+        </div>
+        <div class="ac-col plus">
+          <div class="ac-label">替代</div>
+          香料、檸檬、蔥薑蒜、九層塔、新鮮香草、白胡椒
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="pillar p2">
+    <div class="p-num">原則 02</div>
+    <h4>用健康油脂取代飽和脂肪與反式脂肪</h4>
+    <div class="p-why">飽和脂肪與反式脂肪會再次造成血管阻塞</div>
+    <div class="p-body">
+      <strong>選對油、用對量、改變烹調方式。</strong>
+      <span class="sub-line"><strong>飽和脂肪</strong>(動物油、奶油、椰子油)藏在豬油、牛油裡;<strong>反式脂肪</strong>(油炸物、酥皮、人造奶油)藏在炸物與糕點裡;<strong>不飽和脂肪</strong>(植物油、堅果、深海魚)才是心臟的朋友。</span>
+      <span class="sub-line">★ 食品標籤上看到<strong>「氫化」「部分氫化」</strong>字樣 —— 就是反式脂肪,請避免。</span>
+      <div class="avoid-choose">
+        <div class="ac-col minus">
+          <div class="ac-label">減少</div>
+          豬油、牛油、酥油、油炸物、酥皮、糕點
+        </div>
+        <div class="ac-col plus">
+          <div class="ac-label">替代</div>
+          橄欖油、苦茶油、芥花油、堅果、深海魚、酪梨
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="pillar p3">
+    <div class="p-num">原則 03</div>
+    <h4>充足蛋白質</h4>
+    <div class="p-why">傷口癒合與肌力恢復需要蛋白質,年長者尤其重要</div>
+    <div class="p-body">
+      <strong>每餐至少一份蛋白質。</strong>不是只吃肉,魚、雞、蛋、豆腐、無糖豆漿都是優質選擇。
+      <span class="sub-line">特別建議:每週至少 2 次<strong>深海魚</strong>(鯖魚、鮭魚、秋刀魚) —— 富含 <strong>Omega-3</strong>,對心血管有保護作用。</span>
+    </div>
+  </article>
+
+  <article class="pillar p4">
+    <div class="p-num">原則 04</div>
+    <h4>注意藥物與食物的交互作用</h4>
+    <div class="p-why">心臟手術後常用的藥物有些會與食物互相影響</div>
+    <div class="p-body">
+      <strong>三個重點 —— 拿藥袋對照,最簡單</strong>
+      <span class="sub-line"><strong>① 抗凝血劑(可邁丁 / Warfarin)</strong>:深綠色蔬菜(菠菜、地瓜葉、青花菜)含維生素 K,會降低藥效。<strong>重點不是不能吃,而是每天份量不要忽多忽少</strong> —— 平常每天吃半碗綠色蔬菜,就維持這個量;不要今天完全不吃、明天吃兩大盤。</span>
+      <span class="sub-line" style="background:rgba(184, 84, 80, 0.08); padding:8px 10px; border-radius:3px; border-left:2px solid var(--danger); display:block; margin-top:8px;"><strong style="color:var(--danger)">⚠ ② 葡萄柚與葡萄柚汁</strong>:會影響某些降血壓藥(鈣離子通道阻斷劑)與降膽固醇藥(史他汀類)。<strong>最簡單的做法是直接避免</strong>;如果想吃柑橘類,<strong>柳橙、橘子、檸檬都沒問題</strong>。</span>
+      <span class="sub-line"><strong>③ 鉀的攝取(依個人狀況)</strong>:</span>
+      <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「保鉀型」利尿劑</strong>(Spironolactone / Aldactone / 安達通) —— 體內鉀容易偏高,<strong>含鉀食物要控制份量</strong>(香蕉、奇異果、橘子、地瓜葉、菠菜、馬鈴薯)。</span>
+      <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「排鉀型」利尿劑</strong>(Furosemide / Lasix / 來適泄) —— 體內鉀容易偏低,<strong>可以適量增加含鉀食物</strong>。</span>
+      <span class="sub-line" style="color:var(--teal); font-weight:500">不確定自己吃哪種?<strong>請拿藥袋給營養師或藥師看</strong>,這是最準確的判斷方式。</span>
+    </div>
+  </article>
+
+  <article class="pillar p5">
+    <div class="p-num">原則 05</div>
+    <h4>水分由「口渴中樞」自己調節</h4>
+    <div class="p-why">身體的訊號比公式更精準 <span style="color:var(--gold);font-size:11px">連結 7-7</span></div>
+    <div class="p-body">
+      <strong>執行重點:感到口渴就喝、不需逐口計算。</strong>
+      <span class="sub-line"><strong>例外</strong>:若您有心臟功能較差或合併腎臟問題,醫師會給<strong>每日水量上限</strong>,請依醫囑執行,不要自行加減。</span>
+      <span class="sub-line"><strong>建議</strong>:白開水、無糖茶為主。<strong>避免含糖飲料、運動飲料當水喝</strong>。</span>
+    </div>
+  </article>
+
+  <!-- Gradual adjustment -->
+  <div class="section-title">過渡式調整的智慧</div>
+
+  <p class="section-intro">
+    飲食調整最常失敗的原因是<span class="em">「一次想做太多」</span> —— 鈉砍一半、油換掉、糖戒掉、份量也減 —— 結果三天就放棄。本院建議:<span class="em">先求接受,再求標準</span>,給味蕾時間適應。
+  </p>
+
+  <div class="gradual">
+    <h4>建議的調整節奏</h4>
+    <div class="sub">不是一次到位,而是漸進式</div>
+    <div class="step-row">
+      <div class="when">術後第 1 天</div>
+      <div class="what"><strong>以喜歡的口味為主</strong>,重點是提食慾。剛拔管的人沒胃口很正常,先讓他「想吃」比「吃對」更重要 <span class="link-ref">連結 7-7</span>。</div>
+    </div>
+    <div class="step-row">
+      <div class="when">術後第 2–3 天</div>
+      <div class="what">胃口回來後,<strong>慢慢以醫院飲食為主</strong>。家屬帶來的食物參考醫院的口味調整,避免比醫院飲食更鹹、更油。</div>
+    </div>
+    <div class="step-row">
+      <div class="when">住院後段</div>
+      <div class="what">病人逐步<strong>適應「比過去淡一點」的口味</strong>。家屬可以在病房諮詢營養師,準備出院後第一週的食譜。</div>
+    </div>
+    <div class="step-row">
+      <div class="when">出院後第 1 個月</div>
+      <div class="what">維持<strong>住院期間建立的口味標準</strong>。一次大改一個項目(例如先把鈉減到目標,下個月再改油),不要全部一起做。</div>
+    </div>
+    <div class="step-row">
+      <div class="when">出院後長期</div>
+      <div class="what"><strong>把調整變成日常</strong>。家庭聚餐、外食時也維持原則,但允許偶爾例外 —— 心臟健康是長跑,不是百米衝刺。</div>
+    </div>
+  </div>
+
+  <!-- Family actions -->
+  <div class="section-title">家屬可以做的事</div>
+
+  <div class="callout family-discuss">
+    <h4>趁病人住院期間,家屬同步學習</h4>
+    <ul>
+      <li><strong>到病房和營養師約一次諮詢</strong>:每位心臟手術病人都有營養師可以諮詢,請主動詢問護理師如何安排</li>
+      <li><strong>觀察病人的醫院飲食</strong>:每餐看看醫院如何準備(食材、烹調、份量),這就是最直接的範本</li>
+      <li><strong>學會看食品營養標籤</strong>:重點看「每份含鈉量」與「飽和脂肪」,超過 800 mg/份的鈉就是高鈉食品</li>
+      <li><strong>準備一份「採買清單」</strong>:什麼買、什麼避免,列在手機備忘錄,去超市直接照清單採買</li>
+      <li><strong>改變烹調方式</strong>:清蒸、水煮、烤、燉,取代油炸、煎炒</li>
+      <li><strong>在病人住院期間就試做幾餐</strong>:把預計的家庭料理先做一兩餐帶來病房,讓病人試試口味、給回饋,調整到雙方都接受再回家</li>
+      <li><strong>家裡先「清空」高鈉、高反式脂肪食物</strong>:罐頭、泡麵、酥皮零食、含糖飲料先處理掉,眼不見為淨</li>
+    </ul>
+  </div>
+
+  <!-- Mediterranean diet -->
+  <div class="section-title">大方向參考:地中海飲食</div>
+
+  <div class="med-diet">
+    <h4>國際公認對心血管最友善的飲食模式</h4>
+    <div class="sub">不是嚴格食譜,而是長期飲食大方向</div>
+    <p>多項大型研究(包括知名的 <strong>PREDIMED 試驗</strong>)都顯示:地中海飲食模式可以<strong>顯著降低心血管事件的再發生率</strong>,對於剛做完心臟手術的人特別合適。</p>
+    <p>它不是嚴格的食譜,而是一種容易長期維持的<strong>飲食大方向</strong>。</p>
+    <div class="med-foods">
+      <strong style="display:block;margin-bottom:6px;color:var(--teal)">每天 / 每餐多吃:</strong>
+      <span class="item">蔬菜</span>
+      <span class="item">水果</span>
+      <span class="item">全穀類</span>
+      <span class="item">堅果</span>
+      <span class="item">橄欖油</span>
+      <span class="item">豆類</span>
+    </div>
+    <div class="med-foods">
+      <strong style="display:block;margin-bottom:6px;color:var(--teal)">每週 2–3 次:</strong>
+      <span class="item">深海魚</span>
+      <span class="item">雞肉</span>
+      <span class="item">優酪乳</span>
+    </div>
+    <div class="med-foods">
+      <strong style="display:block;margin-bottom:6px;color:var(--ink-faint)">少量或偶爾:</strong>
+      <span class="item">紅肉</span>
+      <span class="item">加工肉品</span>
+      <span class="item">甜點</span>
+      <span class="item">含糖飲料</span>
+    </div>
+  </div>
+
+  <!-- Foods to avoid -->
+  <div class="section-title">這些食物真的要少碰</div>
+
+  <div class="callout warnings">
+    <h4>長期下來會抵銷手術成果的食物</h4>
+    <ul>
+      <li><strong>加工肉品</strong>(火腿、香腸、培根、熱狗) —— 高鈉、高飽和脂肪、亞硝酸鹽</li>
+      <li><strong>醃漬與煙燻食品</strong>(罐頭、泡菜、肉鬆、滷味) —— 鈉含量極高</li>
+      <li><strong>速食與油炸物</strong>(炸雞、薯條、雞排) —— 反式脂肪、飽和脂肪、鈉三高</li>
+      <li><strong>含糖飲料</strong>(手搖飲、果汁、汽水) —— 過量糖分會升高三酸甘油酯,增加心血管風險</li>
+      <li><strong>過量酒精</strong> —— 男性每日不超過 2 份、女性 1 份(1 份 = 啤酒 350 mL 或紅酒 150 mL)</li>
+      <li><strong>反式脂肪相關食品</strong>(部分酥油、人造奶油、酥皮糕點、奶精) —— 看標籤若有「氫化」「部分氫化」字樣請避免</li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>飲食調整不是<span class="em">懲罰</span>,是<span class="em">給心臟的長效禮物</span>。在住院期間就開始,家屬一起學、病人逐步適應 —— 出院時,你們已經把新生活的基礎建立好了。</p>
+    <p>本院的<span class="em">營養師可以提供個別化諮詢</span>,請主動向護理師預約。對術後飲食調整有任何疑問,也歡迎在<span class="em">門診</span>或<span class="em">回診</span>時與心臟外科醫師、心臟內科醫師、營養師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Lichtenstein AH, Appel LJ, Vadiveloo M, et al. 2021 Dietary Guidance to Improve Cardiovascular Health: A Scientific Statement From the American Heart Association. <em>Circulation.</em> 2021;144(23):e472–e487.</li>
+      <li>Estruch R, Ros E, Salas-Salvadó J, et al. Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts. <em>N Engl J Med.</em> 2018;378(25):e34.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

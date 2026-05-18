@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>外科加護病房 SICU 介紹 — 心臟加速康復衛教</title>
+<meta name="description" content="本院 SICU 為加速康復設計:獨立病間、主動恢復、家屬陪伴。會客時間、環境、監測設備、典型時程、家屬陪病過夜申請">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:會客時間 + 三特色卡 + vs 對照表 + 五感 + 監測 + 時程 + 家屬會客 + 陪病過夜 + ERAS 連結 + 攜帶清單 + QA + 警示 */
+
+/* 會客時間 floating-label */
+.visiting-hours {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1.5px solid var(--teal);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.visiting-hours::before {
+  content: '會客時間';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  border: 1px solid var(--teal);
+  border-radius: 2px;
+}
+.visiting-hours h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 14px;
+}
+.visiting-hours .time-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.visiting-hours .time-slot {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  text-align: center;
+}
+.visiting-hours .time-slot .t-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.visiting-hours .time-slot .t-time {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.visiting-hours .time-slot .t-duration {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+}
+.visiting-hours p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-top: 12px;
+}
+.visiting-hours p strong { color: var(--ink); font-weight: 600; }
+.visiting-hours .reminder {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.visiting-hours .reminder strong { color: var(--gold); font-weight: 600; }
+
+/* 三特色卡 cold/gold/safe */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.pillar-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  border-top: 3px solid var(--teal);
+}
+.pillar-card.p1 { border-top-color: var(--cold); }
+.pillar-card.p2 {
+  border-top-color: var(--gold);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+}
+.pillar-card.p3 {
+  border-top-color: var(--safe);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--safe-bg) 100%);
+}
+.pillar-card .p-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.pillar-card.p1 .p-num { color: var(--cold); }
+.pillar-card.p2 .p-num { color: var(--gold); }
+.pillar-card.p3 .p-num { color: var(--safe); }
+.pillar-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.pillar-card .p-en {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.pillar-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+.pillar-card p:last-child { margin-bottom: 0; }
+.pillar-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 三欄對照表 */
+.comparison-table {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.comparison-table h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.comparison-table .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.comparison-table .ct-header {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 6px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.comparison-table .ct-header .h-aspect { text-align: left; color: var(--ink); }
+.comparison-table .ct-header .h-trad { color: var(--ink-faint); }
+.comparison-table .ct-header .h-our { color: var(--teal); }
+.comparison-table .ct-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 8px;
+  padding: 10px 6px;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13px;
+  line-height: 1.7;
+  align-items: center;
+}
+.comparison-table .ct-row:last-of-type { border-bottom: none; }
+.comparison-table .ct-row .aspect {
+  color: var(--ink);
+  font-weight: 500;
+}
+.comparison-table .ct-row .trad-val {
+  text-align: center;
+  color: var(--ink-faint);
+}
+.comparison-table .ct-row .our-val {
+  text-align: center;
+  color: var(--ink);
+  font-weight: 600;
+  background: var(--gold-soft);
+  padding: 4px 6px;
+  border-radius: 3px;
+}
+
+/* 五感體驗 */
+.sensory-grid {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.sensory-grid h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.sensory-grid .sensory-list {
+  background: var(--cream-deep);
+  padding: 12px 14px;
+  border-radius: 3px;
+}
+.sensory-grid .s-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.sensory-grid .s-row + .s-row { border-top: 1px dashed var(--border); }
+.sensory-grid .s-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  min-width: 60px;
+  font-size: 12px;
+}
+.sensory-grid .s-desc { color: var(--ink-soft); }
+.sensory-grid .s-desc strong { color: var(--ink); font-weight: 600; }
+.sensory-grid .three-items {
+  margin-top: 14px;
+  padding: 10px 12px;
+  background: var(--teal-tint);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-left: 2px solid var(--teal);
+}
+.sensory-grid .three-items strong:first-child { color: var(--teal); font-weight: 600; }
+.sensory-grid .three-items strong { color: var(--ink); font-weight: 600; }
+
+/* 監測清單 */
+.monitor-list {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.monitor-list h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cold);
+  margin-bottom: 4px;
+}
+.monitor-list .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.monitor-list ul { list-style: none; padding: 0; }
+.monitor-list ul li {
+  position: relative;
+  padding: 9px 0 9px 26px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.monitor-list ul li:last-child { border-bottom: none; }
+.monitor-list ul li::before {
+  content: '◉';
+  position: absolute;
+  left: 2px; top: 9px;
+  color: var(--cold);
+  font-size: 10px;
+}
+.monitor-list ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 時序時程 */
+.journey {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.journey h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.journey .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.journey .j-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.journey .j-row:last-of-type { border-bottom: none; }
+.journey .j-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 12.5px;
+  min-width: 90px;
+  padding-top: 2px;
+}
+.journey .j-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.journey .j-what strong { color: var(--ink); font-weight: 600; }
+
+/* 家屬會客指引(help-section + avoid) */
+.family-help {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.family-help h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--safe);
+  margin-bottom: 4px;
+}
+.family-help .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.family-help .help-section {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--safe-border);
+}
+.family-help .help-section:last-of-type { border-bottom: none; }
+.family-help .help-section .h-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--safe);
+  margin-bottom: 6px;
+}
+.family-help .help-section ul { list-style: none; padding: 0; }
+.family-help .help-section li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 5px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.family-help .help-section li:last-child { margin-bottom: 0; }
+.family-help .help-section li::before {
+  content: '◇';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--safe);
+  font-size: 11px;
+}
+.family-help .help-section li strong { color: var(--ink); font-weight: 600; }
+.family-help .avoid {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+}
+.family-help .avoid .h-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+.family-help .avoid ul { list-style: none; padding: 0; }
+.family-help .avoid li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 5px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.family-help .avoid li:last-child { margin-bottom: 0; }
+.family-help .avoid li::before {
+  content: '✕';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--danger);
+  font-size: 11px;
+}
+.family-help .avoid li strong { color: var(--ink); font-weight: 600; }
+
+/* 陪病過夜 floating-label */
+.overnight-stay {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.overnight-stay::before {
+  content: '陪病過夜';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+}
+.overnight-stay h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.overnight-stay p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.overnight-stay p strong { color: var(--ink); font-weight: 600; }
+.overnight-stay ul { list-style: none; padding: 0; margin: 12px 0; }
+.overnight-stay ul li {
+  position: relative;
+  padding: 7px 0 7px 24px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.overnight-stay ul li:last-child { border-bottom: none; }
+.overnight-stay ul li::before {
+  content: '★';
+  position: absolute;
+  left: 2px; top: 7px;
+  color: var(--gold);
+  font-size: 11px;
+}
+.overnight-stay ul li strong { color: var(--ink); font-weight: 600; }
+.overnight-stay .reminder {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--teal);
+  border-left: 2px solid var(--teal);
+}
+.overnight-stay .reminder strong { color: var(--teal); font-weight: 600; }
+
+/* ERAS 串連(→ bullets) */
+.eras-connections {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.eras-connections h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.eras-connections .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.eras-connections ul { list-style: none; padding: 0; }
+.eras-connections ul li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.eras-connections ul li:last-child { border-bottom: none; }
+.eras-connections ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0; top: 10px;
+  color: var(--teal);
+  font-weight: 700;
+}
+.eras-connections ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 攜帶清單 */
+.bring-list {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.bring-list h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.bring-list .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.bring-list ul { list-style: none; padding: 0; }
+.bring-list ul li {
+  position: relative;
+  padding: 7px 0 7px 22px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.bring-list ul li:last-child { border-bottom: none; }
+.bring-list ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px; top: 7px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 13px;
+}
+.bring-list ul li strong { color: var(--ink); font-weight: 600; }
+
+/* Q&A list */
+.qa-list {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.qa-list h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+.qa-list .qa-item {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.qa-list .qa-item:last-of-type { border-bottom: none; }
+.qa-list .qa-item .question {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+.qa-list .qa-item .question::before {
+  content: 'Q. ';
+  color: var(--gold);
+}
+.qa-list .qa-item .answer {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  padding-left: 22px;
+  border-left: 2px solid var(--teal-tint);
+}
+.qa-list .qa-item .answer strong { color: var(--ink); font-weight: 600; }
+.qa-list .qa-item .answer .remote-options {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.qa-list .qa-item .answer .remote-options strong { color: var(--ink); font-weight: 600; }
+
+/* warnings 內的 top-note + 觀察提示 */
+.warnings-extras .top-note {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: 1px solid var(--danger-border);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.warnings-extras .top-note strong:first-child { color: var(--danger); font-weight: 700; }
+.warnings-extras .top-note strong { color: var(--ink); font-weight: 600; }
+.warnings-extras .quotes-block {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.85;
+}
+.warnings-extras .quotes-block .lead-text {
+  display: block;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.warnings-extras .quotes-block .note {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink-faint);
+  font-size: 12.5px;
+}
+
+@media (max-width: 480px) {
+  .visiting-hours { padding: 20px 22px; }
+  .visiting-hours .time-grid { grid-template-columns: 1fr; }
+  .pillar-card { padding: 18px 20px; }
+  .comparison-table { padding: 18px 20px; }
+  .comparison-table .ct-header,
+  .comparison-table .ct-row { font-size: 12px; }
+  .sensory-grid { padding: 18px 20px; }
+  .monitor-list { padding: 18px 20px; }
+  .journey { padding: 18px 20px; }
+  .family-help { padding: 18px 20px; }
+  .overnight-stay { padding: 20px 22px; }
+  .eras-connections { padding: 18px 20px; }
+  .bring-list { padding: 18px 20px; }
+  .qa-list { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 6-1</div>
+    <h1>外科加護病房<br>SICU 介紹</h1>
+    <p class="subtitle">與您想像的加護病房不一樣 — 為加速康復而設計<br>Surgical ICU · Designed for Active Recovery</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>本院的外科加護病房 —— 不是您印象中的「加護病房」</strong>
+    <p>很多病人與家屬聽到「加護病房」會聯想到:<span class="em">大開放空間、躺著不動、不能吃喝、不能說話、不能用手機、家屬只能短暫探視</span>。這些是傳統 ICU 的印象,但<span class="em">本院的外科加護病房(SICU)不是這樣設計的</span>。</p>
+    <p>本院的 SICU 是<span class="em">獨立病間</span>,配備完整<span class="em">連續性監測設備</span>。心臟手術後,您會在這裡<span class="em">醒著、能說話、能練習喝水進食、能坐起與走路復健、能使用手機</span>。<span class="em">家屬只要覺得陪伴對病人有幫助,就可以告訴護理師申請陪病過夜</span> —— 不需要等到「狀況很糟」才能申請。</p>
+    <p>這些「不一樣」<span class="em">不是「比較輕鬆」</span> —— 而是<span class="em">本院 ERAS(加速康復,讓您術後更快恢復的國際治療指引)策略的核心</span>。研究證實,<span class="em">早期活動、早期進食、家屬陪伴</span>能明顯<span class="em">降低譫妄、縮短住院、加速恢復</span>。本院的 SICU 設計,就是為了讓這些事情<span class="em">在最早期就能開始</span>。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">SICU</span>
+      <span class="lex-def">Surgical Intensive Care Unit 的縮寫,<strong>外科加護病房</strong>。專門照顧手術後需要密切監測的病人。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">連續性監測</span>
+      <span class="lex-def">心電圖、血壓、血氧、呼吸等指標<strong>24 小時不間斷監測</strong>,數值即時顯示在病床旁與護理站的螢幕上。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">獨立病間</span>
+      <span class="lex-def">每位病人有<strong>各自的隔間(有牆與門)</strong>,不是大開放空間。降低噪音、保護隱私、容許家屬陪伴。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">主動恢復</span>
+      <span class="lex-def">術後病人在 ICU 期間就<strong>主動參與恢復</strong>(喝水、進食、坐起、走路),不是被動躺著等病情穩定。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">陪病過夜</span>
+      <span class="lex-def">家屬<strong>只要覺得陪伴對病人有幫助,就可以申請</strong>留在病人獨立病間內過夜陪伴。<strong>不需要等到「狀況很糟」</strong>。特別在病人有情緒、譫妄風險或夜晚焦慮時,能明顯幫助恢復。</span>
+    </div>
+  </div>
+
+  <!-- Visiting hours -->
+  <div class="visiting-hours">
+    <h4>本院外科加護病房會客時間</h4>
+    <div class="time-grid">
+      <div class="time-slot">
+        <div class="t-label">上午</div>
+        <div class="t-time">10:30–11:00</div>
+        <div class="t-duration">30 分鐘</div>
+      </div>
+      <div class="time-slot">
+        <div class="t-label">傍晚</div>
+        <div class="t-time">18:30–19:00</div>
+        <div class="t-duration">30 分鐘</div>
+      </div>
+    </div>
+    <p><strong>為什麼有時間限制?</strong>會客時間以外,醫護需要進行清潔、輪班交接、檢查、藥物給藥、復健訓練。<strong>固定的會客時間能讓醫護工作流暢,也讓病人有規律作息</strong>(這對降低譫妄很重要)。<strong>但若有特殊狀況</strong>(病人情緒不穩、需家屬協助溝通、需要陪病過夜等),<strong>都可以與護理師討論彈性安排</strong>。</p>
+    <div class="reminder"><strong>提醒:</strong>以本院實際公告為準 —— 會客時間可能依季節、疫情、特殊狀況調整。<strong style="color:var(--ink)">入院時請護理師確認當前的會客時間</strong>。</div>
+  </div>
+
+  <!-- Three pillars -->
+  <div class="section-title">本院 SICU 的三大特色</div>
+
+  <p class="section-intro">
+    與傳統加護病房相比,本院 SICU 有<span class="em">三個關鍵不同</span> —— 都是為了支持 ERAS 加速康復而設計。
+  </p>
+
+  <div class="pillars-grid">
+
+    <article class="pillar-card p1">
+      <div class="p-num">特色 01 · 空間設計</div>
+      <h4>每位病人有獨立病間</h4>
+      <div class="p-en">Private Patient Rooms</div>
+      <p>不是傳統 ICU 的大開放空間,而是<strong>每位病人有自己的隔間</strong> —— 有牆、有門、有獨立的監測設備與動線(醫護進出、設備擺放的路徑)。</p>
+      <p>這樣設計的好處:<strong>降低噪音與光線干擾、保護病人隱私、減少譫妄誘因、容許家屬陪伴</strong>。隔間外有護理站,醫護隨時透過監測儀器與探訪即時掌握病人狀況。</p>
+    </article>
+
+    <article class="pillar-card p2">
+      <div class="p-num">特色 02 · 主動恢復</div>
+      <h4>病人在 SICU 就開始主動恢復</h4>
+      <div class="p-en">Early Active Recovery</div>
+      <p>傳統 ICU 印象是<strong>「躺著、禁食、不能說話、不能動」</strong>。本院 SICU 不一樣:</p>
+      <p><strong>能喝水進食</strong>(拔管後即可練習) <span class="link-ref">連結 7-7</span>、<strong>能坐起與走路</strong>(拔管後 6 小時床邊坐、24 小時走路) <span class="link-ref">連結 7-6a · 7-6b</span>、<strong>能使用手機</strong>(與家人聯絡、聽音樂、看影片打發時間)、<strong>能說話交談</strong>(拔管後即可,HFNC 銜接也不影響說話)。</p>
+      <p><strong>這些不是「特權」</strong> —— 是<strong>降低譫妄、縮短住院、加速復原</strong>的核心策略。國際研究證實:在 ICU 越早動、越早吃、越能溝通的病人,恢復明顯更快。</p>
+    </article>
+
+    <article class="pillar-card p3">
+      <div class="p-num">特色 03 · 家屬可陪伴</div>
+      <h4>家屬只要覺得有幫助就可申請陪病</h4>
+      <div class="p-en">Family Presence &amp; Overnight Stay</div>
+      <p>除了固定會客時間外,<strong>家屬不需要等到「狀況很糟」才能申請陪病過夜</strong>。只要您直覺認為陪伴對病人有幫助(情緒不穩、譫妄風險、夜晚焦慮、需要協助溝通等),<strong>都可以告訴護理師申請</strong>。</p>
+      <p>家屬的陪伴對術後恢復的價值,已被多項研究證實 —— <strong>降低譫妄、緩解焦慮、加速認知恢復</strong>。本院的獨立病間設計,讓「家屬陪伴」這件事不需要與醫療作業衝突。</p>
+    </article>
+
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="section-title">本院 SICU vs 傳統加護病房</div>
+
+  <div class="comparison-table">
+    <h4>主要差異對照</h4>
+    <div class="sub">這些差異都不是「比較鬆」,是為加速康復設計</div>
+
+    <div class="ct-header">
+      <div class="h-aspect">面向</div>
+      <div class="h-trad">傳統 ICU</div>
+      <div class="h-our">本院 SICU</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">病房型態</div>
+      <div class="trad-val">大開放空間</div>
+      <div class="our-val">獨立病間</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">飲食</div>
+      <div class="trad-val">嚴格禁食</div>
+      <div class="our-val">拔管後可練習</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">活動</div>
+      <div class="trad-val">強制臥床</div>
+      <div class="our-val">早期下床走路</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">手機使用</div>
+      <div class="trad-val">禁止</div>
+      <div class="our-val">可使用</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">家屬陪伴</div>
+      <div class="trad-val">嚴格限制</div>
+      <div class="our-val">必要時可過夜</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">說話交談</div>
+      <div class="trad-val">插管多時困難</div>
+      <div class="our-val">手術室拔管後即可</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">恢復目標</div>
+      <div class="trad-val">穩定病情</div>
+      <div class="our-val">穩定 + 加速康復</div>
+    </div>
+  </div>
+
+  <!-- Sensory description -->
+  <div class="section-title">第一次進 SICU,您會感受到的環境</div>
+
+  <p class="section-intro">
+    很多病人與家屬對「SICU 是什麼感覺」有未知的恐懼。先<span class="em">預先理解</span>,能大幅降低入院時的焦慮。
+  </p>
+
+  <div class="sensory-grid">
+    <h4>五感體驗 + 溫度</h4>
+    <div class="sensory-list">
+      <div class="s-row">
+        <div class="s-label">視覺</div>
+        <div class="s-desc">燈光<strong>較柔和</strong>(白天較亮、夜晚較暗,模擬晝夜節律);床邊有多個監測螢幕;隔簾與牆隔開隔間</div>
+      </div>
+      <div class="s-row">
+        <div class="s-label">聽覺</div>
+        <div class="s-desc">監測儀器<strong>規律的嗶聲(這是設備運作的正常聲音)</strong>;護理師輕聲交班;偶爾的儀器警示音(多數是技術警示,<strong>不是緊急狀況</strong>)</div>
+      </div>
+      <div class="s-row">
+        <div class="s-label">嗅覺</div>
+        <div class="s-desc">消毒水味、酒精味 —— 這是<strong>乾淨的味道</strong>,不是恐怖片裡的氣味</div>
+      </div>
+      <div class="s-row">
+        <div class="s-label">觸覺</div>
+        <div class="s-desc">床鋪較硬(保護傷口復原);被子可調(冷熱可告知);皮膚上會有監測貼片(<strong>不痛</strong>)</div>
+      </div>
+      <div class="s-row">
+        <div class="s-label">溫度</div>
+        <div class="s-desc">SICU 環境<strong>較涼(約 22–24°C)</strong> —— 這是為了讓監測設備穩定運作,也降低感染。<strong>建議準備薄外套</strong>,特別是陪病家屬</div>
+      </div>
+    </div>
+    <div class="three-items">
+      <strong>三件套特別重要:</strong>眼鏡、助聽器、假牙 —— 這三項對病人恢復的影響超出多數家屬的想像。<strong>沒有眼鏡,病人看不清環境會更混亂;沒有助聽器,病人聽不見家屬說話會更焦慮;沒有假牙,病人說話、進食都會困難</strong>。<strong>入院當天就把這三件套帶到 SICU</strong>,並告訴護理師「請讓病人儘早戴上」。
+    </div>
+  </div>
+
+  <!-- Continuous monitoring -->
+  <div class="section-title">連續性監測設備 — 24 小時不間斷守護</div>
+
+  <p class="section-intro">
+    雖然 SICU 看起來「自由」很多,但<span class="em">監測絕對不放鬆</span>。每位病人都有完整的監測設備,數據即時顯示在床邊與護理站。
+  </p>
+
+  <div class="monitor-list">
+    <h4>本院 SICU 標準監測項目</h4>
+    <div class="sub">所有數據 24 小時連續記錄</div>
+    <ul>
+      <li><strong>心電圖(ECG)</strong> —— 24 小時監測心律與心跳速率,第一時間發現心房顫動或心律不整 <span class="link-ref">連結 8-3</span></li>
+      <li><strong>動脈血壓</strong> —— 經由<strong>動脈導管</strong>(從手腕動脈插入的細管)即時顯示<strong>每一次心跳的血壓</strong>,比手臂血壓計更精準</li>
+      <li><strong>血氧濃度</strong> —— 手指夾上的小儀器持續顯示血液中氧氣飽和度</li>
+      <li><strong>呼吸速率與型態</strong> —— 持續監測</li>
+      <li><strong>體溫</strong> —— 維持 ≥ 36°C 是重要目標 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>中央靜脈壓(CVP)</strong> —— 從脖子或鎖骨下大靜脈測量的壓力,<strong>反映心臟充血狀況與體液狀態</strong></li>
+      <li><strong>每小時尿量</strong> —— 重要的腎臟與循環指標 <span class="link-ref">連結 6-4 · 8-4</span></li>
+      <li><strong>胸管引流量</strong> —— 每小時記錄,是評估出血的關鍵 <span class="link-ref">連結 6-3</span></li>
+      <li><strong>意識狀態與神經學評估</strong> —— 定期評估,早期辨識譫妄 <span class="link-ref">連結 8-2</span></li>
+      <li><strong>疼痛分數</strong> —— 規律詢問 0–10 分 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>定期抽血</strong> —— 監測肌酸酐、電解質、血色素、凝血、血糖等</li>
+    </ul>
+  </div>
+
+  <!-- Patient journey -->
+  <div class="section-title">您在 SICU 會經歷什麼 — 時序預期</div>
+
+  <p class="section-intro">
+    這份時程是<span class="em">本院 ERAS 標準路徑</span>的典型樣貌。每個人的恢復略有不同,但<span class="em">大方向相似</span>。
+  </p>
+
+  <div class="journey">
+    <h4>從手術房到普通病房的典型時程</h4>
+    <div class="sub">本院 ERAS 標準路徑</div>
+
+    <div class="j-row">
+      <div class="j-when">剛抵達 SICU</div>
+      <div class="j-what"><strong>多數病人已在手術房拔管</strong> <span class="link-ref">連結 6-2</span>,抵達時清醒、能說話。配戴 <strong>HFNC 高流量鼻導管</strong> <span class="link-ref">連結 6-6</span> 支持呼吸。家屬通常可在轉入後不久看到您(依當天會客時間)。</div>
+    </div>
+
+    <div class="j-row">
+      <div class="j-when">第 1 小時</div>
+      <div class="j-what">護理師會頻繁評估您的<strong>意識、疼痛、出血、呼吸</strong>。會聽到監測儀器規律的嗶聲(這是<strong>正常的,代表設備運作中</strong>)。可能感覺到管路:尿管、胸管、靜脈管、動脈管 —— 都會在恢復過程中陸續移除。</div>
+    </div>
+
+    <div class="j-row">
+      <div class="j-when">2–6 小時</div>
+      <div class="j-what">疼痛由<strong>多模式止痛策略</strong> <span class="link-ref">連結 5-1</span> 控制,不會讓您忍痛。<strong>拔管後 6 小時可以開始床邊坐起</strong> <span class="link-ref">連結 7-6a</span>。<strong>可以開始小口練習喝水</strong> <span class="link-ref">連結 7-7</span>。</div>
+    </div>
+
+    <div class="j-row">
+      <div class="j-when">第 1 個晚上</div>
+      <div class="j-what">護理師會降低光線、減少不必要的打擾,幫您<strong>維持晝夜節律</strong>(降低譫妄的關鍵)。<strong>若有焦慮或睡眠困難,家屬可申請過夜陪伴</strong>。</div>
+    </div>
+
+    <div class="j-row">
+      <div class="j-when">術後第 1 天早上</div>
+      <div class="j-what">護理師協助您<strong>第一次下床走路</strong> <span class="link-ref">連結 7-6b</span>,通常是繞護理站一圈。可以開始進食。動脈導管可能在這天移除。</div>
+    </div>
+
+    <div class="j-row">
+      <div class="j-when">術後第 1–2 天</div>
+      <div class="j-what">隨著生命徵象穩定,<strong>逐步移除監測管路</strong>。胸管、尿管依引流量與下床能力評估移除 <span class="link-ref">連結 6-3 · 6-4</span>。</div>
+    </div>
+
+    <div class="j-row">
+      <div class="j-when">轉至普通病房</div>
+      <div class="j-what">通常在<strong>術後第 1–2 天</strong>,當監測數據穩定、能自主進食、能下床走動時,會轉至普通病房繼續恢復。轉床時家屬會被通知。<br><br><strong style="color:var(--teal)">轉到普通病房不是「太早被趕走」,而是「恢復的進步徵兆」</strong> —— 代表您已經穩定到不需要 24 小時連續監測。普通病房仍有:護理師定期巡房(白天每 2–4 小時、夜間每 4–6 小時)、按鈴 24 小時可呼叫、定期身體基本指標(血壓、心跳、呼吸、體溫)測量、持續的多模式止痛與復健訓練、開始為出院做準備(衛教、用藥指導、回診安排)。</div>
+    </div>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬在會客時可以做的事</div>
+
+  <div class="family-help">
+    <h4>家屬會客時間的有效運用</h4>
+    <div class="sub">每次 30 分鐘看起來不多,但用對方式效果很大</div>
+
+    <div class="help-section">
+      <div class="h-label">01 · 自然地說話、握手</div>
+      <ul>
+        <li>用<strong>平常的聲音</strong>跟病人說話,不需要刻意大聲或慢</li>
+        <li><strong>輕輕握著病人的手</strong>,觸覺有定向與安撫作用</li>
+        <li>告訴病人<strong>「現在是早上、你在加護病房、手術很順利、我是 OO」</strong> —— 這對譫妄預防有幫助 <span class="link-ref">連結 8-2</span></li>
+      </ul>
+    </div>
+
+    <div class="help-section">
+      <div class="h-label">02 · 帶熟悉的物品</div>
+      <ul>
+        <li><strong>眼鏡、助聽器、假牙</strong> —— 改善感官、降低混亂</li>
+        <li><strong>手機與充電器</strong> —— 病人可以用手機跟您聯絡、看訊息、聽音樂</li>
+        <li><strong>家人合照</strong>放在床邊</li>
+        <li><strong>熟悉的小毛毯、家用枕頭套</strong>(部分病人有助於入眠)</li>
+      </ul>
+    </div>
+
+    <div class="help-section">
+      <div class="h-label">03 · 觀察並告知護理師</div>
+      <ul>
+        <li>病人有沒有<strong>反應變慢、眼神呆滯、認不得人</strong>?(可能譫妄)</li>
+        <li>病人<strong>是否在忍痛但不講</strong>?</li>
+        <li>病人<strong>有沒有特別的不舒服或焦慮</strong>?</li>
+        <li>有任何疑問<strong>都可以問護理師</strong>,這是您和醫療團隊溝通的最好時機</li>
+      </ul>
+    </div>
+
+    <div class="help-section">
+      <div class="h-label">04 · 鼓勵主動恢復動作</div>
+      <ul>
+        <li>陪同<strong>練習深呼吸</strong> <span class="link-ref">連結 7-1</span></li>
+        <li>陪同<strong>練習咳嗽</strong> <span class="link-ref">連結 7-2</span></li>
+        <li>陪同<strong>練習坐起、走路</strong> <span class="link-ref">連結 7-6a · 7-6b</span></li>
+        <li>鼓勵<strong>小口喝水、嘗試進食</strong> <span class="link-ref">連結 7-7</span></li>
+      </ul>
+    </div>
+
+    <div class="avoid">
+      <div class="h-label">家屬請避免的事</div>
+      <ul>
+        <li><strong>不要在床邊長時間激烈情緒或多人聊天</strong>(會讓病人累、噪音也是譫妄誘因)</li>
+        <li><strong>不要自行給病人吃任何東西</strong>(必須由醫護評估後允許)</li>
+        <li><strong>不要自行調整管路、監測儀器</strong></li>
+        <li><strong>不要勉強病人說話太久</strong>(病人疲倦時讓他休息)</li>
+        <li><strong>不要錄影或拍照分享</strong>(保護隱私)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Overnight stay -->
+  <div class="overnight-stay">
+    <h4>家屬陪病過夜 — 本院 SICU 的彈性設計</h4>
+    <p>本院 SICU 提供家屬陪病過夜的選項 —— <strong>不需要等到「狀況很糟」才能申請</strong>。只要您覺得陪伴對病人有幫助,就可以告訴護理師。常見的申請情境包括(但不限於):</p>
+    <ul>
+      <li>病人<strong>有情緒、焦慮、無法入睡</strong></li>
+      <li>病人<strong>術後想要有家屬陪伴</strong></li>
+      <li>病人<strong>出現譫妄徵兆</strong>,需要家屬協助定向與安撫</li>
+      <li>病人有<strong>失智或溝通困難</strong>,家屬陪伴能協助護理</li>
+      <li>病人<strong>夜晚特別焦慮</strong>(譫妄常在夜晚加重)</li>
+      <li><strong>任何您直覺認為「他需要我」的時刻</strong></li>
+    </ul>
+    <p><strong>如何申請:</strong>於會客時間直接向護理師說明需求,或請病人主治團隊評估。本院的獨立病間設計,讓家屬陪伴不會干擾醫療作業。</p>
+    <div class="reminder">
+      <strong>提醒:</strong>陪病過夜的家屬請<strong style="color:var(--ink)">準備好個人換洗衣物與用品</strong>。SICU 環境較涼,建議帶<strong style="color:var(--ink)">薄外套</strong>。請<strong style="color:var(--ink)">不要影響醫護作業</strong>,醫護人員會教您如何配合床邊監測與夜間查房。
+    </div>
+  </div>
+
+  <!-- ERAS connections -->
+  <div class="section-title">為什麼本院 SICU 是這樣設計 — ERAS 加速康復的核心</div>
+
+  <p class="section-intro">
+    本院 SICU 的所有設計,都是為了支持<span class="em">「主動恢復」</span> —— 這是 ERAS 加速康復的核心精神。
+  </p>
+
+  <div class="eras-connections">
+    <h4>SICU 設計如何串連整套 ERAS 策略</h4>
+    <div class="sub">每一項設計都對應一個恢復目標</div>
+    <ul>
+      <li><strong>獨立病間</strong> —— 降低噪音與光線干擾,明顯降低譫妄發生率 <span class="link-ref">連結 8-2</span></li>
+      <li><strong>手術室內拔管</strong> + HFNC —— 病人抵達 SICU 時是醒著的,能說話、能配合恢復 <span class="link-ref">連結 6-2 · 6-6</span></li>
+      <li><strong>多模式止痛</strong> —— 病人不會躺著痛,敢咳、敢動 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>早期下床(6 小時坐起、24 小時走路)</strong> —— 縮短臥床、降低譫妄、降低肺部與血栓併發症 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>早期進食喝水</strong> —— 維持腸胃功能、減少靜脈點滴依賴 <span class="link-ref">連結 7-7</span></li>
+      <li><strong>使用手機</strong> —— 與家人聯絡、減少焦慮、有事做(降低譫妄)</li>
+      <li><strong>家屬陪病彈性</strong> —— 在情緒/譫妄/夜晚焦慮時提供家屬支持 <span class="link-ref">連結 8-2</span></li>
+      <li><strong>連續監測</strong> —— 早期發現心房顫動、AKI、出血等 <span class="link-ref">連結 8-3 · 8-4</span></li>
+      <li><strong>規律疼痛評估</strong> —— 不讓病人忍痛 <span class="link-ref">連結 5-1</span></li>
+    </ul>
+  </div>
+
+  <!-- Bring list -->
+  <div class="section-title">家屬入院時建議準備</div>
+
+  <div class="bring-list">
+    <h4>SICU 探視與陪病的準備清單</h4>
+    <div class="sub">給病人用 + 家屬自己用</div>
+    <ul>
+      <li><strong>病人的眼鏡、助聽器、假牙</strong>(這三項對降低譫妄極重要)</li>
+      <li><strong>病人的手機與充電器</strong>(連同手機殼上的個人化貼紙、桌面照片更好)</li>
+      <li><strong>家人合照</strong>(手機裡有也好、實體更好放在床邊)</li>
+      <li><strong>個人盥洗用品</strong>(牙刷、毛巾、潤膚液)</li>
+      <li><strong>病人喜歡的小毛毯、家用枕頭套</strong>(若病人習慣)</li>
+      <li><strong>輕便耳機</strong>(病人可以聽音樂、Podcast)</li>
+      <li><strong>水壺、保溫杯</strong>(病人可以練習喝水時用)</li>
+      <li><strong>陪病家屬的個人物品</strong>:薄外套(SICU 較涼)、換洗衣物、個人盥洗用品、行動電源、輕食</li>
+      <li><strong>病人完整的「平常用藥」清單</strong> —— 入院時交給護理師(有些術前需停藥)</li>
+    </ul>
+  </div>
+
+  <!-- Common Q&A -->
+  <div class="section-title">常見的擔心 — Q&amp;A</div>
+
+  <div class="qa-list">
+    <h4>病人與家屬最常問的問題</h4>
+
+    <div class="qa-item">
+      <div class="question">我會不會被綁起來?</div>
+      <div class="answer"><strong>約束不是懲罰、不是「醫療人員嫌您麻煩」</strong> —— 而是當您在譫妄或迷糊狀態下,<strong>避免您自己無意識中拔掉胸管、動脈導管等重要設備</strong>的<strong>短暫保護工具</strong>。本院盡量<strong>不使用約束</strong>,任何被約束的病人都會持續評估,<strong>清醒後、情況改善後立刻解開</strong>。<strong>家屬陪伴是降低約束機率最有效的方式之一</strong> —— 這也是本院 SICU 提供陪病過夜的原因之一 <span class="link-ref">連結 6-5</span>。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">我會不會記不得在 SICU 的事?</div>
+      <div class="answer"><strong>大部分病人對 SICU 的記憶會是模糊的</strong>,特別是剛拔管的前幾小時。這是<strong>正常的</strong>,不是不正常。少數病人若有譫妄發作,可能會有片段的、模糊的、甚至像夢一樣的記憶。<strong>不需要強迫自己回想</strong>。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">我會不會痛醒?</div>
+      <div class="answer">本院的<strong>多模式止痛策略</strong> <span class="link-ref">連結 5-1</span> 會讓您的疼痛被良好控制。<strong>痛是正常的,但不應該忍下來</strong> —— 隨時告訴護理師您的疼痛分數(0–10),他們會即時調整。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">我會不會很孤單?</div>
+      <div class="answer">本院 SICU <strong>有護理師 24 小時就在隔間外</strong>,按鈴就會來。家屬有固定會客時間,必要時可申請過夜陪伴。<strong>您可以使用手機</strong>與家人聯絡。<strong>多數病人在 SICU 只待 1–2 天</strong>就轉到普通病房。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">我可以打電話、傳訊息給家人嗎?</div>
+      <div class="answer"><strong>可以</strong>。本院 SICU <strong>允許病人使用手機</strong>。建議家屬把病人的手機與充電器帶來。若病人手部不方便,家屬會客時也可以協助回訊息。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">家屬如果晚上很擔心,可以打電話到 SICU 詢問嗎?</div>
+      <div class="answer"><strong>可以</strong>。SICU 護理站有 24 小時專線可以詢問病人狀況。但<strong>建議減少不必要的電話</strong>,讓護理師專注照護。固定的會客時間是最詳細了解狀況的機會。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">會客時間以外,如果有緊急事情可以見病人嗎?</div>
+      <div class="answer"><strong>可以</strong>。若有特殊狀況(病人有情緒、需要重要決定、其他緊急事件),請與護理師或主治醫師討論,會彈性安排。本院 SICU 的會客時間是「預設規範」,不是「絕對禁區」。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">遠地家屬或行動不便的家人無法到場,怎麼辦?</div>
+      <div class="answer">本院 SICU 支援以下方式讓不在場的家屬參與:
+        <div class="remote-options">
+          <strong>視訊探視</strong>:會客時間內,在場家屬可<strong>用手機與遠地家人視訊</strong><br>
+          <strong>電話更新</strong>:主要陪病者可整理狀況,透過 LINE 群組或電話告知其他家人<br>
+          <strong>病人主動聯絡</strong>:病人在拔管後可使用手機,主動與家人聯絡<br>
+          <strong>12 歲以下小朋友想跟長輩說話</strong>:可透過視訊、家屬代為傳達訊息、寫卡片/畫圖讓家屬帶來
+        </div>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">小朋友可以進來探視嗎?</div>
+      <div class="answer">本院 SICU 一般<strong>不建議 12 歲以下兒童進入</strong>(為了感染控制與心理影響考量)。但若病人狀況需要、且兒童健康狀況允許,可以與護理師討論個別安排。<strong>視訊探視是小朋友參與的好方式</strong>。</div>
+    </div>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">會客時這些情況請告知護理師</div>
+
+  <div class="callout warnings warnings-extras">
+    <h4>需要立即告訴護理師的觀察</h4>
+    <div class="top-note">
+      家屬會客時的觀察很有價值 —— <strong>您比醫護更熟悉病人「平常的樣子」</strong>。
+    </div>
+    <div class="quotes-block">
+      <span class="lead-text">這些「不太對」的感覺都值得告訴護理師:</span>
+      「<strong>爸爸平常不會這樣抓床欄,他現在好像很不安</strong>」<br>
+      「<strong>媽媽平常會主動跟我說話,今天看起來特別安靜</strong>」<br>
+      「<strong>爺爺平常笑容多,今天眼神空洞</strong>」<br>
+      「<strong>奶奶平常很愛乾淨,現在好像不在意外觀</strong>」
+      <span class="note">這些都可能是譫妄、疼痛、感染等問題的早期徵兆。您的直覺往往是對的。</span>
+    </div>
+    <ul>
+      <li><strong>病人認不得您、眼神呆滯、講話內容跳躍</strong>(可能譫妄 <span class="link-ref">連結 8-2</span>)</li>
+      <li><strong>病人在忍痛但不講</strong>(皺眉、流汗、肌肉緊繃)</li>
+      <li><strong>病人呼吸明顯比剛才喘、嘴唇發紫</strong></li>
+      <li><strong>病人有不尋常的胸痛、頭痛</strong></li>
+      <li><strong>病人提到看到不存在的東西或聽到不存在的聲音</strong></li>
+      <li><strong>病人異常嗜睡、難以叫醒</strong></li>
+      <li><strong>病人出現「跟平常很不像」的任何狀況</strong> —— 您的直覺往往是對的</li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>SICU 經驗相關的閱讀路徑</h4>
+    <div class="sub">這份單張是 ICU 階段所有衛教的「環境基礎」 — 前面的單張告訴您「會做什麼」,這份告訴您「會在哪裡做、會被誰照顧、會有什麼設備」。建議在術前訪視時讀,降低入院後的焦慮。</div>
+    <ol>
+      <li class="current"><strong>外科加護病房 SICU 介紹 6-1(您正在讀)</strong></li>
+      <li>早期拔管 6-2(手術室內拔管)</li>
+      <li>HFNC 高流量鼻導管 6-6</li>
+      <li>多模式止痛 5-1</li>
+      <li>從躺到坐 7-6a、從站到走 7-6b</li>
+      <li>喝水進食 7-7、心臟手術後飲食 9-3</li>
+      <li>認識尿管 6-4、認識胸管 6-3</li>
+      <li>譫妄專篇 8-2</li>
+      <li>保護性約束 6-5</li>
+      <li>認知復健 病人版 8-1a、家屬版 8-1b</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>本院的外科加護病房 —— <span class="em">不是「躺著等病情穩定」的地方</span>,而是<span class="em">「主動恢復的開始」</span>。獨立病間、可喝水進食、可坐起走路、可使用手機、家屬必要時可陪病過夜 —— 這些設計都是為了讓您<span class="em">最早開始 ERAS 加速康復</span>。</p>
+    <p>對 SICU 環境、會客安排、陪病申請有任何疑問,歡迎在<span class="em">門診、術前訪視、住院中</span>與心臟外科、麻醉科或 SICU 護理團隊討論。<span class="em">您不會是一個人 —— 我們在您身邊</span>。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society. <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Devlin JW, Skrobik Y, Gélinas C, et al. Clinical Practice Guidelines for the Prevention and Management of Pain, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in Adult Patients in the ICU. <em>Crit Care Med.</em> 2018;46(9):e825–e873.</li>
+      <li>Davidson JE, Aslakson RA, Long AC, et al. Guidelines for Family-Centered Care in the Neonatal, Pediatric, and Adult ICU. <em>Crit Care Med.</em> 2017;45(1):103–128.</li>
+      <li>Rosa RG, Falavigna M, Robinson CC, et al. Effect of Flexible Family Visitation on Delirium Among Patients in the Intensive Care Unit: The ICU Visits Randomized Clinical Trial. <em>JAMA.</em> 2019;322(3):216–228.</li>
+      <li>Hodgson CL, Schaller SJ, Nydahl P, Timenetsky KT, Needham DM. Ten Strategies to Optimize Early Mobilization and Rehabilitation in Intensive Care. <em>Crit Care.</em> 2021;25:324.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。本院外科加護病房的會客時間、陪病彈性安排、設備配置以實際狀況為準。對 SICU 安排有任何疑問,請於門診、術前訪視、住院中與心臟外科、麻醉科或 SICU 護理團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>

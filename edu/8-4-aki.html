@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術後急性腎損傷 AKI — 心臟加速康復衛教</title>
+<meta name="description" content="心臟手術後常見但容易被忽略的併發症:20-30% 的人會發生 AKI。認識三個分級、本院 ERAS 預防、終身要避開的腎毒性藥物">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:腎臟功能介紹 + KDIGO 三分級 + 發生率 + 沉默警示 floating-label + 風險分組 + 術前停藥 + 預防 + 治療 + 出院確認 + 一輩子避開 + 生活 + 預後 */
+
+/* 腎臟功能介紹 */
+.kidney-intro {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.kidney-intro h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--cold);
+  margin-bottom: 10px;
+}
+.kidney-intro p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.kidney-intro p strong { color: var(--ink); font-weight: 600; }
+.kidney-intro .functions {
+  background: var(--cold-bg);
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin-top: 10px;
+}
+.kidney-intro .functions .f-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.kidney-intro .functions .f-row + .f-row {
+  border-top: 1px dashed var(--border);
+}
+.kidney-intro .functions .f-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--cold);
+  min-width: 80px;
+  font-size: 12px;
+}
+.kidney-intro .functions .f-desc { color: var(--ink-soft); }
+.kidney-intro .functions .f-desc strong { color: var(--ink); font-weight: 600; }
+
+/* KDIGO 三分級卡(s1 safe / s2 warn / s3 danger) */
+.stages-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.stage-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+}
+.stage-card.s1 { border-top: 3px solid var(--safe); }
+.stage-card.s2 {
+  border-top: 3px solid var(--warn);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--warn-bg) 100%);
+}
+.stage-card.s3 {
+  border-top: 3px solid var(--danger);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--danger-bg) 100%);
+}
+.stage-card .s-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.stage-card.s1 .s-num { color: var(--safe); }
+.stage-card.s2 .s-num { color: var(--warn); }
+.stage-card.s3 .s-num { color: var(--danger); }
+.stage-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.stage-card .s-rate {
+  display: inline-block;
+  background: var(--cream-deep);
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  font-family: 'Noto Serif TC', serif;
+}
+.stage-card .s-section {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+.stage-card .s-section:last-of-type { border-bottom: none; }
+.stage-card .s-section .label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+.stage-card .s-section strong { color: var(--ink); font-weight: 600; }
+.stage-card .reassure-tag {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-radius: 3px;
+  font-size: 12.5px;
+  color: var(--safe);
+  line-height: 1.65;
+}
+.stage-card .reassure-tag strong { color: var(--safe); font-weight: 600; }
+
+/* 主動詢問你的數值 box */
+.ask-numbers {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.ask-numbers h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.ask-numbers > p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.ask-numbers > p strong { color: var(--ink); font-weight: 600; }
+.ask-numbers ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ask-numbers ul li {
+  position: relative;
+  padding: 6px 0 6px 22px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.ask-numbers ul li + li { border-top: 1px dashed var(--border); }
+.ask-numbers ul li::before {
+  content: '?';
+  position: absolute;
+  left: 2px; top: 6px;
+  color: var(--teal);
+  font-weight: 700;
+}
+.ask-numbers ul li strong { color: var(--ink); font-weight: 600; }
+.ask-numbers .bottom-tip {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 13px;
+  color: var(--teal);
+  line-height: 1.7;
+}
+.ask-numbers .bottom-tip strong { color: var(--teal); font-weight: 600; }
+
+/* 發生率 stats(與 8-2/8-3 同) */
+.incidence {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.incidence h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.incidence .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.incidence .stat-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+}
+.incidence .stat-row:last-of-type { border-bottom: none; }
+.incidence .stat-row .stat-label { color: var(--ink); }
+.incidence .stat-row .stat-label .stat-sub {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+.incidence .stat-row .stat-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--gold);
+}
+.incidence .closing-note {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--teal);
+  line-height: 1.7;
+  font-weight: 500;
+}
+.incidence .closing-note strong { color: var(--ink); font-weight: 600; }
+
+/* 沉默警示 floating-label */
+.silent-warn {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--warn-bg) 100%);
+  border: 1.5px solid #E0C9A8;
+  border-left: 3px solid var(--warn);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.silent-warn::before {
+  content: '為什麼容易被忽略';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--warn);
+  border: 1px solid var(--warn);
+  border-radius: 2px;
+}
+.silent-warn h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.silent-warn p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.silent-warn p strong { color: var(--ink); font-weight: 600; }
+.silent-warn .key-fact {
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--warn);
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.silent-warn .key-fact strong { color: var(--warn); font-weight: 600; }
+
+/* 風險分組(與 8-2/8-3 同) */
+.risk-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .risk-groups { grid-template-columns: 1fr 1fr; } }
+.risk-group {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  border-top: 2px solid var(--gold);
+}
+.risk-group h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.risk-group ul { list-style: none; padding: 0; }
+.risk-group li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.risk-group li:last-child { margin-bottom: 0; }
+.risk-group li::before {
+  content: '·';
+  position: absolute;
+  left: 4px; top: -1px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 16px;
+}
+.risk-group li strong { color: var(--ink); font-weight: 600; }
+
+/* 術前停藥 callout (floating-label,danger 警示) */
+.drug-stop {
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.drug-stop::before {
+  content: '術前必須停的藥';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 2px;
+}
+.drug-stop h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.drug-stop > p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.drug-stop > p strong { color: var(--ink); font-weight: 600; }
+.drug-stop .core-id {
+  background: var(--teal-tint);
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin: 12px 0;
+  border-left: 2px solid var(--teal);
+}
+.drug-stop .core-id .core-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 13.5px;
+  margin-bottom: 6px;
+}
+.drug-stop .core-id .core-body {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+.drug-stop .core-id .core-body strong { color: var(--ink); font-weight: 600; }
+.drug-stop .drug-list {
+  background: var(--paper);
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin: 12px 0;
+}
+.drug-stop .drug-list .d-row {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.drug-stop .drug-list .d-row:last-child { border-bottom: none; }
+.drug-stop .drug-list .d-class {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--danger);
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+.drug-stop .drug-list .d-names {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+.drug-stop .drug-list .d-names strong { color: var(--ink); font-weight: 600; }
+.drug-stop .bring-meds {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--danger);
+  padding: 12px 14px;
+  margin-top: 12px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+.drug-stop .bring-meds strong:first-child { color: var(--danger); font-weight: 600; }
+.drug-stop .bring-meds strong { color: var(--ink); font-weight: 600; }
+
+/* 預防元素列表(與 8-2/8-3 同) */
+.prevention {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.prevention h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.prevention .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.prevention ul {
+  list-style: none;
+  padding: 0;
+}
+.prevention ul li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.prevention ul li:last-child { border-bottom: none; }
+.prevention ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 10px;
+  color: var(--teal);
+  font-weight: 700;
+}
+.prevention ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 治療三方向卡 */
+.treatment-trio {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.treat-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 22px;
+  border-top: 2px solid var(--teal);
+}
+.treat-card .t-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.treat-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.treat-card .t-en {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.treat-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.treat-card p strong { color: var(--ink); font-weight: 600; }
+.treat-card .when {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 12px;
+  color: var(--gold);
+  font-family: 'Noto Serif TC', serif;
+  letter-spacing: 0.04em;
+}
+
+/* 出院前確認 floating-label */
+.discharge {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.discharge::before {
+  content: '出院前確認';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+}
+.discharge h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.discharge p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.discharge p strong { color: var(--ink); font-weight: 600; }
+.discharge ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.discharge ul li {
+  position: relative;
+  padding: 8px 0 8px 24px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.discharge ul li:last-child { border-bottom: none; }
+.discharge ul li::before {
+  content: '★';
+  position: absolute;
+  left: 2px; top: 7px;
+  color: var(--gold);
+  font-size: 11px;
+}
+.discharge ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 一輩子要避開 floating-label (含 drug-list、子列表、safe-alt) */
+.forever-avoid {
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.forever-avoid::before {
+  content: '出院後一輩子要避開';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 2px;
+}
+.forever-avoid h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.forever-avoid > p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.forever-avoid > p strong { color: var(--ink); font-weight: 600; }
+.forever-avoid .drug-list {
+  background: var(--paper);
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin: 12px 0;
+}
+.forever-avoid .drug-list .d-row {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.forever-avoid .drug-list .d-row:last-child { border-bottom: none; }
+.forever-avoid .drug-list .d-class {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--danger);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.forever-avoid .drug-list .d-names {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+.forever-avoid .drug-list .d-names strong { color: var(--ink); font-weight: 600; }
+.forever-avoid .id-hint {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--cream);
+  border-radius: 3px;
+  border-left: 2px solid var(--danger);
+}
+.forever-avoid .id-hint .id-label {
+  color: var(--danger);
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family: 'Noto Serif TC', serif;
+  display: block;
+  margin-bottom: 4px;
+}
+.forever-avoid .id-hint .id-body {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.forever-avoid .id-hint .id-body strong { color: var(--ink); font-weight: 600; }
+.forever-avoid .sublist {
+  margin-top: 6px;
+  padding-left: 14px;
+  list-style: none;
+}
+.forever-avoid .sublist li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 4px;
+}
+.forever-avoid .sublist li::before {
+  content: '•';
+  position: absolute;
+  left: 0; top: -1px;
+  color: var(--danger);
+  font-weight: 700;
+}
+.forever-avoid .sublist li strong { color: var(--ink); font-weight: 600; }
+.forever-avoid .safe-alt {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 2px solid var(--safe);
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.forever-avoid .safe-alt .label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--safe);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.forever-avoid .safe-alt p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin: 0;
+}
+.forever-avoid .safe-alt p strong { color: var(--ink); font-weight: 600; }
+
+/* 日常生活(safe color 預設,family-help variant) */
+.lifestyle {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.lifestyle h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--safe);
+  margin-bottom: 14px;
+}
+.lifestyle ul { list-style: none; padding: 0; }
+.lifestyle ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.lifestyle ul li:last-child { margin-bottom: 0; }
+.lifestyle ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px; top: -1px;
+  color: var(--safe);
+  font-weight: 700;
+  font-size: 13px;
+}
+.lifestyle ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 預後 timeline-mini(與 8-2/8-3 同) */
+.outlook {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.outlook h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.outlook p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.outlook p:last-child { margin-bottom: 0; }
+.outlook p strong { color: var(--ink); font-weight: 600; }
+.outlook .timeline-mini {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+}
+.outlook .timeline-mini .tm-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.outlook .timeline-mini .tm-row + .tm-row {
+  border-top: 1px dashed var(--border);
+}
+.outlook .timeline-mini .tm-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 12px;
+  min-width: 100px;
+}
+.outlook .timeline-mini .tm-what { color: var(--ink-soft); }
+.outlook .timeline-mini .tm-what strong { color: var(--ink); font-weight: 600; }
+
+/* warnings 內的 top-note(callout warnings 子類) */
+.warnings-extras .top-note {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: 1px solid var(--danger-border);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.warnings-extras .top-note strong { color: var(--danger); font-weight: 700; }
+
+@media (max-width: 480px) {
+  .kidney-intro { padding: 18px 20px; }
+  .stage-card { padding: 16px 18px; }
+  .ask-numbers { padding: 18px 20px; }
+  .silent-warn { padding: 18px 20px; }
+  .drug-stop { padding: 18px 20px; }
+  .prevention { padding: 18px 20px; }
+  .treat-card { padding: 16px 18px; }
+  .discharge { padding: 20px 22px; }
+  .forever-avoid { padding: 20px 22px; }
+  .lifestyle { padding: 18px 20px; }
+  .outlook { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 8-4</div>
+    <h1>術後急性腎損傷</h1>
+    <p class="subtitle">心臟手術後常見但容易被忽略的併發症 — 認識它、預防它、終身保護腎臟<br>Cardiac Surgery-Associated Acute Kidney Injury · CSA-AKI</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>心臟手術後 20–30% 病人會發生 —— 多數可恢復,但對未來腎臟健康影響深遠</strong>
+    <p>「急性腎損傷」(Acute Kidney Injury,簡稱 AKI)是<span class="em">腎臟在幾天內突然失去部分功能</span>的狀況。心臟手術後相當常見,國際統計 <span class="em">20–30% 的病人</span>會出現某種程度的 AKI —— 多數是輕度、可自行恢復,少數(約 1–5%)較嚴重、需要短期透析。</p>
+    <p>AKI 最大的特徵是<span class="em">「容易被忽略」</span> —— 早期通常沒有明顯症狀,必須靠抽血(看「肌酸酐」這個指標)才能發現。但即使是<span class="em">輕度 AKI 也會增加長期慢性腎臟病風險、提高短長期死亡率</span>。</p>
+    <p>本院遵循國際 STS/SCA/AmSECT 與 KDIGO 共識,<span class="em">術前評估、術中血壓與體液管理、術後早期辨識與藥物調整</span>,多管齊下預防。<span class="em">出院後一輩子要避開「腎毒性藥物」</span>,這份單張會幫您列清單。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">急性腎損傷(AKI)</span>
+      <span class="lex-def">腎臟在<strong>幾天內突然失去部分功能</strong>,與慢性腎臟病(逐年下降)完全不同。多數可恢復。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肌酸酐</span>
+      <span class="lex-def">血液中的一種廢物,<strong>由腎臟負責清除</strong>。腎臟功能變差時,肌酸酐會上升 —— 醫師主要靠它判斷腎臟狀況。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">KDIGO</span>
+      <span class="lex-def">國際腎臟病改善全球指引組織(Kidney Disease: Improving Global Outcomes)。<strong>把 AKI 分成 1、2、3 三個分級</strong>,讓全世界用同一套標準。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">透析</span>
+      <span class="lex-def">俗稱「洗腎」。當腎臟功能太差時,<strong>用機器代替腎臟清除血液中的廢物與多餘水分</strong>。心臟手術後若需要透析,多數是暫時性的。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">腎毒性藥物</span>
+      <span class="lex-def"><strong>會傷害腎臟的藥物</strong>,最常見的是 NSAIDs 類止痛藥(如伊普錠、布洛芬)、部分抗生素、顯影劑。<strong>有過 AKI 的人一輩子都要小心避開</strong>。</span>
+    </div>
+  </div>
+
+  <!-- Kidney function intro -->
+  <div class="section-title">腎臟在做什麼,為什麼它會受傷</div>
+
+  <div class="kidney-intro">
+    <h4>腎臟 — 身體的「清潔工 + 水管工 + 化學工程師」</h4>
+    <p>腎臟是身體裡<strong>沉默但極為關鍵</strong>的器官。每分鐘流經兩顆腎臟的血液約 1 公升,做<strong>多項工作</strong>:</p>
+    <div class="functions">
+      <div class="f-row">
+        <div class="f-label">清除廢物</div>
+        <div class="f-desc">把血液中的代謝廢物(如<strong>肌酸酐、尿素</strong>)變成尿液排出</div>
+      </div>
+      <div class="f-row">
+        <div class="f-label">調節水分</div>
+        <div class="f-desc">維持身體<strong>水分平衡</strong>,多了就排掉、少了就保留</div>
+      </div>
+      <div class="f-row">
+        <div class="f-label">調節電解質</div>
+        <div class="f-desc">維持<strong>鈉、鉀、鈣、磷</strong>等濃度,這些對心臟跳動很重要</div>
+      </div>
+      <div class="f-row">
+        <div class="f-label">調節血壓</div>
+        <div class="f-desc">分泌賀爾蒙影響血壓</div>
+      </div>
+      <div class="f-row">
+        <div class="f-label">製造紅血球</div>
+        <div class="f-desc">分泌<strong>促紅血球生成素(EPO,刺激骨髓造血的激素)</strong>,刺激骨髓造血</div>
+      </div>
+    </div>
+    <p style="margin-top:14px"><strong>心臟手術會傷害腎臟的原因</strong>:(1)體外循環機讓血液離開心臟、流動方式改變,腎臟血流暫時減少;(2)手術時血壓波動;(3)發炎反應;(4)紅血球溶解;(5)某些術前/術後用藥;(6)術後血壓低、感染等。所以 AKI <strong>不是「手術失敗」,是心臟手術本身對身體的影響之一</strong>。</p>
+  </div>
+
+  <!-- KDIGO Three stages -->
+  <div class="section-title">三個分級 — 大部分是輕度可恢復</div>
+
+  <p class="section-intro">
+    國際 KDIGO 把 AKI 分成<span class="em">三個分級</span>。本院依肌酸酐變化與尿量做判斷。
+  </p>
+
+  <div class="stages-grid">
+
+    <article class="stage-card s1">
+      <div class="s-num">分級 01 · 輕度</div>
+      <h4>AKI 第 1 級</h4>
+      <span class="s-rate">約佔 70%</span>
+      <div class="s-section">
+        <span class="label">標準</span>
+        肌酸酐上升至基準的 <strong>1.5–1.9 倍</strong>(或上升 ≥ 0.3 mg/dL),或<strong>尿量減少持續 6–12 小時</strong>
+      </div>
+      <div class="s-section">
+        <span class="label">病人感覺</span>
+        通常<strong>沒有明顯症狀</strong>,由例行抽血發現
+      </div>
+      <div class="s-section">
+        <span class="label">處理</span>
+        <strong>支持性治療</strong>:調整藥物(避開腎毒性、依腎功能調劑量)、維持血壓、平衡水分
+      </div>
+      <div class="reassure-tag">
+        <strong>好消息:</strong>第 1 級 AKI <strong>多數在出院前完全恢復</strong>。但即使如此,仍會增加未來 2 倍的「持續腎功能下降」風險 —— 所以<strong>長期追蹤很重要</strong>。
+      </div>
+    </article>
+
+    <article class="stage-card s2">
+      <div class="s-num">分級 02 · 中度</div>
+      <h4>AKI 第 2 級</h4>
+      <span class="s-rate">約佔 20%</span>
+      <div class="s-section">
+        <span class="label">標準</span>
+        肌酸酐上升至基準的 <strong>2.0–2.9 倍</strong>,或<strong>尿量減少持續 ≥ 12 小時</strong>
+      </div>
+      <div class="s-section">
+        <span class="label">病人感覺</span>
+        可能開始出現<strong>水腫、疲倦、噁心、食慾下降</strong>,但仍不一定明顯
+      </div>
+      <div class="s-section">
+        <span class="label">處理</span>
+        <strong>較嚴格的支持性治療</strong>、可能使用利尿劑、密切監測電解質、暫停所有腎毒性藥物
+      </div>
+    </article>
+
+    <article class="stage-card s3">
+      <div class="s-num">分級 03 · 重度</div>
+      <h4>AKI 第 3 級</h4>
+      <span class="s-rate">約佔 5–10%</span>
+      <div class="s-section">
+        <span class="label">標準</span>
+        肌酸酐上升至基準的 <strong>≥ 3 倍</strong>(或 &gt; 4.0 mg/dL),或<strong>尿量極少持續 ≥ 24 小時</strong>,或<strong>需要透析</strong>
+      </div>
+      <div class="s-section">
+        <span class="label">病人感覺</span>
+        <strong>明顯水腫、嗜睡、噁心嘔吐、呼吸喘、意識變差</strong>
+      </div>
+      <div class="s-section">
+        <span class="label">處理</span>
+        ICU 密切照護,<strong>1–5% 病人可能需要短期透析</strong>(俗稱「洗腎」;在 ICU 用 CRRT 連續性腎臟替代療法 —— 24 小時不停的緩和透析,適合住 ICU 的不穩定病人)。多數透析是<strong>暫時性</strong>的,腎功能恢復後可停止
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Ask your doctor -->
+  <div class="ask-numbers">
+    <h4>如何知道自己現在屬於哪一級?</h4>
+    <p>您<strong>不需要自己計算</strong> —— 醫師每天都會評估您的腎功能變化。但您可以<strong>主動詢問</strong>:</p>
+    <ul>
+      <li>「<strong>我的術前肌酸酐基準是多少?</strong>」</li>
+      <li>「<strong>我目前的肌酸酐是多少?有上升嗎?</strong>」</li>
+      <li>「<strong>如果有 AKI,目前是第幾級?</strong>」</li>
+    </ul>
+    <div class="bottom-tip"><strong>出院前記下您的腎功能數值</strong>(術前 + 出院時),這對未來追蹤非常重要。</div>
+  </div>
+
+  <!-- Incidence -->
+  <div class="section-title">發生率 — 不是少見,但本院 ERAS 能明顯降低</div>
+
+  <div class="incidence">
+    <h4>心臟手術後 AKI 發生率</h4>
+    <div class="sub">依國際多項研究綜合(KDIGO 標準)</div>
+    <div class="stat-row">
+      <div class="stat-label">整體 AKI 發生率<span class="stat-sub">所有分級加總</span></div>
+      <div class="stat-num">20–30%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">嚴格 KDIGO 標準下<span class="stat-sub">部分研究報告</span></div>
+      <div class="stat-num">可達 80%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">需要短期透析<span class="stat-sub">CRRT 或血液透析</span></div>
+      <div class="stat-num">1.6–5.8%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">術前有慢性腎臟病的病人<span class="stat-sub">風險明顯升高</span></div>
+      <div class="stat-num">&gt; 50%</div>
+    </div>
+    <div class="closing-note">
+      所以 <strong>AKI 不是「手術失敗」,是常見併發症</strong>。本院的整套 ERAS 策略(控制體液、避開腎毒性藥物、維持血壓、早期辨識),能明顯<strong>降低發生率與嚴重度</strong>。
+    </div>
+  </div>
+
+  <!-- Silent disease warning -->
+  <div class="silent-warn">
+    <h4>AKI 最危險的地方 —— 早期幾乎沒有症狀</h4>
+    <p>不像「胸痛」、「呼吸喘」、「心跳亂」這些<strong>明顯可感覺的問題</strong>,AKI 在早期<strong>幾乎完全沒有症狀</strong>。病人可能感覺一切正常,但血液檢查已經顯示肌酸酐上升。</p>
+    <p>當您「感覺到」AKI 的時候(水腫、噁心、嗜睡) —— 通常已經是中度或重度了。</p>
+    <div class="key-fact">
+      <strong>所以本院的關鍵策略是「早期偵測」:</strong>住院期間每天監測肌酸酐與尿量。一旦肌酸酐<strong>稍微上升</strong>就立即介入(調整藥物、調整體液),<strong>不等到病人「感覺不舒服」才處理</strong>。
+    </div>
+  </div>
+
+  <!-- Risk factors -->
+  <div class="section-title">誰更容易發生 AKI</div>
+
+  <p class="section-intro">
+    醫師會在<span class="em">術前評估您的個別風險</span>,並依此調整麻醉策略、體外循環時間、體液管理。
+  </p>
+
+  <div class="risk-groups">
+    <div class="risk-group">
+      <h5>術前條件</h5>
+      <ul>
+        <li><strong>高齡(&gt; 70 歲)</strong> —— 腎臟功能隨年齡逐漸下降</li>
+        <li><strong>已有慢性腎臟病</strong>(eGFR &lt; 60 —— eGFR 是腎絲球過濾率,評估腎功能的數值,正常 &gt; 90,&lt; 60 代表腎功能下降)</li>
+        <li><strong>糖尿病</strong>(最重要的單一危險因子之一)</li>
+        <li>高血壓</li>
+        <li>周邊血管疾病</li>
+        <li>術前心臟功能差</li>
+        <li>術前貧血</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>手術因素</h5>
+      <ul>
+        <li><strong>體外循環時間長</strong></li>
+        <li>複雜手術(如同時做瓣膜 + CABG)</li>
+        <li><strong>緊急手術</strong>(無時間做完整 ERAS 準備)</li>
+        <li>重做手術</li>
+        <li>術中大量輸血</li>
+        <li>術中低血壓時段</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>術前用藥與檢查</h5>
+      <ul>
+        <li><strong>術前 48 小時內接受過顯影劑</strong>(做電腦斷層、心導管時注射的特殊液體,能讓血管、器官在影像中變清楚,但對腎臟有負擔)</li>
+        <li><strong>未停用 ACEi/ARB 類降血壓藥</strong>(下方有清單)</li>
+        <li>長期使用 NSAIDs 類止痛藥</li>
+        <li>術前服用利尿劑</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>術後因素</h5>
+      <ul>
+        <li><strong>術後感染</strong></li>
+        <li>術後低血壓</li>
+        <li>體液不平衡(脫水或水腫)</li>
+        <li>術後使用腎毒性抗生素</li>
+        <li>意外使用 NSAIDs 類止痛藥</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Critical pre-op drug stop -->
+  <div class="drug-stop">
+    <h4>術前必須停用的降血壓藥(與醫師確認)</h4>
+    <p>有兩類降血壓藥<strong>會增加心臟手術 AKI 風險</strong>,國際指引建議<strong>術前 24–48 小時停用</strong>。請<strong>不要自己決定</strong>,務必與心臟外科或麻醉科醫師確認停藥計畫。</p>
+
+    <div class="core-id">
+      <div class="core-label">核心辨識方式(只要記這個就夠)</div>
+      <div class="core-body"><strong>看您的藥袋上有沒有以「-pril」結尾的字</strong>(如 Captopril、Enalapril) → 這是 ACE 抑制劑<br><strong>看您的藥袋上有沒有以「-sartan」結尾的字</strong>(如 Losartan、Valsartan) → 這是 ARB<br><strong>以上任何一種,術前 24–48 小時需要停藥</strong>(由醫師決定)。</div>
+    </div>
+
+    <p>完整藥名對照(供您檢查藥袋):</p>
+    <div class="drug-list">
+      <div class="d-row">
+        <span class="d-class">ACE 抑制劑(後綴「-pril」)</span>
+        <span class="d-names"><strong>學名</strong>:Captopril、Enalapril、Lisinopril、Ramipril、Perindopril、Imidapril<br><strong>台灣常見商品名</strong>:Capoten(刻甫定)、Renitec(壓平樂)、Zestril、Tritace、Coversyl(冠脈循)、Tanatril</span>
+      </div>
+      <div class="d-row">
+        <span class="d-class">ARB(後綴「-sartan」)</span>
+        <span class="d-names"><strong>學名</strong>:Losartan、Valsartan、Irbesartan、Telmisartan、Olmesartan、Candesartan<br><strong>台灣常見商品名</strong>:Cozaar(可悅您)、Diovan(得安穩)、Aprovel(雅脈)、Micardis(必康平)、Olmetec(雅脈坦)、Atacand</span>
+      </div>
+    </div>
+
+    <div class="bring-meds">
+      <strong>請帶您目前所有的處方藥到術前訪視</strong>,由醫師逐一檢視。<strong>不只是這兩類</strong> —— 利尿劑、降血糖藥、抗凝血劑、糖尿病藥(特別是 <strong>SGLT2 抑制劑</strong>如恩排糖、福適佳,與 <strong>metformin</strong> 常見糖尿病藥,商品名如 Glucophage、Diaformin)都可能需要在術前調整。<strong>不要自己停藥或繼續吃,一切以術前訪視確認的清單為準</strong>。
+    </div>
+  </div>
+
+  <!-- Prevention -->
+  <div class="section-title">本院的 ERAS 預防策略 — 多管齊下</div>
+
+  <p class="section-intro">
+    本院遵循 <span class="em">美國胸腔外科學會等三大專業組織 2023 預防共識(STS/SCA/AmSECT)</span> 與 <span class="em">KDIGO 預防組合策略</span>,多管齊下降低 AKI 發生率。
+  </p>
+
+  <div class="prevention">
+    <h4>本院的 ERAS AKI 預防元素</h4>
+    <div class="sub">每一項都串連到整套系列中的其他單張</div>
+    <ul>
+      <li><strong>術前 48 小時停用 ACEi/ARB</strong>(上方清單)</li>
+      <li><strong>術前如果做過心導管檢查,盡量延後 1–2 天再手術</strong>,讓顯影劑代謝</li>
+      <li><strong>術前充分水化、避免脫水</strong> —— 但不過度灌水</li>
+      <li><strong>術前評估腎功能基準值</strong>(術前的肌酸酐、eGFR 數值),做為術後比較基準</li>
+      <li><strong>術中維持血壓在合理範圍</strong>(平均動脈壓 MAP &gt; 65 mmHg —— 術中血壓的一項指標),避免長時間低血壓</li>
+      <li><strong>「目標導向」體液管理</strong> —— 依血壓、心臟輸出量精準補液,不過量也不脫水</li>
+      <li><strong>維持充足的紅血球濃度</strong>(避免術中嚴重貧血讓腎臟缺氧) <span class="link-ref">連結 5-2</span></li>
+      <li><strong>體溫維持 ≥ 36°C</strong> —— 低體溫會減少腎臟血流 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>血糖控制在合理範圍</strong> —— 高血糖會傷腎</li>
+      <li><strong>嚴格避免 NSAIDs 類止痛藥</strong> —— 用多模式止痛取代 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>抗生素依腎功能調整劑量</strong> —— 部分抗生素具腎毒性,需精算</li>
+      <li><strong>術後每日監測肌酸酐與尿量</strong> —— 早期偵測 AKI</li>
+      <li><strong>體液評估與利尿劑使用</strong> —— 避免術後水腫</li>
+    </ul>
+  </div>
+
+  <!-- Treatment -->
+  <div class="section-title">如果發生了怎麼處理 — 多數可恢復</div>
+
+  <p class="section-intro">
+    AKI 沒有「特效藥」可以直接修復腎臟。治療的核心是 <span class="em">「支持腎臟、移除傷害、給時間恢復」</span>。
+  </p>
+
+  <div class="treatment-trio">
+    <article class="treat-card">
+      <div class="t-num">方向 01 · 支持性治療</div>
+      <h4>讓腎臟自己恢復</h4>
+      <div class="t-en">Supportive Care</div>
+      <p><strong>暫停所有可能傷腎的藥物</strong>(包括降血壓的 ACEi/ARB、NSAIDs、特定抗生素)。<strong>調整其他藥物劑量</strong>,依腎功能下降比例減量。<strong>維持血壓、平衡電解質、適度水分</strong>。多數第 1、2 級 AKI 在這樣的支持下能自行恢復。</p>
+      <div class="when">適用:所有分級的 AKI(特別是第 1、2 級)</div>
+    </article>
+
+    <article class="treat-card">
+      <div class="t-num">方向 02 · 體液與電解質管理</div>
+      <h4>避免水分與離子失衡</h4>
+      <div class="t-en">Fluid &amp; Electrolyte Management</div>
+      <p><strong>避免水腫</strong>:必要時使用利尿劑,把多餘水分排掉。<strong>監測鉀離子</strong>:腎臟功能差時鉀會累積,過高會導致心律不整。<strong>密切追蹤酸鹼平衡</strong>。</p>
+      <div class="when">適用:所有分級,特別是中度以上</div>
+    </article>
+
+    <article class="treat-card">
+      <div class="t-num">方向 03 · 透析(腎臟替代療法)</div>
+      <h4>暫時用機器代替腎臟</h4>
+      <div class="t-en">Renal Replacement Therapy · RRT</div>
+      <p>當腎臟<strong>嚴重衰竭、體液或電解質無法控制</strong>時,使用<strong>透析</strong>機暫時代替腎臟功能。在 ICU 多採用<strong>連續性腎臟替代療法(CRRT)</strong> —— 24 小時持續、緩和進行,適合住 ICU 的不穩定病人。<strong>多數情況下是暫時的</strong>,腎臟恢復後可停。</p>
+      <div class="when">適用:第 3 級嚴重 AKI(約 1–5% 病人需要)</div>
+    </article>
+  </div>
+
+  <!-- Discharge transition -->
+  <div class="discharge">
+    <h4>如果您住院期間出現過 AKI —— 出院前的關鍵確認</h4>
+    <p>即使您的 AKI 已經完全恢復,<strong>出院時仍有重要事項要確認</strong>:</p>
+    <ul>
+      <li><strong>我出院時的腎功能(肌酸酐、eGFR)數值是多少?</strong>請記下來,與術前比較</li>
+      <li><strong>術前停用的 ACEi/ARB,何時可以恢復?</strong>不要自己重新開始,要由醫師確認</li>
+      <li><strong>我目前的所有藥物中,哪些有「腎毒性風險」?</strong>請醫師逐一檢視</li>
+      <li><strong>下次抽血追蹤肌酸酐是什麼時候?</strong>(詳細追蹤頻率見下方「日常生活保護腎臟」段落)</li>
+      <li><strong>未來如果生病或受傷需要止痛藥,可以吃哪些?</strong>(NSAIDs 絕對禁忌,詳見下方)</li>
+      <li><strong>未來如果需要做心導管或電腦斷層(顯影劑檢查),要先告知什麼?</strong></li>
+      <li><strong>什麼情況下需要立即回診?</strong>(見下方警示徵兆)</li>
+    </ul>
+  </div>
+
+  <!-- Forever avoid NSAIDs -->
+  <div class="forever-avoid">
+    <h4>有過 AKI 的人,這些藥物一輩子要避開或極小心使用</h4>
+    <p>有過任何分級 AKI 的病人,<strong>未來再發生 AKI、或進展成慢性腎臟病的風險都明顯升高</strong>。所以接下來一輩子,<strong>以下藥物要特別小心</strong>:</p>
+
+    <div class="drug-list">
+      <div class="d-row">
+        <span class="d-class">NSAIDs 類止痛藥(最重要)</span>
+        <div class="d-names">這類止痛藥<strong>對腎臟有直接傷害</strong>。常見:<strong>Ibuprofen(伊普錠、布洛芬)、Naproxen(萘普生)、Diclofenac(待克菲那、服他寧)、Mefenamic acid(撲熱息痛)、Indomethacin、Ketoprofen、Celecoxib(希樂葆)、Meloxicam、Etoricoxib(安痛易)</strong>。
+          <div class="id-hint">
+            <span class="id-label">最簡單的辨識方式</span>
+            <span class="id-body">看到藥袋寫「<strong>消炎止痛</strong>」、「<strong>NSAIDs</strong>」、「<strong>非類固醇消炎藥</strong>」就要確認。中文藥名含「<strong>酚</strong>」「<strong>普羅芬</strong>」「<strong>洛芬</strong>」「<strong>昔布</strong>」就要小心。藥盒上有「<strong>消炎</strong>」字樣的痠痛貼布(如撒隆巴斯、易拉痛、待克菲那貼)都要避免。</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-row">
+        <span class="d-class">市售感冒藥常含 NSAIDs</span>
+        <div class="d-names">許多<strong>市售感冒藥、肌肉痠痛貼布、退燒藥</strong>都含 NSAIDs。藥房買藥前<strong>務必告知藥師「我曾有過急性腎損傷,不能用 NSAIDs」</strong>。</div>
+      </div>
+      <div class="d-row">
+        <span class="d-class">特定抗生素</span>
+        <div class="d-names">有些抗生素具腎毒性(如 <strong>Gentamicin、Vancomycin、Amikacin、Amphotericin B</strong> 等)。<strong>您不需要記住這些藥名</strong> —— 重點是:
+          <ul class="sublist">
+            <li>看牙醫、家醫科、皮膚科、泌尿科等<strong>任何科別時,主動告知「我曾有過急性腎損傷」</strong></li>
+            <li>醫師自然會避開腎毒性抗生素,或調整劑量</li>
+            <li>如果一定要用,醫師會搭配<strong>抽血監測腎功能</strong>確保安全</li>
+          </ul>
+        </div>
+      </div>
+      <div class="d-row">
+        <span class="d-class">顯影劑</span>
+        <div class="d-names">電腦斷層(CT)、心導管、磁振造影(MRI)有時會用<strong>顯影劑</strong>。檢查前主動告知,醫師可選擇較低劑量、或檢查前後充分水化保護腎臟。</div>
+      </div>
+      <div class="d-row">
+        <span class="d-class">中草藥與來源不明補品(台灣文化要特別小心)</span>
+        <div class="d-names">
+          <ul class="sublist">
+            <li><strong>馬兜鈴酸</strong>:過去常見於「<strong>青木香、關木通、廣防己、馬兜鈴</strong>」等中藥材,台灣已禁用但仍可能流通,<strong>完全不能服用</strong></li>
+            <li><strong>「補腎」偏方</strong>:常見於「<strong>鹿茸、龜鹿二仙膠、十全大補</strong>」等,雖然不一定有毒,但 AKI 病人吃這些會增加腎臟負擔 —— 任何「補品」服用前<strong>先問腎臟科醫師</strong></li>
+            <li><strong>減肥茶、減肥藥</strong>:很多含有腎毒性成分,<strong>絕對避免</strong></li>
+            <li><strong>保健食品</strong>:<strong>過量的維他命 C、蛋白質粉、鈣片、磷補充品</strong>都可能傷腎 —— <strong>不是「天然就安全」</strong></li>
+            <li><strong>非經中醫師處方的草藥</strong>:任何來路不明的「<strong>祖傳秘方</strong>」「<strong>朋友推薦的草藥</strong>」<strong>都要拒絕</strong>,即使是親朋好友送的</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="safe-alt">
+      <div class="label">可以使用的較安全選擇</div>
+      <p>大多數情況下<strong>普拿疼(acetaminophen / paracetamol)對腎臟相對安全</strong>,是發燒與輕度疼痛的首選。如果疼痛較嚴重,請<strong>回診由醫師評估</strong>,不要自己買 NSAIDs 來吃。</p>
+    </div>
+  </div>
+
+  <!-- Lifestyle -->
+  <div class="section-title">日常生活中保護腎臟</div>
+
+  <div class="lifestyle">
+    <h4>有過 AKI 的人,日常如何保護腎臟</h4>
+    <ul>
+      <li><strong>規律抽血追蹤腎功能(最重要)</strong> —— <strong>出院後第 1 年密集追蹤</strong>(出院後 1–2 週、1 個月、3 個月、6 個月、1 年);<strong>第 2 年起每 6 個月一次</strong>(若腎功能穩定可延長到每年一次);<strong>發生任何相關症狀(見警示徵兆):立即追蹤,不等下次回診</strong></li>
+      <li><strong>嚴格控制血壓</strong>(目標 &lt; 130/80 mmHg) —— 高血壓是腎臟的隱形殺手</li>
+      <li><strong>嚴格控制血糖</strong>(糖化血色素 &lt; 7% —— 血糖控制的長期指標,&lt; 7% 代表控制良好) —— 糖尿病是慢性腎臟病最大誘因</li>
+      <li><strong>充足水分但不過量</strong> —— 一般成人每天約 1500–2000 mL(依心臟狀況微調)</li>
+      <li><strong>低鹽飲食</strong> —— 每天鈉攝取 &lt; 2000 mg(約 5 g 鹽),可減少腎臟負擔 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>不要憋尿</strong> —— 有尿意就排掉,避免泌尿道感染</li>
+      <li><strong>看任何醫師都主動告知「我曾有過急性腎損傷」</strong> —— 這比您想像的還重要</li>
+      <li><strong>避免脫水</strong> —— 腹瀉、嘔吐、發燒、大量流汗時要主動補水(若同時無法進食,盡早就醫)</li>
+      <li><strong>戒菸</strong> —— 吸菸會加速腎臟功能下降</li>
+      <li><strong>適量運動、維持理想體重</strong> <span class="link-ref">連結 10-1</span></li>
+    </ul>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬可以怎麼幫</div>
+
+  <div class="callout family-discuss">
+    <h4>家屬的 6 個關鍵角色</h4>
+    <ul>
+      <li><strong>協助觀察尿量</strong> —— 心臟手術後第一個月,留意病人<strong>一天大約上幾次廁所、每次的量</strong>(可用「比平常少很多」「幾乎沒尿」這種粗略觀察)</li>
+      <li><strong>觀察水腫</strong> —— 每天看看病人的<strong>雙腳、腳踝、臉部</strong>有沒有明顯水腫(壓下去有凹陷不會立即彈回)</li>
+      <li><strong>把關買藥</strong> —— 家屬好意買的市售感冒藥、痠痛貼布、止痛藥可能含 NSAIDs。<strong>幫病人買藥前,先打給醫院藥師或社區藥師詢問</strong></li>
+      <li><strong>提醒抽血追蹤時間</strong> —— 出院後密集追蹤的 4–5 次抽血,病人可能會忘記。<strong>家屬幫忙設定行事曆提醒</strong></li>
+      <li><strong>緊急情況時主動告知</strong> —— 病人若昏迷、失去溝通能力時送急診,<strong>家屬要主動告訴急診醫師「他/她曾有過急性腎損傷」</strong> —— 這可能影響急診的用藥選擇(避免顯影劑、NSAIDs、特定抗生素)</li>
+      <li><strong>與病人一起學習這份清單</strong> —— 終身保護腎臟是家庭工程,不只是病人一個人的事</li>
+    </ul>
+  </div>
+
+  <!-- ID reminder card -->
+  <div class="discharge">
+    <h4>如何讓「告知醫師」變成習慣 — 三個具體工具</h4>
+    <p>口頭告知容易被忽略(看牙醫、家醫科時往往倉促)。建議用以下<strong>具體可執行的工具</strong>:</p>
+    <ul>
+      <li><strong>手機備忘錄寫一段話</strong>:「我曾於 YYYY 年 MM 月做過心臟手術,術後發生急性腎損傷(AKI 第 X 級),請避免使用 NSAIDs、特定抗生素、顯影劑。」<strong>看醫師時打開給醫師看</strong>,比口頭說更清楚</li>
+      <li><strong>錢包放一張卡片</strong> —— 寫上「<strong>心臟手術 + AKI 病史</strong>」與血型、過敏史,緊急時讓急救人員看到</li>
+      <li><strong>常用藥的藥袋上做標記</strong> —— 用紅色筆寫「<strong>AKI 病史,避免 NSAIDs</strong>」,提醒自己也提醒藥師</li>
+    </ul>
+    <p style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border)"><strong>讓「終身保護」從抽象觀念變成具體可執行的日常工具</strong>。</p>
+  </div>
+
+  <!-- Outlook -->
+  <div class="section-title">長期預後 — 多數恢復,但需要終身關注</div>
+
+  <div class="outlook">
+    <h4>AKI 後的長期軌跡</h4>
+    <p>多數心臟手術後 AKI 是<strong>暫時性</strong>的,但 AKI <strong>確實提醒您腎臟「曾經受傷過」</strong>,未來需要更謹慎。長期軌跡如下:</p>
+
+    <div class="timeline-mini">
+      <div class="tm-row">
+        <div class="tm-when">出院時</div>
+        <div class="tm-what">第 1 級 AKI <strong>多數已恢復</strong>,第 2、3 級可能仍在恢復中</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">出院後 1–3 個月</div>
+        <div class="tm-what">大部分腎功能<strong>恢復到接近術前水準</strong>。少數需要更久</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">出院後 6 個月–1 年</div>
+        <div class="tm-what">需要透析的病人,<strong>約 70–80% 可以脫離透析</strong>。其餘可能需要長期透析</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">長期 1–5 年</div>
+        <div class="tm-what">即使腎功能看似恢復,<strong>未來慢性腎臟病風險仍比一般人高約 2 倍</strong> —— 需要每年規律追蹤</div>
+      </div>
+    </div>
+
+    <p><strong>關鍵訊息:</strong>AKI 不是「一次性事件」,是<strong>「腎臟提醒您要終身關注的訊號」</strong>。透過<strong>避開腎毒性藥物、控制血壓血糖、規律追蹤</strong>,絕大多數人都能維持良好的長期腎功能。</p>
+
+    <p style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border)"><strong style="color:var(--teal)">給病人的安慰:</strong>心臟手術後出現 AKI 是<strong>常見、可處理的反應</strong>。本院的早期偵測與治療,能讓絕大多數病人完整恢復。<strong>未來只要避開腎毒性藥物、規律追蹤</strong>,可以維持正常生活。</p>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">出現這些情況請立即回診或就醫</div>
+
+  <div class="callout warnings warnings-extras">
+    <h4>出院後的腎臟警示徵兆</h4>
+    <div class="top-note">
+      這些徵兆出現時,請<strong>立即回診或到急診</strong>(依嚴重度判斷)。早期介入能避免進展到嚴重 AKI 或永久腎損傷。
+    </div>
+    <ul>
+      <li><strong>尿量明顯減少</strong>(24 小時 &lt; 400 mL,約 2 杯量)或<strong>完全沒尿</strong></li>
+      <li><strong>下肢、臉部明顯水腫</strong>,特別是雙腳壓下去有凹陷</li>
+      <li><strong>嚴重噁心嘔吐、食慾全無</strong>,無法進食數天</li>
+      <li><strong>意識變混亂、嗜睡、難以叫醒</strong></li>
+      <li><strong>呼吸急促、喘</strong>(可能是體液過多)</li>
+      <li><strong>不明原因疲倦、虛弱</strong>,超過一週仍未改善</li>
+      <li><strong>嚴重腹瀉、嘔吐、發燒</strong>導致脫水 —— 不要硬撐</li>
+      <li><strong>誤服或不慎使用 NSAIDs 類止痛藥</strong>數天後出現上述任何症狀</li>
+      <li><strong>追蹤抽血發現肌酸酐明顯上升</strong> —— 請立即與醫師討論</li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>AKI 與術後恢復相關的閱讀路徑</h4>
+    <div class="sub">這份單張在整套衛教中的位置 — 也是術後併發症三部曲之一</div>
+    <ol>
+      <li>體外循環機 CPB(與 AKI 關係)</li>
+      <li>凝血功能與止血藥物(紅血球與腎臟保護)</li>
+      <li>圍術期低體溫(影響腎臟血流)</li>
+      <li>多模式止痛(避免 NSAIDs,本院多模式策略正好避開)</li>
+      <li>心臟手術後飲食調整(低鹽、適量蛋白質)</li>
+      <li>譫妄專篇 8-2(術後併發症三部曲:腦)</li>
+      <li>術後心房顫動 POAF 8-3(術後併發症三部曲:心律)</li>
+      <li class="current"><strong>術後急性腎損傷 8-4(您正在讀,三部曲:腎)</strong></li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>術後急性腎損傷(AKI) —— <span class="em">是常見、容易被忽略、但本院能主動偵測與處理</span>的併發症。多數病人能完全恢復,但 AKI <span class="em">提醒您腎臟需要終身關注</span>。</p>
+    <p>對 AKI 有任何疑問,或想了解您個別的風險與長期保養計畫,歡迎在<span class="em">門診、術前訪視、住院中、出院前</span>與心臟外科、麻醉科、腎臟內科團隊討論。<span class="em">最重要的事:未來看任何醫師都主動告知「我曾有過急性腎損傷」</span>。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Brown JR, Shore-Lesserson L, Fox AA, et al. The Society of Thoracic Surgeons/Society of Cardiovascular Anesthesiologists/American Society of Extracorporeal Technology Clinical Practice Guidelines for the Prevention of Adult Cardiac Surgery-Associated Acute Kidney Injury. <em>Ann Thorac Surg.</em> 2023;115(1):34–42.</li>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement. <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>KDIGO Clinical Practice Guideline for Acute Kidney Injury. <em>Kidney Int Suppl.</em> 2012;2(1):1–138.</li>
+      <li>Wang XD, Bao R, Lan Y, et al. The Incidence, Risk Factors, and Prognosis of Acute Kidney Injury in Patients After Cardiac Surgery. <em>Front Cardiovasc Med.</em> 2024;11:1396889.</li>
+      <li>Rasmussen SB, Boyko Y, Ranucci M, et al. Cardiac Surgery-Associated Acute Kidney Injury – A Narrative Review. <em>Perfusion.</em> 2024;39(8):1516–1530.</li>
+      <li>Hu J, Chen R, Liu S, et al. Global Incidence and Outcomes of Adult Patients with Acute Kidney Injury After Cardiac Surgery: A Systematic Review and Meta-Analysis. <em>J Cardiothorac Vasc Anesth.</em> 2016;30(1):82–89.</li>
+      <li>Priyanka P, Zarbock A, Izawa J, et al. The Impact of Acute Kidney Injury by Serum Creatinine or Urine Output Criteria on Major Adverse Kidney Events in Cardiac Surgery Patients. <em>J Thorac Cardiovasc Surg.</em> 2021;162(1):143–151.</li>
+      <li>Joannidis M, Druml W, Forni LG, et al. Prevention of Acute Kidney Injury and Protection of Renal Function in the Intensive Care Unit: Update 2017. <em>Intensive Care Med.</em> 2017;43(6):730–749.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的 AKI 風險評估、預防、治療與長期追蹤計畫,以心臟外科、麻醉科、腎臟內科醫師依您的臨床狀況與基準腎功能評估為準。對 AKI 或腎毒性藥物有任何疑問,請於門診、術前訪視、住院中或出院前與醫療團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>

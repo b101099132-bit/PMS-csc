@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保護性約束 — 心臟加速康復衛教</title>
+<meta name="description" content="為什麼本院心臟手術後幾乎已不使用約束 — 少數狀況下的最低限度使用、家屬可以怎麼幫忙、過去有不愉快約束經驗的人">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:核心承諾 + ERAS 鏈 + vs 對照 + 兩情境 + 約束類型 + 決策流程 + 普通病房/過去經驗 + 家屬協助 + QA */
+
+/* 核心立場 floating-label callout */
+.promise-callout {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--safe-bg) 100%);
+  border: 1.5px solid var(--safe);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.promise-callout::before {
+  content: '本院核心立場';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--safe);
+  border: 1px solid var(--safe);
+  border-radius: 2px;
+}
+.promise-callout h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.promise-callout .big-statement {
+  font-size: 16px;
+  color: var(--safe);
+  font-weight: 500;
+  line-height: 1.7;
+  padding: 14px 16px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 3px solid var(--safe);
+  margin-bottom: 14px;
+  font-family: 'Noto Serif TC', serif;
+}
+.promise-callout .big-statement strong { color: var(--safe); font-weight: 600; }
+.promise-callout p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.promise-callout p:last-child { margin-bottom: 0; }
+.promise-callout p strong { color: var(--ink); font-weight: 600; }
+
+/* ERAS 鏈(→ bullets + .conclusion) */
+.eras-chain {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.eras-chain h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.eras-chain .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.eras-chain ul { list-style: none; padding: 0; }
+.eras-chain ul li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.eras-chain ul li:last-child { border-bottom: none; }
+.eras-chain ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0; top: 10px;
+  color: var(--teal);
+  font-weight: 700;
+}
+.eras-chain ul li strong { color: var(--ink); font-weight: 600; }
+.eras-chain .conclusion {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--teal-tint);
+  border-radius: 3px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-left: 2px solid var(--teal);
+}
+.eras-chain .conclusion strong { color: var(--teal); font-weight: 600; }
+
+/* 3 欄對照表(同 6-1 SICU 結構) */
+.comparison-table {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.comparison-table h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.comparison-table .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.comparison-table .ct-header {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 6px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.comparison-table .ct-header .h-aspect { text-align: left; color: var(--ink); }
+.comparison-table .ct-header .h-trad { color: var(--ink-faint); }
+.comparison-table .ct-header .h-our { color: var(--teal); }
+.comparison-table .ct-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 8px;
+  padding: 10px 6px;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13px;
+  line-height: 1.7;
+  align-items: center;
+}
+.comparison-table .ct-row:last-of-type { border-bottom: none; }
+.comparison-table .ct-row .aspect { color: var(--ink); font-weight: 500; }
+.comparison-table .ct-row .trad-val { text-align: center; color: var(--ink-faint); }
+.comparison-table .ct-row .our-val {
+  text-align: center;
+  color: var(--ink);
+  font-weight: 600;
+  background: var(--gold-soft);
+  padding: 4px 6px;
+  border-radius: 3px;
+}
+
+/* 兩情境(gold gradient + 2 列 situation grid) */
+.when-needed {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.when-needed h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.when-needed .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.when-needed p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.when-needed p strong { color: var(--ink); font-weight: 600; }
+.when-needed .situations { margin: 14px 0; }
+.when-needed .situation {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.when-needed .situation:last-child { border-bottom: none; }
+.when-needed .situation .s-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 14px;
+  min-width: 30px;
+}
+.when-needed .situation .s-desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.when-needed .situation .s-desc strong { color: var(--ink); font-weight: 600; }
+.when-needed .situation .s-desc .s-title {
+  display: block;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+.when-needed .situation .timing-detail {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+}
+.when-needed .situation .timing-detail .td-label {
+  color: var(--gold);
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family: 'Noto Serif TC', serif;
+  display: block;
+  margin-bottom: 6px;
+}
+.when-needed .situation .timing-detail .td-body {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.when-needed .situation .timing-detail .td-body strong { color: var(--ink); font-weight: 600; }
+.when-needed .rare-note {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.when-needed .rare-note strong { color: var(--ink); font-weight: 600; }
+
+/* 約束類型(cold 預設 / safe variant / gold variant) */
+.restraint-type {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.restraint-type h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cold);
+  margin-bottom: 4px;
+}
+.restraint-type .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.restraint-type p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.restraint-type p strong { color: var(--ink); font-weight: 600; }
+.restraint-type .type-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+.restraint-type .type-card {
+  padding: 12px 14px;
+  background: var(--cold-bg);
+  border-radius: 3px;
+}
+.restraint-type .type-card .label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--cold);
+  font-size: 12.5px;
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+.restraint-type .type-card .desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.restraint-type .type-card .desc strong { color: var(--ink); font-weight: 600; }
+.restraint-type .principles {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--cold);
+}
+.restraint-type .principles h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--cold);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.restraint-type .principles ul { list-style: none; padding: 0; }
+.restraint-type .principles li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+.restraint-type .principles li:last-child { margin-bottom: 0; }
+.restraint-type .principles li::before {
+  content: '◦';
+  position: absolute;
+  left: 4px; top: 0;
+  color: var(--cold);
+  font-size: 16px;
+}
+.restraint-type .principles li strong { color: var(--ink); font-weight: 600; }
+/* safe variant — for 普通病房後 */
+.restraint-type.safe-variant {
+  border-left-color: var(--safe);
+}
+.restraint-type.safe-variant h4 { color: var(--safe); }
+/* gold variant — for 過去經驗 */
+.restraint-type.gold-variant {
+  border-left-color: var(--gold);
+}
+.restraint-type.gold-variant h4 { color: var(--gold); }
+.restraint-type.gold-variant .star-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.restraint-type.gold-variant .star-list li {
+  position: relative;
+  padding: 7px 0 7px 24px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.restraint-type.gold-variant .star-list li:last-child { border-bottom: none; }
+.restraint-type.gold-variant .star-list li::before {
+  content: '★';
+  position: absolute;
+  left: 2px; top: 7px;
+  color: var(--gold);
+  font-size: 11px;
+}
+.restraint-type.gold-variant .star-list li strong { color: var(--ink); font-weight: 600; }
+.restraint-type.gold-variant .promise {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink);
+  border-left: 2px solid var(--teal);
+}
+.restraint-type.gold-variant .promise strong { color: var(--teal); font-weight: 600; }
+
+/* 決策流程 */
+.decision-flow {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.decision-flow h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.decision-flow .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+}
+.decision-flow .flow-step {
+  background: var(--cream-deep);
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 38px;
+}
+.decision-flow .flow-step .step-num {
+  position: absolute;
+  left: 10px; top: 12px;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 16px;
+}
+.decision-flow .flow-step .step-content {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.decision-flow .flow-step .step-content strong { color: var(--ink); font-weight: 600; }
+.decision-flow .flow-step .checks {
+  margin-top: 6px;
+  padding-left: 8px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.decision-flow .flow-step .checks strong { color: var(--ink); font-weight: 600; }
+.decision-flow .flow-arrow {
+  text-align: center;
+  color: var(--gold);
+  font-size: 18px;
+  margin: -2px 0 6px;
+}
+
+/* 家屬協助(safe 色 + ◇ bullets + .emphasis) */
+.family-help {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.family-help h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--safe);
+  margin-bottom: 4px;
+}
+.family-help .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.family-help ul { list-style: none; padding: 0; }
+.family-help ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.family-help ul li:last-child { margin-bottom: 0; }
+.family-help ul li::before {
+  content: '◇';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--safe);
+  font-size: 12px;
+}
+.family-help ul li strong { color: var(--ink); font-weight: 600; }
+.family-help .emphasis {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--safe);
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--ink);
+  font-weight: 500;
+}
+.family-help .emphasis strong { color: var(--safe); font-weight: 600; }
+
+/* Q&A list(同 6-1 SICU 結構) */
+.qa-list {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.qa-list h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+.qa-list .qa-item {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.qa-list .qa-item:last-of-type { border-bottom: none; }
+.qa-list .qa-item .question {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+.qa-list .qa-item .question::before {
+  content: 'Q. ';
+  color: var(--gold);
+}
+.qa-list .qa-item .answer {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  padding-left: 22px;
+  border-left: 2px solid var(--teal-tint);
+}
+.qa-list .qa-item .answer strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .promise-callout { padding: 20px 22px; }
+  .eras-chain { padding: 18px 20px; }
+  .comparison-table { padding: 18px 20px; }
+  .comparison-table .ct-header,
+  .comparison-table .ct-row { font-size: 12px; }
+  .when-needed { padding: 18px 20px; }
+  .restraint-type { padding: 18px 20px; }
+  .restraint-type .type-row { grid-template-columns: 1fr; }
+  .decision-flow { padding: 18px 20px; }
+  .family-help { padding: 18px 20px; }
+  .qa-list { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 6-5</div>
+    <h1>保護性約束</h1>
+    <p class="subtitle">為什麼本院心臟手術後幾乎已不使用 — 少數狀況下的最低限度使用<br>Protective Restraints · Why We Rarely Use Them</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>「進加護病房就會被綁起來」 —— 這是過時的印象</strong>
+    <p>很多病人與家屬最怕的事情之一,是<span class="em">手術後在加護病房被「綁起來」</span>。在傳統加護病房文化中,手腕約束、手套約束確實是<span class="em">常規做法</span> —— 為了避免病人在麻醉甦醒、長時間插管期間,不自覺地拔掉維生管路。</p>
+    <p>但<span class="em">本院的心臟手術後病人,幾乎已經不需要常規約束</span>。原因不是「規定改了」,而是<span class="em">整套 ERAS 加速康復策略</span>把約束的「需求」幾乎消除了 —— 病人手術室內就拔管、清醒地抵達 SICU、不會因<strong>鴉片類藥物(強效止痛藥,如嗎啡、芬太尼)</strong>混亂、能與家屬說話。<span class="em">沒有混亂,就沒有約束的用途</span>。</p>
+    <p>少數情況下(最常見是<span class="em">術後第一晚</span>),部分病人會有<span class="em">短暫的夜間混亂</span>,或是<span class="em">睡覺動作較大</span>而有扯到管路的風險 —— 這時才會用到<span class="em">短暫的保護性約束</span>,並在天亮、病人穩定後即時解除。本院的約束<span class="em">是「保護管路」,不是「懲罰行為」</span>。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">保護性約束</span>
+      <span class="lex-def"><strong>暫時性、最低限度的肢體限制</strong>,目的是<strong>保護病人的生命管路與安全</strong>,不是限制行為自由。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">軟式約束帶</span>
+      <span class="lex-def"><strong>有襯墊、不傷皮膚的布製腕帶</strong>,固定在床欄上。隨時可解開,不會壓迫血管或神經。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">約束式手套</span>
+      <span class="lex-def">蓬鬆的<strong>軟手套</strong>,讓手部活動受限但不固定 —— 病人可以動手但抓不到管路。是比腕帶更輕的選項。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">譫妄</span>
+      <span class="lex-def">術後暫時性的<strong>意識混亂</strong>。譫妄是少數需要約束的主要原因。本院 ERAS 大幅降低譫妄發生率 <span class="link-ref">連結 8-2</span>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">最低限度</span>
+      <span class="lex-def">本院使用約束的原則:<strong>能不用就不用、能少用就少用、能早解除就早解除</strong>。每次使用都會記錄、頻繁評估。</span>
+    </div>
+  </div>
+
+  <!-- Hospital promise -->
+  <div class="promise-callout">
+    <h4>本院 ERAS 後的「不約束哲學」</h4>
+    <div class="big-statement">
+      心臟手術後的本院病人,<strong>幾乎所有人都不需要約束</strong>。約束不是常規做法,是「萬不得已的最後選項」。
+    </div>
+    <p>傳統 ICU 認為「<strong>每位 ICU 病人都該被約束</strong>」 —— 因為過去 ICU 病人多數插著管、被鎮靜得很深、會有譫妄與躁動。在那樣的環境下,約束<strong>確實</strong>是保護病人的必要措施。</p>
+    <p>但本院的 ERAS 加速康復策略<strong>從根本改變了這個情境</strong>:病人手術室內就拔管、清醒、不再被深度鎮靜、能與家屬說話、能自己配合活動。<strong>當病人是「醒著的、有意識的、不混亂的」,就沒有理由綁他</strong>。</p>
+    <p><strong>所以本院的標準做法是:預設不約束。只有在少數特定情境出現時,才考慮短暫使用</strong>(下方說明)。</p>
+  </div>
+
+  <!-- Why most don't need - ERAS chain -->
+  <div class="section-title">為什麼本院的病人多數不需要約束</div>
+
+  <p class="section-intro">
+    這不是「運氣好」,是<span class="em">整套 ERAS 策略主動降低了約束的「需求」</span>。每一項策略都對應一個原本會導致需要約束的問題。
+  </p>
+
+  <div class="eras-chain">
+    <h4>本院 ERAS 如何降低約束需求</h4>
+    <div class="sub">每一項策略都消除一個約束的「理由」</div>
+    <ul>
+      <li><strong>手術室內拔管</strong> —— 病人抵達 SICU 時就已經拔管,沒有「不自覺拔管」的風險 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、不需要重新鎮靜、不會躁動 <span class="link-ref">連結 6-6</span></li>
+      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類(強效止痛藥,如嗎啡、芬太尼)是譫妄與躁動的重要誘因,本院多模式止痛大幅減少 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>避免苯二氮平類鎮靜</strong> —— 苯二氮平類(常見鎮靜藥/安眠藥,如 midazolam、使蒂諾斯、安定文等)是譫妄最強誘因之一,本院盡量不用</li>
+      <li><strong>快速認知恢復</strong> —— 病人快速恢復定向感(對時間、地點、人物的認知)、認得家人、知道自己在哪裡 <span class="link-ref">連結 8-1a · 8-1b</span></li>
+      <li><strong>譫妄主動預防</strong> —— 11 項以上的譫妄預防策略,讓譫妄發生率明顯降低 <span class="link-ref">連結 8-2</span></li>
+      <li><strong>獨立病間</strong> —— 降低噪音、保留隱私、減少譫妄誘因 <span class="link-ref">連結 6-1</span></li>
+      <li><strong>家屬可陪伴</strong> —— 家屬陪伴本身就是強力的譫妄預防、降低躁動</li>
+      <li><strong>早期下床活動</strong> —— 拔管後 6 小時坐起、24 小時走路,病人沒有躺著的躁動 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>規律晝夜節律</strong>(身體分辨白天黑夜的生理時鐘) —— 白天活動、晚上降低燈光,幫助維持作息(譫妄常在夜晚加重)</li>
+    </ul>
+    <div class="conclusion">
+      <strong>結果:</strong>當病人是<strong>清醒、止痛良好、有家屬陪伴、能與環境互動、規律作息</strong>的狀態,<strong>幾乎沒有約束的需求</strong>。約束不是必要設備,是<strong>「ERAS 不到位時才會用的補丁」</strong>。
+    </div>
+  </div>
+
+  <!-- Comparison -->
+  <div class="section-title">傳統 ICU 約束做法 vs 本院 ERAS 後做法</div>
+
+  <div class="comparison-table">
+    <h4>主要差異對照</h4>
+    <div class="sub">不是「鬆綁規定」,是 ERAS 讓需求消失</div>
+
+    <div class="ct-header">
+      <div class="h-aspect">面向</div>
+      <div class="h-trad">傳統 ICU</div>
+      <div class="h-our">本院 ERAS</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">預設立場</div>
+      <div class="trad-val">每位病人約束</div>
+      <div class="our-val">預設不約束</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">使用比例</div>
+      <div class="trad-val">幾乎所有人</div>
+      <div class="our-val">少數例外</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">使用原因</div>
+      <div class="trad-val">預防拔管路</div>
+      <div class="our-val">特定狀況限定</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">使用時長</div>
+      <div class="trad-val">數天到數週</div>
+      <div class="our-val">通常一晚</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">解除標準</div>
+      <div class="trad-val">轉出 ICU</div>
+      <div class="our-val">混亂解除即停</div>
+    </div>
+    <div class="ct-row">
+      <div class="aspect">家屬陪伴</div>
+      <div class="trad-val">嚴格限制</div>
+      <div class="our-val">陪伴降低需求</div>
+    </div>
+  </div>
+
+  <!-- When restraint MIGHT be needed -->
+  <div class="section-title">少數情況下才會用 — 兩種主要情境</div>
+
+  <div class="when-needed">
+    <h4>什麼狀況下才會考慮短暫使用約束</h4>
+    <div class="sub">這些情境合計不到 10% 的病人</div>
+
+    <div class="situations">
+      <div class="situation">
+        <div class="s-num">01</div>
+        <div class="s-desc">
+          <span class="s-title">術後第一晚出現暫時夜間混亂</span>
+          這是最常見的情境。少數病人在<strong>術後第一個晚上</strong>會出現<strong>輕度的暫時譫妄</strong> —— 認不得地方、想下床、想拔管路(把身上的管子拉掉)、不認得家人。這時若家屬無法陪伴、且病人有實際拔管路風險,會考慮<strong>夜間短暫約束</strong>。
+          <div class="timing-detail">
+            <span class="td-label">典型情境的時間參考</span>
+            <span class="td-body">
+              <strong>約束開始</strong>:通常是術後第一晚的 22:00–02:00(夜間混亂發作時)<br>
+              <strong>約束時長</strong>:單側手套或腕帶,<strong>多數不超過 8–10 小時</strong><br>
+              <strong>解除時機</strong>:隔天早上 7–8 點病人完全清醒、能配合後即解除<br>
+              <strong>後續</strong>:絕大多數病人<strong>不會再次需要約束</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="situation">
+        <div class="s-num">02</div>
+        <div class="s-desc">
+          <span class="s-title">睡覺動作較大、有扯到管路風險</span>
+          部分病人本身<strong>睡覺時翻身、動作較大</strong>,特別是手部會無意識揮動。即便沒有譫妄,仍可能<strong>不自覺扯到</strong>身上的管路(如<strong>動脈導管</strong> —— 手腕測血壓的細管、<strong>中央靜脈導管</strong> —— 脖子或鎖骨下的點滴管、引流管)。這時會用<strong>較輕的約束式手套</strong>,讓手能動但抓不到管路 —— 病人可以正常睡眠,但避免意外。
+        </div>
+      </div>
+    </div>
+
+    <div class="rare-note"><strong>其他罕見情境:</strong>嚴重譫妄(病人有自傷或傷人風險)、急性精神症狀、嚴重躁動且其他方法無效。<strong>這些都是少數中的少數</strong>,且本院會優先考慮其他方案(家屬陪伴、藥物調整、環境調整),<strong>約束永遠是最後選項</strong>。</div>
+  </div>
+
+  <!-- What kind of restraint -->
+  <div class="section-title">本院使用的約束 — 都是「最輕的」</div>
+
+  <div class="restraint-type">
+    <h4>本院 ICU 使用的兩種保護性約束</h4>
+    <div class="sub">都不會傷害皮膚、不會綁全身、不會固定下肢</div>
+
+    <div class="type-row">
+      <div class="type-card">
+        <div class="label">類型 A · 軟式腕帶</div>
+        <div class="desc"><strong>有襯墊的布製腕帶</strong>,輕輕固定<strong>單側或雙側手腕</strong>於床欄。手可以活動範圍 10–20 公分,但抓不到身上的管路。</div>
+      </div>
+      <div class="type-card">
+        <div class="label">類型 B · 軟式手套</div>
+        <div class="desc">蓬鬆的<strong>軟手套</strong>,<strong>不固定</strong>於床欄。手可以正常活動,但<strong>手指被包覆無法抓握</strong> —— 是最輕的約束形式。</div>
+      </div>
+    </div>
+
+    <div class="principles">
+      <h5>本院使用約束的原則</h5>
+      <ul>
+        <li><strong>絕不使用</strong>:腳踝約束、胸腹約束、全身約束、束縛衣</li>
+        <li><strong>絕不會綁下肢(腳)</strong> —— 綁腳會嚴重影響腿部循環,<strong>大幅增加深部靜脈血栓(DVT)的風險</strong>。DVT 是心臟手術後最需要避免的併發症之一 —— 血塊可能脫落跑到肺部造成肺栓塞 <span class="link-ref">連結 7-6b</span>。所以即使在極少數需要約束的情境,<strong>也絕不會綁腳</strong></li>
+        <li><strong>約束是「保護管路」,不是「規範行為」</strong> —— 病人不會因為「不配合治療」「情緒不好」「對醫護不禮貌」而被約束。<strong>約束的唯一理由是避免病人意外傷害自己或拔掉重要管路</strong></li>
+        <li><strong>頻繁評估</strong>:每 2–4 小時護理師會檢查皮膚、循環、約束必要性</li>
+        <li><strong>能解就解</strong>:當病人意識清楚、配合度好、無拔管路風險,立即解除</li>
+        <li><strong>每次使用都有記錄</strong>,包含理由、時長、評估</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Decision flow -->
+  <div class="section-title">本院使用約束的決策流程</div>
+
+  <div class="decision-flow">
+    <h4>從「需要約束嗎?」到實際使用的層層評估</h4>
+    <div class="sub">約束不是「直接綁」 —— 是層層篩選後的最後選項</div>
+
+    <div class="flow-step">
+      <div class="step-num">01</div>
+      <div class="step-content"><strong>觀察病人是否真的有風險</strong> —— 是不是真的會去拔管路?還是只是睡不好?多數情況下「擔心會拔」與「真的會拔」是不同的</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="step-num">02</div>
+      <div class="step-content"><strong>嘗試非約束的方法</strong>:
+        <div class="checks">
+          <strong>檢查是否有疼痛</strong>:疼痛是常被忽略的躁動原因,調整多模式止痛 <span class="link-ref">連結 5-1</span><br>
+          <strong>檢查是否脹尿</strong>:尿太多但因留置尿管的不適而沒排出<br>
+          <strong>檢查血氧、二氧化碳</strong>:輕度缺氧或二氧化碳累積會引發躁動<br>
+          <strong>檢查感染指標</strong>:術後感染常以「意識變差或躁動」表現<br>
+          <strong>檢查血糖、電解質</strong>:低血糖、低鈉都可能造成譫妄<br>
+          <strong>檢查藥物</strong>:是否誤用了苯二氮平類等增加譫妄的藥物<br>
+          <strong>環境調整</strong>:降低光線、減少噪音、播放輕音樂、家人合照在床邊
+        </div>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="step-num">03</div>
+      <div class="step-content"><strong>家屬陪伴優先</strong> —— 若可能,先請家屬陪伴過夜 <span class="link-ref">連結 6-1</span>。<strong>家屬陪伴通常能化解 70% 以上的夜間混亂</strong>(本院臨床觀察與國際 ICU 譫妄預防研究一致)</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="step-num">04</div>
+      <div class="step-content">如果上述都不夠,<strong>選擇最輕的約束形式</strong> —— 先試手套,再考慮腕帶;先試單側,再考慮雙側</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="step-num">05</div>
+      <div class="step-content"><strong>頻繁評估</strong> —— 每 2–4 小時檢查約束必要性、皮膚、循環。一旦不再需要立刻解除</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+
+    <div class="flow-step">
+      <div class="step-num">06</div>
+      <div class="step-content"><strong>記錄與檢討</strong> —— 每次約束都會記錄在病歷中,包含理由、時長、解除時間。事後檢討是否有預防策略可改善</div>
+    </div>
+  </div>
+
+  <!-- Transfer to ward + past experience -->
+  <div class="section-title">轉到普通病房後 + 過去有不愉快約束經驗的人</div>
+
+  <div class="restraint-type safe-variant" style="margin-bottom:14px">
+    <h4>轉到普通病房後 — 約束需求幾乎為零</h4>
+    <p>多數病人擔心「轉病房後還會綁嗎?」答案是<strong>幾乎不會</strong>。普通病房的環境較接近正常生活(規律作息、家屬會客時間較長、可使用手機、可下床走動),<strong>譫妄發生率大幅下降</strong>,<strong>幾乎不會出現需要約束的狀況</strong>。</p>
+    <p>如果您聽說某些醫院在普通病房也約束病人 —— <strong>那不是本院的做法</strong>。本院的標準是:<strong>從 SICU 轉出後,約束需求應為零</strong>。若極少數情況下仍有需要(如重度失智病人夜間嚴重躁動),會與家屬充分討論後決定。</p>
+  </div>
+
+  <div class="restraint-type gold-variant">
+    <h4>如果您或家人過去有不愉快的約束經驗</h4>
+    <p>有些病人或家屬<strong>過去在其他醫院、其他次住院曾被約束</strong>,留下不愉快的記憶 —— 這些記憶會帶到本次手術前,造成額外的焦慮與不信任。我們完全理解。</p>
+    <p><strong>請在術前訪視時主動告訴醫師</strong> —— 本院會把這個資訊納入個別化照護計畫,可能的調整包括:</p>
+    <ul class="star-list">
+      <li><strong>預先安排家屬陪病過夜</strong>(特別是第一晚)</li>
+      <li><strong>提早啟動譫妄預防策略</strong></li>
+      <li><strong>必要時與心理師討論心理準備</strong></li>
+    </ul>
+    <div class="promise"><strong>過去的不愉快經驗不會在本院重演</strong> —— 但前提是我們知道,才能特別準備。</div>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬如何幫助病人「不需要約束」</div>
+
+  <div class="family-help">
+    <h4>您能做的,比您想像的還多</h4>
+    <div class="sub">家屬陪伴是降低約束需求最有效的方法</div>
+    <ul>
+      <li><strong>主動申請陪病過夜</strong>(特別是第一晚) —— 病人最容易混亂的時段,家屬的存在能大幅降低譫妄與躁動 <span class="link-ref">連結 6-1</span></li>
+      <li><strong>帶熟悉物品</strong> —— 眼鏡、助聽器、家人合照、平常用的小毛毯。改善感官、增加定向感</li>
+      <li><strong>會客時重新定向</strong> —— 告訴病人「現在是晚上,你在加護病房,手術很順利,我是你的女兒」</li>
+      <li><strong>不要在床邊長時間多人激烈聊天</strong> —— 反而加重混亂與噪音</li>
+      <li><strong>提早告知病人的「平常脾氣」</strong> —— 例如「他很容易夜晚不安」、「他睡覺習慣手放臉上」等,幫助醫護預先規劃</li>
+      <li><strong>觀察並即時告知護理師</strong> —— 如果您看到病人「不像平常」(眼神呆滯、認不得人、想下床),立刻告訴護理師</li>
+      <li><strong>主動討論</strong> —— 若您不想病人被約束,可以與醫護討論其他方案(陪病、調藥、環境調整)。本院的標準也是優先考慮這些</li>
+    </ul>
+    <div class="emphasis">
+      <strong>關鍵訊息:</strong>本院的約束不是「不可協商」的常規 —— <strong>家屬參與、家屬陪伴能大幅降低約束的需求</strong>。如果您看到家人被約束,不要只是難過,<strong>主動詢問是否能解除、是否能改為家屬陪伴</strong> —— 我們的目標和您一致。
+    </div>
+  </div>
+
+  <!-- Common Q&A -->
+  <div class="section-title">常見的擔心 — Q&amp;A</div>
+
+  <div class="qa-list">
+    <h4>家屬與病人最常問的問題</h4>
+
+    <div class="qa-item">
+      <div class="question">我看到家人被約束了,是不是發生什麼嚴重的事?</div>
+      <div class="answer">大部分情況下是<strong>「短暫夜間混亂或睡覺動作大」</strong> —— 不是嚴重狀況。請<strong>立刻詢問護理師原因</strong>,了解:(1)為什麼需要?(2)什麼時候可以解除?(3)我可以陪過夜代替約束嗎?本院非常願意與家屬討論個別方案。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">約束會不會傷害皮膚或循環?</div>
+      <div class="answer">本院使用的是<strong>有襯墊的軟式約束</strong>,且護理師每 2–4 小時會檢查皮膚、循環、約束必要性。<strong>不會綁下肢</strong>,不會壓迫血管。<strong>正確使用下不會造成傷害</strong>。如果家屬看到任何皮膚紅腫、變色、腫脹,請立即告知。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">家人被約束會不會更焦慮、更混亂?</div>
+      <div class="answer">這是<strong>真實的疑慮</strong>。約束本身確實可能加重某些病人的焦慮與譫妄 —— 這也是為什麼本院的原則是<strong>「能不用就不用」</strong>。如果您觀察到病人因約束更焦慮,請告訴護理師,會重新評估是否真的需要、或改為其他方案。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">我可以要求不要約束我的家人嗎?</div>
+      <div class="answer"><strong>可以提出討論</strong>。家屬有權了解約束的原因、討論替代方案。但<strong>醫療團隊也有責任保護病人安全</strong> —— 如果不約束的風險真的較高(如已扯掉重要管路),會與家屬溝通說明。<strong>多數情況下「家屬陪伴 + 環境調整」可以替代約束</strong>,本院非常願意這樣安排。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">如果只是「擔心會拔管路」,是不是不需要約束?</div>
+      <div class="answer"><strong>完全正確</strong>。「擔心會拔」與「實際有拔的傾向」是不同的。本院的原則是<strong>「先觀察、後判斷」</strong> —— 病人沒有實際嘗試拔管路、意識清楚配合好,<strong>就不會「為了預防」而約束</strong>。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">如果約束了,病人會不會記得這段經驗、留下心理創傷?</div>
+      <div class="answer"><strong>多數病人對 ICU 期間的記憶是模糊的</strong>,特別是有譫妄的時段。但少數病人會有片段記憶,包括被約束的感覺。<strong>所以本院的標準是:能不用就不用、能少用就少用、能早解除就早解除</strong>。家屬陪伴與良好的譫妄預防能大幅降低這個風險 <span class="link-ref">連結 8-2</span>。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="question">會不會所有病人都至少要被約束一晚?</div>
+      <div class="answer"><strong>不會</strong>。這是本院最重要的訊息之一。<strong>「預設不約束」是本院標準</strong>,不是「給特權病人」。本院實施完整 ERAS 策略後,<strong>整體約束率明顯低於傳統 ICU</strong> —— 多數心臟手術病人從 SICU 到普通病房,<strong>從來沒有被約束過任何一次</strong>。</div>
+    </div>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">家屬看到這些情況請立即告知護理師</div>
+
+  <div class="callout warnings">
+    <h4>約束相關需要立即反應的觀察</h4>
+    <ul>
+      <li><strong>約束處皮膚紅腫、變色、有壓痕加深</strong></li>
+      <li><strong>約束處的手指變紫、變白、冰冷、麻木</strong></li>
+      <li><strong>病人因約束明顯更焦慮、激動、流淚</strong></li>
+      <li><strong>病人意識已清楚、能配合,但仍被約束著</strong>(可以詢問是否能解除)</li>
+      <li><strong>約束帶綁得明顯太緊</strong>(手腕與布之間放不下一個手指)</li>
+      <li><strong>您看到家人狀況比較好了</strong>,可以主動詢問:「現在可以解除約束嗎?」</li>
+      <li><strong>您希望陪病過夜替代約束</strong>,可以主動提出</li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>約束與譫妄相關的閱讀路徑</h4>
+    <div class="sub">這份單張是「最深恐懼三部曲」之一 — 譫妄(腦的變化)、SICU(環境隔離)、約束(身體束縛) — 共同處理最被害怕的議題</div>
+    <ol>
+      <li>早期拔管 6-2(沒有插管,自然不需約束)</li>
+      <li>多模式止痛 5-1(減少鴉片類、減少譫妄)</li>
+      <li>認知復健 病人版 8-1a、家屬版 8-1b</li>
+      <li>從站到走 7-6b(早期下床預防 DVT)</li>
+      <li>外科加護病房 SICU 介紹 6-1(最深恐懼三部曲:環境隔離)</li>
+      <li>譫妄專篇 8-2(最深恐懼三部曲:腦的變化)</li>
+      <li class="current"><strong>保護性約束 6-5(您正在讀,三部曲:身體束縛)</strong></li>
+      <li>認識尿管 6-4、認識胸管 6-3(被保護的管路)</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>保護性約束 —— 在本院已從<span class="em">「常規做法」變成「萬不得已的最後選項」</span>。這個改變不是「鬆綁規定」,是<span class="em">整套 ERAS 加速康復策略把約束的需求消除了</span>。</p>
+    <p><span class="em">病人的尊嚴與安全,從來不是二選一</span>。本院的承諾:<span class="em">能不用就不用、能少用就少用、能早解除就早解除</span>。對任何與約束相關的疑慮、希望以陪伴替代約束,歡迎與護理團隊、主治醫師討論 —— 我們的目標和您一致。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Devlin JW, Skrobik Y, Gélinas C, et al. Clinical Practice Guidelines for the Prevention and Management of Pain, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in Adult Patients in the ICU (PADIS). <em>Crit Care Med.</em> 2018;46(9):e825–e873.</li>
+      <li>Maccioli GA, Dorman T, Brown BR, et al. Clinical Practice Guidelines for the Maintenance of Patient Physical Safety in the Intensive Care Unit: Use of Restraining Therapies—American College of Critical Care Medicine Task Force. <em>Crit Care Med.</em> 2003;31(11):2665–2676.</li>
+      <li>Rosa RG, Falavigna M, Robinson CC, et al. Effect of Flexible Family Visitation on Delirium Among Patients in the Intensive Care Unit: The ICU Visits Randomized Clinical Trial. <em>JAMA.</em> 2019;322(3):216–228.</li>
+      <li>Hopkins RO, Choong K, Zebuhr CA, Kudchadkar SR. Transforming PICU Culture to Facilitate Early Rehabilitation. <em>J Pediatr Intensive Care.</em> 2015;4(4):204–211.</li>
+      <li>Pan Y, Jiang Z, Yuan C, et al. Influence of Physical Restraint on Delirium of Adult Patients in ICU: A Nested Case-Control Study. <em>J Clin Nurs.</em> 2018;27(9-10):1950–1957.</li>
+      <li>Mehta S, Cook D, Devlin JW, et al. Prevalence, Risk Factors, and Outcomes of Delirium in Mechanically Ventilated Adults. <em>Crit Care Med.</em> 2015;43(3):557–566.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society. <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>Davidson JE, Aslakson RA, Long AC, et al. Guidelines for Family-Centered Care in the Neonatal, Pediatric, and Adult ICU. <em>Crit Care Med.</em> 2017;45(1):103–128.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人是否需要、何時使用、何時解除保護性約束,以醫療團隊依您的臨床狀況、安全評估與家屬討論結果為準。對約束有任何疑問或希望以替代方案處理,請隨時與護理師或主治醫師討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術後咳嗽與咳痰 — 心臟加速康復衛教</title>
+<meta name="description" content="為什麼術後一定要咳、抱枕固定法、有效咳嗽五步驟、痰的顏色判讀、為什麼坐起來咳特別有效">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:三理由卡 + 抱枕英雄區 + 編號咳嗽步驟 + 痰色表格 + 平躺/坐起姿勢對照 */
+.reasons-3 {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .reasons-3 { grid-template-columns: 1fr 1fr 1fr; } }
+.reason-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.reason-card .r-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.reason-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.reason-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* 抱枕英雄區 */
+.pillow-hero {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.pillow-hero h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.pillow-hero .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.pillow-hero p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.pillow-hero p strong { color: var(--ink); font-weight: 600; }
+.pillow-hero .when-use {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.pillow-hero .wu-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.pillow-hero .wu-items {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.pillow-hero .wu-items .item {
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+/* 編號咳嗽步驟卡 */
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px; line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.step-card .step-body p strong { color: var(--ink); font-weight: 600; }
+
+/* 痰色觀察表 */
+.sputum-table {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.sputum-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.sputum-row:last-child { border-bottom: none; }
+.sputum-row .color-tag {
+  flex-shrink: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 3px;
+  text-align: center;
+}
+.sputum-row .color-tag.normal {
+  background: var(--safe-bg); color: var(--safe);
+}
+.sputum-row .color-tag.early {
+  background: var(--warn-bg); color: var(--warn);
+}
+.sputum-row .color-tag.danger {
+  background: var(--danger-bg); color: var(--danger);
+}
+.sputum-row .desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.sputum-row .desc strong { color: var(--ink); font-weight: 600; }
+
+/* 平躺 vs 坐起姿勢比較 */
+.pose-compare {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+@media (min-width: 480px) {
+  .pose-compare { grid-template-columns: 1fr 1fr; }
+}
+.pose-compare .pose {
+  padding: 14px 16px;
+  border-radius: 3px;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+.pose-compare .pose.bad {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--warn);
+}
+.pose-compare .pose.good {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 2px solid var(--gold);
+}
+.pose-compare .pose .pose-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.pose-compare .pose.bad .pose-label { color: var(--warn); }
+.pose-compare .pose.good .pose-label { color: var(--gold); }
+
+@media (max-width: 480px) {
+  .reason-card { padding: 16px 18px; }
+  .pillow-hero { padding: 22px 22px; }
+  .step-card { padding: 16px 18px; gap: 12px; }
+  .sputum-row { grid-template-columns: 88px 1fr; padding: 12px 16px; gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 7-2</div>
+    <h1>術後咳嗽<br>與咳痰</h1>
+    <p class="subtitle">為什麼一定要咳、怎麼舒服地咳、抱枕固定法、為什麼坐起來特別有效<br>Post-op Cough &amp; Sputum Clearance</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>咳嗽不是壞事 —— 是身體最直接的肺部清潔動作</strong>
+    <p>心臟手術後幾天，您會發現自己<span class="em">不太敢咳嗽</span> —— 胸口傷口會痛、害怕胸骨「裂開」、怕扯到引流管。這是非常正常的擔心。</p>
+    <p>但<span class="em">不咳的代價比咳的不舒服更大</span>。痰液積在肺部 → 肺泡塌陷 → 細菌滋生 → 肺炎；殘留在胸腔的舊血水排不出去 → 影響呼吸與恢復。本院的目標是讓您<span class="em">配合多模式止痛、HFNC、抱枕固定法與坐姿</span>，舒服地咳、有效地咳。</p>
+  </div>
+
+  <!-- Why cough is necessary -->
+  <div class="section-title">為什麼術後一定要咳</div>
+
+  <p class="section-intro">
+    咳嗽不只是「清痰」 —— 對心臟手術後的病人來說，它做了三件最重要的事：
+  </p>
+
+  <div class="reasons-3">
+    <article class="reason-card">
+      <div class="r-num">理由 01</div>
+      <h4>清掉肺部分泌物</h4>
+      <p>麻醉藥讓氣管的自然清潔機制變慢，加上手術中插管，痰液會暫時積在較深處 —— 必須用「主動咳」把它送出來。</p>
+    </article>
+    <article class="reason-card">
+      <div class="r-num">理由 02</div>
+      <h4>避免肺部塌陷</h4>
+      <p>痰積在小氣管裡，會讓對應的肺泡塌陷（atelectasis），<strong>血氧下降</strong>、細菌容易滋生引起肺炎。</p>
+    </article>
+    <article class="reason-card">
+      <div class="r-num">理由 03</div>
+      <h4>幫助排出胸腔舊血水</h4>
+      <p>胸腔引流管會排掉大部分手術後的血水，但<strong>深層的少量殘留</strong>，需要靠咳嗽與深呼吸的「氣流震動」幫忙鬆動排出。</p>
+    </article>
+  </div>
+
+  <!-- Fears we acknowledge -->
+  <div class="section-title">您不敢咳的理由，我們都知道</div>
+
+  <div class="callout tradeoffs">
+    <h4>這些擔心都是合理的 ——</h4>
+    <ul>
+      <li><strong>胸口傷口會痛</strong>：這是會呼吸的痛，咳嗽會特別牽動 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>害怕胸骨「裂開」或縫線斷掉</strong>：胸骨已經用鋼絲牢牢固定，正常咳嗽不會讓它移位</li>
+      <li><strong>怕扯到胸腔引流管</strong>：管子有縫線固定，正常咳嗽不會拉出來</li>
+      <li><strong>咳出帶血絲的痰</strong>：早期少量血絲是正常的，不代表出血</li>
+    </ul>
+  </div>
+
+  <!-- Solutions -->
+  <div class="section-title">本院如何幫您「舒服地咳」</div>
+
+  <p class="section-intro">
+    我們不是只叫您「努力咳」 —— 而是<span class="em">把咳嗽前的每個障礙都先處理掉</span>，讓咳嗽變得可以承受。
+  </p>
+
+  <div class="callout prep-actions">
+    <h4>四個準備到位後，咳嗽就會輕鬆很多</h4>
+    <ul>
+      <li><strong>多模式止痛先到位</strong>：神經阻斷、常規 acetaminophen 把傷口痛降到最低 —— 動作前若仍痛，主動告訴護理師 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>HFNC 減少呼吸費力</strong>：胸壁活動減少，傷口被牽動就少 <span class="link-ref">連結 6-6</span></li>
+      <li><strong>抱枕固定法</strong>：外部固定胸骨，吸收咳嗽時的震動（下一段詳細說明）</li>
+      <li><strong>採坐姿或半坐臥</strong>：橫膈膜下沉、肺活量增加，咳的力道更夠 <span class="link-ref">連結 7-6a</span></li>
+    </ul>
+  </div>
+
+  <!-- Pillow hero -->
+  <div class="section-title">抱枕固定法 — 您最重要的呼吸夥伴</div>
+
+  <div class="pillow-hero">
+    <h3>一個抱枕，就能把咳嗽的痛減少一大半</h3>
+    <div class="sub">心臟手術病人入院時請準備一個</div>
+    <p>抱枕的原理很簡單：<strong>從外部「固定」胸骨</strong>，吸收咳嗽、深呼吸、翻身、打噴嚏時造成的震動，讓傷口被牽動的幅度減到最小。</p>
+    <p><strong>怎麼做：</strong>把抱枕橫向抱在胸前，雙手環住，<strong>輕壓胸骨傷口的位置</strong>。施力是「輕壓住」而非「用力擠」。動作完成後再放鬆。</p>
+    <p style="color:var(--gold);font-weight:500">術前就把抱枕準備好、住院帶來。拔管後的第一次咳嗽就會用到它。家裡沒有合適抱枕？枕頭、毛毯、捲起來的浴巾都可以替代。</p>
+
+    <div class="when-use">
+      <div class="wu-label">什麼時候要用</div>
+      <div class="wu-items">
+        <span class="item">咳嗽</span>
+        <span class="item">深呼吸</span>
+        <span class="item">翻身</span>
+        <span class="item">坐起</span>
+        <span class="item">下床</span>
+        <span class="item">大笑</span>
+        <span class="item">打噴嚏</span>
+        <span class="item">如廁用力</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Effective cough 5 steps -->
+  <div class="section-title">有效咳嗽五步驟</div>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>採坐姿或半坐臥（30–45° 以上）</h4>
+      <p>絕對<strong>不要平躺著咳</strong>。坐起來，橫膈膜才能下沉，肺活量才夠大，咳的力道才足。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>抱枕緊貼胸口、雙手環抱</h4>
+      <p>把抱枕橫放在胸骨傷口位置，<strong>雙手交叉環住抱枕、輕輕壓住</strong>。準備好之後再做下一步。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>深呼吸 3 次</h4>
+      <p>透過鼻子<strong>慢慢、深深吸氣 3 次</strong>，每次吸到最飽再緩慢吐出。這 3 次的目的是把氣送到肺部深處，把痰「鬆開」。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>第 3 次吸滿後，用力咳兩聲</h4>
+      <p>抱枕保持壓住，<strong>用腹部力量發出「哈！哈！」兩聲</strong>。不是輕咳清喉嚨，而是把痰真的咳出來。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">05</div>
+    <div class="step-body">
+      <h4>把痰咳到喉嚨後吐出</h4>
+      <p>痰咳到喉嚨後，<strong>用衛生紙或痰盆吐出來</strong>，不要再吞下去。觀察痰的顏色與量（請參考下一段）。</p>
+    </div>
+  </article>
+
+  <!-- Sputum observation -->
+  <div class="section-title">咳出來的痰 — 怎樣是正常、怎樣要告知</div>
+
+  <p class="section-intro">
+    痰的<span class="em">顏色、量、質地</span>，是肺部恢復狀況的指標。每次咳完看一眼，有變化就主動告訴護理師。
+  </p>
+
+  <div class="sputum-table">
+    <div class="sputum-row">
+      <span class="color-tag normal">透明 / 白</span>
+      <div class="desc"><strong>正常</strong>。代表肺部分泌物已乾淨，主要是黏液。</div>
+    </div>
+    <div class="sputum-row">
+      <span class="color-tag early">淺粉紅 / 帶血絲</span>
+      <div class="desc"><strong>術後早期可能出現</strong>（拔管後 1–2 天內）。少量血絲是正常的，來自手術區域的滲液，不需驚慌。</div>
+    </div>
+    <div class="sputum-row">
+      <span class="color-tag danger">鮮紅 / 大量出血</span>
+      <div class="desc"><strong>請立即告知護理師</strong>。咳出鮮紅色血、量明顯或連續多次出現，需要評估。</div>
+    </div>
+    <div class="sputum-row">
+      <span class="color-tag danger">黃 / 黃綠色</span>
+      <div class="desc"><strong>可能感染徵兆</strong>。配合發燒、痰量增加、呼吸喘 → 立即告知，可能需要肺炎評估與抗生素。</div>
+    </div>
+    <div class="sputum-row">
+      <span class="color-tag early">深棕 / 鏽色</span>
+      <div class="desc">可能是<strong>早期出血氧化後的顏色</strong>，或某些感染。請告知護理師讓團隊評估。</div>
+    </div>
+  </div>
+
+  <!-- Timing & rhythm -->
+  <div class="section-title">咳嗽的時機與節奏</div>
+
+  <div class="callout prep-actions">
+    <h4>主動規律地咳，比等到痰多了再咳更有效</h4>
+    <ul>
+      <li><strong>每 1–2 小時主動咳一次</strong>：不要等到痰多到擾人才咳，規律清痰比一次大清掃更舒服</li>
+      <li><strong>痰多時搭配誘發性肺量計</strong>：先做幾下肺量計把肺撐開，痰會自動鬆動，再咳就容易出來 <span class="link-ref">連結 7-1</span></li>
+      <li><strong>怕痛時先按止痛</strong>：動作前 5–10 分鐘告訴護理師、請給止痛藥，等藥效起來再咳</li>
+      <li><strong>一輪咳完休息 1–2 分鐘</strong>，再做下一輪；連續 2–3 輪比一次硬撐 10 下更有效</li>
+      <li><strong>每天的進度由您掌握</strong>：每天累積有效咳的次數會逐漸增加，這是恢復的具體指標</li>
+    </ul>
+  </div>
+
+  <!-- Bridge to sitting up -->
+  <div class="section-title">為什麼「坐起來咳」特別有效</div>
+
+  <div class="callout eras-banner">
+    <h4>姿勢決定肺活量，肺活量決定咳的力道</h4>
+    <p>很多人不知道：<span class="em-teal">同樣一個人，平躺與坐起的肺活量可以相差 20–30%</span>。</p>
+
+    <div class="pose-compare">
+      <div class="pose bad">
+        <div class="pose-label">✕ 平躺時</div>
+        橫膈膜被內臟往上推、肺底部被壓住<br>
+        肺活量縮小、咳的力道弱<br>
+        分泌物與舊血水靠重力卡在背側
+      </div>
+      <div class="pose good">
+        <div class="pose-label">✓ 坐起時</div>
+        橫膈膜下沉、肺底部完全打開<br>
+        肺活量增加 20–30%、咳的力道夠<br>
+        重力幫助分泌物與胸腔殘餘血水排出
+      </div>
+    </div>
+
+    <p>所以本院鼓勵您<strong>儘早坐起、儘早下床</strong> —— 這不只是肌肉復健，更直接<strong>改善肺活量、增強咳嗽效力、加速胸腔血水排除</strong> <span class="link-ref">連結 7-6a</span>。</p>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>咳一聲，是身體最直接的清潔動作。<span class="em">配合抱枕、配合止痛、配合坐姿</span>，這個動作不再可怕 —— 每一次有效的咳嗽，都是在清掉一口您不需要的東西，讓肺部更乾淨、恢復得更快。</p>
+    <p>對術後咳嗽、咳痰、抱枕固定法有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、呼吸治療師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Westerdahl E, Lindmark B, Eriksson T, et al. Deep-Breathing Exercises Reduce Atelectasis and Improve Pulmonary Function After Coronary Artery Bypass Surgery. <em>Chest.</em> 2005;128(5):3482–3488.</li>
+      <li>Brooks D, Crowe J, Kelsey CJ, et al. A Clinical Practice Guideline on Peri-operative Cardiorespiratory Physical Therapy. <em>Physiother Can.</em> 2001;53:9–25.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

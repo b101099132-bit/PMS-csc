@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOF 神經肌肉監測與反轉劑 — 心臟加速康復衛教</title>
+<meta name="description" content="麻醉醫師如何確保你的肌肉力量完全恢復、安全拔管，TOF 監測搭配 Sugammadex 反轉劑">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:TOF 比值 0–1.0 視覺化條 + 編號步驟卡 */
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 34px;
+  text-align: center;
+  line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.tof-bar {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 24px 18px;
+  margin-bottom: 24px;
+}
+.tof-bar .bar-title {
+  text-align: center;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.tof-bar .bar-sub {
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-bottom: 22px;
+}
+.tof-track {
+  position: relative;
+  height: 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 60%, #C28548 75%, var(--safe) 90%, var(--safe) 100%);
+  margin: 26px 6px 50px;
+}
+.tof-marker {
+  position: absolute;
+  top: -6px;
+  width: 3px;
+  height: 28px;
+  background: var(--ink);
+  border-radius: 2px;
+  left: 90%;
+}
+.tof-marker .ml {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.tof-marker .ms {
+  position: absolute;
+  bottom: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--safe);
+  white-space: nowrap;
+  font-weight: 500;
+}
+.tof-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  padding: 0 4px;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 480px) {
+  .step-card { padding: 18px 18px; gap: 14px; }
+  .tof-bar { padding: 20px 16px 14px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 4-2</div>
+    <h1>TOF 神經肌肉監測<br>與反轉劑</h1>
+    <p class="subtitle">麻醉醫師如何確保您的肌肉力量完全恢復、安全拔管<br>Train-of-Four · Sugammadex</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>為什麼麻醉需要使用肌肉鬆弛劑？</strong>
+    <p>全身麻醉時，麻醉醫師會給予<span class="em">肌肉鬆弛劑（Neuromuscular Blocking Agent）</span>讓您的全身肌肉完全放鬆。這對心臟手術有兩個重要目的：方便氣管插管不損傷聲帶，以及讓您在術中完全靜止，外科醫師才能精準操作。</p>
+    <p>但這也帶來一個問題：手術結束時，如果<span class="em">肌肉力量還沒完全恢復</span>就拔管，可能導致呼吸無力、無法有效咳痰、誤吸，甚至需要重新插管。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">肌肉鬆弛劑</span>
+      <span class="lex-def">讓全身肌肉<strong>暫時放鬆</strong>的藥，用於插管與術中靜止。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">TOF</span>
+      <span class="lex-def">Train-of-Four，<strong>四連發神經肌肉監測</strong>，量化肌肉鬆弛劑殘留程度。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">TOF 比值</span>
+      <span class="lex-def">第四次與第一次反應的比值，<strong>≥ 0.9 才能安全拔管</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">Sugammadex</span>
+      <span class="lex-def">舒更葡糖鈉，<strong>精準的反轉劑</strong>，幾分鐘內讓肌力完全恢復。</span>
+    </div>
+  </div>
+
+  <!-- Two-sided concept -->
+  <div class="section-title">兩面刃：需要它，又必須安全脫離它</div>
+
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">優點</div>
+      <h3>讓手術安全進行</h3>
+      <div class="col-en">Why we need it</div>
+      <div class="col-body">肌肉完全放鬆才能順利插管、避免術中亂動、讓外科醫師<strong>專心修補心臟</strong>。</div>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">風險</div>
+      <h3>殘留肌肉無力</h3>
+      <div class="col-en">Residual NMB risk</div>
+      <div class="col-body">若拔管時殘餘藥效未退，會造成<strong>呼吸不順、咳痰無力、肺部併發症與重新插管</strong>。</div>
+    </div>
+  </div>
+
+  <!-- TOF -->
+  <div class="section-title">TOF：用四下電刺激測量肌力恢復程度</div>
+
+  <p class="section-intro">
+    <span class="em">四連發神經肌肉監測（Train-of-Four，簡稱 TOF）</span>是麻醉學上判斷肌肉鬆弛劑殘留的標準工具。麻醉醫師會在您的手腕貼上小電極，給予<span class="em">四下連續的輕微電刺激</span>，觀察大拇指抽動的強度與比例。
+  </p>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>四次刺激、四次反應</h4>
+      <p>正常情況下，四次刺激會產生四次強度相當的肌肉收縮。儀器會計算第四次與第一次反應的比值，稱為 <strong style="color:var(--teal);font-weight:500">TOF 比值（TOF ratio）</strong>。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>比值越高，代表肌力越接近正常</h4>
+      <p>肌肉鬆弛劑作用越強，後幾次反應就越弱、比值越低。當藥效逐漸退去，比值會慢慢回到接近 1.0。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>TOF 比值 ≥ 0.9 才能安全拔管</h4>
+      <p>國際麻醉學會建議：必須在 TOF 比值達到 <strong style="color:var(--teal);font-weight:500">0.9 以上</strong>才可拔管，否則仍可能存在肉眼看不出來的呼吸肌無力。</p>
+    </div>
+  </article>
+
+  <!-- TOF ratio scale -->
+  <div class="tof-bar">
+    <div class="bar-title">TOF 比值安全帶</div>
+    <div class="bar-sub">麻醉醫師依此判斷何時可以拔管</div>
+    <div class="tof-track">
+      <div class="tof-marker">
+        <div class="ml">0.9</div>
+        <div class="ms">安全拔管</div>
+      </div>
+    </div>
+    <div class="tof-scale">
+      <span>0</span>
+      <span>0.25</span>
+      <span>0.5</span>
+      <span>0.75</span>
+      <span>1.0</span>
+    </div>
+  </div>
+
+  <!-- Sugammadex -->
+  <div class="section-title">Sugammadex：精準的肌肉鬆弛反轉劑</div>
+
+  <div class="callout eras-banner">
+    <h4>不用「等」藥效自然退，可以「主動」反轉</h4>
+    <p><strong>Sugammadex（中文常譯：舒更葡糖鈉）</strong>是一種特殊的反轉劑，能像「分子捕手」一樣精準包裹特定肌肉鬆弛劑（Rocuronium 或 Vecuronium），<span class="em-teal">在 2–3 分鐘內就能讓肌肉力量完全恢復</span>。</p>
+    <p>相較於傳統反轉劑（Neostigmine）需要等待 15–30 分鐘且效果有限，Sugammadex 的反轉<strong>更快、更完整、副作用更少</strong>（不會出現心搏過慢、口乾、流口水等問題）。</p>
+  </div>
+
+  <!-- Benefits chain -->
+  <div class="callout eras-benefits">
+    <h4>為什麼這對您的恢復很重要</h4>
+    <div class="sub">TOF + Sugammadex 在加速康復鏈中的角色</div>
+    <ul>
+      <li><strong>大幅降低殘餘肌肉無力的風險</strong> —— 呼吸力量完全恢復才拔管</li>
+      <li><strong>支援「手術室內拔管」</strong> —— 配合多模式止痛與腦氧監測完整評估 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>減少術後肺部併發症</strong> —— 吸入性肺炎、肺塌陷</li>
+      <li><strong>減少重新插管的需要</strong> —— 避免二次傷害氣道</li>
+      <li><strong>麻醉醫師能在最理想的時機放手</strong> —— 把控制權交回您身上</li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>TOF 監測與 Sugammadex 反轉劑的組合，是現代麻醉走向<span class="em">「精準、可預期、可即時調整」</span>的代表。它讓您不必再被動等待藥效退，而是團隊主動把您的呼吸與肌力交還給您。</p>
+    <p>對麻醉用藥或術後拔管有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Thilen SR, Weigel WA, Todd MM, et al. 2023 American Society of Anesthesiologists Practice Guidelines for Monitoring and Antagonism of Neuromuscular Blockade. <em>Anesthesiology.</em> 2023;138(1):13–41.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

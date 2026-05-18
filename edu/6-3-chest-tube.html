@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>認識胸管引流 — 心臟加速康復衛教</title>
+<meta name="description" content="術後胸管的三大任務、引流箱怎麼看、顏色變化、本院 <150 mL/日 移除標準、拔管過程、家屬協助">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:三理由卡 + 顏色漸層 + 三股力量 + 引流量門檻 + 編號步驟卡 + 警示雙欄 + 緊急處理 */
+.reasons-3 {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .reasons-3 { grid-template-columns: 1fr 1fr 1fr; } }
+.reason-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.reason-card .r-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.reason-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.reason-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.reason-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 引流箱說明區 */
+.what-see {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.what-see h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.what-see ul { list-style: none; padding: 0; }
+.what-see ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.what-see ul li:last-child { margin-bottom: 0; }
+.what-see ul li::before {
+  content: '◐';
+  position: absolute;
+  left: 2px; top: 0;
+  color: var(--teal);
+  font-size: 13px;
+}
+.what-see ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 顏色漸層 */
+.color-prog {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.color-prog h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.color-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.swatch {
+  flex-shrink: 0;
+  width: 80px;
+  padding: 12px 8px;
+  border-radius: 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.swatch.s1 { background: #6B1F1F; color: white; }
+.swatch.s2 { background: #C56C6C; color: white; }
+.swatch.s3 { background: #E8B5B5; color: var(--ink); }
+.swatch.s4 { background: #F0E4B8; color: var(--ink); }
+.swatch .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+.swatch .day {
+  font-size: 10.5px;
+  opacity: 0.85;
+}
+.color-row .arrow {
+  color: var(--ink-faint);
+  font-weight: 700;
+}
+
+/* 三股力量 chain-callout */
+.chain-callout {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.chain-callout h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.chain-callout .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.chain-callout p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.chain-callout p strong { color: var(--ink); font-weight: 600; }
+.three-forces {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 480px) { .three-forces { grid-template-columns: 1fr 1fr 1fr; } }
+.force {
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 12px 14px;
+  text-align: center;
+}
+.force .f-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px; letter-spacing: 0.15em;
+  color: var(--teal); font-weight: 600;
+  margin-bottom: 6px;
+}
+.force .f-body {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.force .ref {
+  display: block;
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--gold);
+  font-family: 'Noto Serif TC', serif;
+}
+
+/* 移除門檻 callout */
+.removal {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.removal h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.removal .sub {
+  font-size: 13px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.threshold {
+  text-align: center;
+  padding: 18px 0;
+  margin-bottom: 14px;
+}
+.threshold .t-big {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.threshold .t-label {
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+.removal p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.removal p strong { color: var(--ink); font-weight: 600; }
+.removal .criteria {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin: 12px 0;
+}
+.removal .criteria .c-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.removal .criteria ul { list-style: none; padding: 0; }
+.removal .criteria ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.removal .criteria ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px; top: 0;
+  color: var(--safe);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* 編號步驟卡 */
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.step-card .step-body p strong { color: var(--ink); font-weight: 600; }
+.pain-compare {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--cream);
+  border-radius: 3px;
+}
+.pain-compare h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.pain-compare .row {
+  display: flex; gap: 10px;
+  padding: 4px 0;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.pain-compare .row .tag {
+  flex-shrink: 0;
+  font-family: 'Noto Serif TC', serif;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 11px;
+}
+.pain-compare .compare strong { color: var(--teal); font-weight: 600; }
+.pain-compare .footer-rea {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 12.5px;
+  color: var(--teal);
+  text-align: center;
+  font-style: italic;
+}
+
+/* 警示雙欄 */
+.warn-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .warn-split { grid-template-columns: 1fr 1fr; } }
+.warn-box {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 20px 22px;
+}
+.warn-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 12px;
+}
+.warn-box ul { list-style: none; padding: 0; }
+.warn-box ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.warn-box ul li:last-child { margin-bottom: 0; }
+.warn-box ul li::before {
+  content: '!';
+  position: absolute;
+  left: 7px; top: -1px;
+  color: var(--danger);
+  font-weight: 700;
+  font-family: 'Noto Serif TC', serif;
+}
+
+/* 緊急脫出處理 */
+.emergency {
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.emergency h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+.emergency .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.emergency ol {
+  list-style: none; padding: 0; counter-reset: em;
+}
+.emergency ol li {
+  position: relative;
+  padding: 8px 0 8px 36px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  counter-increment: em;
+  border-bottom: 1px dashed var(--danger-border);
+}
+.emergency ol li:last-child { border-bottom: none; }
+.emergency ol li::before {
+  content: counter(em, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 10px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  color: var(--danger);
+  font-weight: 700;
+}
+.emergency ol li strong { color: var(--ink); font-weight: 600; }
+.emergency .reassure-bottom {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--danger-border);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  text-align: center;
+}
+.emergency .reassure-bottom strong { color: var(--ink); font-weight: 600; }
+
+/* 內嵌 warn-row */
+.warn-row-inline {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.warn-row-inline strong { color: var(--danger); font-weight: 700; }
+
+@media (max-width: 480px) {
+  .reason-card { padding: 16px 18px; }
+  .what-see { padding: 18px 20px; }
+  .removal { padding: 22px 22px; }
+  .step-card { padding: 16px 18px; gap: 12px; }
+  .warn-box { padding: 16px 18px; }
+  .emergency { padding: 20px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 6-3</div>
+    <h1>認識胸管引流</h1>
+    <p class="subtitle">為什麼術後需要、引流箱怎麼看、本院 &lt; 150 mL/日 的移除標準<br>Chest Tube Drainage</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>胸管是心臟手術後最重要的引流管路 —— 把胸腔變回乾淨</strong>
+    <p>心臟手術需要打開胸腔操作,過程中會有<span class="em">血水、組織液、少量空氣</span>留在胸腔內。這些東西如果積在裡面,會壓迫心臟與肺、影響呼吸、增加感染風險。所以手術結束前,醫師會放置 1–3 條<span class="em">胸管</span>(chest tube / chest drain),把這些東西引流到體外的引流箱。</p>
+    <p>醒來後您會看到胸口下方出來幾條管子、連到床邊一個透明引流盒 —— <span class="em">那不是「插了一堆管子」,而是這條管子正在把胸腔清乾淨的證據</span>。當每日引流量降到本院的移除標準(&lt; 150 mL/日),就可以把它拔掉,讓胸腔完全屬於您自己。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">心包填塞</span>
+      <span class="lex-def"><strong>血水包住心臟、影響跳動</strong>的嚴重併發症。胸管引流就是為了預防這個。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肺塌陷</span>
+      <span class="lex-def"><strong>肺部沒有完全打開、被壓扁</strong>的狀況。胸管把血水與空氣引流出來,讓肺能完全擴張。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">氣胸</span>
+      <span class="lex-def"><strong>空氣跑進胸腔、壓住肺部</strong>的狀況。胸管移除後若出現呼吸困難要警覺。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">漿液</span>
+      <span class="lex-def">淡黃色像清水般的液體 —— 引流液變成漿液,代表恢復順利。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">氣漏</span>
+      <span class="lex-def">胸腔內的氣體持續漏出來 —— 引流箱會持續看到氣泡。氣漏停止是移除條件之一。</span>
+    </div>
+  </div>
+
+  <!-- Three reasons -->
+  <div class="section-title">為什麼術後一定要放胸管</div>
+
+  <p class="section-intro">
+    胸管做了三件事,每一件都直接影響您的恢復速度與安全:
+  </p>
+
+  <div class="reasons-3">
+    <article class="reason-card">
+      <div class="r-num">理由 01</div>
+      <h4>排出胸腔血水</h4>
+      <p>手術後胸腔內必然有血水與組織液。如果不引流,血水<strong>累積壓迫心臟(心包填塞)</strong>或<strong>壓住肺部(肺塌陷)</strong>,都是嚴重併發症。</p>
+    </article>
+    <article class="reason-card">
+      <div class="r-num">理由 02</div>
+      <h4>排出胸腔氣體</h4>
+      <p>手術過程胸腔可能進入少量空氣。胸管讓這些氣體跟著排出,<strong>確保肺部能完全擴張、貼回胸壁</strong>,恢復正常呼吸。</p>
+    </article>
+    <article class="reason-card">
+      <div class="r-num">理由 03</div>
+      <h4>監測出血狀況</h4>
+      <p>每小時引流量是團隊判斷<strong>術後是否再出血</strong>的關鍵指標。突然大量增加 → 立即處理;逐漸減少 → 代表恢復順利。</p>
+    </article>
+  </div>
+
+  <!-- Drainage box -->
+  <div class="section-title">您會看到的引流箱</div>
+
+  <div class="what-see">
+    <h4>那個透明盒子,到底在做什麼</h4>
+    <ul>
+      <li><strong>引流箱是「單向閥門」</strong>:胸腔的液體和氣體可以流出來、但外面的空氣不會進去。這是它的核心安全設計</li>
+      <li><strong>看到水面隨呼吸上下擺動</strong>:這是正常的,代表管路通暢,跟著您的呼吸換氣壓力動</li>
+      <li><strong>看到引流箱中有水柱或氣泡</strong>:氣泡代表胸腔還有氣體在排出(常見於前幾小時或前幾天),會逐漸減少到沒有</li>
+      <li><strong>引流箱一定要放在床下、低於胸部</strong>:靠重力幫助引流,<strong>絕對不可以舉高到心臟以上</strong>(否則液體會逆流回胸腔)</li>
+      <li><strong>看到液體顏色變化</strong>:從深紅 → 淡紅 → 黃色(漿液),是恢復的正常進程</li>
+    </ul>
+  </div>
+
+  <!-- Color progression -->
+  <div class="section-title">引流液顏色的正常變化</div>
+
+  <p class="section-intro">
+    顏色變化是<span class="em">恢復的可見指標</span>。從深紅變淡、變黃,代表出血在減少、組織液在轉為清澈。
+  </p>
+
+  <div class="color-prog">
+    <h4>顏色進程(每個人時程略有不同)</h4>
+    <div class="color-row">
+      <div class="swatch s1">
+        <span class="label">深紅</span>
+        <span class="day">術後當天</span>
+      </div>
+      <span class="arrow">→</span>
+      <div class="swatch s2">
+        <span class="label">淡紅</span>
+        <span class="day">Day 1–2</span>
+      </div>
+      <span class="arrow">→</span>
+      <div class="swatch s3">
+        <span class="label">粉紅</span>
+        <span class="day">Day 2–3</span>
+      </div>
+      <span class="arrow">→</span>
+      <div class="swatch s4">
+        <span class="label">淡黃漿液</span>
+        <span class="day">移除前</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three forces -->
+  <div class="section-title">為什麼咳嗽、坐起、走路特別重要</div>
+
+  <div class="chain-callout">
+    <h4>胸管是「被動引流」,您的動作是「主動推動」</h4>
+    <div class="sub">三股力量一起,把胸腔徹底清乾淨</div>
+    <p>胸管靠重力與胸腔壓力差<strong>被動引流</strong>。但深層的舊血水、肺底部的分泌物,需要靠<strong>您的主動動作</strong>才能鬆動、流到管子能引流到的位置。</p>
+
+    <div class="three-forces">
+      <div class="force">
+        <div class="f-label">力量 01</div>
+        <div class="f-body">咳嗽<br>產生氣流震動<br><span class="ref">連結 7-2</span></div>
+      </div>
+      <div class="force">
+        <div class="f-label">力量 02</div>
+        <div class="f-body">坐起<br>重力幫忙引流<br><span class="ref">連結 7-6a</span></div>
+      </div>
+      <div class="force">
+        <div class="f-label">力量 03</div>
+        <div class="f-body">走路<br>胸口擴張收縮<br><span class="ref">連結 7-6b</span></div>
+      </div>
+    </div>
+
+    <p>所以本院鼓勵您<strong>儘早坐起、儘早走路、規律咳嗽</strong> —— 這不只是復健,<strong>更直接加速胸管引流量降到移除標準</strong>。動作越早、越規律 → 胸管越早能拔掉。</p>
+  </div>
+
+  <!-- Removal criteria -->
+  <div class="section-title">移除胸管的標準</div>
+
+  <div class="removal">
+    <h3>本院的移除門檻:每日引流量 &lt; 150 mL</h3>
+    <div class="sub">配合其他條件一起評估</div>
+
+    <div class="threshold">
+      <div class="t-big">&lt; 150 mL / 日</div>
+      <div class="t-label">本院的胸管移除門檻 — 約一小杯水的量,在 24 小時內</div>
+    </div>
+
+    <p>當<strong>連續 24 小時的引流量低於 150 mL</strong>,且引流液顏色已從深紅轉為淡黃漿液、肺部影像顯示已完全擴張、沒有持續氣漏 —— 就符合本院的移除標準。</p>
+
+    <div class="criteria">
+      <div class="c-label">移除胸管的完整條件</div>
+      <ul>
+        <li><strong>每日引流量 &lt; 150 mL</strong>(本院標準)</li>
+        <li>引流液顏色為<strong>淡黃漿液</strong>,無新鮮出血</li>
+        <li>X 光顯示<strong>肺部完全擴張</strong>、無氣胸或積液</li>
+        <li><strong>沒有持續氣漏</strong>(引流箱不再有氣泡)</li>
+        <li>病人狀況穩定、血壓心跳呼吸正常</li>
+      </ul>
+    </div>
+
+    <p>引流量越早降到 &lt; 150 mL,胸管越早能移除。這是<strong>「儘早活動」最直接的回饋</strong> —— 坐起、走路、咳嗽都會明顯加速這個過程。</p>
+  </div>
+
+  <!-- Removal process -->
+  <div class="section-title">移除胸管的過程</div>
+
+  <p class="section-intro">
+    移除過程很快(每條胸管只需幾秒鐘),但這幾秒鐘需要您的配合。
+  </p>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>事前準備</h4>
+      <p>醫師會告訴您流程,<strong>團隊會在拔管前給予完整的止痛準備</strong> <span class="link-ref">連結 5-1</span>。動作前若仍痛,主動告訴護理師再追加。<strong>準備抱枕貼在胸口</strong>,動作前後都可以用 <span class="link-ref">連結 7-2</span>。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>深吸氣、憋住</h4>
+      <p>醫師會請您<strong>深深吸一口氣、然後憋住</strong>(像是要用力大便那樣憋住氣)。這個動作會增加胸腔內壓,<strong>避免拔管的瞬間空氣跑進胸腔</strong>。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>快速拔除 + 縫合</h4>
+      <p>醫師在您憋氣的瞬間<strong>快速拔出胸管</strong>、立刻縫合或貼上敷料(覆蓋傷口的紗布或貼布)。整個過程通常 2–3 秒。</p>
+      <div class="pain-compare">
+        <h5>拔胸管會有多痛?</h5>
+        <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.75;margin-bottom:10px">大多數病人形容是<strong style="color:var(--teal)">「被用力拉一下」</strong>的感覺 —— 是<strong style="color:var(--teal)">牽扯感</strong>而不是<strong style="color:var(--danger)">刺痛</strong>。整個過程 2–3 秒,結束後不會繼續痛。</p>
+        <div class="row">
+          <span class="tag">比較參考 ①</span>
+          <span class="compare">比手術後傷口本身的痛 <strong>輕微很多</strong></span>
+        </div>
+        <div class="row">
+          <span class="tag">比較參考 ②</span>
+          <span class="compare">比抽血或打針的痛 <strong>只稍強一點點</strong></span>
+        </div>
+        <div class="footer-rea">緊張是正常的,但這幾秒鐘真的會比您想像得快結束。</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>之後做 X 光確認</h4>
+      <p>移除後幾小時內會做一張<strong>胸部 X 光</strong>,確認肺部仍然完全擴張、沒有氣胸或積液。確認沒問題就可以放心了。</p>
+    </div>
+  </article>
+
+  <!-- What you can do -->
+  <div class="section-title">胸管留置期間您能配合的事</div>
+
+  <div class="callout prep-actions">
+    <h4>讓胸管能順利工作、儘早畢業</h4>
+    <ul>
+      <li><strong>引流箱一定要低於胸部</strong>:在床下、椅子邊;移動或下床時請護理師協助懸掛在規定位置</li>
+      <li><strong>不要彎折、壓到、拉扯管路</strong>:翻身、坐起、下床前先確認管子的位置與長度</li>
+      <li><strong>規律咳嗽、深呼吸、坐起、走路</strong>:這些直接加速引流 <span class="link-ref">連結 7-2 · 7-6a · 7-6b</span></li>
+      <li><strong>下床走路時引流箱的處理</strong>:由護理師示範後再嘗試,<strong>第一次必須有護理師陪同</strong>。引流箱<strong>用手提著、保持在低於胸口的高度</strong>(腰部高度為宜)。步伐要小、速度要慢,引流箱不要劇烈晃動</li>
+      <li><strong>傷口周圍保持清潔乾燥</strong>:護理師會做傷口照護,您只要避免弄濕</li>
+      <li><strong>每小時看一下引流量</strong>(可以的話):突然增加、顏色變鮮紅,立即告訴護理師</li>
+    </ul>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">這些情況請立即告訴護理師</div>
+
+  <div class="warn-split">
+    <div class="warn-box">
+      <h4>胸管留置期間</h4>
+      <ul>
+        <li><strong>引流量突然大量增加</strong>(每小時 &gt; 200 mL)</li>
+        <li><strong>引流液突然變回鮮紅色</strong>,量明顯增加</li>
+        <li><strong>呼吸困難、胸悶、胸痛變嚴重</strong></li>
+        <li><strong>胸管周圍漏液、漏氣,敷料濕透</strong></li>
+        <li><strong>胸管不小心被拉出或移位</strong></li>
+        <li><strong>傷口周圍紅腫、化膿、發燒</strong></li>
+      </ul>
+    </div>
+    <div class="warn-box">
+      <h4>胸管移除後</h4>
+      <ul>
+        <li><strong>突然胸痛或呼吸困難變嚴重</strong>(可能氣胸)</li>
+        <li><strong>傷口持續滲液</strong>,敷料濕透</li>
+        <li><strong>傷口周圍紅腫、發燒</strong></li>
+        <li>移除後<strong>持續嚴重疼痛、無法改善</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Emergency -->
+  <div class="section-title">如果胸管不小心脫出怎麼辦</div>
+
+  <div class="emergency">
+    <h4>保持冷靜 —— 這是可以處理的狀況</h4>
+    <div class="sub">四個步驟,幾秒鐘內完成</div>
+    <ol>
+      <li><strong>保持冷靜,不要驚慌</strong> —— 這是可以處理的狀況,已有標準流程</li>
+      <li><strong>用乾淨的紗布或手帕,直接覆蓋並按壓傷口</strong> —— 不讓空氣跑進胸腔</li>
+      <li><strong>立即按鈴</strong>,告訴護理師「胸管脫出」</li>
+      <li><strong>不要嘗試自己把管子塞回去</strong> —— 等醫師處理</li>
+    </ol>
+    <div class="reassure-bottom">
+      大多數情況下,團隊會評估是否需要重新放置或直接縫合。<strong>脫出後快速正確處理,後果通常不嚴重</strong>。
+    </div>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬可以怎麼幫</div>
+
+  <div class="callout family-discuss">
+    <h4>會客時協助病人安全度過胸管留置期</h4>
+    <ul>
+      <li><strong>確認引流箱位置始終低於胸口</strong> —— 翻身、坐起、下床、上廁所等任何移動,先確認引流箱沒有被舉高</li>
+      <li><strong>移動病人時注意管子位置</strong> —— 不要踩到、拉扯、彎折管路</li>
+      <li><strong>觀察引流液顏色變化</strong> —— 突然變鮮紅、量明顯增加,告訴護理師</li>
+      <li><strong>不要替病人提引流箱走太快</strong> —— 病人的步伐決定速度,家屬配合即可</li>
+      <li><strong>看到引流箱水面隨呼吸上下擺動</strong> —— 這是正常的,不必擔心</li>
+    </ul>
+    <div class="warn-row-inline">
+      <strong>⚠ 重要警示 — 不要嘗試擠壓管路「擠出血塊」</strong><br>
+      這曾經是傳統民間做法,但<strong>研究顯示反而會增加併發症</strong>(造成胸腔內壓力急劇變化、增加組織損傷)。如果擔心引流不順,<strong>請讓醫護處理</strong>,不要自己擠管子。
+    </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>術後恢復的時序鏈</h4>
+    <div class="sub">這份單張在整套恢復鏈中的位置</div>
+    <ol>
+      <li>早期拔管(術後立即清醒)</li>
+      <li>HFNC · 高流量鼻導管(拔管後過渡)</li>
+      <li>多模式止痛(讓動作不痛、拔胸管也不痛)</li>
+      <li>認知復健 — 病人版/家屬版</li>
+      <li>吞嚥安全評估 · 喝水進食</li>
+      <li>術後咳嗽與咳痰(<strong>主動推動胸管引流</strong>)</li>
+      <li>從躺到坐</li>
+      <li>從站到走</li>
+      <li>認識術後尿管</li>
+      <li class="current"><strong>認識胸管引流(您正在讀)</strong></li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>胸管是<span class="em">暫時的橋樑</span> —— 它把胸腔的血水、氣體引流到體外,讓您的肺能完全擴張、心臟不被壓迫。當每日引流量降到 &lt; 150 mL,它的工作就完成了。</p>
+    <p><span class="em">您的咳嗽、您的坐起、您的走路,都在加速這條管子畢業的時程</span>。對胸管照護、移除流程有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、護理師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Day TG, Perring RR, Gofton K. Is Manipulation of Mediastinal Chest Drains Useful or Harmful After Cardiac Surgery? <em>Interact Cardiovasc Thorac Surg.</em> 2008;7(5):888–890.</li>
+      <li>Sirch J, Ledwon M, Püski T, et al. Active Clearance of Chest Drainage Catheters Reduces Retained Blood. <em>J Thorac Cardiovasc Surg.</em> 2016;151(3):832–838.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

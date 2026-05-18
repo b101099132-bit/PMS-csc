@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>胸骨保護注意事項 — 心臟加速康復衛教</title>
+<meta name="description" content="術後 6 週黃金保護期，胸骨保護四不原則、日常生活具體建議、胸骨動了的警示徵兆">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:四原則卡格網 + 日常具體建議 + 6 週時程表 */
+.rules {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .rules { grid-template-columns: 1fr 1fr; } }
+.rule-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--danger);
+  border-radius: 4px;
+  padding: 20px 22px;
+}
+.rule-card .rule-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: var(--danger);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.rule-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.rule-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.rule-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 日常生活建議列表(strong + why 雙行) */
+.detail-list {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  list-style: none;
+  margin: 0 0 24px;
+}
+.detail-list li {
+  position: relative;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.detail-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.detail-list li:first-child { padding-top: 0; }
+.detail-list li strong {
+  display: block;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.detail-list li .why {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.detail-list li .why em {
+  font-style: normal;
+  color: var(--danger);
+  font-weight: 500;
+}
+
+/* 6 週時程表 */
+.timeline-call {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.timeline-call h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.timeline-call .timeline-sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.timeline-row {
+  display: flex; gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.timeline-row:last-child { border-bottom: none; }
+.timeline-week {
+  flex-shrink: 0;
+  width: 74px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  padding-top: 2px;
+}
+.timeline-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.timeline-text strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .rule-card { padding: 18px 20px; }
+  .timeline-call { padding: 22px 22px; }
+  .timeline-week { width: 60px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 7-4</div>
+    <h1>胸骨保護注意事項</h1>
+    <p class="subtitle">術後 6 週「黃金保護期」，請務必遵守的活動原則<br>Sternal Precautions</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>胸骨是骨頭，需要 6 週才能完全癒合</strong>
+    <p>正中胸骨切開的傷口，皮膚雖然 1–2 週就會表面癒合，但<span class="em">胸骨本身的骨頭需要 4–6 週，才能恢復原本的強度</span>。</p>
+    <p>這段「黃金保護期」內，如果動作不當讓胸骨兩半錯位或裂開，<span class="em">輕則延遲癒合，重則需要再次手術修補</span>。所以請務必遵守胸骨保護原則。</p>
+  </div>
+
+  <!-- Core rules: 4 不 -->
+  <div class="section-title">核心原則：四不</div>
+
+  <div class="rules">
+    <article class="rule-card">
+      <div class="rule-num">原則 01</div>
+      <h4>不單手出力</h4>
+      <p><strong>所有動作都用雙手平均分擔</strong>。單手提東西、單手撐起身體、單手開門，都會讓胸骨左右承受不均勻的力量，是胸骨裂開最常見的原因。</p>
+    </article>
+
+    <article class="rule-card">
+      <div class="rule-num">原則 02</div>
+      <h4>不推、不拉、不提重</h4>
+      <p><strong>不超過 5 公斤的物品</strong>（約 5 罐 600 mL 礦泉水）。不推沉重的門、不拉沉重抽屜、不提購物袋。一定要提時，分散兩手平均承重。</p>
+    </article>
+
+    <article class="rule-card">
+      <div class="rule-num">原則 03</div>
+      <h4>不舉手過肩</h4>
+      <p><strong>雙手不要同時舉到肩膀以上</strong>。曬衣服、拿高處物品、伸懶腰要特別注意。短暫的單手動作（如梳頭、抹臉）通常還可以，但不要長時間維持。</p>
+    </article>
+
+    <article class="rule-card">
+      <div class="rule-num">原則 04</div>
+      <h4>不用手撐起身體</h4>
+      <p>起身請用<strong>「翻身側坐起」</strong>：先側身、雙腿先放下床邊、再用肚子力量坐起。不要直接從仰躺用手撐床坐起，這對胸骨拉力極大。</p>
+    </article>
+  </div>
+
+  <!-- Daily life -->
+  <div class="section-title">日常生活的具體建議</div>
+
+  <ul class="detail-list">
+    <li>
+      <strong>起床方式</strong>
+      <span class="why">先翻身側躺、雙腿伸出床邊、用肚子力量帶動身體坐起。<em>不要用手撐床直接坐起來</em>。</span>
+    </li>
+    <li>
+      <strong>上廁所、洗澡</strong>
+      <span class="why">建議用蓮蓬頭沖洗，<em>不泡澡</em>（避免起身時用力）。如廁時改用大腿力量起身，<em>不要用手撐扶手</em>。</span>
+    </li>
+    <li>
+      <strong>穿衣方式</strong>
+      <span class="why">選擇<em>前開扣或拉鍊式上衣</em>，避免套頭式。鞋子用免綁鞋帶款式或穿脫式拖鞋。</span>
+    </li>
+    <li>
+      <strong>開車</strong>
+      <span class="why"><em>術後 4–6 週不要自己開車</em>。即使是副駕駛，安全帶建議夾抱枕在胸前，避免緊急煞車時的撞擊。</span>
+    </li>
+    <li>
+      <strong>抱小孩、寵物</strong>
+      <span class="why"><em>6 週內不要抱起小孩或寵物</em>。可以陪伴、撫摸，但不要用力抱起。</span>
+    </li>
+    <li>
+      <strong>性生活</strong>
+      <span class="why">通常術後 4–6 週可以恢復，但要<em>避免承受體重的姿勢</em>，建議與醫師討論。</span>
+    </li>
+    <li>
+      <strong>運動</strong>
+      <span class="why">術後 6 週前：散步、輕度伸展、復健師指導的運動。<em>6 週後</em>再依醫師評估漸進恢復重訓、游泳、球類等。</span>
+    </li>
+  </ul>
+
+  <!-- Warning signs -->
+  <div class="section-title">如果胸骨「動了」</div>
+
+  <div class="callout warnings">
+    <h4>有以下情況，請立即就醫</h4>
+    <ul>
+      <li><strong>咳嗽、翻身、起身時，胸骨聽到「喀」一聲</strong></li>
+      <li><strong>胸骨摸起來有移動感、突起感或不穩定感</strong></li>
+      <li><strong>胸骨疼痛突然加劇</strong>，與之前的傷口疼痛明顯不同</li>
+      <li><strong>傷口紅、腫、熱、流膿或滲液增加</strong></li>
+      <li><strong>發燒超過 38°C</strong>，特別是合併傷口變化</li>
+      <li><strong>傷口有異味</strong></li>
+    </ul>
+  </div>
+
+  <!-- Why 6 weeks timeline -->
+  <div class="section-title">為什麼是「6 週」</div>
+
+  <div class="timeline-call">
+    <h3>不是隨便定的數字，是骨頭真正癒合的時間</h3>
+    <div class="timeline-sub">胸骨癒合是一個漸進的生物過程</div>
+
+    <div class="timeline-row">
+      <div class="timeline-week">第 1–2 週</div>
+      <div class="timeline-text"><strong>軟組織癒合期</strong>：皮膚與軟組織開始癒合，胸骨之間還只靠縫合的鋼絲或鋼板固定。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">第 3–4 週</div>
+      <div class="timeline-text"><strong>骨痂初步形成</strong>：胸骨切緣開始長出新骨頭組織（骨痂），但仍很脆弱。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">第 5–6 週</div>
+      <div class="timeline-text"><strong>骨痂成熟、強度接近原本</strong>：胸骨大致恢復原本的強度，可以承受日常活動。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">第 6 週後</div>
+      <div class="timeline-text"><strong>逐步恢復重體力活動</strong>：依醫師評估漸進恢復重訓、游泳、運動。完全骨重塑可能需要 3–6 個月。</div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>六週看似很久，但對胸骨完全癒合是必要的。<span class="em">守好這 6 週，未來才能無後顧之憂地活動</span>。</p>
+    <p>對胸骨保護或日常活動有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、復健師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society, ERAS International Society, and the Society of Thoracic Surgeons (STS). <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

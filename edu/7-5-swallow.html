@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拔管後的吞嚥暫時困難 — 心臟加速康復衛教</title>
+<meta name="description" content="拔管後 24–72 小時的吞嚥困難原因、本院的安全評估流程、進食姿勢與嗆到處理">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:三原因 cards + 編號評估步驟 + 嗆到雙欄處理 */
+.reasons {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .reasons { grid-template-columns: 1fr 1fr 1fr; } }
+.reason {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.reason .r-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.reason h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.reason p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* 編號步驟卡(評估流程) */
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.step-card.gateway {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px; line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+/* 嗆到處理雙欄 */
+.choke-row {
+  display: grid; grid-template-columns: 1fr;
+  gap: 14px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .choke-row { grid-template-columns: 1fr 1fr; } }
+.choke-box {
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.choke-box.mild {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+}
+.choke-box.severe {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+}
+.choke-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  margin-bottom: 8px;
+}
+.choke-box.mild h4 { color: var(--safe); }
+.choke-box.severe h4 { color: var(--danger); }
+.choke-box p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.choke-box p strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .reason { padding: 16px 18px; }
+  .step-card { padding: 16px 18px; gap: 12px; }
+  .choke-box { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 7-5</div>
+    <h1>拔管後的<br>吞嚥暫時困難</h1>
+    <p class="subtitle">為什麼會這樣、本院如何評估、您怎麼安全地重新開始進食<br>Post-Extubation Dysphagia</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>吞嚥功能會「暫時休息」，不是永久受損</strong>
+    <p>氣管插管期間，導管壓著咽喉與會厭（保護氣管的小蓋子）一段時間，加上麻醉藥殘餘影響，<span class="em">拔管後 24–72 小時內，吞嚥反射會暫時變得遲鈍</span>。這是正常現象，並非永久受損。</p>
+    <p>但這段期間如果勉強喝水或進食，可能會嗆到、食物或液體被吸入肺部，引起<span class="em">吸入性肺炎</span>。所以本院在「喝水進食」之前，會先安排<span class="em">「吞嚥安全評估」這道閘門</span> —— 為了讓您能安全地重新開始進食。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">會厭</span>
+      <span class="lex-def">咽喉裡<strong>保護氣管的小蓋子</strong>，吞嚥時會自動蓋住氣管。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">吸入性肺炎</span>
+      <span class="lex-def">食物或液體<strong>不慎進入肺部</strong>引起的感染。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">吞嚥評估</span>
+      <span class="lex-def">由護理師或語言治療師<strong>評估能不能安全吞嚥</strong>的閘門式測試。</span>
+    </div>
+  </div>
+
+  <!-- Why 3 reasons -->
+  <div class="section-title">為什麼拔管後吞嚥會暫時變差</div>
+
+  <p class="section-intro">
+    吞嚥是一個極為精細的協調動作，需要<span class="em">舌頭、咽喉、會厭、聲帶</span>在一秒內精準配合，才能把食物送入食道、同時把氣管「關起來」防止嗆入。心臟手術後，這個協調暫時會被三件事影響：
+  </p>
+
+  <div class="reasons">
+    <div class="reason">
+      <div class="r-num">原因 01</div>
+      <h4>咽喉壓迫感</h4>
+      <p>氣管內管壓著咽喉與會厭幾個小時，組織會有暫時的麻木與輕度腫脹。</p>
+    </div>
+    <div class="reason">
+      <div class="r-num">原因 02</div>
+      <h4>麻醉藥殘餘</h4>
+      <p>麻醉藥還在身體代謝中，會讓肌肉協調與反射反應暫時變慢。</p>
+    </div>
+    <div class="reason">
+      <div class="r-num">原因 03</div>
+      <h4>認知尚未完全清醒</h4>
+      <p>如果腦袋還有點迷糊，吞嚥的「指揮中樞」也會跟著遲鈍。<strong style="color:var(--teal);font-weight:500">清醒，是安全吞嚥的前提</strong>。</p>
+    </div>
+  </div>
+
+  <!-- Risk factors -->
+  <div class="section-title">這些情況風險較高</div>
+
+  <div class="callout tradeoffs">
+    <h4>下列病人在恢復期更需要小心</h4>
+    <ul>
+      <li><strong>插管時間超過 48 小時</strong></li>
+      <li><strong>年齡較長</strong>（&gt; 75 歲）</li>
+      <li><strong>有過中風、神經肌肉疾病、巴金森氏症</strong></li>
+      <li><strong>長期吸菸或飲酒</strong></li>
+      <li><strong>術前已有吞嚥困難</strong></li>
+      <li><strong>術後仍須持續吸氧或痰多者</strong></li>
+    </ul>
+  </div>
+
+  <!-- Assessment flow -->
+  <div class="section-title">本院的吞嚥評估流程</div>
+
+  <p class="section-intro">
+    這是<span class="em">通往進食的「安全閘門」</span>。逐步通過，才會進入下一階段（喝水進食 <span class="link-ref">連結 7-7</span>）。
+  </p>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>確認意識完全清醒</h4>
+      <p>需要能<strong>遵循簡單指令</strong>（如張嘴、伸舌、握手）、有<strong>咳嗽反射</strong>、能對話或點頭回應。意識不清時絕對不可進食。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>口腔與聲音檢查</h4>
+      <p>觀察<strong>聲音是否沙啞</strong>（沙啞代表聲帶或喉部仍受影響）、能否清楚發「啊」音、口水能否自然吞下、有無異常分泌物。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>少量飲水測試</h4>
+      <p>護理師或語言治療師會給您<strong>一茶匙水</strong>，觀察吞嚥動作、有沒有<strong>嗆咳、聲音變化、呼吸異常</strong>。通常做 3 次以確認穩定性。</p>
+    </div>
+  </article>
+
+  <article class="step-card gateway">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>通過閘門 → 進入「喝水進食」階段</h4>
+      <p>通過評估後，會由<strong>少量澄清液體 → 軟質食物 → 一般飲食</strong>逐步進階。詳細的進食建議請參考下一篇衛教。</p>
+    </div>
+  </article>
+
+  <!-- Safe eating principles -->
+  <div class="section-title">通過評估後 — 安全進食的姿勢</div>
+
+  <div class="callout prep-actions">
+    <h4>六個簡單原則，能渡過最關鍵的進食期</h4>
+    <ul>
+      <li><strong>坐直 90 度進食</strong>，絕對不躺著進食或半坐臥進食</li>
+      <li><strong>每口少量</strong>，分次慢慢吞，不要急</li>
+      <li><strong>下巴微微內收</strong>（不抬頭），讓會厭能順利蓋住氣管</li>
+      <li><strong>感覺有食物卡住時暫停</strong>，咳一咳再繼續</li>
+      <li><strong>進食後維持坐姿 30 分鐘</strong>，避免胃內容物逆流</li>
+      <li><strong>避免乾、硬、容易碎屑的食物</strong>（如餅乾、堅果、爆米花）</li>
+    </ul>
+  </div>
+
+  <!-- Choking response -->
+  <div class="section-title">嗆到了怎麼辦</div>
+
+  <div class="choke-row">
+    <div class="choke-box mild">
+      <h4>輕微嗆咳</h4>
+      <p><strong>用力咳出來就好。</strong>這是身體保護氣管的正常反射。咳完休息一下、確認舒服了再繼續吞下一口。</p>
+    </div>
+    <div class="choke-box severe">
+      <h4>嚴重嗆咳 / 持續異常</h4>
+      <p><strong>立刻停止進食、坐直、告訴護理師。</strong>特別是出現：嗆咳超過幾分鐘、聲音明顯沙啞、呼吸喘、發燒。這可能是吸入性肺炎的早期徵兆，需要立即評估。</p>
+    </div>
+  </div>
+
+  <!-- Reassurance -->
+  <div class="section-title">吞嚥困難會持續多久</div>
+
+  <div class="callout eras-banner">
+    <h4>絕大多數人 24–72 小時就會恢復</h4>
+    <p>絕大多數病人在<strong>拔管後 24–72 小時內，吞嚥功能就會恢復到能正常進食</strong>。少數高齡或本身已有吞嚥障礙者可能需要 <span class="em-teal">1–2 週</span>才能完全恢復。</p>
+    <p>如果這段時間仍有困難，本院的<strong>語言治療師（Speech Therapist）</strong>可以提供針對性的吞嚥訓練 —— 包括口腔肌肉運動、吞嚥姿勢調整、食物質地建議等，能明顯加速恢復。</p>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p><span class="em">慢慢來、少量喝、坐著吃</span> —— 三個簡單原則，加上本院的安全評估閘門，能讓您安全地渡過吞嚥恢復期。</p>
+    <p>對術後進食或吞嚥有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、語言治療師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Skoretz SA, Yau TM, Ivanov J, et al. Dysphagia and Associated Risk Factors Following Extubation in Cardiovascular Surgical Patients. <em>Dysphagia.</em> 2014;29(6):647–654.</li>
+      <li>Macht M, Wimbish T, Clark BJ, et al. Postextubation Dysphagia Is Persistent and Associated With Poor Outcomes in Survivors of Critical Illness. <em>Crit Care.</em> 2011;15(5):R231.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

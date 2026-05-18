@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術後疼痛與多模式止痛 — 心臟加速康復衛教</title>
+<meta name="description" content="五處傷口的痛、為什麼是會呼吸的痛、本院四大止痛策略、疼痛分數對照表">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:疼痛部位卡 + 時程表 + 策略卡 + 疼痛分數對照 */
+.prebuilt {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 28px;
+}
+.prebuilt h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.prebuilt .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.prebuilt p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.prebuilt p:last-child { margin-bottom: 0; }
+.prebuilt p strong { color: var(--ink); font-weight: 600; }
+
+/* 疼痛部位卡 */
+.pain-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.pain-card.breath {
+  border-left: 3px solid var(--danger);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--danger-bg) 100%);
+}
+.pain-card .breath-tag {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: var(--danger); color: white;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+  font-family: 'Noto Serif TC', serif;
+}
+.pain-card .pain-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pain-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  padding-right: 90px;
+}
+.pain-card .pain-meta {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+.pain-card .pain-rows {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.pain-card .pain-rows .row {
+  display: flex; gap: 12px;
+  padding: 4px 0;
+}
+.pain-card .pain-rows .label {
+  flex-shrink: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  color: var(--teal);
+  font-weight: 600;
+  width: 36px;
+}
+.pain-card .pain-rows .value { flex: 1; }
+.pain-card .pain-rows .value strong { color: var(--ink); font-weight: 600; }
+
+/* 總時程表 */
+.total-timeline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.total-timeline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+}
+.total-timeline .row {
+  display: flex; gap: 14px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.total-timeline .row:last-of-type { border-bottom: none; }
+.total-timeline .row .when {
+  flex-shrink: 0; min-width: 110px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px; font-weight: 600;
+  color: var(--gold);
+}
+.total-timeline .row .what {
+  font-size: 13.5px; color: var(--ink-soft);
+  line-height: 1.7;
+}
+.total-timeline .row .what strong { color: var(--ink); font-weight: 600; }
+.total-timeline .footer-rea {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--teal); line-height: 1.75;
+}
+.total-timeline .footer-rea strong { color: var(--teal); font-weight: 600; }
+
+/* 策略卡 */
+.strategy {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--teal);
+}
+.strategy.s4 { border-left-color: var(--gold); }
+.strategy .s-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.strategy.s4 .s-num { color: var(--gold); }
+.strategy h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.strategy .en {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.strategy p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 0;
+}
+.strategy p strong { color: var(--ink); font-weight: 600; }
+.strat-clarify {
+  background: var(--teal-tint);
+  border: 1px solid #C9D6D6;
+  border-left: 2px solid var(--teal);
+  border-radius: 3px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.strat-clarify strong { color: var(--ink); font-weight: 600; }
+.strat-clarify .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px; font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+
+/* 疼痛分數卡 */
+.score-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.score-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.score-card .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+.score-row {
+  display: flex; gap: 14px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.score-row:last-of-type { border-bottom: none; }
+.score-row .scale {
+  flex-shrink: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 3px;
+  min-width: 52px;
+  text-align: center;
+}
+.score-row .scale.s02 { background: var(--safe-bg); color: var(--safe); }
+.score-row .scale.s34 { background: var(--gold-soft); color: var(--gold); }
+.score-row .scale.s56 { background: var(--warn-bg); color: var(--warn); }
+.score-row .scale.s78 { background: var(--danger-bg); color: var(--danger); }
+.score-row .scale.s910 { background: var(--danger); color: white; }
+.score-row .desc {
+  flex: 1;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  padding-top: 2px;
+}
+.score-row .desc strong { color: var(--ink); font-weight: 600; }
+.score-card .footer-rea {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--teal);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .pain-card { padding: 18px 20px; }
+  .pain-card h3 { padding-right: 0; }
+  .pain-card .breath-tag {
+    position: static; display: inline-block;
+    margin-bottom: 10px; margin-top: 4px;
+  }
+  .strategy { padding: 18px 18px; }
+  .prebuilt { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 5-1b</div>
+    <h1>術後疼痛<br>與多模式止痛</h1>
+    <p class="subtitle">五處傷口在痛、為什麼是「會呼吸的痛」、本院如何處理<br>Postoperative Pain · Multimodal Analgesia</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>痛是正常的，但不應該被忍下來</strong>
+    <p>心臟手術後幾天內，傷口、管路與手術姿勢都會帶來不同程度的疼痛 —— 這是正常的、可預期的。但本院的目標是讓您的痛被「<span class="em">精準處理、有效控制、副作用最少</span>」，而不是讓您忍著。</p>
+    <p>我們不靠「一種強力的鴉片類藥物」解決所有痛，而是用<span class="em">多種方法協同作用</span>：HFNC 減少呼吸費力、區域神經阻斷直接阻斷疼痛傳導、常規給予乙醯胺酚（俗稱普拿疼） —— 讓鴉片類能不用就不用，副作用降到最低。這個策略符合國際心臟手術 ERAS 指引。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">會呼吸的痛</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛（胸口傷口、胸管周圍）。是術後最關鍵需要處理的痛。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">多模式止痛</span>
+      <span class="lex-def">用多種不同的方式同時止痛，而不是只靠一種強效藥（詳細原理請參考多模式止痛總論）。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">鴉片類藥物</span>
+      <span class="lex-def">強效止痛藥的總稱（如嗎啡、芬太尼）。效果強但<strong>副作用明顯</strong>，本院的原則是「需要才用」。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">疼痛分數</span>
+      <span class="lex-def">0–10 的自我評分，0 是不痛、10 是極痛。<strong>誠實表達，團隊才能精準調整</strong>（下方有具體場景對照）。</span>
+    </div>
+  </div>
+
+  <!-- Pre-built base -->
+  <div class="prebuilt">
+    <h4>手術前已經建立的止痛基礎</h4>
+    <div class="sub">您醒來時，身上已經有一份預先建立的止痛保護</div>
+    <p>您的止痛其實在手術前就開始了 —— 本院在麻醉開始時會用<strong>「脊髓內嗎啡」</strong>在脊髓周圍的空隙注射極微量嗎啡，效果<strong>持續術後 18–24 小時</strong>，剛好涵蓋最痛的時段 <span class="link-ref">連結 5-1</span>。</p>
+    <p>所以您醒來時，身上其實已經有一份預先建立的止痛保護 —— 後續的<strong>四大策略</strong>是在這個基礎上繼續強化，讓整段恢復期都被止痛覆蓋。</p>
+  </div>
+
+  <!-- Five pain locations -->
+  <div class="section-title">心臟手術後可能會痛的五個地方</div>
+
+  <p class="section-intro">
+    依手術方式不同，您可能會感受到下面幾種疼痛。<span class="em">其中標有「會呼吸的痛」的兩處特別重要</span> —— 它們是本院多模式止痛策略最關注的對象。
+  </p>
+
+  <article class="pain-card breath">
+    <div class="breath-tag">會呼吸的痛</div>
+    <div class="pain-num">部位 01</div>
+    <h3>胸口傷口</h3>
+    <div class="pain-meta">胸骨正中切開（傳統手術，20–25 cm）或微創側胸切口（4–8 cm）</div>
+    <div class="pain-rows">
+      <div class="row"><div class="label">痛感</div><div class="value">鈍痛或拉扯痛，<strong>深呼吸、咳嗽、翻身時加劇</strong></div></div>
+      <div class="row"><div class="label">時程</div><div class="value">最初 2–3 天最明顯，2–4 週逐漸緩解</div></div>
+    </div>
+  </article>
+
+  <article class="pain-card breath">
+    <div class="breath-tag">會呼吸的痛</div>
+    <div class="pain-num">部位 02</div>
+    <h3>胸腔引流管</h3>
+    <div class="pain-meta">胸壁下方有 1–3 條塑膠引流管</div>
+    <div class="pain-rows">
+      <div class="row"><div class="label">痛感</div><div class="value">持續性鈍痛或拉扯感，<strong>呼吸、咳嗽、坐起時加劇</strong></div></div>
+      <div class="row"><div class="label">時程</div><div class="value">通常 1–3 天移除後，疼痛立即明顯減輕</div></div>
+    </div>
+  </article>
+
+  <article class="pain-card">
+    <div class="pain-num">部位 03</div>
+    <h3>大腿取靜脈處</h3>
+    <div class="pain-meta">僅冠狀動脈繞道手術病人才有；大腿內側、有時延伸到膝蓋</div>
+    <div class="pain-rows">
+      <div class="row"><div class="label">痛感</div><div class="value">走路、坐下、抬腿時不舒服，傷口附近瘀青與腫脹</div></div>
+      <div class="row"><div class="label">時程</div><div class="value">2–4 週內逐漸緩解，瘀青可能持續較久</div></div>
+    </div>
+  </article>
+
+  <article class="pain-card">
+    <div class="pain-num">部位 04</div>
+    <h3>喉嚨</h3>
+    <div class="pain-meta">來自手術中的氣管插管與<strong>經食道超音波（TEE）</strong></div>
+    <div class="pain-rows">
+      <div class="row"><div class="label">痛感</div><div class="value">吞嚥不適、聲音沙啞，部分人感覺有異物</div></div>
+      <div class="row"><div class="label">時程</div><div class="value">1–3 天通常自行緩解，含冰水或溫水有幫助</div></div>
+    </div>
+  </article>
+
+  <article class="pain-card">
+    <div class="pain-num">部位 05</div>
+    <h3>腰痠背痛</h3>
+    <div class="pain-meta">手術時平躺 5–6 小時，腰椎和背部長時間維持同一姿勢造成</div>
+    <div class="pain-rows">
+      <div class="row"><div class="label">痛感</div><div class="value">腰背痠、緊、僵硬，特別是早晨</div></div>
+      <div class="row"><div class="label">時程</div><div class="value">開始下床活動後 1–2 天明顯改善</div></div>
+    </div>
+  </article>
+
+  <div class="total-timeline">
+    <h4>總時程參考</h4>
+    <div class="row">
+      <div class="when">最痛的時期</div>
+      <div class="what">術後 <strong>48–72 小時</strong>（剛拔管、剛開始活動）</div>
+    </div>
+    <div class="row">
+      <div class="when">明顯緩解</div>
+      <div class="what"><strong>1 週內</strong>，胸管移除後痛感大幅下降</div>
+    </div>
+    <div class="row">
+      <div class="when">持續復原</div>
+      <div class="what"><strong>2–4 週</strong>內逐步消退，瘀青可能持續到 6 週</div>
+    </div>
+    <div class="footer-rea">
+      每個人恢復速度不同，但<strong>痛感曲線是「先高後低、逐日下降」</strong> —— 如果您感覺痛<strong>越來越嚴重</strong>而不是越來越輕，告訴護理師，可能需要評估。
+    </div>
+  </div>
+
+  <!-- Breathing pain concept -->
+  <div class="section-title">為什麼「會呼吸的痛」特別重要</div>
+
+  <div class="callout eras-banner">
+    <h4>每一次呼吸都會牽動傷口</h4>
+    <p>胸口傷口與胸管周圍的痛感，會<strong>隨著每一次呼吸、咳嗽、深吸氣、翻身</strong>而被牽動。許多病人因此<strong>不敢深呼吸、不敢咳嗽</strong> —— 這正是術後肺部塌陷、肺炎發生的主要原因。</p>
+    <p>所以「控制好會呼吸的痛」<span class="em-teal">不只是讓您舒服一點，而是讓您能配合呼吸訓練、能咳出痰、能下床活動</span>。這是本院在止痛策略上特別下功夫的地方。</p>
+  </div>
+
+  <!-- Multimodal strategy: 4 pillars -->
+  <div class="section-title">本院的四大止痛策略</div>
+
+  <p class="section-intro">
+    沒有單一藥物能完美處理術後疼痛，所以我們用<span class="em">四種不同機轉的方法協同作用</span>，每一個都針對不同層面的痛。
+  </p>
+
+  <article class="strategy s1">
+    <div class="s-num">策略 01</div>
+    <h4>HFNC 減少呼吸費力</h4>
+    <div class="en">High Flow Nasal Cannula</div>
+    <p>拔管後立即使用<strong>高流量鼻導管氧氣</strong> <span class="link-ref">連結 6-6</span>。它讓您呼吸不費力，胸壁活動幅度小、傷口被牽動少 —— <strong>從源頭減少「會呼吸的痛」</strong>。同時還能讓您說話、進食、不需要鎮靜。</p>
+  </article>
+
+  <article class="strategy s2">
+    <div class="s-num">策略 02</div>
+    <h4>區域神經阻斷</h4>
+    <div class="en">Regional Nerve Block</div>
+    <p>手術前或手術中，麻醉醫師在胸壁附近的神經周圍打<strong>局部麻醉藥</strong>，直接阻斷胸壁的痛覺神經傳導。效果可<strong>持續術後 12–24 小時</strong>，剛好跨過最痛的時段，對「會呼吸的痛」效果最好。</p>
+  </article>
+
+  <article class="strategy s3">
+    <div class="s-num">策略 03</div>
+    <h4>常規使用乙醯胺酚（普拿疼）</h4>
+    <div class="en">Acetaminophen / Paracetamol</div>
+    <p>俗稱<strong>普拿疼</strong>（學名：acetaminophen）。<strong>每 6 小時定時靜脈或口服給藥</strong>，不等到「很痛了再給」。它在大腦中樞作用，<strong>不傷胃、不影響凝血、無鴉片類副作用</strong>。國際 ERAS 指引明確建議「常規使用」。</p>
+  </article>
+
+  <article class="strategy s4">
+    <div class="s-num">策略 04</div>
+    <h4>鴉片類「需要才用」</h4>
+    <div class="en">Opioids · Rescue only</div>
+    <p>鴉片類不再是基礎用藥，<strong>只有當上述三項加起來仍不足時才追加</strong>，使用短效、低劑量配方。這樣能避免<strong>想吐、便祕、呼吸變慢變淺、意識混亂（譫妄）</strong>等副作用，<strong>不會拖慢拔管、下床、進食的進度</strong>。</p>
+    <div class="strat-clarify">
+      <span class="label">重要澄清：</span>這不是「醫院捨不得給強效藥」，而是「<strong>等真的需要才用，效果反而最好</strong>」。研究顯示，常規大劑量鴉片類反而會讓身體對止痛變得不敏感，後續需要更高劑量才有效。本院的策略是把鴉片類<strong>留在最該用的時候</strong>，確保它真正幫到您。
+    </div>
+  </article>
+
+  <!-- Pain score card -->
+  <div class="section-title">您能做的事</div>
+
+  <div class="score-card">
+    <h4>告訴護理師您的疼痛分數（0–10）</h4>
+    <div class="sub">數字本身對應的感覺，讓您比較好評估</div>
+    <div class="score-row">
+      <div class="scale s02">0–2</div>
+      <div class="desc">幾乎不痛，只有微微的傷口感覺</div>
+    </div>
+    <div class="score-row">
+      <div class="scale s34">3–4</div>
+      <div class="desc"><strong>有點痛，但能聊天、能配合活動</strong></div>
+    </div>
+    <div class="score-row">
+      <div class="scale s56">5–6</div>
+      <div class="desc"><strong>痛得不太想動</strong>，做動作前需要再給止痛藥</div>
+    </div>
+    <div class="score-row">
+      <div class="scale s78">7–8</div>
+      <div class="desc"><strong>痛到無法專心、流汗、皺眉</strong>，需要立即處理</div>
+    </div>
+    <div class="score-row">
+      <div class="scale s910">9–10</div>
+      <div class="desc"><strong>極度疼痛、可能伴隨噁心、無法忍受</strong>，立即按鈴</div>
+    </div>
+    <div class="footer-rea">誠實表達當下的感覺，團隊才能精準調整</div>
+  </div>
+
+  <div class="callout prep-actions">
+    <h4>主動參與，痛就能控制得更好</h4>
+    <ul>
+      <li><strong>抱枕固定胸口</strong>：咳嗽、深呼吸、翻身時抱緊枕頭壓在傷口位置 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>不要忍痛</strong>：忍痛會讓您不敢呼吸、不敢咳嗽、不敢動 —— 反而拖慢恢復。「忍痛是錯的選擇」</li>
+      <li><strong>動作前 5–10 分鐘先告訴護理師</strong>：要咳嗽、翻身、下床等動作前，先給時間讓止痛藥起效。止痛藥從注射或服用到效果達到高峰，通常需要 5–15 分鐘</li>
+      <li><strong>配合誘發性肺量計使用</strong>：每 1–2 小時做一輪，把肺撐開 <span class="link-ref">連結 7-1</span></li>
+      <li><strong>規律下床活動</strong>：適度活動有助減少腰背痛與大腿取靜脈處的僵硬 <span class="link-ref">連結 7-6a</span></li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>痛是正常的，但本院希望您的痛被<span class="em">「處理好」</span>而不是被<span class="em">「忍下來」</span>。多模式止痛讓您<span class="em">保持清醒、能進食、能配合復健、副作用最少</span> —— 這是真正在加速您的康復。</p>
+    <p>對術後疼痛或止痛用藥有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Devarajan J, Balasubramanian S, Shariat AN, et al. Regional Analgesia for Cardiac Surgery. Part 1. Current State of the Evidence: Fascial Plane Blocks. <em>Semin Cardiothorac Vasc Anesth.</em> 2021;25(4):252–264.</li>
+      <li>Liu Y, Zhang J, Yu P, et al. Effect of intravenous acetaminophen on postoperative opioid consumption: a meta-analysis. <em>Anesthesiology.</em> 2018;128(6):1241–1252.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

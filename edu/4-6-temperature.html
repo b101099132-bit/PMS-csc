@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圍術期低體溫與保溫措施 — 心臟加速康復衛教</title>
+<meta name="description" content="36°C 為什麼是關鍵體溫線，本院如何在術前、術中、術後幫病人保暖">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:溫度刻度條(冷-安全-過熱)、編號步驟卡 */
+.thermo {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 28px 24px;
+  margin-bottom: 28px;
+}
+.thermo-title {
+  text-align: center;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--ink); margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.thermo-sub {
+  text-align: center;
+  font-size: 12px; color: var(--ink-faint);
+  margin-bottom: 22px;
+}
+.thermo-bar {
+  position: relative;
+  height: 22px; border-radius: 11px;
+  background: linear-gradient(90deg,
+    var(--cold) 0%, var(--cold) 30%,
+    var(--safe) 35%, var(--safe) 70%,
+    var(--warn) 75%, var(--warn) 100%);
+  margin: 36px 8px 56px;
+}
+.thermo-marker {
+  position: absolute; top: -8px;
+  width: 3px; height: 38px;
+  background: var(--ink); border-radius: 2px;
+}
+.thermo-marker .marker-label {
+  position: absolute; top: -22px; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--ink); white-space: nowrap;
+}
+.thermo-marker .marker-sub {
+  position: absolute; bottom: -28px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px; color: var(--ink-faint);
+  white-space: nowrap;
+}
+.thermo-marker.cold { left: 30%; }
+.thermo-marker.warm { left: 75%; }
+.thermo-zones {
+  display: flex; justify-content: space-between;
+  font-size: 11.5px; color: var(--ink-soft);
+  margin-top: -8px; padding: 0 2px;
+  letter-spacing: 0.05em;
+}
+.thermo-zones span { flex: 1; text-align: center; }
+.thermo-zones .z-cold { color: var(--cold); font-weight: 500; }
+.thermo-zones .z-safe { color: var(--safe); font-weight: 500; }
+.thermo-zones .z-warm { color: var(--warn); font-weight: 500; }
+
+/* 編號步驟卡(時序保溫流程) */
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px; line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.75; margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .thermo { padding: 22px 16px; }
+  .thermo-marker .marker-label { font-size: 12px; }
+  .step-card { padding: 16px 18px; gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 4-6</div>
+    <h1>圍術期低體溫<br>與保溫措施</h1>
+    <p class="subtitle">36°C 為什麼是關鍵體溫線<br>本院如何在術前、術中、術後幫您保暖</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>為什麼體溫這麼重要？</strong>
+    <p>麻醉藥物會抑制人體自我調節體溫的能力，加上手術房環境較涼、皮膚與內臟暴露，<span class="em">大多數病人在開刀過程中會自然地慢慢失溫</span>。即使是輕度低體溫（核心體溫 35–35.9°C），也已被證實會增加多項術後併發症的風險。</p>
+    <p>本院遵循國際心臟手術 ERAS 指引建議，整段圍術期都會主動為您維持<span class="em">核心體溫 ≥ 36°C</span>。</p>
+  </div>
+
+  <!-- Thermometer scale -->
+  <div class="section-title">關鍵的兩條溫度線</div>
+
+  <div class="thermo">
+    <div class="thermo-title">核心體溫安全帶</div>
+    <div class="thermo-sub">℃ — 心臟手術病人圍術期建議區間</div>
+
+    <div class="thermo-bar">
+      <div class="thermo-marker cold">
+        <div class="marker-label">36.0°C</div>
+        <div class="marker-sub">過冷警戒線</div>
+      </div>
+      <div class="thermo-marker warm">
+        <div class="marker-label">37.9°C</div>
+        <div class="marker-sub">過熱警戒線</div>
+      </div>
+    </div>
+
+    <div class="thermo-zones">
+      <span class="z-cold">低體溫<br>傷害凝血、傷口</span>
+      <span class="z-safe">安全區間<br>術中目標</span>
+      <span class="z-warm">過熱<br>傷害腦部</span>
+    </div>
+  </div>
+
+  <!-- Why low temp is harmful -->
+  <div class="section-title">為什麼要避免低體溫</div>
+
+  <div class="callout tradeoffs">
+    <h4>核心體溫低於 36°C，會造成 ——</h4>
+    <ul>
+      <li><strong>凝血酵素活性下降</strong>，增加術後出血量與輸血需求</li>
+      <li><strong>傷口血流變差、白血球作用下降</strong>，提高傷口感染機率</li>
+      <li><strong>麻醉藥代謝變慢</strong>，甦醒延遲、拔管時間拉長</li>
+      <li><strong>心血管系統承受寒冷壓力</strong>，可能誘發心律不整或缺血</li>
+      <li><strong>術後寒顫</strong>，增加耗氧、不適與疼痛感</li>
+    </ul>
+  </div>
+
+  <!-- Measures we take -->
+  <div class="section-title">本院的保溫作為</div>
+
+  <p class="section-intro">
+    保溫不是單一動作，而是<span class="em">術前、術中、術後</span>整段連續的主動措施。
+  </p>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>術前主動預熱</h4>
+      <p>進手術房前，使用<strong style="color:var(--teal);font-weight:500">熱風加溫毯（Forced-air Warming Blanket）</strong>幫您升溫至接近 37°C，讓核心體溫進入「飽和狀態」，可有效對抗麻醉導致的初期失溫。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>術中持續加溫</h4>
+      <p>整個手術過程，皮膚未操作的區域都會被熱風加溫毯覆蓋。手術房也會適度調高室溫，讓散熱降到最低。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>輸液與輸血加溫</h4>
+      <p>靜脈點滴、輸血、人工心肺機灌注液都會經過<strong style="color:var(--teal);font-weight:500">加溫器（Fluid Warmer）</strong>升溫到接近體溫再進入身體，避免冰冷液體把核心體溫快速拉低。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>核心體溫持續監測</h4>
+      <p>透過鼻咽、食道、膀胱或肺動脈導管監測核心體溫，數值即時顯示在麻醉螢幕上，團隊隨時調整加溫強度。</p>
+    </div>
+  </article>
+
+  <!-- CPB special note -->
+  <div class="section-title">人工心肺機運作時的特殊溫控</div>
+
+  <div class="callout eras-banner">
+    <h4>不能太冷，也絕對不能太熱</h4>
+    <p>人工心肺機本身具有調溫功能，部分手術會視需要降溫到 32–34°C 以減少心臟與大腦的代謝需求。但結束時的<span class="em-teal">回溫過程必須緩慢且精準</span>。</p>
+    <p>研究顯示，回溫時若核心體溫超過 37.9°C，<strong>過熱會明顯增加術後神經損傷與譫妄的風險</strong>。體外循環師、麻醉科醫師會持續監測，把回溫速度與終點溫度都控制在安全範圍。</p>
+  </div>
+
+  <!-- ERAS benefits chain -->
+  <div class="callout eras-benefits">
+    <h4>體溫管理如何串連到加速康復</h4>
+    <div class="sub">少一點失溫，就少一分後續問題</div>
+    <ul>
+      <li><strong>減少術後出血</strong> —— 凝血功能正常運作 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>降低傷口感染</strong> —— 血流與免疫細胞作用維持</li>
+      <li><strong>加速麻醉甦醒、提早拔管</strong> —— 藥物代謝順暢 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>降低譫妄發生率</strong> —— 避免過熱對大腦的負擔</li>
+      <li><strong>減少寒顫與不適</strong> —— 醒來體感更舒服</li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>體溫管理看似不起眼，卻是 ERAS 加速康復照護中影響最深遠的環節之一。<span class="em">少一點失溫，就少一分出血、感染、譫妄與不適</span>。</p>
+    <p>對術中保溫或體溫管理有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Wahba A, Kunst G, De Somer F, et al. 2024 EACTS/EACTAIC/EBCP Guidelines on cardiopulmonary bypass in adult cardiac surgery. <em>Br J Anaesth.</em> 2025;134(4):917–1008.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

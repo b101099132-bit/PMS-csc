@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>會客時的認知復健 — 心臟加速康復衛教(家屬版)</title>
+<meta name="description" content="家屬會客時的對話原則、對話實例、可以聊什麼、避免做的事、FAST 中風快速辨識、給家屬的安心話">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:家屬版徽章 + 6 原則卡 + 對話實例對照 + 話題分組 + FAST 警示 + 安心話 */
+.eyebrow .ver {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--teal-tint);
+  color: var(--teal);
+  border-radius: 2px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+/* 6 對話原則卡 */
+.principles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .principles { grid-template-columns: 1fr 1fr; } }
+.principle {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 18px 20px;
+}
+.principle .num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.principle h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.principle p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* 對話實例對照 */
+.dialog-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+@media (min-width: 560px) { .dialog-pair { grid-template-columns: 1fr 1fr; } }
+.dialog-box {
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.dialog-box.dont {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-left: 3px solid var(--warn);
+}
+.dialog-box.do {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+}
+.dialog-box .dlabel {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+.dialog-box.dont .dlabel { color: var(--warn); }
+.dialog-box.do .dlabel { color: var(--safe); }
+.dialog-box .line {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.75;
+  padding: 4px 0;
+  font-style: italic;
+}
+.dialog-box.do .line { font-style: normal; }
+
+/* 話題分組 */
+.topics {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.topic-group {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.topic-group:last-child { border-bottom: none; }
+.topic-group .tg-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.tg-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tg-examples .ex {
+  padding: 4px 10px;
+  background: var(--cream);
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+/* FAST 警示區塊 */
+.fast-block {
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+}
+.fast-block h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+.fast-block .fast-sub {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.fast-row {
+  display: flex;
+  gap: 14px;
+  padding: 10px 0;
+  align-items: flex-start;
+  border-bottom: 1px dashed var(--danger-border);
+}
+.fast-row:last-child { border-bottom: none; }
+.fast-letter {
+  flex-shrink: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--danger);
+  line-height: 1;
+  width: 38px;
+  text-align: center;
+}
+.fast-body {
+  flex: 1;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.fast-body .fname {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--danger);
+  margin-right: 4px;
+}
+.fast-body strong { color: var(--ink); font-weight: 600; }
+.fast-time {
+  background: var(--paper);
+  border: 1px solid var(--danger-border);
+  border-radius: 3px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  font-size: 13.5px;
+  color: var(--danger);
+  line-height: 1.7;
+  text-align: center;
+  font-weight: 500;
+}
+.fast-time strong {
+  font-family: 'Noto Serif TC', serif;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* Reassure family */
+.reassure-family {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.reassure-family h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.reassure-family .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.reassure-family p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.reassure-family p strong { color: var(--ink); font-weight: 600; }
+.self-care {
+  background: var(--paper);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin-top: 14px;
+}
+.self-care .sc-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.self-care ul { list-style: none; padding: 0; }
+.self-care ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.self-care ul li:last-child { margin-bottom: 0; }
+.self-care ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px; top: 1px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 12px;
+}
+.self-care ul li strong { color: var(--ink); font-weight: 600; }
+
+.dialog-scenario {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+  margin-top: 6px;
+}
+
+@media (max-width: 480px) {
+  .principle { padding: 16px 18px; }
+  .dialog-box { padding: 16px 18px; }
+  .topics { padding: 16px 20px; }
+  .fast-block { padding: 20px 22px; }
+  .reassure-family { padding: 22px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 8-1b <span class="ver">家屬版</span></div>
+    <h1>會客時的<br>認知復健</h1>
+    <p class="subtitle">您的陪伴是不可取代的處方 —— 用對的方式與他對話<br>Cognitive Rehab during Visiting · Family Version</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>家屬,您是病人認知恢復的關鍵角色</strong>
+    <p>當您走進加護病房,看見親人剛拔管、剛清醒,可能不知道該說什麼、該不該打擾他。</p>
+    <p>請放心:<span class="em">您的陪伴與對話,是病人認知恢復(透過對話與互動,幫助病人的思考、記憶、定向感恢復)最強的「自然處方」</span>。國際研究一致顯示,<span class="em">固定時間的家屬陪伴(例如每天會客時間都來)</span>能<span class="em">明顯減少譫妄發生率與持續時間、加速從麻醉中恢復、降低焦慮與孤獨感</span>。</p>
+    <p>前面 CPB、NIRS、BIS 與「早期拔管」一路說明了團隊如何在術中守護病人的腦部。<span class="em">但術後 24 小時到 7 天,中風仍可能延遲發生</span> —— 這段時間最敏銳的觀察者不是儀器,而是<span class="em">「最熟悉病人的您」</span>。您的存在,是術後守護鏈的延伸。</p>
+    <p>這份單張教您:<span class="em">怎麼陪、講什麼、避免什麼、何時警覺</span>。同時也建議鼓勵病人(若狀況允許)閱讀<span class="em">病人版「為什麼團隊一直問你同樣的問題」</span> <span class="link-ref">連結 8-1a</span> —— 當病人理解團隊為什麼反覆問問題,他會更願意配合,您的陪伴也會更有效。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">認知復健</span>
+      <span class="lex-def">透過對話與互動,幫助病人的思考、記憶、定向感恢復(<strong>不需要藥物的最佳療法</strong>)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">譫妄</span>
+      <span class="lex-def">術後暫時性的意識混亂,通常會在幾天內恢復,<strong>跟失智不同</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">定向感</span>
+      <span class="lex-def">對時間、地點、人物的認知(例如知道今天幾號、自己在哪裡、誰是誰)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">FAST</span>
+      <span class="lex-def">國際通用的<strong>中風快速辨識口訣</strong>:臉(Face)、手(Arm)、說話(Speech)、時間(Time)。</span>
+    </div>
+  </div>
+
+  <!-- 6 principles -->
+  <div class="section-title">對話的六個原則</div>
+
+  <p class="section-intro">
+    剛清醒的病人,思考速度與語言理解能力都還在恢復中。請<span class="em">「先短,再長;先慢,再快」</span> —— 隨著他越清醒,再逐漸增加複雜度。
+  </p>
+
+  <div class="principles">
+    <div class="principle">
+      <div class="num">原則 01</div>
+      <h4>開始用 5–10 字的短句</h4>
+      <p>剛清醒時,他的大腦還在重新啟動。一次一個短句,比長篇大論有效得多。</p>
+    </div>
+    <div class="principle">
+      <div class="num">原則 02</div>
+      <h4>一次只說一個訊息</h4>
+      <p>不要在同一句話中同時報告日期、地點、家庭新聞。一次一個訊息,等他回應再講下一個。</p>
+    </div>
+    <div class="principle">
+      <div class="num">原則 03</div>
+      <h4>慢慢說,不要催促</h4>
+      <p>說話速度比平常慢一些。問完問題後等 5–10 秒,他可能需要時間理解和回應。</p>
+    </div>
+    <div class="principle">
+      <div class="num">原則 04</div>
+      <h4>用熟悉的稱呼</h4>
+      <p>「老公」「媽」「爸」「阿嬤」 —— 您平常怎麼叫他,現在也怎麼叫。陌生的正式稱呼反而會讓他困惑。</p>
+    </div>
+    <div class="principle">
+      <div class="num">原則 05</div>
+      <h4>重複關鍵資訊</h4>
+      <p>名字、日期、地點、「手術很順利」這些重要訊息,每次會客都可以再講一次,幫助他重新建立定向感。</p>
+    </div>
+    <div class="principle">
+      <div class="num">原則 06</div>
+      <h4>等他回應,不替他回答</h4>
+      <p>即使他答得慢、答錯了,也讓他自己嘗試。家屬替他搶答會剝奪他重新建立認知的機會。</p>
+    </div>
+  </div>
+
+  <!-- Dialog examples -->
+  <div class="section-title">對話實例:這樣說 vs 不要這樣說</div>
+
+  <p class="section-intro" style="margin-bottom:18px">
+    家屬版三種最常見的「好意但失誤」的對話模式 —— 看完就能避開。
+  </p>
+
+  <div class="dialog-scenario">情境 01 · 訊息塞太多型</div>
+  <div class="dialog-pair">
+    <div class="dialog-box dont">
+      <div class="dlabel">不建議</div>
+      <div class="line">「您今天怎麼樣?這個手術其實非常複雜您知道嗎,醫師說有幾個地方很困難但都處理得很好您都不用擔心了…」</div>
+      <div class="line">「您還記得是誰送您來醫院嗎?是上個禮拜三早上對不對?」</div>
+      <div class="line">「孫子很想您,他現在功課壓力很大,我們今天還討論要不要送他去補習班…」</div>
+    </div>
+    <div class="dialog-box do">
+      <div class="dlabel">建議</div>
+      <div class="line">「老公,我來看你了。」</div>
+      <div class="line">「今天是 5 月 17 號。」</div>
+      <div class="line">「你在耕莘醫院 ICU。」</div>
+      <div class="line">「手術很順利。醫師說很好。」</div>
+      <div class="line">「孫子今天也有來。」</div>
+    </div>
+  </div>
+
+  <div class="dialog-scenario">情境 02 · 過度關心型</div>
+  <div class="dialog-pair">
+    <div class="dialog-box dont">
+      <div class="dlabel">不建議</div>
+      <div class="line">「您會不會痛?哪裡痛?痛的時候有沒有告訴護理師?要不要我叫醫師來看?是不是還很不舒服?」</div>
+    </div>
+    <div class="dialog-box do">
+      <div class="dlabel">建議</div>
+      <div class="line">「會痛嗎?」</div>
+      <div class="line">(等他回答)</div>
+      <div class="line">「需要叫護理師嗎?」</div>
+      <div class="line">(再等他回答)</div>
+    </div>
+  </div>
+
+  <div class="dialog-scenario">情境 03 · 過度緊張型</div>
+  <div class="dialog-pair">
+    <div class="dialog-box dont">
+      <div class="dlabel">不建議</div>
+      <div class="line">「您看起來很累,您有沒有好好睡?是不是哪裡不舒服?要不要我去問護理師?臉色怎麼那麼差?」</div>
+    </div>
+    <div class="dialog-box do">
+      <div class="dlabel">建議</div>
+      <div class="line">「你看起來在休息。」</div>
+      <div class="line">「我陪你坐一下就好。」</div>
+    </div>
+  </div>
+
+  <!-- Topics -->
+  <div class="section-title">可以聊什麼(依場合分組)</div>
+
+  <p class="section-intro">
+    剛清醒時,<span class="em">「定向感」優先</span> —— 先讓他知道是誰、在哪、現在幾點、發生什麼事。等他穩定後,再聊熟悉的家裡事與輕鬆的話題。
+  </p>
+
+  <div class="topics">
+    <div class="topic-group">
+      <div class="tg-label">時間定向</div>
+      <div class="tg-examples">
+        <span class="ex">今天是 X 月 X 日</span>
+        <span class="ex">現在是早上 10 點</span>
+        <span class="ex">手術昨天做的</span>
+        <span class="ex">今天是星期六</span>
+      </div>
+    </div>
+    <div class="topic-group">
+      <div class="tg-label">空間定向</div>
+      <div class="tg-examples">
+        <span class="ex">你在耕莘醫院</span>
+        <span class="ex">這裡是加護病房</span>
+        <span class="ex">家裡都好</span>
+      </div>
+    </div>
+    <div class="topic-group">
+      <div class="tg-label">人物定向</div>
+      <div class="tg-examples">
+        <span class="ex">我是 OOO</span>
+        <span class="ex">你的兒子來了</span>
+        <span class="ex">XXX 外面在等</span>
+      </div>
+    </div>
+    <div class="topic-group">
+      <div class="tg-label">手術狀況(簡短陳述即可)</div>
+      <div class="tg-examples">
+        <span class="ex">手術很順利</span>
+        <span class="ex">醫師說很好</span>
+        <span class="ex">恢復得很好</span>
+      </div>
+    </div>
+    <div class="topic-group">
+      <div class="tg-label">熟悉的家裡事(穩定後再聊)</div>
+      <div class="tg-examples">
+        <span class="ex">狗狗在家很好</span>
+        <span class="ex">孫子畫了卡片</span>
+        <span class="ex">隔壁的阿伯有問候</span>
+        <span class="ex">花園的花開了</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avoid -->
+  <div class="section-title">避免做的事</div>
+
+  <div class="callout warnings">
+    <h4>這些做法可能讓他更焦慮、更混亂</h4>
+    <ul>
+      <li>用太長、太複雜的句子,一次塞太多訊息</li>
+      <li>一次太多人擠進去探視(建議 1–2 人輪流)</li>
+      <li>追問他不記得的事 —— 「你怎麼會忘記?」</li>
+      <li><strong>替病人搶答團隊的問題</strong> —— 即使他答得慢,也讓他自己嘗試。家屬替他答會剝奪他重新建立認知的機會 <span class="link-ref">連結 8-1a</span></li>
+      <li>在他面前哭泣或表現過度焦慮 —— 他會以為自己很糟</li>
+      <li>爭論手術細節或抱怨醫療過程 —— 留給醫療團隊回答</li>
+      <li>在他睡覺時硬把他叫醒 —— 睡眠是恢復的一部分</li>
+      <li>刻意提起會讓他焦慮的事(家裡的糾紛、工作的壓力)</li>
+      <li>當著他的面跟護理人員小聲討論他的病情</li>
+    </ul>
+  </div>
+
+  <!-- Cognitive stimulation -->
+  <div class="section-title">陪伴時的其他認知刺激</div>
+
+  <div class="callout prep-actions">
+    <h4>除了對話,這些方式也很有效</h4>
+    <ul>
+      <li><strong>播放熟悉的音樂</strong> —— 帶他平常喜歡的歌曲,用小音量播放</li>
+      <li><strong>念新聞或書的片段</strong> —— 不必他完全聽懂,熟悉的聲音本身就是治療</li>
+      <li><strong>給他看家人照片、孫子的影片</strong> —— 喚起情感與長期記憶</li>
+      <li><strong>輕輕握他的手</strong> —— 觸覺是最不需要認知能力的安撫</li>
+      <li><strong>幫他看時鐘、報時間</strong> —— 幫助他重新建立時間感</li>
+      <li><strong>如果他平常戴眼鏡或助聽器,請帶過來</strong> —— 看得清、聽得到才能配合認知復健</li>
+    </ul>
+  </div>
+
+  <!-- FAST -->
+  <div class="section-title">紅旗警示 —— 立即告訴護理人員</div>
+
+  <p class="section-intro" style="margin-bottom:18px">
+    家屬是病人術後的「第二雙眼睛」。中風的早期辨識,請記住國際通用的「<span class="em">FAST</span>」口訣 —— 三大徵兆與時間。
+  </p>
+
+  <div class="fast-block">
+    <h4>FAST · 中風快速辨識口訣</h4>
+    <div class="fast-sub">任何一項出現 → 立即按鈴告知護理人員</div>
+
+    <div class="fast-row">
+      <div class="fast-letter">F</div>
+      <div class="fast-body">
+        <span class="fname">Face(臉)</span>請他笑一笑 —— <strong>嘴角是否一邊下垂?</strong>
+      </div>
+    </div>
+    <div class="fast-row">
+      <div class="fast-letter">A</div>
+      <div class="fast-body">
+        <span class="fname">Arm(手)</span>請他雙手平舉 —— <strong>是否一邊掉下?</strong>或請他兩手同時握您的手,<strong>感覺力量是否一邊明顯較弱?</strong>
+      </div>
+    </div>
+    <div class="fast-row">
+      <div class="fast-letter">S</div>
+      <div class="fast-body">
+        <span class="fname">Speech(說話)</span>請他重複一句話 —— <strong>是否含糊不清、找不到字、聽不懂您說的話?</strong>
+      </div>
+    </div>
+    <div class="fast-row">
+      <div class="fast-letter">T</div>
+      <div class="fast-body">
+        <span class="fname">Time(時間)</span>任何一項出現,立即按鈴告知護理人員 —— <strong>時間就是腦細胞</strong>。
+      </div>
+    </div>
+
+    <div class="fast-time">
+      <strong>每延遲 1 分鐘 → 約 190 萬個腦細胞死亡</strong><br>不必確認、不必猶豫 —— 寧可虛驚一場,也不要錯過黃金時間
+    </div>
+  </div>
+
+  <div class="callout warnings">
+    <h4>其他需注意的徵兆</h4>
+    <ul>
+      <li><strong>視力變化、看不清楚、看東西重影</strong></li>
+      <li><strong>意識突然變差或變得異常躁動</strong></li>
+      <li><strong>之前能答對的問題突然答不出來</strong></li>
+      <li><strong>突然劇烈頭痛或嘔吐</strong></li>
+    </ul>
+  </div>
+
+  <p style="font-size:13.5px; color:var(--ink-soft); line-height:1.75; padding:12px 16px; background:var(--cream); border-radius:3px; border-left:2px solid var(--gold); margin-bottom:24px">
+    <strong>寧可虛驚一場,也不要錯過早期處理的黃金時間。</strong>即使您不確定是不是有問題,也請告訴護理人員 —— 您的觀察永遠值得被重視。
+  </p>
+
+  <!-- Family reassurance -->
+  <div class="section-title">給家屬的安心話</div>
+
+  <div class="reassure-family">
+    <h3>您不需要扮演醫療人員</h3>
+    <div class="sub">您的角色是:陪伴、安撫、提供熟悉感</div>
+    <p><strong>不會說錯話</strong> —— 安靜陪伴本身就是陪伴,握握他的手就夠了。</p>
+    <p><strong>不需要說鼓勵的話</strong> —— 不必硬擠出「加油」「會好的」這些話。他知道您來了,這就夠了。</p>
+    <p><strong>不需要強裝堅強,但也不要讓焦慮籠罩會客時間</strong> —— 您的平靜,就是他最大的安心。</p>
+    <p>每次會客結束,您就回去好好<strong>吃飯、睡覺、休息</strong>。照顧好自己,是您能持續陪伴他的前提。</p>
+
+    <div class="self-care">
+      <div class="sc-label">照顧好自己的具體做法</div>
+      <ul>
+        <li>每次會客結束,<strong>離開 ICU 後做一次深呼吸再走</strong></li>
+        <li><strong>與其他家人輪流會客</strong>,不要一個人扛</li>
+        <li>一天至少吃兩餐、睡 6 小時 —— <strong>您的體力是病人後續恢復的依靠</strong></li>
+        <li>如果您開始<strong>失眠、食慾差、容易掉眼淚</strong>,告訴護理人員或社工,我們有資源可以幫忙</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>您陪伴的腦部守護鏈</h4>
+    <div class="sub">這份單張在整套守護鏈中的位置</div>
+    <ol>
+      <li>CPB · 體外循環機(認識手術)</li>
+      <li>NIRS · 腦氧監測(術中守護)</li>
+      <li>BIS · 麻醉深度監測(術中守護)</li>
+      <li>早期拔管(術後立即清醒)</li>
+      <li>HFNC · 高流量鼻導管(拔管後過渡)</li>
+      <li>術後神經學評估 — 病人版(<strong>請鼓勵病人讀</strong>)</li>
+      <li class="current"><strong>會客時的認知復健 — 家屬版(您正在讀)</strong></li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>您的陪伴是<span class="em">不可取代</span>的處方。<span class="em">簡短、溫暖、規律</span> —— 就是病人最需要的認知復健。</p>
+    <p>對會客方式或病人狀況有任何疑問,歡迎隨時詢問護理人員,或在<span class="em">門診</span>與<span class="em">術前訪視</span>時與醫療團隊討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Rosa RG, Falavigna M, da Silva DB, et al. Effect of Flexible Family Visitation on Delirium Among Patients in the Intensive Care Unit: The ICU Visits Randomized Clinical Trial. <em>JAMA.</em> 2019;322(3):216–228.</li>
+      <li>Mitchell ML, Kean S, Rattray JE, et al. A family intervention to reduce delirium in hospitalised ICU patients: A feasibility randomised controlled trial. <em>Intensive Crit Care Nurs.</em> 2017;40:77–84.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

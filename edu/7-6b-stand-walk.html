@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從站到走 — 心臟加速康復衛教</title>
+<meta name="description" content="為什麼拔管 24 小時內就能走路繞護理站、漸進式站立三步驟、第一次走路五步驟、整條恢復鏈如何運作">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:好處網格 + 三階段站立卡 + 走路步驟卡 + 整條鏈視覺化 + 後續日程 */
+.benefits {
+  display: grid; grid-template-columns: 1fr;
+  gap: 10px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .benefits { grid-template-columns: 1fr 1fr; } }
+.benefit-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 16px 18px;
+}
+.benefit-card .b-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.benefit-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.benefit-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.benefit-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 站立階段卡(reuse 7-6a 的 phase-card) */
+.phases { margin-bottom: 24px; }
+.phase-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 12px;
+}
+.phase-card.p1 { border-left: 3px solid var(--teal); }
+.phase-card.p2 { border-left: 3px solid var(--gold); }
+.phase-card.p3 { border-left: 3px solid #8E6840; }
+.phase-card .phase-head {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 8px; margin-bottom: 4px;
+}
+.phase-card .phase-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px; letter-spacing: 0.18em;
+  font-weight: 600;
+}
+.phase-card.p1 .phase-num { color: var(--teal); }
+.phase-card.p2 .phase-num { color: var(--gold); }
+.phase-card.p3 .phase-num { color: #8E6840; }
+.phase-card .phase-when {
+  font-size: 12px; color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+.phase-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink); margin-bottom: 10px;
+}
+.phase-card .phase-body {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.8;
+}
+.phase-card .phase-body strong { color: var(--ink); font-weight: 600; }
+.phase-card .phase-body ul {
+  list-style: none; padding: 0; margin-top: 8px;
+}
+.phase-card .phase-body ul li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 5px;
+  font-size: 13.5px;
+}
+.phase-card .phase-body ul li::before {
+  content: '·';
+  position: absolute;
+  left: 6px; top: -2px;
+  font-size: 18px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* 走路步驟卡(類似 step-card,第 5 步為 target 強調) */
+.walk-step {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.walk-step.target {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+}
+.walk-step .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.walk-step .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px; line-height: 1.5;
+}
+.walk-step .step-body p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.75; margin-bottom: 0;
+}
+.walk-step .step-body p strong { color: var(--ink); font-weight: 600; }
+
+/* Chain visualization */
+.chain {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.chain h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--teal); margin-bottom: 4px;
+}
+.chain .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.chain p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.85; margin-bottom: 12px;
+}
+.chain p:last-child { margin-bottom: 0; }
+.chain p strong { color: var(--ink); font-weight: 600; }
+.chain-vis {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  align-items: center; justify-content: center;
+  margin: 14px 0;
+}
+.chain-vis .link {
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--ink);
+  display: flex; gap: 6px;
+  align-items: center;
+}
+.chain-vis .link.final {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  font-weight: 600;
+  color: var(--gold);
+}
+.chain-vis .lnum {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.chain-vis .arrow { color: var(--teal); font-weight: 700; }
+
+/* Next steps timeline */
+.next-steps {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.next-steps h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--gold); margin-bottom: 14px;
+}
+.next-steps .step-row {
+  display: flex; gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.next-steps .step-row:last-child { border-bottom: none; }
+.next-steps .step-row .when {
+  flex-shrink: 0; width: 90px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--gold);
+}
+.next-steps .step-row .what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.next-steps .step-row .what strong { color: var(--ink); font-weight: 600; }
+.discharge-list {
+  list-style: none; padding: 0; margin-top: 8px;
+}
+.discharge-list li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.discharge-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: -1px;
+  color: var(--safe);
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .benefit-card { padding: 14px 16px; }
+  .phase-card { padding: 18px 20px; }
+  .walk-step { padding: 16px 18px; gap: 12px; }
+  .chain { padding: 22px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 7-6b</div>
+    <h1>從站到走</h1>
+    <p class="subtitle">為什麼拔管 24 小時內就能走路繞護理站、站立與走路的具體做法、安全考量<br>From Standing to Walking</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>從躺到坐，是「重新開機」；從站到走，是「我真的回來了」</strong>
+    <p>您已經完成了「從躺到坐」的三個階段 <span class="em">連結 7-6a</span>。接下來 —— <span class="em">從坐到站、從站到走</span>，是術後恢復的最後一塊拼圖。本院的目標是讓您<span class="em">在拔管後 24 小時內，能下床走路繞護理站一圈</span>。</p>
+    <p>這不是衝刺，而是<span class="em">前面所有環節都到位之後，自然就能達成的進度</span>。當您能自己站起來、自己跨出第一步，那一刻您會清楚感受到 —— 「我真的回來了」。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">姿勢性低血壓</span>
+      <span class="lex-def">從坐到站瞬間血壓暫時下降造成的頭暈、眼前發黑感覺。<strong>動作慢一點、先停 30 秒讓血壓適應就能避免</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">深層靜脈血栓</span>
+      <span class="lex-def">腿部血管裡形成的血塊，可能因長時間不動造成。<strong>走路時小腿肌肉的「幫浦動作」是最有效的預防</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">ICU 衰弱症候群</span>
+      <span class="lex-def">加護病房臥床造成的全身無力，肌力每天流失 1–2%。<strong>每次站立、每一步走，都是在主動對抗</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">彈性襪</span>
+      <span class="lex-def">俗稱「血栓襪」，壓著腿幫助血液回流，<strong>是「被動防護」</strong>，搭配您的「主動走路」效果最好。</span>
+    </div>
+  </div>
+
+  <!-- Why standing/walking matters -->
+  <div class="section-title">為什麼站立與走路是「最後一塊拼圖」</div>
+
+  <p class="section-intro">
+    坐起來已經改善了肺活量、咳嗽、循環、胃口。但<span class="em">完全垂直的姿勢（站立）+ 主動移動（走路）</span>，能把這些好處放大到極致，並補上坐姿無法達成的最後幾項：
+  </p>
+
+  <div class="benefits">
+    <article class="benefit-card">
+      <div class="b-num">好處 01</div>
+      <h4>完全的肺底擴張</h4>
+      <p>站立時橫膈膜完全下沉，<strong>肺底部 100% 打開</strong>，肺活量達到最佳狀態。深層舊血水更容易排出。</p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 02</div>
+      <h4>對抗深層靜脈血栓最直接的方式</h4>
+      <p>走路時小腿肌肉的「幫浦動作」，<strong>把腿部血管的血用力推回心臟</strong>，是預防深層靜脈血栓最直接、最自然的方式。</p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 03</div>
+      <h4>排尿排便恢復自然姿勢與尊嚴</h4>
+      <p><strong>躺著用尿盆其實非常彆扭</strong> —— 膀胱與骨盆角度不對、肌肉無法放鬆。站起來上廁所後，這些問題往往瞬間消失。對排便也一樣 —— 坐在馬桶上腹部能正常用力。</p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 04</div>
+      <h4>對抗加護病房臥床造成的全身無力</h4>
+      <p>整天躺著，肌力每天流失 1–2%。<strong>每次站立、每一步走，都是在「使用」肌肉</strong>，保住您出院後<strong>自己照顧自己的能力</strong>。</p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 05</div>
+      <h4>心理上的「我可以了」</h4>
+      <p>能自己站、能自己走，是<strong>恢復自信最直接的訊號</strong>。研究顯示，能在 ICU 期間下床的病人，焦慮、憂鬱、譫妄發生率都明顯較低。</p>
+    </article>
+  </div>
+
+  <!-- Phase: Standing -->
+  <div class="section-title">漸進式站立三步驟</div>
+
+  <p class="section-intro">
+    在您完成「床邊坐姿」、雙腳已能輕鬆放下後，<span class="em">由護理師或復健師判斷時機</span>，開始第一次站立。整個過程都會有人陪伴與扶持。
+  </p>
+
+  <div class="phases">
+    <article class="phase-card p1">
+      <div class="phase-head">
+        <div class="phase-num">步驟 01</div>
+        <div class="phase-when">床邊坐姿之後</div>
+      </div>
+      <h4>雙腳踏地、感受 5 分鐘</h4>
+      <div class="phase-body">
+        坐在床邊、<strong>雙腳完全踩在地板或踏板上</strong>，先停留 5 分鐘。讓血液重新分布到下肢，避免一站起來就頭暈。
+        <ul>
+          <li>抱枕仍貼在胸口</li>
+          <li>觀察血壓、心跳、有無頭暈</li>
+          <li>感覺穩定再進下一步</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="phase-card p2">
+      <div class="phase-head">
+        <div class="phase-num">步驟 02</div>
+        <div class="phase-when">第一次站起</div>
+      </div>
+      <h4>扶持站起，站穩 30 秒</h4>
+      <div class="phase-body">
+        在<strong>護理師、復健師或家屬從背後/側面扶持下</strong>緩慢站起。雙手不要往下撐床（避免胸骨壓力），改用<strong>扶床欄、助行器</strong>支撐。
+        <ul>
+          <li>站起後先<strong>站著不動 30 秒</strong>，讓血壓適應</li>
+          <li>若頭暈、心悸、冒冷汗 → 立刻坐回</li>
+          <li>穩定的話，再坐下休息 1 分鐘</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="phase-card p3">
+      <div class="phase-head">
+        <div class="phase-num">步驟 03</div>
+        <div class="phase-when">重複幾次</div>
+      </div>
+      <h4>每次站立時間延長</h4>
+      <div class="phase-body">
+        重複「<strong>站起 → 站穩 → 坐下</strong>」幾次，每次站立時間逐漸延長到 1 分鐘、2 分鐘、3 分鐘。當您能<strong>穩穩站著 3 分鐘以上不頭暈</strong>，就可以進入走路階段。
+        <ul>
+          <li>不必勉強久站，「站幾次比站很久更有效」</li>
+          <li>每一輪都讓血壓、循環逐漸適應</li>
+          <li>進度由您的恢復狀態決定</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+
+  <!-- Walking steps -->
+  <div class="section-title">第一次走路 — 五步驟</div>
+
+  <p class="section-intro">
+    站穩之後，<span class="em">第一次走路不必走遠</span>。目標是從病床到房門口的這幾步，再慢慢延伸出去。
+  </p>
+
+  <article class="walk-step">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>站穩、抱枕、扶持</h4>
+      <p>站穩後，<strong>抱枕緊貼胸口</strong>，一手扶助行器或床欄，<strong>護理師/家屬在身旁陪同</strong>。確認管路（引流管、點滴、氧氣管）位置安全。</p>
+    </div>
+  </article>
+
+  <article class="walk-step">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>跨出第一步（小步即可）</h4>
+      <p>抬腳的高度<strong>不必太高</strong>，慢慢踏出一小步。<strong>邊走邊呼吸</strong>，絕不要憋氣。專心感受腳掌與地板的接觸。</p>
+    </div>
+  </article>
+
+  <article class="walk-step">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>走到房門口（短距離）</h4>
+      <p>第一次的目標：走到病房門口、再走回床邊。<strong>整個過程不超過 5 分鐘</strong>。能完成這幾步，就是巨大的進步。</p>
+    </div>
+  </article>
+
+  <article class="walk-step">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>走出房門、走廊上慢慢前進</h4>
+      <p>第二次或第三次嘗試，可以走出房門到走廊。<strong>速度比平常慢、姿勢挺直、抱枕貼胸</strong>，累了就在走廊椅子或扶手休息一下再走。</p>
+    </div>
+  </article>
+
+  <article class="walk-step target">
+    <div class="step-num">05</div>
+    <div class="step-body">
+      <h4>繞護理站一圈 — 拔管 24 小時內達標</h4>
+      <p><strong>本院的標誌性目標</strong>：在拔管後 24 小時內，能繞護理站走一圈（約 30–50 公尺）。完成這個目標，代表您已經跨過 ICU 早期復健最重要的門檻。</p>
+    </div>
+  </article>
+
+  <!-- Safety -->
+  <div class="section-title">站立與走路的安全提醒</div>
+
+  <div class="callout warnings">
+    <h4>第一次站立、走路必須有人陪 —— 這是絕對規則，沒有例外</h4>
+    <ul>
+      <li><strong>不要因為「想試試自己可不可以」就獨自站起</strong></li>
+      <li><strong>不要因為「不想麻煩護理師」就讓家屬一個人扶您</strong>（家屬不熟悉如何避免胸骨壓力與管路拉扯）</li>
+      <li><strong>第一次跌倒、扯到管路、撞到傷口，代價可能是延遲出院 1–2 週</strong></li>
+      <li><strong>按鈴等護理師、復健師到場，值得這幾分鐘的等待</strong></li>
+    </ul>
+  </div>
+
+  <div class="callout prep-actions">
+    <h4>四個一般安全原則</h4>
+    <ul>
+      <li><strong>動作要慢、循序漸進</strong>：每升一個強度都先停留觀察。從坐到站的瞬間最容易發生姿勢性低血壓</li>
+      <li><strong>不要用手撐起身體</strong>：用助行器、床欄、家屬扶持 —— <strong>絕不單手撐床或撐胸前</strong>（會把力量集中到胸骨）</li>
+      <li><strong>抱枕始終貼胸口</strong>：站起、邁步時都會牽動胸骨，抱枕固定能大幅減痛 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>邊走邊呼吸、絕不憋氣</strong>：規律呼吸能維持血壓穩定，憋氣會讓血壓劇烈波動</li>
+    </ul>
+  </div>
+
+  <!-- Danger flags -->
+  <div class="section-title">這些情況請立即坐下並告知</div>
+
+  <div class="callout warnings">
+    <h4>身體在告訴您「停下來」 — 退回坐姿是校準,不是失敗</h4>
+    <ul>
+      <li><strong>頭暈、眼前發黑、感覺要昏倒</strong>（姿勢性低血壓）</li>
+      <li><strong>明顯心悸、心跳變快或不規律</strong></li>
+      <li><strong>胸悶、胸痛變嚴重、呼吸困難</strong></li>
+      <li><strong>冒冷汗、噁心想吐</strong></li>
+      <li><strong>雙腿突然無力、感覺軟掉</strong></li>
+      <li><strong>傷口或胸骨突然劇烈疼痛</strong></li>
+    </ul>
+  </div>
+
+  <!-- Chain - whole series recap -->
+  <div class="section-title">為什麼本院能做到這麼快</div>
+
+  <div class="chain">
+    <h3>這不是衝刺，是「整條鏈」一起運作的成果</h3>
+    <div class="sub">每一篇衛教，都是這條恢復鏈上的一個環節</div>
+    <p>能在拔管後 24 小時內走路繞護理站，<strong>不是因為病人特別堅強，也不是因為團隊催趕</strong>。是因為從手術前到手術後，每一個環節都做足了：</p>
+
+    <div class="chain-vis">
+      <div class="link"><span class="lnum">6-2</span><span>手術室拔管</span></div>
+      <span class="arrow">→</span>
+      <div class="link"><span class="lnum">6-6</span><span>HFNC 銜接</span></div>
+      <span class="arrow">→</span>
+      <div class="link"><span class="lnum">5-1</span><span>多模式止痛</span></div>
+      <span class="arrow">→</span>
+      <div class="link"><span class="lnum">8-1a</span><span>認知清醒</span></div>
+      <span class="arrow">→</span>
+      <div class="link"><span class="lnum">7-7</span><span>進食</span></div>
+      <span class="arrow">→</span>
+      <div class="link"><span class="lnum">7-2</span><span>抱枕咳嗽</span></div>
+      <span class="arrow">→</span>
+      <div class="link"><span class="lnum">7-6a</span><span>坐起</span></div>
+      <span class="arrow">→</span>
+      <div class="link final"><span class="lnum">7-6b</span><span>站立走路</span></div>
+    </div>
+
+    <p>每一個環節都有它的角色：<strong>手術室拔管讓時鐘提早開始；HFNC 讓您不費力呼吸；多模式止痛讓您敢動；認知清醒讓您能配合；進食讓您有體力；抱枕讓咳嗽不怕；坐起啟動身體系統；最後 —— 站立與走路把這一切變成「我真的回來了」的事實</strong>。</p>
+    <p>所以本院的積極時程，是<strong>把每一步都做扎實之後的自然成果</strong>，不是冒險、不是衝刺。</p>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬可以怎麼幫忙</div>
+
+  <div class="callout family-discuss">
+    <h4>第一次走路 — 家屬可以陪伴與守護</h4>
+    <ul>
+      <li><strong>從側面或身後陪伴</strong>，不要在他面前拉手 —— 避免胸骨側向壓力</li>
+      <li><strong>幫忙確認管路安全</strong>：身上接著的引流管、點滴、氧氣管的位置與長度</li>
+      <li><strong>步調由病人決定</strong>：不要催「再走遠一點」，「累了我們休息」是正確的支持方式</li>
+      <li><strong>觀察臉色、呼吸、表情</strong>：發現臉色變蒼白、嘴唇發紫、表情緊繃 → 立刻請病人坐下，告訴護理師</li>
+      <li><strong>記錄這個里程碑</strong>：第一次站起、第一次走路、第一次繞護理站，這些都是值得記得的時刻</li>
+      <li><strong>不必擔心「他比別人慢」</strong>：每個人節奏不同，重點是「持續往前」</li>
+    </ul>
+  </div>
+
+  <!-- Next steps -->
+  <div class="section-title">接下來幾天的進度</div>
+
+  <div class="next-steps">
+    <h4>從繞護理站一圈，到走回正常生活</h4>
+    <div class="step-row">
+      <div class="when">Day 1</div>
+      <div class="what">完成<strong>繞護理站一圈</strong>。一天可重複 2–3 次。</div>
+    </div>
+    <div class="step-row">
+      <div class="when">Day 2–3</div>
+      <div class="what">逐步增加<strong>走路次數、距離、走廊圈數</strong>。可開始自己上下床、簡單梳洗。</div>
+    </div>
+    <div class="step-row">
+      <div class="when">Day 4 起</div>
+      <div class="what">能在病房走廊獨立行走、上下床無虞、自主進食洗漱 —— 開始準備出院。
+        <ul class="discharge-list">
+          <li>與護理師確認<strong>出院用藥、傷口照護方式、回診時間</strong></li>
+          <li>與營養師確認<strong>居家飲食調整</strong> <span class="link-ref">連結 9-3</span></li>
+          <li>家屬準備<strong>居家環境</strong>：浴室防滑、床鋪高度合適</li>
+          <li><strong>抱枕仍要繼續使用 6–8 週</strong>（咳嗽、打噴嚏、起身時都要用）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="when">出院後</div>
+      <div class="what">在家循序漸進地恢復日常活動，配合心臟復健計畫。</div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>從躺到坐、從坐到站、從站到走 —— <span class="em">每一步都是恢復的證明</span>。第一次自己跨出的那幾步，不只是肌肉的動作，更是<span class="em">「我真的回來了」</span>的最直接訊號。</p>
+    <p>對術後站立、走路、康復進度有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、復健科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Schweickert WD, Pohlman MC, Pohlman AS, et al. Early Physical and Occupational Therapy in Mechanically Ventilated, Critically Ill Patients: A Randomised Controlled Trial. <em>Lancet.</em> 2009;373(9678):1874–1882.</li>
+      <li>Tipping CJ, Harrold M, Holland A, et al. The Effects of Active Mobilisation and Rehabilitation in ICU on Mortality and Function: A Systematic Review. <em>Intensive Care Med.</em> 2017;43(2):171–183.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

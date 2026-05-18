@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>喝水與進食 — 心臟加速康復衛教</title>
+<meta name="description" content="為什麼經口喝水優於靜脈點滴、口渴中樞如何運作、心臟手術不需要清流質階段、術後沒胃口怎麼辦">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:口渴中樞 + 機制流程箭頭 + 兩步驟時程 */
+.thirst-callout {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.thirst-callout h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.thirst-callout .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.thirst-callout p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.thirst-callout p:last-child { margin-bottom: 0; }
+.thirst-callout p strong { color: var(--ink); font-weight: 600; }
+.mech-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  align-items: center; justify-content: center;
+  margin: 14px 0;
+}
+.mech-row .stage {
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.mech-row .arrow {
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* 兩步驟時程 */
+.timeline { margin-bottom: 24px; }
+.timeline-step {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 10px;
+  display: flex; gap: 14px;
+  align-items: flex-start;
+}
+.timeline-step .ts-when {
+  flex-shrink: 0;
+  min-width: 70px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  padding-top: 2px;
+}
+.timeline-step .ts-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.timeline-step .ts-body p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+.timeline-step .ts-body p strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .thirst-callout { padding: 22px 22px; }
+  .timeline-step { padding: 16px 18px; gap: 10px; }
+  .timeline-step .ts-when { min-width: 64px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 7-7</div>
+    <h1>喝水與進食</h1>
+    <p class="subtitle">為什麼經口喝水優於靜脈點滴、進食的進階時程、心臟手術後的特殊考量<br>Resuming Oral Hydration &amp; Diet</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>讓身體「自己想喝、自己想吃」，是康復回到正軌的關鍵一步</strong>
+    <p>通過吞嚥安全評估之後 <span class="em">連結 7-5</span>，下一步是<span class="em">重新開始經口喝水與進食</span>。本院的目標是讓您儘早恢復這個能力 —— 因為這不只是補充水分與熱量，更是<span class="em">腸胃道、口渴中樞、口腔感覺、咀嚼肌肉重新啟動</span>的具體表現。</p>
+    <p>心臟手術不像腸胃道手術，<span class="em">不需要從清流質慢慢進階到固體食物</span>。通過吞嚥評估、喝水順利後，您就可以直接吃喜歡的、想吃的食物 —— 越早恢復「想吃就吃」的日常，意味著身體越快回到術前的狀態，這正是 ERAS 加速康復的核心精神。</p>
+    <p>家屬可能會問：「真的不用慢慢來嗎？是不是醫院偷懶？」<span class="em">不是醫院簡化流程，而是國際 ERAS 指引明確建議：心臟手術後過早限制飲食，反而會延遲腸胃道、味覺、胃口的恢復</span>。「能吃就吃」是有研究支持的做法。</p>
+  </div>
+
+  <!-- IV vs Oral -->
+  <div class="section-title">經口喝水 vs 靜脈點滴</div>
+
+  <p class="section-intro">
+    手術中與術後初期，靜脈點滴是必要的水分來源。但只要您能<span class="em">安全吞嚥</span>，本院會儘快讓您<span class="em">改用經口喝水</span>取代或減少點滴 —— 不是為了趕進度，而是因為「經口」這條路有靜脈點滴無法取代的好處。
+  </p>
+
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">靜脈點滴</div>
+      <h3>由團隊估算的「外部給水」</h3>
+      <div class="col-en">IV fluid administration</div>
+      <div class="col-body">水分由醫療團隊依公式與監測數值<strong>估算</strong>後給予。<strong>是必要的</strong>，但給多了會增加心臟與腎臟負擔、給少了會脫水。<br>適用於：意識不清、吞嚥未通過評估、無法經口時。</div>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">經口喝水</div>
+      <h3>由您的口渴中樞「自動調節」</h3>
+      <div class="col-en">Oral hydration</div>
+      <div class="col-body">水分由您的<strong>身體自己決定</strong>什麼時候喝、喝多少。腦部的口渴中樞會即時感應，缺水時讓您想喝、足夠時讓您停止。<br>適用於：通過吞嚥評估、意識清醒後。<strong>越早開始越好</strong>。</div>
+    </div>
+  </div>
+
+  <!-- Thirst center -->
+  <div class="section-title">您身上有最精準的水分調節器</div>
+
+  <div class="thirst-callout">
+    <h3>腦部的「口渴中樞」是 24 小時運作的智能監測</h3>
+    <div class="sub">這是身體自帶的、靜脈點滴無法取代的調節系統</div>
+    <p>您的大腦深處有一個叫做<strong>「口渴中樞」</strong>的構造。它像一個全年無休的水分監測器，<strong>即時感應血液中鹽分的濃度、整體含水狀態</strong>，並依需要讓您產生口渴或停止口渴的訊號。</p>
+    <p>您可以想像它像家裡的<strong>自動感應水龍頭</strong> —— 看到手就出水、移開就停水。口渴中樞也是這樣，缺水時讓您想喝、夠了就讓您停止 —— 這是大自然演化幾百萬年的精準系統，<strong>任何點滴計算都贏不了它</strong>。</p>
+
+    <div class="mech-row">
+      <span class="stage">身體缺水</span>
+      <span class="arrow">→</span>
+      <span class="stage">口渴中樞偵測</span>
+      <span class="arrow">→</span>
+      <span class="stage">您感到口渴</span>
+      <span class="arrow">→</span>
+      <span class="stage">喝水</span>
+      <span class="arrow">→</span>
+      <span class="stage">中樞滿足</span>
+      <span class="arrow">→</span>
+      <span class="stage">停止</span>
+    </div>
+
+    <p>這套機制比任何點滴計算都精準，因為它<strong>即時、依需求、依個人狀態</strong>調整。所以本院鼓勵您 —— <strong>感到口渴就喝、不感到口渴也可以小口潤喉</strong>，把這套精準的系統重新啟動。</p>
+    <p style="font-size:13.5px;color:var(--ink-faint);font-style:italic">順帶一提 —— 您的口渴中樞需要<strong style="color:var(--teal);font-weight:500;font-style:normal">意識清醒</strong>才能正常工作 <span class="link-ref" style="font-style:normal">連結 8-1a</span>。意識越清楚，身體的訊號就越精準。</p>
+  </div>
+
+  <!-- Recovery flow -->
+  <div class="section-title">恢復進食的兩步驟</div>
+
+  <p class="section-intro">
+    心臟手術不像腸胃道手術，<span class="em">不需要從清流質慢慢進階到固體食物</span>。本院的飲食恢復其實只有兩個步驟：
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="ts-when">第一步</div>
+      <div class="ts-body">
+        <h4>通過吞嚥評估 → 開始喝水</h4>
+        <p>從<strong>一茶匙水</strong>開始，慢慢增加。沒有嗆咳、聲音正常、感覺順暢，就可以正常喝水。優先<strong>重啟口渴中樞與口腔濕潤</strong>。</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="ts-when">第二步</div>
+      <div class="ts-body">
+        <h4>喝水順利 → 直接恢復正常飲食</h4>
+        <p>不需要分清流質、濃流質、軟食的階段。<strong>您可以吃想吃、喜歡吃的食物</strong>。同時可以開始減少靜脈點滴，由經口進食取代。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- No appetite is normal -->
+  <div class="section-title">術後常常沒胃口，這是正常的</div>
+
+  <p class="section-intro">
+    雖然可以正常飲食，但<span class="em">術後第一天、第二天，多數病人會發現自己「明明可以吃，卻沒胃口」</span>。看到食物提不起興趣、吃幾口就飽、想到油膩的就想吐 —— 這完全不代表您恢復不好，而是身體正在重新調整。
+  </p>
+
+  <div class="callout tradeoffs">
+    <h4>術後沒胃口的常見原因</h4>
+    <ul>
+      <li><strong>麻醉藥還在身體裡代謝</strong>，部分藥物本身會抑制食慾</li>
+      <li><strong>腸胃自然收縮、把食物往前推的動作（腸胃道蠕動）還沒完全恢復</strong>，吃進去的食物消化得慢、容易脹</li>
+      <li><strong>傷口疼痛、胸口壓迫感</strong>讓您不想動，連帶不想吃</li>
+      <li><strong>靜脈點滴還在補水補營養</strong>，身體的「缺乏感」訊號不強</li>
+      <li><strong>味覺暫時改變</strong>，覺得平常喜歡的食物變得沒味道或怪怪的</li>
+    </ul>
+  </div>
+
+  <p style="font-size:14px;color:var(--ink-soft);line-height:1.85;margin-bottom:24px;padding:14px 18px;background:var(--teal-tint);border-radius:3px;border-left:2px solid var(--teal)">
+    <strong>這幾件事都會在 2–3 天內自然好轉</strong> —— 麻醉藥代謝完、腸胃恢復蠕動、傷口疼痛緩解、靜脈點滴減少 —— 胃口會跟著回來。所以第一天「吃幾口就飽」是身體在說<strong>「我還在恢復」</strong>，不是您哪裡有問題。
+  </p>
+
+  <!-- When appetite returns -->
+  <div class="section-title">胃口什麼時候會回來</div>
+
+  <div class="thirst-callout">
+    <h3>胃口跟著「活動」回來</h3>
+    <div class="sub">為什麼本院鼓勵儘早坐起、下床</div>
+    <p>術後胃口最有效的恢復方式 —— <strong>不是強迫進食，而是動起來</strong>。</p>
+
+    <div class="mech-row">
+      <span class="stage">坐起來</span>
+      <span class="arrow">→</span>
+      <span class="stage">下床走動</span>
+      <span class="arrow">→</span>
+      <span class="stage">促進腸胃蠕動</span>
+      <span class="arrow">→</span>
+      <span class="stage">飢餓感回來</span>
+      <span class="arrow">→</span>
+      <span class="stage">自然進食量增加</span>
+    </div>
+
+    <p>本院鼓勵您<strong>坐起、下床、漸進式活動</strong> <span class="link-ref">連結 7-6a · 7-6b</span> —— 這不只是肌肉復健，<strong>更是讓胃口重新回來的關鍵</strong>。當您開始活動，腸胃會跟著動起來，自然會餓，飯也會變得好吃。</p>
+    <p>所以如果您術後第一天沒胃口，請放心：<strong>等坐起、下床之後，您的胃口會自己回來</strong>。在那之前，不需要強迫自己吃完整碗。</p>
+  </div>
+
+  <!-- What you can do -->
+  <div class="section-title">您能做的事</div>
+
+  <div class="callout prep-actions">
+    <h4>讓口渴中樞、胃口、腸胃蠕動快點回到工作崗位</h4>
+    <ul>
+      <li><strong>感到口渴就喝</strong>：不要忍著不喝，這是身體在告訴您它的需求</li>
+      <li><strong>不感到口渴也可以小口潤喉</strong>：少量多次，特別是吹了 HFNC 或鼻管氧氣後口會乾</li>
+      <li><strong>避免葡萄柚汁、葡萄柚相關飲料</strong>：會影響某些心臟用藥效果。詳細飲食調整 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>吃想吃的、喜歡的</strong>：第一天不要強迫自己吃「該吃的」，依胃口選擇喜歡的口味才是最重要的</li>
+      <li><strong>不要勉強吃完整碗</strong>：少量多餐優於強迫一餐吃完；先求安全與愉快，再求量</li>
+      <li><strong>沒胃口時，先動再吃</strong>：坐起來、下床走動幾分鐘，胃口會慢慢回來</li>
+      <li><strong>主動告知護理師</strong>：吞嚥困難、嗆咳、噁心、腹脹、完全沒胃口，請即時反映</li>
+    </ul>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">給陪伴家屬的提醒</div>
+
+  <div class="callout family-discuss">
+    <h4>會客時最容易好意但失誤的四件事</h4>
+    <ul>
+      <li><strong>不要硬逼他吃完整碗</strong> —— 「明明買來您最愛吃的，怎麼不吃完？」這句話會讓病人壓力更大，反而吃不下</li>
+      <li><strong>第一天避免帶重口味的食物</strong> —— 牛肉麵、滷味、麻辣鍋會抑制剛恢復的味覺，讓病人覺得「醫院飯都沒味道」</li>
+      <li><strong>少量多次取代一次塞滿</strong> —— 帶一個小盒水果、一杯豆漿，比帶一大袋食物更有效</li>
+      <li><strong>觀察他想吃的時刻</strong> —— 醒來、坐起後、看完電視笑了之後，常常是胃口短暫回來的時刻，把握那一刻給少量食物</li>
+    </ul>
+  </div>
+
+  <!-- Warning signs -->
+  <div class="section-title">這些情況請立即告訴護理師</div>
+
+  <div class="callout warnings">
+    <h4>不要忍著、不要等下一輪查房</h4>
+    <ul>
+      <li><strong>持續噁心、嘔吐</strong>，無法吞嚥任何東西</li>
+      <li><strong>嗆咳變嚴重、聲音明顯沙啞、呼吸喘</strong>（可能吸入性肺炎）</li>
+      <li><strong>進食後嚴重腹脹、腹痛、沒有放屁或排便</strong></li>
+      <li><strong>連續 2–3 天完全吃不下任何東西</strong>（不只是吃得少，而是<strong>看到食物就反胃、連喝水都困難</strong>）</li>
+      <li><strong>吞嚥時感覺有東西卡住胸口</strong></li>
+      <li><strong>整天都不覺得渴、尿量明顯減少</strong>（可能脫水或腎臟問題）</li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>當您<span class="em">感到口渴、自己喝水、肚子餓了想吃東西、覺得味道好吃</span> —— 這些看似平常的事，正是心臟手術後最具體的康復指標。</p>
+    <p>如果您術後第一天沒胃口，請放心 —— <span class="em">坐起來、下床走幾步，胃口會跟著回來</span>。對術後飲食或水分有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、營養師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Stelfox HT, Ahmed SB, Khandwala F, et al. The Epidemiology of Intensive Care Unit-Acquired Hyponatraemia and Hypernatraemia in Medical-Surgical Intensive Care Units. <em>Crit Care.</em> 2008;12(6):R162.</li>
+      <li>Hooper L, Bunn D, Jimoh FO, Fairweather-Tait SJ. Water-loss dehydration and aging. <em>Mech Ageing Dev.</em> 2014;136-137:50–58.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

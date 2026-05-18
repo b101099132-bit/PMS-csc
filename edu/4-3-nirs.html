@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術中腦氧監測（NIRS） — 心臟加速康復衛教</title>
+<meta name="description" content="近紅外光腦氧監測 NIRS、rSO₂ 數值意義、警示時團隊如何介入">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:腦氧數值雙欄卡 + 編號步驟卡 */
+.gauge-pair {
+  display: grid; grid-template-columns: 1fr;
+  gap: 14px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .gauge-pair { grid-template-columns: 1fr 1fr; } }
+.gauge-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 22px;
+  position: relative;
+}
+.gauge-card.safe { border-top: 3px solid var(--safe); }
+.gauge-card.alert { border-top: 3px solid var(--gold); }
+.gauge-card .gauge-label {
+  font-size: 11px; letter-spacing: 0.2em;
+  font-weight: 600; margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.gauge-card.safe .gauge-label { color: var(--safe); }
+.gauge-card.alert .gauge-label { color: var(--gold); }
+.gauge-card .gauge-value {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 28px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px; line-height: 1.2;
+}
+.gauge-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 28px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
+}
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px; line-height: 1.5;
+}
+.step-card .step-body p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .step-card { padding: 16px 18px; gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 4-3</div>
+    <h1>術中腦氧監測<br>（NIRS）</h1>
+    <p class="subtitle">手術期間，如何即時知道您的腦部有沒有缺氧<br>Near-Infrared Spectroscopy · Cerebral Oximetry</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>為什麼要監測腦氧？</strong>
+    <p>心臟手術過程中，血壓、血流、體外循環支援的變化都可能讓腦部短暫缺氧。這種缺氧通常沒有外顯症狀，但若持續、未被發現，可能與術後的注意力減退、意識混亂、甚至中風有關。</p>
+    <p>近紅外光腦氧監測（<span class="em">NIRS</span>）是一種<span class="em">無痛、無創、連續</span>的監測方式，能讓麻醉科醫師在第一時間發現腦部供氧不足，及時介入。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">NIRS</span>
+      <span class="lex-def">Near-Infrared Spectroscopy，<strong>近紅外光腦氧監測</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">rSO₂</span>
+      <span class="lex-def">Regional Oxygen Saturation，<strong>局部腦氧飽和度</strong>，正常 60–80%。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">基準值</span>
+      <span class="lex-def">每個人麻醉前的<strong>個別腦氧水平</strong>，團隊以此為比較基準。</span>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="section-title">它如何運作？</div>
+
+  <p class="section-intro">
+    麻醉前，麻醉科醫師會在您的額頭兩側各貼一片小型感測貼片。貼片發出能穿透頭骨的<span class="em">近紅外光</span>，感應額葉下方腦組織中<span class="em">含氧血紅素的比例</span>，並即時顯示在麻醉螢幕上。整個過程<span class="em">無痛、無熱、不影響其他監測</span>。
+  </p>
+
+  <!-- Reading values -->
+  <div class="section-title">數值代表什麼</div>
+
+  <p class="section-intro">
+    腦氧監測會顯示一個叫做<span class="em">局部腦氧飽和度（rSO₂）</span>的數值，呈現額葉腦組織中氧氣供應狀況。每個人麻醉前的基準值不同，團隊會以「您自己的基準」為參考，而不是固定的標準值。
+  </p>
+
+  <div class="gauge-pair">
+    <div class="gauge-card safe">
+      <div class="gauge-label">安全範圍</div>
+      <div class="gauge-value">60–80%</div>
+      <p>大多數成人的基準範圍。手術期間維持在您自己的基準附近，或下降幅度小於 20%，代表腦部供氧充足。</p>
+    </div>
+    <div class="gauge-card alert">
+      <div class="gauge-label">警示閾值</div>
+      <div class="gauge-value">↓ 20% 或 &lt; 50%</div>
+      <p>數值較基準下降超過 20%、或絕對值低於 50%，麻醉與外科團隊會立即啟動處置流程。</p>
+    </div>
+  </div>
+
+  <!-- Interventions -->
+  <div class="section-title">數值下降時，團隊會做什麼</div>
+
+  <p class="section-intro">
+    腦氧下降通常<span class="em">不是單一原因</span>造成，麻醉科醫師會依當下情況，從以下五個面向快速找出原因並處置：
+  </p>
+
+  <article class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <h4>提升血壓</h4>
+      <p>確保腦部有足夠的灌流壓力，必要時使用升壓藥物。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <h4>調整呼吸器與二氧化碳</h4>
+      <p>適度提高動脈二氧化碳分壓，能讓腦血管擴張、增加腦血流。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <h4>檢查血紅素與輸血需求</h4>
+      <p>若貧血過度稀釋了血紅素濃度，可能需要補充紅血球以提升攜氧能力。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <h4>提高體外循環流量或心臟輸出</h4>
+      <p>請體外循環師調整人工心肺機流量，或調整麻醉深度與心臟收縮力。</p>
+    </div>
+  </article>
+
+  <article class="step-card">
+    <div class="step-num">05</div>
+    <div class="step-body">
+      <h4>檢查插管位置與頭部姿勢</h4>
+      <p>必要時調整動脈插管位置或病人頭部角度，排除單側血流受阻。</p>
+    </div>
+  </article>
+
+  <!-- Post-op extubation rationale -->
+  <div class="section-title">術後我們也希望您儘早拔管</div>
+
+  <div class="callout eras-banner">
+    <h4>醒著的您，是最好的監測儀器</h4>
+    <p>腦氧監測能即時掌握「腦部供氧」，但中風的判定還需要透過<span class="em-teal">意識、肢體力量、言語、瞳孔反應</span>等神經學徵象來確認。這些只有在您清醒的狀態下才能評估。</p>
+    <p>因此，本院在手術結束後會盡可能<strong>在手術室內就拔除氣管內管</strong>，讓您儘快恢復意識。團隊就能在第一時間發現任何神經學變化，必要時立即介入治療，把可能的傷害降到最低。</p>
+  </div>
+
+  <!-- ERAS benefits chain -->
+  <div class="callout eras-benefits">
+    <h4>NIRS 監測如何串連到加速康復</h4>
+    <div class="sub">看見無形的腦缺氧、立即介入</div>
+    <ul>
+      <li><strong>降低術後譫妄發生率</strong> —— 避免持續腦缺氧累積</li>
+      <li><strong>減少術後注意力減退、認知功能下降</strong></li>
+      <li><strong>支援儘早拔管、儘早神經學評估</strong> <span class="link-ref">連結 6-2</span></li>
+      <li><strong>配合血壓、血紅素、流量等多重監測</strong>，做最精準的腦部保護</li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>腦氧監測讓<span class="em">無形的腦部缺氧變得可見</span>，是我們守護您術後認知功能的重要工具之一。</p>
+    <p>對手術過程或腦部保護有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Thiele RH, Shaw AD, Bartels K, et al. American Society for Enhanced Recovery and Perioperative Quality Initiative Joint Consensus Statement on the Role of Neuromonitoring in Perioperative Outcomes: Cerebral Near-Infrared Spectroscopy. <em>Anesth Analg.</em> 2020;131(5):1444–1455.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

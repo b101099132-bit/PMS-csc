@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>認識術後尿管 — 心臟加速康復衛教</title>
+<meta name="description" content="術後尿管的兩大任務、放置與移除時機、Foley training 膀胱訓練、家屬會客如何協助">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:兩大任務卡 + 膀胱訓練循環流程 + 移除門檻 callout + 警示雙欄 */
+.tasks {
+  display: grid; grid-template-columns: 1fr;
+  gap: 14px; margin-bottom: 24px;
+}
+.task-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+.task-card.t1 { border-left: 3px solid var(--teal); }
+.task-card.t2 { border-left: 3px solid var(--gold); }
+.task-card .t-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.task-card.t1 .t-num { color: var(--teal); }
+.task-card.t2 .t-num { color: var(--gold); }
+.task-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.task-card .why {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+.task-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.task-card p:last-child { margin-bottom: 0; }
+.task-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 移除門檻 callout (金色 + 標題 + criteria 條件清單) */
+.removal {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.removal h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.removal .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.removal p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.removal p:last-child { margin-bottom: 0; }
+.removal p strong { color: var(--ink); font-weight: 600; }
+.removal .criteria {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin: 14px 0;
+}
+.removal .criteria .c-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.removal .criteria ul { list-style: none; padding: 0; }
+.removal .criteria ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.removal .criteria ul li:last-child { margin-bottom: 0; }
+.removal .criteria ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px; top: 0;
+  color: var(--safe);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Foley training 訓練區塊 + cycle 流程 */
+.training {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.training h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.training .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.training p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.training p strong { color: var(--ink); font-weight: 600; }
+.training .cycle {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  align-items: center; justify-content: center;
+  margin: 14px 0 6px;
+}
+.training .cycle .stage {
+  background: var(--paper);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.training .cycle .stage.cycle-end {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold);
+  font-weight: 600;
+}
+.training .cycle .arrow {
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* 拔尿管過程編號清單 */
+.removal-process {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.removal-process h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.removal-process .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.removal-process ol {
+  list-style: none; padding: 0; counter-reset: rp;
+}
+.removal-process ol li {
+  position: relative;
+  padding: 8px 0 8px 36px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  counter-increment: rp;
+  border-bottom: 1px dashed var(--border);
+}
+.removal-process ol li:last-child { border-bottom: none; }
+.removal-process ol li::before {
+  content: counter(rp, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 10px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  color: var(--teal);
+  font-weight: 600;
+}
+.removal-process ol li strong { color: var(--ink); font-weight: 600; }
+.removal-process .duration {
+  background: var(--teal-tint);
+  padding: 8px 12px;
+  border-radius: 3px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--teal);
+  line-height: 1.7;
+  text-align: center;
+  border: 1px solid #C9D6D6;
+}
+.removal-process .duration strong { color: var(--teal); font-weight: 700; }
+
+/* 警示雙欄 */
+.warn-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .warn-split { grid-template-columns: 1fr 1fr; } }
+.warn-box {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 20px 22px;
+}
+.warn-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 12px;
+}
+.warn-box ul { list-style: none; padding: 0; }
+.warn-box ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.warn-box ul li:last-child { margin-bottom: 0; }
+.warn-box ul li::before {
+  content: '!';
+  position: absolute;
+  left: 7px; top: -1px;
+  color: var(--danger);
+  font-weight: 700;
+  font-family: 'Noto Serif TC', serif;
+}
+
+/* 家屬警示行(嵌在 callout.family-discuss 內) */
+.warn-row-inline {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 2px solid var(--danger);
+  border-radius: 3px;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.warn-row-inline strong { color: var(--danger); font-weight: 700; }
+
+@media (max-width: 480px) {
+  .task-card { padding: 18px 20px; }
+  .removal { padding: 22px 22px; }
+  .training { padding: 18px 20px; }
+  .warn-box { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 6-4</div>
+    <h1>認識術後尿管</h1>
+    <p class="subtitle">為什麼需要、什麼時候移除、Foley training 是什麼<br>Urinary Catheter (Foley)</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>一條暫時的管子，做兩件對您恢復至關重要的事</strong>
+    <p>心臟手術後，您身上會有幾條暫時的管路，<span class="em">尿管（俗稱導尿管、Foley catheter）</span>是其中重要的一條。它在手術中放置、術後留置 1–2 天 —— 醒來後您可能會發現「<span class="em">自己沒有去廁所，但尿是自動流出來的</span>」，那就是這條管子在工作。</p>
+    <p>尿管不是「插著好玩」 —— 它有兩個關鍵任務：<span class="em">避免您尿不出來、膀胱脹爆，並幫團隊精準掌握您的腎臟狀況</span>。當您能自己下床走到廁所、本院的早期活動進度達標，這條管子就會「畢業」，由您自己接手。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">膀胱訓練</span>
+      <span class="lex-def">（Foley training）移除尿管前讓膀胱「重新學會」儲存與排空訊號的訓練過程。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">尿滯留</span>
+      <span class="lex-def">想尿卻尿不出來、尿憋在膀胱裡無法排出。<strong>麻醉、強效止痛藥、剛拔管活動受限</strong>都可能造成。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">膀胱反射</span>
+      <span class="lex-def">膀胱「裝滿了該排尿」的訊號。手術後可能因藥物影響暫時遲鈍。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">心臟輸出量</span>
+      <span class="lex-def">心臟每分鐘打出去的血量。尿量是反映這個的最直接指標之一。</span>
+    </div>
+  </div>
+
+  <!-- Two tasks -->
+  <div class="section-title">尿管的兩大任務</div>
+
+  <div class="tasks">
+    <article class="task-card t1">
+      <div class="t-num">任務 01</div>
+      <h4>避免您尿不出來、膀胱脹爆</h4>
+      <div class="why">麻醉、止痛藥、剛拔管後活動受限都會影響膀胱反射</div>
+      <p>麻醉藥、<strong>強效止痛藥（嗎啡類）</strong>、剛拔管後幾小時不能下床 —— 這些會讓<strong>膀胱「想尿」的反射暫時遲鈍</strong>。不放尿管的話，尿可能憋在膀胱裡，自己不知道、也起不來。</p>
+      <p>過度脹尿可能造成<strong>膀胱損傷、影響腎臟功能、引發血壓波動</strong>。留置尿管期間自動引流，完全避開這個風險。</p>
+      <p style="font-size:13px;color:var(--ink-faint);font-style:italic">這也是為什麼本院採用「多模式止痛」 —— 用<strong style="color:var(--teal);font-weight:500;font-style:normal">在神經周圍打止痛藥、普拿疼</strong>等取代大量強效止痛藥，讓您的膀胱反射更早恢復、尿管也能更早畢業 <span class="link-ref">連結 5-1</span>。</p>
+    </article>
+
+    <article class="task-card t2">
+      <div class="t-num">任務 02</div>
+      <h4>幫團隊精準掌握您的腎臟狀況</h4>
+      <div class="why">尿量是反映腎臟血流與心臟輸出最直接的指標</div>
+      <p>心臟手術過程中，<strong>腎臟對血流變化非常敏感</strong>。每一小時尿了多少 cc，是團隊判斷您<strong>腎臟有沒有得到足夠血液、心臟每分鐘打出的血量是否正常、身體含水量是否平衡</strong>的關鍵數據。</p>
+      <p>留置尿管能<strong>精準到每小時、每 cc</strong>的記錄。如果不靠尿管，依賴病人自己感覺與如廁，根本無法達到這種精準度。</p>
+    </article>
+  </div>
+
+  <!-- How placed -->
+  <div class="section-title">尿管怎麼放、會痛嗎</div>
+
+  <div class="callout prep-actions">
+    <h4>您不會在清醒時感受到放置過程</h4>
+    <ul>
+      <li><strong>在全身麻醉中放置</strong>：整個放置過程您都在麻醉中，完全感受不到</li>
+      <li><strong>軟管進入膀胱、氣球固定</strong>：管子前端有一個小氣球，進入膀胱後用無菌液體充氣，確保不會自己脫出</li>
+      <li><strong>醒來後可能有「有東西在那裡的感覺」</strong>：像是「想尿但實際在引流」的怪感覺，這是<strong>正常的</strong>，不是有問題</li>
+      <li><strong>不會疼痛</strong>，但如果出現明顯刺痛、灼熱，請主動告訴護理師</li>
+    </ul>
+  </div>
+
+  <!-- Removal timing -->
+  <div class="section-title">移除時機 — 與「能下床走路」同步</div>
+
+  <div class="removal">
+    <h3>能自己下床走到廁所 = 尿管可以「畢業」</h3>
+    <div class="sub">本院的早期活動進度，讓尿管也能早期移除</div>
+    <p>國際指引建議：<strong>術後 24 小時內，只要狀況許可就應移除尿管</strong>，因為留置越久，<strong>泌尿道感染</strong>的風險越高。本院的早期活動目標（6 小時坐、24 小時走路繞護理站）讓尿管也能跟著早期畢業 <span class="link-ref">連結 7-6b</span>。</p>
+
+    <div class="criteria">
+      <div class="c-label">移除尿管的條件</div>
+      <ul>
+        <li>意識清楚、能配合指令</li>
+        <li><strong>循環穩定</strong>（血壓、心跳穩定，不需要大量強心藥或利尿藥）</li>
+        <li><strong>能下床活動</strong>，能由人協助或自己走到廁所</li>
+        <li>每小時尿量穩定、團隊不再需要每小時精準監測</li>
+      </ul>
+    </div>
+
+    <p>通常在<strong>拔管後 24–48 小時內</strong>會評估並移除。提早移除能<strong>降低尿道感染風險、減少不適感、促進活動意願</strong>。</p>
+  </div>
+
+  <!-- Foley training -->
+  <div class="section-title">Foley training 是什麼</div>
+
+  <p class="section-intro">
+    移除尿管前，本院會做一個叫做<span class="em">「Foley training」（膀胱訓練）</span>的步驟 —— 這是為了讓膀胱「重新學會」自己工作。
+  </p>
+
+  <div class="training">
+    <h4>讓膀胱「重新練習」儲存與排空的循環</h4>
+    <div class="sub">移除尿管前的 12–24 小時進行</div>
+    <p>留置尿管期間，尿一產生就直接引流到袋子裡 —— 膀胱<strong>「裝尿 → 想尿 → 解尿」這個自然循環暫時停了好幾天</strong>。如果直接拔掉尿管，膀胱可能還沒準備好重新運作，會發生暫時的尿滯留或排尿困難。</p>
+    <p>Foley training 的做法很簡單：護理師會用<strong>夾子間歇性夾住尿管</strong>，讓尿暫時留在膀胱裡，過 2–4 小時再放開引流。重複這個循環幾次，<strong>讓膀胱重新感受到「裝滿了」與「排空了」的訊號</strong>。</p>
+
+    <div class="cycle">
+      <span class="stage">夾住尿管</span>
+      <span class="arrow">→</span>
+      <span class="stage">膀胱漸漸裝滿</span>
+      <span class="arrow">→</span>
+      <span class="stage">膀胱想尿訊號</span>
+      <span class="arrow">→</span>
+      <span class="stage">放開引流</span>
+      <span class="arrow">→</span>
+      <span class="stage cycle-end">重複幾輪 → 移除</span>
+    </div>
+
+    <p>當膀胱重新熟悉這個節奏後再拔尿管，<strong>大幅降低尿滯留的機率</strong>，移除後也更容易自己順利解尿。</p>
+    <p style="padding:10px 12px;background:var(--paper);border-radius:3px;font-size:13.5px;line-height:1.75;color:var(--ink-soft);border:1px solid var(--border)"><strong>夾尿管期間若覺得明顯脹痛或不舒服，告訴護理師</strong>，團隊會提早放開引流。不需要硬撐 —— 膀胱訓練的目的是「<strong>讓膀胱重新感受訊號</strong>」，不是「忍耐有多脹」。</p>
+  </div>
+
+  <!-- Removal process -->
+  <div class="section-title">拔尿管的過程 — 不會劇烈疼痛</div>
+
+  <div class="removal-process">
+    <h4>許多病人最焦慮的時刻 —— 但其實過程很快</h4>
+    <div class="sub">整個過程 5–10 秒，可能短暫不適但不會劇烈疼痛</div>
+    <ol>
+      <li>護理師會先把氣球裡的水抽掉（<strong>讓氣球變回小管子</strong>），這個步驟您完全感覺不到</li>
+      <li>接著順著尿道把管子<strong>緩慢拉出</strong>，整個過程約 5–10 秒</li>
+      <li>可能會有<strong>短暫的擠壓感、輕微刺痛、或想尿的感覺</strong>，但<strong>不會是劇烈疼痛</strong></li>
+      <li>拔完後 1–2 小時內可能有<strong>輕微灼熱感</strong>，多喝水會明顯改善</li>
+    </ol>
+    <div class="duration">
+      <strong>整個過程通常 5–10 秒就結束</strong> —— 不需要在前一個小時就開始緊張
+    </div>
+  </div>
+
+  <!-- After removal -->
+  <div class="section-title">移除尿管後 — 第一次自己解尿</div>
+
+  <div class="callout prep-actions">
+    <h4>知道這些，第一次解尿就不慌張</h4>
+    <ul>
+      <li><strong>目標：移除後 6–8 小時內能自己解尿</strong>。第一次可能需要一些時間，不必焦慮</li>
+      <li><strong>短期可能頻尿、輕微灼熱</strong>：尿道對管子的記憶感覺，多喝水（除非醫師限水）會明顯改善</li>
+      <li><strong>第一次解尿可能出現淡粉紅色</strong>：這是尿道對管子摩擦的記憶反應，<strong>通常 1–2 次解尿後就會回到正常顏色</strong>。但如果是<strong style="color:var(--danger)">鮮紅色、有血塊、或粉紅色持續超過 3 次</strong> → 請告知護理師</li>
+      <li><strong>解尿量較少也算順利</strong>：剛開始可能一次只有 100–200 cc，連續幾次小量都正常，不必每次都要解很多</li>
+      <li><strong>有尿意就去廁所</strong>：不要憋尿，膀胱還在重新適應</li>
+      <li><strong>第一次最好坐著解尿</strong>：男生也建議第一次坐著，可避免站起時頭暈</li>
+    </ul>
+  </div>
+
+  <!-- Warnings split -->
+  <div class="section-title">這些情況請立即告訴護理師</div>
+
+  <div class="warn-split">
+    <div class="warn-box">
+      <h4>留置尿管期間</h4>
+      <ul>
+        <li><strong>突然完全不出尿</strong>（可能管子塞住、不通，或腎臟問題）</li>
+        <li><strong>血尿</strong>（鮮紅或大量）</li>
+        <li><strong>尿液混濁、有強烈異味</strong></li>
+        <li><strong>尿管周圍劇烈刺痛、紅腫</strong></li>
+        <li><strong>發燒、寒顫</strong>（可能感染）</li>
+      </ul>
+    </div>
+    <div class="warn-box">
+      <h4>移除尿管後</h4>
+      <ul>
+        <li><strong>移除 8 小時後仍無法解尿</strong></li>
+        <li><strong>多次嘗試只能滴出極少量</strong></li>
+        <li><strong>解尿時嚴重灼熱、刺痛</strong></li>
+        <li><strong>血尿</strong></li>
+        <li><strong>發燒</strong>，或下腹明顯脹痛</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- What you can do -->
+  <div class="section-title">您能配合的事</div>
+
+  <div class="callout prep-actions">
+    <h4>讓尿管能安全留置、順利移除</h4>
+    <ul>
+      <li><strong>移動或翻身前確認管路位置</strong>：避免拉扯，請護理師或家屬協助</li>
+      <li><strong>引流袋保持低於膀胱位置</strong>：避免尿液逆流回膀胱（增加感染風險）</li>
+      <li><strong>多喝水</strong>（除非醫師指示限水）：尿液稀釋、降低感染風險</li>
+      <li><strong>觀察尿量與顏色</strong>：突然減少、顏色變深變紅 → 主動告知</li>
+      <li><strong>會陰部保持清潔</strong>：護理師每天會用無菌方式做尿管周圍清潔 —— 這是預防感染的標準照護。<strong>請放心，這是所有留尿管病人都會經歷的常規動作</strong></li>
+      <li><strong>移除後主動嘗試解尿</strong>：不要等到下腹很脹才去廁所</li>
+      <li><strong>任何不適主動告知</strong>：刺痛、灼熱、尿從管子周圍流出</li>
+    </ul>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬可以怎麼幫</div>
+
+  <div class="callout family-discuss">
+    <h4>會客時可協助病人安全度過尿管留置期</h4>
+    <ul>
+      <li><strong>協助移動時注意管路位置</strong> —— 病人翻身、坐起、下床時，確認尿管與引流袋不被拉扯</li>
+      <li><strong>確認引流袋始終低於膀胱</strong> —— 掛在床邊或推著走時都要確認位置（低於膀胱可避免尿液逆流增加感染風險）</li>
+      <li><strong>觀察尿液顏色與量的變化</strong> —— 顏色突然變紅、變混濁、或量明顯減少，告訴護理師</li>
+      <li><strong>拔尿管後陪同第一次去廁所</strong> —— 病人剛拔管又剛下床，可能會頭暈，陪伴能確保安全</li>
+    </ul>
+    <div class="warn-row-inline">
+      <strong>⚠ 重要警示 — 不要替病人開引流袋下方的排放口</strong><br>
+      家屬常會「好心」想幫忙倒尿，但<strong>由護理師處理排尿量記錄</strong>是預防感染的關鍵。家屬自行操作會大幅增加泌尿道感染風險 —— 請等護理師來處理。
+    </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>術後恢復的時序鏈</h4>
+    <div class="sub">這份單張在整套恢復鏈中的位置</div>
+    <ol>
+      <li>早期拔管（術後立即清醒）</li>
+      <li>HFNC · 高流量鼻導管（拔管後過渡）</li>
+      <li>多模式止痛（讓動作不痛、膀胱反射早恢復）</li>
+      <li>認知復健 — 病人版/家屬版（守護腦部）</li>
+      <li>吞嚥安全評估 · 喝水進食</li>
+      <li>術後咳嗽與咳痰</li>
+      <li>從躺到坐</li>
+      <li>從站到走</li>
+      <li class="current"><strong>認識術後尿管（您正在讀）</strong></li>
+      <li>認識胸管引流</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>一條暫時的管子，是為了<span class="em">精準守護您的腎臟、避免突發狀況</span>。當您能站起來、自己走到廁所，就是這條管子<span class="em">「畢業」</span>的時刻 —— 由您接手，回到熟悉的日常。</p>
+    <p>對術後尿管或排尿問題有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、護理師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Gould CV, Umscheid CA, Agarwal RK, et al. Guideline for Prevention of Catheter-Associated Urinary Tract Infections 2009. <em>CDC HICPAC.</em> Updated 2019.</li>
+      <li>Meddings J, Rogers MA, Krein SL, et al. Reducing Unnecessary Urinary Catheter Use and Other Strategies to Prevent Catheter-Associated Urinary Tract Infection. <em>BMJ Qual Saf.</em> 2014;23(4):277–289.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

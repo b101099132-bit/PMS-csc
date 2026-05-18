@@ -2,179 +2,263 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>認識體外循環機（人工心肺機） — 心臟加速康復衛教</title>
-<meta name="description" content="體外循環機如何在手術中代替心肺工作、為什麼要先抗凝血再中和、手術前中後中風的風險與預防">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>認識體外循環機(人工心肺機) — 心臟加速康復衛教</title>
+<meta name="description" content="人工心肺機如何運作的三步驟、肝素與魚精蛋白的中和、圍術期中風風險與本院預防作為、體外循環師的角色">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- 共用基底樣式 -->
-<link rel="stylesheet" href="_shared/edu-base.css">
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
 
 <style>
-/* ── 本頁專用樣式 ──────────────────────────────────
-   只放這篇用到、其他衛教不會用的元件:
-     .anatomy        解剖圖容器(含動脈/靜脈圖例色塊)
-     .drug-pair      兩個藥物左右並列卡片
-     .drug-card
-     .risk-box       中風風險區塊(含 .rate-100 視覺化)
-     .rate-100       「100 人中 X 人」的數字呈現
-     .risk-block     原因/預防 列表
-     .team-note      介紹體外循環師的卡片
-   ────────────────────────────────────────────── */
-
-/* ============ Anatomical Diagram ============ */
-.anatomy {
+/* 本頁專用:三步驟卡 + 雙藥對照(肝素/魚精蛋白) + 100 人風險視覺化 + 體外循環師卡 */
+.step-card {
   background: var(--paper);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 24px 16px 18px;
-  margin-bottom: 28px;
-  text-align: center;
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 12px;
+  display: flex; gap: 18px;
+  align-items: flex-start;
 }
-.anatomy svg,
-.anatomy img {
-  width: 100%; height: auto; max-width: 560px;
-  display: block; margin: 0 auto;
+.step-card .step-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--gold);
+  flex-shrink: 0; width: 34px;
+  text-align: center; line-height: 1.2;
+  padding-top: 2px;
 }
-.anatomy .caption {
-  font-size: 12px; color: var(--ink-faint);
-  margin-top: 12px; letter-spacing: 0.03em; line-height: 1.6;
+.step-card .step-body h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.5;
 }
-.anatomy .caption .legend-item {
-  display: inline-flex; align-items: center;
-  gap: 5px; margin: 0 8px;
-}
-.anatomy .caption .swatch {
-  display: inline-block; width: 14px; height: 3px;
-  border-radius: 2px; vertical-align: middle;
-}
-.anatomy .caption .swatch.venous { background: #5B8FA8; }
-.anatomy .caption .swatch.arterial { background: #B85450; }
-
-/* ============ Drug Pair (肝素 vs 魚精蛋白) ============ */
-.drug-pair {
-  display: grid; grid-template-columns: 1fr;
-  gap: 14px; margin-bottom: 14px;
-}
-@media (min-width: 560px) {
-  .drug-pair { grid-template-columns: 1fr 1fr; }
-}
-.drug-card {
-  background: var(--paper); border: 1px solid var(--border);
-  border-radius: var(--radius-md); padding: 22px 22px;
-  position: relative;
-}
-.drug-card.in  { border-top: 3px solid var(--teal); }
-.drug-card.out { border-top: 3px solid var(--gold); }
-.drug-card .when {
-  font-size: 11px; letter-spacing: 0.2em; font-weight: 600;
-  margin-bottom: 6px; text-transform: uppercase;
-}
-.drug-card.in .when  { color: var(--teal); }
-.drug-card.out .when { color: var(--gold); }
-.drug-card h4 {
-  font-family: var(--font-serif); font-size: 17px; font-weight: 600;
-  color: var(--ink); margin-bottom: 4px; line-height: 1.4;
-}
-.drug-card .drug-en {
-  font-size: 12.5px; color: var(--ink-faint); margin-bottom: 12px;
-}
-.drug-card p {
-  font-size: 14px; color: var(--ink-soft); line-height: 1.75;
+.step-card .step-body p {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
   margin-bottom: 0;
 }
 
-/* ============ Risk Callout (中風風險專用區塊) ============ */
+/* 兩藥對照(in/out 對應上機前/下機後) */
+.drug-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .drug-pair { grid-template-columns: 1fr 1fr; } }
+.drug-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 22px;
+}
+.drug-card.in { border-top: 3px solid var(--teal); }
+.drug-card.out { border-top: 3px solid var(--gold); }
+.drug-card .when {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.drug-card.in .when { color: var(--teal); }
+.drug-card.out .when { color: var(--gold); }
+.drug-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.drug-card .drug-en {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.drug-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+.drug-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 100 人風險視覺化 */
 .risk-box {
-  background: linear-gradient(180deg, var(--paper) 0%, var(--caution-bg) 100%);
-  border: 1px solid var(--caution-border);
-  border-radius: var(--radius-md);
-  padding: 28px 26px; margin: 0 0 24px;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.risk-box::before {
+  content: '中風風險';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 2px;
 }
 .risk-box .risk-head {
-  font-family: var(--font-serif); font-size: 16px; font-weight: 600;
-  color: var(--gold); margin-bottom: 4px; letter-spacing: 0.01em;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 14px;
+  margin-top: 6px;
 }
-
-/* ============ 100-person rate visualization ============ */
 .rate-100 {
-  background: var(--paper); border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 18px 20px; margin: 14px 0 18px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
 }
 .rate-100-row {
-  display: flex; align-items: baseline; gap: 12px; padding: 10px 0;
+  display: flex; gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
 }
-.rate-100-row + .rate-100-row { border-top: 1px solid var(--border); }
+.rate-100-row:last-of-type { border-bottom: none; }
 .rate-100-num {
   flex-shrink: 0;
-  font-family: var(--font-serif); font-size: 22px; font-weight: 600;
-  line-height: 1.1; min-width: 78px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  width: 80px;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 3px;
 }
-.rate-100-row.warn .rate-100-num { color: var(--gold); }
-.rate-100-row.safe .rate-100-num { color: var(--safe); }
+.rate-100-row.warn .rate-100-num {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.rate-100-row.safe .rate-100-num {
+  background: var(--safe-bg);
+  color: var(--safe);
+}
 .rate-100-label {
-  font-size: 14px; color: var(--ink-soft); line-height: 1.7;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
 }
 .rate-100-label strong { color: var(--ink); font-weight: 600; }
 .rate-100-note {
-  font-size: 12.5px; color: var(--ink-faint);
-  margin-top: 10px; padding-top: 10px;
-  border-top: 1px dashed var(--border);
-  letter-spacing: 0.02em;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  line-height: 1.7;
 }
-
-/* ============ Risk reasons / protections list ============ */
-.risk-block { margin-top: 18px; }
+.risk-block {
+  margin-top: 14px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 18px;
+}
+.risk-block.causes { border-left: 3px solid var(--warn); }
+.risk-block.protect { border-left: 3px solid var(--safe); }
 .risk-block .heading {
-  font-family: var(--font-serif); font-size: 13.5px; font-weight: 600;
-  color: var(--ink); margin-bottom: 10px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
 }
-.risk-block ul { list-style: none; padding: 0; }
+.risk-block.causes .heading { color: var(--warn); }
+.risk-block.protect .heading { color: var(--safe); }
+.risk-block ul {
+  list-style: none; padding: 0;
+}
 .risk-block ul li {
-  position: relative; padding-left: 18px; margin-bottom: 8px;
-  font-size: 14px; color: var(--ink-soft); line-height: 1.7;
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
 }
+.risk-block ul li:last-child { margin-bottom: 0; }
 .risk-block.causes ul li::before {
-  content: '•'; position: absolute; left: 4px;
-  color: var(--gold); font-weight: 700;
+  content: '◆';
+  position: absolute; left: 2px;
+  color: var(--warn);
+  font-size: 11px;
 }
 .risk-block.protect ul li::before {
-  content: '✓'; position: absolute; left: 0;
-  color: var(--teal); font-weight: 700; font-size: 12px; top: 2px;
+  content: '✓';
+  position: absolute; left: 2px;
+  color: var(--safe);
+  font-weight: 700;
+  font-size: 13px;
 }
 
-/* ============ Team Note (體外循環師介紹) ============ */
+/* 體外循環師卡 */
 .team-note {
-  background: var(--paper); border: 1px solid var(--border);
-  border-radius: var(--radius-md); padding: 24px 26px; margin-bottom: 24px;
-  display: flex; gap: 18px; align-items: flex-start;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
 }
 .team-icon {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--teal-tint); border: 1.5px solid var(--teal);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--teal); flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--teal-tint);
+  border: 1.5px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--teal);
+  flex-shrink: 0;
 }
 .team-icon svg { width: 22px; height: 22px; }
 .team-body h4 {
-  font-family: var(--font-serif); font-size: 16px; font-weight: 600;
-  color: var(--ink); margin-bottom: 4px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
 }
 .team-body p {
-  font-size: 14px; color: var(--ink-soft); line-height: 1.8;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.8;
   margin-bottom: 0;
 }
 
-/* 本頁專用的手機微調 */
 @media (max-width: 480px) {
-  .anatomy   { padding: 18px 8px 14px; }
+  .step-card { padding: 18px 18px; gap: 14px; }
+  .step-card .step-num { font-size: 20px; width: 28px; }
   .drug-card { padding: 18px 18px; }
-  .risk-box  { padding: 22px 18px; }
+  .risk-box { padding: 22px 18px; }
   .team-note { padding: 20px 18px; gap: 14px; }
 }
 </style>
@@ -184,27 +268,55 @@
 
   <header>
     <div class="eyebrow">心臟加速康復衛教 · 3-2</div>
-    <h1>認識體外循環機<br>（人工心肺機）</h1>
-    <p class="subtitle">手術期間，這台機器如何代替你的心臟與肺臟<br>Cardiopulmonary Bypass · CPB</p>
+    <h1>認識體外循環機<br>(人工心肺機)</h1>
+    <p class="subtitle">手術期間,這台機器如何代替您的心臟與肺臟<br>Cardiopulmonary Bypass · CPB</p>
     <div class="divider"></div>
   </header>
 
   <!-- Lead -->
   <div class="lead">
     <strong>為什麼需要人工心肺機？</strong>
-    <p>在心臟手術過程中，醫師需要在<span class="inline-em">穩定、清晰的環境</span>下操作血管或瓣膜。這時候必須讓你的心臟暫時減輕負擔、甚至完全停止，但你的全身器官仍然需要持續供氧。</p>
-    <p>體外循環機（俗稱「人工心肺機」）就是這段時間裡代替你心臟與肺臟工作的精密設備。它將血液引流到體外，<strong>完成氧合與打回身體的循環</strong>，讓醫師可以專心修補你的心臟。</p>
+    <p>在心臟手術過程中,醫師需要在<span class="em">穩定、清晰的環境</span>下操作血管或瓣膜。這時候必須讓您的心臟暫時減輕負擔、甚至完全停止,但您的全身器官仍然需要持續供氧。</p>
+    <p>體外循環機(俗稱「人工心肺機」)就是這段時間裡代替您心臟與肺臟工作的精密設備。它將血液引流到體外,<span class="em">完成氧合與打回身體的循環</span>,讓醫師可以專心修補您的心臟。</p>
   </div>
 
-  <!-- Circuit Diagram -->
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">CPB</span>
+      <span class="lex-def">Cardiopulmonary Bypass,<strong>體外循環/人工心肺機</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">補氧裝置</span>
+      <span class="lex-def">人工肺臟,<strong>把缺氧血加氧、移除二氧化碳</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肝素</span>
+      <span class="lex-def">Heparin,上機前用的<strong>抗凝血藥</strong>,避免血液在管路內結塊。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">魚精蛋白</span>
+      <span class="lex-def">Protamine,下機後的<strong>肝素中和藥</strong>,恢復凝血功能。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">體外循環師</span>
+      <span class="lex-def">Perfusionist,<strong>專責操作人工心肺機</strong>的醫療人員。</span>
+    </div>
+  </div>
+
+  <!-- How it works -->
   <div class="section-title">人工心肺機如何運作</div>
 
-  <!-- 3 Steps -->
+  <p class="section-intro">
+    人工心肺機的核心邏輯是:<span class="em">把血引出來、加氧、調溫、再送回去</span>。三個步驟、一氣呵成。
+  </p>
+
   <article class="step-card">
     <div class="step-num">01</div>
     <div class="step-body">
       <h4>把血液導出</h4>
-      <p>醫師會在你的右心房或大條的靜脈放入導管，把即將回到心臟的<strong style="color:var(--teal);font-weight:500">缺氧血（用過氧氣的血）</strong>導出到人工心肺機。</p>
+      <p>醫師會在您的右心房或大條的靜脈放入導管,把即將回到心臟的<strong style="color:var(--teal);font-weight:500">缺氧血(用過氧氣的血)</strong>導出到人工心肺機。</p>
     </div>
   </article>
 
@@ -212,7 +324,7 @@
     <div class="step-num">02</div>
     <div class="step-body">
       <h4>為血液補充氧氣與調溫</h4>
-      <p>血液進入「<strong style="color:var(--teal);font-weight:500">補氧裝置</strong>」（也就是人工肺臟）後加入氧氣、移除二氧化碳，並依手術需要調整體溫，再用幫浦持續供應流量。</p>
+      <p>血液進入<strong style="color:var(--teal);font-weight:500">「補氧裝置」</strong>(也就是人工肺臟)後加入氧氣、移除二氧化碳,並依手術需要調整體溫,再用幫浦持續供應流量。</p>
     </div>
   </article>
 
@@ -220,37 +332,37 @@
     <div class="step-num">03</div>
     <div class="step-body">
       <h4>送回身體</h4>
-      <p>處理好的<strong style="color:var(--teal);font-weight:500">含氧血（剛補充氧氣的血）</strong>，經一條導管送回<strong style="color:var(--teal);font-weight:500">從心臟出來最大的那條動脈（主動脈）</strong>，維持全身器官（腦、腎、肝等）的血流與氧氣。</p>
+      <p>處理好的<strong style="color:var(--teal);font-weight:500">含氧血(剛補充氧氣的血)</strong>,經一條導管送回<strong style="color:var(--teal);font-weight:500">從心臟出來最大的那條動脈(主動脈)</strong>,維持全身器官(腦、腎、肝等)的血流與氧氣。</p>
     </div>
   </article>
 
   <!-- Drugs -->
-  <div class="section-title">兩個關鍵藥物：先抗凝血，再中和</div>
+  <div class="section-title">兩個關鍵藥物:先抗凝血,再中和</div>
 
-  <p>
-    血液一旦接觸到人工心肺機的塑膠管路與表面，會自然開始凝固、形成血塊。為了讓血液能在機器內順暢循環，必須<strong style="color:var(--teal);font-weight:600">先讓血液「不要結塊」（肝素）</strong>；手術接近尾聲、要停用人工心肺機時，再給一支<strong style="color:var(--gold);font-weight:600">中和藥（魚精蛋白）讓血液恢復正常凝固</strong>，減少術後出血。
+  <p class="section-intro">
+    血液一旦接觸到人工心肺機的塑膠管路與表面,會自然開始凝固、形成血塊。為了讓血液能在機器內順暢循環,必須<span class="em">先讓血液「不要結塊」(肝素)</span>;手術接近尾聲、要停用人工心肺機時,再給<span class="em">中和藥(魚精蛋白)讓血液恢復正常凝固</span>,減少術後出血。
   </p>
 
   <div class="drug-pair">
     <div class="drug-card in">
       <div class="when">上機前</div>
-      <h4>肝素（Heparin）</h4>
+      <h4>肝素(Heparin)</h4>
       <div class="drug-en">讓血液不要結塊</div>
-      <p>在進入人工心肺機前由麻醉醫師大劑量靜脈注射，過程中會<strong style="color:var(--teal);font-weight:500">定時抽血檢查凝血狀況</strong>，確保抗凝強度足夠又不過量。</p>
+      <p>在進入人工心肺機前由麻醉醫師大劑量靜脈注射,過程中會<strong>定時抽血檢查凝血狀況</strong>,確保抗凝強度足夠又不過量。</p>
     </div>
     <div class="drug-card out">
       <div class="when">下機後</div>
-      <h4>魚精蛋白（Protamine）</h4>
-      <div class="drug-en">中和藥（解除抗凝血效果）</div>
-      <p>結束人工心肺機支援後，給予魚精蛋白中和肝素，讓凝血功能恢復正常、減少術後出血。極少數人（不到 1%）會對魚精蛋白產生過敏反應，<strong style="color:var(--teal);font-weight:500">麻醉團隊在給藥時會緩慢測試、隨時準備好處理藥物</strong>，若有反應可立即應變。</p>
+      <h4>魚精蛋白(Protamine)</h4>
+      <div class="drug-en">中和藥(解除抗凝血效果)</div>
+      <p>結束人工心肺機支援後,給予魚精蛋白中和肝素,讓凝血功能恢復正常、減少術後出血。極少數人(不到 1%)會對魚精蛋白產生過敏反應,<strong>麻醉團隊在給藥時會緩慢測試、隨時準備好處理藥物</strong>,若有反應可立即應變。</p>
     </div>
   </div>
 
   <!-- Stroke Risk -->
-  <div class="section-title">圍術期（手術前中後）中風的風險</div>
+  <div class="section-title">圍術期(手術前中後)中風的風險</div>
 
-  <p>
-    使用人工心肺機的心臟手術，雖然技術已相當成熟，但仍有一個需要正視的風險：<strong style="color:var(--gold);font-weight:600">手術前中後出現的中風</strong>。這是病人與家屬最擔心的併發症之一，我們希望讓你預先了解，並知道團隊為此做了哪些防護。
+  <p class="section-intro">
+    使用人工心肺機的心臟手術,雖然技術已相當成熟,但仍有一個需要正視的風險:<span class="em">手術前中後出現的中風</span>。這是病人與家屬最擔心的併發症之一,我們希望讓您預先了解,並知道團隊為此做了哪些防護。
   </p>
 
   <div class="risk-box">
@@ -259,33 +371,33 @@
     <div class="rate-100">
       <div class="rate-100-row warn">
         <div class="rate-100-num">1–3 人</div>
-        <div class="rate-100-label">每 100 個接受心臟手術的病人，<strong>大約有 1–3 人</strong>會發生中風（冠狀動脈繞道手術約 1–2 人，主動脈手術稍高）</div>
+        <div class="rate-100-label">每 100 個接受心臟手術的病人,<strong>大約有 1–3 人</strong>會發生中風(冠狀動脈繞道手術約 1–2 人,主動脈手術稍高)</div>
       </div>
       <div class="rate-100-row safe">
         <div class="rate-100-num">97–99 人</div>
-        <div class="rate-100-label"><strong>不會發生</strong>中風 —— 風險真實存在，但機率不高，團隊也已準備好把它降到更低</div>
+        <div class="rate-100-label"><strong>不會發生</strong>中風 —— 風險真實存在,但機率不高,團隊也已準備好把它降到更低</div>
       </div>
-      <div class="rate-100-note">時間分布：約一半在術後 24 小時內出現，另一半發生在術後 2–7 天。</div>
+      <div class="rate-100-note">時間分布:約一半在術後 24 小時內出現,另一半發生在術後 2–7 天。</div>
     </div>
 
     <div class="risk-block causes">
       <div class="heading">主要原因</div>
       <ul>
-        <li>主動脈內側若有血管壁上的硬塊（血管硬化造成的），<strong>放入導管或用器械夾住血管時</strong>可能脫落、隨血流到腦部</li>
+        <li>主動脈內側若有血管壁上的硬塊(血管硬化造成的),<strong>放入導管或用器械夾住血管時</strong>可能脫落、隨血流到腦部</li>
         <li>人工心肺機循環中的微小氣泡或顆粒</li>
-        <li>術中血壓波動，腦部血流暫時不足</li>
-        <li>術後新出現的心律不整（心房顫動）形成血塊</li>
+        <li>術中血壓波動,腦部血流暫時不足</li>
+        <li>術後新出現的心律不整(心房顫動)形成血塊</li>
       </ul>
     </div>
 
     <div class="risk-block protect">
       <div class="heading">本院團隊的預防作為</div>
       <ul>
-        <li>術前評估主動脈與頸動脈狀況，必要時術中加做主動脈表面超音波，避開<strong>血管變硬的區域</strong></li>
-        <li>術中持續使用<strong style="color:var(--teal);font-weight:600">腦部血氧監測儀</strong>，掌握腦部供氧</li>
-        <li>體外循環師持續注意管路、控制流量，避免氣泡與微小血塊</li>
-        <li>精準控管血壓，維持腦部血流</li>
-        <li>盡量縮短體外循環時間（本院多採用心臟跳動下繞道，可減少心臟停跳—復跳的負擔）</li>
+        <li>術前評估主動脈與頸動脈狀況,必要時術中加做主動脈表面超音波,避開<strong>血管變硬的區域</strong></li>
+        <li>術中持續使用<strong>腦部血氧監測儀(NIRS)</strong>,掌握腦部供氧 <span style="color:var(--gold);font-size:11px;font-family:'Noto Serif TC',serif">連結 4-3</span></li>
+        <li>體外循環師持續注意管路、控制流量,避免氣泡與微小血塊</li>
+        <li>精準控管血壓,維持腦部血流</li>
+        <li>盡量縮短體外循環時間(本院多採用<strong>心臟跳動下繞道</strong>,可減少心臟停跳—復跳的負擔) <span style="color:var(--gold);font-size:11px;font-family:'Noto Serif TC',serif">連結 3-1</span></li>
       </ul>
     </div>
   </div>
@@ -301,15 +413,27 @@
       </svg>
     </div>
     <div class="team-body">
-      <h4>體外循環師（Perfusionist）</h4>
-      <p>整個手術期間，會有一位專責的體外循環師全程坐在人工心肺機旁，監測流量、壓力、血氧、體溫與凝血狀況。心臟外科醫師、麻醉科醫師與體外循環師組成心臟守護的「鐵三角」，任何細微變化都會立即調整與通報，是人工心肺機安全運作最重要的守門人。</p>
+      <h4>體外循環師(Perfusionist)</h4>
+      <p>整個手術期間,會有一位專責的體外循環師全程坐在人工心肺機旁,監測流量、壓力、血氧、體溫與凝血狀況。心臟外科醫師、麻醉科醫師與體外循環師組成心臟守護的「鐵三角」,任何細微變化都會立即調整與通報,是人工心肺機安全運作最重要的守門人。</p>
     </div>
+  </div>
+
+  <!-- ERAS benefits chain -->
+  <div class="callout eras-benefits">
+    <h4>人工心肺機如何串連到加速康復</h4>
+    <div class="sub">機器運作越順、停機越快,後續恢復越快</div>
+    <ul>
+      <li><strong>體溫管理</strong> —— 機器本身能調溫,降溫保護心臟與大腦,結束時的回溫精準 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>少出血</strong> —— 配合 TXA、凝血因子精準補充 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>腦部守護</strong> —— NIRS、BIS、體外循環師三方互補 <span class="link-ref">連結 4-3 · 4-4</span></li>
+      <li><strong>支援早期拔管</strong> —— 機器停止越順,病人越快恢復自主循環,越早能拔管 <span class="link-ref">連結 6-2</span></li>
+    </ul>
   </div>
 
   <!-- Closing -->
   <div class="closing">
-    <p>體外循環機讓許多原本無法執行的心臟修補手術成為可能。它的風險真實存在，但團隊每一個步驟、每一台監測儀器，都是為了把這個風險降到最低。</p>
-    <p>如果你對手術過程或相關風險有任何疑問，歡迎在<strong style="color:var(--teal);font-weight:500">門診</strong>或<strong style="color:var(--teal);font-weight:500">術前訪視</strong>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <p>體外循環機讓許多原本無法執行的心臟修補手術成為可能。<span class="em">它的風險真實存在,但團隊每一個步驟、每一台監測儀器,都是為了把這個風險降到最低</span>。</p>
+    <p>對手術過程或相關風險有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
     <div class="signature">心臟加速康復團隊 · 與你同莘</div>
     <div class="signature-note">同莘 — 同心 · 耕莘</div>
   </div>
@@ -323,9 +447,9 @@
     </ol>
   </div>
 
-  <footer class="edu-footer">
+  <footer>
     <div class="clinic">心臟加速康復團隊衛教資料</div>
-    <div>本資料僅供衛教參考，不取代醫師之臨床判斷</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
   </footer>
 
 </div>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術後非侵入性氧氣支持(HFNC) — 心臟加速康復衛教</title>
+<meta name="description" content="為什麼本院手術室拔管後採用 HFNC 銜接治療,與 BiPAP、侵入性呼吸器的比較,病人常問題">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:設備卡(三選一,HFNC 用 badge 標示本院採用) + 特徵列 + 比較表 + Q&A */
+.device-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.device-card.invasive { border-left: 3px solid var(--ink-faint); }
+.device-card.bipap { border-left: 3px solid var(--cold); }
+.device-card.hfnc {
+  border: 1.5px solid var(--gold);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+}
+.device-card .badge {
+  position: absolute;
+  top: -10px; right: 20px;
+  background: var(--gold);
+  color: white;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-weight: 500;
+  font-family: 'Noto Serif TC', serif;
+}
+.device-card .device-tag {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.device-card.invasive .device-tag { color: var(--ink-faint); }
+.device-card.bipap .device-tag { color: var(--cold); }
+.device-card.hfnc .device-tag { color: var(--gold); }
+.device-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.device-card .en {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.device-card .desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.device-card .desc strong { color: var(--ink); font-weight: 600; }
+
+/* 特徵列 */
+.feature-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  background: var(--cream);
+  border-radius: 3px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+@media (min-width: 480px) {
+  .feature-row { grid-template-columns: repeat(4, 1fr); }
+}
+.fr-item {
+  text-align: center;
+}
+.fr-label {
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.fr-value {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.fr-value.no { color: var(--danger); }
+.fr-value.yes { color: var(--safe); }
+.fr-value.partial { color: var(--warn); }
+
+/* Pros/cons (本頁仿 method-card 的 pros-cons,但直接放在 device-card 內) */
+.device-card .pros-cons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+@media (min-width: 480px) {
+  .device-card .pros-cons { grid-template-columns: 1fr 1fr; }
+}
+.device-card .pc-block {
+  padding: 12px 14px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.device-card .pc-block.pros {
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+}
+.device-card .pc-block.cons {
+  background: var(--warn-bg);
+  border-left: 2px solid var(--warn);
+}
+.device-card .pc-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+.device-card .pc-block.pros .pc-label { color: var(--safe); }
+.device-card .pc-block.cons .pc-label { color: var(--warn); }
+.device-card .pc-block ul { list-style: none; padding: 0; }
+.device-card .pc-block li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+  color: var(--ink-soft);
+}
+.device-card .pc-block.pros li::before {
+  content: '+';
+  position: absolute; left: 0;
+  color: var(--safe);
+  font-weight: 700;
+}
+.device-card .pc-block.cons li::before {
+  content: '−';
+  position: absolute; left: 0;
+  color: var(--warn);
+  font-weight: 700;
+}
+
+/* 比較表 */
+.compare-wrap {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.compare-table th,
+.compare-table td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.compare-table thead th {
+  background: var(--cream-deep);
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.compare-table thead th.featured {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.compare-table tbody th {
+  background: var(--cream);
+  font-weight: 500;
+  color: var(--ink);
+  text-align: left;
+  width: 30%;
+  font-size: 13px;
+  padding-left: 14px;
+}
+.compare-table tbody td { color: var(--ink-soft); }
+.compare-table tbody td.featured {
+  background: rgba(168, 123, 77, 0.07);
+  color: var(--ink);
+  font-weight: 500;
+}
+.compare-table tr:last-child th,
+.compare-table tr:last-child td {
+  border-bottom: none;
+}
+
+.table-notes {
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  padding: 0 4px;
+}
+.table-notes .note-row { padding: 4px 0; }
+.table-notes .note-label {
+  font-family: 'Noto Serif TC', serif;
+  color: var(--teal);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* Why HFNC */
+.why-hfnc {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.why-hfnc h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.why-hfnc .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.why-hfnc ul {
+  list-style: none; padding: 0;
+}
+.why-hfnc ul li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.why-hfnc ul li:last-child { border-bottom: none; }
+.why-hfnc ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0; top: 10px;
+  color: var(--teal);
+  font-weight: 700;
+}
+.why-hfnc ul li strong { color: var(--ink); font-weight: 600; }
+
+/* Q&A */
+.qa-list { margin-bottom: 24px; }
+.qa-item {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 12px;
+}
+.qa-item .q {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+  display: flex; gap: 10px; align-items: baseline;
+}
+.qa-item .q::before {
+  content: 'Q';
+  flex-shrink: 0;
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+.qa-item .a {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  padding-left: 22px;
+  position: relative;
+}
+.qa-item .a::before {
+  content: 'A';
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--ink-faint);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+.qa-item .a strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .device-card { padding: 20px 20px; }
+  .device-card .badge { top: 14px; right: 14px; padding: 3px 8px; font-size: 10px; }
+  .why-hfnc { padding: 22px 22px; }
+  .qa-item { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 6-6</div>
+    <h1>術後非侵入性<br>氧氣支持</h1>
+    <p class="subtitle">為什麼本院手術室拔管後採用 HFNC 銜接治療<br>HFNC vs BiPAP vs Invasive Ventilator</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>拔管之後，呼吸還需要一段「支援期」</strong>
+    <p>手術室內拔管之後，雖然您已經能自主呼吸，但<span class="em">呼吸用的肌肉力量與肺部功能還在恢復中</span>，需要一段過渡時間。這時候醫療團隊會給予一定的氧氣支持，幫助您舒適、安全地走完這段恢復路。</p>
+    <p>術後過渡期的呼吸支持有三種主要設備可以選擇。本院在手術室拔管後<span class="em">全面採用 HFNC（高流量鼻導管氧氣治療）</span>作為過渡期的呼吸幫手。為什麼選 HFNC？以下與另外兩種設備一一比較，您會看到答案。</p>
+    <p>另外要特別說明：前面的 CPB、腦氧監測（NIRS）、麻醉深度（BIS）與「早期拔管」一路用<span class="em">「儘早讓您清醒」</span>來守護您的腦部 —— 而拔管後選擇 HFNC，正是<span class="em">這條中風守護鏈的延續</span>。因為 HFNC 不需要鎮靜藥物，您的意識保持清楚，團隊可以隨時與您互動、檢查神經學狀況，任何變化都能第一時間被發現。</p>
+  </div>
+
+  <!-- Three devices comparison -->
+  <div class="section-title">三種術後呼吸支持設備</div>
+
+  <article class="device-card invasive">
+    <div class="device-tag">設備 01 · 侵入性</div>
+    <h3>插管使用呼吸器</h3>
+    <div class="en">Invasive Mechanical Ventilator · 術中使用</div>
+    <p class="desc">手術期間用來代替您呼吸的設備。需要先將氣管內管置入氣道，<strong>由機器完全控制呼吸</strong>。這是侵入性最高的呼吸支持方式。</p>
+
+    <div class="feature-row">
+      <div class="fr-item"><div class="fr-label">可說話</div><div class="fr-value no">否</div></div>
+      <div class="fr-item"><div class="fr-label">可進食</div><div class="fr-value no">否</div></div>
+      <div class="fr-item"><div class="fr-label">需鎮靜</div><div class="fr-value no">需要</div></div>
+      <div class="fr-item"><div class="fr-label">侵入性</div><div class="fr-value no">高(插管)</div></div>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pc-block pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>呼吸完全由機器控制，最穩定</li>
+          <li>適合手術期間或重症需求</li>
+        </ul>
+      </div>
+      <div class="pc-block cons">
+        <span class="pc-label">限制</span>
+        <ul>
+          <li>需要持續鎮靜藥物</li>
+          <li>不能說話、進食、互動</li>
+          <li>有呼吸器相關肺炎的風險</li>
+          <li>是「越早脫離越好」的設備</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="device-card bipap">
+    <div class="device-tag">設備 02 · 非侵入</div>
+    <h3>BiPAP 雙向正壓面罩</h3>
+    <div class="en">Bilevel Positive Airway Pressure</div>
+    <p class="desc">透過一個<strong>緊密貼合臉部的面罩</strong>提供吸氣與吐氣兩種壓力，幫助您呼吸更有力。屬於非侵入性，但面罩需要密合不能漏氣。</p>
+
+    <div class="feature-row">
+      <div class="fr-item"><div class="fr-label">可說話</div><div class="fr-value no">困難</div></div>
+      <div class="fr-item"><div class="fr-label">可進食</div><div class="fr-value no">不能</div></div>
+      <div class="fr-item"><div class="fr-label">需鎮靜</div><div class="fr-value yes">不需要</div></div>
+      <div class="fr-item"><div class="fr-label">侵入性</div><div class="fr-value partial">低(面罩)</div></div>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pc-block pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>非侵入、不必插管</li>
+          <li>提供較強的呼吸支持</li>
+          <li>適合呼吸衰竭、二氧化碳排不出去的病人</li>
+        </ul>
+      </div>
+      <div class="pc-block cons">
+        <span class="pc-label">限制</span>
+        <ul>
+          <li>面罩貼緊臉部，容易壓痛、壓瘡</li>
+          <li>不能說話、進食</li>
+          <li>機器運作有<strong>明顯聲音</strong></li>
+          <li>有些人覺得悶、想拿掉</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <article class="device-card hfnc">
+    <span class="badge">本院採用</span>
+    <div class="device-tag">設備 03 · 非侵入</div>
+    <h3>HFNC 高流量鼻導管</h3>
+    <div class="en">High Flow Nasal Cannula · 拔管後銜接治療</div>
+    <p class="desc">透過<strong>兩根鼻導管</strong>輸送加溫加濕、可調流量與氧氣濃度的氣體。氣體會先<strong>加溫到接近體溫、加濕到不會讓鼻子乾燥的程度</strong>，再以較大流量送入鼻腔，提供穩定的氧氣支持與輕微的氣壓。<br><br><span style="color:var(--ink-faint);font-size:13px;">流量範圍 20–60 公升/分鐘 —— 是一般氧氣鼻管的 4–10 倍。</span></p>
+
+    <div class="feature-row">
+      <div class="fr-item"><div class="fr-label">可說話</div><div class="fr-value yes">可以</div></div>
+      <div class="fr-item"><div class="fr-label">可進食</div><div class="fr-value yes">可以</div></div>
+      <div class="fr-item"><div class="fr-label">需鎮靜</div><div class="fr-value yes">不需要</div></div>
+      <div class="fr-item"><div class="fr-label">侵入性</div><div class="fr-value yes">最低</div></div>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pc-block pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>可說話、可進食、可隨時翻身</li>
+          <li>不需要鎮靜藥物</li>
+          <li>加溫加濕，舒適度最高</li>
+          <li>能幫助清除二氧化碳、提供輕微氣壓</li>
+          <li>能與家屬正常對話互動</li>
+        </ul>
+      </div>
+      <div class="pc-block cons">
+        <span class="pc-label">限制</span>
+        <ul>
+          <li>風量較大時<strong>有風聲</strong>（但 BiPAP 也吵）</li>
+          <li>呼吸支持強度比 BiPAP 略低</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Comparison table -->
+  <div class="section-title">一張表看懂三者差異</div>
+
+  <div class="compare-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>插管<br>呼吸器</th>
+          <th>BiPAP<br>面罩</th>
+          <th class="featured">HFNC<br>鼻導管</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>可說話</th><td>否</td><td>困難</td><td class="featured">可以</td></tr>
+        <tr><th>可進食喝水</th><td>否</td><td>不能</td><td class="featured">可以</td></tr>
+        <tr><th>需鎮靜藥物</th><td>需要</td><td>不需要</td><td class="featured">不需要</td></tr>
+        <tr><th>侵入性</th><td>高</td><td>中（面罩）</td><td class="featured">最低</td></tr>
+        <tr><th>機器聲音</th><td>小</td><td>大</td><td class="featured">中（風聲）</td></tr>
+        <tr><th>整體舒適度</th><td>低（鎮靜中）</td><td>中低</td><td class="featured">最高</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-notes">
+    <div class="note-row">
+      <span class="note-label">註 1（機器聲音）</span>插管呼吸器期間病人處於鎮靜狀態，無法感受機器聲音；這欄比較的是<strong>「清醒病人實際聽到的聲音」</strong>。
+    </div>
+    <div class="note-row">
+      <span class="note-label">註 2（整體舒適度）</span>鎮靜期間雖然無感，但鎮靜藥物會延後甦醒、增加譫妄與相關不適，故插管呼吸器的整體舒適度仍評為較低。
+    </div>
+  </div>
+
+  <!-- Why HFNC -->
+  <div class="section-title">為什麼本院採用 HFNC 銜接治療</div>
+
+  <div class="why-hfnc">
+    <h3>讓您「清醒、能說話、能進食」地恢復</h3>
+    <div class="sub">這正是早期拔管想為您爭取的時光</div>
+    <ul>
+      <li><strong>不需要鎮靜藥物，意識清楚</strong> —— 您的腦部狀態（意識、說話、肢體力量）能被團隊隨時觀察，<strong>這是術後最重要的中風監測方式</strong> <span class="link-ref">連結 8-1a</span></li>
+      <li><strong>可以說話</strong>，能告訴團隊您的感受、不舒服、有沒有痛</li>
+      <li><strong>可以喝水進食</strong>，加速恢復進食流程 <span class="link-ref">連結 7-7</span></li>
+      <li><strong>可以隨時翻身、做床邊復健</strong>，配合早期下床的目標 <span class="link-ref">連結 7-6</span></li>
+      <li><strong>能與家屬正常對話</strong>，第一時間與家人說話，互相安心</li>
+      <li><strong>避免侵入性插管的併發症</strong>（呼吸器相關肺炎、譫妄、聲帶刺激）</li>
+    </ul>
+  </div>
+
+  <!-- Q&A -->
+  <div class="section-title">病人最常問的問題</div>
+
+  <div class="qa-list">
+    <div class="qa-item">
+      <div class="q">聽說 HFNC 風聲很大，會不會吵到睡不著？</div>
+      <div class="a">我們不否認 HFNC 在<strong>流量較大時的確會有風聲</strong>，這是它的真實限制。但與其他兩種設備相比：BiPAP 面罩運作時聲音也明顯，且面罩本身的悶感更難忍受；插管呼吸器雖然沒有風聲，但您是在鎮靜中，<strong>無法選擇也無法感受</strong>。<strong>HFNC 的「風聲」是換來「您能清醒、能說話、能進食、能與家人互動」的代價</strong> —— 多數病人權衡後都覺得這個交換非常值得。隨著恢復，流量會逐步調降，聲音也會越來越小。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="q">為什麼不直接戴一般氧氣鼻管就好？</div>
+      <div class="a"><strong>簡單比喻</strong>：一般氧氣鼻管像「<strong>微風電扇</strong>」，HFNC 像「<strong>冷氣機</strong>」 —— 後者不只送氣，還能加溫、加濕、提供穩定的氣壓與精準的氧氣濃度，這對剛拔管的肺臟非常重要。一般氧氣鼻管的<strong>流量小（最多 5–6 公升/分鐘）、沒有加溫加濕、沒有正壓</strong>，對剛拔管的病人來說支持力道不夠。HFNC 能提供<strong>高達 60 公升/分鐘的流量、精準調整氧氣濃度、輕微的氣壓幫助肺泡撐開</strong>。等您完全恢復後，才會換成一般鼻管。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="q">使用 HFNC 時可以做什麼、不可以做什麼？</div>
+      <div class="a"><strong>可以</strong>：說話、喝水、進食、翻身、做床邊復健、與家屬互動、使用手機。<strong>盡量避免</strong>：用嘴巴呼吸（會削減 HFNC 的效果，請用鼻子呼吸）、自行調整流量、拿掉鼻導管做別的事。如果鼻管位置滑開或不舒服，請告訴護理師調整。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="q">什麼時候可以脫離 HFNC？</div>
+      <div class="a">當您的<strong>血氧穩定、呼吸頻率正常、不需要高流量氧氣濃度</strong>時，團隊會逐步調降流量與氧氣濃度。多數病人在拔管後 <strong>24–48 小時</strong>內可從 HFNC 換成一般氧氣鼻管，再逐漸脫離氧氣支持。脫離時程依個人恢復狀況而異，沒有固定時間表。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="q">家屬探視時可以做什麼？</div>
+      <div class="a">這是 HFNC 最大的好處之一 —— 您可以與家屬<strong>正常對話、握手、表達需求</strong>。家屬若注意到您<strong>說話含糊、單側手腳無力、表情不對稱、視力模糊，或意識變得遲鈍</strong>，請立即告知護理人員 <span class="link-ref">連結 8-1b</span>。</div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>從手術室拔管的那一刻起，本院希望您<span class="em">越清醒越好、越能說話越好、越能進食越好</span>。HFNC 銜接治療，是這個目標的具體實踐 —— 它讓「拔管後」不再等於「被困住」，而是「自由恢復的開始」。</p>
+    <p>這也是 CPB、腦氧監測、BIS、早期拔管一路努力的最終成果 —— <span class="em">讓您在加護病房就能像一個正常人一樣與家人對話</span>。</p>
+    <p>對術後呼吸支持有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Stéphan F, Barrucand B, Petit P, et al. High-Flow Nasal Oxygen vs Noninvasive Positive Airway Pressure in Hypoxemic Patients After Cardiothoracic Surgery: A Randomized Clinical Trial. <em>JAMA.</em> 2015;313(23):2331–2339.</li>
+      <li>Hernández G, Vaquero C, Colinas L, et al. Effect of Postextubation High-Flow Nasal Cannula vs Noninvasive Ventilation on Reintubation and Postextubation Respiratory Failure in High-Risk Patients: A Randomized Clinical Trial. <em>JAMA.</em> 2016;316(15):1565–1574.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

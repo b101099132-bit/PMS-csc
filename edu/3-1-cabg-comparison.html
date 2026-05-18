@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>認識三種冠狀動脈繞道手術 — 心臟加速康復衛教</title>
+<meta name="description" content="OPCAB 不停跳、On-pump Beating 體外循環跳動下、On-pump Arrested 體外循環停跳三種術式比較,本院採用 On-pump Beating">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:術式卡(含 SVG 心臟/機器圖示) + 比喻區塊 + 比較表 + Q&A */
+.metaphor-intro {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.metaphor-intro h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.metaphor-intro p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 0;
+}
+.metaphor-intro strong { color: var(--ink); font-weight: 600; }
+
+/* 術式卡 */
+.method-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.method-card.highlight {
+  border: 1.5px solid var(--gold);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+}
+.method-card .badge {
+  position: absolute;
+  top: -10px; right: 20px;
+  background: var(--gold);
+  color: white;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-weight: 500;
+  font-family: 'Noto Serif TC', serif;
+}
+.method-card .order {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.method-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.method-card .en-name {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 14px;
+}
+.method-card .method-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.method-card .method-desc strong { color: var(--ink); font-weight: 600; }
+
+/* 心臟/機器圖示視覺列 */
+.visual-row {
+  display: flex; gap: 14px;
+  align-items: center; justify-content: center;
+  padding: 14px;
+  background: var(--cream);
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+.visual-row.highlight-bg { background: rgba(168, 123, 77, 0.08); }
+.visual-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+}
+.visual-item .icon-circle {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.visual-item.inactive .icon-circle {
+  opacity: 0.5;
+  border-style: dashed;
+}
+.visual-item .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.3;
+}
+.visual-item.inactive .label { color: var(--ink-faint); }
+.visual-divider {
+  font-size: 16px;
+  color: var(--ink-faint);
+  font-weight: 300;
+}
+
+.heart-svg { width: 28px; height: 28px; }
+.heart-svg.beating path { fill: #C24545; }
+.heart-svg.arrested path { fill: #8A8580; }
+.pump-svg { width: 26px; height: 26px; }
+.pump-svg path, .pump-svg circle {
+  fill: none; stroke: #1F5A5A; stroke-width: 1.8;
+}
+.no-svg {
+  width: 26px; height: 26px;
+  border: 1.5px dashed #8A8580;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #8A8580; font-size: 14px; font-weight: 300;
+}
+
+/* 比喻區 */
+.metaphor {
+  background: var(--teal-tint);
+  border: 1px solid #C9D6D6;
+  border-left: 2px solid var(--teal);
+  border-radius: 3px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.metaphor .road-icon {
+  flex-shrink: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  color: var(--teal);
+  font-weight: 600;
+}
+.metaphor .road-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.metaphor .road-text strong { color: var(--ink); font-weight: 600; }
+
+/* 優缺點雙欄 */
+.pro-con {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 480px) { .pro-con { grid-template-columns: 1fr 1fr; } }
+.pro-con-block {
+  padding: 12px 14px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.pro-con-block.pros {
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+}
+.pro-con-block.cons {
+  background: var(--warn-bg);
+  border-left: 2px solid var(--warn);
+}
+.pro-con-block .heading {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.pro-con-block.pros .heading { color: var(--safe); }
+.pro-con-block.cons .heading { color: var(--warn); }
+.pro-con-block ul { list-style: none; padding: 0; }
+.pro-con-block ul li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+  color: var(--ink-soft);
+}
+.pro-con-block.pros ul li::before {
+  content: '+';
+  position: absolute; left: 0;
+  color: var(--safe);
+  font-weight: 700;
+}
+.pro-con-block.cons ul li::before {
+  content: '−';
+  position: absolute; left: 0;
+  color: var(--warn);
+  font-weight: 700;
+}
+
+/* 比較表 */
+.compare-wrap {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.compare-table th, .compare-table td {
+  padding: 12px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.compare-table thead th {
+  background: var(--cream-deep);
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+.compare-table thead th.featured {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.compare-table .th-en {
+  display: block;
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 2px;
+}
+.compare-table tbody th {
+  background: var(--cream);
+  font-weight: 500;
+  color: var(--ink);
+  text-align: left;
+  width: 26%;
+  font-size: 12.5px;
+  padding-left: 12px;
+}
+.compare-table tbody td { color: var(--ink-soft); font-size: 13px; }
+.compare-table tbody td.featured {
+  background: rgba(168, 123, 77, 0.07);
+  color: var(--ink);
+  font-weight: 500;
+}
+.compare-table tr:last-child th,
+.compare-table tr:last-child td { border-bottom: none; }
+
+/* 為什麼選擇 box */
+.why-box {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.why-box h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.why-box .why-sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.why-list { list-style: none; padding: 0; }
+.why-list li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.why-list li:last-child { margin-bottom: 0; }
+.why-list li::before {
+  content: '';
+  position: absolute;
+  left: 4px; top: 9px;
+  width: 14px; height: 1.5px;
+  background: var(--gold);
+}
+.why-list li .lead-text {
+  font-weight: 500;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 2px;
+}
+.why-list li .detail-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+/* Q&A */
+.qa-list { margin-bottom: 24px; }
+.qa-item {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 12px;
+}
+.qa-item .q {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+  display: flex; gap: 10px; align-items: baseline;
+}
+.qa-item .q::before {
+  content: 'Q';
+  flex-shrink: 0;
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+.qa-item .a {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  padding-left: 22px;
+  position: relative;
+}
+.qa-item .a::before {
+  content: 'A';
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--ink-faint);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+}
+.qa-item .a strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .method-card { padding: 22px 22px; }
+  .why-box { padding: 22px 22px; }
+  .qa-item { padding: 18px 20px; }
+  .compare-table { font-size: 12px; }
+  .compare-table th, .compare-table td { padding: 10px 6px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 3-1</div>
+    <h1>認識三種冠狀動脈<br>繞道手術</h1>
+    <p class="subtitle">不停跳 · 體外循環跳動下 · 體外循環停跳<br>Coronary Artery Bypass Grafting</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>什麼是冠狀動脈繞道手術？</strong>
+    <p>當心臟的冠狀動脈嚴重阻塞、藥物或氣球擴張(支架)難以處理時,心臟外科醫師會從您身上取一段健康的血管(例如左胸內動脈、<span class="em">手腕的動脈(橈動脈)</span>或<span class="em">大腿內側的靜脈(隱靜脈)</span>),<span class="em">繞過阻塞的路段</span>,重新讓血液回流到心肌。就像在塞車的高速公路旁,另闢一條新的通行道路。</p>
+    <p>依照「手術時心臟是否跳動」與「是否使用體外循環機(<span class="em">一種暫時幫忙心臟和肺臟工作的機器</span>)」,目前有三種主要做法。本院主要採用 <span class="em">體外循環支援、心臟跳動下繞道(On-pump Beating CABG)</span>,以下為三者比較。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">CABG</span>
+      <span class="lex-def">Coronary Artery Bypass Grafting,<strong>冠狀動脈繞道手術</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">OPCAB</span>
+      <span class="lex-def">Off-pump CABG,<strong>不停跳冠狀動脈繞道</strong>,不使用體外循環機。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">On-pump Beating</span>
+      <span class="lex-def"><strong>本院主流</strong>:體外循環機支援,但心臟仍持續跳動。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">心臟麻痺液</span>
+      <span class="lex-def">Cardioplegia,<strong>讓心臟暫時停跳的特殊藥水</strong>,On-pump Arrested 用。</span>
+    </div>
+  </div>
+
+  <!-- Three methods -->
+  <div class="section-title">三種術式如何進行</div>
+
+  <div class="metaphor-intro">
+    <h4>延續「高速公路」的比喻 ——</h4>
+    <p>三種術式的差別,就像是<strong>在同一條塞車的高速公路旁修建新的通行道路</strong>時,「車流」與「路面」的處理方式不一樣。以下用這個比喻幫您快速理解。</p>
+  </div>
+
+  <!-- Method 1: OPCAB -->
+  <article class="method-card">
+    <div class="order">術式 01</div>
+    <h3>不停跳冠狀動脈繞道(OPCAB)</h3>
+    <div class="en-name">Off-pump Coronary Artery Bypass</div>
+
+    <div class="visual-row">
+      <div class="visual-item active">
+        <div class="icon-circle">
+          <svg class="heart-svg beating" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9.5C.8 7.8 3 4 6.5 4c2 0 3.5 1.2 4.5 2.8C12 5.2 13.5 4 15.5 4 19 4 21.2 7.8 19.5 11.5 17 16.5 12 21 12 21z"/></svg>
+        </div>
+        <div class="label">心臟<br>跳動</div>
+      </div>
+      <div class="visual-divider">＋</div>
+      <div class="visual-item inactive">
+        <div class="icon-circle"><div class="no-svg">✕</div></div>
+        <div class="label">不用<br>體外循環</div>
+      </div>
+    </div>
+
+    <p class="method-desc">直接在跳動的心臟上縫合繞道血管。醫師使用特殊的固定器,將要縫合的小段血管局部穩住,其他部分仍維持跳動。整台手術不使用體外循環機。</p>
+
+    <div class="metaphor">
+      <div class="road-icon">①</div>
+      <div class="road-text"><strong>邊開車、邊修路</strong>:車流沒停,工人直接在動的路面上施工。施工難度最高,且車多時不適合處理高速公路的內側車道(心臟背面的血管)。</div>
+    </div>
+
+    <div class="pro-con">
+      <div class="pro-con-block pros">
+        <div class="heading">優點</div>
+        <ul>
+          <li>避免體外循環造成的廣泛發炎反應</li>
+          <li>輸血需求較少</li>
+          <li>對腎臟、神經系統影響較小</li>
+        </ul>
+      </div>
+      <div class="pro-con-block cons">
+        <div class="heading">限制</div>
+        <ul>
+          <li>手術技術門檻最高</li>
+          <li>心臟背面的血管不易處理</li>
+          <li>長期血管暢通率可能稍低</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Method 2: On-pump Beating (HIGHLIGHT) -->
+  <article class="method-card highlight">
+    <span class="badge">本院採用</span>
+    <div class="order">術式 02</div>
+    <h3>體外循環支援、心臟跳動下繞道</h3>
+    <div class="en-name">On-pump Beating Heart CABG</div>
+
+    <div class="visual-row highlight-bg">
+      <div class="visual-item active">
+        <div class="icon-circle">
+          <svg class="heart-svg beating" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9.5C.8 7.8 3 4 6.5 4c2 0 3.5 1.2 4.5 2.8C12 5.2 13.5 4 15.5 4 19 4 21.2 7.8 19.5 11.5 17 16.5 12 21 12 21z"/></svg>
+        </div>
+        <div class="label">心臟<br>跳動</div>
+      </div>
+      <div class="visual-divider">＋</div>
+      <div class="visual-item active">
+        <div class="icon-circle">
+          <svg class="pump-svg" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="7"/>
+            <circle cx="12" cy="12" r="2.5" style="fill:#1F5A5A;stroke:none"/>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+          </svg>
+        </div>
+        <div class="label">使用<br>體外循環</div>
+      </div>
+    </div>
+
+    <p class="method-desc">由體外循環機協助分擔心臟與肺臟的工作,但<strong>心臟仍持續跳動、持續有血流灌注</strong>。心臟工作量大幅減輕,血壓穩定,醫師可在精細的環境下完成繞道縫合,同時心臟肌肉不會缺血。</p>
+
+    <div class="metaphor">
+      <div class="road-icon">②</div>
+      <div class="road-text"><strong>路面通車、機器分擔車流</strong>:請拖吊車從旁協助分擔部分車流(體外循環機分擔心肺工作),但路面的車子仍持續通行(心臟仍跳動、血流不中斷)。<strong>路面穩定、車流也沒停,是兼顧施工精度與安全的做法</strong>。</div>
+    </div>
+
+    <div class="pro-con">
+      <div class="pro-con-block pros">
+        <div class="heading">優點</div>
+        <ul>
+          <li>心臟肌肉持續有血流供應,避免「斷血後再重新通血」造成的傷害</li>
+          <li>適合心臟功能較差(低 LVEF)的病人</li>
+          <li>血壓穩定,手術視野穩定</li>
+          <li>術後「心臟打出的血量不夠」的狀況較少發生</li>
+        </ul>
+      </div>
+      <div class="pro-con-block cons">
+        <div class="heading">考量</div>
+        <ul>
+          <li>仍需體外循環,有相關風險</li>
+          <li>需要團隊熟練的技術配合</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Method 3: On-pump Arrested -->
+  <article class="method-card">
+    <div class="order">術式 03</div>
+    <h3>體外循環下停跳繞道</h3>
+    <div class="en-name">On-pump Arrested Heart CABG · 傳統做法</div>
+
+    <div class="visual-row">
+      <div class="visual-item inactive">
+        <div class="icon-circle">
+          <svg class="heart-svg arrested" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9.5C.8 7.8 3 4 6.5 4c2 0 3.5 1.2 4.5 2.8C12 5.2 13.5 4 15.5 4 19 4 21.2 7.8 19.5 11.5 17 16.5 12 21 12 21z"/></svg>
+        </div>
+        <div class="label">心臟<br>停跳</div>
+      </div>
+      <div class="visual-divider">＋</div>
+      <div class="visual-item active">
+        <div class="icon-circle">
+          <svg class="pump-svg" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="7"/>
+            <circle cx="12" cy="12" r="2.5" style="fill:#1F5A5A;stroke:none"/>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+          </svg>
+        </div>
+        <div class="label">使用<br>體外循環</div>
+      </div>
+    </div>
+
+    <p class="method-desc">使用體外循環機接管心肺工作後,灌注<strong>含鉀的心臟麻痺液(Cardioplegia)</strong>,讓心臟<strong>完全停止跳動</strong>。醫師在靜止的心臟上完成繞道縫合,手術結束後再讓心臟復跳。這是過去數十年的標準做法。</p>
+
+    <div class="metaphor">
+      <div class="road-icon">③</div>
+      <div class="road-text"><strong>整段封路、車流改道</strong>:所有車輛先改走別條路(體外循環機完全接管心肺),原路面靜止施工(心臟完全停跳)。<strong>最容易施工,但結束後要重新讓車流回到原路面(心臟復跳)</strong>,這個重新通車的過程對心臟是一個壓力。</div>
+    </div>
+
+    <div class="pro-con">
+      <div class="pro-con-block pros">
+        <div class="heading">優點</div>
+        <ul>
+          <li>手術視野最穩定</li>
+          <li>技術上最容易執行</li>
+          <li>是被廣泛驗證的傳統術式</li>
+        </ul>
+      </div>
+      <div class="pro-con-block cons">
+        <div class="heading">限制</div>
+        <ul>
+          <li>心臟要經歷「停跳→復跳」的過程</li>
+          <li>缺血再灌注傷害的風險較高</li>
+          <li>體外循環時間相對較長</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Comparison table -->
+  <div class="section-title">一張表看懂三者差異</div>
+
+  <div class="compare-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>不停跳<br><span class="th-en">OPCAB</span></th>
+          <th class="featured">體外循環<br>跳動下<br><span class="th-en">On-pump<br>Beating</span></th>
+          <th>體外循環<br>停跳<br><span class="th-en">On-pump<br>Arrested</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>心臟狀態</th><td>跳動</td><td class="featured">跳動</td><td>停跳</td></tr>
+        <tr><th>體外循環機</th><td>不使用</td><td class="featured">使用(支援)</td><td>使用(接管)</td></tr>
+        <tr><th>心臟肌肉<br>是否持續供血</th><td>持續</td><td class="featured">持續</td><td>暫停</td></tr>
+        <tr><th>血壓是否穩定</th><td>較不穩定</td><td class="featured">穩定</td><td>穩定</td></tr>
+        <tr><th>適合心臟功能較差</th><td>不建議</td><td class="featured">最佳選擇</td><td>也可以</td></tr>
+        <tr><th>手術技術門檻</th><td>高</td><td class="featured">中等</td><td>標準</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Why we choose -->
+  <div class="section-title">為什麼本院採用體外循環跳動下繞道</div>
+
+  <div class="why-box">
+    <h3>結合兩種術式的優勢</h3>
+    <div class="why-sub">兼顧心臟保護與手術精度的最佳平衡</div>
+
+    <ul class="why-list">
+      <li>
+        <span class="lead-text">心臟保護最完整</span>
+        <span class="detail-text">心臟在整個手術過程中持續跳動、持續有血流供應,避免「斷血後再重新通血」造成的傷害。</span>
+      </li>
+      <li>
+        <span class="lead-text">血壓穩定</span>
+        <span class="detail-text">體外循環機協助分擔工作,血壓變動小,手術視野穩定,繞道血管縫合更精準。</span>
+      </li>
+      <li>
+        <span class="lead-text">適合心臟功能較差(低 LVEF)的病人</span>
+        <span class="detail-text">對於心臟一次能打出去的血量比較少、或同時有多條血管阻塞的病人,能提供最安全的支援。</span>
+      </li>
+      <li>
+        <span class="lead-text">術後恢復更順利</span>
+        <span class="detail-text">術後「心臟打出的血量不夠」的狀況較少發生,加護病房停留時間較短,符合加速康復目標。</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Q&A -->
+  <div class="section-title">病人常問的三個問題</div>
+
+  <div class="qa-list">
+    <div class="qa-item">
+      <div class="q">這個做法住院會比較久還是比較短？</div>
+      <div class="a">與「停跳」做法相比,本院採用的「<strong>心臟跳動下繞道</strong>」術後恢復通常較順利,<strong>加護病房停留時間較短、整體住院天數通常與傳統手術相近或更短</strong>。實際時程仍依個別恢復狀況而定。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="q">這個做法會比較貴嗎？健保有給付嗎？</div>
+      <div class="a">三種繞道手術的核心費用(手術、麻醉、住院、藥品等)<strong>全部都在健保給付範圍內</strong>。差別主要在某些特殊耗材或自費項目(如部分人工血管、止血材料),醫師會在手術同意書中詳細說明,由您選擇。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="q">我會比較容易出問題嗎？</div>
+      <div class="a">不會。研究顯示,<strong>「心臟跳動下繞道」並沒有增加併發症的風險</strong>,反而在心臟保護、輸血需求、術後恢復速度上有相對優勢,特別對心臟功能較差的病人尤其明顯。本院執行此術式已累積相當經驗,團隊配合熟練。</div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>最終手術方式仍由您的主治醫師依據冠狀動脈病變位置、心臟功能、<span class="em">同時有的其他疾病(例如糖尿病、腎臟病)</span>等綜合評估決定。</p>
+    <p><span class="em">不論最後採用哪一種,都是經過完整評估、為您量身選擇的做法。</span></p>
+    <p>對手術方式有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Wang J, Gu C, Yu W, et al. On-pump beating heart versus conventional on-pump coronary artery bypass grafting on clinical outcomes: a meta-analysis. <em>J Thorac Dis.</em> 2021;13(7):4169–4180.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

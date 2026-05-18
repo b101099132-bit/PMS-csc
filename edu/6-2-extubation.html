@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>早期拔管與手術室內拔管 — 心臟加速康復衛教</title>
+<meta name="description" content="為什麼希望術後儘早脫離呼吸器、手術室內拔管的六大支柱與安全確認清單">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:六支柱 mini cards */
+.pillars {
+  display: grid; grid-template-columns: 1fr;
+  gap: 10px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .pillars { grid-template-columns: 1fr 1fr; } }
+.pillar-mini {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 16px 18px;
+}
+.pillar-mini .num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  color: var(--teal);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pillar-mini h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.pillar-mini p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* 時程比較雙欄(舊 vs 新) — 用 compare-overview 但 inner 是時間軸 */
+.time-marks {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+.time-marks li {
+  position: relative;
+  padding: 8px 0 8px 96px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  border-bottom: 1px dashed var(--border);
+}
+.time-marks li:last-child { border-bottom: none; }
+.time-marks li .when {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  width: 84px;
+}
+
+@media (max-width: 480px) {
+  .time-marks li { padding-left: 88px; }
+  .time-marks li .when { width: 76px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 6-2</div>
+    <h1>早期拔管<br>與手術室內拔管</h1>
+    <p class="subtitle">為什麼我們希望儘快讓您脫離氣管內管<br>本院如何做到「下手術台前就拔管」<br>Early Extubation · Operating Room Extubation</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>越早脫離呼吸器，越早開始真正的康復</strong>
+    <p>過去心臟手術後，會把病人帶著氣管內管送到加護病房，讓呼吸器繼續工作 6 至 24 小時，等狀況穩定再拔。這個做法在當年是為了「保險起見」，但現代研究發現：<span class="em">在條件允許的前提下，越早拔管，併發症越少，恢復越快</span>。</p>
+    <p>本院遵循國際心臟手術 ERAS 指引建議，<span class="em">術後 6 小時內為基本目標，進一步追求在手術房內就完成拔管</span>。這是前面所有衛教（精準麻醉、止痛、止血、保溫、腦氧監測）共同努力的最終成果。</p>
+  </div>
+
+  <!-- Timeline comparison -->
+  <div class="section-title">傳統做法 vs 加速康復做法</div>
+
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">傳統做法</div>
+      <h3>手術後仍維持插管送 ICU</h3>
+      <div class="col-en">Delayed extubation in ICU</div>
+      <ul class="time-marks">
+        <li><span class="when">手術結束</span>插管狀態送至加護病房</li>
+        <li><span class="when">0–6 小時</span>持續鎮靜、呼吸器全控制</li>
+        <li><span class="when">6–24 小時</span>逐步減少鎮靜、評估後拔管</li>
+        <li><span class="when">拔管後</span>等待意識恢復、開始下床</li>
+      </ul>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">本院做法</div>
+      <h3>手術室內就拔管</h3>
+      <div class="col-en">OR Extubation · Ultra-fast track</div>
+      <ul class="time-marks">
+        <li><span class="when">手術結束</span>條件達標即在手術室拔管</li>
+        <li><span class="when">送 ICU 時</span>清醒、可與家屬眼神接觸</li>
+        <li><span class="when">0–6 小時</span>進行神經學評估、開始坐起</li>
+        <li><span class="when">6–24 小時</span>下床、進食、移除部分管路</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Harms of prolonged intubation -->
+  <div class="section-title">為什麼晚拔管反而有壞處</div>
+
+  <div class="callout tradeoffs">
+    <h4>插管時間越長，越容易發生 ——</h4>
+    <ul>
+      <li><strong>呼吸器相關肺炎（VAP）</strong> —— 氣管內管旁的細菌容易進入下呼吸道</li>
+      <li><strong>呼吸肌萎縮</strong> —— 機器代替您呼吸越久，自己的呼吸肌耐力流失越多</li>
+      <li><strong>鎮靜藥物累積、術後譫妄</strong> —— 為了讓您忍受氣管內管，需要持續鎮靜，越久風險越高</li>
+      <li><strong>神經學評估被延後</strong> —— 中風的早期徵兆要靠您的意識、肢體與言語才能判斷</li>
+      <li><strong>下床、進食、復健都被推遲</strong> —— 整段加速康復的時程都會被拖慢</li>
+      <li><strong>家屬無法即時看到您清醒</strong> —— 互相安心的時刻被延後</li>
+    </ul>
+  </div>
+
+  <!-- Six pillars -->
+  <div class="section-title">早期拔管需要的六大支柱</div>
+
+  <p class="section-intro">
+    手術室內拔管不是「衝快」，而是<span class="em">前面每一個環節都到位後，自然能達成的成果</span>。每一份您之前讀過的衛教，都是為了讓這一刻可以發生：
+  </p>
+
+  <div class="pillars">
+    <div class="pillar-mini">
+      <div class="num">支柱 01</div>
+      <h5>多模式止痛</h5>
+      <p>用神經阻斷、脊髓內嗎啡與靜脈普拿疼取代大劑量鴉片類，意識清楚也不痛。</p>
+    </div>
+    <div class="pillar-mini">
+      <div class="num">支柱 02</div>
+      <h5>TOF 與肌肉鬆弛反轉</h5>
+      <p>用 TOF 監測搭配 Sugammadex，確保呼吸肌力完全恢復。</p>
+    </div>
+    <div class="pillar-mini">
+      <div class="num">支柱 03</div>
+      <h5>體溫維持 ≥ 36°C</h5>
+      <p>核心體溫穩定，沒有寒顫、沒有低體溫造成的凝血異常與意識遲鈍。</p>
+    </div>
+    <div class="pillar-mini">
+      <div class="num">支柱 04</div>
+      <h5>有效止血</h5>
+      <p>氨甲環酸、凝血因子與凝血膠水三層止血到位，無持續出血。</p>
+    </div>
+    <div class="pillar-mini">
+      <div class="num">支柱 05</div>
+      <h5>腦氧監測穩定</h5>
+      <p>術中 NIRS 數值維持在安全範圍，腦部供氧無虞。</p>
+    </div>
+    <div class="pillar-mini">
+      <div class="num">支柱 06</div>
+      <h5>血流動力學穩定</h5>
+      <p>血壓、心律、心輸出量穩定，無需大量升壓藥支持。</p>
+    </div>
+  </div>
+
+  <!-- Safety checklist -->
+  <div class="section-title">拔管前的安全確認清單</div>
+
+  <p class="section-intro">
+    拔管不是「越快越好」，而是<span class="em">在最適合的時機點放手</span>。麻醉科醫師會在拔管前逐項確認以下條件：
+  </p>
+
+  <div class="callout prep-actions">
+    <h4>達成下列條件才會拔管</h4>
+    <ul>
+      <li><strong>意識清楚、可遵循指令</strong>（如握手、張口）</li>
+      <li><strong>TOF 比值 ≥ 0.9</strong>，呼吸肌力完全恢復</li>
+      <li><strong>核心體溫 ≥ 36°C</strong>，無持續寒顫</li>
+      <li><strong>沒有顯著的胸管出血</strong>（每小時 &lt; 100 mL）</li>
+      <li><strong>血流動力學穩定</strong>，無需逐步增加升壓藥</li>
+      <li><strong>低氧/二氧化碳數值正常</strong>，自主呼吸有效</li>
+      <li><strong>無嚴重酸鹼或電解質異常</strong></li>
+    </ul>
+  </div>
+
+  <!-- If conditions not met -->
+  <div class="section-title">如果條件不符合呢？</div>
+
+  <div class="callout eras-banner">
+    <h4>延後拔管，也是負責任的決定</h4>
+    <p>如果手術後出現出血量較多、體溫偏低、血壓需要持續支撐，或意識恢復較慢等情形，團隊會選擇<span class="em-teal">暫緩拔管、送加護病房繼續觀察</span>，等條件達標後再進行。</p>
+    <p>請放心，這不代表<strong>「失敗」</strong>，而是團隊基於您當下狀態做出的<strong>最安全的判斷</strong>。每一個延後拔管的決定，都是為了避免不必要的呼吸併發症與重新插管。</p>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>從手術前的營養與戒菸、術中的精準麻醉與監測、術後的多模式止痛，每一個環節都在為<span class="em">「儘早把控制權交還給您」</span>鋪路。早一點拔管，就能早一點下床、早一點進食、早一點看見家人，早一點開啟真正屬於您的康復。</p>
+    <p>對術後拔管或加護照護有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society, ERAS International Society, and the Society of Thoracic Surgeons (STS). <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

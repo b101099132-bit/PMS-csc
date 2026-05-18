@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術後心房顫動 POAF — 心臟加速康復衛教</title>
+<meta name="description" content="心臟手術後最常見的心律問題:20-50% 病人會出現的「POAF」。認識它、本院 ERAS 預防、中風防範與出院後的關鍵調整">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:心律對照 + 發生率 stats + 時程卡 + 症狀格子 + 風險分組 + 中風連結 callout + 預防 + 治療三方向 + 出院確認 + 生活調整 + 預後 timeline */
+
+/* 心律對照(竇性 vs 心顫,以 monospace 模式呈現) */
+.rhythm-compare {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.rhythm-compare h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.rhythm-row {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.rhythm-row:last-child { border-bottom: none; }
+.rhythm-row .r-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.rhythm-row .r-label.sinus { color: var(--safe); }
+.rhythm-row .r-label.afib { color: var(--danger); }
+.rhythm-row .r-pattern {
+  font-family: monospace;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  padding: 8px 12px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.rhythm-row .r-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.rhythm-row .r-desc strong { color: var(--ink); font-weight: 600; }
+
+/* 發生率 stats(與 8-2 譫妄同) */
+.incidence {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.incidence h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.incidence .sub {
+  font-size: 12.5px; color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.incidence .stat-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+}
+.incidence .stat-row:last-of-type { border-bottom: none; }
+.incidence .stat-row .stat-label { color: var(--ink); }
+.incidence .stat-row .stat-label .stat-sub {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+.incidence .stat-row .stat-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--gold);
+}
+.incidence .closing-note {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--teal);
+  line-height: 1.7;
+  font-weight: 500;
+}
+.incidence .closing-note strong { color: var(--ink); font-weight: 600; }
+
+/* 時程卡(POAF 典型時間軸) */
+.timing-card {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1px solid var(--highlight-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.timing-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.timing-card .t-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.timing-card .t-row:last-of-type { border-bottom: none; }
+.timing-card .t-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 12.5px;
+  min-width: 90px;
+}
+.timing-card .t-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.timing-card .t-what strong { color: var(--ink); font-weight: 600; }
+
+/* 症狀格子(warn-color 卡 + silent 變體) */
+.symptoms-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+@media (min-width: 480px) {
+  .symptoms-grid { grid-template-columns: 1fr 1fr; }
+}
+.symptom-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--warn);
+}
+.symptom-card h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--warn);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.symptom-card p {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.symptom-card p strong { color: var(--ink); font-weight: 600; }
+.symptom-card.silent {
+  border-left-color: var(--ink-faint);
+  background: var(--cream);
+}
+.symptom-card.silent h5 { color: var(--ink-faint); }
+
+/* 風險分組(與 8-2 譫妄同) */
+.risk-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .risk-groups { grid-template-columns: 1fr 1fr; } }
+.risk-group {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  border-top: 2px solid var(--gold);
+}
+.risk-group h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12.5px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.risk-group ul {
+  list-style: none;
+  padding: 0;
+}
+.risk-group li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.risk-group li:last-child { margin-bottom: 0; }
+.risk-group li::before {
+  content: '·';
+  position: absolute;
+  left: 4px; top: -1px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 16px;
+}
+.risk-group li strong { color: var(--ink); font-weight: 600; }
+
+/* 中風連結 callout(danger-bg with key-fact sub-box) */
+.stroke-callout {
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.stroke-callout h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 12px;
+}
+.stroke-callout p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.stroke-callout p strong { color: var(--ink); font-weight: 600; }
+.stroke-callout .key-fact {
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--danger);
+}
+.stroke-callout .key-fact .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  color: var(--danger);
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.stroke-callout .key-fact .val {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.stroke-callout .key-fact .val strong { font-weight: 600; }
+.stroke-callout .bottom-note {
+  font-size: 13.5px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--danger-border);
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.stroke-callout .bottom-note strong { color: var(--ink); font-weight: 600; }
+
+/* 預防元素列表(與 8-2 譫妄同) */
+.prevention {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.prevention h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.prevention .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.prevention ul {
+  list-style: none;
+  padding: 0;
+}
+.prevention ul li {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.prevention ul li:last-child { border-bottom: none; }
+.prevention ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 10px;
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 14px;
+}
+.prevention ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 治療三方向卡 */
+.treatment-trio {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.treat-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+.treat-card .t-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.treat-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.treat-card .t-en {
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.treat-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.treat-card p strong { color: var(--ink); font-weight: 600; }
+.treat-card .when {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--teal-tint);
+  border-radius: 3px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  border-left: 2px solid var(--teal);
+}
+.treat-card .when strong { color: var(--teal); font-weight: 600; }
+
+/* 出院前關鍵確認(paper + gold-left checklist) */
+.discharge {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.discharge h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.discharge > p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.discharge > p strong { color: var(--ink); font-weight: 600; }
+.discharge ul {
+  list-style: none;
+  padding: 0;
+}
+.discharge ul li {
+  position: relative;
+  padding: 8px 0 8px 24px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  border-bottom: 1px dashed var(--border);
+}
+.discharge ul li:last-child { border-bottom: none; }
+.discharge ul li::before {
+  content: '?';
+  position: absolute;
+  left: 4px; top: 8px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+  font-family: 'Noto Serif TC', serif;
+}
+.discharge ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 生活調整 — 預設 gold,family-help 變體用 safe color */
+.lifestyle {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.lifestyle h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.lifestyle ul {
+  list-style: none;
+  padding: 0;
+}
+.lifestyle ul li {
+  position: relative;
+  padding: 8px 0 8px 22px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  border-bottom: 1px dashed var(--border);
+}
+.lifestyle ul li:last-child { border-bottom: none; }
+.lifestyle ul li::before {
+  content: '◆';
+  position: absolute;
+  left: 4px; top: 9px;
+  color: var(--gold);
+  font-size: 10px;
+}
+.lifestyle ul li strong { color: var(--ink); font-weight: 600; }
+/* family-help variant: 用 safe color (綠色) */
+.lifestyle.family-variant {
+  background: var(--safe-bg);
+  border-color: var(--safe-border);
+  border-left-color: var(--safe);
+}
+.lifestyle.family-variant h4 { color: var(--safe); }
+.lifestyle.family-variant ul li::before { color: var(--safe); }
+.lifestyle.family-variant ul li { border-bottom-color: var(--safe-border); }
+
+/* 預後 timeline-mini(與 8-2 譫妄同) */
+.outlook {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.outlook h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.outlook p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.outlook p:last-child { margin-bottom: 0; }
+.outlook p strong { color: var(--ink); font-weight: 600; }
+.outlook .timeline-mini {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: var(--cream-deep);
+  border-radius: 3px;
+}
+.outlook .timeline-mini .tm-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.outlook .timeline-mini .tm-row + .tm-row {
+  border-top: 1px dashed var(--border);
+}
+.outlook .timeline-mini .tm-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 12px;
+  min-width: 90px;
+}
+.outlook .timeline-mini .tm-what { color: var(--ink-soft); }
+.outlook .timeline-mini .tm-what strong { color: var(--ink); font-weight: 600; }
+
+/* warnings 內的 top-note 與底部 DVT 提醒 */
+.warnings-extras .top-note {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: 1px solid var(--danger-border);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+.warnings-extras .top-note strong { color: var(--danger); font-weight: 700; }
+.warnings-extras .dvt-note {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--warn);
+  border-radius: 3px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.warnings-extras .dvt-note strong:first-child { color: var(--warn); font-weight: 600; }
+.warnings-extras .dvt-note strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .rhythm-compare { padding: 18px 18px; }
+  .timing-card { padding: 18px 20px; }
+  .symptom-card { padding: 12px 14px; }
+  .stroke-callout { padding: 18px 20px; }
+  .prevention { padding: 18px 20px; }
+  .treat-card { padding: 18px 20px; }
+  .discharge { padding: 20px 22px; }
+  .lifestyle { padding: 18px 20px; }
+  .outlook { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 8-3</div>
+    <h1>術後心房顫動</h1>
+    <p class="subtitle">心臟手術後最常見的心律問題 — 認識它、預防它、避免中風<br>Postoperative Atrial Fibrillation · POAF</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>心臟手術後最常見的心律問題 —— 20–50% 的病人會經歷</strong>
+    <p>「心房顫動」(簡稱「心顫」、英文 atrial fibrillation 縮寫 AF)是<span class="em">心臟上半部腔室不規律快速跳動</span>的一種心律。心臟手術後幾天內<span class="em">非常常見</span>,國際統計顯示有 <span class="em">20–50% 的病人</span>會出現 —— 這種術後出現的稱為 <span class="em">「術後心房顫動」(POAF)</span>。<span class="em">好消息是:多數 POAF 是暫時的、可恢復的,本院的 ERAS 策略還能把這個發生率明顯降低</span>。</p>
+    <p>多數 POAF 在<span class="em">術後 2–3 天高峰</span>,且<span class="em">大部分在出院前自行恢復為正常心律</span>。但有幾件事讓 POAF 很值得認識:</p>
+    <p>(1)<span class="em">與中風風險有關</span> —— 心房不規律跳動會讓血液在心臟內形成血塊,可能流到大腦造成中風。(2)<span class="em">部分病人需要服用抗凝血劑</span>一段時間。(3)<span class="em">本院的 ERAS 策略能把 POAF 發生率從 39% 降到 20%</span>(依國際 ERAS 研究數據),是整套加速康復的關鍵一環。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">心房顫動(AF)</span>
+      <span class="lex-def">心臟<strong>上半部腔室(心房)</strong>不規律快速跳動的一種心律。心跳會變得<strong>又快又不規則</strong>,與正常的規律跳動完全不同。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">竇性節律</span>
+      <span class="lex-def">心臟<strong>正常、規律</strong>的跳動節律。「竇房結」是心臟的天然起搏點,會發出規律訊號讓心臟每一次都跳得整齊。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">POAF</span>
+      <span class="lex-def">Postoperative Atrial Fibrillation 的縮寫,<strong>「術後出現的心房顫動」</strong>。多在術後 2–3 天高峰,多數可恢復。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">抗凝血劑</span>
+      <span class="lex-def"><strong>讓血液不容易凝結的藥</strong>(俗稱「血液稀釋劑」)。用於降低心顫造成的中風風險。台灣常用:<strong>warfarin(可邁丁)、Eliquis(艾必克凝)、Xarelto(拜瑞妥)、Pradaxa(普栓達)</strong>。請對應您藥袋上的中文藥名。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">心律調節 vs 節律恢復</span>
+      <span class="lex-def">兩種治療方向。<strong>心律調節</strong>:讓心跳慢下來但保持心顫;<strong>節律恢復</strong>:用藥或電擊把心顫轉回正常竇性節律。</span>
+    </div>
+  </div>
+
+  <!-- What is POAF -->
+  <div class="section-title">什麼是心房顫動</div>
+
+  <p class="section-intro">
+    要理解心房顫動,先理解<span class="em">心臟正常的跳動方式</span>。
+  </p>
+
+  <div class="rhythm-compare">
+    <h4>正常心律 vs 心房顫動 — 心跳模式對照</h4>
+
+    <div class="rhythm-row">
+      <div class="r-label sinus">正常 · 竇性節律</div>
+      <div class="r-pattern">·──·──·──·──·──·──·──·──</div>
+      <div class="r-desc"><strong>規律、平穩、節奏一致</strong>。心臟上半部(心房)先收縮,把血液擠入下半部(心室),再由心室把血液打到全身。每一次跳動都<strong>有條不紊</strong>,間隔均勻。</div>
+    </div>
+
+    <div class="rhythm-row">
+      <div class="r-label afib">心房顫動</div>
+      <div class="r-pattern">··─·· ·──··· ·· ──·· · ·</div>
+      <div class="r-desc"><strong>快速、不規律、忽快忽慢</strong>。心房不再規律收縮,而是<strong>「顫動」</strong>(每分鐘 400+ 次的亂顫),心室也跟著不規律跳動。雖然心臟還在打血,但效率下降約 20–30%,且血液容易在心房內形成血塊。</div>
+    </div>
+  </div>
+
+  <!-- Incidence -->
+  <div class="section-title">發生率 — 不是罕見,而是常見併發症</div>
+
+  <div class="incidence">
+    <h4>心臟手術後 POAF 發生率</h4>
+    <div class="sub">依國際多項研究綜合,本院 ERAS 策略下發生率較低</div>
+    <div class="stat-row">
+      <div class="stat-label">整體發生率<span class="stat-sub">所有心臟手術類型</span></div>
+      <div class="stat-num">20–50%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">冠狀動脈繞道(CABG)<span class="stat-sub">較低,但仍常見</span></div>
+      <div class="stat-num">~25%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">瓣膜手術<span class="stat-sub">特別是二尖瓣</span></div>
+      <div class="stat-num">~40%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">合併手術(CABG + 瓣膜)<span class="stat-sub">最高風險</span></div>
+      <div class="stat-num">~50%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label">本院 ERAS 策略下<span class="stat-sub">主動預防可降低 40%+ 風險</span></div>
+      <div class="stat-num" style="color:var(--teal)">明顯下降</div>
+    </div>
+    <div class="closing-note">
+      所以 <strong>POAF 不是「手術不順利」,是手術後身體的常見反應</strong>。重點不是「會不會出現」,而是 <strong>「能不能早期辨識、是否能順利恢復」</strong>。
+    </div>
+  </div>
+
+  <!-- Timing -->
+  <div class="section-title">什麼時候會發生、會持續多久</div>
+
+  <div class="timing-card">
+    <h4>POAF 的典型時程</h4>
+    <div class="t-row">
+      <div class="t-when">術後 1 天</div>
+      <div class="t-what">少數開始出現,<strong>仍在 ICU 監測中</strong></div>
+    </div>
+    <div class="t-row">
+      <div class="t-when">術後 2–3 天</div>
+      <div class="t-what"><strong>發生率高峰</strong>,是醫護人員最警覺的時段</div>
+    </div>
+    <div class="t-row">
+      <div class="t-when">術後 4–7 天</div>
+      <div class="t-what">仍有部分新發生,<strong>多數已開始恢復</strong>為正常心律</div>
+    </div>
+    <div class="t-row">
+      <div class="t-when">出院前</div>
+      <div class="t-what"><strong>大部分病人已恢復正常心律</strong>。少數持續者會帶藥出院、定期追蹤</div>
+    </div>
+    <div class="t-row">
+      <div class="t-when">出院後 6 週</div>
+      <div class="t-what">大部分維持正常心律。部分人會<strong>偶爾再發</strong>,多數可短時間恢復</div>
+    </div>
+    <div class="t-row">
+      <div class="t-when">長期</div>
+      <div class="t-what">大部分不再發生。約 <strong>20–30% 病人後續可能發展成永久性心顫</strong>,需要長期追蹤</div>
+    </div>
+  </div>
+
+  <!-- Symptoms -->
+  <div class="section-title">您可能感覺到什麼</div>
+
+  <p class="section-intro">
+    POAF 的症狀<span class="em">因人而異</span>。有些人感覺很明顯,有些人完全沒感覺(只有監測儀器發現)。
+  </p>
+
+  <div class="symptoms-grid">
+    <div class="symptom-card">
+      <h5>心悸</h5>
+      <p>感覺心臟<strong>「蹦蹦跳、亂跳、漏跳」</strong>,特別在安靜時最明顯</p>
+    </div>
+    <div class="symptom-card">
+      <h5>胸悶</h5>
+      <p>胸口感覺壓迫、不舒服,但不一定是疼痛</p>
+    </div>
+    <div class="symptom-card">
+      <h5>頭暈</h5>
+      <p>站起來時更明顯,是因為心臟<strong>打血效率下降</strong></p>
+    </div>
+    <div class="symptom-card">
+      <h5>呼吸喘</h5>
+      <p>活動或休息時都可能出現,與肺部問題不同</p>
+    </div>
+    <div class="symptom-card">
+      <h5>疲倦</h5>
+      <p>明顯比預期還累、做事沒力,原因是心臟<strong>效率變差</strong></p>
+    </div>
+    <div class="symptom-card silent">
+      <h5>無症狀</h5>
+      <p>約 1/3 病人<strong>完全沒感覺</strong>,只有監測儀器或心電圖才能發現</p>
+    </div>
+  </div>
+
+  <!-- Risk factors -->
+  <div class="section-title">誰更容易發生 POAF</div>
+
+  <p class="section-intro">
+    醫師會依您的<span class="em">術前風險</span>調整預防策略。
+  </p>
+
+  <div class="risk-groups">
+    <div class="risk-group">
+      <h5>年齡與基本狀況</h5>
+      <ul>
+        <li><strong>高齡(&gt; 65 歲)</strong> —— 最強的單一風險因子</li>
+        <li>男性風險略高於女性</li>
+        <li><strong>術前曾有過心顫</strong>(即便短暫)</li>
+        <li>原本有心臟結構問題</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>共病</h5>
+      <ul>
+        <li><strong>高血壓</strong></li>
+        <li><strong>糖尿病</strong></li>
+        <li>慢性阻塞性肺病(COPD,長期咳嗽、咳痰、喘息的肺病)</li>
+        <li>慢性腎臟病</li>
+        <li>甲狀腺機能亢進(常稱「甲亢」,甲狀腺荷爾蒙過多)</li>
+        <li>睡眠呼吸中止症</li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>心臟結構與手術方式</h5>
+      <ul>
+        <li><strong>左心房擴大</strong>(心臟上半部腔室變大,瓣膜病變常見)</li>
+        <li>心臟功能下降</li>
+        <li><strong>瓣膜手術</strong>(特別是二尖瓣)</li>
+        <li>合併手術(CABG + 瓣膜)</li>
+        <li><strong>傳統開胸 POAF 發生率高於微創</strong> <span class="link-ref">連結 3-3</span></li>
+      </ul>
+    </div>
+    <div class="risk-group">
+      <h5>圍術期因素</h5>
+      <ul>
+        <li><strong>突然停掉乙型阻斷劑</strong>(β-blocker,常見藥名如天諾敏、康肯、必效素)</li>
+        <li>術中電解質失衡(血液中鎂、鉀等成分不平衡)</li>
+        <li>術後感染、發炎</li>
+        <li>體液過多(水腫)</li>
+        <li>術後疼痛控制不佳</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Stroke connection — critical -->
+  <div class="section-title">為什麼 POAF 重要 — 中風的連結</div>
+
+  <div class="stroke-callout">
+    <h4>POAF 與中風 — 必須認識的關係</h4>
+    <p>正常情況下,血液在心臟內<strong>規律流動、不會停滯</strong>。但當心房在「顫動」時,血液在心房內<strong>流動變慢、容易形成血塊</strong>。如果血塊脫落、隨血流到大腦,會造成<strong>缺血性中風</strong>。</p>
+
+    <div class="key-fact">
+      <div class="label">關鍵事實</div>
+      <div class="val">未經治療的持續心顫,<strong>每年中風風險約 5%</strong> —— 意思是<strong>100 個未治療的心顫病人中,每年約有 5 人會中風</strong>(一般人約 1 人)。<strong>5 年累積下來,風險可能達到 20–25%</strong>。但<strong>適當的抗凝血劑能把這個風險降低 60–70%</strong> —— 大約等於把高風險族群拉回接近一般人的水準。</div>
+    </div>
+
+    <p>因此 POAF 的處理不只是「讓心律恢復」,更重要的是<strong>「在心律恢復前的這段時間,避免形成血塊」</strong>。這就是為什麼有些病人會被開立<strong>抗凝血劑</strong>。</p>
+
+    <div class="bottom-note"><strong>給家屬與病人:</strong>如果醫師建議使用抗凝血劑,<strong>請務必按時服用、不要自行停藥</strong>。停藥後 24–48 小時內血塊風險就會上升。任何想要調整劑量或停藥的疑慮,<strong>務必先與醫師討論</strong>。</div>
+  </div>
+
+  <!-- Prevention strategies -->
+  <div class="section-title">本院的 POAF 預防策略 — ERAS 多管齊下</div>
+
+  <p class="section-intro">
+    研究顯示<span class="em">完整的 ERAS 策略能把 POAF 從 39% 降到 20%</span>。本院遵循 2024 年國際 ERAS Cardiac Society POAF 預防共識,多管齊下:
+  </p>
+
+  <div class="prevention">
+    <h4>本院的 ERAS POAF 預防元素</h4>
+    <div class="sub">每一項都串連到整套系列中的其他單張</div>
+    <ul>
+      <li><strong>術前持續乙型阻斷劑</strong>(β-blocker,常見藥名如天諾敏、康肯、必效素) —— 突然停掉是 POAF 強誘因,本院維持規律使用直到手術日</li>
+      <li><strong>術中、術後鎂離子補充</strong> —— 維持鎂濃度能降低 POAF 發生率</li>
+      <li><strong>選擇性高風險病人 amiodarone(臟得樂)預防</strong> —— 對特別高風險者,術前/術後給予預防性抗心律不整藥(心跳不規律的統稱)</li>
+      <li><strong>多模式止痛、減少疼痛刺激</strong> —— 疼痛會刺激自律神經(身體自動調節心跳、血壓的神經系統),誘發心顫 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>避免體液過多</strong> —— 心房過度撐大會誘發心顫</li>
+      <li><strong>規律電解質監測</strong> —— 鉀、鎂、鈣維持在最佳範圍</li>
+      <li><strong>早期下床活動</strong> —— 縮短臥床、減少自律神經失衡 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>早期拔管與 HFNC</strong> —— 縮短鎮靜、減少交感神經激發 <span class="link-ref">連結 6-2 · 6-6</span></li>
+      <li><strong>適當體溫維持</strong> —— 低體溫會增加心律不整風險 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>感染控制與發炎管理</strong> —— 全身發炎會誘發心顫</li>
+      <li><strong>持續心律監測</strong> —— ICU 與病房 24 小時心電圖監測,能<strong>第一時間發現並處理</strong></li>
+    </ul>
+  </div>
+
+  <!-- Treatment approaches -->
+  <div class="section-title">如果發生了怎麼處理 — 三大方向</div>
+
+  <p class="section-intro">
+    POAF 的治療有<span class="em">三個方向</span>,醫師會依您的個別狀況組合使用。
+  </p>
+
+  <div class="treatment-trio">
+    <article class="treat-card">
+      <div class="t-num">方向 01 · 心律調節</div>
+      <h4>讓心跳慢下來</h4>
+      <div class="t-en">Rate Control</div>
+      <p>使用<strong>乙型阻斷劑(β-blocker)、鈣離子通道阻斷劑(常見如脈優、康可、心舒平)、digoxin(毛地黃)</strong>等藥物,把過快的心跳<strong>降到合理範圍</strong>(每分鐘 80–110 下)。心顫可能還在,但<strong>不會太快、症狀緩解、血壓穩定</strong>。</p>
+      <div class="when">適合:<strong>70 歲以上長者</strong>、心顫但症狀不嚴重、預期會自行恢復、不適合電擊或強效藥物者</div>
+    </article>
+
+    <article class="treat-card">
+      <div class="t-num">方向 02 · 節律恢復</div>
+      <h4>恢復為正常心律</h4>
+      <div class="t-en">Rhythm Control</div>
+      <p>使用<strong>amiodarone(臟得樂,最常用)、ibutilide(伊布利特)</strong>等抗心律不整藥,或在必要時施行<strong>電擊整流</strong>(短暫麻醉下用電擊把心顫轉回正常)。目標是<strong>把心律拉回竇性節律</strong>。</p>
+      <div class="when">適合:<strong>60 歲以下、希望儘早回到正常生活、不想長期吃藥</strong>、症狀明顯影響生活、血壓不穩需立刻處理者</div>
+    </article>
+
+    <article class="treat-card">
+      <div class="t-num">方向 03 · 抗凝血預防中風</div>
+      <h4>避免血塊形成</h4>
+      <div class="t-en">Anticoagulation</div>
+      <p>當心顫<strong>持續超過 48 小時</strong>,或<strong>醫師評估您的中風風險偏高</strong>時,醫師會用一個專業的風險計算工具(英文叫 CHA₂DS₂-VASc),把您的<strong>年齡、性別、是否高血壓、糖尿病、過去是否中風</strong>等綜合計算,<strong>算出您的中風風險級別</strong>。<strong>評分越高,使用抗凝血劑的好處越大</strong>。醫師會開立抗凝血劑(warfarin 或新型口服抗凝血劑 DOAC,如艾必克凝、拜瑞妥、普栓達)。<strong>多數情況下是暫時性</strong>(30 天到 3 個月)。如果您想知道自己的評分,請在出院前詢問醫師。</p>
+      <div class="when">適合:<strong>心顫持續超過 48 小時</strong>、年齡 + 共病評估後中風風險偏高、即使心律暫時恢復仍需短期使用者</div>
+    </article>
+  </div>
+
+  <!-- Discharge transition -->
+  <div class="discharge">
+    <h4>出院前的關鍵確認 — 帶這些訊息回家</h4>
+    <p>如果您住院期間出現過 POAF,<strong>出院時請務必確認以下事項</strong>:</p>
+    <ul>
+      <li><strong>我出院時是「正常心律」還是「持續心顫」?</strong>請與醫師確認</li>
+      <li><strong>需要繼續服用哪些心律相關藥物?</strong>多久?什麼時候停?</li>
+      <li><strong>有沒有開立抗凝血劑?</strong>什麼藥名、劑量、預計使用多久?</li>
+      <li><strong>下次回診是什麼時候?</strong>需不需要做 24 小時心電圖?</li>
+      <li><strong>如果回家後心顫再發,要怎麼辦?</strong>到急診還是回門診?</li>
+      <li><strong>哪些症狀需要立即就醫?</strong>(見下方警示徵兆)</li>
+      <li><strong>抗凝血劑需要避開的食物或藥物?</strong>warfarin 與綠葉蔬菜、其他藥物有交互作用 —— <strong>重點不是「不能吃綠葉蔬菜」,而是「每天的份量要穩定」</strong>。平常吃多少,出院後就維持多少,不要忽多忽少 <span class="link-ref">連結 9-3</span></li>
+    </ul>
+    <p style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border)"><strong>請將以上問題在出院前都得到清楚答案</strong>。回家後遇到狀況才打電話問,常常會錯過最佳處理時機。</p>
+  </div>
+
+  <!-- Lifestyle adjustments -->
+  <div class="section-title">出院後的生活調整 — 降低再發風險</div>
+
+  <div class="lifestyle">
+    <h4>降低 POAF 再發、減少進展為永久心顫的生活策略</h4>
+    <ul>
+      <li><strong>規律按時服藥</strong> —— 特別是乙型阻斷劑、抗凝血劑,絕對不要自行停藥</li>
+      <li><strong>減少酒精</strong> —— 酒精是心顫最強誘因之一,特別是<strong>「假日心臟症候群」</strong>:這是個有名的醫學現象 —— <strong>短時間大量飲酒後(例如過年圍爐、聚餐慶祝),原本心律正常的人也可能突然出現心顫</strong>。對於曾經 POAF 的人,<strong>酒精的閾值更低</strong> —— 一兩杯就可能誘發。建議完全戒酒,或至少把每週飲酒量降到最低</li>
+      <li><strong>適量咖啡因</strong> —— 不必完全戒掉,但避免過量(每天 1–2 杯咖啡通常可以)</li>
+      <li><strong>控制高血壓、糖尿病、膽固醇</strong> —— 這些共病是心顫進展的推手</li>
+      <li><strong>評估睡眠呼吸中止症</strong> —— 如果有打鼾、白天嗜睡、配偶觀察到呼吸停頓,請告訴醫師(這是常被忽略的心顫誘因)</li>
+      <li><strong>規律有氧運動</strong> —— 心臟手術康復後,醫師允許的範圍內維持運動 <span class="link-ref">連結 10-1</span></li>
+      <li><strong>體重管理</strong> —— 肥胖會增加心顫風險</li>
+      <li><strong>避免過度疲勞、情緒激動</strong> —— 自律神經失衡是誘因</li>
+      <li><strong>感冒、發燒、感染時主動回診</strong> —— 全身發炎會誘發心顫</li>
+    </ul>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬可以怎麼幫 — 從被動陪伴到主動守護</div>
+
+  <div class="lifestyle family-variant">
+    <h4>家屬的 6 個關鍵角色</h4>
+    <ul>
+      <li><strong>學會量脈搏</strong> —— 把食指與中指放在病人手腕內側(大拇指那側),數 30 秒乘以 2 = 每分鐘心跳。<strong>正常 60–100 下且規律;心顫時通常 &gt; 100 且不規律</strong>。學會這個技巧,您能第一時間發現異常</li>
+      <li><strong>提醒按時服藥</strong> —— 特別是抗凝血劑、乙型阻斷劑。病人可能因為「感覺不到症狀」而忘記吃 —— 協助設手機鬧鐘、放藥盒在顯眼處</li>
+      <li><strong>辨識中風的 FAST 徵兆</strong> —— 臉部不對稱、單側手腳無力、講話不清 —— 一旦出現,<strong>立即叫救護車</strong>,不要自行開車送急診 <span class="link-ref">連結 8-1b</span></li>
+      <li><strong>觀察出血徵兆</strong> —— 黑便、血尿、嚴重瘀青、流鼻血止不住 —— 抗凝血劑可能讓出血加重</li>
+      <li><strong>協助記錄症狀</strong> —— 病人可能會說「昨天好像有心悸」但忘了具體時間。家屬幫忙記錄(時間、持續多久、有沒有伴隨症狀),回診時告訴醫師</li>
+      <li><strong>觀察跌倒風險</strong> —— 抗凝血劑使用中,<strong>跌倒撞到頭可能造成腦出血</strong>,協助確保居家環境安全(移除地毯絆腳處、浴室加裝扶手等)</li>
+    </ul>
+  </div>
+
+  <!-- Outlook -->
+  <div class="section-title">長期預後 — 大部分人會回到正常</div>
+
+  <div class="outlook">
+    <h4>POAF 後的長期軌跡</h4>
+    <p>POAF 在心臟手術後出現,<strong>不代表您「現在有心臟病」</strong>,但<strong>確實提醒您心臟容易再發心顫的傾向</strong>。長期軌跡如下:</p>
+
+    <div class="timeline-mini">
+      <div class="tm-row">
+        <div class="tm-when">出院時</div>
+        <div class="tm-what"><strong>約 80% 已恢復正常心律</strong>,少數帶藥出院觀察</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">出院 6 週</div>
+        <div class="tm-what"><strong>大部分維持正常心律</strong>,可逐步減藥(依醫師評估)</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">出院 3–6 個月</div>
+        <div class="tm-what">多數已停掉預防性藥物。<strong>仍持續者建議長期追蹤</strong></div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-when">長期(1–5 年)</div>
+        <div class="tm-what">約 <strong>20–30% 病人</strong>後續發展成<strong>陣發性</strong>(偶爾發作後自行恢復)<strong>或永久性</strong>(長期持續不恢復)<strong>心顫</strong>,需要長期管理</div>
+      </div>
+    </div>
+
+    <p><strong>關鍵訊息:</strong>曾經有過 POAF 的人,<strong>未來人生中再發心顫的風險高於沒發生過的人</strong>。所以即使現在心律已恢復正常,<strong>仍建議每年規律心臟科追蹤、注意生活誘因</strong>。早期發現、早期處理是預防中風的關鍵。</p>
+
+    <p style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border)"><strong style="color:var(--teal)">即使未來發展成永久心顫,也不代表生活品質會大幅下降</strong>。在規律服藥(抗凝血劑 + 心律控制藥)與生活調整下,<strong>大多數永久心顫的人能維持正常生活、繼續工作、旅行、做喜歡的事</strong> —— 只是需要長期心臟科追蹤,並注意中風預防。<strong>永久心顫不是「絕症」,而是「需要長期管理的慢性病」</strong>。</p>
+
+    <p style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border)"><strong style="color:var(--teal)">給病人的安慰:</strong>POAF 是常見的、可處理的併發症。<strong>大部分人能順利恢復、回到正常生活</strong>。重要的是<strong>不要忽視、規律追蹤、改善生活誘因</strong>,這樣即使再發也能即時控制。</p>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">出現這些情況請立即就醫</div>
+
+  <div class="callout warnings warnings-extras">
+    <h4>出院後的警示徵兆</h4>
+    <div class="top-note">
+      <strong>這些徵兆出現時,請立即到急診(不是門診)</strong>。任何延遲都可能增加中風或心衰竭的風險。
+    </div>
+    <ul>
+      <li><strong>突然劇烈心悸</strong>、心跳快到無法忍受(每分鐘 &gt; 150 下)</li>
+      <li><strong>胸口劇痛、壓迫感</strong>持續超過 5 分鐘</li>
+      <li><strong>嚴重呼吸喘</strong>,特別是平躺時更喘</li>
+      <li><strong>暈倒、接近暈倒</strong></li>
+      <li><strong>中風症狀(FAST)</strong>:F = Face(臉部不對稱)/ A = Arm(單側手腳無力)/ S = Speech(講話不清)/ T = Time(爭分奪秒到急診) <span class="link-ref">連結 8-1b</span></li>
+      <li><strong>抗凝血劑使用中出現異常出血</strong>:黑便、血尿、嚴重瘀青、跌倒撞到頭、流鼻血止不住</li>
+      <li><strong>抗凝血劑漏服多次</strong>(漏一兩次通常不嚴重,但持續漏服需聯絡醫師)</li>
+    </ul>
+    <div class="dvt-note"><strong>不同併發症的提醒 —— 下肢突然腫脹疼痛:</strong>可能是<strong>深部靜脈血栓</strong>(腿部血管裡形成的血塊,俗稱「血栓」,英文 DVT)。<strong>這與抗凝血劑的副作用不同</strong> —— 抗凝血劑能<strong>預防</strong>血栓,如果在抗凝血劑使用中仍發生 DVT,反而代表劑量可能不足、需要醫師重新評估。任何術後病人都可能發生,請立即就醫。</div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>POAF 與心律相關的閱讀路徑</h4>
+    <div class="sub">這份單張在整套衛教中的位置</div>
+    <ol>
+      <li>三種冠狀動脈繞道手術比較(手術類型)</li>
+      <li>體外循環機 CPB(手術原理)</li>
+      <li>凝血功能與止血藥物(凝血基礎)</li>
+      <li>微創 vs 傳統開胸(微創 POAF 較低)</li>
+      <li>多模式止痛(減少誘因)</li>
+      <li>從躺到坐、從站到走(早期活動)</li>
+      <li>譫妄專篇 8-2(另一個常見併發症)</li>
+      <li class="current"><strong>術後心房顫動 POAF 8-3(您正在讀)</strong></li>
+      <li>心臟手術後飲食調整(warfarin 與綠葉蔬菜) 9-3</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>術後心房顫動(POAF) —— <span class="em">是常見的、可預防的、可處理的</span>術後反應。本院的整套 ERAS 策略,<span class="em">能把發生率明顯降低</span>,搭配規律監測與適當治療,<span class="em">大部分病人能順利度過、回到正常生活</span>。</p>
+    <p>對 POAF 有任何疑問,或想了解您個別的風險與處理方案,歡迎在<span class="em">門診、術前訪視、住院中、出院前</span>與心臟外科、麻醉科、心臟內科團隊討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Gregory AJ, Lobdell KW, Hui D, et al. Enhanced Recovery After Surgery Cardiac Society Turnkey Order Set for Prevention and Management of Postoperative Atrial Fibrillation After Cardiac Surgery: Proceedings From the American Association for Thoracic Surgery ERAS Conclave 2023. <em>JTCVS Open.</em> 2024;19:194–204.</li>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society, ERAS International Society, and the Society of Thoracic Surgeons (STS). <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>Joglar JA, Chung MK, Armbruster AL, et al. 2023 ACC/AHA/ACCP/HRS Guideline for the Diagnosis and Management of Atrial Fibrillation. <em>Circulation.</em> 2024;149(1):e1–e156.</li>
+      <li>Muehlschlegel JD, Burrage PS, Ngai JY, et al. Society of Cardiovascular Anesthesiologists/European Association of Cardiothoracic Anaesthetists Practice Advisory for the Management of Perioperative Atrial Fibrillation in Patients Undergoing Cardiac Surgery. <em>Anesth Analg.</em> 2019;128(1):33–42.</li>
+      <li>Suero OR, Pasala T, Ali D, et al. Postoperative Atrial Fibrillation (POAF) After Cardiac Surgery: Clinical Practice Review. <em>J Thorac Dis.</em> 2024;16(1):641–650.</li>
+      <li>Greenberg JW, Lancaster TS, Schuessler RB, Melby SJ. Postoperative Atrial Fibrillation Following Cardiac Surgery: A Persistent Complication. <em>Eur J Cardiothorac Surg.</em> 2017;52(4):665–672.</li>
+      <li>Bessissow A, Khan J, Devereaux PJ, et al. Postoperative Atrial Fibrillation in Non-Cardiac and Cardiac Surgery: An Overview. <em>J Thromb Haemost.</em> 2015;13(Suppl 1):S304–S312.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的 POAF 風險評估、預防、治療與抗凝血劑使用,以心臟外科、麻醉科、心臟內科醫師依您的臨床狀況與中風風險評分綜合評估為準。對 POAF 或抗凝血劑使用有任何疑問,請於門診、術前訪視、住院中或出院前與醫療團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>

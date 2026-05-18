@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>為什麼團隊一直問你同樣的問題 — 心臟加速康復衛教</title>
+<meta name="description" content="病人版神經學評估,認識術後反覆問答的目的、可能偵測的徵兆、誠實回答就是最大幫助">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:病人版徽章 + lead 引言區 + 問答對照表 + 肢體檢查列表 */
+.eyebrow .ver {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--teal-tint);
+  color: var(--teal);
+  border-radius: 2px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+/* lead 內的問答區塊 */
+.lead .quote {
+  margin: 12px 0;
+  padding: 12px 16px;
+  background: var(--cream);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  font-size: 14.5px;
+  color: var(--ink);
+  line-height: 1.85;
+  font-style: italic;
+}
+
+/* 問題對照表 */
+.qrow-list {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.qrow-list h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+.qrow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: center;
+}
+.qrow:last-of-type { border-bottom: none; }
+.qrow .q-text {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.qrow .q-reason {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  font-style: italic;
+  padding-left: 14px;
+  border-left: 2px solid var(--gold-soft);
+}
+
+/* 肢體檢查 */
+.phys-exam {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.phys-exam h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.phys-exam ul {
+  list-style: none; padding: 0;
+}
+.phys-exam ul li {
+  position: relative;
+  padding: 8px 0 8px 26px;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.phys-exam ul li:last-child { border-bottom: none; }
+.phys-exam ul li::before {
+  content: '◐';
+  position: absolute;
+  left: 4px; top: 7px;
+  color: var(--gold);
+  font-size: 13px;
+}
+.phys-exam ul li strong { color: var(--ink); font-weight: 600; }
+.phys-exam .foot {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+/* Reassure callout */
+.reassure {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.reassure h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.reassure .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.reassure p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.reassure p:last-child { margin-bottom: 0; }
+.reassure p strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .qrow-list { padding: 18px 20px; }
+  .qrow { grid-template-columns: 1fr; gap: 4px; }
+  .qrow .q-reason { padding-left: 0; border-left: none; padding-top: 2px; }
+  .reassure { padding: 22px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 8-1a <span class="ver">病人版</span></div>
+    <h1>為什麼團隊<br>一直問您同樣的問題</h1>
+    <p class="subtitle">認識術後神經學評估 —— 您的清醒、回答、力量，是腦部恢復最直接的訊號<br>Neurological Assessment · Patient Version</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>這不是測驗 —— 是團隊在「聽您腦袋的聲音」</strong>
+    <p>醒來後，護理師、醫師可能會反覆問您同樣的問題 ——</p>
+    <div class="quote">
+      您叫什麼名字？　今天幾號？　我是誰？　這裡是哪裡？　為什麼來醫院？
+    </div>
+    <p>您可能會覺得：<span class="em">「我都答對了，為什麼還要再問？」「他們是不是不相信我？」</span></p>
+    <p>請放心：這不是測驗，更不是不信任您。這是團隊在做<span class="em">「神經學評估」（透過您的清醒、回答與肢體動作來判斷腦部狀況）</span> —— 用您的回答來偵測腦部恢復的細微變化。<span class="em">您的清醒、您的回答、您的肢體動作，是團隊判斷您腦部狀況最直接、最準確的線索</span>。</p>
+    <p>前面 CPB、NIRS、BIS 與「早期拔管」一路用各種術中監測來守護您的腦部。手術結束後，守護的方式換成另一種 —— <span class="em">透過您的清醒與回答，即時掌握您的腦部狀況</span>。這也就是為什麼本院希望您<span class="em">「儘早拔管、儘早清醒」</span>的最終原因。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">神經學評估</span>
+      <span class="lex-def">透過您的清醒度、回答與肢體動作來判斷腦部狀況的檢查方式。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">譫妄</span>
+      <span class="lex-def">術後暫時性的意識混亂，通常會在幾天內恢復，<strong>跟失智不同</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">定向感</span>
+      <span class="lex-def">對時間、地點、人物的認知（例如知道今天幾號、自己在哪裡、誰是誰）。</span>
+    </div>
+  </div>
+
+  <!-- Why repeat questions -->
+  <div class="section-title">為什麼要反覆問</div>
+
+  <p class="section-intro">
+    每幾個小時問一次，是因為<span class="em">腦部狀況會隨時間變化</span>。如果您拔管後答對 8 題，幾小時後變成只答對 5 題，這個「下降」就是團隊需要立即注意的訊號。每一次問答，都是一張即時的「腦部快照」。
+  </p>
+
+  <div class="qrow-list">
+    <h4>常見問題 / 對應的評估目的</h4>
+    <div class="qrow">
+      <div class="q-text">您叫什麼名字？</div>
+      <div class="q-reason">基本記憶、認知</div>
+    </div>
+    <div class="qrow">
+      <div class="q-text">您今天幾歲？</div>
+      <div class="q-reason">長期記憶、定向感</div>
+    </div>
+    <div class="qrow">
+      <div class="q-text">今天是幾月幾日、星期幾？</div>
+      <div class="q-reason">時間定向感（譫妄最早期的徵兆之一）</div>
+    </div>
+    <div class="qrow">
+      <div class="q-text">您在哪裡？</div>
+      <div class="q-reason">空間定向感</div>
+    </div>
+    <div class="qrow">
+      <div class="q-text">為什麼來這裡？</div>
+      <div class="q-reason">事件記憶、語言理解</div>
+    </div>
+  </div>
+
+  <!-- Plus physical exam -->
+  <div class="phys-exam">
+    <h4>除了問問題，團隊還會請您做這些動作</h4>
+    <ul>
+      <li><strong>用力握住我的手</strong> —— 檢查雙手力量是否對稱</li>
+      <li><strong>雙手平舉、保持 10 秒</strong> —— 檢查是否有單側無力</li>
+      <li><strong>腳掌往上、往下</strong> —— 檢查腿部力量</li>
+      <li><strong>眼睛跟著手指看左右</strong> —— 檢查視野與眼球運動</li>
+    </ul>
+    <div class="foot">這些動作很簡單，但能反映腦部不同區域的狀況。請盡您最大的力量去做，即使覺得自己已經做到了，團隊還是會請您「再多一點」 —— 因為比較的是您跟自己的微小變化。</div>
+  </div>
+
+  <!-- What signs it can catch -->
+  <div class="section-title">這些回答能告訴團隊什麼</div>
+
+  <div class="callout warnings">
+    <h4>細微的變化能反映重要訊息</h4>
+    <ul>
+      <li><strong>時間定向感變差</strong> → 可能是術後譫妄的早期徵兆</li>
+      <li><strong>突然不認識家人或場所</strong> → 可能是腦部血流不足的徵兆</li>
+      <li><strong>突然說話含糊或語言流暢度下降</strong> → 可能是中風的早期徵兆</li>
+      <li><strong>單側握力或抬腳力量明顯較弱</strong> → 可能是中風的早期徵兆</li>
+      <li><strong>視野或視力的變化</strong> → 可能是腦部局部血流問題</li>
+    </ul>
+  </div>
+
+  <p class="section-intro">
+    這些徵兆，<span class="em">只有在您清醒、能說話、能動的情況下才能被偵測</span>。這也正是本院採用「手術室內拔管」 <span class="link-ref">連結 6-2</span>、希望您儘早清醒的原因 —— 為了讓這份神經學評估能即時進行。
+  </p>
+
+  <!-- If you answer wrong -->
+  <div class="section-title">如果答錯了會怎樣</div>
+
+  <div class="reassure">
+    <h3>團隊在意的是「變化」，不是「滿分」</h3>
+    <div class="sub">剛清醒時答錯了沒關係</div>
+    <p>剛拔管時，麻醉藥還在體內代謝，<strong>輕微的迷糊、答錯、想不起來日期，都是正常的</strong>。團隊不會因此判斷您「不行」，而是會把這個狀態當作您的<strong>「起點」</strong>。</p>
+    <p>真正的關鍵是<strong>「變化」</strong>：如果您剛拔管時答對 7 題，幾小時後變成只答對 3 題，這個下降才是訊號。如果您一直答得普通但沒有下降，那也代表您「穩定」。</p>
+    <p>舉個例子：如果您今天記得今天是 5 月 17 號，明天忘記了，<strong>團隊不會覺得您「失智了」</strong> —— 他們會綜合您昨天的狀態、麻醉藥代謝情況、睡眠品質一起判斷。<strong>所以放輕鬆，您的責任只有「誠實表達當下的自己」</strong>。</p>
+    <p>所以 —— <strong>不要為了想答對而緊張</strong>。誠實回答您當下的狀態，就是對團隊最大的幫助。</p>
+  </div>
+
+  <!-- What you can do -->
+  <div class="section-title">您能配合的事</div>
+
+  <div class="callout prep-actions">
+    <h4>您的主動配合，讓團隊能更精準守護您</h4>
+    <ul>
+      <li><strong>認真回答，即使覺得問題很簡單</strong> —— 簡單的問題正是用來偵測細微變化的</li>
+      <li><strong>不確定就說「不確定」</strong> —— 不要硬猜，誠實回答才是最有用的線索</li>
+      <li><strong>沒聽清楚就說沒聽清楚</strong> —— 不要假裝聽懂，這會影響團隊判斷</li>
+      <li><strong>主動告訴護理師</strong>身體不適：頭暈、看東西模糊、手腳麻木、想吐、單側無力</li>
+      <li><strong>配合做肢體檢查</strong> —— 用力握、用力舉，把您最大的力量展現出來</li>
+      <li><strong>家屬會客時也配合對話</strong> —— 家人的陪伴對話，是這份評估的延伸 <span class="link-ref">連結 8-1b</span></li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>您的腦部守護鏈</h4>
+    <div class="sub">這份單張在整套守護鏈中的位置</div>
+    <ol>
+      <li>CPB · 體外循環機（認識手術）</li>
+      <li>NIRS · 腦氧監測（術中守護）</li>
+      <li>BIS · 麻醉深度監測（術中守護）</li>
+      <li>早期拔管（術後立即清醒）</li>
+      <li>HFNC · 高流量鼻導管（拔管後過渡）</li>
+      <li class="current"><strong>術後神經學評估 — 病人版（您正在讀）</strong></li>
+      <li>會客時的認知復健 — 家屬版（給家屬看）</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>您的<span class="em">清醒、回答、力量</span>，是團隊判斷您腦部恢復狀況最直接的線索。每一次回答，都是在告訴團隊：<span class="em">「我很好，繼續往前走。」</span></p>
+    <p>對神經學評估或恢復過程有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Inouye SK, van Dyck CH, Alessi CA, et al. Clarifying confusion: the confusion assessment method. A new method for detection of delirium. <em>Ann Intern Med.</em> 1990;113(12):941–948.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

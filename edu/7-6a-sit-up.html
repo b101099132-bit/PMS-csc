@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從躺到坐 — 心臟加速康復衛教</title>
+<meta name="description" content="一個簡單動作同時啟動肺活量、咳嗽、舊血水排出、循環、胃口與意識,本院 6 小時坐起的三階段做法">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:重力英雄區 + 7 好處網格 + 3 階段卡 + bridge 過渡 */
+.gravity-hero {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--gold-soft) 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+}
+.gravity-hero h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--gold); margin-bottom: 4px;
+}
+.gravity-hero .sub {
+  font-size: 13px; color: var(--ink-faint);
+  margin-bottom: 14px; letter-spacing: 0.02em;
+}
+.gravity-hero p {
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.85; margin-bottom: 10px;
+}
+.gravity-hero p strong { color: var(--ink); font-weight: 600; }
+
+/* 平躺 vs 坐起姿勢對照(reuse from cough) */
+.pose-compare {
+  display: grid; grid-template-columns: 1fr;
+  gap: 12px; margin-top: 14px;
+}
+@media (min-width: 480px) {
+  .pose-compare { grid-template-columns: 1fr 1fr; }
+}
+.pose-compare .pose {
+  padding: 14px 16px; border-radius: 3px;
+  font-size: 13.5px; line-height: 1.75;
+}
+.pose-compare .pose.bad {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--warn);
+}
+.pose-compare .pose.good {
+  background: var(--gold-soft);
+  border: 1px solid var(--highlight-border);
+  border-left: 2px solid var(--gold);
+}
+.pose-compare .pose .pose-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.05em; margin-bottom: 4px;
+}
+.pose-compare .pose.bad .pose-label { color: var(--warn); }
+.pose-compare .pose.good .pose-label { color: var(--gold); }
+
+/* 7 好處網格 */
+.benefits {
+  display: grid; grid-template-columns: 1fr;
+  gap: 10px; margin-bottom: 24px;
+}
+@media (min-width: 560px) { .benefits { grid-template-columns: 1fr 1fr; } }
+.benefit-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 16px 18px;
+}
+.benefit-card .b-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.benefit-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px; line-height: 1.4;
+}
+.benefit-card p {
+  font-size: 13px; color: var(--ink-soft);
+  line-height: 1.7; margin-bottom: 0;
+}
+.benefit-card .ref {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 11px;
+  color: var(--gold);
+  font-family: 'Noto Serif TC', serif;
+  letter-spacing: 0.05em;
+}
+
+/* 3 階段卡 */
+.phases {
+  margin-bottom: 24px;
+}
+.phase-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 12px;
+}
+.phase-card.p1 { border-left: 3px solid var(--teal); }
+.phase-card.p2 { border-left: 3px solid var(--gold); }
+.phase-card.p3 { border-left: 3px solid #8E6840; }
+.phase-card .phase-head {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 8px;
+  margin-bottom: 4px;
+}
+.phase-card .phase-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+.phase-card.p1 .phase-num { color: var(--teal); }
+.phase-card.p2 .phase-num { color: var(--gold); }
+.phase-card.p3 .phase-num { color: #8E6840; }
+.phase-card .phase-when {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+.phase-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink); margin-bottom: 10px;
+}
+.phase-card .phase-body {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.phase-card .phase-body strong { color: var(--ink); font-weight: 600; }
+.phase-card .phase-body ul {
+  list-style: none; padding: 0; margin-top: 8px;
+}
+.phase-card .phase-body ul li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 5px;
+  font-size: 13.5px;
+}
+.phase-card .phase-body ul li::before {
+  content: '·';
+  position: absolute;
+  left: 6px; top: -2px;
+  font-size: 18px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Bridge to standing (next piece) */
+.bridge {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1px solid #C9D6D6;
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+.bridge h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--teal); margin-bottom: 4px;
+}
+.bridge .sub {
+  font-size: 13px; color: var(--ink-faint);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+.bridge p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.bridge p:last-child { margin-bottom: 0; }
+.bridge p strong { color: var(--ink); font-weight: 600; }
+.bridge .timeline-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  align-items: center; justify-content: center;
+  margin: 14px 0;
+}
+.bridge .timeline-row .stage {
+  background: var(--paper);
+  padding: 6px 12px;
+  border-radius: 3px;
+  color: var(--ink);
+  font-weight: 500;
+  border: 1px solid var(--border-strong);
+  font-size: 12.5px;
+}
+.bridge .timeline-row .stage.next {
+  background: var(--gold-soft);
+  color: var(--gold);
+  border-color: var(--gold);
+  font-weight: 600;
+}
+.bridge .timeline-row .arrow {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .benefit-card { padding: 14px 16px; }
+  .phase-card { padding: 18px 20px; }
+  .gravity-hero, .bridge { padding: 22px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 7-6a</div>
+    <h1>從躺到坐</h1>
+    <p class="subtitle">一個簡單動作，同時改善肺活量、咳嗽、舊血水排出、循環、胃口與意識<br>From Bed-rest to Sitting Up</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>「坐起來」是心臟手術後最關鍵的第一個動作</strong>
+    <p>剛拔管後幾個小時內，本院就會鼓勵您從床上半坐起來，逐步進階到床邊坐姿。<span class="em">這個看似簡單的動作，其實同時啟動了七件對您恢復至關重要的事</span> —— 肺部、咳嗽、舊血水、循環、肌力、胃口、意識，全部都從「坐起來」開始。</p>
+    <p>ERAS 加速康復的核心精神是<span class="em">「儘早恢復術前功能」</span>。而「坐起」就是最具體、最直接的第一步 —— 它不只是復健，更是身體系統重新開機的訊號。</p>
+    <p>另外要說明：本院能讓您在拔管後 6 小時內就坐起來，<span class="em">關鍵是前面所有環節（手術室拔管、HFNC、多模式止痛、認知清醒）都已備齊</span>。這不是冒險，是順理成章的下一步。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">姿勢性低血壓</span>
+      <span class="lex-def">從躺著突然坐起或站起時，血壓暫時下降造成的頭暈、眼前發黑感覺。<strong>動作慢一點、停留觀察就能避免</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">橫膈膜</span>
+      <span class="lex-def">肺部下方幫助呼吸的肌肉。坐起時會自然下沉，<strong>讓肺部完全打開</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">深層靜脈血栓(DVT)</span>
+      <span class="lex-def">下肢長時間不動，靜脈血流變慢可能形成的血塊。<strong>坐起、活動是最有效的預防方式</strong>。</span>
+    </div>
+  </div>
+
+  <!-- Gravity hero -->
+  <div class="section-title">為什麼這麼簡單的動作這麼重要</div>
+
+  <div class="gravity-hero">
+    <h3>關鍵在「重力」</h3>
+    <div class="sub">同樣的重力，平躺時是敵人，坐起時是盟友</div>
+    <p>很多人不知道，<strong>姿勢改變，等於改變重力作用在身體上的方向</strong>。心臟手術後，重力可以是阻礙您恢復的力量，也可以是加速您恢復的力量 —— 差別只在於您是「躺著」還是「坐著」。</p>
+
+    <div class="pose-compare">
+      <div class="pose bad">
+        <div class="pose-label">✕ 平躺時 — 重力是敵人</div>
+        橫膈膜被內臟往上推、肺底部被壓住<br>
+        分泌物與舊血水靠重力卡在肺背側<br>
+        下肢血液回流變慢、容易形成血栓<br>
+        腸胃道蠕動偏慢、胃口不開
+      </div>
+      <div class="pose good">
+        <div class="pose-label">✓ 坐起時 — 重力是盟友</div>
+        橫膈膜下沉、肺底部完全打開<br>
+        重力幫助分泌物與舊血水排出<br>
+        下肢循環順暢、預防血栓<br>
+        腸胃蠕動恢復、胃口慢慢回來
+      </div>
+    </div>
+
+    <p>一個動作，就把重力從<strong>「敵人」翻轉成「盟友」</strong>。這就是為什麼坐起來這麼重要。</p>
+  </div>
+
+  <!-- 7 benefits -->
+  <div class="section-title">坐起來幫您做的七件事</div>
+
+  <p class="section-intro">
+    這七件事並不是「坐起來會慢慢有的好處」 —— 是<span class="em">當您坐起來的當下，就同時啟動</span>的。
+  </p>
+
+  <div class="benefits">
+    <article class="benefit-card">
+      <div class="b-num">好處 01</div>
+      <h4>肺活量增加 20–30%</h4>
+      <p>橫膈膜下沉後，肺底部完全打開，可使用的肺容積大幅增加。<span class="ref">連結 7-2</span></p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 02</div>
+      <h4>咳嗽力道增強</h4>
+      <p>肺活量大、橫膈膜可以下沉再上推，咳的氣流速度更高、能把痰真正咳出來。<span class="ref">連結 7-2</span></p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 03</div>
+      <h4>排出胸腔舊血水</h4>
+      <p>重力 + 深呼吸 + 有效咳嗽，幫助引流管排不到的<strong>深層殘餘血水</strong>從肺周圍排出。<span class="ref">連結 6-3</span></p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 04</div>
+      <h4>下肢循環改善</h4>
+      <p>坐姿讓下肢肌肉開始輕度活動，靜脈血回流變順、<strong>降低深層靜脈血栓（DVT）</strong>的風險。</p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 05</div>
+      <h4>胃口跟著回來</h4>
+      <p>坐姿促進腸胃蠕動，飢餓感重新出現，<strong>進食量自然增加</strong>。<span class="ref">連結 7-7</span></p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 06</div>
+      <h4>維持肌力、預防衰弱</h4>
+      <p>整天躺著，肌肉每天會流失 1–2%。坐起、撐住軀幹、控制姿勢 —— 這些都是<strong>對抗「ICU 衰弱症候群」</strong>的具體動作。</p>
+    </article>
+    <article class="benefit-card">
+      <div class="b-num">好處 07</div>
+      <h4>意識更清醒、減少譫妄</h4>
+      <p>坐起後能看到家人、聽到聲音、看見窗外的光，幫助建立<strong>時間與空間定向感</strong>，明顯減少譫妄發生率。<span class="ref">連結 8-1a</span></p>
+    </article>
+  </div>
+
+  <!-- Phase progression -->
+  <div class="section-title">漸進式坐起的三階段</div>
+
+  <p class="section-intro">
+    本院的<span class="em">「坐起」是漸進式</span>的 —— 從床頭抬高，一路進階到床邊雙腳擺盪。<span class="em">目標是在拔管後 6 小時內完成全部三階段、坐到床邊</span>。每個階段視您的恢復狀況逐步推進，絕不冒進。
+  </p>
+
+  <div class="phases">
+    <article class="phase-card p1">
+      <div class="phase-head">
+        <div class="phase-num">階段 01</div>
+        <div class="phase-when">拔管後 0–2 小時</div>
+      </div>
+      <h4>床頭逐步抬高</h4>
+      <div class="phase-body">
+        <strong>身體仍躺在床上，但床頭逐步抬高</strong>：從 30°（半坐臥）→ 45° → 60° → 90°（完全坐起）。每升一個角度停留觀察血壓與舒適度。
+        <ul>
+          <li>不要一次拉到 90°，<strong>讓血壓有時間適應</strong></li>
+          <li>有頭暈、胸悶、心悸 → 降回上一個角度，告訴護理師</li>
+          <li>此階段不需下床，主要是讓身體適應坐姿</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="phase-card p2">
+      <div class="phase-head">
+        <div class="phase-num">階段 02</div>
+        <div class="phase-when">拔管後 2–4 小時</div>
+      </div>
+      <h4>床上完全坐姿</h4>
+      <div class="phase-body">
+        <strong>床頭 90°、身體靠在床頭、雙腿伸直在床上</strong>。可以開始喝水、進食、深呼吸練習、誘發性肺量計使用。
+        <ul>
+          <li>背後可加枕頭支撐</li>
+          <li>可開始<strong>主動咳嗽訓練</strong> <span style="color:var(--gold);font-size:11.5px;font-family:'Noto Serif TC',serif">連結 7-2</span></li>
+          <li>家屬可在此時來會客，與您正常對話互動 <span style="color:var(--gold);font-size:11.5px;font-family:'Noto Serif TC',serif">連結 8-1b</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="phase-card p3">
+      <div class="phase-head">
+        <div class="phase-num">階段 03</div>
+        <div class="phase-when">拔管後 4–6 小時</div>
+      </div>
+      <h4>床邊坐姿、雙腳放下</h4>
+      <div class="phase-body">
+        <strong>移動到床邊，雙腳自然垂下、可輕輕擺盪</strong>。在護理師或家屬協助下完成轉位，<strong>抱枕緊抱胸口</strong>避免胸骨壓力。
+        <ul>
+          <li>動作要慢、轉身要側翻而非直接坐起</li>
+          <li>坐穩後先停留 5–10 分鐘，<strong>讓血壓適應姿勢改變</strong></li>
+          <li>此階段是進入「站立」的前一步 <span style="color:var(--gold);font-size:11.5px;font-family:'Noto Serif TC',serif">連結 7-6b</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+
+  <!-- Safety reminders -->
+  <div class="section-title">坐起時的安全提醒</div>
+
+  <div class="callout prep-actions">
+    <h4>四個安全原則，避免不必要的問題</h4>
+    <ul>
+      <li><strong>動作要慢、循序漸進</strong>：每升一個角度停留觀察，<strong>絕不一次坐到底</strong>。從躺到坐的過程，血壓需要時間適應</li>
+      <li><strong>不要用手撐起身體</strong>：單手撐床或撐胸前，會把力量集中到胸骨。請護理師或家屬從<strong>背後、肩膀</strong>協助</li>
+      <li><strong>抱枕始終貼在胸口</strong>：坐起的過程也算「動作」，需要抱枕固定胸骨 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>注意胸管引流管位置</strong>：移動時請護理師協助確認胸管不會被拉扯、引流盒位置低於胸部</li>
+    </ul>
+  </div>
+
+  <!-- Warning signs -->
+  <div class="section-title">這些情況請立即停下並告知護理師</div>
+
+  <div class="callout warnings">
+    <h4>身體在告訴您「慢一點」 — 退回上一個姿勢是校準，不是失敗</h4>
+    <ul>
+      <li><strong>頭暈、眼前發黑、感覺要昏倒</strong>（最常見，多是姿勢性低血壓）</li>
+      <li><strong>明顯心悸、心跳變快變不規律</strong></li>
+      <li><strong>胸悶、胸痛變嚴重、感覺呼吸困難</strong></li>
+      <li><strong>冒冷汗、噁心想吐</strong></li>
+      <li><strong>傷口或胸骨突發疼痛變強烈</strong></li>
+      <li><strong>看到引流管的血量突然增加</strong></li>
+    </ul>
+  </div>
+
+  <!-- Family help -->
+  <div class="section-title">家屬可以怎麼幫忙</div>
+
+  <div class="callout family-discuss">
+    <h4>會客時間可以協助病人練習坐起</h4>
+    <ul>
+      <li><strong>從背後、肩膀協助</strong>，不要拉手臂（避免胸骨側向壓力）</li>
+      <li><strong>幫忙遞抱枕、確認抱枕貼緊胸口</strong>再開始動作</li>
+      <li><strong>陪伴觀察 5–10 分鐘</strong>：看臉色、聽呼吸、問頭暈，比看儀器更直接</li>
+      <li><strong>鼓勵但不勉強</strong>：「累了我們休息一下，等下再來」比「您要努力」更有效</li>
+      <li><strong>注意到任何不對勁就告訴護理師</strong>：您是第二雙眼睛 <span class="link-ref">連結 8-1b</span></li>
+      <li><strong>提供熟悉的物品輔助</strong>：眼鏡、助聽器，能讓他坐起後馬上看清楚、聽清楚，幫助定向感</li>
+    </ul>
+  </div>
+
+  <!-- Bridge to standing -->
+  <div class="section-title">下一步：站立與走路</div>
+
+  <div class="bridge">
+    <h3>本院目標：拔管後 24 小時內，走路繞護理站一圈</h3>
+    <div class="sub">為什麼本院能比國際文獻更積極？關鍵在「手術室拔管」</div>
+    <p>當您完成階段 03、能在床邊穩穩坐 5–10 分鐘、血壓穩定、不頭暈，<strong>就可以進入「站立」階段</strong>。<strong>本院目標是讓您在拔管後 6 小時內坐起來、24 小時內就能下床走路繞護理站一圈</strong>。</p>
+
+    <div class="timeline-row">
+      <span class="stage">0–6 h 床邊坐</span>
+      <span class="arrow">→</span>
+      <span class="stage">12–24 h 站立</span>
+      <span class="arrow">→</span>
+      <span class="stage next">~24 h 走路繞護理站</span>
+    </div>
+
+    <p><strong>這個時程比國際 ERAS 文獻一般建議更積極</strong>（多數研究的目標是 24 小時坐、48 小時走）。為什麼本院能做到這麼快？最關鍵的原因 ——<strong>本院採用「手術室內拔管」</strong> <span class="link-ref">連結 6-2</span>。</p>
+
+    <div class="pose-compare">
+      <div class="pose bad">
+        <div class="pose-label">傳統做法</div>
+        手術結束 → ICU 持續鎮靜 6–24 小時 → 拔管 → 再等意識完全恢復 → <strong>24 h 開始坐 · 48 h 開始走</strong>
+      </div>
+      <div class="pose good">
+        <div class="pose-label">本院做法</div>
+        手術結束 → <strong>手術室就拔管</strong> → 送進 ICU 時您已清醒 → 立刻開始坐起進程 → <strong>6 h 坐 · 24 h 走路繞護理站</strong>
+      </div>
+    </div>
+
+    <p>差別在哪？<strong>您不必在 ICU 等待數小時的鎮靜代謝、不必經歷再次甦醒的迷糊期</strong>。從手術室送回 ICU 的那一刻，您已經是清醒、能配合的狀態 —— 這讓「拔管後的時鐘」比傳統做法<strong>提早好幾個小時開始走</strong>。</p>
+    <p>再加上 HFNC 銜接、多模式止痛、抱枕固定法、家屬會客陪伴 —— 這一連串環節共同把<strong>「動得了、敢動、想動」</strong>的條件都備齊了。本院的積極時程不是冒險，是<strong>前面每一步都做足之後，自然而然的成果</strong>。</p>
+    <p>當然，<strong>每個人的恢復節奏不同</strong>。如果您個別狀況需要稍慢一些，團隊會依您的恢復狀態調整時程。重點不是「比別人快」，而是「持續往前進」。</p>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>術後恢復的時序鏈</h4>
+    <div class="sub">這份單張在整套恢復鏈中的位置</div>
+    <ol>
+      <li>早期拔管（術後立即清醒）</li>
+      <li>HFNC · 高流量鼻導管（拔管後過渡）</li>
+      <li>多模式止痛（讓動作不痛）</li>
+      <li>認知復健 — 病人版/家屬版（守護腦部）</li>
+      <li>吞嚥的安全評估 · 喝水與進食</li>
+      <li>術後咳嗽與咳痰（清潔肺部）</li>
+      <li class="current"><strong>從躺到坐（您正在讀）</strong></li>
+      <li>從站到走（下一步）</li>
+      <li>尿管 · 胸管引流（同步畢業）</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>從躺到坐，是身體系統重新開機的訊號。<span class="em">肺部會打開、咳嗽會有力、舊血水會被排出、循環會變順、胃口會回來、肌肉會被使用、意識會更清醒</span> —— 一個動作，啟動整個身體。</p>
+    <p>對術後坐起、活動、漸進式復健有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、復健科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Schweickert WD, Pohlman MC, Pohlman AS, et al. Early Physical and Occupational Therapy in Mechanically Ventilated, Critically Ill Patients: A Randomised Controlled Trial. <em>Lancet.</em> 2009;373(9678):1874–1882.</li>
+      <li>Hashem MD, Nelliot A, Needham DM. Early Mobilization and Rehabilitation in the ICU: Moving Back to the Future. <em>Respir Care.</em> 2016;61(7):971–979.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>

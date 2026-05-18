@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微創心臟手術 vs 傳統開胸 — 心臟加速康復衛教</title>
+<meta name="description" content="微創心臟手術(MICS)三種切口、與傳統正中切開的比較、適合/不適合對象、本院的選擇邏輯">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:傳統 method-card + 三 mics-card + 恢復對照表 + 本院實際表現 + candidacy yes/no + 轉開警示 */
+.method-card.trad {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--ink-faint);
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 16px;
+}
+.method-card.trad .m-tag {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.method-card.trad h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.method-card.trad .m-en {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.method-card.trad p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.method-card.trad p strong { color: var(--ink); font-weight: 600; }
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+@media (min-width: 480px) { .pros-cons { grid-template-columns: 1fr 1fr; } }
+.pc-col {
+  padding: 12px 14px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.pc-col.pros {
+  background: var(--safe-bg);
+  border-left: 2px solid var(--safe);
+}
+.pc-col.cons {
+  background: var(--warn-bg);
+  border-left: 2px solid var(--warn);
+}
+.pc-col .pc-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+.pc-col.pros .pc-label { color: var(--safe); }
+.pc-col.cons .pc-label { color: var(--warn); }
+.pc-col ul { list-style: none; padding: 0; }
+.pc-col ul li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+  color: var(--ink-soft);
+}
+.pc-col.pros ul li::before { content: '+'; position: absolute; left: 0; color: var(--safe); font-weight: 700; }
+.pc-col.cons ul li::before { content: '−'; position: absolute; left: 0; color: var(--warn); font-weight: 700; }
+
+/* 三 MICS 切口卡 */
+.mics-types { margin-bottom: 24px; }
+.mics-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+}
+.mics-card .mc-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.mics-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.mics-card .mc-en {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.mc-spec {
+  background: var(--cream);
+  border-radius: 3px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+.spec-row {
+  display: flex; gap: 12px;
+  padding: 4px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.spec-row .label {
+  flex-shrink: 0;
+  width: 36px;
+  font-family: 'Noto Serif TC', serif;
+  color: var(--teal);
+  font-weight: 600;
+  font-size: 12px;
+}
+.spec-row .val {
+  color: var(--ink-soft);
+}
+.spec-row .val strong { color: var(--ink); font-weight: 600; }
+.mics-card > p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 0;
+}
+.mics-card > p strong { color: var(--ink); font-weight: 600; }
+
+/* 機器手臂 */
+.robotic-mention {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cold);
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.robotic-mention h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cold);
+  margin-bottom: 8px;
+}
+.robotic-mention p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.robotic-mention p strong { color: var(--ink); font-weight: 600; }
+
+/* 恢復對照表 — floating-label */
+.recovery-compare {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+.recovery-compare h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.recovery-compare .sub {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+.rc-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 2px solid var(--border-strong);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+.rc-header .h-metric { color: var(--ink); }
+.rc-header .h-trad { text-align: center; color: var(--ink-faint); }
+.rc-header .h-mics { text-align: center; color: var(--gold); }
+.rc-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: center;
+}
+.rc-row:last-of-type { border-bottom: none; }
+.rc-row .metric {
+  font-size: 13.5px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.rc-row .sub-metric {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  margin-top: 2px;
+}
+.rc-row .trad, .rc-row .mics {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.rc-row .mics { color: var(--gold); font-weight: 500; }
+.rc-source {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+  font-style: italic;
+}
+.rc-source strong { color: var(--teal); font-weight: 600; font-style: normal; }
+.interp {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--gold-soft);
+  border-left: 2px solid var(--gold);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.interp strong { color: var(--ink); font-weight: 600; }
+
+/* 本院實際表現 floating-label */
+.hospital-actual {
+  background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
+  border: 1.5px solid var(--teal);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.hospital-actual::before {
+  content: '本院實際表現';
+  position: absolute;
+  top: -10px; left: 20px;
+  background: var(--paper);
+  padding: 2px 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  border: 1px solid var(--teal);
+  border-radius: 2px;
+}
+.hospital-actual h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+  margin-top: 6px;
+}
+.hospital-actual p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.hospital-actual p strong { color: var(--ink); font-weight: 600; }
+.hospital-actual ul {
+  list-style: none; padding: 0; margin-bottom: 10px;
+}
+.hospital-actual ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.hospital-actual ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 4px; top: -1px;
+  color: var(--safe);
+  font-weight: 700;
+}
+.hospital-actual ul li strong { color: var(--ink); font-weight: 600; }
+.hospital-actual .closing-em {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.hospital-actual .closing-em strong { color: var(--ink); font-weight: 600; }
+
+/* 適合/不適合 candidacy */
+.candidacy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 560px) { .candidacy { grid-template-columns: 1fr 1fr; } }
+.cand-box {
+  border-radius: 4px;
+  padding: 22px 24px;
+}
+.cand-box.yes {
+  background: var(--safe-bg);
+  border: 1px solid var(--safe-border);
+  border-left: 3px solid var(--safe);
+}
+.cand-box.no {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-left: 3px solid var(--warn);
+}
+.cand-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.cand-box.yes h4 { color: var(--safe); }
+.cand-box.no h4 { color: var(--warn); }
+.cand-box ul {
+  list-style: none; padding: 0;
+}
+.cand-box ul li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.cand-box.yes ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px; top: -1px;
+  color: var(--safe);
+  font-weight: 700;
+}
+.cand-box.no ul li::before {
+  content: '✕';
+  position: absolute;
+  left: 4px; top: 0;
+  color: var(--warn);
+  font-weight: 700;
+}
+.cand-box ul li strong { color: var(--ink); font-weight: 600; }
+
+/* 轉開傳統警示 */
+.conversion-note {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+}
+.conversion-note h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+.conversion-note p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+.conversion-note p:last-child { margin-bottom: 0; }
+.conversion-note strong { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .method-card.trad { padding: 22px 22px; }
+  .mics-card { padding: 18px 20px; }
+  .recovery-compare { padding: 18px 18px; }
+  .hospital-actual { padding: 22px 22px; }
+  .cand-box { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 3-3</div>
+    <h1>微創心臟手術<br>vs 傳統開胸</h1>
+    <p class="subtitle">不同切口的選擇 — 由病灶位置、體型、共病決定<br>Minimally Invasive Cardiac Surgery vs Full Sternotomy</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>心臟手術不是只有一種開法 —— 切口的選擇,直接影響您的恢復速度</strong>
+    <p>傳統的心臟手術,醫師會從胸口正中央<span class="em">垂直切開胸骨</span>(20–25 cm),這是 70 多年來的國際標準方法。但近 20 年,微創心臟手術(MICS)逐漸成熟 —— 從<span class="em">幾條 4–8 cm 的小切口</span>就能完成手術,不需要鋸開整個胸骨。</p>
+    <p>兩種方式<span class="em">都是安全、有效的方法</span>,沒有絕對好壞。<span class="em">由您的病灶位置、體型、共病、過去手術史共同決定</span> —— 不是每個人都適合微創,也不是傳統手術就比較落後。</p>
+    <p>對<span class="em">適合的病人</span>來說,微創是本院 ERAS 加速康復策略中最有感的一個工具 —— 切口小、疼痛少、失血少、住院短、疤痕不顯眼。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">胸骨正中切開</span>
+      <span class="lex-def">傳統心臟手術切口 —— 從胸口正中央把胸骨整個垂直切開(20–25 cm)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">微創心臟手術(MICS)</span>
+      <span class="lex-def">用<strong>幾條 4–10 cm 的小切口</strong>完成,不切(或只切部分)胸骨。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">小胸骨切開</span>
+      <span class="lex-def">只切開<strong>上半部</strong>胸骨(5–10 cm),多用於主動脈瓣手術。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">小開胸</span>
+      <span class="lex-def">不切胸骨,從<strong>肋骨之間</strong>進入(4–8 cm)。多用於二尖瓣手術。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">中途轉開傳統</span>
+      <span class="lex-def">微創過程中若遇到困難,<strong>立即改為傳統開胸</strong>確保安全 —— 預先準備好的安全機制。</span>
+    </div>
+  </div>
+
+  <!-- Why different incisions -->
+  <div class="section-title">為什麼需要不同的切口選擇</div>
+
+  <p class="section-intro">
+    心臟位於胸腔的<span class="em">中央偏左</span>,被胸骨、肋骨保護著。<span class="em">不同的心臟結構(主動脈瓣、二尖瓣、冠狀動脈),離不同的胸壁區域近</span>。傳統做法是<strong>從正中央切開、把整個心臟暴露出來</strong>;微創做法則是<strong>針對要修補的結構,從最近的角度進入</strong>。所以<strong>不同的微創切口對應不同的手術</strong>,不是「一種微創通吃」。
+  </p>
+
+  <!-- Overview comparison -->
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">傳統做法</div>
+      <h3>胸骨正中切開</h3>
+      <div class="col-en">Full Median Sternotomy</div>
+      <div class="col-body">
+        <strong>20–25 cm 正中切口、切開整個胸骨</strong>。視野最完整、適用所有心臟手術、技術門檻較低、健保給付。需要 6–8 週胸骨保護期。
+      </div>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">微創方式</div>
+      <h3>小切口心臟手術</h3>
+      <div class="col-en">Minimally Invasive Cardiac Surgery</div>
+      <div class="col-body">
+        <strong>4–10 cm 小切口、不切(或只切部分)胸骨</strong>。失血少、疼痛輕、住院短、疤痕不顯眼。需要選擇性病例、技術門檻較高、部分需自費。
+      </div>
+    </div>
+  </div>
+
+  <!-- Method 1: Traditional -->
+  <article class="method-card trad">
+    <div class="m-tag">方式 01 · 傳統開胸</div>
+    <h3>胸骨正中切開</h3>
+    <div class="m-en">Full Median Sternotomy</div>
+    <p>醫師從胸口正中央做一個 <strong>20–25 cm 的垂直切口</strong>,然後用電鋸把整個胸骨從上到下切開,再用撐開器把兩半向兩邊撐開 —— 整個心臟就完全暴露出來。手術完成後,再用<strong>鋼絲或鋼板</strong>把胸骨重新固定 <span class="link-ref">連結 3-4</span>。</p>
+    <p>這是 <strong>1957 年起的國際標準方法</strong>,70 多年來經過大量臨床驗證,<strong>適用所有心臟手術</strong>。當病灶複雜、需要同時處理多個結構、或是緊急情況時,這是最安全可靠的選擇。</p>
+    <div class="pros-cons">
+      <div class="pc-col pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>視野最完整、最可靠</li>
+          <li>適用任何心臟手術</li>
+          <li>技術門檻較低</li>
+          <li>緊急狀況可立即應對</li>
+          <li>健保給付、無自費</li>
+        </ul>
+      </div>
+      <div class="pc-col cons">
+        <span class="pc-label">取捨</span>
+        <ul>
+          <li>切口較大(20–25 cm)</li>
+          <li>胸骨保護期 6–8 週</li>
+          <li>疤痕較顯眼</li>
+          <li>術後疼痛範圍較大</li>
+          <li>失血、輸血量較多</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Three MICS types -->
+  <div class="section-title">微創方式 — 三種主要切口</div>
+
+  <p class="section-intro">
+    本院常用的三種微創切口,<span class="em">各自針對不同的心臟病灶設計</span>。並不是「越小越好」,而是<span class="em">用最合適的角度進入</span>。
+  </p>
+
+  <div class="mics-types">
+
+    <article class="mics-card">
+      <div class="mc-num">微創 A · 主動脈瓣手術</div>
+      <h4>上半胸骨小切開</h4>
+      <div class="mc-en">Upper Mini-Sternotomy / Partial Sternotomy</div>
+      <div class="mc-spec">
+        <div class="spec-row"><span class="label">切口</span><span class="val"><strong>5–10 cm</strong>,胸口上半部</span></div>
+        <div class="spec-row"><span class="label">切骨</span><span class="val">只切上半胸骨(不切到底)</span></div>
+        <div class="spec-row"><span class="label">適用</span><span class="val">主動脈瓣置換、修補</span></div>
+      </div>
+      <p>醫師從胸口上半部做一個小切口,<strong>只切開胸骨的上半部</strong>(呈倒 J 形或倒 T 形),下半胸骨保留完整。透過這個視窗就能到達主動脈瓣進行置換或修補。<strong>因為下半胸骨沒切開,胸骨穩定性大幅保留</strong> —— 抱枕保護期可能可以縮短。</p>
+    </article>
+
+    <article class="mics-card">
+      <div class="mc-num">微創 B · 二尖瓣 / 三尖瓣手術</div>
+      <h4>右側小開胸</h4>
+      <div class="mc-en">Right Mini-Thoracotomy</div>
+      <div class="mc-spec">
+        <div class="spec-row"><span class="label">切口</span><span class="val"><strong>4–6 cm</strong>,右側乳房下方肋骨之間</span></div>
+        <div class="spec-row"><span class="label">切骨</span><span class="val"><strong>完全不切胸骨</strong></span></div>
+        <div class="spec-row"><span class="label">適用</span><span class="val">二尖瓣(修補/置換)、三尖瓣、心房腫瘤</span></div>
+      </div>
+      <p>醫師從<strong>右胸第 4–5 肋骨之間</strong>做一個小切口,搭配內視鏡或攝影機輔助,從側面進入心臟左心房。<strong>完全不切胸骨,從肋骨間隙進入</strong>。對女性病人尤其美觀(疤痕可被乳房下緣遮蓋)。國際研究顯示這個方式在二尖瓣手術上能<strong>明顯減少失血、輸血、住院天數、術後心房顫動</strong>。</p>
+    </article>
+
+    <article class="mics-card">
+      <div class="mc-num">微創 C · 冠狀動脈繞道</div>
+      <h4>左側小開胸(MIDCAB)</h4>
+      <div class="mc-en">Minimally Invasive Direct CABG · Left Mini-Thoracotomy</div>
+      <div class="mc-spec">
+        <div class="spec-row"><span class="label">切口</span><span class="val"><strong>6–8 cm</strong>,左胸前外側</span></div>
+        <div class="spec-row"><span class="label">切骨</span><span class="val"><strong>完全不切胸骨</strong></span></div>
+        <div class="spec-row"><span class="label">適用</span><span class="val">單支冠狀動脈繞道(最常用於左前降支)</span></div>
+      </div>
+      <p>醫師從<strong>左胸前外側</strong>做一個小切口,取下<strong>左側乳內動脈</strong>,繞道接到<strong>左前降支冠狀動脈</strong>(供應心臟最大區域的血管,常被稱為「生命之線」)。<strong>不用體外循環機(不停跳手術)、不切胸骨</strong> <span class="link-ref">連結 3-1</span>。適合單支血管病變的病人。</p>
+    </article>
+
+  </div>
+
+  <!-- Robotic mention -->
+  <div class="robotic-mention">
+    <h4>關於「機器手臂輔助心臟手術」</h4>
+    <p>機器手臂輔助(如<strong>達文西系統</strong>)是<strong>更精細的微創手術</strong>,醫師透過機器手臂從幾個小孔進入胸腔操作,切口可更小(每孔 1–2 cm)。<strong>本院目前主要應用於特定瓣膜手術評估中,屬於自費項目</strong>(金額請術前訪視時詢問)。適合符合微創條件 + 對切口更小有強烈需求 + 能負擔自費部分的病人。</p>
+  </div>
+
+  <!-- Recovery comparison -->
+  <div class="section-title">兩者的恢復時程比較</div>
+
+  <p class="section-intro">
+    病人最關心的是:<span class="em">「微創真的恢復比較快嗎?快多少?」</span>下表整理國際 meta-analysis 與本院臨床經驗(以二尖瓣手術為主要參考)。
+  </p>
+
+  <div class="recovery-compare">
+    <h4>研究數據對照</h4>
+    <div class="sub">依國際多項 meta-analysis 與大型回顧性研究綜合</div>
+
+    <div class="rc-header">
+      <div class="h-metric">指標</div>
+      <div class="h-trad">傳統開胸</div>
+      <div class="h-mics">微創</div>
+    </div>
+
+    <div class="rc-row">
+      <div class="metric">切口長度</div>
+      <div class="trad">20–25 cm</div>
+      <div class="mics">4–10 cm</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">手術時間<span class="sub-metric">微創通常較長</span></div>
+      <div class="trad">標準</div>
+      <div class="mics">+30–60 分</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">術後拔管時間<span class="sub-metric">國際數據(本院皆手術室內拔管)</span></div>
+      <div class="trad">約 38 hr</div>
+      <div class="mics">約 29 hr</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">輸血需求</div>
+      <div class="trad">較多</div>
+      <div class="mics">減少約 50%</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">術後心房顫動</div>
+      <div class="trad">較高</div>
+      <div class="mics">明顯較低</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">住院天數</div>
+      <div class="trad">8–11 天</div>
+      <div class="mics">5–7 天</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">恢復日常活動<span class="sub-metric">6–12 週的活動量</span></div>
+      <div class="trad">較慢</div>
+      <div class="mics">明顯較快</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">胸骨保護期<span class="sub-metric">本院建議</span></div>
+      <div class="trad">6–8 週</div>
+      <div class="mics">不需嚴格限制</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">傷口感染率</div>
+      <div class="trad">基準</div>
+      <div class="mics">明顯較低</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">疤痕<span class="sub-metric">美觀</span></div>
+      <div class="trad">胸口正中央</div>
+      <div class="mics">側面、不顯眼</div>
+    </div>
+
+    <div class="rc-source"><strong>資料來源</strong>:UK Mini Mitral Trial 2023、Salter et al. 2023、Chaves Junior 2024 meta-analysis、Hage 2021 meta-analysis、Maj 2022、Glauber 2011。</div>
+
+    <div class="interp">
+      <strong>如何解讀:</strong>微創不是「絕對更好」,而是<strong>對適合的病人提供明顯較快的恢復</strong>。微創手術時間通常較長,且急性期疼痛強度可能與傳統相近(肋骨間切口會牽動肋間神經) —— <strong>主要的差距出現在「住院後的恢復」</strong>。
+    </div>
+  </div>
+
+  <!-- Hospital actual -->
+  <div class="hospital-actual">
+    <h4>本院的「傳統開胸」其實不傳統 —— ERAS 把它升級了</h4>
+    <p>上表的數字是<strong>國際多中心研究的平均值</strong>,代表「世界各地醫院的傳統做法」。但<strong>本院的整套 ERAS 策略,讓「傳統開胸」本身就已經比文獻上的傳統做法快很多</strong>:</p>
+    <ul>
+      <li><strong>手術室內拔管</strong> —— 本院傳統開胸與微創都採用手術室內拔管 <span style="color:var(--gold);font-size:11px;font-family:'Noto Serif TC',serif">連結 6-2</span>,<strong>實際拔管時間遠低於文獻的 38 或 29 小時</strong></li>
+      <li><strong>拔管後 6 小時內坐起、24 小時內走路繞護理站</strong> <span style="color:var(--gold);font-size:11px;font-family:'Noto Serif TC',serif">連結 7-6a · 7-6b</span> —— 比一般國際 ERAS 目標更積極</li>
+      <li><strong>HFNC 銜接 + 多模式止痛 + 鋼板固定</strong>(高風險適用者) —— 讓傳統開胸也能加速康復</li>
+    </ul>
+    <div class="closing-em">
+      所以「微創 vs 傳統」在本院實務上的差距,<strong>比文獻上的差距更小</strong> —— 因為傳統開胸本身已經被整套 ERAS 策略大幅改善。<strong>選擇傳統開胸,不等於恢復慢</strong>。
+    </div>
+  </div>
+
+  <!-- Candidacy -->
+  <div class="section-title">誰適合 / 誰不適合微創</div>
+
+  <p class="section-intro" style="background:var(--gold-soft); padding:12px 14px; border-radius:3px; border-left:2px solid var(--gold); font-size:13.5px">
+    <strong style="color:var(--gold)">這不是「必須全部符合」</strong> —— 很多病人是混合狀況。<strong>醫師會綜合評估,給出個別建議</strong>。
+  </p>
+
+  <div class="candidacy">
+    <div class="cand-box yes">
+      <h4>適合微創的病人</h4>
+      <ul>
+        <li><strong>單純病變</strong>(單一瓣膜、單支冠狀動脈)</li>
+        <li>選擇性手術(非緊急)</li>
+        <li><strong>體型不過度肥胖</strong>(通常 BMI &lt; 35)</li>
+        <li>心臟功能尚可</li>
+        <li>無嚴重肺部疾病</li>
+        <li>無嚴重周邊血管疾病</li>
+        <li>沒有過去胸腔手術造成的嚴重沾黏</li>
+        <li><strong>重視美觀、希望快速恢復</strong> —— 年輕病人、女性病人、需要露出胸口的職業</li>
+      </ul>
+    </div>
+    <div class="cand-box no">
+      <h4>建議傳統開胸的病人</h4>
+      <ul>
+        <li><strong>複雜病變</strong>(多瓣膜、多條血管同時阻塞)</li>
+        <li>緊急、急救性手術</li>
+        <li>重做心臟手術且預期沾黏嚴重</li>
+        <li><strong>嚴重肥胖</strong>(BMI &gt; 35,影響微創視野)</li>
+        <li>嚴重慢性阻塞性肺病、需單肺通氣困難</li>
+        <li>嚴重周邊血管疾病</li>
+        <li>嚴重低心臟功能、需完整顯露</li>
+        <li>主動脈嚴重鈣化或剝離</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BMI bridge -->
+  <div class="callout eras-banner">
+    <h4>關於 BMI 門檻(與 3-4 篇胸骨固定方式的協調)</h4>
+    <p>微創對手術視野要求高,<strong>BMI &gt; 35 通常難以執行</strong>;<strong>BMI 30–35 之間需要個別評估</strong>。如果您的 BMI &gt; 30、且無法做微創,本院會在術前訪視時討論是否建議搭配<strong>鋼板固定</strong> <span class="link-ref">連結 3-4</span> —— 讓您即使做傳統開胸,<span class="em-teal">胸骨穩定性也能達到接近微創的水準</span>。</p>
+  </div>
+
+  <!-- ERAS connection -->
+  <div class="section-title">為什麼微創是 ERAS 加速康復的關鍵節點</div>
+
+  <div class="callout eras-benefits">
+    <h4>微創如何串連到整套 ERAS 策略</h4>
+    <div class="sub">對適合的病人效果最明顯</div>
+    <ul>
+      <li><strong>傷口痛較少</strong> —— 切口小、組織傷害少,多模式止痛能更有效控制 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>失血量減少</strong> —— 開的傷口小、組織暴露少、輸血需求降低 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>早期拔管更容易</strong> —— 創傷小、麻醉藥用量少 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>咳嗽復健較順利</strong> —— 胸骨完整,咳嗽不擔心胸骨牽動 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>更早能坐起、下床</strong> —— 沒有完整切開的胸骨需要保護 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>胸骨保護期可能不需要</strong> —— 完全不切胸骨者,沒有胸骨癒合的限制 <span class="link-ref">連結 7-4</span></li>
+      <li><strong>住院天數縮短 1–3 天</strong> —— 整體恢復進度提前</li>
+      <li><strong>術後心房顫動率較低</strong> —— 特別在主動脈瓣微創手術上</li>
+      <li><strong>傷口感染率降低</strong> —— 切口小、肥胖者尤其受益</li>
+    </ul>
+  </div>
+
+  <!-- Trade-offs -->
+  <div class="section-title">微創手術的取捨</div>
+
+  <div class="callout tradeoffs">
+    <h4>不是「越小越好」 —— 微創也有需要考慮的事</h4>
+    <ul>
+      <li><strong>手術時間較長</strong>:因為視野受限、操作空間較小,通常比傳統手術多 30–60 分鐘</li>
+      <li><strong>體外循環時間較長</strong>:間接增加術中血液稀釋、輸血需求等</li>
+      <li><strong>急性期疼痛可能相近</strong>:肋骨間切口會牽動肋間神經,初期疼痛可能與傳統相近</li>
+      <li><strong>需要選擇性病例</strong>:不是每個病人都適合,醫師會嚴格評估</li>
+      <li><strong>技術門檻較高</strong>:需要受過微創訓練的團隊,且需要特殊器械</li>
+      <li><strong>視野有限</strong>:手術中如果發現問題,有時需要中途轉開傳統</li>
+      <li><strong>部分自費</strong>:依使用的特殊器械、機器手臂等,可能有部分自費</li>
+    </ul>
+  </div>
+
+  <!-- Conversion note -->
+  <div class="conversion-note">
+    <h4>關於「中途轉開傳統」</h4>
+    <p>微創手術過程中,<strong>大約 1–5% 的病人會中途轉開為傳統開胸</strong>。這通常是因為:發現意外的解剖變異、輕微出血需要更好視野、技術上判斷傳統較安全等。<strong>這不是失敗,是預先準備好的安全機制</strong>。轉開後的結果與一開始就做傳統的結果相當。</p>
+    <p><strong style="color:var(--danger)">重要觀念:轉開比例極低不見得越好</strong>。如果一家醫院的轉開比例 &lt; 1%,<strong>可能反而代表醫師太堅持微創而忽略安全</strong>。本院的標準是「<strong>安全第一</strong>」,該轉就轉。轉開比例落在合理範圍(1–5%),代表醫師有判斷力、有底線。</p>
+  </div>
+
+  <!-- Hospital choice logic -->
+  <div class="callout eras-banner">
+    <h4>本院的選擇邏輯</h4>
+    <p>本院遵循<strong>國際 ERAS 心臟手術指引</strong>與<strong>多學會 MICS 共識</strong>:</p>
+    <p><span class="em-teal">對適合的病人</span> → 主動評估微創可行性,提供完整選擇方案。</p>
+    <p><span class="em-teal">對複雜或高風險病人</span> → 建議傳統開胸,搭配本院其他 ERAS 元素一樣能達到接近微創的快速康復。</p>
+    <p>這個選擇<strong>不是「微創比較進步」</strong>,是依您的個別狀況選擇<strong>能讓您最安全、最快恢復的方式</strong>。</p>
+  </div>
+
+  <!-- Discuss with doctor -->
+  <div class="section-title">術前訪視時您可以問醫師</div>
+
+  <div class="callout discuss">
+    <h4>幫助您做出最合適的選擇</h4>
+    <ul>
+      <li><strong>以我的狀況、病灶位置,微創適合我嗎?</strong>哪一種微創切口?</li>
+      <li><strong>如果適合,預期恢復時程比傳統能快多少?</strong></li>
+      <li><strong>需要自費的部分?</strong>哪些器械、機器手臂、是否健保給付?</li>
+      <li><strong>中途轉開傳統的機率?</strong>本院的轉開率?</li>
+      <li><strong>本院做過多少例微創?</strong>術者的微創經驗如何?</li>
+      <li><strong>如果選擇傳統,本院的 ERAS 策略能讓我恢復多快?</strong></li>
+      <li><strong>美觀上的考量?</strong>疤痕位置、大小</li>
+      <li><strong>術後抱枕保護期、活動限制能縮短多少?</strong></li>
+    </ul>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>手術方式相關的閱讀路徑</h4>
+    <div class="sub">這份單張在整套衛教中的位置</div>
+    <ol>
+      <li>三種冠狀動脈繞道手術比較(CABG 類型)</li>
+      <li>體外循環機 CPB(手術原理)</li>
+      <li>胸骨固定方式(鋼絲 vs 鋼板)</li>
+      <li>胸骨保護(術後 6–8 週,微創者可能可縮短)</li>
+      <li class="current"><strong>微創 vs 傳統開胸(您正在讀)</strong></li>
+      <li>術後咳嗽與咳痰(連結到切口疼痛)</li>
+      <li>從躺到坐 · 從站到走(恢復鏈)</li>
+    </ol>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>切口大小 —— 不論是<span class="em">傳統 20–25 cm 正中切開</span>還是<span class="em">微創 4–10 cm 小切口</span> —— 都是經過國際驗證的有效心臟手術方式。<span class="em">選擇哪一種,由您的病灶、體型、共病、手術複雜度決定</span>。</p>
+    <p>本院的目標不是<span class="em">「追求最小切口」</span>,而是<span class="em">「為您選擇最安全、恢復最快的方式」</span>。對手術方式有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Akowuah EF, Maier RH, Hancock HC, et al. Minithoracotomy vs Conventional Sternotomy for Mitral Valve Repair: A Randomized Clinical Trial (UK Mini Mitral Trial). <em>JAMA.</em> 2023;329(22):1957–1966.</li>
+      <li>Chaves Junior AJ, Avelino PS, Lopes JB. Comparison of the Effects of Full Median Sternotomy vs. Mini-Incision on Postoperative Pain in Cardiac Surgery: A Meta-Analysis. <em>Braz J Cardiovasc Surg.</em> 2024;39(4):e20230154.</li>
+      <li>Hage A, Hage F, Al-Amodi H, et al. Minimally Invasive Versus Sternotomy for Mitral Surgery in the Elderly: A Systematic Review and Meta-Analysis. <em>Innovations (Phila).</em> 2021;16(4):310–316.</li>
+      <li>Maj G, Regesta T, Campanella A, et al. Optimal Management of Patients Treated With Minimally Invasive Cardiac Surgery in the Era of Enhanced Recovery After Surgery and Fast-Track Protocols. <em>J Cardiothorac Vasc Anesth.</em> 2022;36(3):766–775.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的手術方式選擇以心臟外科醫師依您的臨床狀況評估為準。對自費項目、術前準備、微創適用性有任何疑問,請於門診或術前訪視時與醫療團隊討論。</div>
+  </footer>
+
+</div>
+</body>
+</html>
