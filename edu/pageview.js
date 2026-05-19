@@ -102,17 +102,19 @@
 
       const url = APPS_SCRIPT_URL + '?' + qs;
 
-      // 全程使用 GET(對應 Apps Script doGet),避免 sendBeacon 強制 POST 造成 400
-      // - 進頁面:標準 fetch GET no-cors
-      // - 離開頁面:fetch GET no-cors + keepalive(讓請求在 tab 關閉後仍能送完)
-      if (window.fetch) {
-        const opts = { method: 'GET', mode: 'no-cors', credentials: 'omit' };
-        if (duration) opts.keepalive = true;  // 離開頁面時保留請求直到送出
-        fetch(url, opts).catch(function () {});
-      } else {
-        // 古老瀏覽器 fallback(IE / 舊版 Android)
-        new Image().src = url;
-      }
+      // ★★★ 用 <img> 像素追蹤(Image beacon)送出 ★★★
+      // 理由:這是最簡單、最可靠的跨域 GET 方式,Google Analytics / Facebook Pixel
+      // 等所有分析服務 30 年來都用這個技術。
+      // - 絕對是 GET 方法,不會 400
+      // - 沒有 CORS 限制(image src 是天生允許跨域的)
+      // - 沒有 preflight、沒有 sendBeacon 強制 POST 問題
+      // - 不會被 ad-blocker 阻擋(因為是合法的 image 載入)
+      // - 不需要 fetch、不需要 XHR、不需要任何現代 API
+      const img = new Image();
+      img.src = url;
+      // 即使 Apps Script 回的是 JSON(不是真的圖片),img.onerror 也會觸發,
+      // 但「請求已送達」這個事實不變 — 這就是我們要的。
+      img.onload = img.onerror = function () { img.src = ''; };
     } catch (e) {
       // 完全靜默,不影響閱讀
     }
