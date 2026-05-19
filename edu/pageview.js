@@ -22,9 +22,10 @@
  *  - 失敗完全靜默,不影響閱讀
  *
  *  傳輸機制:
- *  - 用 navigator.sendBeacon (POST) 送到 Apps Script doPost
- *  - doPost 內 action === 'pageview' → 呼叫 handlePageView
- *  - sendBeacon 是專為「離開頁面送資料」設計的瀏覽器原生 API
+ *  - 用 JSONP(<script src> 標籤注入)送 GET 到 Apps Script doGet
+ *  - doGet 內 action === 'pageview' → 呼叫 handlePageView
+ *  - JSONP 是 Apps Script 唯一可靠的跨域機制(POST 會被拒、Image GET 會被擋)
+ *  - dashboard.html 已驗證 JSONP 跨同 endpoint 可運作
  *
  *  部署:
  *  1. 把此檔放在 /edu/pageview.js
@@ -92,6 +93,9 @@
   // ============================================================
   function sendPageView(duration) {
     try {
+      // 產生唯一的 callback 名稱(避免多次呼叫衝突)
+      const cb = '_pv_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+
       // 用 URLSearchParams 統一參數編碼(瀏覽器原生 API,絕對正確)
       const params = new URLSearchParams();
       params.append('action', 'pageview');
@@ -101,26 +105,36 @@
       params.append('line', lineUserId);
       params.append('dur', duration || '');
       params.append('sid', sid);
+      params.append('callback', cb);  // ← 關鍵:加 callback 參數,Apps Script 會回 JSONP
 
-      // ★★★ 用 sendBeacon POST 送(對應 Apps Script doPost)★★★
+      const url = APPS_SCRIPT_URL + '?' + params.toString();
+
+      // ★★★ 用 JSONP(script 標籤注入)送出 ★★★
       // 理由:
-      // - sendBeacon 是專為「離開頁面時送資料」設計的瀏覽器原生 API
-      // - 即使頁面關閉、tab 切換、瀏覽器關閉,資料都會送出
-      // - 沒有 CORS 問題(因為是 fire-and-forget,瀏覽器不檢查 response)
-      // - 比 Image 像素追蹤更可靠(尤其在離開頁面時)
-      // - Apps Script doPost 已加 action === 'pageview' 處理
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(APPS_SCRIPT_URL, params);
-      } else if (window.fetch) {
-        // Fallback:fetch POST(舊瀏覽器)
-        fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          body: params,
-          mode: 'no-cors',
-          credentials: 'omit',
-          keepalive: true
-        }).catch(function () {});
-      }
+      // - Google Apps Script Web App 完全不支援跨域 POST(已知限制)
+      // - sendBeacon (POST) 會被拒絕 → 400 Bad Request
+      // - Image 標籤(GET)會被 Apps Script anti-abuse 機制阻擋
+      // - JSONP(GET + script 標籤)是 Apps Script 唯一可靠的跨域機制
+      // - dashboard.html 已用 JSONP 成功訪問同一 endpoint,證明可運作
+      const script = document.createElement('script');
+      script.id = cb;
+      script.src = url;
+      script.async = true;
+
+      // 定義 callback:收到回應後清理 DOM
+      window[cb] = function () {
+        delete window[cb];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      };
+
+      // 即使失敗也清理(避免 DOM 污染)
+      script.onerror = function () {
+        delete window[cb];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      };
+
+      // 注入 DOM,瀏覽器自動發 GET 請求
+      (document.head || document.documentElement).appendChild(script);
     } catch (e) {
       // 完全靜默,不影響閱讀
     }
