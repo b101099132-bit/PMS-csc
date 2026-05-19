@@ -97,14 +97,15 @@
       const cb = '_pv_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
 
       // 用 URLSearchParams 統一參數編碼(瀏覽器原生 API,絕對正確)
+      // ⚠️ 不傳 file 參數(.html 副檔名會觸發 Google 邊緣層的特殊處理 → 400)
+      // ⚠️ 跳過所有空值參數(line/dur 空字串會觸發 parsing 錯誤)
       const params = new URLSearchParams();
       params.append('action', 'pageview');
       params.append('code', code);
-      params.append('file', filename);
-      params.append('pk', pk);
-      params.append('line', lineUserId);
-      params.append('dur', duration || '');
-      params.append('sid', sid);
+      if (pk) params.append('pk', pk);
+      if (lineUserId) params.append('line', lineUserId);
+      if (duration) params.append('dur', duration);
+      if (sid) params.append('sid', sid);
       params.append('callback', cb);  // ← 關鍵:加 callback 參數,Apps Script 會回 JSONP
 
       const url = APPS_SCRIPT_URL + '?' + params.toString();
