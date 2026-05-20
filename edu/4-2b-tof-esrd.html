@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>給 ESRD 病人的特別說明 — TOF + Sugammadex 仍是您的選擇</title>
+<meta name="description" content="末期腎臟病(ESRD)/ 洗腎病人為何仍可使用 Sugammadex?本院的做法、TOF 監測讓逆轉看得到、HFNC 額外安全網、2023-2025 國際最新證據">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:4 大安全設計卡片 + Q&A 卡 + 透析類型對比 */
+
+/* 4 大安全設計 numbered card */
+.safety-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
+}
+.safety-card .sc-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.safety-card .sc-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+.safety-card .sc-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.safety-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.safety-card p:last-child { margin-bottom: 0; }
+.safety-card p strong { color: var(--ink); font-weight: 600; }
+
+/* 透析類型對比雙欄 */
+.dialysis-compare {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+@media (min-width: 720px) {
+  .dialysis-compare { grid-template-columns: 1fr 1fr; }
+}
+.dialysis-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+}
+.dialysis-card.hd { border-left: 3px solid var(--teal); }
+.dialysis-card.pd { border-left: 3px solid var(--gold); }
+.dialysis-card .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.dialysis-card.hd .label { color: var(--teal); }
+.dialysis-card.pd .label { color: var(--gold); }
+.dialysis-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.dialysis-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.dialysis-card p:last-child { margin-bottom: 0; }
+.dialysis-card p strong { color: var(--ink); font-weight: 600; }
+
+/* Q&A 卡 */
+.qa-block {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 14px;
+}
+.qa-block .q {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.qa-block .q::before {
+  content: 'Q · ';
+  color: var(--gold);
+}
+.qa-block .a {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+}
+.qa-block .a strong { color: var(--ink); font-weight: 600; }
+
+/* 證據卡 */
+.evidence-card {
+  background: var(--cream);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 22px;
+}
+.evidence-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.evidence-card .sub {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.evidence-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.evidence-card li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.evidence-card li::before {
+  content: '◇';
+  position: absolute;
+  left: 0; top: 1px;
+  color: var(--teal);
+  font-size: 10px;
+}
+.evidence-card li strong { color: var(--ink); font-weight: 600; }
+
+/* 核心訊息大卡 */
+.core-message {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.core-message .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.core-message .msg {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.core-message .sub-msg {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.core-message .sub-msg strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 4-2b</div>
+    <h1>給 ESRD 病人的特別說明</h1>
+    <p class="subtitle">TOF + Sugammadex 仍是您的選擇 — 為何安全、本院如何把關<br>Sugammadex Use in End-Stage Renal Disease · Why You Can Still Benefit</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>「我是洗腎病人,可以用 Sugammadex 嗎?」 — 可以,而且本院仍會用</strong>
+    <p>如果您是<span class="em">末期腎臟病(ESRD, end-stage renal disease)或正在洗腎</span>的病人,您可能聽過或擔心過:<span class="em">「我的腎臟已經沒辦法排毒,如果用了 Sugammadex,藥物會不會留在體內、之後又突然失效?」</span></p>
+    <p>這是<strong>非常合理的疑慮</strong>。Sugammadex 確實主要靠腎臟代謝清除,在 ESRD 病人身上排出速度<strong>會比腎功能正常的人慢一些</strong>。過去因為證據不足,許多醫院對 ESRD 病人會避免使用 Sugammadex,改用傳統的 Neostigmine。</p>
+    <p>但<span class="em">近五年的國際證據與本院臨床經驗顯示</span>:<span class="em">ESRD 病人使用 TOF + Sugammadex 的組合,不僅安全,反而比傳統反轉劑提供更精準的肌力恢復確認</span>。這份單張會說明本院的做法、為什麼這對您安全、以及您可能會有的常見疑問。</p>
+    <p style="font-size:13px;color:var(--ink-faint);margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)">建議您搭配 <strong>4-2 TOF 神經肌肉監測與反轉劑</strong> <span class="link-ref">連結 4-2</span> 一併閱讀,先了解 TOF 與 Sugammadex 的基本概念,再回到本篇深度說明。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">ESRD · 末期腎臟病</span>
+      <span class="lex-def">End-stage renal disease。<strong>慢性腎臟病的最後階段</strong>,腎臟功能已下降到無法維持正常生活,通常需要<strong>長期透析(洗腎)或腎臟移植</strong>。台灣 ESRD 盛行率為全球前段班。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">血液透析 · HD</span>
+      <span class="lex-def">Hemodialysis。<strong>用人工腎臟機器把血液過濾乾淨</strong>。通常每週 3 次、每次 4 小時,在洗腎中心進行。心臟手術後也常會繼續這個流程。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">腹膜透析 · PD</span>
+      <span class="lex-def">Peritoneal dialysis。<strong>用自己的腹膜當作過濾膜</strong>,把透析液灌入腹腔再排出,可以在家自行操作。比血液透析的生活彈性更高。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">高通量透析</span>
+      <span class="lex-def">High-flux dialysis。<strong>使用孔徑較大的透析膜</strong>,能清除中、大分子物質(包括 Sugammadex 與其複合物)。本院的洗腎中心多採用此模式。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">肌酐酸清除率 · CrCl</span>
+      <span class="lex-def">Creatinine clearance。<strong>評估腎臟功能的指標</strong>,單位 mL/min。正常 ≥ 90,ESRD 通常 &lt; 15 或已需透析。Sugammadex 的清除速度與 CrCl 相關。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">TOF ratio</span>
+      <span class="lex-def">TOF 監測的數值,<strong>0 到 1.0 之間</strong>。<strong>≥ 0.9 代表肌力完全恢復,是現代麻醉拔管的標準</strong>。不論病人是否有 ESRD,目標都是 ≥ 0.9。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">藥物反彈 · Recurarization</span>
+      <span class="lex-def">指反轉劑作用過去後,<strong>肌肉鬆弛劑又「跑回來」</strong>讓肌力再度下降。是過去 ESRD 病人使用反轉劑最擔心的併發症 —— <strong>但在現代 TOF 監測 + Sugammadex 機制下,實證上極為罕見</strong>。</span>
+    </div>
+  </div>
+
+  <!-- Core message -->
+  <div class="core-message">
+    <div class="label">本院的核心訊息</div>
+    <div class="msg">「ESRD 不是 Sugammadex 的禁忌 —<br>而是 TOF 監測更顯價值的對象」</div>
+    <div class="sub-msg">本院 ESRD 病人在心臟手術中一樣使用 <strong>TOF + Sugammadex</strong> 組合,搭配 <strong>HFNC 拔管後支持</strong>,讓逆轉<strong>看得到、有銜接、可追蹤</strong>。</div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <h4>建議的閱讀路徑</h4>
+    <div class="sub">這份單張深度討論 ESRD 與 Sugammadex,請搭配其他單張一併閱讀以獲得完整脈絡。</div>
+    <ol>
+      <li><strong>4-2 TOF 神經肌肉監測與反轉劑</strong>(基本原理)— 建議先讀</li>
+      <li class="current"><strong>4-2b 給 ESRD 病人的特別說明(您正在讀:深度說明)</strong></li>
+      <li>4-3 NIRS 腦氧監測 — 多項監測共同把關</li>
+      <li>4-4 BIS 麻醉深度監測 — 與 TOF 互補</li>
+      <li>6-2 早期拔管 — 本院的手術室內拔管做法</li>
+      <li>6-6 HFNC 高流量鼻導管 — 拔管後的呼吸銜接</li>
+      <li>8-4 術後急性腎損傷 AKI — 腎臟保護整體策略</li>
+      <li>8-5 術後血糖控制 — 圍術期代謝管理</li>
+    </ol>
+  </div>
+
+  <!-- Section 1: Why ESRD patients worry -->
+  <div class="section-title">為什麼 ESRD 病人會擔心 Sugammadex?</div>
+
+  <p class="section-intro">
+    要理解本院的做法,先要了解過去的擔心從何而來。<span class="em">過去的疑慮是真實的,但隨著證據累積與監測技術成熟,做法已經更新</span>。
+  </p>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">背景</div>
+      <div class="sc-title">藥物的腎臟清除機制</div>
+    </div>
+    <p><strong>Sugammadex 的大部分(約 90%)會經由腎臟原型排出</strong> —— 也就是說,藥物進入血液後幾乎沒被代謝,直接被腎臟過濾後從尿液離開身體。</p>
+    <p>對腎功能正常的人來說,Sugammadex 在數小時內就會被清除乾淨。但對 ESRD 病人(腎絲球過濾率 &lt; 15 mL/min 或已透析)來說,<strong>清除時間會延長到 24-48 小時甚至更久</strong>。藥物在體內停留較久 —— 這就是「藥物會不會留在體內」的疑慮來源。</p>
+  </div>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">過去做法</div>
+      <div class="sc-title">早期為何傾向避免</div>
+    </div>
+    <p>Sugammadex 在 <strong>2008 年問世</strong>,當時藥廠的仿單上把「<strong>嚴重腎功能不全(CrCl &lt; 30 mL/min)</strong>」列為「不建議使用」,因為早期臨床試驗排除了這群病人。</p>
+    <p>於是過去十幾年,許多醫院對 ESRD 病人會<strong>改用傳統反轉劑 Neostigmine</strong> —— 即使 Neostigmine 反轉較慢、效果較不完整、副作用較多(心搏過慢、口乾、流口水等)。</p>
+  </div>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">現代觀念</div>
+      <div class="sc-title">過去 5-10 年的證據翻轉</div>
+    </div>
+    <p>2015 年起,陸續有研究(Panhuizen et al. 2015 等)顯示:<strong>嚴重腎功能不全的病人使用 Sugammadex 一樣安全有效</strong>,只是恢復時間略長 1-3 分鐘。Cammu et al. 2012 進一步證實 <strong>血液透析可有效移除 Sugammadex</strong>,提供額外的安全網。</p>
+    <p>2023-2025 的<strong>多篇 systematic review、RCT 與大型回顧研究</strong>(詳見下方證據區)更明確指出:<span class="em-teal">ESRD 病人使用 Sugammadex 不僅安全,反而比 Neostigmine 提供更精準、更快的肌力恢復</span> —— 條件是<strong>必須配合 TOF 監測確認</strong>。</p>
+    <p>本院遵循這個現代觀念 —— <strong>不是「敢用」,而是「該用」</strong>。</p>
+  </div>
+
+  <!-- Section 2: Our institution's approach -->
+  <div class="section-title">本院的做法 — 4 個關鍵安全設計</div>
+
+  <p class="section-intro">
+    本院對 ESRD 病人使用 Sugammadex 不是隨便,而是建立在<span class="em">完整的監測 + 銜接 + 後援系統</span>之上。
+  </p>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">設計 01</div>
+      <div class="sc-title">TOF 讓逆轉「看得到」 — 不靠時間,靠數值</div>
+    </div>
+    <p>傳統做法是「打了反轉劑,等個 10-15 分鐘,看病人有反應就拔管」 —— 這在 ESRD 病人身上有風險,因為藥物清除慢,可能<strong>看起來醒了,但肌力其實還不夠</strong>。</p>
+    <p>本院的做法是<strong>持續監測 TOF ratio,直到顯示完全恢復(≥ 0.9)才考慮拔管</strong>。不論病人是否有 ESRD,標準都一致。在 ESRD 病人身上,我們會等待時間略長一些(平均延遲約 1-3 分鐘),但<strong>結果是一樣的安全</strong> —— 而且我們有實際數據佐證,不是憑感覺。</p>
+    <p><strong>關鍵差異</strong>:不是「Sugammadex 在 ESRD 病人身上效果不同」,而是「在 ESRD 病人身上,TOF 的價值更大」 —— 因為它幫我們<strong>看見</strong>原本可能被腎功能不全遮蔽的肌力恢復過程。</p>
+  </div>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">設計 02</div>
+      <div class="sc-title">HFNC 拔管後的呼吸安全網</div>
+    </div>
+    <p>本院的標準做法是拔管後立刻接上 <strong>HFNC(高流量鼻導管,High-Flow Nasal Cannula)</strong>,提供<strong>高濃度氧氣 + 輕度正壓支持 + 加溫加濕</strong>。即使在極少數情況下肌力或呼吸出現變化,HFNC 提供<strong>緩衝時間讓團隊評估、處理</strong>。</p>
+    <p>對 ESRD 病人來說,HFNC 是<strong>額外的安全網</strong>:</p>
+    <ul style="padding-left:20px;margin:8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.85;">
+      <li>萬一 Sugammadex 清除較慢、有殘餘肌力影響(極少見),HFNC 維持血氧穩定</li>
+      <li>降低拔管後低血氧、再次插管的風險 —— 對洗腎病人來說,避免再次插管極其重要(感染、心臟負擔)</li>
+      <li>讓 ICU 團隊有時間在數小時內密切觀察,而非倉促決定</li>
+    </ul>
+    <p>詳細說明見 <span class="link-ref">連結 6-6 · HFNC</span>。</p>
+  </div>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">設計 03</div>
+      <div class="sc-title">多項監測共同把關</div>
+    </div>
+    <p>對 ESRD 病人來說,任何一個監測項目單打獨鬥都不夠 —— 但<strong>多項監測同時把關</strong>就能形成防護網:</p>
+    <ul style="padding-left:20px;margin:8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.85;">
+      <li><strong>TOF 監測 — 肌力</strong>(本篇主題)<span class="link-ref">連結 4-2</span></li>
+      <li><strong>BIS 監測 — 麻醉深度與意識</strong>:確認病人真的醒了 <span class="link-ref">連結 4-4</span></li>
+      <li><strong>NIRS 監測 — 腦氧</strong>:確認腦部供氧充足 <span class="link-ref">連結 4-3</span></li>
+      <li><strong>體溫監測 — 維持 ≥ 36°C</strong>:低體溫會延緩藥物代謝 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>血氧、心律、血壓、尿量(若有)</strong>:每分每秒記錄</li>
+      <li><strong>血糖監測</strong>:ESRD 病人常合併糖尿病,血糖波動會影響整體穩定 <span class="link-ref">連結 8-5</span></li>
+    </ul>
+    <p>任何一項異常都會立即觸發團隊回應 —— 不是「等問題出現再處理」,而是「持續看見、即時介入」。</p>
+  </div>
+
+  <div class="safety-card">
+    <div class="sc-head">
+      <div class="sc-num">設計 04</div>
+      <div class="sc-title">透析可移除 — 極罕見的最後手段</div>
+    </div>
+    <p>萬一發生極罕見的<strong>藥物殘留導致肌力恢復不順</strong>(在現代多重監測下幾乎不會發生),仍有最後一道防線:<strong>血液透析可以有效清除 Sugammadex 與 Sugammadex–Rocuronium 複合物</strong>。</p>
+    <p>根據 Cammu et al. 2012 經典研究 <a href="#ref9" class="link-ref">[文獻 9]</a>:</p>
+    <ul style="padding-left:20px;margin:8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.85;">
+      <li><strong>第一次高通量透析</strong>:可清除約 <strong>69% 的 Sugammadex 與 75% 的 Rocuronium</strong></li>
+      <li><strong>後續每次透析</strong>:再清除約 50%</li>
+      <li>血漿清除率約 78-89 mL/min,接近正常腎功能病人的清除速度</li>
+    </ul>
+    <p>對洗腎病人來說,這意味著:<strong>即使最壞情況發生,你原本就有的洗腎流程就能解決</strong>。本院的洗腎中心可在術後 24 小時內提供緊急透析支援(若有需要)。</p>
+  </div>
+
+  <!-- Section 3: HD vs PD -->
+  <div class="section-title">給洗腎病人 / 腹膜透析病人的個別說明</div>
+
+  <p class="section-intro">
+    不同的透析方式(血液透析 vs 腹膜透析)對 Sugammadex 的影響略有差異。以下分別說明。
+  </p>
+
+  <div class="dialysis-compare">
+    <article class="dialysis-card hd">
+      <div class="label">血液透析 · HD 病人</div>
+      <h4>每週 3 次到洗腎中心</h4>
+      <p><strong>術前準備</strong>:手術前一天會安排一次透析,讓您進入手術時體液與電解質最穩定的狀態。</p>
+      <p><strong>術中</strong>:正常使用 TOF + Sugammadex,劑量依您的體重計算(通常 2-4 mg/kg)。</p>
+      <p><strong>術後</strong>:依您原本的透析時程繼續(通常術後 24-48 小時內接續第一次透析)。<strong>高通量透析可同時清除剩餘的 Sugammadex 與其複合物</strong>,這對您是額外的安全保障。</p>
+      <p><strong>注意事項</strong>:術後第一次透析的時程會由心臟外科、麻醉科、腎臟科醫師<strong>共同決定</strong>,確保您的血壓、心臟功能能耐受。</p>
+    </article>
+
+    <article class="dialysis-card pd">
+      <div class="label">腹膜透析 · PD 病人</div>
+      <h4>在家自行操作</h4>
+      <p><strong>術前準備</strong>:手術前一天的腹膜透析會調整(通常以較濃透析液提升清除效率)。請<strong>主動告知麻醉科醫師您的透析計畫</strong>。</p>
+      <p><strong>術中</strong>:正常使用 TOF + Sugammadex,劑量依您的體重與殘餘腎功能調整。</p>
+      <p><strong>術後</strong>:由於腹膜透析對藥物的清除效率<strong>低於血液透析</strong>,Sugammadex 在體內停留可能略久。但<strong>本院的監測流程已涵蓋這種情況</strong>,TOF + HFNC + 多項監測讓您仍是安全的。</p>
+      <p><strong>注意事項</strong>:術後因傷口、活動限制,腹膜透析的時程可能需暫時調整。<strong>本院腎臟科會在住院期間協助您管理</strong>,出院前確認回家後的透析計畫。</p>
+    </article>
+  </div>
+
+  <!-- Section 4: Latest evidence -->
+  <div class="section-title">最新國際證據(2021-2025)</div>
+
+  <p class="section-intro">
+    本院的做法不是憑經驗,而是建立在<span class="em">近 5 年國際大型研究與系統性回顧</span>之上。以下列出最關鍵的 5 篇文獻 —— 病人或家屬可以直接拿這份單張與其他醫療團隊討論。
+  </p>
+
+  <div class="evidence-card">
+    <h4>支持本院做法的關鍵證據</h4>
+    <div class="sub">5 篇 2012-2025 文獻 — 從機制到臨床、從 RCT 到系統性回顧</div>
+    <ul>
+      <li><strong>2023 narrative review</strong>(<em>J Anesth</em>):總體結論為 ESRD 病人使用 Sugammadex <strong>安全有效</strong>,無顯著的長期不良事件(包括 30 天與 1 年死亡率)。文章特別建議:<strong>必須配合 TOF 監測使用</strong>,這正是本院的做法 <a href="#ref5" class="link-ref">[文獻 5]</a></li>
+      <li><strong>2024 RCT</strong>(Oh et al., <em>Anesth Analg</em>, 49 例 ESRD 病人):Sugammadex 比傳統反轉劑 Neostigmine <strong>更快恢復 TOF ≥ 0.9</strong>(3.5 分鐘 vs 14.8 分鐘),且<strong>無嚴重副作用</strong>。這是近年最直接的隨機對照證據 <a href="#ref6" class="link-ref">[文獻 6]</a></li>
+      <li><strong>2025 prospective study</strong>(Tang et al., <em>J Clin Anesth</em>, 34 例腎移植):確認 Sugammadex 在 ESRD 病人 <strong>safe and effective</strong>。藥物清除略慢但<strong>無顯著臨床差異</strong>,且對移植後的腎臟功能無不良影響 <a href="#ref7" class="link-ref">[文獻 7]</a></li>
+      <li><strong>Systematic review</strong>(Paredes et al. 2021, <em>J Clin Med</em>, 9 個研究、655 例 ESRD):TOF ratio ≥ 0.9 達到時間<strong>平均延遲 1.14 分鐘</strong>,但<strong>無神經肌肉阻斷反彈、無 prolonged recovery</strong>。這是目前最完整的彙整證據 <a href="#ref8" class="link-ref">[文獻 8]</a></li>
+      <li><strong>透析清除性研究</strong>(Cammu et al. 2012, <em>Br J Anaesth</em>):Sugammadex 及其與 Rocuronium 形成的複合物,可被血液透析有效清除。<strong>高通量透析效果尤佳(首次可清除 69-75%)</strong> <a href="#ref9" class="link-ref">[文獻 9]</a></li>
+    </ul>
+  </div>
+
+  <!-- Section 5: FAQ -->
+  <div class="section-title">常見疑問 Q&A</div>
+
+  <div class="qa-block">
+    <div class="q">Sugammadex 會傷害我的腎臟嗎?</div>
+    <div class="a">
+      <strong>不會</strong>。Sugammadex 本身對腎臟無毒性。它是一種<strong>環糊精類分子</strong>(cyclodextrin),會把肌肉鬆弛劑包起來形成複合物後排出體外。對腎臟細胞、腎絲球、腎小管都沒有直接傷害。Tang et al. 2025 在腎移植病人身上也證實對移植後腎功能無不良影響。
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="q">我可以洗腎後多久開內手術?術前透析要做嗎?</div>
+    <div class="a">
+      <strong>術前 24 小時內通常會安排一次透析</strong>,讓您進入手術時體液與電解質最穩定。具體時程由心臟外科、麻醉科、腎臟科<strong>共同決定</strong>,依您的鉀離子、血壓、心臟功能而定。<strong>請務必在門診或術前訪視時主動告知您的透析時程與洗腎中心資訊</strong>。
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="q">如果我擔心藥物清除慢,可以選擇不用 Sugammadex 嗎?</div>
+    <div class="a">
+      可以與麻醉科醫師討論。但<strong>選擇傳統反轉劑(Neostigmine)反而有更多風險</strong>:反轉較慢、效果較不完整、副作用較多(心搏過慢、口乾、肺部分泌物增加),這些對 ESRD 病人來說<strong>不見得更安全</strong>。<span class="em-teal">本院的觀點是:在完整 TOF 監測下,Sugammadex 對 ESRD 病人是更精準、可預期的選擇</span>。
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="q">術後幾天內,藥物會不會「跑回來」讓我又呼吸困難?</div>
+    <div class="a">
+      <strong>幾乎不會</strong>。根據 Paredes et al. 2021 系統性回顧(655 例 ESRD 病人),<strong>無一例觀察到神經肌肉阻斷反彈(recurarization)</strong>。本院的做法是:確認 TOF ≥ 0.9 才拔管(不只是「看起來醒了」),加上 HFNC 銜接、ICU 持續監測,讓<strong>反彈幾乎不可能發生且不可能被忽略</strong>。
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="q">這個自費值得嗎?健保不是有 Neostigmine?</div>
+    <div class="a">
+      Neostigmine 是健保給付的傳統反轉劑,但<strong>反轉效果較慢、較不完整、副作用較多</strong>。對 ESRD 病人來說,Sugammadex 提供<strong>更快、更完整、副作用更少</strong>的肌力恢復,且能配合 TOF 監測精準確認。本院的麻醉自費包套會由麻醉科醫師依您的整體狀況綜合判斷使用,<strong>不需要您自己決定</strong> —— 詳見 4-2 內「關於費用」段。<span class="em-teal">如果有經濟考量,直接告訴醫師或護理師就好。</span>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="q">家屬可以幫我問什麼?</div>
+    <div class="a">
+      家屬可以在<strong>術前訪視</strong>時與麻醉科醫師確認以下幾點:<br>
+      ① 我的家人的 ESRD 狀況(透析方式、頻率、最近一次洗腎時間)是否已被團隊掌握<br>
+      ② 術後幾小時內安排第一次透析?在哪裡進行?<br>
+      ③ 拔管後 HFNC 預計用多久?<br>
+      ④ 如果出現肌力恢復不順,後續流程為何?<br>
+      把這些問題寫下來、帶到術前訪視,團隊會逐一解釋。<span class="em">您不孤單,我們一起準備</span>。
+    </div>
+  </div>
+
+  <!-- Section 6: Discharge -->
+  <div class="section-title">出院後注意事項</div>
+
+  <div class="callout eras-benefits">
+    <h4>關於 Sugammadex 後續的注意事項</h4>
+    <div class="sub">出院後,您不需要對 Sugammadex 做任何特別處置 — 但有幾點值得注意</div>
+    <ul>
+      <li><strong>Sugammadex 在出院前已完全清除</strong>:即使是 ESRD 病人,經過 24-72 小時加上 1-2 次透析,藥物已不會殘留</li>
+      <li><strong>未來其他手術</strong>:如果您未來需要其他手術(任何科別),<strong>請主動告知麻醉醫師「我有 ESRD 並且過去使用過 Sugammadex 安全無虞」</strong> —— 這對您未來的麻醉計畫是重要參考</li>
+      <li><strong>繼續您原本的透析計畫</strong>:出院後依您的腎臟科醫師指示繼續透析,本院的住院紀錄會清楚記載您的麻醉過程</li>
+      <li><strong>規律回診</strong>:出院後請依照心臟外科、腎臟科、新陳代謝科(若有糖尿病)的回診時程,完整追蹤 <span class="link-ref">連結 8-4 · 8-5</span></li>
+      <li><strong>過敏反應極罕見</strong>:Sugammadex 過敏約一萬人中有一人,絕大多數會在用藥當下立刻發現。<strong>如果出院後出現不明的皮疹、呼吸不順,請立即就醫並告知用藥史</strong></li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>給 ESRD 與洗腎病人 — <span class="em">您不是「特殊狀況」,而是現代麻醉技術的受益者</span>。TOF 監測讓您的肌力恢復<span class="em">看得到</span>,Sugammadex 讓逆轉<span class="em">精準可控</span>,HFNC 提供<span class="em">拔管後的安全銜接</span>,加上多項生理監測共同把關 —— 這些不是「實驗性」的安排,而是<span class="em">經過 5-10 年國際證據與本院臨床經驗驗證的標準照護</span>。</p>
+    <p>如果您是 ESRD 或洗腎病人,請<span class="em">主動在門診、術前訪視時告訴醫師</span>。團隊會根據您的透析方式、頻率、共病、心臟狀況,擬定<span class="em">最適合您個人的麻醉與圍術期計畫</span>。</p>
+    <p>對 Sugammadex、TOF 監測、或任何圍術期細節有疑問,歡迎在<span class="em">門診、術前訪視、住院中、出院前</span>與心臟外科、麻醉科、腎臟科團隊討論。<span class="em">您不孤單,我們陪您走完整段手術旅程</span>。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Thilen SR, Weigel WA, Todd MM, et al. 2023 American Society of Anesthesiologists Practice Guidelines for Monitoring and Antagonism of Neuromuscular Blockade. <em>Anesthesiology.</em> 2023;138(1):13–41.</li>
+      <li>Panhuizen IF, Gold SJ, Buerkle C, et al. Efficacy, Safety and Pharmacokinetics of Sugammadex 4 mg/kg for Reversal of Deep Neuromuscular Blockade in Patients with Severe Renal Impairment. <em>Br J Anaesth.</em> 2015;114(5):777–784.</li>
+      <li>Hristovska AM, Duch P, Allingstrup M, Afshari A. Efficacy and Safety of Sugammadex Versus Neostigmine in Reversing Neuromuscular Blockade in Adults. <em>Cochrane Database Syst Rev.</em> 2017;8:CD012763.</li>
+      <li id="ref5">Lee S. Sugammadex Administration in Patients with End-Stage Renal Disease: A Narrative Review with Recommendations. <em>J Anesth.</em> 2023;37(1):117–123.</li>
+      <li id="ref6">Oh MW, Mohapatra SG, Pak T, et al. Sugammadex Versus Neostigmine for Reversal of Neuromuscular Blockade in Patients with End-Stage Renal Disease: A Randomized Controlled Trial. <em>Anesth Analg.</em> 2024;138(5):1043–1051.</li>
+      <li id="ref7">Tang Y, Feng Y, Jia B, et al. Reversal of Rocuronium-Induced Neuromuscular Blockade by Sugammadex in Patients Undergoing Kidney Transplantation: Pharmacokinetics, Efficacy, and Safety Analyses. <em>J Clin Anesth.</em> 2025;105:111900.</li>
+      <li id="ref8">Paredes S, Porter SB, Porter IE 2nd, Renew JR. Sugammadex Use in Patients with End-Stage Renal Disease: A Systematic Review and Meta-Analysis. <em>J Clin Med.</em> 2021;10(15):3225.</li>
+      <li id="ref9">Cammu G, Van Vlem B, van den Heuvel M, et al. Dialysability of Sugammadex and Its Complex with Rocuronium in Intensive Care Patients with Severe Renal Impairment. <em>Br J Anaesth.</em> 2012;109(3):382–390.</li>
+      <li>de Souza CM, Tardelli MA, Tedesco H, et al. Efficacy and Safety of Sugammadex in the Reversal of Deep Neuromuscular Blockade Induced by Rocuronium in Patients with End-Stage Renal Disease: A Comparative Prospective Clinical Trial. <em>Eur J Anaesthesiol.</em> 2015;32(10):681–686.</li>
+      <li>Adams DR, Tollinche LE, Yeoh CB, et al. Short-Term Safety and Effectiveness of Sugammadex for Surgical Patients with End-Stage Renal Disease: A Two-Centered Retrospective Study. <em>Anaesthesia.</em> 2020;75(3):348–352.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的麻醉計畫、術前透析時程、Sugammadex 使用劑量,以麻醉科醫師、心臟外科醫師、腎臟科醫師依您的臨床狀況共同評估為準。請務必在門診或術前訪視時主動告知您的 ESRD / 透析狀況。</div>
+  </footer>
+
+</div>
+  <script src="pageview.js" defer></script>
+</body>
+</html>
