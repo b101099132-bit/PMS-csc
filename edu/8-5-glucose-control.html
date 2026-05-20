@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術後血糖控制 — 心臟加速康復衛教</title>
+<meta name="description" content="心臟手術後血糖為何容易不穩?本院 ERAS 流程:目標 < 180 mg/dL、術中與 ICU 用靜脈胰島素、穩定後轉口服。與國際指引一致。">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="_shared/eras-shared.css">
+
+<style>
+/* 本頁專用:目標值卡 / IV 理由 / 轉換時程 / 糖尿病 vs 非糖尿病 / 低血糖警示 */
+
+/* 目標值大卡 */
+.glucose-target {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.glucose-target h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.glucose-target .target-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--teal);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.glucose-target .target-unit {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 16px;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+.glucose-target .target-note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+.glucose-target .target-note strong { color: var(--ink); font-weight: 600; }
+.glucose-target .indication-tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 12px;
+  background: var(--teal-bg);
+  color: var(--teal);
+  font-size: 11.5px;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* 為何用靜脈胰島素(三層理由)*/
+.iv-rationale {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.iv-rationale h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.iv-rationale .sub {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.iv-rationale .reason-row {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.iv-rationale .reason-row:last-of-type { border-bottom: none; }
+.iv-rationale .r-num {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 16px;
+}
+.iv-rationale .r-body {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.iv-rationale .r-body strong { color: var(--ink); font-weight: 600; }
+.iv-rationale .r-body .r-title {
+  display: block;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* 轉換時程(IV → 口服 / 皮下)*/
+.transition-timeline {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.transition-timeline h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.transition-timeline .sub {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.transition-timeline .t-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: flex-start;
+}
+.transition-timeline .t-row:last-of-type { border-bottom: none; }
+.transition-timeline .t-when {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 13px;
+}
+.transition-timeline .t-what {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.transition-timeline .t-what strong { color: var(--ink); font-weight: 600; }
+
+/* 糖尿病 vs 非糖尿病雙欄對比 */
+.dm-vs-nondm {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 720px) {
+  .dm-vs-nondm { grid-template-columns: 1fr 1fr; }
+}
+.dm-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 22px;
+}
+.dm-card.has-dm { border-left: 3px solid var(--gold); }
+.dm-card.no-dm  { border-left: 3px solid var(--teal); }
+.dm-card .label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.dm-card.has-dm .label { color: var(--gold); }
+.dm-card.no-dm  .label { color: var(--teal); }
+.dm-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.dm-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.dm-card p:last-child { margin-bottom: 0; }
+.dm-card p strong { color: var(--ink); font-weight: 600; }
+.dm-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+.dm-card li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.dm-card li::before {
+  content: '•';
+  position: absolute;
+  left: 0; top: 0;
+  font-weight: 700;
+}
+.dm-card.has-dm li::before { color: var(--gold); }
+.dm-card.no-dm  li::before { color: var(--teal); }
+.dm-card li strong { color: var(--ink); font-weight: 600; }
+
+/* 低血糖警示卡 */
+.hypo-warn {
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger-border);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.hypo-warn h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--danger);
+  margin-bottom: 10px;
+}
+.hypo-warn p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.hypo-warn p strong { color: var(--ink); font-weight: 600; }
+.hypo-warn ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+}
+.hypo-warn li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.hypo-warn li::before {
+  content: '⚠';
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--danger);
+  font-size: 13px;
+}
+.hypo-warn li strong { color: var(--ink); font-weight: 600; }
+.hypo-warn .action {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border-radius: 3px;
+  border-left: 2px solid var(--danger);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+.hypo-warn .action strong { color: var(--ink); font-weight: 600; }
+
+/* 為什麼會不穩(機制)*/
+.mechanism {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.mechanism h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.mechanism p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+.mechanism p strong { color: var(--ink); font-weight: 600; }
+.mechanism .factors {
+  background: var(--cream);
+  padding: 14px 16px;
+  border-radius: 3px;
+  margin-top: 12px;
+}
+.mechanism .factors h5 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+.mechanism .factors ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mechanism .factors li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 4px;
+}
+.mechanism .factors li::before {
+  content: '·';
+  position: absolute;
+  left: 4px; top: -2px;
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 16px;
+}
+.mechanism .factors li strong { color: var(--ink); font-weight: 600; }
+
+/* 病人視角 */
+.patient-view {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.patient-view h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.patient-view .sub {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.patient-view ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.patient-view li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.patient-view li::before {
+  content: '◆';
+  position: absolute;
+  left: 0; top: 1px;
+  color: var(--gold);
+  font-size: 9px;
+}
+.patient-view li strong { color: var(--ink); font-weight: 600; }
+
+/* 出院後續 */
+.discharge-followup {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+}
+.discharge-followup h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.discharge-followup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.discharge-followup li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 8px;
+}
+.discharge-followup li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--teal);
+  font-weight: 700;
+}
+.discharge-followup li strong { color: var(--ink); font-weight: 600; }
+
+/* ERAS 鏈結 */
+.eras-connections {
+  background: var(--cream);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+.eras-connections h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.eras-connections .sub {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.eras-connections ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.eras-connections li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.eras-connections li::before {
+  content: '◇';
+  position: absolute;
+  left: 0; top: 1px;
+  color: var(--teal);
+  font-size: 10px;
+}
+.eras-connections li strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · 8-5</div>
+    <h1>術後血糖控制</h1>
+    <p class="subtitle">術中與加護病房期間的血糖管理 — 為什麼用靜脈胰島素、何時轉口服<br>Perioperative Glycemic Control after Cardiac Surgery</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Lead -->
+  <div class="lead">
+    <strong>不只是糖尿病病人才需要 — 心臟手術後人人都可能出現血糖不穩</strong>
+    <p>很多病人會疑惑:<span class="em">「我又沒有糖尿病,為什麼術後也要控制血糖?」</span>答案是:心臟手術本身就是一個劇烈的生理壓力,即使<span class="em">原本沒有糖尿病的人,術後也常出現「壓力性高血糖」</span>。而沒有妥善控制的高血糖,會明顯增加<span class="em">傷口感染、心律不整、急性腎損傷、長住院、甚至死亡風險</span>。</p>
+    <p>本院的 ERAS 流程,與<span class="em">國際指引(STS 美國胸腔外科學會、ERAS Cardiac Society)一致</span>:<span class="em">手術中與加護病房期間,將血糖控制在 180 mg/dL 以下</span>。這個範圍既能降低高血糖傷害,也能避免追求「正常值」反而引發危險的低血糖。</p>
+    <p>而<span class="em">為什麼術中和 ICU 用「靜脈胰島素」、什麼時候才轉成口服或皮下?</span>這份單張會說明本院的做法、您會經歷什麼、為什麼這樣設計對您最安全。</p>
+  </div>
+
+  <!-- Lexicon -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">血糖</span>
+      <span class="lex-def">血液中的葡萄糖濃度,單位是 mg/dL。<strong>空腹正常值 70-99 mg/dL,飯後 2 小時 &lt; 140 mg/dL</strong>。本院手術中與 ICU 期間的目標是 <strong>&lt; 180 mg/dL</strong>(允許比平常稍高,以避免危險的低血糖)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">壓力性高血糖</span>
+      <span class="lex-def">Stress hyperglycemia。<strong>即使原本沒有糖尿病的人,在受傷、手術、感染等劇烈壓力下,血糖也會暫時升高</strong>。心臟手術後相當常見,通常會在幾天內隨身體恢復而消退。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">胰島素</span>
+      <span class="lex-def">Insulin。<strong>能把血糖從血液帶進細胞使用</strong>的荷爾蒙,是降血糖最直接的工具。本院術中與 ICU 期間使用「靜脈滴注」方式給藥,作用快、可即時調整。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">靜脈胰島素</span>
+      <span class="lex-def">IV insulin。<strong>從點滴連續滴注</strong>胰島素,可依血糖數值即時微調速度。比起皮下注射,作用<strong>更快、更穩定、更可控</strong>。但需要密集監測血糖(每 1-2 小時扎手指採血)。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">皮下胰島素</span>
+      <span class="lex-def">Subcutaneous insulin。<strong>從肚皮、大腿、手臂的皮下注射</strong>胰島素,作用較慢、作用時間較長。適合血糖已相對穩定、能正常進食的病人,在 ICU 轉出之後使用。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">低血糖</span>
+      <span class="lex-def">Hypoglycemia。<strong>血糖 &lt; 70 mg/dL</strong>。會出現冒冷汗、心悸、發抖、意識混亂等症狀,嚴重時可能昏迷。<strong>比高血糖更需要立即處理</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">HbA1c · 糖化血色素</span>
+      <span class="lex-def">過去 2-3 個月的「平均血糖指標」,單位是 %。<strong>正常 &lt; 5.7%,糖尿病前期 5.7-6.4%,糖尿病 ≥ 6.5%,糖尿病控制目標 &lt; 7%</strong>。心臟手術前後與長期追蹤都是重要指標。</span>
+    </div>
+  </div>
+
+  <!-- Reading map -->
+  <div class="reading-map">
+    <strong>整套衛教的串連</strong>
+    <p>術後血糖管理與多份單張相關,以下這條鏈幫您理解整體脈絡:</p>
+    <ol>
+      <li>術後急性腎損傷 <strong>8-4</strong>(高血糖會傷腎 · SGLT2 抑制劑術前停藥)</li>
+      <li>術後新發心房顫動 <strong>8-3</strong>(血糖不穩會增加心律不整風險)</li>
+      <li>外科加護病房介紹 <strong>6-1</strong>(SICU 期間的血糖監測與胰島素調整)</li>
+      <li>術中體溫維持 <strong>4-6</strong>(體溫與血糖代謝相關)</li>
+      <li>心臟手術後飲食調整 <strong>9-3</strong>(出院後飲食與血糖控制)</li>
+      <li>主動恢復入門 <strong>10-1a</strong> · 整合篇 <strong>10-1b</strong>(終身血糖管理)</li>
+    </ol>
+  </div>
+
+  <!-- Why glucose becomes unstable -->
+  <div class="section-title">為什麼手術後血糖會不穩</div>
+
+  <div class="mechanism">
+    <h4>身體的「壓力反應」會讓血糖升高 — 即使您沒有糖尿病</h4>
+    <p>當身體面對<strong>劇烈壓力</strong>(包括手術、創傷、感染、大出血、心肌梗塞等),會啟動<strong>「戰或逃」反應</strong> — 大量分泌壓力荷爾蒙(腎上腺素、皮質醇、升糖素、生長激素),讓肝臟釋出更多葡萄糖到血液中,以供應「緊急狀況」所需的能量。</p>
+    <p>這個機制原本是<strong>保護身體</strong>的設計,但在現代手術環境下,變成了一個問題 — 血糖過高反而會 <strong>傷害傷口癒合、增加感染、損害血管內皮、增加心律不整與腎損傷風險</strong>。</p>
+
+    <div class="factors">
+      <h5>心臟手術後血糖升高的主要因素</h5>
+      <ul>
+        <li><strong>壓力荷爾蒙大量分泌</strong>(腎上腺素、皮質醇等)</li>
+        <li><strong>體外循環(CPB)</strong>本身會誘發發炎反應,增加胰島素阻抗 <span class="link-ref">連結 3-2</span></li>
+        <li><strong>術中與術後使用的部分藥物</strong>(如類固醇、強心劑、利尿劑)會推高血糖</li>
+        <li><strong>禁食後的「反彈性」血糖升高</strong>(身體誤判為飢餓,釋出更多葡萄糖)</li>
+        <li><strong>原本糖尿病沒被診斷</strong>的病人,此時可能首次被發現</li>
+        <li><strong>已有糖尿病的病人</strong>,術後因為禁食、用藥調整、壓力反應,平日的口服藥可能無法維持血糖穩定</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Target -->
+  <div class="section-title">本院的血糖目標 — 與國際指引一致</div>
+
+  <div class="glucose-target">
+    <h4>術中與加護病房期間 · 血糖目標</h4>
+    <div class="target-num">&lt; 180<span class="target-unit">mg/dL</span></div>
+    <span class="indication-tag">STS 與 ERAS Cardiac Society 國際共識一致</span>
+    <p class="target-note">這個目標<strong>既能降低高血糖傷害</strong>(感染、心律不整、AKI 等),又能<strong>避免追求正常值而誤入低血糖</strong>。<br>過去研究曾嘗試把目標壓到「正常值」(80-110 mg/dL),結果<strong>低血糖事件大增,死亡率反而上升</strong>。<br>現在國際共識:<strong>180 是合理的「上限」,80-110 太嚴格</strong>。</p>
+  </div>
+
+  <p class="section-intro">
+    這個 <span class="em">180 mg/dL 不是「絕對紅線」</span>,而是 <span class="em">本院團隊持續努力控制的目標</span>。如果某幾次血糖數值超過 180,不代表「狀況變差」,只代表醫護需要<span class="em">即時調整胰島素速度</span> — 這正是為什麼術中與 ICU 期間採用靜脈胰島素的原因。
+  </p>
+
+  <!-- Why IV insulin -->
+  <div class="section-title">為什麼術中與 ICU 期間用「靜脈胰島素」</div>
+
+  <div class="iv-rationale">
+    <h4>三個關鍵理由</h4>
+    <div class="sub">手術中與 ICU 早期血糖波動最大,需要最精準的工具</div>
+
+    <div class="reason-row">
+      <div class="r-num">01</div>
+      <div class="r-body">
+        <span class="r-title">血糖波動大、需要即時調整</span>
+        手術中與 ICU 早期,病人的<strong>壓力反應、用藥、體液狀態都在快速變化</strong>,血糖可能短時間內大起大落。<strong>靜脈胰島素</strong>作用快(幾分鐘內見效),可依血糖數值<strong>每小時即時調整滴注速度</strong> — 比皮下注射的「打一針等 4-6 小時」更安全、更可控。
+      </div>
+    </div>
+
+    <div class="reason-row">
+      <div class="r-num">02</div>
+      <div class="r-body">
+        <span class="r-title">病人同時使用抗凝血/抗血小板藥物</span>
+        心臟手術前後,病人會使用<strong>抗凝血藥(如肝素 heparin)與抗血小板藥(如阿斯匹靈)</strong>來預防血栓。在這種狀態下,<strong>皮下注射任何藥物</strong>(包括胰島素)都會增加<strong>皮下出血、瘀青、血腫</strong>的風險。<strong>從中央靜脈管路滴注</strong>能避開這個問題,既給藥又不增加出血風險。
+      </div>
+    </div>
+
+    <div class="reason-row">
+      <div class="r-num">03</div>
+      <div class="r-body">
+        <span class="r-title">皮下吸收在重症期間不穩定</span>
+        手術中與 ICU 早期,病人可能有<strong>體液波動、低體溫、血液循環不佳、皮下水腫</strong>等狀況 — 這些都會<strong>讓皮下注射的胰島素吸收時快時慢</strong>,造成血糖「忽高忽低」。<strong>靜脈給藥</strong>不受這些因素影響,吸收 100% 穩定。
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient view -->
+  <div class="section-title">您會經歷什麼 — 病人視角</div>
+
+  <div class="patient-view">
+    <h4>術中與 ICU 期間,您可能會注意到的事</h4>
+    <div class="sub">血糖控制的相關感受 + 您不會直接看到的部分</div>
+    <ul>
+      <li><strong>胰島素是「看不到」的</strong> — 點滴管路裡的胰島素液體無色透明,跟其他點滴外觀類似。除非主動詢問護理師,病人通常不會察覺自己「正在打胰島素」</li>
+      <li><strong>每 1-2 小時扎手指採血</strong>(POCT 血糖機)— 這是讓醫護即時掌握血糖數值、調整胰島素速度的方法。<strong>輕微刺痛,通常只在指尖外側</strong>,不會留下疤痕</li>
+      <li><strong>大多數情況下沒有「異常感覺」</strong> — 高血糖在 180 以下時人通常感覺不到,只能靠抽血發現</li>
+      <li>如果血糖控制過程中出現<strong>冒冷汗、心悸、發抖、頭暈、突然飢餓</strong>等症狀 — 這可能是<strong>低血糖徵兆</strong>,<strong>請立即告訴護理師</strong>(詳見下方「低血糖警示」段落)</li>
+      <li><strong>不會「越打越依賴」</strong> — 靜脈胰島素只是<strong>暫時的、為控制術後壓力反應所用</strong>。多數非糖尿病病人,在身體穩定後就完全停藥,不需要長期使用</li>
+      <li>您可以<strong>主動詢問</strong>:「<strong>我現在的血糖多少?胰島素還需要打多久?</strong>」醫護會很樂意說明 <span class="link-ref">連結 5-1b</span></li>
+    </ul>
+  </div>
+
+  <!-- Transition timeline -->
+  <div class="section-title">什麼時候改成口服或皮下胰島素</div>
+
+  <div class="transition-timeline">
+    <h4>從「靜脈胰島素」轉換為「口服/皮下」的時程</h4>
+    <div class="sub">時程因人而異 — 以下是本院典型路徑</div>
+
+    <div class="t-row">
+      <div class="t-when">手術中</div>
+      <div class="t-what">使用<strong>靜脈胰島素</strong>滴注控制術中血糖。每 1 小時(或更頻繁)監測血糖,即時微調滴速。</div>
+    </div>
+
+    <div class="t-row">
+      <div class="t-when">術後 0-24 小時</div>
+      <div class="t-what">繼續<strong>靜脈胰島素</strong>。SICU 期間每 1-2 小時監測血糖。同步密切觀察其他維生指標(血壓、心跳、尿量、體溫等)。</div>
+    </div>
+
+    <div class="t-row">
+      <div class="t-when">術後 24-72 小時</div>
+      <div class="t-what">隨著<strong>身體恢復、體液穩定、開始進食</strong>,血糖通常會逐漸回穩。胰島素需求量會下降。醫師會評估是否可<strong>調降靜脈胰島素</strong>。</div>
+    </div>
+
+    <div class="t-row">
+      <div class="t-when">血糖穩定 + 飲食恢復後</div>
+      <div class="t-what"><strong>從 ICU 轉出後</strong>,血糖控制穩定且可以正常進食,醫師會評估是否需要繼續使用胰島素:<br>• <strong>非糖尿病病人</strong>:通常此時就可以完全停藥<br>• <strong>糖尿病病人</strong>:會逐漸轉為<strong>口服降血糖藥或皮下胰島素</strong>,並調整劑量</div>
+    </div>
+
+    <div class="t-row">
+      <div class="t-when">出院前</div>
+      <div class="t-what">由<strong>新陳代謝科或心臟科醫師</strong>確認出院後的血糖管理計畫。若是糖尿病病人,會擬定回診、抽血追蹤、藥物使用的時程。</div>
+    </div>
+  </div>
+
+  <!-- DM vs Non-DM -->
+  <div class="section-title">糖尿病病人 vs 非糖尿病病人 — 兩種不同的路徑</div>
+
+  <div class="dm-vs-nondm">
+    <article class="dm-card has-dm">
+      <div class="label">糖尿病病人</div>
+      <h4>已有糖尿病的人</h4>
+      <p>術前已在使用口服降血糖藥或胰島素的病人,術後血糖管理會<strong>更主動、更密集</strong>。</p>
+      <ul>
+        <li><strong>術前的口服藥</strong>(如 metformin、SGLT2 抑制劑等)會依手術時程<strong>暫停或調整</strong> <span class="link-ref">連結 8-4</span></li>
+        <li><strong>術中與 ICU 期間</strong>:統一改用靜脈胰島素</li>
+        <li><strong>ICU 轉出後</strong>:逐漸回復原本的藥物,但<strong>劑量可能需要調整</strong>(因為術後恢復、進食變化、藥物交互作用)</li>
+        <li><strong>出院前</strong>:由新陳代謝科或心臟科醫師擬定<strong>新的用藥計畫</strong>,包括回診抽血追蹤頻率</li>
+        <li>住院期間的血糖紀錄會交給您的<strong>長期主治醫師</strong>,作為後續調整的依據</li>
+      </ul>
+    </article>
+
+    <article class="dm-card no-dm">
+      <div class="label">非糖尿病病人</div>
+      <h4>原本沒有糖尿病的人</h4>
+      <p>很多人會疑惑「我又沒有糖尿病,為什麼還要打胰島素?」 — 這是<strong>暫時的、為控制壓力反應</strong>所用,不代表您變成糖尿病。</p>
+      <ul>
+        <li><strong>壓力性高血糖</strong>會隨身體恢復、發炎反應消退而消失,通常<strong>幾天內回穩</strong></li>
+        <li><strong>多數人 ICU 轉出後</strong>就完全停止胰島素,不需要長期使用</li>
+        <li>但建議<strong>出院後 3-6 個月</strong>抽血追蹤一次 HbA1c,確認血糖代謝確實回到正常</li>
+        <li>若<strong>HbA1c 仍 ≥ 5.7%</strong>(糖尿病前期或更高),代表您原本可能就有<strong>未被發現的血糖代謝問題</strong> — 早發現、早處理對長期心血管健康有幫助</li>
+        <li>住院期間出現過明顯高血糖的人,<strong>未來罹患糖尿病的風險高於一般人</strong> — 保持<strong>規律運動、均衡飲食、定期健檢</strong>是最好的預防 <span class="link-ref">連結 9-3 · 10-1a</span></li>
+      </ul>
+    </article>
+  </div>
+
+  <!-- Hypoglycemia warning -->
+  <div class="section-title">低血糖警示 — 比高血糖更需要立即處理</div>
+
+  <div class="hypo-warn">
+    <h4>血糖控制過程中,「低血糖」(&lt; 70 mg/dL)需要立即告訴護理師</h4>
+    <p>使用胰島素時,<strong>最需要警覺的不是「血糖太高」,而是「血糖過低」</strong>。低血糖如果不立即處理,可能造成<strong>意識混亂、抽搐、昏迷,甚至腦部傷害</strong>。</p>
+    <p><strong>常見症狀</strong>(住院期間請主動告訴護理師):</p>
+    <ul>
+      <li><strong>突然冒冷汗</strong>(額頭、手心、頸部出汗)</li>
+      <li><strong>心悸、心跳加快</strong></li>
+      <li><strong>手抖、發抖、無力</strong></li>
+      <li><strong>突然飢餓感</strong></li>
+      <li><strong>頭暈、頭痛、視力模糊</strong></li>
+      <li><strong>情緒突然煩躁、焦慮或嗜睡</strong></li>
+      <li><strong>說話困難、意識不清</strong>(已是嚴重低血糖,需立即處理)</li>
+    </ul>
+    <div class="action">
+      <strong>在 ICU/病房內,請立即按服務鈴或告訴護理師</strong> — 醫護會立即測血糖、給予葡萄糖點滴或口服糖水。<strong>不要忍著、不要等</strong>。<br>
+      出院後若曾被告知有「<strong>低血糖傾向</strong>」,建議隨身攜帶<strong>方糖、葡萄糖片或小盒果汁</strong>備用 — 一旦出現上述症狀,先吃 15 公克快速糖(約 1 包方糖、120 mL 含糖果汁、3-4 顆葡萄糖片),15 分鐘後若症狀未緩解,立即就醫。
+    </div>
+  </div>
+
+  <!-- Discharge follow-up -->
+  <div class="section-title">出院後續 — 短期與長期的追蹤</div>
+
+  <div class="discharge-followup">
+    <h4>給所有病人的出院後血糖追蹤建議</h4>
+    <ul>
+      <li><strong>糖尿病病人</strong>:依您的長期主治醫師安排<strong>規律回診</strong>(通常 1-3 個月一次),每次抽血<strong>監測血糖、HbA1c、腎功能、肝功能</strong></li>
+      <li><strong>非糖尿病病人</strong>:出院後 <strong>3-6 個月</strong>抽血追蹤一次<strong>空腹血糖與 HbA1c</strong>,確認血糖代謝回到正常</li>
+      <li><strong>HbA1c 目標</strong>:糖尿病病人 <strong>&lt; 7%</strong>(若有心血管疾病或腎臟病可放寬至 &lt; 7.5%);非糖尿病病人 <strong>&lt; 5.7%</strong></li>
+      <li><strong>不要因為「住院期間有打胰島素」就以為自己變成糖尿病</strong> — 必須依出院後的長期數據判斷</li>
+      <li><strong>規律運動</strong>(每週至少 150 分鐘中等強度有氧)能改善胰島素敏感度,是長期血糖管理的關鍵 <span class="link-ref">連結 10-1a</span></li>
+      <li><strong>均衡飲食</strong>:全穀類取代精緻碳水、優質蛋白質、足量蔬菜,避免高糖飲料與精緻甜點 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>戒菸、限酒、規律睡眠</strong>:這三項都會影響血糖代謝</li>
+      <li>看任何醫師(牙醫、家醫科、皮膚科等)都<strong>主動告知「我做過心臟手術 + 住院期間有血糖偏高紀錄」</strong> — 影響某些藥物選擇與劑量</li>
+    </ul>
+  </div>
+
+  <!-- ERAS connections -->
+  <div class="section-title">血糖控制如何串連整套 ERAS</div>
+
+  <div class="eras-connections">
+    <h4>血糖管理與 ERAS 其他環節的關係</h4>
+    <div class="sub">每一項血糖相關策略都對應一個恢復目標</div>
+    <ul>
+      <li><strong>術中體溫維持 ≥ 36°C</strong> — 低體溫會增加胰島素阻抗,讓血糖更難控制 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>體外循環(CPB)管理</strong> — 縮短體外循環時間、優化發炎反應控制,降低術後血糖波動 <span class="link-ref">連結 3-2</span></li>
+      <li><strong>術前禁食指引</strong>(避免過長禁食)— 減少身體進入「飢餓 + 壓力」狀態,降低反彈性高血糖</li>
+      <li><strong>早期進食</strong> — 喚醒腸胃功能,讓血糖代謝盡早回到正常路徑 <span class="link-ref">連結 7-7</span></li>
+      <li><strong>多模式止痛</strong> — 降低疼痛壓力反應,間接穩定血糖 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>早期下床(6 小時坐起、24 小時走路)</strong> — 改善胰島素敏感度,加速血糖回穩 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>SGLT2 抑制劑術前停藥</strong> — 避免危險的酮酸中毒 <span class="link-ref">連結 8-4</span></li>
+      <li><strong>避免不必要的類固醇</strong> — 類固醇會明顯推高血糖,本院僅在必要時使用</li>
+      <li><strong>家屬陪伴與譫妄預防</strong> — 降低病人焦慮與壓力反應,間接穩定血糖代謝 <span class="link-ref">連結 8-1a · 8-2</span></li>
+    </ul>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p>術後血糖控制 — <span class="em">不只是糖尿病病人才需要</span>。即使您原本沒有糖尿病,心臟手術後的「壓力性高血糖」相當常見,而<span class="em">妥善控制能明顯降低感染、心律不整、腎損傷等併發症風險</span>。</p>
+    <p>本院的做法 — <span class="em">術中與 ICU 用靜脈胰島素、目標 &lt; 180 mg/dL、穩定後逐漸轉口服或皮下</span> — 是與國際指引一致的標準照護,既能控制高血糖傷害,也能避免低血糖風險。</p>
+    <p>對血糖管理有任何疑問,或想了解您個別的血糖目標、用藥計畫,歡迎在<span class="em">門診、術前訪視、住院中、出院前</span>與心臟外科、麻醉科、新陳代謝科團隊討論。<span class="em">特別提醒糖尿病病人:出院後請務必依長期主治醫師指示規律回診、抽血追蹤</span>。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- References -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Lazar HL, McDonnell M, Chipkin SR, et al. The Society of Thoracic Surgeons Practice Guideline Series: Blood Glucose Management During Adult Cardiac Surgery. <em>Ann Thorac Surg.</em> 2009;87(2):663–669.</li>
+      <li>Engelman DT, Ben Ali W, Williams JB, et al. Guidelines for Perioperative Care in Cardiac Surgery: Enhanced Recovery After Surgery Society Recommendations. <em>JAMA Surg.</em> 2019;154(8):755–766.</li>
+      <li>Grant MC, Crisafi C, Alvarez A, et al. Perioperative Care in Cardiac Surgery: A Joint Consensus Statement by the Enhanced Recovery After Surgery (ERAS) Cardiac Society. <em>Ann Thorac Surg.</em> 2024;117(4):669–689.</li>
+      <li>NICE-SUGAR Study Investigators, Finfer S, Chittock DR, et al. Intensive versus Conventional Glucose Control in Critically Ill Patients. <em>N Engl J Med.</em> 2009;360(13):1283–1297.</li>
+      <li>American Diabetes Association Professional Practice Committee. Diabetes Care in the Hospital: Standards of Care in Diabetes. <em>Diabetes Care.</em> 2024;47(Suppl 1):S295–S306.</li>
+      <li>Furnary AP, Wu Y, Bookin SO. Effect of Hyperglycemia and Continuous Intravenous Insulin Infusions on Outcomes of Cardiac Surgical Procedures: The Portland Diabetic Project. <em>Endocr Pract.</em> 2004;10(Suppl 2):21–33.</li>
+      <li>Umpierrez GE, Hellman R, Korytkowski MT, et al. Management of Hyperglycemia in Hospitalized Patients in Non-Critical Care Setting: An Endocrine Society Clinical Practice Guideline. <em>J Clin Endocrinol Metab.</em> 2012;97(1):16–38.</li>
+      <li>Duncan AE. Hyperglycemia and Perioperative Glucose Management. <em>Curr Pharm Des.</em> 2012;18(38):6195–6203.</li>
+    </ol>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的血糖目標、胰島素劑量、口服藥調整、出院後追蹤計畫,以心臟外科、麻醉科、新陳代謝科醫師依您的臨床狀況評估為準。對血糖管理有任何疑問,請於門診、術前訪視、住院中或出院前與醫療團隊討論。</div>
+  </footer>
+
+</div>
+  <script src="pageview.js" defer></script>
+</body>
+</html>
