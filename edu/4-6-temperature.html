@@ -6,7 +6,7 @@
 <title>圍術期低體溫與保溫措施 — 心臟加速康復衛教</title>
 <meta name="description" content="36°C 為什麼是關鍵體溫線，本院如何在術前、術中、術後幫病人保暖">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-20">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -179,35 +179,6 @@
 }
 .patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
 
-/* 4-6 新增:給家屬的話 */
-.family-note {
-  background: var(--gold-soft);
-  border: 1px solid var(--highlight-border);
-  border-left: 3px solid var(--gold);
-  border-radius: 3px;
-  padding: 20px 24px;
-  margin-bottom: 24px;
-}
-.family-note h4 {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--gold);
-  margin-bottom: 10px;
-}
-.family-note ul {
-  margin: 0;
-  padding-left: 20px;
-}
-.family-note ul li {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.8;
-  margin-bottom: 6px;
-}
-.family-note ul li:last-child { margin-bottom: 0; }
-.family-note ul li strong { color: var(--ink); font-weight: 600; }
-
 /* 4-6 新增:自費包套說明(對齊 4-2 TOF / 3-3 命名) */
 .cost-note {
   background: var(--paper);
@@ -253,7 +224,6 @@
   .step-card { padding: 16px 18px; gap: 12px; }
   .patient-experience { padding: 18px 20px; }
   .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
-  .family-note { padding: 16px 18px; }
   .cost-note { padding: 18px 20px; }
 }
 </style>
@@ -420,18 +390,13 @@
     <h4>從進手術房到醒來,您可能會經驗到的體感</h4>
 
     <div class="timeline-row">
-      <div class="tr-when">術前等候區</div>
-      <div class="tr-what">護理師會讓您穿上<strong>充氣式加溫毯</strong>(暖風會吹進毯內,類似暖被),讓您在等候時感覺溫暖。<strong>這不是讓您放鬆而已,是術前主動預熱的重要環節</strong>。</div>
-    </div>
-
-    <div class="timeline-row">
       <div class="tr-when">麻醉誘導前後</div>
       <div class="tr-what">您可能會感覺手術房有點涼(目的是減少手術人員的悶熱、確保器械無菌),但麻醉睡著後團隊會立刻幫您蓋上加溫毯,您不會感覺到冷。</div>
     </div>
 
     <div class="timeline-row">
       <div class="tr-when">手術過程中</div>
-      <div class="tr-what">您已在麻醉狀態,完全沒有感覺。團隊會持續看著螢幕上的核心體溫(從 4 個監測部位之一讀出),維持在 36°C 以上。</div>
+      <div class="tr-what">您已在麻醉狀態,完全沒有感覺。團隊會持續看著螢幕上的核心體溫(從 4 個監測部位之一讀出),<strong>依據手術過程的需要,可能會先降溫再升溫</strong> —— 例如進入體外循環時主動降溫以保護器官,結束體外循環前再緩慢回溫到 36°C 以上。</div>
     </div>
 
     <div class="timeline-row">
@@ -443,18 +408,6 @@
       <div class="tr-when">術後 24-48 小時</div>
       <div class="tr-what">本院會持續監測體溫,若<strong>核心體溫過熱(超過 37.9°C)</strong>,團隊會主動降溫(減少蓋被、低劑量退燒藥)。<strong>過熱也是要避免的</strong> —— 過熱會增加譫妄與神經損傷風險。</div>
     </div>
-  </div>
-
-  <!-- Family note -->
-  <div class="family-note">
-    <h4>給家屬的話 — 體溫管理的常見好意干擾</h4>
-    <ul>
-      <li><strong>不要自行幫病人多蓋棉被或毛巾</strong> —— 團隊的加溫毯是「<strong>精準調控</strong>」,您的好意可能讓核心體溫過熱(超過 37.9°C),反而增加譫妄與神經損傷風險。如果想幫忙,請先問護理師。</li>
-      <li><strong>不要把濕毛巾敷在病人臉上</strong> —— 即使病人覺得熱,也應該由團隊判斷是否需要降溫,濕毛巾會干擾體溫監測。</li>
-      <li><strong>不要關空調或調高室溫</strong> —— 病房空調是依病人的核心體溫設計,擅自調整可能讓體溫管理失準。</li>
-      <li><strong>觀察到病人寒顫、發抖、覺得冷,請立即告訴護理師</strong> —— 寒顫會明顯增加耗氧、不利恢復,團隊需要知道才能加強保溫。</li>
-      <li><strong>不要拒絕「掀開被子」</strong> —— 若病人術後體溫偏高,團隊可能需要短暫掀開被子幫助散熱,這是必要的處置,不是疏忽。</li>
-    </ul>
   </div>
 
   <!-- Cost note -->
