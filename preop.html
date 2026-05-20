@@ -609,22 +609,23 @@ footer .clinic-name {
 
       <div class="field" data-name="contact_pref">
         <label>偏好聯絡方式 <span class="req">*</span></label>
-        <div class="hint">我們會用此管道發送術前衛教、提醒與術後問卷</div>
+        <div class="hint">我們會用此管道發送術前衛教、提醒與術後問卷。<strong>LINE 為預設管道</strong>(無法取消),您可額外勾選其他方式。</div>
         <div class="radio-group" style="margin-top:10px">
-          <div class="option">
-            <input type="radio" id="c1" name="contact_pref" value="LINE" required>
-            <label for="c1">LINE</label>
+          <div class="option" style="background:#F5F0E5;border:1px solid #D4C5A0;">
+            <input type="checkbox" id="c1" checked disabled>
+            <label for="c1"><strong>LINE</strong> <span style="color:#888;font-size:12px;">(預設,無法取消)</span></label>
           </div>
           <div class="option">
-            <input type="radio" id="c2" name="contact_pref" value="Email">
+            <input type="checkbox" id="c2" name="contact_pref" value="Email">
             <label for="c2">Email</label>
           </div>
           <div class="option">
-            <input type="radio" id="c3" name="contact_pref" value="電話">
+            <input type="checkbox" id="c3" name="contact_pref" value="電話">
             <label for="c3">電話</label>
           </div>
+          <!-- LINE 由 hidden input 確保一定送出 -->
+          <input type="hidden" name="contact_pref" value="LINE">
         </div>
-        <div class="error-msg">請選擇聯絡方式</div>
       </div>
     </section>
 
@@ -869,8 +870,8 @@ form.addEventListener('submit', async (e) => {
     if (!firstErrorField) firstErrorField = fld;
   }
 
-  // 單選群組
-  [['gender', 'gender'], ['contact_pref', 'contact_pref']].forEach(([name]) => {
+  // 單選群組(contact_pref 因為 LINE 由 hidden input 確保送出,不需要驗證)
+  [['gender', 'gender']].forEach(([name]) => {
     if (!form.querySelector(`[name="${name}"]:checked`)) {
       const fld = form.querySelector(`.field[data-name="${name}"]`);
       if (fld) {
@@ -913,22 +914,21 @@ form.addEventListener('submit', async (e) => {
       body: formData,
     });
 
-    // 計算 PK 用於 QR Code（與後端公式一致：YYYYMMDD-XXXX）
+    // 計算 PK 用於 QR Code(與後端公式一致:YYYYMMDD-XXXX)
     const birthdate = document.getElementById('birthdate').value; // 'YYYY-MM-DD'
     const id4 = document.getElementById('id_last4').value;
     const pk = birthdate ? birthdate.replace(/-/g, '') + '-' + id4 : '';
 
-    // 隱藏表單，顯示成功
+    // 隱藏表單,顯示成功
     form.style.display = 'none';
     document.getElementById('notice').style.display = 'none';
 
-    // Path A：沒有從 LINE 進來，需要顯示 QR Code 完成綁定
-    // Path B：已經從 LINE 帶 lid 進來，跳過 QR
+    // Path A:沒有從 LINE 進來,需要顯示 QR Code 完成綁定
+    // Path B:已經從 LINE 帶 lid 進來,跳過 QR
+    // 新邏輯:LINE 為強制預設,只要還沒綁定就顯示 QR
     const alreadyBound = !!lidFromUrl;
-    const contactPref = (document.querySelector('input[name="contact_pref"]:checked') || {}).value || '';
-    const wantsLine = (contactPref === 'LINE');
 
-    if (!alreadyBound && wantsLine && pk) {
+    if (!alreadyBound && pk) {
       // 顯示 QR Code
       const greeting = '我的綁定碼是 ' + pk;
       const deepLink = 'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_BOT_ID) + '/?' + encodeURIComponent(greeting);
@@ -941,14 +941,10 @@ form.addEventListener('submit', async (e) => {
       document.getElementById('lineBindSection').style.display = 'block';
       document.getElementById('successMsg').textContent =
         '感謝您完成填寫。請完成下方 LINE 綁定以接收後續推播提醒。';
-    } else if (alreadyBound) {
-      // Path B：已綁定
+    } else {
+      // Path B:已綁定
       document.getElementById('successMsg').textContent =
         '感謝您完成填寫。我們會透過 LINE 與您聯繫。';
-    } else {
-      // 沒選 LINE 為偏好聯絡方式
-      document.getElementById('successMsg').textContent =
-        '感謝您完成填寫。我們會透過您選擇的聯絡方式與您聯繫。';
     }
 
     successScreen.classList.add('show');
