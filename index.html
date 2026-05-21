@@ -305,7 +305,7 @@ footer .clinic {
         <span class="card-role">資源</span>
       </div>
       <div class="card-title">衛教資源目錄</div>
-      <p class="card-desc">32 份病人衛教單張,依術前到長期追蹤分類,可瀏覽、查閱、分享給病人與家屬。</p>
+      <p class="card-desc"><span data-edu-count>35</span> 份病人衛教單張,依術前到長期追蹤分類,可瀏覽、查閱、分享給病人與家屬。</p>
       <div class="card-arrow">→</div>
     </a>
   </div>
@@ -346,6 +346,37 @@ $('doctor_key').addEventListener('input', updateLinks);
 $('doctor_key').addEventListener('change', updateLinks);
 
 updateLinks();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- 自動同步衛教檔案數量                                                  -->
+<!-- 原理:fetch edu/index.html,計算內含的 piece-card 數量,更新顯示       -->
+<!-- 維護方式:在 edu/ 內新增/刪除衛教檔(更新 edu/index.html 內的卡片)   -->
+<!--           → 系統入口頁的「N 份」自動同步,不必回來改這裡              -->
+<!-- Fallback:fetch 失敗時,維持手寫值(目前 35)作為顯示                  -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<script>
+(async function syncEduCount() {
+  try {
+    const res = await fetch('edu/index.html', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const html = await res.text();
+
+    // 計算 piece-card[href] 數量(對齊 edu/index.html 內 autoSyncIndex 的算法)
+    const cardPattern = /<a\s+class="piece-card[^"]*"\s+href="[^"]+\.html"/g;
+    const matches = html.match(cardPattern);
+    if (!matches || matches.length === 0) return;
+    const total = matches.length;
+
+    // 寫入所有 [data-edu-count] 標記處
+    document.querySelectorAll('[data-edu-count]').forEach(el => {
+      el.textContent = total;
+    });
+  } catch (err) {
+    // 靜默失敗,保留手寫值作 fallback
+    console.debug('[edu-count-sync] skip:', err.message);
+  }
+})();
 </script>
 </body>
 </html>
