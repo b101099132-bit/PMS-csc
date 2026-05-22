@@ -608,24 +608,36 @@ footer .clinic-name {
       </div>
 
       <div class="field" data-name="contact_pref">
-        <label>偏好聯絡方式 <span class="req">*</span></label>
-        <div class="hint">我們會用此管道發送術前衛教、提醒與術後問卷。<strong>LINE 為預設管道</strong>(無法取消),您可額外勾選其他方式。</div>
-        <div class="radio-group" style="margin-top:10px">
-          <div class="option" style="background:#F5F0E5;border:1px solid #D4C5A0;">
-            <input type="checkbox" id="c1" checked disabled>
-            <label for="c1"><strong>LINE</strong> <span style="color:#888;font-size:12px;">(預設,無法取消)</span></label>
+        <label>聯絡方式設定 <span class="req">*</span></label>
+
+        <!-- 主要管道:LINE(必加,不可取消) -->
+        <div style="background:#F5F9F9; border-left:3px solid #1F5A5A; padding:14px 16px; border-radius:3px; margin-top:10px;">
+          <div style="font-weight:600; color:#1F5A5A; font-size:14px; margin-bottom:6px;">
+            ▎主要聯絡管道:LINE
           </div>
+          <p style="font-size:13px; color:#5C5C5C; line-height:1.65; margin:0;">
+            我們會優先透過 LINE 推播術前衛教、提醒與術後問卷。<strong>表單送出後將顯示 QR Code,請務必完成 LINE 綁定。</strong>
+          </p>
+        </div>
+
+        <!-- 隱藏 input:LINE 必加管道(永遠送出) -->
+        <input type="hidden" name="contact_pref" value="LINE">
+
+        <!-- 備援聯絡方式(必填) -->
+        <div class="hint" style="margin-top:16px;">
+          備援聯絡方式 <span class="req">*</span>(必填,當 LINE 推播失敗時使用):
+        </div>
+        <div class="radio-group" style="margin-top:8px">
           <div class="option">
-            <input type="checkbox" id="c2" name="contact_pref" value="Email">
+            <input type="radio" id="c2" name="contact_pref" value="Email" required>
             <label for="c2">Email</label>
           </div>
           <div class="option">
-            <input type="checkbox" id="c3" name="contact_pref" value="電話">
+            <input type="radio" id="c3" name="contact_pref" value="電話">
             <label for="c3">電話</label>
           </div>
-          <!-- LINE 由 hidden input 確保一定送出 -->
-          <input type="hidden" name="contact_pref" value="LINE">
         </div>
+        <div class="error-msg">請選擇備援聯絡方式</div>
       </div>
     </section>
 
@@ -764,7 +776,7 @@ footer .clinic-name {
       </p>
     </div>
 
-    <p style="margin-top:18px">我們會盡快透過您選擇的聯絡方式，傳送術前衛教資訊給您。</p>
+    <p style="margin-top:18px">LINE 為主要聯絡管道,完成綁定後即可接收術前衛教與提醒。備援聯絡方式僅在 LINE 推播失敗時使用。</p>
     <div class="small-divider"></div>
     <p>如需修改或詢問，請聯繫本院心臟加速康復團隊。</p>
   </div>
@@ -870,8 +882,8 @@ form.addEventListener('submit', async (e) => {
     if (!firstErrorField) firstErrorField = fld;
   }
 
-  // 單選群組(contact_pref 因為 LINE 由 hidden input 確保送出,不需要驗證)
-  [['gender', 'gender']].forEach(([name]) => {
+  // 單選群組
+  [['gender', 'gender'], ['contact_pref', 'contact_pref']].forEach(([name]) => {
     if (!form.querySelector(`[name="${name}"]:checked`)) {
       const fld = form.querySelector(`.field[data-name="${name}"]`);
       if (fld) {
@@ -914,22 +926,25 @@ form.addEventListener('submit', async (e) => {
       body: formData,
     });
 
-    // 計算 PK 用於 QR Code(與後端公式一致:YYYYMMDD-XXXX)
+    // 計算 PK 用於 QR Code（與後端公式一致：YYYYMMDD-XXXX）
     const birthdate = document.getElementById('birthdate').value; // 'YYYY-MM-DD'
     const id4 = document.getElementById('id_last4').value;
     const pk = birthdate ? birthdate.replace(/-/g, '') + '-' + id4 : '';
 
-    // 隱藏表單,顯示成功
+    // 隱藏表單，顯示成功
     form.style.display = 'none';
     document.getElementById('notice').style.display = 'none';
 
     // Path A:沒有從 LINE 進來,需要顯示 QR Code 完成綁定
     // Path B:已經從 LINE 帶 lid 進來,跳過 QR
-    // 新邏輯:LINE 為強制預設,只要還沒綁定就顯示 QR
     const alreadyBound = !!lidFromUrl;
 
+    // 取得備援聯絡方式(LINE 為主要管道由 hidden input 永遠送出)
+    // :checked 只會 match 到 radio,不會 match hidden,所以這裡拿到的是備援方式
+    const backupContact = (document.querySelector('input[name="contact_pref"]:checked') || {}).value || '';
+
     if (!alreadyBound && pk) {
-      // 顯示 QR Code
+      // 一律顯示 QR Code(LINE 是必加主要管道)
       const greeting = '我的綁定碼是 ' + pk;
       const deepLink = 'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_BOT_ID) + '/?' + encodeURIComponent(greeting);
       const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&format=png&margin=10&data=' + encodeURIComponent(deepLink);
@@ -940,11 +955,13 @@ form.addEventListener('submit', async (e) => {
       document.getElementById('botIdShow').textContent = LINE_BOT_ID;
       document.getElementById('lineBindSection').style.display = 'block';
       document.getElementById('successMsg').textContent =
-        '感謝您完成填寫。請完成下方 LINE 綁定以接收後續推播提醒。';
-    } else {
-      // Path B:已綁定
+        '感謝您完成填寫。請完成下方 LINE 綁定 —— 系統會優先透過 LINE 推播衛教與提醒。' +
+        (backupContact ? `若 LINE 無法接收,我們會以您選擇的備援方式(${backupContact})聯繫。` : '');
+    } else if (alreadyBound) {
+      // Path B:已綁定 LINE
       document.getElementById('successMsg').textContent =
-        '感謝您完成填寫。我們會透過 LINE 與您聯繫。';
+        '感謝您完成填寫。已綁定 LINE 為主要聯絡管道。' +
+        (backupContact ? `若 LINE 無法接收,我們會以您選擇的備援方式(${backupContact})聯繫。` : '');
     }
 
     successScreen.classList.add('show');
