@@ -6,7 +6,7 @@
 <title>術後心房顫動 POAF — 心臟加速康復衛教</title>
 <meta name="description" content="心臟手術後最常見的心律問題:20-50% 病人會出現的「POAF」。認識它、本院 ERAS 預防、中風防範與出院後的關鍵調整">
 
-<meta name="article:modified_time" content="2026-05-19">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -576,7 +576,6 @@
   .silent-warning { padding: 18px 20px; }
   .cha2ds2-tier { padding: 16px 18px; }
   .amio-warning { padding: 16px 18px; }
-  .kids-note { padding: 18px 20px; }
   .cost-note { padding: 16px 18px; }
 }
 
@@ -746,40 +745,6 @@
   letter-spacing: 0.03em;
 }
 
-/* 12 歲以下小朋友議題 */
-.kids-note {
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--gold);
-  border-radius: 3px;
-  padding: 22px 26px;
-  margin-bottom: 24px;
-}
-.kids-note h4 {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--gold);
-  margin-bottom: 10px;
-}
-.kids-note p {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.85;
-  margin-bottom: 8px;
-}
-.kids-note p strong { color: var(--ink); font-weight: 600; }
-.kids-note ul {
-  margin: 8px 0 0;
-  padding-left: 22px;
-}
-.kids-note ul li {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.85;
-  margin-bottom: 5px;
-}
-.kids-note ul li strong { color: var(--ink); font-weight: 600; }
 
 /* 自費 vs 健保(整套系列準則) */
 .cost-note {
@@ -825,6 +790,51 @@
   color: var(--ink-faint);
   line-height: 1.7;
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -1044,7 +1054,7 @@
         <li>心臟功能下降</li>
         <li><strong>瓣膜手術</strong>(特別是二尖瓣)</li>
         <li>合併手術(CABG + 瓣膜)</li>
-        <li><strong>傳統開胸 POAF 發生率高於微創</strong> <span class="link-ref">連結 3-3</span></li>
+        <li><strong>傳統開胸 POAF 發生率高於微創</strong> 連結 <a class="link-ref" href="3-3-mics-vs-sternotomy.html">3-3</a></li>
       </ul>
     </div>
     <div class="risk-group">
@@ -1090,12 +1100,12 @@
       <li><strong>術前持續乙型阻斷劑</strong>(β-blocker,常見藥名如天諾敏、康肯、必效素) —— 突然停掉是 POAF 強誘因,本院維持規律使用直到手術日</li>
       <li><strong>術中、術後鎂離子補充</strong> —— 維持鎂濃度能降低 POAF 發生率</li>
       <li><strong>選擇性高風險病人 amiodarone(臟得樂)預防</strong> —— 對特別高風險者,術前/術後給予預防性抗心律不整藥(心跳不規律的統稱)</li>
-      <li><strong>多模式止痛、減少疼痛刺激</strong> —— 疼痛會刺激自律神經(身體自動調節心跳、血壓的神經系統),誘發心顫 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>多模式止痛、減少疼痛刺激</strong> —— 疼痛會刺激自律神經(身體自動調節心跳、血壓的神經系統),誘發心顫 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
       <li><strong>避免體液過多</strong> —— 心房過度撐大會誘發心顫</li>
       <li><strong>規律電解質監測</strong> —— 鉀、鎂、鈣維持在最佳範圍</li>
-      <li><strong>早期下床活動</strong> —— 縮短臥床、減少自律神經失衡 <span class="link-ref">連結 7-6a · 7-6b</span></li>
-      <li><strong>早期拔管與 HFNC</strong> —— 縮短鎮靜、減少交感神經激發 <span class="link-ref">連結 6-2 · 6-6</span></li>
-      <li><strong>適當體溫維持</strong> —— 低體溫會增加心律不整風險 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>早期下床活動</strong> —— 縮短臥床、減少自律神經失衡 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+      <li><strong>早期拔管與 HFNC</strong> —— 縮短鎮靜、減少交感神經激發 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a> · <a class="link-ref" href="6-6-hfnc.html">6-6</a></li>
+      <li><strong>適當體溫維持</strong> —— 低體溫會增加心律不整風險 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
       <li><strong>感染控制與發炎管理</strong> —— 全身發炎會誘發心顫</li>
       <li><strong>持續心律監測</strong> —— ICU 與病房 24 小時心電圖監測,能<strong>第一時間發現並處理</strong></li>
     </ul>
@@ -1170,7 +1180,7 @@
       <li><strong>下次回診是什麼時候?</strong>需不需要做 24 小時心電圖?</li>
       <li><strong>如果回家後心顫再發,要怎麼辦?</strong>到急診還是回門診?</li>
       <li><strong>哪些症狀需要立即就醫?</strong>(見下方警示徵兆)</li>
-      <li><strong>抗凝血劑需要避開的食物或藥物?</strong>warfarin 與綠葉蔬菜、其他藥物有交互作用 —— <strong>重點不是「不能吃綠葉蔬菜」,而是「每天的份量要穩定」</strong>。平常吃多少,出院後就維持多少,不要忽多忽少 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>抗凝血劑需要避開的食物或藥物?</strong>warfarin 與綠葉蔬菜、其他藥物有交互作用 —— <strong>重點不是「不能吃綠葉蔬菜」,而是「每天的份量要穩定」</strong>。平常吃多少,出院後就維持多少,不要忽多忽少 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a></li>
     </ul>
     <p style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border)"><strong>請將以上問題在出院前都得到清楚答案</strong>。回家後遇到狀況才打電話問,常常會錯過最佳處理時機。</p>
   </div>
@@ -1186,7 +1196,7 @@
       <li><strong>適量咖啡因</strong> —— 不必完全戒掉,但避免過量(每天 1–2 杯咖啡通常可以)</li>
       <li><strong>控制高血壓、糖尿病、膽固醇</strong> —— 這些共病是心顫進展的推手</li>
       <li><strong>評估睡眠呼吸中止症</strong> —— 如果有打鼾、白天嗜睡、配偶觀察到呼吸停頓,請告訴醫師(這是常被忽略的心顫誘因)</li>
-      <li><strong>規律有氧運動</strong> —— 心臟手術康復後,醫師允許的範圍內維持運動 <span class="link-ref">連結 10-1</span></li>
+      <li><strong>規律有氧運動</strong> —— 心臟手術康復後,醫師允許的範圍內維持運動 連結 <a class="link-ref" href="10-1a-active-recovery.html">10-1</a></li>
       <li><strong>體重管理</strong> —— 肥胖會增加心顫風險</li>
       <li><strong>避免過度疲勞、情緒激動</strong> —— 自律神經失衡是誘因</li>
       <li><strong>感冒、發燒、感染時主動回診</strong> —— 全身發炎會誘發心顫</li>
@@ -1201,8 +1211,8 @@
     <ul>
       <li><strong>學會量脈搏</strong> —— 把食指與中指放在病人手腕內側(大拇指那側),數 30 秒乘以 2 = 每分鐘心跳。<strong>正常 60–100 下且規律;心顫時通常 &gt; 100 且不規律</strong>。學會這個技巧,您能第一時間發現異常</li>
       <li><strong>提醒按時服藥</strong> —— 特別是抗凝血劑、乙型阻斷劑。病人可能因為「感覺不到症狀」而忘記吃 —— 協助設手機鬧鐘、放藥盒在顯眼處</li>
-      <li><strong>辨識中風的 FAST 徵兆</strong> —— 臉部不對稱、單側手腳無力、講話不清 —— 一旦出現,<strong>立即叫救護車</strong>,不要自行開車送急診 <span class="link-ref">連結 8-1b</span></li>
-      <li><strong>觀察出血徵兆</strong> —— 黑便、血尿、嚴重瘀青、流鼻血止不住 —— 抗凝血劑可能讓出血加重 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>辨識中風的 FAST 徵兆</strong> —— 臉部不對稱、單側手腳無力、講話不清 —— 一旦出現,<strong>立即叫救護車</strong>,不要自行開車送急診 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></li>
+      <li><strong>觀察出血徵兆</strong> —— 黑便、血尿、嚴重瘀青、流鼻血止不住 —— 抗凝血劑可能讓出血加重 連結 <a class="link-ref" href="5-2-coagulation.html">5-2</a></li>
       <li><strong>協助記錄症狀</strong> —— 病人可能會說「昨天好像有心悸」但忘了具體時間。家屬幫忙記錄(時間、持續多久、有沒有伴隨症狀),回診時告訴醫師</li>
       <li><strong>觀察跌倒風險</strong> —— 抗凝血劑使用中,<strong>跌倒撞到頭可能造成腦出血</strong>,協助確保居家環境安全(移除地毯絆腳處、浴室加裝扶手等)</li>
     </ul>
@@ -1271,7 +1281,7 @@
       <li><strong>胸口劇痛、壓迫感</strong>持續超過 5 分鐘</li>
       <li><strong>嚴重呼吸喘</strong>,特別是平躺時更喘</li>
       <li><strong>暈倒、接近暈倒</strong></li>
-      <li><strong>中風症狀(FAST)</strong>:F = Face(臉部不對稱)/ A = Arm(單側手腳無力)/ S = Speech(講話不清)/ T = Time(爭分奪秒到急診) <span class="link-ref">連結 8-1b</span></li>
+      <li><strong>中風症狀(FAST)</strong>:F = Face(臉部不對稱)/ A = Arm(單側手腳無力)/ S = Speech(講話不清)/ T = Time(爭分奪秒到急診) 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></li>
       <li><strong>抗凝血劑使用中出現異常出血</strong>:黑便、血尿、嚴重瘀青、跌倒撞到頭、流鼻血止不住</li>
       <li><strong>抗凝血劑漏服多次</strong>(漏一兩次通常不嚴重,但持續漏服需聯絡醫師)</li>
     </ul>
@@ -1283,21 +1293,21 @@
     <h4>POAF 與心律相關的閱讀路徑 — 術後併發症完整指引</h4>
     <div class="sub">這份單張位於「<strong>術後併發症三部曲</strong>」第 2 部 — 與譫妄(8-2)、AKI(8-4)並列</div>
     <ol>
-      <li>三種冠狀動脈繞道手術比較 3-1(手術類型 — POAF 風險與手術選擇相關)</li>
-      <li>體外循環機 CPB 3-2(手術原理 — CPB 是 POAF 強誘因)</li>
-      <li>微創 vs 傳統開胸 3-3(微創 POAF 較低)</li>
-      <li>凝血功能與止血藥物 5-2(抗凝血劑與止血藥的關係 — 出血/中風雙向風險)</li>
-      <li>多模式止痛 5-1 · 術後疼痛 5-1b(減少誘因 — 疼痛刺激自律神經)</li>
-      <li>早期拔管 6-2 · HFNC 6-6(縮短鎮靜 — 減少交感神經激發)</li>
-      <li>外科加護病房 6-1(住院監測環境)</li>
-      <li>術後神經學評估 病人版 8-1a · 家屬版 8-1b(FAST 中風辨識)</li>
-      <li>譫妄專篇 8-2(術後併發症三部曲第 1 部)</li>
+      <li><a href="3-1-cabg-comparison.html">三種冠狀動脈繞道手術比較 3-1(手術類型 — POAF 風險與手術選擇相關)</a></li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(手術原理 — CPB 是 POAF 強誘因)</a></li>
+      <li><a href="3-3-mics-vs-sternotomy.html">微創 vs 傳統開胸 3-3(微創 POAF 較低)</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2(抗凝血劑與止血藥的關係 — 出血/中風雙向風險)</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1 · 術後疼痛 5-1b(減少誘因 — 疼痛刺激自律神經)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2 · HFNC 6-6(縮短鎮靜 — 減少交感神經激發)</a></li>
+      <li><a href="6-1-sicu.html">外科加護病房 6-1(住院監測環境)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">術後神經學評估 病人版 8-1a · 家屬版 8-1b(FAST 中風辨識)</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(術後併發症三部曲第 1 部)</a></li>
       <li class="current"><strong>術後心房顫動 POAF 8-3(您正在讀:術後併發症三部曲第 2 部)</strong></li>
-      <li>術後急性腎損傷 AKI 8-4(術後併發症三部曲第 3 部)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(早期活動降低 POAF)</li>
-      <li>心臟手術後飲食調整 9-3(warfarin 與綠葉蔬菜)</li>
-      <li>主動恢復入門 10-1a(出院後規律有氧運動)</li>
-      <li>整套衛教整合與終身指南 10-1b(術後併發症三部曲完整收束 — 集大成篇)</li>
+      <li><a href="8-4-aki.html">術後急性腎損傷 AKI 8-4(術後併發症三部曲第 3 部)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(早期活動降低 POAF)</a></li>
+      <li><a href="9-3-cardiac-diet.html">心臟手術後飲食調整 9-3(warfarin 與綠葉蔬菜)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(出院後規律有氧運動)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(術後併發症三部曲完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

@@ -6,7 +6,7 @@
 <title>胸骨固定方式(鋼絲 vs 鋼板) — 心臟加速康復衛教</title>
 <meta name="description" content="傳統鋼絲與鈦合金鋼板兩種胸骨固定方式比較、誰適合鋼板、11 萬自費換到什麼、本院的選擇邏輯">
 
-<meta name="article:modified_time" content="2026-05-19">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -371,6 +371,51 @@
   .risk-callout { padding: 22px 22px; }
   .help-callout { padding: 16px 18px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -579,7 +624,7 @@
       <li><strong>早 1–2 週解除嚴格限制</strong> —— 具體指提早能<strong>開車、提輕物(2–3 公斤,例如一袋蔬菜)、伸手摘高處、回辦公室文職工作、抱小幼兒(5 公斤以下)</strong>;對需要早回工作或照顧家人的人很有實質價值</li>
       <li><strong>骨癒合機率約 3 倍</strong> —— 大幅降低胸骨裂開、再開刀的風險(再開刀成本遠超過 11 萬)</li>
       <li><strong>咳嗽時不痛的機率約 2 倍</strong> —— 配合多模式止痛能更有效控制痛,敢咳痰、減少肺部併發症</li>
-      <li><strong>譫妄與認知功能風險降低</strong> —— ICU 縮短近一半,降低術後認知混亂風險 <span class="link-ref">連結 8-1a</span></li>
+      <li><strong>譫妄與認知功能風險降低</strong> —— ICU 縮短近一半,降低術後認知混亂風險 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a></li>
     </ul>
 
     <div class="cost-compare">
@@ -666,13 +711,13 @@
     <h4>鋼板固定如何串連到整套 ERAS 策略</h4>
     <div class="sub">為高風險族群特別重要</div>
     <ul>
-      <li><strong>胸骨疼痛減少</strong> —— 微動越少、痛感越輕 <span class="link-ref">連結 5-1</span></li>
-      <li><strong>咳嗽更敢用力</strong> —— 胸骨夠穩,能配合抱枕、用腹部力量咳出痰 <span class="link-ref">連結 7-2</span></li>
-      <li><strong>更早能坐起</strong> —— 胸骨穩定,從躺到坐時較不擔心牽動 <span class="link-ref">連結 7-6a</span></li>
-      <li><strong>更早能下床走路</strong> —— 站立、走路時胸骨承受的微動少 <span class="link-ref">連結 7-6b</span></li>
-      <li><strong>抱枕保護期可能縮短</strong> —— 一般病人需要嚴格抱枕保護 6–8 週;<strong>鋼板病人可能可以縮短到 4–6 週</strong>。「早 1–2 週解除限制」具體是指<strong>提早能開車、提輕物(2–3 公斤,例如一袋蔬菜、一個公事包)、伸手摘高處、回到辦公室文職工作、抱小幼兒(5 公斤以下)</strong>等日常活動,對需要早回工作或照顧家人的病人很有實質意義。具體解除時間由醫師依癒合狀況評估 <span class="link-ref">連結 7-4</span></li>
+      <li><strong>胸骨疼痛減少</strong> —— 微動越少、痛感越輕 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
+      <li><strong>咳嗽更敢用力</strong> —— 胸骨夠穩,能配合抱枕、用腹部力量咳出痰 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
+      <li><strong>更早能坐起</strong> —— 胸骨穩定,從躺到坐時較不擔心牽動 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a></li>
+      <li><strong>更早能下床走路</strong> —— 站立、走路時胸骨承受的微動少 連結 <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+      <li><strong>抱枕保護期可能縮短</strong> —— 一般病人需要嚴格抱枕保護 6–8 週;<strong>鋼板病人可能可以縮短到 4–6 週</strong>。「早 1–2 週解除限制」具體是指<strong>提早能開車、提輕物(2–3 公斤,例如一袋蔬菜、一個公事包)、伸手摘高處、回到辦公室文職工作、抱小幼兒(5 公斤以下)</strong>等日常活動,對需要早回工作或照顧家人的病人很有實質意義。具體解除時間由醫師依癒合狀況評估 連結 <a class="link-ref" href="7-4-sternal-precaution.html">7-4</a></li>
       <li><strong>住院天數可能縮短</strong> —— 早期活動加速、併發症減少,平均住院天數通常縮短 1–2 天</li>
-      <li><strong>譫妄與認知風險降低</strong> —— ICU 停留時間縮短近一半 <span class="link-ref">連結 8-1a</span></li>
+      <li><strong>譫妄與認知風險降低</strong> —— ICU 停留時間縮短近一半 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a></li>
       <li><strong>胸骨感染率降低</strong> —— 微動是傷口感染的危險因子之一,剛性固定能降低</li>
     </ul>
   </div>
@@ -755,8 +800,8 @@
       <li>胸骨保護(術後 6–8 週)</li>
       <li>術後咳嗽與咳痰(抱枕固定法)</li>
       <li>從躺到坐、從站到走</li>
-      <li>主動恢復入門 10-1a(胸骨固定方式選擇後的居家照護)</li>
-      <li>整套衛教整合與終身指南 10-1b(居家照護鏈完整收束 — 集大成篇)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(胸骨固定方式選擇後的居家照護)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(居家照護鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

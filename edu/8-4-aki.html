@@ -6,7 +6,7 @@
 <title>術後急性腎損傷 AKI — 心臟加速康復衛教</title>
 <meta name="description" content="心臟手術後常見但容易被忽略的併發症:20-30% 的人會發生 AKI。認識三個分級、本院 ERAS 預防、終身要避開的腎毒性藥物">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1097,6 +1097,51 @@
   margin: 0;
 }
 .med-alert-bracelet p strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -1453,10 +1498,10 @@
       <li><strong>術前評估腎功能基準值</strong>(術前的肌酸酐、eGFR 數值),做為術後比較基準</li>
       <li><strong>術中維持血壓在合理範圍</strong>(平均動脈壓 MAP &gt; 65 mmHg —— 術中血壓的一項指標),避免長時間低血壓</li>
       <li><strong>「目標導向」體液管理</strong> —— 依血壓、心臟輸出量精準補液,不過量也不脫水</li>
-      <li><strong>維持充足的紅血球濃度</strong>(避免術中嚴重貧血讓腎臟缺氧) <span class="link-ref">連結 5-2</span></li>
-      <li><strong>體溫維持 ≥ 36°C</strong> —— 低體溫會減少腎臟血流 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>維持充足的紅血球濃度</strong>(避免術中嚴重貧血讓腎臟缺氧) 連結 <a class="link-ref" href="5-2-coagulation.html">5-2</a></li>
+      <li><strong>體溫維持 ≥ 36°C</strong> —— 低體溫會減少腎臟血流 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
       <li><strong>血糖控制在合理範圍</strong> —— 高血糖會傷腎</li>
-      <li><strong>嚴格避免 NSAIDs 類止痛藥</strong> —— 用多模式止痛取代 <span class="link-ref">連結 5-1 · 5-1b</span></li>
+      <li><strong>嚴格避免 NSAIDs 類止痛藥</strong> —— 用多模式止痛取代 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a> · <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></li>
       <li><strong>抗生素依腎功能調整劑量</strong> —— 部分抗生素具腎毒性,需精算</li>
       <li><strong>術後每日監測肌酸酐與尿量</strong> —— 早期偵測 AKI</li>
       <li><strong>體液評估與利尿劑使用</strong> —— 避免術後水腫</li>
@@ -1574,12 +1619,12 @@
       <li><strong>嚴格控制血壓</strong>(目標 &lt; 130/80 mmHg) —— 高血壓是腎臟的隱形殺手</li>
       <li><strong>嚴格控制血糖</strong>(糖化血色素 &lt; 7% —— 血糖控制的長期指標,&lt; 7% 代表控制良好) —— 糖尿病是慢性腎臟病最大誘因</li>
       <li><strong>充足水分但不過量</strong> —— 一般成人每天約 1500–2000 mL(依心臟狀況微調)</li>
-      <li><strong>低鹽飲食</strong> —— 每天鈉攝取 &lt; 2000 mg(約 5 g 鹽),可減少腎臟負擔 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>低鹽飲食</strong> —— 每天鈉攝取 &lt; 2000 mg(約 5 g 鹽),可減少腎臟負擔 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a></li>
       <li><strong>不要憋尿</strong> —— 有尿意就排掉,避免泌尿道感染</li>
       <li><strong>看任何醫師都主動告知「我曾有過急性腎損傷」</strong> —— 這比您想像的還重要</li>
       <li><strong>避免脫水</strong> —— 腹瀉、嘔吐、發燒、大量流汗時要主動補水(若同時無法進食,盡早就醫)</li>
       <li><strong>戒菸</strong> —— 吸菸會加速腎臟功能下降</li>
-      <li><strong>適量運動、維持理想體重</strong> — 目標 <strong>BMI 18.5-24</strong>(肥胖 BMI ≥ 27 會增加腎臟負擔與糖尿病風險);<strong>每週至少 150 分鐘中等強度有氧運動</strong>(如快走、游泳、騎自行車 — 心臟手術康復後,醫師允許的範圍內) <span class="link-ref">連結 10-1</span></li>
+      <li><strong>適量運動、維持理想體重</strong> — 目標 <strong>BMI 18.5-24</strong>(肥胖 BMI ≥ 27 會增加腎臟負擔與糖尿病風險);<strong>每週至少 150 分鐘中等強度有氧運動</strong>(如快走、游泳、騎自行車 — 心臟手術康復後,醫師允許的範圍內) 連結 <a class="link-ref" href="10-1a-active-recovery.html">10-1</a></li>
     </ul>
   </div>
 
@@ -1589,7 +1634,7 @@
   <div class="patient-actions">
     <h4>給病人本人:AKI 的住院期 + 終身保護的具體配合</h4>
     <ul>
-      <li><strong>主動詢問自己的數字</strong> — 「我今天的肌酸酐多少?」「我的 eGFR 多少?」「跟術前比較變化了多少?」 — 這是 AKI 唯一「能感覺到」的訊號 <span class="link-ref">連結 5-1b</span></li>
+      <li><strong>主動詢問自己的數字</strong> — 「我今天的肌酸酐多少?」「我的 eGFR 多少?」「跟術前比較變化了多少?」 — 這是 AKI 唯一「能感覺到」的訊號 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></li>
       <li><strong>主動回報「尿量比平常少很多」</strong>(尿管期看引流袋,移除尿管後看自己上廁所次數) — 不必精確計算,粗略觀察就好</li>
       <li><strong>絕對不要忍痛而自己買 NSAIDs</strong> — 即使是輕度的肩頸痠痛、頭痛、生理痛。先回診請醫師評估,普拿疼(acetaminophen)對腎臟相對安全是首選</li>
       <li><strong>看任何醫師(牙醫、家醫科、皮膚科、泌尿科、骨科、急診)都主動告知「我曾有過急性腎損傷」</strong> — 這比您想像的還重要,可能影響用藥選擇</li>
@@ -1691,17 +1736,17 @@
     <h4>AKI 與術後恢復相關的閱讀路徑</h4>
     <div class="sub">這份單張位於「<strong>術後併發症三部曲</strong>」第 3 部 — 也是整套系列「終身保護」議題的標竿</div>
     <ol>
-      <li>體外循環機 CPB 3-2(與 AKI 關係 — CPB 時間長是 AKI 強誘因)</li>
-      <li>凝血功能與止血藥物 5-2(紅血球與腎臟保護)</li>
-      <li>圍術期低體溫 4-6(影響腎臟血流)</li>
-      <li>多模式止痛 5-1 · 術後疼痛 5-1b(避免 NSAIDs,本院多模式策略正好避開)</li>
-      <li>譫妄專篇 8-2(術後併發症三部曲第 1 部:腦)</li>
-      <li>術後心房顫動 POAF 8-3(術後併發症三部曲第 2 部:心律 — 抗凝血劑與腎功能的關係)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(與 AKI 關係 — CPB 時間長是 AKI 強誘因)</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2(紅血球與腎臟保護)</a></li>
+      <li><a href="4-6-temperature.html">圍術期低體溫 4-6(影響腎臟血流)</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1 · 術後疼痛 5-1b(避免 NSAIDs</a>,本院多模式策略正好避開)</li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(術後併發症三部曲第 1 部:腦)</a></li>
+      <li><a href="8-3-poaf.html">術後心房顫動 POAF 8-3(術後併發症三部曲第 2 部:心律 — 抗凝血劑與腎功能的關係)</a></li>
       <li class="current"><strong>術後急性腎損傷 AKI 8-4(您正在讀:術後併發症三部曲第 3 部:腎 — 終身議題)</strong></li>
-      <li>術後神經學評估 病人版 8-1a · 家屬版 8-1b(意識清醒時主動詢問數字)</li>
-      <li>心臟手術後飲食調整 9-3(低鹽、適量蛋白質 — 與 AKI 終身保護一致)</li>
-      <li>主動恢復入門 10-1a(出院後規律有氧運動 — BMI 與運動目標)</li>
-      <li>整套衛教整合與終身指南 10-1b(終身保護論述完整展開 — 集大成篇)</li>
+      <li><a href="8-1a-cognitive-patient.html">術後神經學評估 病人版 8-1a · 家屬版 8-1b(意識清醒時主動詢問數字)</a></li>
+      <li><a href="9-3-cardiac-diet.html">心臟手術後飲食調整 9-3(低鹽</a>、適量蛋白質 — 與 AKI 終身保護一致)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(出院後規律有氧運動 — BMI 與運動目標)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(終身保護論述完整展開 — 集大成篇)</a></li>
     </ol>
   </div>
 

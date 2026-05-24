@@ -6,7 +6,7 @@
 <title>您也是康復團隊的一員 — 主動恢復入門篇</title>
 <meta name="description" content="病人主動參與是 ERAS 加速康復的關鍵,術前、術後早期、出院準備的三階段行動清單">
 
-<meta name="article:modified_time" content="2026-05-18">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -187,6 +187,51 @@
   .final-call h3 { font-size: 17px; }
   .team-grid { grid-template-columns: 1fr; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -259,11 +304,11 @@
     </div>
     <div class="member-card">
       <h5>復健師</h5>
-      <p>協助您從躺到坐、從坐到走、出院後的運動規劃 <span class="link-ref">連結 7-6a · 7-6b</span></p>
+      <p>協助您從躺到坐、從坐到走、出院後的運動規劃 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></p>
     </div>
     <div class="member-card">
       <h5>營養師</h5>
-      <p>住院期間提供飲食諮詢,協助建立「給心臟的長效禮物」 <span class="link-ref">連結 9-3</span></p>
+      <p>住院期間提供飲食諮詢,協助建立「給心臟的長效禮物」 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a></p>
     </div>
     <div class="member-card">
       <h5>社工師</h5>
@@ -271,7 +316,7 @@
     </div>
     <div class="member-card highlight">
       <h5>家屬</h5>
-      <p>不是「訪客」,而是「<strong>不可取代的處方</strong>」 — 認知陪伴、譫妄預防、回家後的長期照顧 <span class="link-ref">連結 8-1b</span></p>
+      <p>不是「訪客」,而是「<strong>不可取代的處方</strong>」 — 認知陪伴、譫妄預防、回家後的長期照顧 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></p>
     </div>
     <div class="member-card highlight">
       <h5>您本人</h5>
@@ -294,11 +339,11 @@
       </li>
       <li>
         <strong>練習深呼吸與咳嗽</strong>
-        <span class="why">使用誘發性肺量計,每天規律訓練,術後拔管後就能立刻派上用場 <span class="link-ref">連結 7-1 · 7-2</span>。</span>
+        <span class="why">使用誘發性肺量計,每天規律訓練,術後拔管後就能立刻派上用場 連結 <a class="link-ref" href="7-1-spirometer.html">7-1</a> · <a class="link-ref" href="7-2-cough.html">7-2</a>。</span>
       </li>
       <li>
         <strong>均衡飲食、補充蛋白質</strong>
-        <span class="why">手術是身體的「大型重建工程」,足夠的蛋白質與營養是修補材料。住院期間就是飲食調整的「黃金訓練期」 <span class="link-ref">連結 9-3</span>。</span>
+        <span class="why">手術是身體的「大型重建工程」,足夠的蛋白質與營養是修補材料。住院期間就是飲食調整的「黃金訓練期」 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a>。</span>
       </li>
       <li>
         <strong>規律輕度運動</strong>
@@ -314,7 +359,7 @@
       </li>
       <li>
         <strong>術前訪視時帶所有處方藥</strong>
-        <span class="why">由醫師逐一檢視,確認哪些術前要停(如 ACEi/ARB、SGLT2 抑制劑) <span class="link-ref">連結 8-4</span>。</span>
+        <span class="why">由醫師逐一檢視,確認哪些術前要停(如 ACEi/ARB、SGLT2 抑制劑) 連結 <a class="link-ref" href="8-4-aki.html">8-4</a>。</span>
       </li>
     </ul>
   </article>
@@ -330,27 +375,27 @@
     <ul class="action-list">
       <li>
         <strong>醒來後配合深呼吸與咳痰</strong>
-        <span class="why">用枕頭抱住胸口減輕傷口痛感,每小時做幾次,預防肺塌陷與肺炎 <span class="link-ref">連結 7-1 · 7-2</span>。</span>
+        <span class="why">用枕頭抱住胸口減輕傷口痛感,每小時做幾次,預防肺塌陷與肺炎 連結 <a class="link-ref" href="7-1-spirometer.html">7-1</a> · <a class="link-ref" href="7-2-cough.html">7-2</a>。</span>
       </li>
       <li>
         <strong>誠實表達疼痛程度</strong>
-        <span class="why">疼痛分數請主動告訴護理師,多模式止痛能隨時調整。忍痛只會讓您不敢呼吸、不敢咳嗽 <span class="link-ref">連結 5-1b</span>。</span>
+        <span class="why">疼痛分數請主動告訴護理師,多模式止痛能隨時調整。忍痛只會讓您不敢呼吸、不敢咳嗽 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a>。</span>
       </li>
       <li>
         <strong>儘早嘗試坐起、下床</strong>
-        <span class="why">本院積極時程:<strong>拔管後 6 小時內坐起、24 小時內走路繞護理站一圈</strong>(比國際標準快 4 倍) <span class="link-ref">連結 7-6a · 7-6b</span>。每多一次下床,就少一次血栓風險。</span>
+        <span class="why">本院積極時程:<strong>拔管後 6 小時內坐起、24 小時內走路繞護理站一圈</strong>(比國際標準快 4 倍) 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a>。每多一次下床,就少一次血栓風險。</span>
       </li>
       <li>
         <strong>恢復進食與飲水</strong>
-        <span class="why">能吞嚥後依指示開始喝水、進食 — <strong>不需要從清流質慢慢進階</strong>。早一點吃,腸胃功能就早一點恢復 <span class="link-ref">連結 7-5 · 7-7</span>。</span>
+        <span class="why">能吞嚥後依指示開始喝水、進食 — <strong>不需要從清流質慢慢進階</strong>。早一點吃,腸胃功能就早一點恢復 連結 <a class="link-ref" href="7-5-swallow.html">7-5</a> · <a class="link-ref" href="7-7-eating.html">7-7</a>。</span>
       </li>
       <li>
         <strong>配合拔管路</strong>
-        <span class="why">尿管、引流管、靜脈管路會依恢復狀況逐步移除。少一條管路,多一分自由 <span class="link-ref">連結 6-3 · 6-4</span>。</span>
+        <span class="why">尿管、引流管、靜脈管路會依恢復狀況逐步移除。少一條管路,多一分自由 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a> · <a class="link-ref" href="6-4-foley.html">6-4</a>。</span>
       </li>
       <li>
         <strong>家屬會客時主動互動</strong>
-        <span class="why">家屬的陪伴是「不可取代的處方」 — 對話、握手、看家人照片都能加速認知與譫妄恢復 <span class="link-ref">連結 8-1a · 8-1b</span>。</span>
+        <span class="why">家屬的陪伴是「不可取代的處方」 — 對話、握手、看家人照片都能加速認知與譫妄恢復 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> · <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a>。</span>
       </li>
       <li>
         <strong>注意異常並回報</strong>
@@ -374,11 +419,11 @@
       </li>
       <li>
         <strong>記住「胸骨保護」六週原則</strong>
-        <span class="why">不單手出力、不推拉重物、不抱舉超過 5 公斤、起身改用「翻身側坐起」法 <span class="link-ref">連結 7-4</span>。</span>
+        <span class="why">不單手出力、不推拉重物、不抱舉超過 5 公斤、起身改用「翻身側坐起」法 連結 <a class="link-ref" href="7-4-sternal-precaution.html">7-4</a>。</span>
       </li>
       <li>
         <strong>用藥按時、不自行停藥</strong>
-        <span class="why">特別是抗血小板、降血壓、降血脂藥物,是減少再次心血管事件的關鍵。若有 POAF 或 AKI 病史,抗凝血劑、ACEi/ARB 恢復時機請與醫師確認 <span class="link-ref">連結 8-3 · 8-4</span>。</span>
+        <span class="why">特別是抗血小板、降血壓、降血脂藥物,是減少再次心血管事件的關鍵。若有 POAF 或 AKI 病史,抗凝血劑、ACEi/ARB 恢復時機請與醫師確認 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a> · <a class="link-ref" href="8-4-aki.html">8-4</a>。</span>
       </li>
       <li>
         <strong>每日自我監測</strong>
@@ -390,7 +435,7 @@
       </li>
       <li>
         <strong>維持住院期間建立的飲食標準</strong>
-        <span class="why">低鈉、好油、足蛋白、避免葡萄柚 — 「黃金訓練期」建立的口味標準變成日常 <span class="link-ref">連結 9-3</span>。</span>
+        <span class="why">低鈉、好油、足蛋白、避免葡萄柚 — 「黃金訓練期」建立的口味標準變成日常 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a>。</span>
       </li>
       <li>
         <strong>知道何時該立刻就醫</strong>
@@ -404,15 +449,15 @@
     <h4>整套衛教的入門路徑</h4>
     <div class="sub">這份單張是「主動恢復」的入門。整套衛教完整俯瞰請見 10-1b</div>
     <ol>
-      <li>3 系列:認識手術(3-1 ~ 3-4)</li>
-      <li>4 系列:術中精準照護(4-2 ~ 4-6)</li>
-      <li>5 系列:止痛與凝血(5-1 ~ 5-2)</li>
-      <li>6 系列:加護病房(6-1 ~ 6-6)</li>
-      <li>7 系列:主動恢復鏈(7-1 ~ 7-7)</li>
+      <li><a href="3-1-cabg-comparison.html">3 系列:認識手術(3-1 ~ 3-4)</a></li>
+      <li><a href="4-2-tof.html">4 系列:術中精準照護(4-2 ~ 4-6)</a></li>
+      <li><a href="5-1-multimodal.html">5 系列:止痛與凝血(5-1 ~ 5-2)</a></li>
+      <li><a href="6-1-sicu.html">6 系列:加護病房(6-1 ~ 6-6)</a></li>
+      <li><a href="7-1-spirometer.html">7 系列:主動恢復鏈(7-1 ~ 7-7)</a></li>
       <li>8 系列:腦與術後併發症(8-1 ~ 8-4)</li>
-      <li>9 系列:出院後長期(9-3)</li>
+      <li><a href="9-3-cardiac-diet.html">9 系列:出院後長期(9-3)</a></li>
       <li class="current"><strong>10 系列:整合總結 — 10-1a 入門篇(您正在讀)</strong></li>
-      <li>10-1b 整套衛教的整合與終身指南(下一份)</li>
+      <li><a href="10-1b-active-recovery.html">10-1b 整套衛教的整合與終身指南(下一份)</a></li>
     </ol>
   </div>
 

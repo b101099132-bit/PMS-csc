@@ -6,7 +6,7 @@
 <title>拔管後的吞嚥暫時困難 — 心臟加速康復衛教</title>
 <meta name="description" content="拔管後 24–72 小時的吞嚥困難原因、本院的安全評估流程、進食姿勢與嗆到處理">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -358,6 +358,51 @@
   line-height: 1.75;
 }
 .choke-emergency .severe-row strong { color: var(--danger); font-weight: 700; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -394,7 +439,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">TEE · 經食道超音波</span>
-      <span class="lex-def">Trans-Esophageal Echocardiography,<strong>從食道內進行的心臟超音波檢查</strong>。心臟手術中常用,術後可能造成<strong>暫時的吞嚥不適、喉嚨痛、聲音沙啞</strong>(1-3 天恢復)。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+      <span class="lex-def">Trans-Esophageal Echocardiography,<strong>從食道內進行的心臟超音波檢查</strong>。心臟手術中常用,術後可能造成<strong>暫時的吞嚥不適、喉嚨痛、聲音沙啞</strong>(1-3 天恢復)。詳見 <a class="link-ref" href="5-1b-postop-pain.html">5-1b 術後疼痛</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">語言治療師</span>
@@ -436,7 +481,7 @@
     <div class="reason">
       <div class="r-num">原因 04</div>
       <h4>TEE 食道探頭的暫時刺激</h4>
-      <p>心臟手術中常使用<strong>經食道超音波(TEE)</strong>檢查心臟功能 — 探頭從口腔放入食道,術後可能讓<strong>喉嚨、食道上段有暫時的刺激感、輕微痠痛、聲音沙啞</strong>。這些症狀通常 1-3 天緩解,但會讓最初幾次吞嚥更不順。 <span class="link-ref">連結 5-1b</span></p>
+      <p>心臟手術中常使用<strong>經食道超音波(TEE)</strong>檢查心臟功能 — 探頭從口腔放入食道,術後可能讓<strong>喉嚨、食道上段有暫時的刺激感、輕微痠痛、聲音沙啞</strong>。這些症狀通常 1-3 天緩解,但會讓最初幾次吞嚥更不順。 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></p>
     </div>
   </div>
 
@@ -459,7 +504,7 @@
   <div class="section-title">本院的吞嚥評估流程</div>
 
   <p class="section-intro">
-    這是<span class="em">通往進食的「安全閘門」</span>。逐步通過，才會進入下一階段（喝水進食 <span class="link-ref">連結 7-7</span>）。
+    這是<span class="em">通往進食的「安全閘門」</span>。逐步通過，才會進入下一階段（喝水進食 連結 <a class="link-ref" href="7-7-eating.html">7-7</a>）。
   </p>
 
   <div style="margin: 10px 0 18px; padding: 14px 16px; background: var(--paper); border-radius: 3px; border-left: 2px solid var(--teal); font-size: 13px; line-height: 1.85; color: var(--ink-soft);">
@@ -495,7 +540,7 @@
     <div class="step-num">04</div>
     <div class="step-body">
       <h4>通過閘門 → 進入「喝水進食」階段</h4>
-      <p>通過評估後,會由<strong>少量澄清液體 → 軟質食物 → 一般飲食</strong>逐步進階。詳細的進食建議請參考下一篇衛教 <span class="link-ref">連結 7-7</span>。</p>
+      <p>通過評估後,會由<strong>少量澄清液體 → 軟質食物 → 一般飲食</strong>逐步進階。詳細的進食建議請參考下一篇衛教 連結 <a class="link-ref" href="7-7-eating.html">7-7</a>。</p>
 
       <div class="dietary-progression">
         <h5>食物進階具體範例</h5>
@@ -509,7 +554,7 @@
         </div>
         <div class="dp-row">
           <div class="dp-stage">第 3 階段<br>一般飲食</div>
-          <div class="dp-examples"><strong>恢復術前的飲食習慣</strong>。同時請參考心臟飲食原則:低鹽、適量水分、好油、優質蛋白 <span class="link-ref">連結 9-3</span>。<strong>避免</strong>:乾、硬、容易碎屑的食物(餅乾、堅果、爆米花)。</div>
+          <div class="dp-examples"><strong>恢復術前的飲食習慣</strong>。同時請參考心臟飲食原則:低鹽、適量水分、好油、優質蛋白 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a>。<strong>避免</strong>:乾、硬、容易碎屑的食物(餅乾、堅果、爆米花)。</div>
         </div>
       </div>
     </div>
@@ -539,7 +584,7 @@
     <ol>
       <li><strong>立即停止吞嚥,不要再吞下一口</strong> — 這是最關鍵的一步。許多嗆到後的併發症,都是因為「想說咳咳就過去了」繼續吞</li>
       <li><strong>坐直、身體微前傾、下巴內收</strong> — 利用重力幫助食物或液體從氣管落回口腔。<strong>不要平躺、不要仰頭拍背</strong>,那會把東西推進更深</li>
-      <li><strong>用力咳出來</strong> — 大聲、用腹部力量的「哈!哈!」式咳嗽(同 <span class="link-ref">7-2</span>),把氣管中的東西咳到口腔再吐出</li>
+      <li><strong>用力咳出來</strong> — 大聲、用腹部力量的「哈!哈!」式咳嗽(同 <a class="link-ref" href="7-2-cough.html">7-2</a>),把氣管中的東西咳到口腔再吐出</li>
       <li><strong>觀察咳完後的狀況</strong> — 聲音是否變沙啞?呼吸是否變喘?有沒有持續輕微咳嗽?痰中有食物殘渣?任一項出現就告訴護理師</li>
       <li><strong>休息至少 5-10 分鐘再決定是否繼續</strong> — 不要硬撐繼續吃。如果同一餐連續嗆 2 次以上,<strong>停止進食、告訴護理師重新評估吞嚥</strong>(可能需要重做閘門評估或請語言治療師介入)</li>
     </ol>
@@ -640,16 +685,16 @@
     <h4>術後恢復鏈閱讀路徑</h4>
     <div class="sub">「<strong>從拔管 → 進食</strong>」是一個漸進的過程,每一步都有保護機制。7-5 是這條鏈中的<strong>「安全閘門」節點</strong>。</div>
     <ol>
-      <li>早期拔管 6-2(拔管 = 進食恢復的前提)</li>
-      <li>HFNC 高流量鼻導管 6-6(舒適呼吸支援 — 不影響說話喝水進食)</li>
-      <li>術後疼痛 5-1b(TEE 喉嚨痛、會呼吸的痛、止痛策略延續)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(拔管 = 進食恢復的前提)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(舒適呼吸支援 — 不影響說話喝水進食)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(TEE 喉嚨痛</a>、會呼吸的痛、止痛策略延續)</li>
       <li class="current"><strong>拔管後吞嚥暫時困難 7-5(您正在讀:進食前的安全閘門)</strong></li>
-      <li>術後喝水進食 7-7(通過閘門後的正式進食 — 下一篇)</li>
-      <li>心臟飲食 9-3(出院後的長期飲食原則)</li>
-      <li>術後咳嗽 7-2(咳嗽反射是吞嚥安全的前提)</li>
-      <li>認知復健 8-1a · 8-1b(意識清醒度是吞嚥安全的前提)</li>
-      <li>主動恢復入門 10-1a(通過吞嚥閘門後的主動進食恢復)</li>
-      <li>整套衛教整合與終身指南 10-1b(術後恢復鏈完整收束 — 集大成篇)</li>
+      <li><a href="7-7-eating.html">術後喝水進食 7-7(通過閘門後的正式進食 — 下一篇)</a></li>
+      <li><a href="9-3-cardiac-diet.html">心臟飲食 9-3(出院後的長期飲食原則)</a></li>
+      <li><a href="7-2-cough.html">術後咳嗽 7-2(咳嗽反射是吞嚥安全的前提)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 8-1a · 8-1b(意識清醒度是吞嚥安全的前提)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(通過吞嚥閘門後的主動進食恢復)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(術後恢復鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

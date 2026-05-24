@@ -6,7 +6,7 @@
 <title>心臟手術後的飲食調整 — 心臟加速康復衛教</title>
 <meta name="description" content="住院期間就要開始的五大飲食原則,低鈉、健康油脂、蛋白質、藥食交互作用、口渴中樞調節,過渡式調整與地中海飲食">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -483,6 +483,51 @@
   line-height: 1.75;
 }
 .potassium-table .pk-foods strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -528,7 +573,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">藥食交互作用</span>
-      <span class="lex-def">某些食物會影響藥效。<strong>葡萄柚(CYP3A4 抑制)、深綠色蔬菜(影響 warfarin)、含鉀食物(影響利尿劑)</strong>是常見要注意的。詳見 <strong>7-7</strong>(葡萄柚)、<strong>8-3 POAF</strong>(warfarin)、<strong>8-4 AKI</strong>(NSAIDs)。</span>
+      <span class="lex-def">某些食物會影響藥效。<strong>葡萄柚(CYP3A4 抑制)、深綠色蔬菜(影響 warfarin)、含鉀食物(影響利尿劑)</strong>是常見要注意的。詳見 <a class="link-ref" href="7-7-eating.html">7-7</a>(葡萄柚)、<strong>8-3 POAF</strong>(warfarin)、<strong>8-4 AKI</strong>(NSAIDs)。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">保鉀型 vs 排鉀型利尿劑</span>
@@ -621,9 +666,9 @@
     <div class="p-why">心臟手術後常用的藥物有些會與食物互相影響</div>
     <div class="p-body">
       <strong>三個重點 —— 拿藥袋對照,最簡單</strong>
-      <span class="sub-line"><strong>① 抗凝血劑(可邁丁 / Warfarin)</strong>:深綠色蔬菜(菠菜、地瓜葉、青花菜)含維生素 K,會降低藥效。<strong>重點不是不能吃,而是每天份量不要忽多忽少</strong> —— 平常每天吃半碗綠色蔬菜,就維持這個量;不要今天完全不吃、明天吃兩大盤。 <span class="link-ref">連結 8-3 POAF</span></span>
-      <span class="sub-line" style="background:rgba(184, 84, 80, 0.08); padding:8px 10px; border-radius:3px; border-left:2px solid var(--danger); display:block; margin-top:8px;"><strong style="color:var(--danger)">⚠ ② 葡萄柚與葡萄柚汁</strong>:葡萄柚中的「呋喃香豆素」會<strong>抑制肝臟 CYP3A4 酵素</strong> — 像「<strong>把藥的清除工人鎖在儲藏室</strong>」 — 讓某些降血壓藥(鈣離子通道阻斷劑)、降膽固醇藥(史他汀類)、抗凝血藥的濃度意外升高。<strong>最簡單的做法是直接避免</strong>;如果想吃柑橘類,<strong>柳橙、橘子、檸檬都沒問題</strong>。 <span class="link-ref">連結 7-7 喝水進食</span></span>
-      <span class="sub-line"><strong>③ 鉀的攝取(依個人狀況) — 整套系列首份「同一類藥物的相反建議」處理</strong> <span class="link-ref">連結 8-4 AKI</span>:</span>
+      <span class="sub-line"><strong>① 抗凝血劑(可邁丁 / Warfarin)</strong>:深綠色蔬菜(菠菜、地瓜葉、青花菜)含維生素 K,會降低藥效。<strong>重點不是不能吃,而是每天份量不要忽多忽少</strong> —— 平常每天吃半碗綠色蔬菜,就維持這個量;不要今天完全不吃、明天吃兩大盤。 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a> POAF</span>
+      <span class="sub-line" style="background:rgba(184, 84, 80, 0.08); padding:8px 10px; border-radius:3px; border-left:2px solid var(--danger); display:block; margin-top:8px;"><strong style="color:var(--danger)">⚠ ② 葡萄柚與葡萄柚汁</strong>:葡萄柚中的「呋喃香豆素」會<strong>抑制肝臟 CYP3A4 酵素</strong> — 像「<strong>把藥的清除工人鎖在儲藏室</strong>」 — 讓某些降血壓藥(鈣離子通道阻斷劑)、降膽固醇藥(史他汀類)、抗凝血藥的濃度意外升高。<strong>最簡單的做法是直接避免</strong>;如果想吃柑橘類,<strong>柳橙、橘子、檸檬都沒問題</strong>。 連結 <a class="link-ref" href="7-7-eating.html">7-7</a> 喝水進食</span>
+      <span class="sub-line"><strong>③ 鉀的攝取(依個人狀況) — 整套系列首份「同一類藥物的相反建議」處理</strong> 連結 <a class="link-ref" href="8-4-aki.html">8-4</a> AKI:</span>
       <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「保鉀型」利尿劑</strong>(Spironolactone / Aldactone / 安達通) —— 體內鉀容易偏高,<strong>含鉀食物要控制份量</strong>。</span>
       <span class="sub-line" style="margin-left:14px; padding-left:8px; border-left:2px solid var(--border-strong)"><strong>「排鉀型」利尿劑</strong>(Furosemide / Lasix / 來適泄) —— 體內鉀容易偏低,<strong>可以適量增加含鉀食物</strong>。</span>
 
@@ -685,7 +730,7 @@
       <span class="sub-line"><strong>BMI 計算</strong>:體重(公斤) ÷ 身高(公尺) ÷ 身高(公尺)。<strong>18.5-24 為正常</strong>,24-27 為過重,≥ 27 為肥胖。</span>
       <span class="sub-line"><strong>不要急著減重</strong>:術後 1-3 個月內,身體優先在做組織修復,過度減重可能影響傷口癒合。<strong>先穩定體重</strong>,等心臟功能恢復後(術後 3-6 個月)再開始有計畫減重。</span>
       <span class="sub-line"><strong>減重目標</strong>:若 BMI ≥ 27,每月減重 1-2 公斤是健康速度。<strong>每週減重 0.5 公斤</strong>就足夠,過快會復胖也影響營養狀態。</span>
-      <span class="sub-line"><strong>方法</strong>:80% 靠飲食(份量控制、減少精緻糖、增加蔬果)、20% 靠運動 <span class="link-ref">連結 10-1</span>。<strong>不要靠減肥茶、減肥藥、極端節食</strong> — 對心臟與腎臟都有害。</span>
+      <span class="sub-line"><strong>方法</strong>:80% 靠飲食(份量控制、減少精緻糖、增加蔬果)、20% 靠運動 連結 <a class="link-ref" href="10-1a-active-recovery.html">10-1</a>。<strong>不要靠減肥茶、減肥藥、極端節食</strong> — 對心臟與腎臟都有害。</span>
       <span class="sub-line" style="color:var(--ink-faint); font-size:13px;"><strong>需要協助請告訴醫師</strong>:本院營養師可以提供個別化減重計畫,結合您的心臟狀況與藥物。</span>
     </div>
   </article>
@@ -702,7 +747,7 @@
     <div class="sub">不是一次到位,而是漸進式</div>
     <div class="step-row">
       <div class="when">術後第 1 天</div>
-      <div class="what"><strong>以喜歡的口味為主</strong>,重點是提食慾。剛拔管的人沒胃口很正常,先讓他「想吃」比「吃對」更重要 <span class="link-ref">連結 7-7</span>。</div>
+      <div class="what"><strong>以喜歡的口味為主</strong>,重點是提食慾。剛拔管的人沒胃口很正常,先讓他「想吃」比「吃對」更重要 連結 <a class="link-ref" href="7-7-eating.html">7-7</a>。</div>
     </div>
     <div class="step-row">
       <div class="when">術後第 2–3 天</div>
@@ -748,9 +793,9 @@
       <li><strong>主動跟營養師約諮詢</strong> — 不要等家屬幫您安排,自己跟護理師說「我想跟營養師談」。<strong>您是這個身體的主人</strong></li>
       <li><strong>學會看食品營養標籤</strong> — 每份含鈉量 &lt; 400 mg 為佳、&gt; 800 mg/份是高鈉。出院前在病房就練習(用家屬帶來的食物包裝練)</li>
       <li><strong>對「鹹」「油」「甜」的口味退讓不要視為犧牲</strong> — 給自己 3-4 週,味蕾會調整。<strong>等您適應後再吃舊口味,會覺得「怎麼這麼鹹」</strong></li>
-      <li><strong>絕對不要靠減肥茶、極端節食、來路不明的「補腎/補心」中藥減重</strong> <span class="link-ref">連結 8-4 AKI</span>。任何想吃的補品、保健食品,<strong>先問醫師或營養師</strong></li>
-      <li><strong>主動詢問自己用的藥物有沒有食物互動</strong> — 「我吃的這顆是哪種利尿劑?保鉀還是排鉀?」「我有沒有需要避免葡萄柚?」(對應 7-7 葡萄柚 CYP3A4 機轉) <span class="link-ref">連結 7-7</span></li>
-      <li><strong>主動告訴家屬「我想吃什麼/不想吃什麼」</strong> — 家屬好意但不一定知道您現在的食慾、味覺變化。<strong>溝通是好飲食的基礎</strong> <span class="link-ref">連結 7-7</span></li>
+      <li><strong>絕對不要靠減肥茶、極端節食、來路不明的「補腎/補心」中藥減重</strong> 連結 <a class="link-ref" href="8-4-aki.html">8-4</a> AKI。任何想吃的補品、保健食品,<strong>先問醫師或營養師</strong></li>
+      <li><strong>主動詢問自己用的藥物有沒有食物互動</strong> — 「我吃的這顆是哪種利尿劑?保鉀還是排鉀?」「我有沒有需要避免葡萄柚?」(對應 7-7 葡萄柚 CYP3A4 機轉) 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
+      <li><strong>主動告訴家屬「我想吃什麼/不想吃什麼」</strong> — 家屬好意但不一定知道您現在的食慾、味覺變化。<strong>溝通是好飲食的基礎</strong> 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
       <li><strong>對「終身要小心」不要焦慮或自我設限</strong> — 飲食調整不是處罰,是與身體共存的新模式。偶爾外食、聚餐都可以,只要回到日常仍維持原則</li>
     </ul>
   </div>
@@ -763,7 +808,7 @@
 
     <div class="timeline-row">
       <div class="tr-when">術後第 1 天</div>
-      <div class="tr-what"><strong>沒胃口、覺得味道怪、吞嚥怪</strong>是正常的(麻醉、止痛藥、插管後的暫時性味覺改變)。<strong>不要強迫自己吃</strong>,先讓胃口慢慢回來 <span class="link-ref">連結 7-7</span></div>
+      <div class="tr-what"><strong>沒胃口、覺得味道怪、吞嚥怪</strong>是正常的(麻醉、止痛藥、插管後的暫時性味覺改變)。<strong>不要強迫自己吃</strong>,先讓胃口慢慢回來 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></div>
     </div>
 
     <div class="timeline-row">
@@ -829,7 +874,7 @@
       <li><strong>醃漬與煙燻食品</strong>(罐頭、泡菜、肉鬆、滷味) —— 鈉含量極高</li>
       <li><strong>速食與油炸物</strong>(炸雞、薯條、雞排) —— 反式脂肪、飽和脂肪、鈉三高</li>
       <li><strong>含糖飲料</strong>(手搖飲、果汁、汽水) —— 過量糖分會升高三酸甘油酯,增加心血管風險</li>
-      <li><strong>過量酒精</strong> —— 男性每日不超過 2 份、女性 1 份(1 份 = 啤酒 350 mL 或紅酒 150 mL) <span class="link-ref">連結 8-3 POAF</span></li>
+      <li><strong>過量酒精</strong> —— 男性每日不超過 2 份、女性 1 份(1 份 = 啤酒 350 mL 或紅酒 150 mL) 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a> POAF</li>
       <li><strong>反式脂肪相關食品</strong>(部分酥油、人造奶油、酥皮糕點、奶精) —— 看標籤若有「氫化」「部分氫化」字樣請避免</li>
     </ul>
   </div>
@@ -853,7 +898,7 @@
 
     <div class="h-cat">
       <div class="h-name">③ 減肥茶/減肥藥/排毒茶/通便茶</div>
-      <div class="h-body">很多含<strong>腎毒性、心臟毒性、未明示的西藥成分</strong>(如利尿劑、瀉藥、安非他命類)。<strong>絕對避免</strong>。心臟手術後若有減重需求,請與醫師、營養師討論安全方法 <span class="link-ref">連結 8-4 AKI</span>。</div>
+      <div class="h-body">很多含<strong>腎毒性、心臟毒性、未明示的西藥成分</strong>(如利尿劑、瀉藥、安非他命類)。<strong>絕對避免</strong>。心臟手術後若有減重需求,請與醫師、營養師討論安全方法 連結 <a class="link-ref" href="8-4-aki.html">8-4</a> AKI。</div>
     </div>
 
     <div class="h-cat">
@@ -883,7 +928,7 @@
       <li><strong>持續嘔吐、吃不下、嚴重食慾不振 &gt; 3 天</strong> — 可能是電解質問題、藥物副作用、或其他併發症</li>
       <li><strong>持續便祕 &gt; 5 天</strong> — 解便用力對心臟與胸骨都有負擔,需要醫療處理</li>
       <li><strong>站起來頭暈、眼前發黑</strong> — 可能是血壓過低、脫水、或鉀離子異常(若使用排鉀型利尿劑特別注意)</li>
-      <li><strong>抽筋、肌肉無力、心跳怪怪的</strong> — 可能是鉀離子異常(過低或過高都會引起,POAF 病人特別警覺) <span class="link-ref">連結 8-3 POAF</span></li>
+      <li><strong>抽筋、肌肉無力、心跳怪怪的</strong> — 可能是鉀離子異常(過低或過高都會引起,POAF 病人特別警覺) 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a> POAF</li>
       <li><strong>突然出現黑便、血便、嚴重瘀青</strong> — 抗凝血劑使用中,可能是與飲食(綠葉蔬菜份量改變、保健食品)的交互作用,需要立即就醫</li>
     </ul>
   </div>
@@ -909,17 +954,17 @@
     <h4>飲食調整在整套衛教中的位置 — 終身守護鏈最長一段</h4>
     <div class="sub">這份單張是整套系列「<strong>術後 10-20 年最長守護鏈</strong>」與「<strong>居家照護鏈</strong>」的關鍵節點</div>
     <ol>
-      <li>體外循環機 CPB 3-2(認識手術設備 — 出血/中風守護鏈起點)</li>
-      <li>凝血功能 5-2(warfarin 抗凝血藥背景)</li>
-      <li>術後疼痛 5-1b(NSAIDs 與飲食/腎臟的關係)</li>
-      <li>術後吞嚥 7-5(出院後吞嚥變化)</li>
-      <li>喝水進食 7-7(主動恢復鏈關鍵節點 + 葡萄柚 CYP3A4 機轉)</li>
-      <li>譫妄專篇 8-2(術後併發症三部曲第 1 部 — 民間用藥警示與飲食的關係)</li>
-      <li>術後心房顫動 POAF 8-3(術後併發症三部曲第 2 部 — warfarin 與綠葉蔬菜、酒精誘因)</li>
-      <li>術後急性腎損傷 AKI 8-4(術後併發症三部曲第 3 部 — 終身保護論述 + 中草藥警示)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(認識手術設備 — 出血/中風守護鏈起點)</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能 5-2(warfarin 抗凝血藥背景)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(NSAIDs 與飲食/腎臟的關係)</a></li>
+      <li><a href="7-5-swallow.html">術後吞嚥 7-5(出院後吞嚥變化)</a></li>
+      <li><a href="7-7-eating.html">喝水進食 7-7(主動恢復鏈關鍵節點 + 葡萄柚 CYP3A4 機轉)</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(術後併發症三部曲第 1 部 — 民間用藥警示與飲食的關係)</a></li>
+      <li><a href="8-3-poaf.html">術後心房顫動 POAF 8-3(術後併發症三部曲第 2 部 — warfarin 與綠葉蔬菜</a>、酒精誘因)</li>
+      <li><a href="8-4-aki.html">術後急性腎損傷 AKI 8-4(術後併發症三部曲第 3 部 — 終身保護論述 + 中草藥警示)</a></li>
       <li class="current"><strong>心臟手術後飲食調整 9-3(您正在讀:術後 10-20 年最長守護鏈節點 + 黃金訓練期論述)</strong></li>
-      <li>主動恢復入門 10-1a(出院後規律有氧運動 — 飲食 + 運動是長期心血管保護雙翼)</li>
-      <li>整套衛教整合與終身指南 10-1b(終身守護鏈最長一段在此完整收束 — 集大成篇)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(出院後規律有氧運動 — 飲食 + 運動是長期心血管保護雙翼)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(終身守護鏈最長一段在此完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

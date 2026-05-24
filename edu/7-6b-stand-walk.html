@@ -6,7 +6,7 @@
 <title>從站到走 — 心臟加速康復衛教</title>
 <meta name="description" content="為什麼拔管 24 小時內就能走路繞護理站、漸進式站立三步驟、第一次走路五步驟、整條恢復鏈如何運作">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -252,6 +252,51 @@
   .walk-step { padding: 16px 18px; gap: 12px; }
   .chain { padding: 22px 22px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -449,7 +494,7 @@
     <ul>
       <li><strong>動作要慢、循序漸進</strong>：每升一個強度都先停留觀察。從坐到站的瞬間最容易發生姿勢性低血壓</li>
       <li><strong>不要用手撐起身體</strong>：用助行器、床欄、家屬扶持 —— <strong>絕不單手撐床或撐胸前</strong>（會把力量集中到胸骨）</li>
-      <li><strong>抱枕始終貼胸口</strong>：站起、邁步時都會牽動胸骨，抱枕固定能大幅減痛 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>抱枕始終貼胸口</strong>：站起、邁步時都會牽動胸骨，抱枕固定能大幅減痛 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
       <li><strong>邊走邊呼吸、絕不憋氣</strong>：規律呼吸能維持血壓穩定，憋氣會讓血壓劇烈波動</li>
     </ul>
   </div>
@@ -532,7 +577,7 @@
       <div class="what">能在病房走廊獨立行走、上下床無虞、自主進食洗漱 —— 開始準備出院。
         <ul class="discharge-list">
           <li>與護理師確認<strong>出院用藥、傷口照護方式、回診時間</strong></li>
-          <li>與營養師確認<strong>居家飲食調整</strong> <span class="link-ref">連結 9-3</span></li>
+          <li>與營養師確認<strong>居家飲食調整</strong> 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a></li>
           <li>家屬準備<strong>居家環境</strong>：浴室防滑、床鋪高度合適</li>
           <li><strong>抱枕仍要繼續使用 6–8 週</strong>（咳嗽、打噴嚏、起身時都要用）</li>
         </ul>
@@ -549,19 +594,19 @@
     <h4>早期下床三層閱讀路徑</h4>
     <div class="sub">「早期下床」議題分為三層 — 您正在讀「從站到走」詳細版,是這條鏈的<strong>終點</strong>。</div>
     <ol>
-      <li>早期下床總覽 7-6(入口頁:整體哲學與閱讀導引)</li>
-      <li>從躺到坐 7-6a(拔管後 0-6 小時 · 詳細版 — 起點)</li>
+      <li><a href="7-6-early-mobilization.html">早期下床總覽 7-6(入口頁:整體哲學與閱讀導引)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a(拔管後 0-6 小時 · 詳細版 — 起點)</a></li>
       <li class="current"><strong>從站到走 7-6b(您正在讀:拔管後 6-24 小時 · 詳細版 — 終點)</strong></li>
-      <li>早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</li>
-      <li>HFNC 6-6(拔管後呼吸支援 — 不影響活動)</li>
-      <li>多模式止痛 5-1 · 術後疼痛 5-1b(讓走路不痛)</li>
-      <li>認識尿管 6-4(走到廁所 = 拔尿管的條件)</li>
-      <li>認識胸管 6-3(下床時引流箱的處理)</li>
-      <li>誘發性肺量計 7-1 · 術後咳嗽 7-2(站著做訓練器效果最好)</li>
-      <li>胸骨保護 7-4(居家延續的活動原則)</li>
-      <li>心臟飲食 9-3(出院後的飲食延續)</li>
-      <li>主動恢復入門 10-1a(從站到走 — 「我真的回來了」)</li>
-      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 6-6(拔管後呼吸支援 — 不影響活動)</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1 · 術後疼痛 5-1b(讓走路不痛)</a></li>
+      <li><a href="6-4-foley.html">認識尿管 6-4(走到廁所 = 拔尿管的條件)</a></li>
+      <li><a href="6-3-chest-tube.html">認識胸管 6-3(下床時引流箱的處理)</a></li>
+      <li><a href="7-1-spirometer.html">誘發性肺量計 7-1 · 術後咳嗽 7-2(站著做訓練器效果最好)</a></li>
+      <li><a href="7-4-sternal-precaution.html">胸骨保護 7-4(居家延續的活動原則)</a></li>
+      <li><a href="9-3-cardiac-diet.html">心臟飲食 9-3(出院後的飲食延續)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(從站到走 — 「我真的回來了」)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

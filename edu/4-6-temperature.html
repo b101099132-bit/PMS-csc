@@ -6,7 +6,7 @@
 <title>圍術期低體溫與保溫措施 — 心臟加速康復衛教</title>
 <meta name="description" content="36°C 為什麼是關鍵體溫線，本院如何在術前、術中、術後幫病人保暖">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,6 +226,51 @@
   .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
   .cost-note { padding: 18px 20px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -374,11 +419,11 @@
     <h4>體溫管理如何串連到加速康復</h4>
     <div class="sub">少一點失溫,就少一分後續問題</div>
     <ul>
-      <li><strong>減少術後出血</strong> —— 凝血酵素與血小板功能在 ≥ 36°C 才能正常運作 <span class="link-ref">連結 5-2</span></li>
+      <li><strong>減少術後出血</strong> —— 凝血酵素與血小板功能在 ≥ 36°C 才能正常運作 連結 <a class="link-ref" href="5-2-coagulation.html">5-2</a></li>
       <li><strong>降低傷口感染</strong> —— 血流與免疫細胞作用維持</li>
-      <li><strong>加速麻醉甦醒、提早拔管</strong> —— 麻醉藥物代謝順暢,與 TOF、BIS 共同支援手術室內拔管 <span class="link-ref">連結 4-2 · 4-4 · 6-2</span></li>
-      <li><strong>降低譫妄發生率</strong> —— 避免回溫過熱對大腦的負擔,與 NIRS、BIS 形成完整腦部安全網 <span class="link-ref">連結 4-3 · 4-4 · 8-2</span></li>
-      <li><strong>降低急性腎損傷風險</strong> —— 低體溫會影響腎臟血流灌注,維持 ≥ 36°C 是腎臟保護的基礎 <span class="link-ref">連結 8-4</span></li>
+      <li><strong>加速麻醉甦醒、提早拔管</strong> —— 麻醉藥物代謝順暢,與 TOF、BIS 共同支援手術室內拔管 連結 <a class="link-ref" href="4-2-tof.html">4-2</a> · <a class="link-ref" href="4-4-bis.html">4-4</a> · <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>降低譫妄發生率</strong> —— 避免回溫過熱對大腦的負擔,與 NIRS、BIS 形成完整腦部安全網 連結 <a class="link-ref" href="4-3-nirs.html">4-3</a> · <a class="link-ref" href="4-4-bis.html">4-4</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>降低急性腎損傷風險</strong> —— 低體溫會影響腎臟血流灌注,維持 ≥ 36°C 是腎臟保護的基礎 連結 <a class="link-ref" href="8-4-aki.html">8-4</a></li>
       <li><strong>減少寒顫與不適</strong> —— 醒來體感更舒服,寒顫會增加耗氧、不利早期下床</li>
     </ul>
   </div>
@@ -428,17 +473,17 @@
     <h4>術中精準照護鏈閱讀路徑</h4>
     <div class="sub">本院的術中精準照護是<strong>監測 + 即時調整 + 雙端避免</strong>的整套系統。4-6 體溫管理只是其中一個面向,以下是構成這條鏈的其他單張。</div>
     <ol>
-      <li>TOF 神經肌肉監測與反轉劑 4-2(肌肉鬆弛劑殘留:不過深、不過淺)</li>
-      <li>NIRS 腦氧監測 4-3(腦部供氧:基準下降 20% 或絕對值 < 50% 觸發警示)</li>
-      <li>BIS 麻醉深度監測 4-4(麻醉深度:過淺 = 術中清醒,過深 = 譫妄)</li>
+      <li><a href="4-2-tof.html">TOF 神經肌肉監測與反轉劑 4-2(肌肉鬆弛劑殘留:不過深</a>、不過淺)</li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(腦部供氧:基準下降 20% 或絕對值 < 50% 觸發警示)</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(麻醉深度:過淺 = 術中清醒</a>,過深 = 譫妄)</li>
       <li class="current"><strong>圍術期體溫管理 4-6(您正在讀:核心體溫 — 過冷 = 出血,過熱 = 神經損傷)</strong></li>
-      <li>體外循環機 CPB 3-2(降溫到 32-34°C 的脈絡,以及回溫過程的精準控制)</li>
-      <li>凝血功能與止血藥物 5-2(低體溫如何影響凝血酵素活性)</li>
-      <li>早期拔管 6-2(體溫 ≥ 36°C 是麻醉藥代謝、提早拔管的前提)</li>
-      <li>譫妄專篇 8-2(回溫過熱與譫妄的關係)</li>
-      <li>急性腎損傷 AKI 8-4(體溫對腎臟血流的影響)</li>
-      <li>主動恢復入門 10-1a(體溫穩定支撐主動恢復)</li>
-      <li>整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(降溫到 32-34°C 的脈絡</a>,以及回溫過程的精準控制)</li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2(低體溫如何影響凝血酵素活性)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(體溫 ≥ 36°C 是麻醉藥代謝</a>、提早拔管的前提)</li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(回溫過熱與譫妄的關係)</a></li>
+      <li><a href="8-4-aki.html">急性腎損傷 AKI 8-4(體溫對腎臟血流的影響)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(體溫穩定支撐主動恢復)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

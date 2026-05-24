@@ -6,7 +6,7 @@
 <title>術後血糖控制 — 心臟加速康復衛教</title>
 <meta name="description" content="心臟手術後血糖為何容易不穩?本院 ERAS 流程:目標 < 180 mg/dL、術中與 ICU 用靜脈胰島素、穩定後轉口服。與國際指引一致。">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -460,6 +460,51 @@
   font-size: 10px;
 }
 .eras-connections li strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -518,12 +563,12 @@
     <strong>整套衛教的串連</strong>
     <p>術後血糖管理與多份單張相關,以下這條鏈幫您理解整體脈絡:</p>
     <ol>
-      <li>術後急性腎損傷 <strong>8-4</strong>(高血糖會傷腎 · SGLT2 抑制劑術前停藥)</li>
-      <li>術後新發心房顫動 <strong>8-3</strong>(血糖不穩會增加心律不整風險)</li>
-      <li>外科加護病房介紹 <strong>6-1</strong>(SICU 期間的血糖監測與胰島素調整)</li>
-      <li>術中體溫維持 <strong>4-6</strong>(體溫與血糖代謝相關)</li>
-      <li>心臟手術後飲食調整 <strong>9-3</strong>(出院後飲食與血糖控制)</li>
-      <li>主動恢復入門 <strong>10-1a</strong> · 整合篇 <strong>10-1b</strong>(終身血糖管理)</li>
+      <li><a href="8-4-aki.html">術後急性腎損傷 <strong>8-4</strong>(高血糖會傷腎 · SGLT2 抑制劑術前停藥)</a></li>
+      <li><a href="8-3-poaf.html">術後新發心房顫動 <strong>8-3</strong>(血糖不穩會增加心律不整風險)</a></li>
+      <li><a href="6-1-sicu.html">外科加護病房介紹 <strong>6-1</strong>(SICU 期間的血糖監測與胰島素調整)</a></li>
+      <li><a href="4-6-temperature.html">術中體溫維持 <strong>4-6</strong>(體溫與血糖代謝相關)</a></li>
+      <li><a href="9-3-cardiac-diet.html">心臟手術後飲食調整 <strong>9-3</strong>(出院後飲食與血糖控制)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 <strong>10-1a</strong> · 整合篇 <strong>10-1b</strong>(終身血糖管理)</a></li>
     </ol>
   </div>
 
@@ -539,7 +584,7 @@
       <h5>心臟手術後血糖升高的主要因素</h5>
       <ul>
         <li><strong>壓力荷爾蒙大量分泌</strong>(腎上腺素、皮質醇等)</li>
-        <li><strong>體外循環(CPB)</strong>本身會引起發炎反應,讓胰島素變得比較沒效 <span class="link-ref">連結 3-2</span></li>
+        <li><strong>體外循環(CPB)</strong>本身會引起發炎反應,讓胰島素變得比較沒效 連結 <a class="link-ref" href="3-2-cpb.html">3-2</a></li>
         <li><strong>術中與術後使用的部分藥物</strong>(如類固醇、強心劑、利尿劑)會推高血糖</li>
         <li><strong>禁食後的「反彈性」血糖升高</strong>(身體誤判為飢餓,反而釋出更多葡萄糖)</li>
         <li><strong>原本糖尿病沒被診斷</strong>的病人,此時可能首次被發現</li>
@@ -606,7 +651,7 @@
       <li><strong>大多數情況下沒有「異常感覺」</strong> — 高血糖在 180 以下時人通常感覺不到,只能靠抽血發現</li>
       <li>如果血糖控制過程中出現<strong>冒冷汗、心悸、發抖、頭暈、突然飢餓</strong>等症狀 — 這可能是<strong>低血糖徵兆</strong>,<strong>請立即告訴護理師</strong>(詳見下方「低血糖警示」段落)</li>
       <li><strong>不會「越打越依賴」</strong> — 靜脈胰島素只是<strong>暫時的、為控制術後壓力反應所用</strong>。多數非糖尿病病人,在身體穩定後就完全停藥,不需要長期使用</li>
-      <li>您可以<strong>主動詢問</strong>:「<strong>我現在的血糖多少?胰島素還需要打多久?</strong>」醫護會很樂意說明 <span class="link-ref">連結 5-1b</span></li>
+      <li>您可以<strong>主動詢問</strong>:「<strong>我現在的血糖多少?胰島素還需要打多久?</strong>」醫護會很樂意說明 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></li>
     </ul>
   </div>
 
@@ -652,7 +697,7 @@
       <h4>已有糖尿病的人</h4>
       <p>術前已在使用口服降血糖藥或胰島素的病人,術後血糖管理會<strong>更主動、更密集</strong>。</p>
       <ul>
-        <li><strong>術前的口服藥</strong>(如 metformin、SGLT2 抑制劑等)會依手術時程<strong>暫停或調整</strong> <span class="link-ref">連結 8-4</span></li>
+        <li><strong>術前的口服藥</strong>(如 metformin、SGLT2 抑制劑等)會依手術時程<strong>暫停或調整</strong> 連結 <a class="link-ref" href="8-4-aki.html">8-4</a></li>
         <li><strong>術中與 ICU 期間</strong>:統一改用靜脈胰島素</li>
         <li><strong>ICU 轉出後</strong>:逐漸回復原本的藥物,但<strong>劑量可能需要調整</strong>(因為您身體還在恢復、進食量還沒回到平常、有其他藥物會互相影響)</li>
         <li><strong>出院前</strong>:由新陳代謝科或心臟科醫師擬定<strong>新的用藥計畫</strong>,包括回診抽血追蹤頻率</li>
@@ -669,7 +714,7 @@
         <li><strong>多數人 ICU 轉出後</strong>就完全停止胰島素,不需要長期使用</li>
         <li>但建議<strong>出院後 3-6 個月</strong>抽血追蹤一次 HbA1c,確認血糖代謝確實回到正常</li>
         <li>若<strong>HbA1c 仍 ≥ 5.7%</strong>(糖尿病前期或更高),代表您原本可能就有<strong>未被發現的血糖代謝問題</strong> — 早發現、早處理對長期心血管健康有幫助</li>
-        <li>少數情況下,如果血糖偏高<strong>持續存在</strong>,可以早一點發現<strong>潛在的血糖代謝問題</strong> — 保持<strong>規律運動、均衡飲食、定期健檢</strong>是最好的預防 <span class="link-ref">連結 9-3 · 10-1a</span></li>
+        <li>少數情況下,如果血糖偏高<strong>持續存在</strong>,可以早一點發現<strong>潛在的血糖代謝問題</strong> — 保持<strong>規律運動、均衡飲食、定期健檢</strong>是最好的預防 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a> · <a class="link-ref" href="10-1a-active-recovery.html">10-1a</a></li>
       </ul>
     </article>
   </div>
@@ -712,8 +757,8 @@
         </ul>
       </li>
       <li><strong>不要因為「住院期間有打胰島素」就以為自己變成糖尿病</strong> — 必須依出院後的長期數據判斷</li>
-      <li><strong>規律運動</strong>(每週至少 150 分鐘中等強度的運動,例如快走、騎腳踏車)能讓<strong>胰島素更好用</strong>,是長期血糖管理的關鍵 <span class="link-ref">連結 10-1a</span></li>
-      <li><strong>均衡飲食</strong>:全穀類取代精緻碳水、優質蛋白質、足量蔬菜,避免高糖飲料與精緻甜點 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>規律運動</strong>(每週至少 150 分鐘中等強度的運動,例如快走、騎腳踏車)能讓<strong>胰島素更好用</strong>,是長期血糖管理的關鍵 連結 <a class="link-ref" href="10-1a-active-recovery.html">10-1a</a></li>
+      <li><strong>均衡飲食</strong>:全穀類取代精緻碳水、優質蛋白質、足量蔬菜,避免高糖飲料與精緻甜點 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a></li>
       <li><strong>戒菸、限酒、規律睡眠</strong>:這三項都會影響血糖代謝</li>
       <li>看任何醫師(牙醫、家醫科、皮膚科等)都<strong>主動告知「我做過心臟手術,住院期間血糖偏高過」</strong> — 因為這會影響其他醫師開藥的選擇</li>
     </ul>
@@ -726,15 +771,15 @@
     <h4>血糖管理與 ERAS 其他環節的關係</h4>
     <div class="sub">每一項血糖相關策略都對應一個恢復目標</div>
     <ul>
-      <li><strong>術中體溫維持 ≥ 36°C</strong> — 低體溫會讓胰島素變得比較沒效,讓血糖更難控制 <span class="link-ref">連結 4-6</span></li>
-      <li><strong>體外循環(CPB)管理</strong> — 縮短體外循環時間、優化發炎反應控制,降低術後血糖波動 <span class="link-ref">連結 3-2</span></li>
+      <li><strong>術中體溫維持 ≥ 36°C</strong> — 低體溫會讓胰島素變得比較沒效,讓血糖更難控制 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
+      <li><strong>體外循環(CPB)管理</strong> — 縮短體外循環時間、優化發炎反應控制,降低術後血糖波動 連結 <a class="link-ref" href="3-2-cpb.html">3-2</a></li>
       <li><strong>術前禁食指引</strong>(避免過長禁食)— 減少身體進入「飢餓 + 壓力」狀態,降低反彈性高血糖</li>
-      <li><strong>早期進食</strong> — 喚醒腸胃功能,讓血糖代謝盡早回到正常路徑 <span class="link-ref">連結 7-7</span></li>
-      <li><strong>多模式止痛</strong> — 減少疼痛帶來的壓力反應,間接幫助血糖穩定 <span class="link-ref">連結 5-1</span></li>
-      <li><strong>早期下床(6 小時坐起、24 小時走路)</strong> — 讓胰島素更好用,血糖回穩得更快 <span class="link-ref">連結 7-6a · 7-6b</span></li>
-      <li><strong>SGLT2 抑制劑術前停藥</strong> — 避免危險的酮酸中毒 <span class="link-ref">連結 8-4</span></li>
+      <li><strong>早期進食</strong> — 喚醒腸胃功能,讓血糖代謝盡早回到正常路徑 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
+      <li><strong>多模式止痛</strong> — 減少疼痛帶來的壓力反應,間接幫助血糖穩定 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
+      <li><strong>早期下床(6 小時坐起、24 小時走路)</strong> — 讓胰島素更好用,血糖回穩得更快 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+      <li><strong>SGLT2 抑制劑術前停藥</strong> — 避免危險的酮酸中毒 連結 <a class="link-ref" href="8-4-aki.html">8-4</a></li>
       <li><strong>避免不必要的類固醇</strong> — 類固醇(就是「美國仙丹」那一類藥)會明顯推高血糖,本院僅在必要時使用</li>
-      <li><strong>家屬陪伴與譫妄預防</strong> — 降低病人焦慮與壓力反應,間接穩定血糖代謝 <span class="link-ref">連結 8-1a · 8-2</span></li>
+      <li><strong>家屬陪伴與譫妄預防</strong> — 降低病人焦慮與壓力反應,間接穩定血糖代謝 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
     </ul>
   </div>
 

@@ -6,7 +6,7 @@
 <title>保護性約束 — 心臟加速康復衛教</title>
 <meta name="description" content="為什麼本院心臟手術後幾乎已不使用約束 — 少數狀況下的最低限度使用、家屬可以怎麼幫忙、過去有不愉快約束經驗的人">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -565,7 +565,6 @@
   .patient-experience { padding: 18px 20px; }
   .patient-experience .timeline-row { grid-template-columns: 1fr; gap: 4px; }
   .family-quick-action { padding: 20px 22px; }
-  .kids-guide { padding: 16px 18px; }
 }
 
 /* 您會感覺到什麼(對齊 4-6 / 6-2 / 6-3 / 6-4 命名) */
@@ -661,27 +660,51 @@
 }
 .family-quick-action ol li strong { color: var(--ink); font-weight: 600; }
 
-/* 12 歲以下小朋友指引 */
-.kids-guide {
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-left: 2px solid var(--teal);
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
   border-radius: 3px;
-  padding: 16px 18px;
-  margin-top: 14px;
-  font-size: 13px;
-  color: var(--ink-soft);
-  line-height: 1.8;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
-.kids-guide h5 {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--teal);
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
 }
-.kids-guide strong { color: var(--ink); font-weight: 600; }
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -719,7 +742,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">譫妄</span>
-      <span class="lex-def">術後暫時性的<strong>意識混亂</strong>。譫妄是少數需要約束的主要原因。本院 ERAS 大幅降低譫妄發生率 <span class="link-ref">連結 8-2</span>。</span>
+      <span class="lex-def">術後暫時性的<strong>意識混亂</strong>。譫妄是少數需要約束的主要原因。本院 ERAS 大幅降低譫妄發生率 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">最低限度</span>
@@ -749,15 +772,15 @@
     <h4>本院 ERAS 如何降低約束需求</h4>
     <div class="sub">每一項策略都消除一個約束的「理由」</div>
     <ul>
-      <li><strong>手術室內拔管</strong> —— 病人抵達 SICU 時就已經拔管,沒有「不自覺拔管」的風險 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、不需要重新鎮靜、不會躁動 <span class="link-ref">連結 6-6</span></li>
-      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類(強效止痛藥,如嗎啡、芬太尼)是譫妄與躁動的重要誘因,本院多模式止痛大幅減少 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>手術室內拔管</strong> —— 病人抵達 SICU 時就已經拔管,沒有「不自覺拔管」的風險 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、不需要重新鎮靜、不會躁動 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a></li>
+      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類(強效止痛藥,如嗎啡、芬太尼)是譫妄與躁動的重要誘因,本院多模式止痛大幅減少 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
       <li><strong>避免苯二氮平類鎮靜</strong> —— 苯二氮平類(常見鎮靜藥/安眠藥,如 midazolam、使蒂諾斯、安定文等)是譫妄最強誘因之一,本院盡量不用</li>
-      <li><strong>快速認知恢復</strong> —— 病人快速恢復定向感(對時間、地點、人物的認知)、認得家人、知道自己在哪裡 <span class="link-ref">連結 8-1a · 8-1b</span></li>
-      <li><strong>譫妄主動預防</strong> —— 11 項以上的譫妄預防策略,讓譫妄發生率明顯降低 <span class="link-ref">連結 8-2</span></li>
-      <li><strong>獨立病間</strong> —— 降低噪音、保留隱私、減少譫妄誘因 <span class="link-ref">連結 6-1</span></li>
+      <li><strong>快速認知恢復</strong> —— 病人快速恢復定向感(對時間、地點、人物的認知)、認得家人、知道自己在哪裡 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> · <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></li>
+      <li><strong>譫妄主動預防</strong> —— 11 項以上的譫妄預防策略,讓譫妄發生率明顯降低 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>獨立病間</strong> —— 降低噪音、保留隱私、減少譫妄誘因 連結 <a class="link-ref" href="6-1-sicu.html">6-1</a></li>
       <li><strong>家屬可陪伴</strong> —— 家屬陪伴本身就是強力的譫妄預防、降低躁動</li>
-      <li><strong>早期下床活動</strong> —— 拔管後 6 小時坐起、24 小時走路,病人沒有躺著的躁動 <span class="link-ref">連結 7-6a · 7-6b</span></li>
+      <li><strong>早期下床活動</strong> —— 拔管後 6 小時坐起、24 小時走路,病人沒有躺著的躁動 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
       <li><strong>規律晝夜節律</strong>(身體分辨白天黑夜的生理時鐘) —— 白天活動、晚上降低燈光,幫助維持作息(譫妄常在夜晚加重)</li>
     </ul>
     <div class="conclusion">
@@ -869,7 +892,7 @@
       <h5>本院使用約束的原則</h5>
       <ul>
         <li><strong>絕不使用</strong>:腳踝約束、胸腹約束、全身約束、束縛衣</li>
-        <li><strong>絕不會綁下肢(腳)</strong> —— 綁腳會嚴重影響腿部循環,<strong>大幅增加深部靜脈血栓(DVT)的風險</strong>。DVT 是心臟手術後最需要避免的併發症之一 —— 血塊可能脫落跑到肺部造成肺栓塞 <span class="link-ref">連結 7-6b</span>。所以即使在極少數需要約束的情境,<strong>也絕不會綁腳</strong></li>
+        <li><strong>絕不會綁下肢(腳)</strong> —— 綁腳會嚴重影響腿部循環,<strong>大幅增加深部靜脈血栓(DVT)的風險</strong>。DVT 是心臟手術後最需要避免的併發症之一 —— 血塊可能脫落跑到肺部造成肺栓塞 連結 <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a>。所以即使在極少數需要約束的情境,<strong>也絕不會綁腳</strong></li>
         <li><strong>約束是「保護管路」,不是「規範行為」</strong> —— 病人不會因為「不配合治療」「情緒不好」「對醫護不禮貌」而被約束。<strong>約束的唯一理由是避免病人意外傷害自己或拔掉重要管路</strong></li>
         <li><strong>頻繁評估</strong>:每 2–4 小時護理師會檢查皮膚、循環、約束必要性</li>
         <li><strong>能解就解</strong>:當病人意識清楚、配合度好、無拔管路風險,立即解除</li>
@@ -895,7 +918,7 @@
       <div class="step-num">02</div>
       <div class="step-content"><strong>嘗試非約束的方法</strong>:
         <div class="checks">
-          <strong>檢查是否有疼痛</strong>:疼痛是常被忽略的躁動原因,調整多模式止痛 <span class="link-ref">連結 5-1</span><br>
+          <strong>檢查是否有疼痛</strong>:疼痛是常被忽略的躁動原因,調整多模式止痛 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a><br>
           <strong>檢查是否脹尿</strong>:尿太多但因留置尿管的不適而沒排出<br>
           <strong>檢查血氧、二氧化碳</strong>:輕度缺氧或二氧化碳累積會引發躁動<br>
           <strong>檢查感染指標</strong>:術後感染常以「意識變差或躁動」表現<br>
@@ -910,7 +933,7 @@
 
     <div class="flow-step">
       <div class="step-num">03</div>
-      <div class="step-content"><strong>家屬陪伴優先</strong> —— 若可能,先請家屬陪伴過夜 <span class="link-ref">連結 6-1</span>。<strong>家屬陪伴通常能化解 70% 以上的夜間混亂</strong>,且<strong>降低譫妄發生率約 50%</strong>(2019 Rosa 等發表於 JAMA 的多中心隨機對照試驗(RCT)證實:開放家屬延長探視能顯著降低 ICU 譫妄發生率;本院臨床觀察與此一致)</div>
+      <div class="step-content"><strong>家屬陪伴優先</strong> —— 若可能,先請家屬陪伴過夜 連結 <a class="link-ref" href="6-1-sicu.html">6-1</a>。<strong>家屬陪伴通常能化解 70% 以上的夜間混亂</strong>,且<strong>降低譫妄發生率約 50%</strong>(2019 Rosa 等發表於 JAMA 的多中心隨機對照試驗(RCT)證實:開放家屬延長探視能顯著降低 ICU 譫妄發生率;本院臨床觀察與此一致)</div>
     </div>
     <div class="flow-arrow">↓</div>
 
@@ -992,7 +1015,7 @@
     <h4>您能做的,比您想像的還多</h4>
     <div class="sub">家屬陪伴是降低約束需求最有效的方法</div>
     <ul>
-      <li><strong>主動申請陪病過夜</strong>(特別是第一晚) —— 病人最容易混亂的時段,家屬的存在能大幅降低譫妄與躁動 <span class="link-ref">連結 6-1</span></li>
+      <li><strong>主動申請陪病過夜</strong>(特別是第一晚) —— 病人最容易混亂的時段,家屬的存在能大幅降低譫妄與躁動 連結 <a class="link-ref" href="6-1-sicu.html">6-1</a></li>
       <li><strong>帶熟悉物品</strong> —— 眼鏡、助聽器、家人合照、平常用的小毛毯。改善感官、增加定向感</li>
       <li><strong>會客時重新定向</strong> —— 告訴病人「現在是晚上,你在加護病房,手術很順利,我是你的女兒」</li>
       <li><strong>不要在床邊長時間多人激烈聊天</strong> —— 反而加重混亂與噪音</li>
@@ -1015,15 +1038,10 @@
       <li><strong>先深呼吸,不要先生氣</strong> —— 多數情況是「短暫夜間混亂」,<strong>不是病情惡化、也不是醫護不尊重您家人</strong>。情緒平穩才能跟團隊有效溝通</li>
       <li><strong>詢問護理師三個問題</strong>:(1)<strong>為什麼需要約束?</strong>(2)<strong>什麼時候可以解除?</strong>(3)<strong>我可以陪過夜代替約束嗎?</strong>本院非常願意討論這三個問題</li>
       <li><strong>檢查身體狀況(您自己就能看)</strong>:約束處<strong>皮膚是否紅腫變色、手指是否變紫變冰冷、約束帶是否能放下一個手指</strong>。任何異常立即告訴護理師</li>
-      <li><strong>提出陪病過夜申請</strong> —— 即使是當晚臨時提出也可以。本院的標準是<strong>「家屬陪伴優先於約束」</strong>,陪伴申請會被優先考慮 <span class="link-ref">連結 6-1</span></li>
-      <li><strong>幫病人重新定向</strong> —— 平靜地告訴病人「現在是晚上、你在加護病房、手術很順利、我是 OO」。<strong>家屬的聲音是最強的譫妄預防</strong> <span class="link-ref">連結 8-2</span></li>
+      <li><strong>提出陪病過夜申請</strong> —— 即使是當晚臨時提出也可以。本院的標準是<strong>「家屬陪伴優先於約束」</strong>,陪伴申請會被優先考慮 連結 <a class="link-ref" href="6-1-sicu.html">6-1</a></li>
+      <li><strong>幫病人重新定向</strong> —— 平靜地告訴病人「現在是晚上、你在加護病房、手術很順利、我是 OO」。<strong>家屬的聲音是最強的譫妄預防</strong> 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
       <li><strong>觀察並主動詢問解除</strong> —— 如果病人意識清楚、能對答、無拔管傾向,<strong>主動問「現在可以解除了嗎?」</strong>本院的原則是「能早解除就早解除」,家屬主動詢問會被重視</li>
     </ol>
-
-    <div class="kids-guide">
-      <h5>如果 12 歲以下小朋友看到家人被約束</h5>
-      <p>本院 SICU 一般不建議 12 歲以下兒童進入(<span class="link-ref">連結 6-1</span>),但如果有特殊情境讓小朋友見到了:<strong>不要解釋成「外公被綁起來、被欺負」</strong>。建議的解釋是:<strong>「外公手上戴的軟手套,是為了讓他睡覺時不會不小心碰到身上的小管子。等他醒來就可以拿掉了」</strong>。把約束從「<strong>懲罰意象</strong>」翻譯為「<strong>保護意象</strong>」(類似嬰兒的手套)。若小朋友仍有困擾,可請主治團隊或心理師協助說明,避免留下長期印象。</p>
-    </div>
   </div>
 
   <!-- Common Q&A -->
@@ -1059,7 +1077,7 @@
 
     <div class="qa-item">
       <div class="question">如果約束了,病人會不會記得這段經驗、留下心理創傷?</div>
-      <div class="answer"><strong>多數病人對 ICU 期間的記憶是模糊的</strong>,特別是有譫妄的時段。但少數病人會有片段記憶,包括被約束的感覺。<strong>所以本院的標準是:能不用就不用、能少用就少用、能早解除就早解除</strong>。家屬陪伴與良好的譫妄預防能大幅降低這個風險 <span class="link-ref">連結 8-2</span>。</div>
+      <div class="answer"><strong>多數病人對 ICU 期間的記憶是模糊的</strong>,特別是有譫妄的時段。但少數病人會有片段記憶,包括被約束的感覺。<strong>所以本院的標準是:能不用就不用、能少用就少用、能早解除就早解除</strong>。家屬陪伴與良好的譫妄預防能大幅降低這個風險 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a>。</div>
     </div>
 
     <div class="qa-item">
@@ -1089,17 +1107,17 @@
     <h4>約束與譫妄相關的閱讀路徑</h4>
     <div class="sub">這份單張是<strong>「最深恐懼三部曲」</strong>之一 — 處理 ICU 中最被害怕的三個議題,三份單張互相串連、互相支援。</div>
     <ol>
-      <li>外科加護病房 SICU 介紹 6-1(最深恐懼三部曲第 1 部:<strong>環境隔離恐懼</strong>)</li>
-      <li>譫妄專篇 8-2(最深恐懼三部曲第 2 部:<strong>腦的變化恐懼</strong>)</li>
+      <li><a href="6-1-sicu.html">外科加護病房 SICU 介紹 6-1(最深恐懼三部曲第 1 部:<strong>環境隔離恐懼</strong>)</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(最深恐懼三部曲第 2 部:<strong>腦的變化恐懼</strong>)</a></li>
       <li class="current"><strong>保護性約束 6-5(您正在讀,第 3 部:身體束縛恐懼)</strong></li>
-      <li>早期拔管 6-2(沒有插管,自然不需約束)</li>
-      <li>HFNC 高流量鼻導管 6-6(舒適拔管後支援 — 降低躁動)</li>
-      <li>圍術期多模式止痛 5-1 · 術後疼痛 5-1b(減少鴉片類、減少譫妄、減少躁動)</li>
-      <li>認知復健 病人版 8-1a · 家屬版 8-1b(主動腦部復健)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(早期下床預防躁動)</li>
-      <li>認識尿管 6-4 · 認識胸管 6-3(被保護的管路)</li>
-      <li>主動恢復入門 10-1a(您也是康復團隊的一員 — 主動清醒 = 不需約束)</li>
-      <li>整套衛教整合與終身指南 10-1b(最深恐懼三部曲完整收束 — 集大成篇)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(沒有插管</a>,自然不需約束)</li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(舒適拔管後支援 — 降低躁動)</a></li>
+      <li><a href="5-1-multimodal.html">圍術期多模式止痛 5-1 · 術後疼痛 5-1b(減少鴉片類</a>、減少譫妄、減少躁動)</li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 病人版 8-1a · 家屬版 8-1b(主動腦部復健)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(早期下床預防躁動)</a></li>
+      <li><a href="6-4-foley.html">認識尿管 6-4 · 認識胸管 6-3(被保護的管路)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(您也是康復團隊的一員 — 主動清醒 = 不需約束)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(最深恐懼三部曲完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
   </div>

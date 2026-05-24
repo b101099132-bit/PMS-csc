@@ -6,7 +6,7 @@
 <title>凝血功能異常與止血藥物 — 心臟加速康復衛教</title>
 <meta name="description" content="心臟手術後為什麼容易出血、本院如何用預防補充局部三層策略止血">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,6 +102,51 @@
   margin-top: 6px;
 }
 .family-note .calm-box strong { color: var(--safe); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -214,11 +259,11 @@
     <div class="sub">每一層都有其加速康復的角色</div>
     <ul>
       <li><strong>少出血、少輸血</strong> —— 減少輸血相關肺損傷與感染風險</li>
-      <li><strong>少血塊堆積</strong> —— 心包膜內血塊少,減少術後<strong>心包填塞(血塊壓迫心臟、影響跳動)</strong>風險、胸管引流量低、能更早拔胸管 <span class="link-ref">連結 6-3</span></li>
+      <li><strong>少血塊堆積</strong> —— 心包膜內血塊少,減少術後<strong>心包填塞(血塊壓迫心臟、影響跳動)</strong>風險、胸管引流量低、能更早拔胸管 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a></li>
       <li><strong>少二次手術</strong> —— 因出血需重回手術室的機率下降</li>
       <li><strong>更穩定的血流動力學(血壓與心跳的穩定狀態)</strong> —— 出血少 → 血壓穩 → 加護病房停留時間縮短</li>
-      <li><strong>支援早期拔管</strong> —— 出血少、循環穩定,才有早期拔管的前提 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>與術中體溫管理協同</strong> —— 體溫 ≥ 36°C 是凝血酵素正常運作的前提 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>支援早期拔管</strong> —— 出血少、循環穩定,才有早期拔管的前提 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>與術中體溫管理協同</strong> —— 體溫 ≥ 36°C 是凝血酵素正常運作的前提 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
     </ul>
   </div>
 
@@ -249,7 +294,7 @@
     <p>
     ・術後第一個 6 小時:引流量會比較多,可能每小時 50–100 ml<br>
     ・第二天起明顯減少,變淡紅、淡粉<br>
-    ・通常 <strong>2–3 天</strong>可拔除胸管 <span class="link-ref">連結 6-3</span>
+    ・通常 <strong>2–3 天</strong>可拔除胸管 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a>
     </p>
     <div class="calm-box"><strong>什麼情況才需要擔心:</strong>引流量<strong>突然大幅增加</strong>(每小時 > 200 ml 持續數小時)、或<strong>顏色變鮮紅</strong>且持續、或家人<strong>血壓開始不穩</strong>。團隊會持續監測這些訊號,有變化會在第一時間處置 —— 您看到液體在瓶內<strong>不是壞事</strong>,代表引流系統正常工作。</div>
   </div>
@@ -259,16 +304,16 @@
     <h4>出血控制 / 中風守護鏈閱讀路徑</h4>
     <div class="sub">本院的精準止血是「<strong>術前停藥 + 術中監測 + 術後觀察</strong>」整套系統。下面是構成這條鏈的單張。</div>
     <ol>
-      <li>體外循環機 CPB 3-2(出血的源頭之一:機器接觸、肝素抗凝)</li>
-      <li>三種冠狀動脈繞道手術比較 3-1(心臟跳動下繞道:縮短體外循環時間 = 減少凝血干擾)</li>
-      <li>胸骨固定方式 3-4(出血少 = 骨癒合好,鋼板對高出血風險病人更有意義)</li>
-      <li>圍術期體溫管理 4-6(低體溫會讓凝血酵素活性下降,維持 ≥ 36°C 是基礎)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(出血的源頭之一:機器接觸</a>、肝素抗凝)</li>
+      <li><a href="3-1-cabg-comparison.html">三種冠狀動脈繞道手術比較 3-1(心臟跳動下繞道:縮短體外循環時間 = 減少凝血干擾)</a></li>
+      <li><a href="3-4-sternal-fixation.html">胸骨固定方式 3-4(出血少 = 骨癒合好</a>,鋼板對高出血風險病人更有意義)</li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6(低體溫會讓凝血酵素活性下降</a>,維持 ≥ 36°C 是基礎)</li>
       <li class="current"><strong>凝血功能異常與止血藥物 5-2(您正在讀:三層止血策略 + 對症給藥)</strong></li>
-      <li>胸管引流 6-3(術後觀察出血的窗口 — 家屬最常看到的設備)</li>
-      <li>早期拔管 6-2(出血控制好才能早拔管)</li>
-      <li>NIRS 腦氧監測 4-3 · BIS 麻醉深度 4-4(出血影響灌注壓,腦氧監測能及早發現)</li>
-      <li>主動恢復入門 10-1a(凝血止血穩定後的主動恢復)</li>
-      <li>整套衛教整合與終身指南 10-1b(出血控制鏈完整收束 — 集大成篇)</li>
+      <li><a href="6-3-chest-tube.html">胸管引流 6-3(術後觀察出血的窗口 — 家屬最常看到的設備)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(出血控制好才能早拔管)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3 · BIS 麻醉深度 4-4(出血影響灌注壓</a>,腦氧監測能及早發現)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(凝血止血穩定後的主動恢復)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(出血控制鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

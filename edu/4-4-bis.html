@@ -6,7 +6,7 @@
 <title>麻醉深度監測（BIS） — 心臟加速康復衛教</title>
 <meta name="description" content="BIS 麻醉深度監測,在心臟手術中扮演劑量儀表板與腦部缺血警報器兩種角色">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,6 +130,51 @@
   .step-card { padding: 16px 18px; gap: 12px; }
   .alert-mech { padding: 16px 18px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -228,9 +273,9 @@
     <ul>
       <li><strong>避免術中清醒</strong>：術中清醒（手術過程中突然有意識）在<strong>沒有 BIS 監測時發生率約為千分之一至千分之二</strong>（每 500–1,000 例手術中約 1 例）；透過 BIS 把麻醉維持在足夠深度，能<strong>幾乎排除</strong>這個風險</li>
       <li><strong>減少不必要的藥量</strong>：不過深、不過淺，能加速術後甦醒</li>
-      <li><strong>降低術後譫妄</strong>：過深的麻醉（特別是 BIS &lt; 40 的時間過長）已被證實與較高的術後譫妄率有關 <span class="link-ref">連結 8-2</span></li>
-      <li><strong>支援早期拔管</strong>：精準的麻醉深度，加上 TOF 與多模式止痛，是手術室內拔管的必要條件 <span class="link-ref">連結 4-2 · 6-2</span></li>
-      <li><strong>對年長者特別有幫助</strong>：年長者對麻醉藥<strong>較敏感、代謝較慢</strong>，同樣劑量在年長者身上常會麻得比預期深。BIS 讓麻醉醫師<strong>看數字微調</strong>，能避免劑量過量;這對<strong>降低術後譫妄、認知功能變化</strong>特別重要，因為過深的麻醉是年長者譫妄最常見的可預防原因之一 <span class="link-ref">連結 8-1a · 8-2</span></li>
+      <li><strong>降低術後譫妄</strong>：過深的麻醉（特別是 BIS &lt; 40 的時間過長）已被證實與較高的術後譫妄率有關 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>支援早期拔管</strong>：精準的麻醉深度，加上 TOF 與多模式止痛，是手術室內拔管的必要條件 連結 <a class="link-ref" href="4-2-tof.html">4-2</a> · <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>對年長者特別有幫助</strong>：年長者對麻醉藥<strong>較敏感、代謝較慢</strong>，同樣劑量在年長者身上常會麻得比預期深。BIS 讓麻醉醫師<strong>看數字微調</strong>，能避免劑量過量;這對<strong>降低術後譫妄、認知功能變化</strong>特別重要，因為過深的麻醉是年長者譫妄最常見的可預防原因之一 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
     </ul>
   </div>
 
@@ -342,17 +387,17 @@
     <h4>中風守護鏈閱讀路徑</h4>
     <div class="sub">本院的中風守護是從術前停藥、術中監測、到術後辨識的完整鏈條。BIS 是這條鏈中「腦部功能 + 早期警報」一環,與 NIRS 看「腦部供氧」互補。</div>
     <ol>
-      <li>體外循環機 CPB 3-2（認識手術中的中風風險來源）</li>
-      <li>三種冠狀動脈繞道手術比較 3-1（心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露）</li>
-      <li>凝血功能與止血藥物 5-2（抗凝血藥停藥節奏 + 術中 TXA · 傳明酸）</li>
-      <li>NIRS 腦氧監測 4-3（腦部供氧的即時守護,與 BIS 互補）</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2（認識手術中的中風風險來源）</a></li>
+      <li><a href="3-1-cabg-comparison.html">三種冠狀動脈繞道手術比較 3-1（心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露）</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2（抗凝血藥停藥節奏 + 術中 TXA · 傳明酸）</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3（腦部供氧的即時守護</a>,與 BIS 互補）</li>
       <li class="current"><strong>BIS 麻醉深度監測 4-4（您正在讀:腦部功能 + 早期警報）</strong></li>
-      <li>圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</li>
-      <li>早期拔管 6-2（神經學評估的關鍵時機）</li>
-      <li>譫妄專篇 8-2（術後認知混亂的觀察與處理,特別與年長者麻醉相關）</li>
-      <li>認知復健 病人版 8-1a、家屬版 8-1b（萬一出現認知變化的辨識與復健）</li>
-      <li>主動恢復入門 10-1a(精準麻醉深度是主動恢復的前提)</li>
-      <li>整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2（神經學評估的關鍵時機）</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2（術後認知混亂的觀察與處理</a>,特別與年長者麻醉相關）</li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 病人版 8-1a</a>、<a href="8-1b-cognitive-family.html">家屬版 8-1b（萬一出現認知變化的辨識與復健）</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(精準麻醉深度是主動恢復的前提)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

@@ -6,7 +6,7 @@
 <title>TOF 神經肌肉監測與反轉劑 — 心臟加速康復衛教</title>
 <meta name="description" content="麻醉醫師如何確保你的肌肉力量完全恢復、安全拔管，TOF 監測搭配 Sugammadex 反轉劑">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -216,6 +216,51 @@
   .cost-note { padding: 16px 18px; }
   .tof-zones .zone { font-size: 9.5px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -366,9 +411,9 @@
     <div class="sub">TOF + Sugammadex 在加速康復鏈中的角色</div>
     <ul>
       <li><strong>大幅降低殘餘肌肉無力（肌力沒完全恢復）的風險</strong> —— 呼吸力量完全恢復才拔管</li>
-      <li><strong>與 BIS 麻醉深度監測互補</strong> —— TOF 確認肌力、BIS 確認意識，<strong>兩項缺一不可</strong>，這是「手術室內拔管」的雙保險 <span class="link-ref">連結 4-4</span></li>
-      <li><strong>支援「手術室內拔管」</strong> —— 配合多模式止痛與腦氧監測完整評估 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>肌力完全恢復 → 才能有效咳痰</strong> —— 預防術後吸入性肺炎、肺塌陷 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>與 BIS 麻醉深度監測互補</strong> —— TOF 確認肌力、BIS 確認意識，<strong>兩項缺一不可</strong>，這是「手術室內拔管」的雙保險 連結 <a class="link-ref" href="4-4-bis.html">4-4</a></li>
+      <li><strong>支援「手術室內拔管」</strong> —— 配合多模式止痛與腦氧監測完整評估 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>肌力完全恢復 → 才能有效咳痰</strong> —— 預防術後吸入性肺炎、肺塌陷 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
       <li><strong>減少重新插管的需要</strong> —— 避免二次傷害氣道</li>
       <li><strong>麻醉醫師能在最理想的時機放手</strong> —— 把控制權交回您身上</li>
     </ul>
@@ -380,15 +425,15 @@
     <div class="sub">本院的「手術室內拔管」不是單一決定，而是多項精準麻醉技術合作的結果。下面是構成這條鏈的關鍵單張。</div>
     <ol>
       <li class="current"><strong>TOF 神經肌肉監測與反轉劑 4-2（您正在讀：肌力恢復確認）</strong></li>
-      <li>NIRS 腦氧監測 4-3（術中腦部血氧的即時守護）</li>
-      <li>BIS 麻醉深度監測 4-4（意識恢復確認，與 TOF 缺一不可）</li>
-      <li>圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</li>
-      <li>圍術期多模式止痛 5-1（減少鴉片類用量，病人更快清醒）</li>
-      <li>早期拔管 6-2（精準麻醉鏈的最終成果：手術室內拔管）</li>
-      <li>HFNC 高流量鼻導管 6-6（拔管後的呼吸銜接）</li>
-      <li>術後咳嗽技巧 7-2（肌力完全恢復後才能有效咳痰）</li>
-      <li>主動恢復入門 10-1a(精準麻醉是主動恢復的前提)</li>
-      <li>整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3（術中腦部血氧的即時守護）</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4（意識恢復確認，與 TOF 缺一不可）</a></li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</a></li>
+      <li><a href="5-1-multimodal.html">圍術期多模式止痛 5-1（減少鴉片類用量，病人更快清醒）</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2（精準麻醉鏈的最終成果：手術室內拔管）</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6（拔管後的呼吸銜接）</a></li>
+      <li><a href="7-2-cough.html">術後咳嗽技巧 7-2（肌力完全恢復後才能有效咳痰）</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(精準麻醉是主動恢復的前提)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(精準麻醉鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

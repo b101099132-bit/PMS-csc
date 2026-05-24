@@ -6,7 +6,7 @@
 <title>術後非侵入性氧氣支持(HFNC) — 心臟加速康復衛教</title>
 <meta name="description" content="為什麼本院手術室拔管後採用 HFNC 銜接治療,與 BiPAP、侵入性呼吸器的比較,病人常問題">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -440,6 +440,51 @@
   font-size: 13px;
 }
 .cost-note-inline p.help-line strong { color: var(--safe); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -642,13 +687,13 @@
     <h3>讓您「清醒、能說話、能進食」地恢復</h3>
     <div class="sub">這正是早期拔管想為您爭取的時光</div>
     <ul>
-      <li><strong>不需要鎮靜藥物，意識清楚</strong> —— 您的腦部狀態(意識、說話、肢體力量)能被團隊隨時觀察,<strong>這是術後最重要的中風監測方式</strong> <span class="link-ref">連結 3-2 · 4-3 · 4-4 · 6-2 · 8-1a · 8-2(中風守護鏈)</span></li>
+      <li><strong>不需要鎮靜藥物，意識清楚</strong> —— 您的腦部狀態(意識、說話、肢體力量)能被團隊隨時觀察,<strong>這是術後最重要的中風監測方式</strong> 連結 <a class="link-ref" href="3-2-cpb.html">3-2</a> · <a class="link-ref" href="4-3-nirs.html">4-3</a> · <a class="link-ref" href="4-4-bis.html">4-4</a> · <a class="link-ref" href="6-2-extubation.html">6-2</a> · <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a>(中風守護鏈)</li>
       <li><strong>可以說話</strong>，能告訴團隊您的感受、不舒服、有沒有痛</li>
-      <li><strong>可以喝水進食</strong>，加速恢復進食流程 <span class="link-ref">連結 7-7</span></li>
-      <li><strong>可以隨時翻身、做床邊復健</strong>，配合早期下床的目標 <span class="link-ref">連結 7-6</span></li>
+      <li><strong>可以喝水進食</strong>，加速恢復進食流程 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
+      <li><strong>可以隨時翻身、做床邊復健</strong>，配合早期下床的目標 連結 <a class="link-ref" href="7-6-early-mobilization.html">7-6</a></li>
       <li><strong>能與家屬正常對話</strong>，第一時間與家人說話，互相安心</li>
-      <li><strong>避免侵入性插管的併發症</strong>(呼吸器相關肺炎 VAP、譫妄、聲帶刺激)<span class="link-ref">連結 6-2 · 8-2</span></li>
-      <li><strong>降低呼吸費力</strong> —— 從源頭減少「會呼吸的痛」,讓您敢咳嗽、敢深呼吸 <span class="link-ref">連結 5-1b · 7-2</span></li>
+      <li><strong>避免侵入性插管的併發症</strong>(呼吸器相關肺炎 VAP、譫妄、聲帶刺激)連結 <a class="link-ref" href="6-2-extubation.html">6-2</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>降低呼吸費力</strong> —— 從源頭減少「會呼吸的痛」,讓您敢咳嗽、敢深呼吸 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a> · <a class="link-ref" href="7-2-cough.html">7-2</a></li>
     </ul>
 
     <div style="margin-top:14px;padding:14px 16px;background:var(--paper);border-radius:3px;border-left:2px solid var(--teal);font-size:13px;line-height:1.8;color:var(--ink-soft);">
@@ -683,7 +728,7 @@
 
     <div class="qa-item">
       <div class="q">家屬探視時可以做什麼？</div>
-      <div class="a">這是 HFNC 最大的好處之一 —— 您可以與家屬<strong>正常對話、握手、表達需求</strong>。家屬若注意到您<strong>說話含糊、單側手腳無力、表情不對稱、視力模糊，或意識變得遲鈍</strong>，請立即告知護理人員 <span class="link-ref">連結 8-1b</span>。</div>
+      <div class="a">這是 HFNC 最大的好處之一 —— 您可以與家屬<strong>正常對話、握手、表達需求</strong>。家屬若注意到您<strong>說話含糊、單側手腳無力、表情不對稱、視力模糊，或意識變得遲鈍</strong>，請立即告知護理人員 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a>。</div>
     </div>
   </div>
 
@@ -747,7 +792,7 @@
     </p>
     <p><strong>都不是</strong>。HFNC <strong>不是呼吸器</strong> —— 它是「協助呼吸的氧氣設備」,病人是<strong>自己在呼吸的</strong>,只是機器幫他輸送加溫加濕的氧氣,讓呼吸更輕鬆。氣流聲是設備正常運作的證據,不是病人喘的聲音。</p>
     <div class="calm-box">
-      <strong>家屬會看到病人 ——</strong> 醒著、能對話、能眼神接觸、能小聲應答。如果看到病人能跟您正常說話、握手、能小口喝水,就代表「<strong>HFNC 在它的最佳工作狀態</strong>」。多陪伴病人說說話、握握手,這對腦部恢復是最好的支持 <span class="link-ref">連結 6-1 · 8-2</span>。
+      <strong>家屬會看到病人 ——</strong> 醒著、能對話、能眼神接觸、能小聲應答。如果看到病人能跟您正常說話、握手、能小口喝水,就代表「<strong>HFNC 在它的最佳工作狀態</strong>」。多陪伴病人說說話、握握手,這對腦部恢復是最好的支持 連結 <a class="link-ref" href="6-1-sicu.html">6-1</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a>。
     </div>
   </div>
 
@@ -772,20 +817,20 @@
     <h4>中風守護鏈 + 術後管路衛教鏈閱讀路徑</h4>
     <div class="sub">HFNC 同時是<strong>中風守護鏈的最後一環</strong>(讓清醒得以維持)與<strong>術後管路衛教鏈的成員</strong>(拔氣管內管後的銜接)。下面是構成這兩條鏈的單張。</div>
     <ol>
-      <li>體外循環機 CPB 3-2(中風守護鏈起點:機器接觸風險)</li>
-      <li>NIRS 腦氧監測 4-3(中風守護鏈:即時腦氧)</li>
-      <li>BIS 麻醉深度監測 4-4(中風守護鏈:麻醉深度控制)</li>
-      <li>圍術期體溫管理 4-6(中風守護鏈:過熱會增加神經損傷)</li>
-      <li>凝血功能與止血藥物 5-2(中風守護鏈:出血控制)</li>
-      <li>早期拔管 6-2(中風守護鏈:讓您清醒地進入恢復)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(中風守護鏈起點:機器接觸風險)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(中風守護鏈:即時腦氧)</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(中風守護鏈:麻醉深度控制)</a></li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6(中風守護鏈:過熱會增加神經損傷)</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2(中風守護鏈:出血控制)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(中風守護鏈:讓您清醒地進入恢復)</a></li>
       <li class="current"><strong>HFNC 高流量鼻導管 6-6(您正在讀:讓清醒得以維持 — 中風守護鏈最後一環)</strong></li>
-      <li>外科加護病房 6-1(HFNC 後抵達的環境)</li>
-      <li>認識胸管 6-3 · 認識尿管 6-4(同屬術後管路衛教鏈)</li>
-      <li>認知復健 病人版 8-1a · 家屬版 8-1b(中風守護鏈下游)</li>
-      <li>譫妄專篇 8-2(中風守護鏈下游)</li>
-      <li>圍術期多模式止痛 5-1 · 術後疼痛 5-1b(HFNC 從源頭減少「會呼吸的痛」)</li>
-      <li>主動恢復入門 10-1a(HFNC 銜接拔管的主動恢復)</li>
-      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈關鍵節點完整收束 — 集大成篇)</li>
+      <li><a href="6-1-sicu.html">外科加護病房 6-1(HFNC 後抵達的環境)</a></li>
+      <li><a href="6-3-chest-tube.html">認識胸管 6-3 · 認識尿管 6-4(同屬術後管路衛教鏈)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 病人版 8-1a · 家屬版 8-1b(中風守護鏈下游)</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(中風守護鏈下游)</a></li>
+      <li><a href="5-1-multimodal.html">圍術期多模式止痛 5-1 · 術後疼痛 5-1b(HFNC 從源頭減少「會呼吸的痛」)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(HFNC 銜接拔管的主動恢復)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(主動恢復鏈關鍵節點完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

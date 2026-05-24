@@ -6,7 +6,7 @@
 <title>術中腦氧監測（NIRS） — 心臟加速康復衛教</title>
 <meta name="description" content="近紅外光腦氧監測 NIRS、rSO₂ 數值意義、警示時團隊如何介入">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,6 +84,51 @@
 @media (max-width: 480px) {
   .step-card { padding: 16px 18px; gap: 12px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -210,8 +255,8 @@
     <ul>
       <li><strong>降低術後譫妄發生率</strong> —— 避免持續腦缺氧累積</li>
       <li><strong>減少術後注意力減退、認知功能下降</strong></li>
-      <li><strong>與 BIS 麻醉深度監測互補</strong> —— NIRS 看「腦的供氧」、BIS 看「腦的功能」，<strong>兩者互補形成完整腦部安全網</strong> <span class="link-ref">連結 4-4</span></li>
-      <li><strong>支援儘早拔管、儘早神經學評估</strong> <span class="link-ref">連結 6-2</span></li>
+      <li><strong>與 BIS 麻醉深度監測互補</strong> —— NIRS 看「腦的供氧」、BIS 看「腦的功能」，<strong>兩者互補形成完整腦部安全網</strong> 連結 <a class="link-ref" href="4-4-bis.html">4-4</a></li>
+      <li><strong>支援儘早拔管、儘早神經學評估</strong> 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
       <li><strong>配合血壓、血紅素、流量等多重監測</strong>，做最精準的腦部保護</li>
     </ul>
   </div>
@@ -221,17 +266,17 @@
     <h4>中風守護鏈閱讀路徑</h4>
     <div class="sub">本院的中風守護是從術前停藥、術中監測、到術後辨識的完整鏈條。NIRS 是這條鏈中「腦部供氧的即時守護」一環。</div>
     <ol>
-      <li>體外循環機 CPB 3-2（認識手術中的中風風險來源）</li>
-      <li>三種冠狀動脈繞道手術比較 3-1（心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露）</li>
-      <li>凝血功能與止血藥物 5-2（抗凝血藥停藥節奏 + 術中 TXA · 傳明酸）</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2（認識手術中的中風風險來源）</a></li>
+      <li><a href="3-1-cabg-comparison.html">三種冠狀動脈繞道手術比較 3-1（心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露）</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2（抗凝血藥停藥節奏 + 術中 TXA · 傳明酸）</a></li>
       <li class="current"><strong>NIRS 腦氧監測 4-3（您正在讀:腦部供氧的即時守護）</strong></li>
-      <li>BIS 麻醉深度監測 4-4（與 NIRS 互補:看腦的功能 + 早期警報）</li>
-      <li>圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</li>
-      <li>早期拔管 6-2（神經學評估的關鍵時機）</li>
-      <li>譫妄專篇 8-2（術後認知混亂的觀察與處理）</li>
-      <li>認知復健 病人版 8-1a、家屬版 8-1b（萬一出現認知變化的辨識與復健）</li>
-      <li>主動恢復入門 10-1a(腦氧守護後的主動恢復)</li>
-      <li>整套衛教整合與終身指南 10-1b(中風守護鏈起點完整收束 — 集大成篇)</li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4（與 NIRS 互補:看腦的功能 + 早期警報）</a></li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6（維持 ≥ 36°C 是麻醉藥代謝的關鍵）</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2（神經學評估的關鍵時機）</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2（術後認知混亂的觀察與處理）</a></li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 病人版 8-1a</a>、<a href="8-1b-cognitive-family.html">家屬版 8-1b（萬一出現認知變化的辨識與復健）</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(腦氧守護後的主動恢復)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(中風守護鏈起點完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

@@ -6,7 +6,7 @@
 <title>胸骨保護注意事項 — 心臟加速康復衛教</title>
 <meta name="description" content="術後 6 週黃金保護期，胸骨保護四不原則、日常生活具體建議、胸骨動了的警示徵兆">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -291,6 +291,51 @@
 }
 .family-note ul li:last-child { margin-bottom: 0; }
 .family-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -319,15 +364,15 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">微創手術 · MICS</span>
-      <span class="lex-def">Minimally Invasive Cardiac Surgery,<strong>從肋骨之間的小切口進入</strong>,不切胸骨。<strong>沒有胸骨需要保護</strong>,但仍有肋骨與軟組織需要小心。詳見 <strong>3-3</strong>。</span>
+      <span class="lex-def">Minimally Invasive Cardiac Surgery,<strong>從肋骨之間的小切口進入</strong>,不切胸骨。<strong>沒有胸骨需要保護</strong>,但仍有肋骨與軟組織需要小心。詳見 <a class="link-ref" href="3-3-mics-vs-sternotomy.html">3-3</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">鋼絲固定</span>
-      <span class="lex-def">傳統胸骨閉合方式,健保給付。<strong>本份所有時程都以鋼絲固定為基準</strong>。詳見 <strong>3-4</strong>。</span>
+      <span class="lex-def">傳統胸骨閉合方式,健保給付。<strong>本份所有時程都以鋼絲固定為基準</strong>。詳見 <a class="link-ref" href="3-4-sternal-fixation.html">3-4</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">鋼板固定</span>
-      <span class="lex-def">自費(約 10.8 萬)的胸骨閉合方式。<strong>承受力較高、活動限制較少、6 週時程可能略短</strong>。詳見 <strong>3-4</strong>。</span>
+      <span class="lex-def">自費(約 10.8 萬)的胸骨閉合方式。<strong>承受力較高、活動限制較少、6 週時程可能略短</strong>。詳見 <a class="link-ref" href="3-4-sternal-fixation.html">3-4</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">黃金保護期</span>
@@ -339,7 +384,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">翻身側坐起</span>
-      <span class="lex-def">替代「直接用手撐起」的安全起身方法:<strong>先側躺 → 雙腿先放下床邊 → 用肚子(腹肌)力量帶動身體坐起</strong>。詳見 <strong>7-6a 從躺到坐</strong>。</span>
+      <span class="lex-def">替代「直接用手撐起」的安全起身方法:<strong>先側躺 → 雙腿先放下床邊 → 用肚子(腹肌)力量帶動身體坐起</strong>。詳見 <a class="link-ref" href="7-6a-sit-up.html">7-6a 從躺到坐</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">5 公斤</span>
@@ -361,17 +406,17 @@
 
     <div class="applicability-row">
       <div class="ar-type">傳統開心手術<br>+ 鋼板固定</div>
-      <div class="ar-rules"><strong>四不原則同樣適用,但時程可能略短</strong>。鋼板的固定力比鋼絲更強,部分病人 4 週後就能逐步放寬限制。<strong>實際時程以您的主治醫師回診評估為準</strong> <span class="link-ref">連結 3-4</span>。</div>
+      <div class="ar-rules"><strong>四不原則同樣適用,但時程可能略短</strong>。鋼板的固定力比鋼絲更強,部分病人 4 週後就能逐步放寬限制。<strong>實際時程以您的主治醫師回診評估為準</strong> 連結 <a class="link-ref" href="3-4-sternal-fixation.html">3-4</a>。</div>
     </div>
 
     <div class="applicability-row">
       <div class="ar-type">微創手術 MICS<br>(從肋骨間進入)</div>
-      <div class="ar-rules"><strong>沒有胸骨切開 → 不需要遵守本份的「胸骨四不」</strong>。但有<strong>肋骨間的小切口與軟組織傷口需要保護</strong> — 仍應避免單側肋骨大幅扭轉、不要提重物超過 5 公斤、保持兩側手平均出力。具體建議請與主治醫師確認 <span class="link-ref">連結 3-3</span>。</div>
+      <div class="ar-rules"><strong>沒有胸骨切開 → 不需要遵守本份的「胸骨四不」</strong>。但有<strong>肋骨間的小切口與軟組織傷口需要保護</strong> — 仍應避免單側肋骨大幅扭轉、不要提重物超過 5 公斤、保持兩側手平均出力。具體建議請與主治醫師確認 連結 <a class="link-ref" href="3-3-mics-vs-sternotomy.html">3-3</a>。</div>
     </div>
 
     <div class="applicability-row">
       <div class="ar-type">機器人輔助手術</div>
-      <div class="ar-rules">同微創原則,<strong>沒有胸骨需要保護</strong>。傷口分散在右胸幾個小切口,具體保護細節請與主治醫師確認 <span class="link-ref">連結 3-3</span>。</div>
+      <div class="ar-rules">同微創原則,<strong>沒有胸骨需要保護</strong>。傷口分散在右胸幾個小切口,具體保護細節請與主治醫師確認 連結 <a class="link-ref" href="3-3-mics-vs-sternotomy.html">3-3</a>。</div>
     </div>
   </div>
 
@@ -460,7 +505,7 @@
     <article class="rule-card">
       <div class="rule-num">原則 04</div>
       <h4>不用手撐起身體</h4>
-      <p>起身請用<strong>「翻身側坐起」</strong>:先側身、雙腿先放下床邊、再用肚子力量坐起。不要直接從仰躺用手撐床坐起,這對胸骨拉力極大 <span class="link-ref">連結 7-6a</span>。</p>
+      <p>起身請用<strong>「翻身側坐起」</strong>:先側身、雙腿先放下床邊、再用肚子力量坐起。不要直接從仰躺用手撐床坐起,這對胸骨拉力極大 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a>。</p>
     </article>
   </div>
 
@@ -538,7 +583,7 @@
     </div>
   </div>
 
-  <p style="margin-top:14px;padding:12px 16px;background:var(--paper);border-radius:3px;border-left:2px solid var(--gold);font-size:13px;line-height:1.85;color:var(--ink-soft);"><strong style="color:var(--gold);">鋼板固定的時程可能略短</strong> — 鋼絲是「<strong>環繞綁住</strong>」胸骨,鋼板是「<strong>跨過切緣鎖在骨頭上</strong>」 — 鋼板的初始固定力更高,部分病人可能在 4 週後就能逐步放寬限制。但<strong>骨頭實際癒合速度仍需 4-6 週</strong>,「鋼板較強」不代表「可以更早大幅活動」。<strong>具體放寬時程以您的回診評估為準</strong> <span class="link-ref">連結 3-4</span>。</p>
+  <p style="margin-top:14px;padding:12px 16px;background:var(--paper);border-radius:3px;border-left:2px solid var(--gold);font-size:13px;line-height:1.85;color:var(--ink-soft);"><strong style="color:var(--gold);">鋼板固定的時程可能略短</strong> — 鋼絲是「<strong>環繞綁住</strong>」胸骨,鋼板是「<strong>跨過切緣鎖在骨頭上</strong>」 — 鋼板的初始固定力更高,部分病人可能在 4 週後就能逐步放寬限制。但<strong>骨頭實際癒合速度仍需 4-6 週</strong>,「鋼板較強」不代表「可以更早大幅活動」。<strong>具體放寬時程以您的回診評估為準</strong> 連結 <a class="link-ref" href="3-4-sternal-fixation.html">3-4</a>。</p>
 
   <!-- Family note -->
   <div class="family-note">
@@ -546,7 +591,7 @@
     <ul>
       <li><strong>環境改造(出院前完成)</strong> —— 把常用物品從高櫃移到腰高的櫃子;準備伸縮曬衣桿、長柄取物夾;把前開扣衣服洗好放最容易拿到的地方</li>
       <li><strong>主動代勞「容易違反四不」的事</strong> —— 抱小孩、提購物袋、開重門、開高處櫥櫃。不要等病人開口,主動接手</li>
-      <li><strong>提醒「翻身側坐起」三步驟</strong> —— 病人剛開始會本能用手撐床。看到就立刻提醒「先側身、再放腳、用肚子起來」<span class="link-ref">連結 7-6a</span></li>
+      <li><strong>提醒「翻身側坐起」三步驟</strong> —— 病人剛開始會本能用手撐床。看到就立刻提醒「先側身、再放腳、用肚子起來」連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a></li>
       <li><strong>協助坐車繫安全帶</strong> —— 病人副駕時,幫忙拉安全帶到位置,並在<strong>胸口位置夾抱枕</strong>(緊急煞車時的保護)。後座時也要綁,不要因「短程就好」省略</li>
       <li><strong>觀察「胸骨喀一聲」的警示</strong> —— 病人咳嗽、翻身、起身時,如果聽到或感覺到「喀」一聲、胸骨摸起來有移動感,<strong>立即就醫</strong>,不要等到回診</li>
       <li><strong>傷口觀察 — 每天看一眼</strong> —— 紅腫熱痛、滲液、流膿、異味,任一項出現都要告訴醫師。出院 2-4 週是傷口感染的高峰期</li>
@@ -559,18 +604,18 @@
     <h4>居家照護與完整恢復時間軸</h4>
     <div class="sub">這份是整套系列<strong>第一份「居家照護衛教」</strong>。下面是從手術到完全恢復的時間軸,把不同議題的癒合時程串成一條完整的恢復路線。</div>
     <ol>
-      <li>微創手術 3-3 vs 傳統開胸:適用性的源頭差異</li>
-      <li>胸骨鋼絲 vs 鋼板 3-4(固定方式 → 影響本份時程)</li>
-      <li>術後疼痛 5-1b(出院初期止痛策略延續)</li>
-      <li>認識胸管 6-3(1-3 天移除後傷口癒合)</li>
-      <li>認識尿管 6-4(1-2 天後拔除)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(翻身側坐起的核心動作)</li>
-      <li>術後咳嗽 7-2(咳嗽時抱枕固定 — 與本份四不互相支援)</li>
-      <li>誘發性肺量計 7-1(隨身工具,出院後繼續用 1-2 週)</li>
+      <li><a href="3-3-mics-vs-sternotomy.html">微創手術 3-3 vs 傳統開胸:適用性的源頭差異</a></li>
+      <li><a href="3-4-sternal-fixation.html">胸骨鋼絲 vs 鋼板 3-4(固定方式 → 影響本份時程)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(出院初期止痛策略延續)</a></li>
+      <li><a href="6-3-chest-tube.html">認識胸管 6-3(1-3 天移除後傷口癒合)</a></li>
+      <li><a href="6-4-foley.html">認識尿管 6-4(1-2 天後拔除)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(翻身側坐起的核心動作)</a></li>
+      <li><a href="7-2-cough.html">術後咳嗽 7-2(咳嗽時抱枕固定 — 與本份四不互相支援)</a></li>
+      <li><a href="7-1-spirometer.html">誘發性肺量計 7-1(隨身工具</a>,出院後繼續用 1-2 週)</li>
       <li class="current"><strong>胸骨保護注意事項 7-4(您正在讀:術後 6 週黃金保護期)</strong></li>
-      <li>心臟飲食 9-3(出院後長期飲食原則)</li>
-      <li>主動恢復入門 10-1a(胸骨保護是居家照護的核心)</li>
-      <li>整套衛教整合與終身指南 10-1b(居家照護鏈完整收束 — 集大成篇)</li>
+      <li><a href="9-3-cardiac-diet.html">心臟飲食 9-3(出院後長期飲食原則)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(胸骨保護是居家照護的核心)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(居家照護鏈完整收束 — 集大成篇)</a></li>
     </ol>
     <p style="margin-top:14px;padding:12px 14px;background:var(--paper);border-radius:3px;border-left:2px solid var(--teal);font-size:12.5px;line-height:1.85;color:var(--ink-soft);">
       <strong style="color:var(--teal);">「多久才完全好?」的完整答案</strong>:皮膚 1-2 週、胸管移除後傷口 1 週、胸骨 4-6 週、心臟功能與體力 3-6 個月。每個議題有自己的時程,不是「全部一起好」。

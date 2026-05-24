@@ -6,7 +6,7 @@
 <title>會客時的認知復健 — 心臟加速康復衛教(家屬版)</title>
 <meta name="description" content="家屬會客時的對話原則、對話實例、可以聊什麼、避免做的事、FAST 中風快速辨識、給家屬的安心話">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -293,45 +293,9 @@
   .topics { padding: 16px 20px; }
   .fast-block { padding: 20px 22px; }
   .reassure-family { padding: 22px 22px; }
-  .kids-note { padding: 18px 20px; }
   .help-contact { padding: 16px 18px; }
 }
 
-/* 12 歲以下小朋友議題(對齊 6-1 / 6-5) */
-.kids-note {
-  background: var(--gold-soft);
-  border: 1px solid var(--highlight-border);
-  border-left: 3px solid var(--gold);
-  border-radius: 3px;
-  padding: 20px 24px;
-  margin-bottom: 24px;
-}
-.kids-note h4 {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--gold);
-  margin-bottom: 10px;
-}
-.kids-note p {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.85;
-  margin-bottom: 8px;
-}
-.kids-note p:last-child { margin-bottom: 0; }
-.kids-note p strong { color: var(--ink); font-weight: 600; }
-.kids-note ul {
-  margin: 6px 0 0;
-  padding-left: 22px;
-}
-.kids-note ul li {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.85;
-  margin-bottom: 4px;
-}
-.kids-note ul li strong { color: var(--ink); font-weight: 600; }
 
 /* 向社工或心理師求助具體管道 */
 .help-contact {
@@ -362,6 +326,51 @@
   margin-bottom: 4px;
 }
 .help-contact ul li:last-child { margin-bottom: 0; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -380,7 +389,7 @@
     <p>當您走進加護病房,看見親人剛拔管、剛清醒,可能不知道該說什麼、該不該打擾他。</p>
     <p>請放心:<span class="em">您的陪伴與對話,是病人認知恢復(透過對話與互動,幫助病人的思考、記憶、定向感恢復)最強的「自然處方」</span>。國際研究一致顯示,<span class="em">固定時間的家屬陪伴(例如每天會客時間都來)</span>能<span class="em">明顯減少譫妄發生率與持續時間、加速從麻醉中恢復、降低焦慮與孤獨感</span>。</p>
     <p>前面 CPB、NIRS、BIS 與「早期拔管」一路說明了團隊如何在術中守護病人的腦部。<span class="em">但術後 24 小時到 7 天,中風仍可能延遲發生</span> —— 這段時間最敏銳的觀察者不是儀器,而是<span class="em">「最熟悉病人的您」</span>。您的存在,是術後守護鏈的延伸。</p>
-    <p>這份單張教您:<span class="em">怎麼陪、講什麼、避免什麼、何時警覺</span>。同時也建議鼓勵病人(若狀況允許)閱讀<span class="em">病人版「為什麼團隊一直問你同樣的問題」</span> <span class="link-ref">連結 8-1a</span> —— 當病人理解團隊為什麼反覆問問題,他會更願意配合,您的陪伴也會更有效。</p>
+    <p>這份單張教您:<span class="em">怎麼陪、講什麼、避免什麼、何時警覺</span>。同時也建議鼓勵病人(若狀況允許)閱讀<span class="em">病人版「為什麼團隊一直問你同樣的問題」</span> 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> —— 當病人理解團隊為什麼反覆問問題,他會更願意配合,您的陪伴也會更有效。</p>
   </div>
 
   <!-- Lexicon -->
@@ -404,7 +413,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">保護性約束</span>
-      <span class="lex-def">病人意識混亂、可能不自主拉扯管路時的暫時安全裝置。<strong>家屬陪伴是降低約束需求最有效的方法</strong> — 您的存在、規律對話、定向感重建,讓病人不需要被約束就能安全度過混亂期。詳見 <strong>6-5 保護性約束</strong>。</span>
+      <span class="lex-def">病人意識混亂、可能不自主拉扯管路時的暫時安全裝置。<strong>家屬陪伴是降低約束需求最有效的方法</strong> — 您的存在、規律對話、定向感重建,讓病人不需要被約束就能安全度過混亂期。詳見 <a class="link-ref" href="6-5-restraint.html">6-5 保護性約束</a>。</span>
     </div>
   </div>
 
@@ -584,7 +593,7 @@
       <li>用太長、太複雜的句子,一次塞太多訊息</li>
       <li>一次太多人擠進去探視(建議 1–2 人輪流)</li>
       <li>追問他不記得的事 —— 「你怎麼會忘記?」</li>
-      <li><strong>替病人搶答團隊的問題</strong> —— 即使他答得慢,也讓他自己嘗試。家屬替他答會剝奪他重新建立認知的機會 <span class="link-ref">連結 8-1a</span></li>
+      <li><strong>替病人搶答團隊的問題</strong> —— 即使他答得慢,也讓他自己嘗試。家屬替他答會剝奪他重新建立認知的機會 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a></li>
       <li>在他面前哭泣或表現過度焦慮 —— 他會以為自己很糟</li>
       <li>爭論手術細節或抱怨醫療過程 —— 留給醫療團隊回答</li>
       <li>在他睡覺時硬把他叫醒 —— 睡眠是恢復的一部分</li>
@@ -664,23 +673,6 @@
     <strong>寧可虛驚一場,也不要錯過早期處理的黃金時間。</strong>即使您不確定是不是有問題,也請告訴護理人員 —— 您的觀察永遠值得被重視。
   </p>
 
-  <!-- Kids under 12 -->
-  <div class="section-title">如果家中有 12 歲以下的小朋友</div>
-
-  <div class="kids-note">
-    <h4>「爺爺/奶奶/爸爸/媽媽在加護病房」對小朋友的特殊考量</h4>
-    <p>本院 ICU 探視原則:<strong>原則上 12 歲以下小朋友不直接進入 ICU</strong>(避免感染風險,並考量小朋友看到管路、儀器可能的心理衝擊)。但這不代表小朋友要被「<strong>遮蔽</strong>」 — 反而需要家屬幫助他們「理解、適度參與、釋放擔心」。</p>
-    <p><strong>建議做法</strong>:</p>
-    <ul>
-      <li><strong>用小朋友懂的語言解釋</strong>:「<strong>爺爺心臟修好了,現在在加護病房休息,醫生護士在照顧他</strong>」 — 不要說「爺爺很危險」「不確定能不能好」這種讓孩子焦慮的話</li>
-      <li><strong>用視訊或錄影片陪伴</strong>:會客時用手機讓病人看到小朋友、聽到他的聲音。即使病人還在迷糊,也常會記得「<strong>有看到孫子</strong>」</li>
-      <li><strong>讓小朋友畫畫、寫卡片帶來</strong>:貼在病人視線可及處。這也是病人定向感建立的好工具(「<strong>這是孫子畫的</strong>」)</li>
-      <li><strong>留意小朋友的情緒反應</strong>:有些小朋友會出現退化行為(尿床、不想上學、惡夢) — 這是正常壓力反應。<strong>持續超過 2 週仍未緩解,請告訴護理師或社工協助轉介心理諮商</strong></li>
-      <li><strong>避免「你要乖,不然爺爺會擔心」這類綁架式的話</strong> — 會讓小朋友把家人生病跟自己的行為連結,造成不必要的罪惡感</li>
-    </ul>
-    <p>同樣的原則適用於<strong>家中有失智長輩</strong>的情況 — 用簡單、規律、具體的話解釋,不要隱瞞,但也不要把焦慮傳遞過去。</p>
-  </div>
-
   <!-- Family reassurance -->
   <div class="section-title">給家屬的安心話</div>
 
@@ -719,18 +711,18 @@
     <h4>您陪伴的腦部守護鏈 + 認知守護網絡</h4>
     <div class="sub">這份單張在「中風守護鏈」與「家屬照顧者支援」中的位置</div>
     <ol>
-      <li>體外循環機 CPB 3-2(中風守護鏈起點 — 認識手術設備)</li>
-      <li>NIRS 腦氧監測 4-3(術中即時腦氧守護)</li>
-      <li>BIS 麻醉深度監測 4-4(術中麻醉深度控制)</li>
-      <li>早期拔管 6-2(讓病人清醒地進入恢復)</li>
-      <li>HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援)</li>
-      <li>外科加護病房 6-1(您要面對的環境 — 含 12 歲以下小朋友議題)</li>
-      <li>術後神經學評估 病人版 8-1a(<strong>請鼓勵病人讀</strong>)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(中風守護鏈起點 — 認識手術設備)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(術中即時腦氧守護)</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(術中麻醉深度控制)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(讓病人清醒地進入恢復)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援)</a></li>
+      <li><a href="6-1-sicu.html">外科加護病房 6-1(您要面對的環境)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">術後神經學評估 病人版 8-1a(<strong>請鼓勵病人讀</strong>)</a></li>
       <li class="current"><strong>會客時的認知復健 家屬版 8-1b(您正在讀:最熟悉的觀察者價值)</strong></li>
-      <li>保護性約束 6-5(<strong>家屬陪伴 = 降低約束需求</strong>核心論述)</li>
-      <li>術後譫妄 8-2(意識混亂的早期辨識與預防 — 家屬是第一線觀察者)</li>
-      <li>主動恢復入門 10-1a(家屬也是康復團隊的一員)</li>
-      <li>整套衛教整合與終身指南 10-1b(「不可取代的處方」家屬角色完整收束 — 集大成篇)</li>
+      <li><a href="6-5-restraint.html">保護性約束 6-5(<strong>家屬陪伴 = 降低約束需求</strong>核心論述)</a></li>
+      <li><a href="8-2-delirium.html">術後譫妄 8-2(意識混亂的早期辨識與預防 — 家屬是第一線觀察者)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(家屬也是康復團隊的一員)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(「不可取代的處方」家屬角色完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

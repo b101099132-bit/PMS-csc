@@ -6,7 +6,7 @@
 <title>術後疼痛與多模式止痛 — 心臟加速康復衛教</title>
 <meta name="description" content="五處傷口的痛、為什麼是會呼吸的痛、本院四大止痛策略、疼痛分數對照表">
 
-<meta name="article:modified_time" content="2026-05-23">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -359,6 +359,51 @@
   margin: 0 auto;
 }
 .dont-endure .explain strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -407,7 +452,7 @@
     <ul style="padding-left:20px;margin:8px 0 12px;font-size:14px;color:var(--ink-soft);line-height:1.85;">
       <li><strong>① 術前 2 小時口服 Acetaminophen(乙醯胺酚)</strong> —— 護理師會讓您喝一口水配藥服用,符合本院 ERAS 的清流質 2 小時空腹原則,讓藥物在切口時血中濃度達到高峰。</li>
       <li><strong>② 麻醉開始後施打神經阻斷</strong> —— 麻醉醫師在超音波導引下,把局部麻醉藥精準打在胸壁神經周圍,效果可持續術後 6-24 小時。</li>
-      <li><strong>③ 脊髓內嗎啡</strong> —— 在脊髓周圍的空隙注射極微量嗎啡,效果<strong>持續術後 18-24 小時</strong>,剛好涵蓋最痛的時段 <span class="link-ref">連結 5-1</span>。</li>
+      <li><strong>③ 脊髓內嗎啡</strong> —— 在脊髓周圍的空隙注射極微量嗎啡,效果<strong>持續術後 18-24 小時</strong>,剛好涵蓋最痛的時段 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a>。</li>
     </ul>
     <p>所以您醒來時，身上其實已經有一份預先建立的止痛保護 —— 後續的<strong>四大策略</strong>是在這個基礎上繼續強化，讓整段恢復期都被止痛覆蓋。</p>
   </div>
@@ -510,7 +555,7 @@
     <div class="s-num">策略 01</div>
     <h4>HFNC（高流量鼻導管）減少呼吸費力</h4>
     <div class="en">High Flow Nasal Cannula</div>
-    <p>拔管後立即使用<strong>高流量鼻導管氧氣</strong> <span class="link-ref">連結 6-6</span>。它讓您呼吸不費力，胸壁活動幅度小、傷口被牽動少 —— <strong>從源頭減少「會呼吸的痛」</strong>。同時還能讓您說話、進食、不需要鎮靜。</p>
+    <p>拔管後立即使用<strong>高流量鼻導管氧氣</strong> 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a>。它讓您呼吸不費力，胸壁活動幅度小、傷口被牽動少 —— <strong>從源頭減少「會呼吸的痛」</strong>。同時還能讓您說話、進食、不需要鎮靜。</p>
   </article>
 
   <article class="strategy s2">
@@ -533,7 +578,7 @@
     <div class="s-num">策略 04</div>
     <h4>鴉片類「需要才用」</h4>
     <div class="en">Opioids · Rescue only</div>
-    <p>鴉片類不再是基礎用藥,<strong>只有當上述三項加起來仍不足時才追加</strong>,使用短效、低劑量配方。這樣能避免<strong>想吐、便祕、呼吸變慢變淺、意識混亂(譫妄) <span class="link-ref">連結 8-2</span></strong>等副作用,<strong>不會拖慢拔管、下床、進食的進度</strong>。</p>
+    <p>鴉片類不再是基礎用藥,<strong>只有當上述三項加起來仍不足時才追加</strong>,使用短效、低劑量配方。這樣能避免<strong>想吐、便祕、呼吸變慢變淺、意識混亂(譫妄) 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></strong>等副作用,<strong>不會拖慢拔管、下床、進食的進度</strong>。</p>
     <div class="strat-clarify">
       <span class="label">重要澄清：</span>這不是「醫院捨不得給強效藥」，而是「<strong>等真的需要才用，效果反而最好</strong>」。研究顯示，常規大劑量鴉片類反而會讓身體對止痛變得不敏感，後續需要更高劑量才有效。本院的策略是把鴉片類<strong>留在最該用的時候</strong>，確保它真正幫到您。
     </div>
@@ -571,10 +616,10 @@
   <div class="callout prep-actions">
     <h4>主動參與，痛就能控制得更好</h4>
     <ul>
-      <li><strong>抱枕固定胸口</strong>：咳嗽、深呼吸、翻身時抱緊枕頭壓在傷口位置 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>抱枕固定胸口</strong>：咳嗽、深呼吸、翻身時抱緊枕頭壓在傷口位置 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
       <li><strong>動作前 5–10 分鐘先告訴護理師</strong>：要咳嗽、翻身、下床等動作前，先給時間讓止痛藥起效。止痛藥從注射或服用到效果達到高峰，通常需要 5–15 分鐘</li>
-      <li><strong>配合誘發性肺量計使用</strong>：每 1–2 小時做一輪，把肺撐開 <span class="link-ref">連結 7-1</span></li>
-      <li><strong>規律下床活動</strong>：適度活動有助減少腰背痛與大腿取靜脈處的僵硬 <span class="link-ref">連結 7-6a</span></li>
+      <li><strong>配合誘發性肺量計使用</strong>：每 1–2 小時做一輪，把肺撐開 連結 <a class="link-ref" href="7-1-spirometer.html">7-1</a></li>
+      <li><strong>規律下床活動</strong>：適度活動有助減少腰背痛與大腿取靜脈處的僵硬 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a></li>
       <li><strong>誠實告訴護理師疼痛分數</strong>:用 0–10 分表達當下感覺,團隊才能精準調整(分數對應的場景請見上方表格)</li>
     </ul>
   </div>
@@ -605,16 +650,16 @@
     <h4>止痛論述鏈閱讀路徑</h4>
     <div class="sub">本院的止痛不是讓您「舒服一點」,而是讓<strong>整套加速康復都能跑起來</strong>。下面是構成這條鏈的單張。</div>
     <ol>
-      <li>圍術期多模式止痛 5-1(術中三項主力:神經阻斷 + 脊髓內嗎啡 + 乙醯胺酚)</li>
+      <li><a href="5-1-multimodal.html">圍術期多模式止痛 5-1(術中三項主力:神經阻斷 + 脊髓內嗎啡 + 乙醯胺酚)</a></li>
       <li class="current"><strong>術後疼痛與多模式止痛 5-1b(您正在讀:術後四大策略 + 疼痛分數 + 抱枕固定)</strong></li>
-      <li>早期拔管 6-2(止痛到位才能拔管 — 多模式止痛是前提)</li>
-      <li>HFNC 高流量鼻導管 6-6(策略 01 — 從源頭減少「會呼吸的痛」)</li>
-      <li>術後咳嗽技巧 7-2(抱枕固定法 — 配合止痛才咳得出來)</li>
-      <li>誘發性肺量計 7-1(呼吸訓練 — 止痛到位才做得到)</li>
-      <li>從躺到坐 7-6a、從站到走 7-6b(止痛到位才能動)</li>
-      <li>譫妄專篇 8-2(鴉片類副作用之一,本院止痛策略減少譫妄風險)</li>
-      <li>主動恢復入門 10-1a(出院後止痛是居家恢復的關鍵)</li>
-      <li>整套衛教整合與終身指南 10-1b(止痛論述鏈完整收束 — 集大成篇)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(止痛到位才能拔管 — 多模式止痛是前提)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(策略 01 — 從源頭減少「會呼吸的痛」)</a></li>
+      <li><a href="7-2-cough.html">術後咳嗽技巧 7-2(抱枕固定法 — 配合止痛才咳得出來)</a></li>
+      <li><a href="7-1-spirometer.html">誘發性肺量計 7-1(呼吸訓練 — 止痛到位才做得到)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a</a>、<a href="7-6b-stand-walk.html">從站到走 7-6b(止痛到位才能動)</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(鴉片類副作用之一</a>,本院止痛策略減少譫妄風險)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(出院後止痛是居家恢復的關鍵)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(止痛論述鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

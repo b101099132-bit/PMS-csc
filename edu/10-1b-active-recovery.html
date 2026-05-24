@@ -6,7 +6,7 @@
 <title>您讀完了 — 整套衛教的整合與終身指南 · 10-1b 集大成篇</title>
 <meta name="description" content="俯瞰整套 24 份單張、整合 24 大論述策略、本院 ERAS 具體成果量化、出院後 6 週到終身的完整指引、12 條跨單張鏈條總覽">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -647,6 +647,50 @@
   color: var(--gold);
   border-left-color: var(--gold);
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 10-1b 集大成篇 special map 內可點擊編號 ── */
+.overview-map a, .final-reading-map a {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.overview-map a strong, .final-reading-map a strong {
+  transition: color 0.15s ease;
+}
+.overview-map a:hover strong, .final-reading-map a:hover strong,
+.overview-map a:focus strong, .final-reading-map a:focus strong {
+  color: var(--gold, #A87B4D);
+}
+.overview-map a:hover, .final-reading-map a:hover,
+.overview-map a:focus, .final-reading-map a:focus {
+  border-bottom-color: var(--gold, #A87B4D);
+  outline: none;
+}
+
 </style>
 
 /* Section 3 — Phase detail cards */
@@ -1019,7 +1063,7 @@
       <div class="sr-num">3 系列</div>
       <div class="sr-content">
         <h5>認識手術 — 從「不知道會發生什麼」到「能與醫師討論選項」</h5>
-        <div class="sr-items"><strong>3-1</strong> CABG 三種手術比較 / <strong>3-2</strong> 體外循環機 CPB / <strong>3-3</strong> 微創 vs 傳統開胸 / <strong>3-4</strong> 鋼絲 vs 鋼板固定</div>
+        <div class="sr-items"><a href="3-1-cabg-comparison.html"><strong>3-1</strong></a> CABG 三種手術比較 / <a href="3-2-cpb.html"><strong>3-2</strong></a> 體外循環機 CPB / <a href="3-3-mics-vs-sternotomy.html"><strong>3-3</strong></a> 微創 vs 傳統開胸 / <a href="3-4-sternal-fixation.html"><strong>3-4</strong></a> 鋼絲 vs 鋼板固定</div>
         <div class="sr-quote">「您不只是接受手術,您是與醫師一起選擇手術。」</div>
       </div>
     </div>
@@ -1028,7 +1072,7 @@
       <div class="sr-num">4 系列</div>
       <div class="sr-content">
         <h5>術中精準照護 — 您睡著的時候,團隊在做的事</h5>
-        <div class="sr-items"><strong>4-2</strong> TOF 肌肉鬆弛監測 / <strong>4-3</strong> NIRS 腦氧監測 / <strong>4-4</strong> BIS 麻醉深度 / <strong>4-6</strong> 圍術期體溫管理</div>
+        <div class="sr-items"><strong>4-2</strong> TOF 肌肉鬆弛監測 / <a href="4-3-nirs.html"><strong>4-3</strong></a> NIRS 腦氧監測 / <a href="4-4-bis.html"><strong>4-4</strong></a> BIS 麻醉深度 / <a href="4-6-temperature.html"><strong>4-6</strong></a> 圍術期體溫管理</div>
         <div class="sr-quote">「您睡得安全、不過深、體溫穩定、腦氧足夠 — 這是本院能讓您早期清醒拔管的前提。」</div>
       </div>
     </div>
@@ -1037,7 +1081,7 @@
       <div class="sr-num">5 系列</div>
       <div class="sr-content">
         <h5>止痛與凝血 — 把疼痛變得可承受,把出血變得可控</h5>
-        <div class="sr-items"><strong>5-1</strong> 多模式止痛 / <strong>5-1b</strong> 術後疼痛管理 / <strong>5-2</strong> 凝血功能與止血藥物</div>
+        <div class="sr-items"><strong>5-1</strong> 多模式止痛 / <a href="5-1b-postop-pain.html"><strong>5-1b</strong></a> 術後疼痛管理 / <a href="5-2-coagulation.html"><strong>5-2</strong></a> 凝血功能與止血藥物</div>
         <div class="sr-quote">「3+2=5 種策略,讓您不靠單一鴉片類就能控制疼痛 — 您能呼吸、能咳嗽、能下床。」</div>
       </div>
     </div>
@@ -1046,7 +1090,7 @@
       <div class="sr-num">6 系列</div>
       <div class="sr-content">
         <h5>加護病房 — 把陌生變熟悉,把恐懼變理解</h5>
-        <div class="sr-items"><strong>6-1</strong> SICU 環境 / <strong>6-2</strong> 早期拔管 / <strong>6-3</strong> 認識胸管 / <strong>6-4</strong> 認識尿管 / <strong>6-5</strong> 保護性約束 / <strong>6-6</strong> HFNC 高流量鼻導管</div>
+        <div class="sr-items"><strong>6-1</strong> SICU 環境 / <a href="6-2-extubation.html"><strong>6-2</strong></a> 早期拔管 / <a href="6-3-chest-tube.html"><strong>6-3</strong></a> 認識胸管 / <a href="6-4-foley.html"><strong>6-4</strong></a> 認識尿管 / <a href="6-5-restraint.html"><strong>6-5</strong></a> 保護性約束 / <a href="6-6-hfnc.html"><strong>6-6</strong></a> HFNC 高流量鼻導管</div>
         <div class="sr-quote">「把控制權交還給您 — 越快清醒、越快移除管路、越快下床。」</div>
       </div>
     </div>
@@ -1055,7 +1099,7 @@
       <div class="sr-num">7 系列</div>
       <div class="sr-content">
         <h5>主動恢復鏈 — 從第一口氣到完整生活</h5>
-        <div class="sr-items"><strong>7-1</strong> 呼吸訓練器 / <strong>7-2</strong> 咳嗽 / <strong>7-4</strong> 胸骨保護 / <strong>7-5</strong> 吞嚥 / <strong>7-6</strong> 早期下床(入口) / <strong>7-6a</strong> 從躺到坐 / <strong>7-6b</strong> 從站到走 / <strong>7-7</strong> 喝水進食</div>
+        <div class="sr-items"><strong>7-1</strong> 呼吸訓練器 / <a href="7-2-cough.html"><strong>7-2</strong></a> 咳嗽 / <a href="7-4-sternal-precaution.html"><strong>7-4</strong></a> 胸骨保護 / <a href="7-5-swallow.html"><strong>7-5</strong></a> 吞嚥 / <a href="7-6-early-mobilization.html"><strong>7-6</strong></a> 早期下床(入口) / <a href="7-6a-sit-up.html"><strong>7-6a</strong></a> 從躺到坐 / <a href="7-6b-stand-walk.html"><strong>7-6b</strong></a> 從站到走 / <a href="7-7-eating.html"><strong>7-7</strong></a> 喝水進食</div>
         <div class="sr-quote">「感到口渴、自己喝水、肚子餓了想吃 — 這些看似平常的事,正是最具體的康復指標。」</div>
       </div>
     </div>
@@ -1064,7 +1108,7 @@
       <div class="sr-num">8 系列</div>
       <div class="sr-content">
         <h5>腦與術後併發症 — 最被擔心、最被誤解的議題</h5>
-        <div class="sr-items"><strong>8-1a</strong> 神經學評估 病人版 / <strong>8-1b</strong> 會客時的認知復健 家屬版 / <strong>8-2</strong> 譫妄 / <strong>8-3</strong> POAF 心房顫動 / <strong>8-4</strong> AKI 腎損傷</div>
+        <div class="sr-items"><strong>8-1a</strong> 神經學評估 病人版 / <a href="8-1b-cognitive-family.html"><strong>8-1b</strong></a> 會客時的認知復健 家屬版 / <a href="8-2-delirium.html"><strong>8-2</strong></a> 譫妄 / <a href="8-3-poaf.html"><strong>8-3</strong></a> POAF 心房顫動 / <a href="8-4-aki.html"><strong>8-4</strong></a> AKI 腎損傷</div>
         <div class="sr-quote">「術後併發症三部曲(腦/心律/腎)— 本院主動預防、早期辨識、適當治療,讓絕大多數病人順利度過、回到正常生活。」</div>
       </div>
     </div>
@@ -1082,7 +1126,7 @@
       <div class="sr-num">10 系列</div>
       <div class="sr-content">
         <h5>整合總結 — 您是康復團隊的一員</h5>
-        <div class="sr-items"><strong>10-1a</strong> 主動恢復入門篇 / <strong>10-1b</strong> 整套衛教的整合與終身指南(本份)</div>
+        <div class="sr-items"><strong>10-1a</strong> 主動恢復入門篇 / <a href="10-1b-active-recovery.html"><strong>10-1b</strong></a> 整套衛教的整合與終身指南(本份)</div>
         <div class="sr-quote">「少躺一點,多動一點,恢復就快一點。您的努力,會成為康復速度的一部分。」</div>
       </div>
     </div>
@@ -1105,49 +1149,49 @@
       <div class="data-card highlight">
         <div class="dc-num">39% → 20%</div>
         <div class="dc-label">POAF 心房顫動發生率</div>
-        <div class="dc-detail">文獻平均約 30-39%;本院透過 ERAS 多管齊下(術前持續乙型阻斷劑、避免高劑量鴉片、早期下床等)<strong>降到 20% 左右</strong> <span class="link-ref">連結 8-3</span></div>
+        <div class="dc-detail">文獻平均約 30-39%;本院透過 ERAS 多管齊下(術前持續乙型阻斷劑、避免高劑量鴉片、早期下床等)<strong>降到 20% 左右</strong> 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a></div>
       </div>
 
       <div class="data-card highlight">
         <div class="dc-num">&lt; 10%</div>
         <div class="dc-label">保護性約束率</div>
-        <div class="dc-detail">對齊國際 ERAS 心臟中心標準。家屬陪伴 + 早期譫妄辨識 + 早期下床,讓本院能做到「<strong>不是少用約束,而是病人清醒到不需要</strong>」 <span class="link-ref">連結 6-5</span></div>
+        <div class="dc-detail">對齊國際 ERAS 心臟中心標準。家屬陪伴 + 早期譫妄辨識 + 早期下床,讓本院能做到「<strong>不是少用約束,而是病人清醒到不需要</strong>」 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a></div>
       </div>
 
       <div class="data-card">
         <div class="dc-num">24-72h</div>
         <div class="dc-label">譫妄完全恢復時間</div>
-        <div class="dc-detail">本院多數病人在 24-72 小時內完全恢復(約 70%),1 週累積恢復約 90%。真正進展到「持續多日明顯混亂」的比例不高 <span class="link-ref">連結 8-2</span></div>
+        <div class="dc-detail">本院多數病人在 24-72 小時內完全恢復(約 70%),1 週累積恢復約 90%。真正進展到「持續多日明顯混亂」的比例不高 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></div>
       </div>
 
       <div class="data-card">
         <div class="dc-num">手術室內</div>
         <div class="dc-label">拔管率</div>
-        <div class="dc-detail">本院傳統與微創心臟手術都採「<strong>手術室內拔管</strong>」(OR extubation),縮短鎮靜時間、減少譫妄、讓清醒得以維持 <span class="link-ref">連結 6-2</span></div>
+        <div class="dc-detail">本院傳統與微創心臟手術都採「<strong>手術室內拔管</strong>」(OR extubation),縮短鎮靜時間、減少譫妄、讓清醒得以維持 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></div>
       </div>
 
       <div class="data-card">
         <div class="dc-num">6 / 24 小時</div>
         <div class="dc-label">坐起 / 走路目標</div>
-        <div class="dc-detail">本院執行「<strong>拔管後 6 小時坐起、24 小時走到護理站</strong>」 — 早期下床是降低譫妄、深部靜脈血栓、肺部併發症最有效的非藥物方法 <span class="link-ref">連結 7-6a · 7-6b</span></div>
+        <div class="dc-detail">本院執行「<strong>拔管後 6 小時坐起、24 小時走到護理站</strong>」 — 早期下床是降低譫妄、深部靜脈血栓、肺部併發症最有效的非藥物方法 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></div>
       </div>
 
       <div class="data-card">
         <div class="dc-num">3 + 2 = 5</div>
         <div class="dc-label">多模式止痛策略</div>
-        <div class="dc-detail">術前 3 種(神經阻斷、TIVA、Acetamal)+ 術後 2 種(Acetamal 延續、加強鎮痛) = <strong>5 種策略</strong>。減少對鴉片類依賴、不靠 PCA 也能舒適 <span class="link-ref">連結 5-1 · 5-1b</span></div>
+        <div class="dc-detail">術前 3 種(神經阻斷、TIVA、Acetamal)+ 術後 2 種(Acetamal 延續、加強鎮痛) = <strong>5 種策略</strong>。減少對鴉片類依賴、不靠 PCA 也能舒適 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a> · <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></div>
       </div>
 
       <div class="data-card">
         <div class="dc-num">無 PCA</div>
         <div class="dc-label">病人控制止痛</div>
-        <div class="dc-detail">本院 ERAS 不使用病人控制鴉片類止痛(PCA),改採多模式策略,減少鎮靜、譫妄、便祕、噁心 <span class="link-ref">連結 5-1b</span></div>
+        <div class="dc-detail">本院 ERAS 不使用病人控制鴉片類止痛(PCA),改採多模式策略,減少鎮靜、譫妄、便祕、噁心 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></div>
       </div>
 
       <div class="data-card">
         <div class="dc-num">HFNC 銜接</div>
         <div class="dc-label">高流量鼻導管</div>
-        <div class="dc-detail">手術室內拔管後立即使用 HFNC,讓您能<strong>說話、喝水、進食</strong>,維持清醒舒適 — 而不是傳統「拔管後仍在 ICU 用低流量鼻管或重新插管」 <span class="link-ref">連結 6-6</span></div>
+        <div class="dc-detail">手術室內拔管後立即使用 HFNC,讓您能<strong>說話、喝水、進食</strong>,維持清醒舒適 — 而不是傳統「拔管後仍在 ICU 用低流量鼻管或重新插管」 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a></div>
       </div>
     </div>
 
@@ -1284,11 +1328,11 @@
     <div class="phase-timeline">
       <div class="pt-row">
         <div class="pt-when">6 週</div>
-        <div class="pt-what"><strong>胸骨保護結束</strong> — 鋼絲固定者大致癒合(鋼板固定者更快)。可開始輕度上半身活動。<strong>傷口完全癒合</strong>。 <span class="link-ref">連結 7-4 · 3-4</span></div>
+        <div class="pt-what"><strong>胸骨保護結束</strong> — 鋼絲固定者大致癒合(鋼板固定者更快)。可開始輕度上半身活動。<strong>傷口完全癒合</strong>。 連結 <a class="link-ref" href="7-4-sternal-precaution.html">7-4</a> · <a class="link-ref" href="3-4-sternal-fixation.html">3-4</a></div>
       </div>
       <div class="pt-row">
         <div class="pt-when">3 個月</div>
-        <div class="pt-what"><strong>組織修復完成</strong> — 若需減重(BMI ≥ 27)可開始有計畫進行(每月 1-2 公斤)。<strong>規律有氧運動已成日常</strong>(每週 150 分鐘中等強度,如快走、游泳、騎自行車 — 在醫師允許的範圍內)。 <span class="link-ref">連結 9-3 · 10-1a</span></div>
+        <div class="pt-what"><strong>組織修復完成</strong> — 若需減重(BMI ≥ 27)可開始有計畫進行(每月 1-2 公斤)。<strong>規律有氧運動已成日常</strong>(每週 150 分鐘中等強度,如快走、游泳、騎自行車 — 在醫師允許的範圍內)。 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a> · <a class="link-ref" href="10-1a-active-recovery.html">10-1a</a></div>
       </div>
       <div class="pt-row">
         <div class="pt-when">6 個月</div>
@@ -1296,11 +1340,11 @@
       </div>
       <div class="pt-row">
         <div class="pt-when">1 年</div>
-        <div class="pt-what"><strong>POAF 病人</strong>:若已恢復竇性節律,醫師會評估抗凝血劑是否停藥。<strong>AKI 病人</strong>:腎功能追蹤從第 1 年的密集追蹤改為每 6 個月一次。 <span class="link-ref">連結 8-3 · 8-4</span></div>
+        <div class="pt-what"><strong>POAF 病人</strong>:若已恢復竇性節律,醫師會評估抗凝血劑是否停藥。<strong>AKI 病人</strong>:腎功能追蹤從第 1 年的密集追蹤改為每 6 個月一次。 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a> · <a class="link-ref" href="8-4-aki.html">8-4</a></div>
       </div>
       <div class="pt-row">
         <div class="pt-when">10-20 年</div>
-        <div class="pt-what"><strong>終身守護鏈最長一段</strong> — 飲食調整(七大原則)、規律運動、規律抽血追蹤、按時服藥、避免腎毒性藥物、看任何醫師都主動告知病史。<strong>「終身保護 ≠ 終身病人」</strong>。 <span class="link-ref">連結 9-3 · 8-4</span></div>
+        <div class="pt-what"><strong>終身守護鏈最長一段</strong> — 飲食調整(七大原則)、規律運動、規律抽血追蹤、按時服藥、避免腎毒性藥物、看任何醫師都主動告知病史。<strong>「終身保護 ≠ 終身病人」</strong>。 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a> · <a class="link-ref" href="8-4-aki.html">8-4</a></div>
       </div>
     </div>
 
@@ -1426,7 +1470,7 @@
         <div class="strategy-card">
           <div class="sc-num">策略 16</div>
           <div class="sc-title">沒警報的危險</div>
-          <div class="sc-source"><strong>首發 7-5</strong> 沉默吸入 + <strong>8-3</strong> 無症狀心顫 + <strong>8-4</strong> AKI 早期無症狀</div>
+          <div class="sc-source"><strong>首發 7-5</strong> 沉默吸入 + <a href="8-3-poaf.html"><strong>8-3</strong></a> 無症狀心顫 + <a href="8-4-aki.html"><strong>8-4</strong></a> AKI 早期無症狀</div>
         </div>
         <div class="strategy-card">
           <div class="sc-num">策略 17</div>
@@ -1840,43 +1884,43 @@
 
     <div class="frm-series">
       <div class="frm-tag">術前準備 · 3 系列 認識手術</div>
-      <div class="frm-items"><strong>3-1</strong> CABG 三種手術比較 · <strong>3-2</strong> 體外循環機 CPB · <strong>3-3</strong> 微創 vs 傳統開胸 · <strong>3-4</strong> 鋼絲 vs 鋼板固定</div>
+      <div class="frm-items"><a href="3-1-cabg-comparison.html"><strong>3-1</strong></a> CABG 三種手術比較 · <a href="3-2-cpb.html"><strong>3-2</strong></a> 體外循環機 CPB · <a href="3-3-mics-vs-sternotomy.html"><strong>3-3</strong></a> 微創 vs 傳統開胸 · <a href="3-4-sternal-fixation.html"><strong>3-4</strong></a> 鋼絲 vs 鋼板固定</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">術中監測 · 4 系列 精準照護</div>
-      <div class="frm-items"><strong>4-2</strong> TOF 肌肉鬆弛 · <strong>4-3</strong> NIRS 腦氧監測 · <strong>4-4</strong> BIS 麻醉深度 · <strong>4-6</strong> 圍術期體溫管理</div>
+      <div class="frm-items"><a href="4-2-tof.html"><strong>4-2</strong></a> TOF 肌肉鬆弛 · <a href="4-3-nirs.html"><strong>4-3</strong></a> NIRS 腦氧監測 · <a href="4-4-bis.html"><strong>4-4</strong></a> BIS 麻醉深度 · <a href="4-6-temperature.html"><strong>4-6</strong></a> 圍術期體溫管理</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">止痛凝血 · 5 系列</div>
-      <div class="frm-items"><strong>5-1</strong> 多模式止痛(3+2=5 策略)· <strong>5-1b</strong> 術後疼痛管理 · <strong>5-2</strong> 凝血功能與止血藥物</div>
+      <div class="frm-items"><a href="5-1-multimodal.html"><strong>5-1</strong></a> 多模式止痛(3+2=5 策略)· <a href="5-1b-postop-pain.html"><strong>5-1b</strong></a> 術後疼痛管理 · <a href="5-2-coagulation.html"><strong>5-2</strong></a> 凝血功能與止血藥物</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">加護病房 · 6 系列</div>
-      <div class="frm-items"><strong>6-1</strong> SICU 環境 · <strong>6-2</strong> 早期拔管 · <strong>6-3</strong> 認識胸管 · <strong>6-4</strong> 認識尿管 · <strong>6-5</strong> 保護性約束 · <strong>6-6</strong> HFNC 高流量鼻導管</div>
+      <div class="frm-items"><a href="6-1-sicu.html"><strong>6-1</strong></a> SICU 環境 · <a href="6-2-extubation.html"><strong>6-2</strong></a> 早期拔管 · <a href="6-3-chest-tube.html"><strong>6-3</strong></a> 認識胸管 · <a href="6-4-foley.html"><strong>6-4</strong></a> 認識尿管 · <a href="6-5-restraint.html"><strong>6-5</strong></a> 保護性約束 · <a href="6-6-hfnc.html"><strong>6-6</strong></a> HFNC 高流量鼻導管</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">主動恢復鏈 · 7 系列</div>
-      <div class="frm-items"><strong>7-1</strong> 呼吸訓練器 · <strong>7-2</strong> 咳嗽 · <strong>7-4</strong> 胸骨保護 · <strong>7-5</strong> 吞嚥 · <strong>7-6</strong> 早期下床(入口頁) · <strong>7-6a</strong> 從躺到坐 · <strong>7-6b</strong> 從站到走 · <strong>7-7</strong> 喝水進食</div>
+      <div class="frm-items"><a href="7-1-spirometer.html"><strong>7-1</strong></a> 呼吸訓練器 · <a href="7-2-cough.html"><strong>7-2</strong></a> 咳嗽 · <a href="7-4-sternal-precaution.html"><strong>7-4</strong></a> 胸骨保護 · <a href="7-5-swallow.html"><strong>7-5</strong></a> 吞嚥 · <a href="7-6-early-mobilization.html"><strong>7-6</strong></a> 早期下床(入口頁) · <a href="7-6a-sit-up.html"><strong>7-6a</strong></a> 從躺到坐 · <a href="7-6b-stand-walk.html"><strong>7-6b</strong></a> 從站到走 · <a href="7-7-eating.html"><strong>7-7</strong></a> 喝水進食</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">腦與術後併發症 · 8 系列</div>
-      <div class="frm-items"><strong>8-1a</strong> 神經學評估病人版 · <strong>8-1b</strong> 會客時的認知復健家屬版 · <strong>8-2</strong> 譫妄 · <strong>8-3</strong> POAF 心房顫動 · <strong>8-4</strong> AKI 急性腎損傷</div>
+      <div class="frm-items"><a href="8-1a-cognitive-patient.html"><strong>8-1a</strong></a> 神經學評估病人版 · <a href="8-1b-cognitive-family.html"><strong>8-1b</strong></a> 會客時的認知復健家屬版 · <a href="8-2-delirium.html"><strong>8-2</strong></a> 譫妄 · <a href="8-3-poaf.html"><strong>8-3</strong></a> POAF 心房顫動 · <a href="8-4-aki.html"><strong>8-4</strong></a> AKI 急性腎損傷</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">出院後長期 · 9 系列</div>
-      <div class="frm-items"><strong>9-3</strong> 心臟手術後飲食調整(七大原則 + 黃金訓練期 + 居家照護鏈)</div>
+      <div class="frm-items"><a href="9-3-cardiac-diet.html"><strong>9-3</strong></a> 心臟手術後飲食調整(七大原則 + 黃金訓練期 + 居家照護鏈)</div>
     </div>
 
     <div class="frm-series">
       <div class="frm-tag">整合總結 · 10 系列</div>
-      <div class="frm-items"><strong>10-1a</strong> 主動恢復入門篇(您也是康復團隊的一員)</div>
-      <div class="frm-current"><strong>10-1b</strong> 整套衛教的整合與終身指南(您正在讀本份 — 集大成篇)</div>
+      <div class="frm-items"><a href="10-1a-active-recovery.html"><strong>10-1a</strong></a> 主動恢復入門篇(您也是康復團隊的一員)</div>
+      <div class="frm-current"><a href="10-1b-active-recovery.html"><strong>10-1b</strong></a> 整套衛教的整合與終身指南(您正在讀本份 — 集大成篇)</div>
     </div>
   </div>
 

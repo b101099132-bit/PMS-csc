@@ -6,7 +6,7 @@
 <title>從躺到坐 — 心臟加速康復衛教</title>
 <meta name="description" content="一個簡單動作同時啟動肺活量、咳嗽、舊血水排出、循環、胃口與意識,本院 6 小時坐起的三階段做法">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -228,6 +228,51 @@
   .phase-card { padding: 18px 20px; }
   .gravity-hero, .bridge { padding: 22px 22px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -403,7 +448,7 @@
     <ul>
       <li><strong>動作要慢、循序漸進</strong>：每升一個角度停留觀察，<strong>絕不一次坐到底</strong>。從躺到坐的過程，血壓需要時間適應</li>
       <li><strong>不要用手撐起身體</strong>：單手撐床或撐胸前，會把力量集中到胸骨。請護理師或家屬從<strong>背後、肩膀</strong>協助</li>
-      <li><strong>抱枕始終貼在胸口</strong>：坐起的過程也算「動作」，需要抱枕固定胸骨 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>抱枕始終貼在胸口</strong>：坐起的過程也算「動作」，需要抱枕固定胸骨 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
       <li><strong>注意胸管引流管位置</strong>：移動時請護理師協助確認胸管不會被拉扯、引流盒位置低於胸部</li>
     </ul>
   </div>
@@ -433,7 +478,7 @@
       <li><strong>幫忙遞抱枕、確認抱枕貼緊胸口</strong>再開始動作</li>
       <li><strong>陪伴觀察 5–10 分鐘</strong>：看臉色、聽呼吸、問頭暈，比看儀器更直接</li>
       <li><strong>鼓勵但不勉強</strong>：「累了我們休息一下，等下再來」比「您要努力」更有效</li>
-      <li><strong>注意到任何不對勁就告訴護理師</strong>：您是第二雙眼睛 <span class="link-ref">連結 8-1b</span></li>
+      <li><strong>注意到任何不對勁就告訴護理師</strong>：您是第二雙眼睛 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></li>
       <li><strong>提供熟悉的物品輔助</strong>：眼鏡、助聽器，能讓他坐起後馬上看清楚、聽清楚，幫助定向感</li>
     </ul>
   </div>
@@ -454,7 +499,7 @@
       <span class="stage next">~24 h 走路繞護理站</span>
     </div>
 
-    <p><strong>這個時程比國際 ERAS 文獻一般建議更積極</strong>（多數研究的目標是 24 小時坐、48 小時走）。為什麼本院能做到這麼快？最關鍵的原因 ——<strong>本院採用「手術室內拔管」</strong> <span class="link-ref">連結 6-2</span>。</p>
+    <p><strong>這個時程比國際 ERAS 文獻一般建議更積極</strong>（多數研究的目標是 24 小時坐、48 小時走）。為什麼本院能做到這麼快？最關鍵的原因 ——<strong>本院採用「手術室內拔管」</strong> 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a>。</p>
 
     <div class="pose-compare">
       <div class="pose bad">
@@ -477,18 +522,18 @@
     <h4>早期下床三層閱讀路徑</h4>
     <div class="sub">「早期下床」議題分為三層 — 您正在讀「從躺到坐」詳細版。</div>
     <ol>
-      <li>早期下床總覽 7-6(入口頁:整體哲學與閱讀導引)</li>
+      <li><a href="7-6-early-mobilization.html">早期下床總覽 7-6(入口頁:整體哲學與閱讀導引)</a></li>
       <li class="current"><strong>從躺到坐 7-6a(您正在讀:拔管後 0-6 小時 · 詳細版)</strong></li>
-      <li>從站到走 7-6b(拔管後 6-24 小時 · 詳細版 — 下一步)</li>
-      <li>早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</li>
-      <li>HFNC 6-6(拔管後呼吸支援 — 不影響坐起)</li>
-      <li>多模式止痛 5-1 · 術後疼痛 5-1b(讓坐起不痛)</li>
-      <li>誘發性肺量計 7-1 · 術後咳嗽 7-2(坐起來做訓練器與咳嗽效果最好)</li>
-      <li>認識尿管 6-4 · 認識胸管 6-3(下床走到廁所 = 拔尿管的條件)</li>
-      <li>認知復健 8-1a · 8-1b(意識清醒是坐起的前提)</li>
-      <li>胸骨保護 7-4(翻身側坐起 — 居家延續的核心動作)</li>
-      <li>主動恢復入門 10-1a(從躺到坐是主動恢復的第一步)</li>
-      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</li>
+      <li><a href="7-6b-stand-walk.html">從站到走 7-6b(拔管後 6-24 小時 · 詳細版 — 下一步)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 6-6(拔管後呼吸支援 — 不影響坐起)</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1 · 術後疼痛 5-1b(讓坐起不痛)</a></li>
+      <li><a href="7-1-spirometer.html">誘發性肺量計 7-1 · 術後咳嗽 7-2(坐起來做訓練器與咳嗽效果最好)</a></li>
+      <li><a href="6-4-foley.html">認識尿管 6-4 · 認識胸管 6-3(下床走到廁所 = 拔尿管的條件)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 8-1a · 8-1b(意識清醒是坐起的前提)</a></li>
+      <li><a href="7-4-sternal-precaution.html">胸骨保護 7-4(翻身側坐起 — 居家延續的核心動作)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(從躺到坐是主動恢復的第一步)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

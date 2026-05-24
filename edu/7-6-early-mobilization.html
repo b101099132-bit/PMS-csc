@@ -6,7 +6,7 @@
 <title>早期下床與漸進式活動 — 心臟加速康復衛教</title>
 <meta name="description" content="早期下床的整體哲學 — 入口頁,完整內容請看 7-6a 從躺到坐 / 7-6b 從站到走">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,6 +112,51 @@
 .philosophy-quote p:last-child { margin-bottom: 0; }
 .philosophy-quote p strong { color: var(--ink); font-weight: 600; }
 .philosophy-quote .em-teal { color: var(--teal); font-weight: 500; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -134,7 +179,7 @@
   <div class="lead">
     <strong>躺久了反而不好</strong>
     <p>過去觀念認為「大手術後要多休息」,但近代研究一致證實:<span class="em">長時間臥床對心臟手術病人有害無益</span>。臥床每多一天,肌肉萎縮、肺部塌陷、深部靜脈血栓、譫妄、便祕的風險都會增加。</p>
-    <p>國際 ERAS 指引明確建議:<span class="em">術後第 1 天就應開始下床活動</span>。本院的目標更積極 — <strong>拔管後 6 小時內坐起、24 小時內走路繞護理站一圈</strong>。為什麼能做到這麼快?關鍵在「手術室內拔管」<span class="link-ref">連結 6-2</span>,讓「拔管後的時鐘」提早好幾個小時開始。</p>
+    <p>國際 ERAS 指引明確建議:<span class="em">術後第 1 天就應開始下床活動</span>。本院的目標更積極 — <strong>拔管後 6 小時內坐起、24 小時內走路繞護理站一圈</strong>。為什麼能做到這麼快?關鍵在「手術室內拔管」連結 <a class="link-ref" href="6-2-extubation.html">6-2</a>,讓「拔管後的時鐘」提早好幾個小時開始。</p>
   </div>
 
   <!-- Subpage navigation -->
@@ -162,12 +207,12 @@
     <h4>早期下床帶來的好處</h4>
     <ul>
       <li><strong>預防深部靜脈血栓(DVT)與肺栓塞</strong></li>
-      <li><strong>預防肺塌陷與肺炎</strong> <span class="link-ref">連結 7-1 · 7-2</span></li>
+      <li><strong>預防肺塌陷與肺炎</strong> 連結 <a class="link-ref" href="7-1-spirometer.html">7-1</a> · <a class="link-ref" href="7-2-cough.html">7-2</a></li>
       <li><strong>維持肌肉量</strong>,減少術後虛弱</li>
       <li><strong>改善腸蠕動</strong>,減少便祕、加速恢復排便</li>
-      <li><strong>降低譫妄發生率</strong> <span class="link-ref">連結 8-2</span></li>
-      <li><strong>降低約束需求</strong> <span class="link-ref">連結 6-5</span></li>
-      <li><strong>能下床走到廁所 = 拔尿管的條件</strong> <span class="link-ref">連結 6-4</span></li>
+      <li><strong>降低譫妄發生率</strong> 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>降低約束需求</strong> 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a></li>
+      <li><strong>能下床走到廁所 = 拔尿管的條件</strong> 連結 <a class="link-ref" href="6-4-foley.html">6-4</a></li>
       <li><strong>縮短住院天數</strong></li>
       <li><strong>恢復自主感</strong>,減少焦慮</li>
     </ul>
@@ -187,21 +232,21 @@
     <div class="sub">本份是入口頁;具體動作與步驟請看 7-6a 與 7-6b。</div>
     <ol>
       <li class="current"><strong>早期下床總覽 7-6(您正在讀:整體哲學與閱讀導引)</strong></li>
-      <li>從躺到坐 7-6a(0-6 小時 · 三階段坐起方法 + 翻身側坐起)</li>
-      <li>從站到走 7-6b(6-24 小時 · 漸進式站立 + 第一次走路 + 為什麼本院能做到 24 小時繞護理站)</li>
-      <li>早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</li>
-      <li>HFNC 6-6(拔管後呼吸支援 — 不影響活動)</li>
-      <li>多模式止痛 5-1 · 術後疼痛 5-1b(讓動作不痛)</li>
-      <li>認識尿管 6-4(走到廁所 = 拔尿管條件)</li>
-      <li>胸骨保護 7-4(翻身側坐起的居家延續)</li>
-      <li>主動恢復入門 10-1a(早期下床是主動恢復的核心)</li>
-      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a(0-6 小時 · 三階段坐起方法 + 翻身側坐起)</a></li>
+      <li><a href="7-6b-stand-walk.html">從站到走 7-6b(6-24 小時 · 漸進式站立 + 第一次走路 + 為什麼本院能做到 24 小時繞護理站)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(時鐘提早開始的關鍵 — 上游)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 6-6(拔管後呼吸支援 — 不影響活動)</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1 · 術後疼痛 5-1b(讓動作不痛)</a></li>
+      <li><a href="6-4-foley.html">認識尿管 6-4(走到廁所 = 拔尿管條件)</a></li>
+      <li><a href="7-4-sternal-precaution.html">胸骨保護 7-4(翻身側坐起的居家延續)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(早期下床是主動恢復的核心)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(主動恢復鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 
   <!-- Closing -->
   <div class="closing">
-    <p>每一步、每一次坐起,都是真實的康復。<span class="em">少躺一點,多動一點,恢復就快一點</span>。具體怎麼做、會感覺到什麼、家屬可以怎麼幫 — 請看 <strong>7-6a 從躺到坐</strong> 與 <strong>7-6b 從站到走</strong>。</p>
+    <p>每一步、每一次坐起,都是真實的康復。<span class="em">少躺一點,多動一點,恢復就快一點</span>。具體怎麼做、會感覺到什麼、家屬可以怎麼幫 — 請看 <a class="link-ref" href="7-6a-sit-up.html">7-6a 從躺到坐</a> 與 <strong>7-6b 從站到走</strong>。</p>
     <p>對術後活動或復健安排有任何疑問,歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時與心臟外科醫師、麻醉科醫師、復健師討論。</p>
     <div class="signature">心臟加速康復團隊 · 與你同莘</div>
     <div class="signature-note">同莘 — 同心 · 耕莘</div>

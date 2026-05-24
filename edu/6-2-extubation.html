@@ -6,7 +6,7 @@
 <title>早期拔管與手術室內拔管 — 心臟加速康復衛教</title>
 <meta name="description" content="為什麼希望術後儘早脫離呼吸器、手術室內拔管的六大支柱與安全確認清單">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,6 +186,51 @@
 }
 .neuro-eval-box ul li { margin-bottom: 3px; }
 .neuro-eval-box strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -238,7 +283,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">TOF 比值 ≥ 0.9</span>
-      <span class="lex-def">肌肉鬆弛劑的代謝指標,<strong>≥ 0.9 代表呼吸肌已完全恢復</strong>,才能安全拔管。詳見 <strong>4-2 TOF 監測</strong>。</span>
+      <span class="lex-def">肌肉鬆弛劑的代謝指標,<strong>≥ 0.9 代表呼吸肌已完全恢復</strong>,才能安全拔管。詳見 <a class="link-ref" href="4-2-tof.html">4-2 TOF 監測</a>。</span>
     </div>
   </div>
 
@@ -278,7 +323,7 @@
     <ul>
       <li><strong>呼吸器相關肺炎(VAP · Ventilator-Associated Pneumonia)</strong> —— 氣管內管會把口腔細菌帶進肺部,插管時間越長機率越高</li>
       <li><strong>呼吸肌萎縮</strong> —— 機器代替您呼吸越久,自己的呼吸肌耐力流失越多</li>
-      <li><strong>鎮靜藥物累積、術後譫妄</strong> —— 為了讓您忍受氣管內管,需要持續鎮靜,越久風險越高 <span class="link-ref">連結 8-2</span></li>
+      <li><strong>鎮靜藥物累積、術後譫妄</strong> —— 為了讓您忍受氣管內管,需要持續鎮靜,越久風險越高 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
       <li><strong>神經學評估被延後</strong> —— 中風的早期徵兆要靠您的意識、肢體與言語才能判斷</li>
     </ul>
 
@@ -309,27 +354,27 @@
   <div class="pillars">
     <div class="pillar-mini">
       <div class="num">支柱 01</div>
-      <h5>多模式止痛 <span class="link-ref">5-1</span></h5>
+      <h5>多模式止痛 <a class="link-ref" href="5-1-multimodal.html">5-1</a></h5>
       <p>用神經阻斷、脊髓內嗎啡與靜脈普拿疼取代大劑量鴉片類,意識清楚也不痛。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 02</div>
-      <h5>TOF 與肌肉鬆弛反轉 <span class="link-ref">4-2</span></h5>
+      <h5>TOF 與肌肉鬆弛反轉 <a class="link-ref" href="4-2-tof.html">4-2</a></h5>
       <p>用 TOF 監測搭配 Sugammadex,確保呼吸肌力完全恢復(TOF 比值 ≥ 0.9)。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 03</div>
-      <h5>體溫維持 ≥ 36°C <span class="link-ref">4-6</span></h5>
+      <h5>體溫維持 ≥ 36°C <a class="link-ref" href="4-6-temperature.html">4-6</a></h5>
       <p>核心體溫穩定,沒有寒顫、沒有低體溫造成的凝血異常與意識遲鈍。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 04</div>
-      <h5>有效止血 <span class="link-ref">5-2</span></h5>
+      <h5>有效止血 <a class="link-ref" href="5-2-coagulation.html">5-2</a></h5>
       <p><strong>傳明酸(TXA)</strong>、凝血因子與凝血膠水三層止血到位,無持續出血。</p>
     </div>
     <div class="pillar-mini">
       <div class="num">支柱 05</div>
-      <h5>腦氧監測穩定 <span class="link-ref">4-3 · 4-4</span></h5>
+      <h5>腦氧監測穩定 <a class="link-ref" href="4-3-nirs.html">4-3</a> · <a class="link-ref" href="4-4-bis.html">4-4</a></h5>
       <p>術中 NIRS 數值維持在安全範圍,腦部供氧無虞;BIS 確認麻醉深度恰當。</p>
     </div>
     <div class="pillar-mini">
@@ -391,7 +436,7 @@
 
     <div class="timeline-row">
       <div class="tr-when">拔管後立即</div>
-      <div class="tr-what">會立刻為您戴上<strong>HFNC 高流量鼻導管</strong> <span class="link-ref">連結 6-6</span>,讓您呼吸更輕鬆。您可以小聲說話、能聽到家屬聲音、能眼神接觸。<strong>不痛、不喘、能自主呼吸</strong> — 這就是「手術室內拔管」的目標狀態。</div>
+      <div class="tr-what">會立刻為您戴上<strong>HFNC 高流量鼻導管</strong> 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a>,讓您呼吸更輕鬆。您可以小聲說話、能聽到家屬聲音、能眼神接觸。<strong>不痛、不喘、能自主呼吸</strong> — 這就是「手術室內拔管」的目標狀態。</div>
     </div>
 
     <div class="timeline-row">
@@ -416,19 +461,19 @@
     <h4>術中精準照護鏈閱讀路徑</h4>
     <div class="sub">手術室內拔管不是「衝快」,而是<strong>前面每一個精準醫療策略都到位</strong>後自然的成果。下面是構成這條鏈的單張。</div>
     <ol>
-      <li>體外循環機 CPB 3-2(縮短體循時間、保護腦部 — 拔管的源頭起點)</li>
-      <li>TOF 神經肌肉監測 4-2(支柱 02 — 確認呼吸肌力恢復)</li>
-      <li>NIRS 腦氧監測 4-3(支柱 05 — 確認腦部供氧)</li>
-      <li>BIS 麻醉深度監測 4-4(支柱 05 — 確認麻醉深度恰當)</li>
-      <li>圍術期體溫管理 4-6(支柱 03 — 維持 ≥ 36°C)</li>
-      <li>圍術期多模式止痛 5-1(支柱 01 — 鴉片類減量)</li>
-      <li>凝血功能與止血藥物 5-2(支柱 04 — 三層止血策略)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(縮短體循時間</a>、保護腦部 — 拔管的源頭起點)</li>
+      <li><a href="4-2-tof.html">TOF 神經肌肉監測 4-2(支柱 02 — 確認呼吸肌力恢復)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(支柱 05 — 確認腦部供氧)</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(支柱 05 — 確認麻醉深度恰當)</a></li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6(支柱 03 — 維持 ≥ 36°C)</a></li>
+      <li><a href="5-1-multimodal.html">圍術期多模式止痛 5-1(支柱 01 — 鴉片類減量)</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2(支柱 04 — 三層止血策略)</a></li>
       <li class="current"><strong>早期拔管 6-2(您正在讀:所有支柱到位 → 手術室內拔管)</strong></li>
-      <li>外科加護病房 6-1(拔管後抵達的環境 — 清醒地進入)</li>
-      <li>HFNC 高流量鼻導管 6-6(拔管後的呼吸支援)</li>
-      <li>術後疼痛 5-1b(拔管後的止痛策略延續)</li>
-      <li>主動恢復入門 10-1a(早期拔管 = 把控制權交還給您)</li>
-      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈起點完整收束 — 集大成篇)</li>
+      <li><a href="6-1-sicu.html">外科加護病房 6-1(拔管後抵達的環境 — 清醒地進入)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(拔管後的呼吸支援)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(拔管後的止痛策略延續)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(早期拔管 = 把控制權交還給您)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(主動恢復鏈起點完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

@@ -6,7 +6,7 @@
 <title>為什麼團隊一直問你同樣的問題 — 心臟加速康復衛教</title>
 <meta name="description" content="病人版神經學評估,認識術後反覆問答的目的、可能偵測的徵兆、誠實回答就是最大幫助">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -285,6 +285,51 @@
 }
 .awake-link p:last-child { margin-bottom: 0; }
 .awake-link p strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -318,7 +363,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">譫妄</span>
-      <span class="lex-def">術後暫時性的意識混亂,通常會在幾天內恢復,<strong>跟失智不同</strong>。詳見 <strong>8-2 譫妄專篇</strong>。</span>
+      <span class="lex-def">術後暫時性的意識混亂,通常會在幾天內恢復,<strong>跟失智不同</strong>。詳見 <a class="link-ref" href="8-2-delirium.html">8-2 譫妄專篇</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">定向感</span>
@@ -330,7 +375,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">保護性約束</span>
-      <span class="lex-def">當病人意識混亂、可能不自主拉扯管路時暫時的安全裝置。<strong>當您能清醒、能回答、能配合,本院就不需要使用約束</strong>。詳見 <strong>6-5 保護性約束</strong>。</span>
+      <span class="lex-def">當病人意識混亂、可能不自主拉扯管路時暫時的安全裝置。<strong>當您能清醒、能回答、能配合,本院就不需要使用約束</strong>。詳見 <a class="link-ref" href="6-5-restraint.html">6-5 保護性約束</a>。</span>
     </div>
   </div>
 
@@ -392,7 +437,7 @@
   </div>
 
   <p class="section-intro">
-    這些徵兆,<span class="em">只有在您清醒、能說話、能動的情況下才能被偵測</span>。這也正是本院採用「手術室內拔管」 <span class="link-ref">連結 6-2</span>、希望您儘早清醒的原因 —— 為了讓這份神經學評估能即時進行。
+    這些徵兆,<span class="em">只有在您清醒、能說話、能動的情況下才能被偵測</span>。這也正是本院採用「手術室內拔管」 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a>、希望您儘早清醒的原因 —— 為了讓這份神經學評估能即時進行。
   </p>
 
   <!-- Self FAST check -->
@@ -463,9 +508,9 @@
   <!-- Awake = no restraint -->
   <div class="awake-link">
     <h4>您的清醒 = 不需要約束</h4>
-    <p>本院強調「<strong>儘早拔管、儘早清醒</strong>」還有一個重要原因:當您能清醒、能回答、能配合,<strong>本院就不需要使用保護性約束</strong>(綁手、綁腳保護管路) <span class="link-ref">連結 6-5</span>。</p>
+    <p>本院強調「<strong>儘早拔管、儘早清醒</strong>」還有一個重要原因:當您能清醒、能回答、能配合,<strong>本院就不需要使用保護性約束</strong>(綁手、綁腳保護管路) 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a>。</p>
     <p>每一次您配合回答問題、配合做肢體檢查、主動告訴護理師不適,都是在告訴團隊:「<strong>我清醒,我配合,我可以自己保護自己</strong>。」這就是本院能把約束率對齊國際 ERAS 心臟中心 &lt; 10% 標準的關鍵 — <strong>不是少用約束,而是病人清醒到不需要</strong>。</p>
-    <p>如果您感覺到譫妄(意識混亂)的早期徵兆 —— 像看到不存在的人、覺得自己不在醫院、夜裡睡不著反而白天昏睡 —— 請主動告訴護理師。<strong>譫妄越早辨識、越早處理,需要約束的機率越低</strong> <span class="link-ref">連結 8-2</span>。</p>
+    <p>如果您感覺到譫妄(意識混亂)的早期徵兆 —— 像看到不存在的人、覺得自己不在醫院、夜裡睡不著反而白天昏睡 —— 請主動告訴護理師。<strong>譫妄越早辨識、越早處理,需要約束的機率越低</strong> 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a>。</p>
   </div>
 
   <!-- If you answer wrong -->
@@ -491,7 +536,7 @@
       <li><strong>沒聽清楚就說沒聽清楚</strong> —— 不要假裝聽懂，這會影響團隊判斷</li>
       <li><strong>主動告訴護理師</strong>身體不適：頭暈、看東西模糊、手腳麻木、想吐、單側無力</li>
       <li><strong>配合做肢體檢查</strong> —— 用力握、用力舉，把您最大的力量展現出來</li>
-      <li><strong>家屬會客時也配合對話</strong> —— 家人的陪伴對話，是這份評估的延伸 <span class="link-ref">連結 8-1b</span></li>
+      <li><strong>家屬會客時也配合對話</strong> —— 家人的陪伴對話，是這份評估的延伸 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></li>
     </ul>
   </div>
 
@@ -500,18 +545,18 @@
     <h4>您的腦部守護鏈 + 認知守護網絡</h4>
     <div class="sub">這份單張在「中風守護鏈」與「認知守護網絡」中的位置</div>
     <ol>
-      <li>體外循環機 CPB 3-2(中風守護鏈起點 — 認識手術設備)</li>
-      <li>NIRS 腦氧監測 4-3(術中即時腦氧守護)</li>
-      <li>BIS 麻醉深度監測 4-4(術中麻醉深度控制)</li>
-      <li>早期拔管 6-2(讓您清醒地進入恢復)</li>
-      <li>HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援 — 中風守護鏈最後一環)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(中風守護鏈起點 — 認識手術設備)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(術中即時腦氧守護)</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(術中麻醉深度控制)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(讓您清醒地進入恢復)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援 — 中風守護鏈最後一環)</a></li>
       <li class="current"><strong>術後神經學評估 病人版 8-1a(您正在讀:能清醒、能回答的價值)</strong></li>
-      <li>會客時的認知復健 家屬版 8-1b(請鼓勵家人讀)</li>
-      <li>保護性約束 6-5(您的清醒 = 不需約束)</li>
-      <li>術後譫妄 8-2(意識混亂的早期辨識與預防)</li>
-      <li>外科加護病房 6-1(您所在環境的整體說明)</li>
-      <li>主動恢復入門 10-1a(您也是康復團隊的一員)</li>
-      <li>整套衛教整合與終身指南 10-1b(中風守護鏈完整收束 — 集大成篇)</li>
+      <li><a href="8-1b-cognitive-family.html">會客時的認知復健 家屬版 8-1b(請鼓勵家人讀)</a></li>
+      <li><a href="6-5-restraint.html">保護性約束 6-5(您的清醒 = 不需約束)</a></li>
+      <li><a href="8-2-delirium.html">術後譫妄 8-2(意識混亂的早期辨識與預防)</a></li>
+      <li><a href="6-1-sicu.html">外科加護病房 6-1(您所在環境的整體說明)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(您也是康復團隊的一員)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(中風守護鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

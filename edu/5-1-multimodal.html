@@ -6,7 +6,7 @@
 <title>圍術期多模式止痛 — 心臟加速康復衛教</title>
 <meta name="description" content="圍術期多模式止痛 — 預防性止痛、神經阻斷、脊髓內嗎啡、靜脈乙醯胺酚的組合,少打鴉片類副作用更少">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +99,51 @@
   font-size: 13px;
 }
 .cost-note-inline p.help-line strong { color: var(--safe); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -123,7 +168,7 @@
     <h4>本院止痛策略最關注的痛 ——「會呼吸的痛」</h4>
     <p>心臟手術後最重要、最需要處理的痛是<strong>「會呼吸的痛」</strong> —— 胸口傷口與胸管周圍的痛感,會隨著每一次<strong>呼吸、咳嗽、深吸氣、翻身</strong>被牽動。</p>
     <p>許多病人因此<strong>不敢深呼吸、不敢咳嗽</strong>,而這正是術後肺部塌陷、肺炎的主要原因。<span class="em-teal">控制好「會呼吸的痛」,不是讓您舒服一點,而是讓整套加速康復都能跑起來</span> —— 您能配合呼吸訓練、能咳出痰、能下床活動。</p>
-    <p>這份單張說明<strong>術中</strong>的止痛布局(讓您醒來時就已經有保護);術後的延續策略請參考 <strong>5-1b 術後疼痛與多模式止痛</strong>。</p>
+    <p>這份單張說明<strong>術中</strong>的止痛布局(讓您醒來時就已經有保護);術後的延續策略請參考 <a class="link-ref" href="5-1b-postop-pain.html">5-1b 術後疼痛與多模式止痛</a>。</p>
   </div>
 
   <!-- 版本 C 核心宣示(放開頭) -->
@@ -171,7 +216,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">會呼吸的痛</span>
-      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。詳見 <a class="link-ref" href="5-1b-postop-pain.html">5-1b 術後疼痛</a>。</span>
     </div>
   </div>
 
@@ -247,9 +292,9 @@
     <h4>術中 3 項 + 術後 HFNC = 完整 4 項止痛策略</h4>
     <p>本份單張說明的是<strong>術中</strong>建立的三項止痛主力(神經阻斷 + 脊髓內嗎啡 + 靜脈乙醯胺酚)。術後當您拔管轉到病房後,團隊會繼續用第四項:</p>
     <ul>
-      <li><strong>HFNC 高流量鼻導管</strong>(策略 04 · 術後)—— 減少呼吸費力,從源頭降低「會呼吸的痛」 <span class="link-ref">連結 6-6</span></li>
+      <li><strong>HFNC 高流量鼻導管</strong>(策略 04 · 術後)—— 減少呼吸費力,從源頭降低「會呼吸的痛」 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a></li>
     </ul>
-    <p>4 項策略各自針對不同疼痛機轉、不同時段,協同覆蓋整個術後恢復期。詳細的術後策略呈現請見 <strong>5-1b 術後疼痛與多模式止痛</strong>。</p>
+    <p>4 項策略各自針對不同疼痛機轉、不同時段,協同覆蓋整個術後恢復期。詳細的術後策略呈現請見 <a class="link-ref" href="5-1b-postop-pain.html">5-1b 術後疼痛與多模式止痛</a>。</p>
   </div>
 
   <!-- Patient prep -->
@@ -300,10 +345,10 @@
     <h4>多模式止痛如何串連到加速康復</h4>
     <div class="sub">減少鴉片類用量,讓多個康復環節同時跑得快</div>
     <ul>
-      <li><strong>支援手術室內拔管</strong> —— 意識清醒、呼吸有力 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>儘早下床活動</strong> —— 不痛才動得了 <span class="link-ref">連結 7-6</span></li>
-      <li><strong>讓胸管拔除不痛</strong> —— 動作前可追加 <span class="link-ref">連結 6-3</span></li>
-      <li><strong>降低譫妄機率</strong> —— 配合腦氧監測一起保護腦部 <span class="link-ref">連結 4-3 · 8-2</span></li>
+      <li><strong>支援手術室內拔管</strong> —— 意識清醒、呼吸有力 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>儘早下床活動</strong> —— 不痛才動得了 連結 <a class="link-ref" href="7-6-early-mobilization.html">7-6</a></li>
+      <li><strong>讓胸管拔除不痛</strong> —— 動作前可追加 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a></li>
+      <li><strong>降低譫妄機率</strong> —— 配合腦氧監測一起保護腦部 連結 <a class="link-ref" href="4-3-nirs.html">4-3</a> · <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
       <li><strong>更早恢復進食、排便</strong> —— 鴉片類減量,腸蠕動正常化</li>
     </ul>
   </div>
@@ -322,14 +367,14 @@
     <div class="sub">本院的止痛不是讓您「舒服一點」,而是讓<strong>整套加速康復都能跑起來</strong>。下面是構成這條鏈的單張。</div>
     <ol>
       <li class="current"><strong>圍術期多模式止痛 5-1(您正在讀:預防性 + 術中三項主力的建立)</strong></li>
-      <li>術後疼痛與多模式止痛 5-1b(術後四大策略 + 疼痛分數 + 抱枕固定)</li>
-      <li>早期拔管 6-2(止痛到位才能拔管 — 多模式止痛是前提)</li>
-      <li>HFNC 高流量鼻導管 6-6(策略 04 — 從源頭減少「會呼吸的痛」)</li>
-      <li>術後咳嗽技巧 7-2(抱枕固定法 — 配合止痛才咳得出來)</li>
-      <li>早期下床活動 7-6(止痛到位才能動)</li>
-      <li>譫妄專篇 8-2(鴉片類副作用之一,本院止痛策略減少譫妄風險)</li>
-      <li>主動恢復入門 10-1a(止痛是主動恢復的前提 — 您能呼吸、能咳嗽、能下床)</li>
-      <li>整套衛教整合與終身指南 10-1b(止痛論述鏈完整收束 — 集大成篇)</li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛與多模式止痛 5-1b(術後四大策略 + 疼痛分數 + 抱枕固定)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(止痛到位才能拔管 — 多模式止痛是前提)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(策略 04 — 從源頭減少「會呼吸的痛」)</a></li>
+      <li><a href="7-2-cough.html">術後咳嗽技巧 7-2(抱枕固定法 — 配合止痛才咳得出來)</a></li>
+      <li><a href="7-6-early-mobilization.html">早期下床活動 7-6(止痛到位才能動)</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(鴉片類副作用之一</a>,本院止痛策略減少譫妄風險)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(止痛是主動恢復的前提 — 您能呼吸</a>、能咳嗽、能下床)</li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(止痛論述鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

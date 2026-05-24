@@ -6,7 +6,7 @@
 <title>給 ESRD 病人的特別說明 — TOF + Sugammadex 仍是您的選擇</title>
 <meta name="description" content="末期腎臟病(ESRD)/ 洗腎病人為何仍可使用 Sugammadex?本院的做法、TOF 監測讓逆轉看得到、HFNC 額外安全網、2023-2025 國際最新證據">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -200,6 +200,51 @@
   line-height: 1.75;
 }
 .core-message .sub-msg strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -218,7 +263,7 @@
     <p>如果您是<span class="em">末期腎臟病(ESRD, end-stage renal disease)或正在洗腎</span>的病人,您可能聽過或擔心過:<span class="em">「我的腎臟已經沒辦法排毒,如果用了 Sugammadex,藥物會不會留在體內、之後又突然失效?」</span></p>
     <p>這是<strong>非常合理的疑慮</strong>。Sugammadex 確實主要靠腎臟代謝清除,在 ESRD 病人身上排出速度<strong>會比腎功能正常的人慢一些</strong>。過去因為證據不足,許多醫院對 ESRD 病人會避免使用 Sugammadex,改用傳統的 Neostigmine。</p>
     <p>但<span class="em">近五年的國際證據與本院臨床經驗顯示</span>:<span class="em">ESRD 病人使用 TOF + Sugammadex 的組合,不僅安全,反而比傳統反轉劑提供更精準的肌力恢復確認</span>。這份單張會說明本院的做法、為什麼這對您安全、以及您可能會有的常見疑問。</p>
-    <p style="font-size:13px;color:var(--ink-faint);margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)">建議您搭配 <strong>4-2 TOF 神經肌肉監測與反轉劑</strong> <span class="link-ref">連結 4-2</span> 一併閱讀,先了解 TOF 與 Sugammadex 的基本概念,再回到本篇深度說明。</p>
+    <p style="font-size:13px;color:var(--ink-faint);margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)">建議您搭配 <strong>4-2 TOF 神經肌肉監測與反轉劑</strong> 連結 <a class="link-ref" href="4-2-tof.html">4-2</a> 一併閱讀,先了解 TOF 與 Sugammadex 的基本概念,再回到本篇深度說明。</p>
   </div>
 
   <!-- Lexicon -->
@@ -266,14 +311,14 @@
     <h4>建議的閱讀路徑</h4>
     <div class="sub">這份單張深度討論 ESRD 與 Sugammadex,請搭配其他單張一併閱讀以獲得完整脈絡。</div>
     <ol>
-      <li><strong>4-2 TOF 神經肌肉監測與反轉劑</strong>(基本原理)— 建議先讀</li>
+      <li><a href="4-2-tof.html"><strong>4-2 TOF 神經肌肉監測與反轉劑</strong>(基本原理)— 建議先讀</a></li>
       <li class="current"><strong>4-2b 給 ESRD 病人的特別說明(您正在讀:深度說明)</strong></li>
-      <li>4-3 NIRS 腦氧監測 — 多項監測共同把關</li>
-      <li>4-4 BIS 麻醉深度監測 — 與 TOF 互補</li>
-      <li>6-2 早期拔管 — 本院的手術室內拔管做法</li>
-      <li>6-6 HFNC 高流量鼻導管 — 拔管後的呼吸銜接</li>
-      <li>8-4 術後急性腎損傷 AKI — 腎臟保護整體策略</li>
-      <li>8-5 術後血糖控制 — 圍術期代謝管理</li>
+      <li><a href="4-3-nirs.html">4-3 NIRS 腦氧監測 — 多項監測共同把關</a></li>
+      <li><a href="4-4-bis.html">4-4 BIS 麻醉深度監測 — 與 TOF 互補</a></li>
+      <li><a href="6-2-extubation.html">6-2 早期拔管 — 本院的手術室內拔管做法</a></li>
+      <li><a href="6-6-hfnc.html">6-6 HFNC 高流量鼻導管 — 拔管後的呼吸銜接</a></li>
+      <li><a href="8-4-aki.html">8-4 術後急性腎損傷 AKI — 腎臟保護整體策略</a></li>
+      <li><a href="8-5-glucose-control.html">8-5 術後血糖控制 — 圍術期代謝管理</a></li>
     </ol>
   </div>
 
@@ -341,7 +386,7 @@
       <li>降低拔管後低血氧、再次插管的風險 —— 對洗腎病人來說,避免再次插管極其重要(感染、心臟負擔)</li>
       <li>讓 ICU 團隊有時間在數小時內密切觀察,而非倉促決定</li>
     </ul>
-    <p>詳細說明見 <span class="link-ref">連結 6-6 · HFNC</span>。</p>
+    <p>詳細說明見 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a> · HFNC。</p>
   </div>
 
   <div class="safety-card">
@@ -351,12 +396,12 @@
     </div>
     <p>對 ESRD 病人來說,任何一個監測項目單打獨鬥都不夠 —— 但<strong>多項監測同時把關</strong>就能形成防護網:</p>
     <ul style="padding-left:20px;margin:8px 0;font-size:13.5px;color:var(--ink-soft);line-height:1.85;">
-      <li><strong>TOF 監測 — 肌力</strong>(本篇主題)<span class="link-ref">連結 4-2</span></li>
-      <li><strong>BIS 監測 — 麻醉深度與意識</strong>:確認病人真的醒了 <span class="link-ref">連結 4-4</span></li>
-      <li><strong>NIRS 監測 — 腦氧</strong>:確認腦部供氧充足 <span class="link-ref">連結 4-3</span></li>
-      <li><strong>體溫監測 — 維持 ≥ 36°C</strong>:低體溫會延緩藥物代謝 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>TOF 監測 — 肌力</strong>(本篇主題)連結 <a class="link-ref" href="4-2-tof.html">4-2</a></li>
+      <li><strong>BIS 監測 — 麻醉深度與意識</strong>:確認病人真的醒了 連結 <a class="link-ref" href="4-4-bis.html">4-4</a></li>
+      <li><strong>NIRS 監測 — 腦氧</strong>:確認腦部供氧充足 連結 <a class="link-ref" href="4-3-nirs.html">4-3</a></li>
+      <li><strong>體溫監測 — 維持 ≥ 36°C</strong>:低體溫會延緩藥物代謝 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
       <li><strong>血氧、心律、血壓、尿量(若有)</strong>:每分每秒記錄</li>
-      <li><strong>血糖監測</strong>:ESRD 病人常合併糖尿病,血糖波動會影響整體穩定 <span class="link-ref">連結 8-5</span></li>
+      <li><strong>血糖監測</strong>:ESRD 病人常合併糖尿病,血糖波動會影響整體穩定 連結 <a class="link-ref" href="8-5-glucose-control.html">8-5</a></li>
     </ul>
     <p>任何一項異常都會立即觸發團隊回應 —— 不是「等問題出現再處理」,而是「持續看見、即時介入」。</p>
   </div>
@@ -482,7 +527,7 @@
       <li><strong>Sugammadex 在出院前已完全清除</strong>:即使是 ESRD 病人,經過 24-72 小時加上 1-2 次透析,藥物已不會殘留</li>
       <li><strong>未來其他手術</strong>:如果您未來需要其他手術(任何科別),<strong>請主動告知麻醉醫師「我有 ESRD 並且過去使用過 Sugammadex 安全無虞」</strong> —— 這對您未來的麻醉計畫是重要參考</li>
       <li><strong>繼續您原本的透析計畫</strong>:出院後依您的腎臟科醫師指示繼續透析,本院的住院紀錄會清楚記載您的麻醉過程</li>
-      <li><strong>規律回診</strong>:出院後請依照心臟外科、腎臟科、新陳代謝科(若有糖尿病)的回診時程,完整追蹤 <span class="link-ref">連結 8-4 · 8-5</span></li>
+      <li><strong>規律回診</strong>:出院後請依照心臟外科、腎臟科、新陳代謝科(若有糖尿病)的回診時程,完整追蹤 連結 <a class="link-ref" href="8-4-aki.html">8-4</a> · <a class="link-ref" href="8-5-glucose-control.html">8-5</a></li>
       <li><strong>過敏反應極罕見</strong>:Sugammadex 過敏約一萬人中有一人,絕大多數會在用藥當下立刻發現。<strong>如果出院後出現不明的皮疹、呼吸不順,請立即就醫並告知用藥史</strong></li>
     </ul>
   </div>

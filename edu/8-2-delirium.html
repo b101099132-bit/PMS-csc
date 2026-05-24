@@ -6,7 +6,7 @@
 <title>譫妄 — 術後暫時性的意識混亂 — 心臟加速康復衛教</title>
 <meta name="description" content="心臟手術後最常見、最被誤解的併發症之一:認識譫妄三種類型、本院 11 項預防策略、家屬如何辨識與協助">
 
-<meta name="article:modified_time" content="2026-05-18">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -529,7 +529,6 @@
   .outlook { padding: 18px 20px; }
   .patient-actions { padding: 18px 20px; }
   .family-self-care { padding: 18px 20px; }
-  .kids-note { padding: 18px 20px; }
   .herbal-warning { padding: 18px 20px; }
 }
 
@@ -619,40 +618,6 @@
 }
 .family-self-care .delirium-special strong { color: var(--danger); font-weight: 700; }
 
-/* 12 歲以下小朋友議題 */
-.kids-note {
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--gold);
-  border-radius: 3px;
-  padding: 22px 26px;
-  margin-bottom: 24px;
-}
-.kids-note h4 {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--gold);
-  margin-bottom: 10px;
-}
-.kids-note p {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.85;
-  margin-bottom: 8px;
-}
-.kids-note p strong { color: var(--ink); font-weight: 600; }
-.kids-note ul {
-  margin: 8px 0;
-  padding-left: 22px;
-}
-.kids-note ul li {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  line-height: 1.85;
-  margin-bottom: 5px;
-}
-.kids-note ul li strong { color: var(--ink); font-weight: 600; }
 
 /* 民間用藥強警示 */
 .herbal-warning {
@@ -704,6 +669,51 @@
   color: var(--ink);
 }
 .herbal-warning .hw-bottom-line strong { color: var(--danger); font-weight: 700; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -727,7 +737,7 @@
   <!-- 閱讀建議 callout -->
   <div class="callout discuss">
     <h4>閱讀建議</h4>
-    <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.85;margin:0">如果您還沒讀過<strong style="color:var(--ink)">認知復健(病人版 8-1a、家屬版 8-1b)</strong>,建議<strong style="color:var(--ink)">先讀那兩份</strong> —— 那是輕度認知變化的基本陪伴策略。<strong style="color:var(--ink)">這份單張(8-2)是當 8-1 的策略已運作、但病人仍出現明顯混亂時,您需要的進階知識</strong> <span class="link-ref">連結 8-1a · 8-1b</span>。</p>
+    <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.85;margin:0">如果您還沒讀過<strong style="color:var(--ink)">認知復健(病人版 8-1a、家屬版 8-1b)</strong>,建議<strong style="color:var(--ink)">先讀那兩份</strong> —— 那是輕度認知變化的基本陪伴策略。<strong style="color:var(--ink)">這份單張(8-2)是當 8-1 的策略已運作、但病人仍出現明顯混亂時,您需要的進階知識</strong> 連結 <a class="link-ref" href="8-1a-cognitive-patient.html">8-1a</a> · <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a>。</p>
   </div>
 
   <!-- Lexicon -->
@@ -755,7 +765,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">保護性約束</span>
-      <span class="lex-def">病人意識混亂、可能不自主拉扯管路時的暫時安全裝置。<strong>家屬主動陪伴 + 早期辨識譫妄,是降低約束需求最有效的非藥物方法</strong>。本院的約束率對齊國際 ERAS 心臟中心 &lt; 10% 標準。詳見 <strong>6-5 保護性約束</strong>。</span>
+      <span class="lex-def">病人意識混亂、可能不自主拉扯管路時的暫時安全裝置。<strong>家屬主動陪伴 + 早期辨識譫妄,是降低約束需求最有效的非藥物方法</strong>。本院的約束率對齊國際 ERAS 心臟中心 &lt; 10% 標準。詳見 <a class="link-ref" href="6-5-restraint.html">6-5 保護性約束</a>。</span>
     </div>
   </div>
 
@@ -951,7 +961,7 @@
         <li>體外循環時間長</li>
         <li>過深麻醉(BIS 過低)</li>
         <li>使用大量鴉片類或苯二氮平類(常見鎮靜藥/安眠藥,如使蒂諾斯、安定文等;<strong>如果您平常有在使用,請術前告訴醫師</strong>)</li>
-        <li>術中體溫過低 <span class="link-ref">連結 4-6</span></li>
+        <li>術中體溫過低 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
       </ul>
     </div>
     <div class="risk-group">
@@ -977,17 +987,17 @@
     <h4>12 項本院 ERAS 預防元素</h4>
     <div class="sub">每一項都串連到整套系列中的其他單張</div>
     <ul>
-      <li><strong>BIS 麻醉深度監測</strong> —— 避免過深麻醉,過深麻醉會明顯增加譫妄 <span class="link-ref">連結 4-4</span></li>
-      <li><strong>NIRS 腦氧監測</strong> —— 即時監測腦部血氧,避免術中腦缺氧 <span class="link-ref">連結 4-3</span></li>
-      <li><strong>體溫維持 ≥ 36°C</strong> —— 避免低體溫造成的代謝紊亂(身體裡的化學平衡被打亂) <span class="link-ref">連結 4-6</span></li>
-      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類是譫妄重要誘因,本院以多種低劑量取代 <span class="link-ref">連結 5-1 · 5-1b</span></li>
+      <li><strong>BIS 麻醉深度監測</strong> —— 避免過深麻醉,過深麻醉會明顯增加譫妄 連結 <a class="link-ref" href="4-4-bis.html">4-4</a></li>
+      <li><strong>NIRS 腦氧監測</strong> —— 即時監測腦部血氧,避免術中腦缺氧 連結 <a class="link-ref" href="4-3-nirs.html">4-3</a></li>
+      <li><strong>體溫維持 ≥ 36°C</strong> —— 避免低體溫造成的代謝紊亂(身體裡的化學平衡被打亂) 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
+      <li><strong>多模式止痛、減少鴉片類</strong> —— 鴉片類是譫妄重要誘因,本院以多種低劑量取代 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a> · <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></li>
       <li><strong>避免苯二氮平類鎮靜</strong> —— 苯二氮平類(常見鎮靜藥/安眠藥,如 midazolam、Ativan)是譫妄最強誘因之一,本院盡量不使用</li>
-      <li><strong>手術室內拔管</strong> —— 縮短機械通氣(用呼吸器幫忙呼吸)與深鎮靜時間 <span class="link-ref">連結 6-2</span></li>
-      <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、能說話、減少鎮靜需求 <span class="link-ref">連結 6-6</span></li>
-      <li><strong>早期下床(拔管後 6 小時坐起、24 小時走路)</strong> —— 活動是降低譫妄最有效的非藥物方法 <span class="link-ref">連結 7-6 · 7-6a · 7-6b</span></li>
-      <li><strong>早期進食、口服水分</strong> —— 縮短靜脈點滴、維持腸胃功能 <span class="link-ref">連結 7-5 · 7-7</span></li>
-      <li><strong>降低保護性約束需求</strong> —— 約束本身會<strong>加重譫妄</strong>形成惡性循環(綁手 → 焦慮 → 更躁動 → 更要綁)。家屬陪伴 + 早期譫妄辨識 + 早期下床,讓本院能把約束率對齊國際 ERAS &lt; 10% 標準 <span class="link-ref">連結 6-5</span></li>
-      <li><strong>ICU 環境調整與家屬陪伴</strong> —— 維持晝夜節律、提供熟悉的人與物品 <span class="link-ref">連結 6-1 · 8-1b</span></li>
+      <li><strong>手術室內拔管</strong> —— 縮短機械通氣(用呼吸器幫忙呼吸)與深鎮靜時間 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
+      <li><strong>HFNC 銜接呼吸支持</strong> —— 不舒適感低、能說話、減少鎮靜需求 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a></li>
+      <li><strong>早期下床(拔管後 6 小時坐起、24 小時走路)</strong> —— 活動是降低譫妄最有效的非藥物方法 連結 <a class="link-ref" href="7-6-early-mobilization.html">7-6</a> · <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+      <li><strong>早期進食、口服水分</strong> —— 縮短靜脈點滴、維持腸胃功能 連結 <a class="link-ref" href="7-5-swallow.html">7-5</a> · <a class="link-ref" href="7-7-eating.html">7-7</a></li>
+      <li><strong>降低保護性約束需求</strong> —— 約束本身會<strong>加重譫妄</strong>形成惡性循環(綁手 → 焦慮 → 更躁動 → 更要綁)。家屬陪伴 + 早期譫妄辨識 + 早期下床,讓本院能把約束率對齊國際 ERAS &lt; 10% 標準 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a></li>
+      <li><strong>ICU 環境調整與家屬陪伴</strong> —— 維持晝夜節律、提供熟悉的人與物品 連結 <a class="link-ref" href="6-1-sicu.html">6-1</a> · <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a></li>
       <li><strong>聽力、視力輔具不離身</strong> —— 助聽器、眼鏡儘早歸還,減少感官混亂</li>
     </ul>
   </div>
@@ -998,7 +1008,7 @@
     <p>本院實施完整 ERAS 策略後,<span class="em-teal">整體譫妄發生率通常較文獻平均明顯為低</span>。具體成果包含:</p>
     <ul style="margin: 10px 0 6px; padding-left: 22px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.85;">
       <li><strong>多數病人在 24-72 小時內完全恢復</strong>,真正進展到「持續多日明顯混亂」的比例不高</li>
-      <li><strong>嚴重高活動型(需要約束、危及自身)發生率低</strong>,這直接反映本院約束率 &lt; 10% 標準 <span class="link-ref">連結 6-5</span></li>
+      <li><strong>嚴重高活動型(需要約束、危及自身)發生率低</strong>,這直接反映本院約束率 &lt; 10% 標準 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a></li>
       <li><strong>長期(出院後 1 年)持續認知影響的比例顯著低於傳統做法</strong>,特別是高齡病人</li>
       <li><strong>家屬陪伴介入(規律會客 + 熟悉物品 + 重新定向)是這個成果的關鍵</strong> — 不是團隊單方面的努力</li>
     </ul>
@@ -1056,8 +1066,8 @@
     <div class="help-group">
       <div class="h-label">05 · 鼓勵活動、進食、喝水</div>
       <ul>
-        <li>陪同護理師讓病人坐起、下床 <span class="link-ref">連結 7-6a · 7-6b</span></li>
-        <li>鼓勵口服喝水 —— 脫水會加重譫妄 <span class="link-ref">連結 7-7</span></li>
+        <li>陪同護理師讓病人坐起、下床 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+        <li>鼓勵口服喝水 —— 脫水會加重譫妄 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
         <li>耐心陪同進食 —— 進食是腦部重新啟動的訊號</li>
       </ul>
     </div>
@@ -1104,7 +1114,7 @@
       <li><strong>不要為「我為什麼會這樣」而羞愧或自責</strong> — 譫妄不是個性缺陷、不是您不夠堅強,是手術後常見的暫時併發症,大多數人會完全恢復</li>
       <li><strong>配合家屬的「重新定向」</strong> — 當家屬告訴您日期、地點、自己是誰,不要覺得「他們在考我」,把這當作幫助您腦袋重新校準的工具</li>
       <li><strong>主動戴上眼鏡、助聽器、假牙</strong> — 感官清晰能大幅減少混亂感</li>
-      <li><strong>努力配合下床、進食、喝水</strong> — 即使覺得沒胃口、沒力氣,動起來是腦袋重新清晰最有效的方法 <span class="link-ref">連結 7-6 · 7-7</span></li>
+      <li><strong>努力配合下床、進食、喝水</strong> — 即使覺得沒胃口、沒力氣,動起來是腦袋重新清晰最有效的方法 連結 <a class="link-ref" href="7-6-early-mobilization.html">7-6</a> · <a class="link-ref" href="7-7-eating.html">7-7</a></li>
       <li><strong>不要私下吞家裡帶來的「助眠藥」「安眠藥」「保健品」</strong> — 這些可能加重譫妄。任何想吃的口服物,先告訴護理師</li>
       <li><strong>晚上盡量配合睡覺,白天盡量保持清醒</strong> — 維持晝夜節律是恢復的關鍵</li>
       <li><strong>如果出現幻覺,告訴自己「這是手術後的暫時現象」</strong> — 您的腦袋知道這個事實時,焦慮會減輕</li>
@@ -1171,24 +1181,6 @@
     </div>
   </div>
 
-  <!-- Kids under 12(對齊 6-1 / 6-5 / 8-1b)-->
-  <div class="section-title">如果家中有 12 歲以下的小朋友</div>
-
-  <div class="kids-note">
-    <h4>譫妄期間 — 小朋友看到「爺爺變得不一樣」怎麼處理</h4>
-    <p>譫妄期間是<strong>小朋友最容易受到心理衝擊的時刻</strong>。看到熟悉的長輩突然認不得自己、講話混亂、看到不在的人,對 12 歲以下的孩子來說是非常困惑的經驗。</p>
-    <p><strong>建議做法</strong>:</p>
-    <ul>
-      <li><strong>譫妄高峰期(通常術後 24-72 小時)不要帶小朋友到病床邊</strong> — 即使本院 ICU 探視原則允許短暫陪伴,譫妄期間的影響超過健康時的「不在 ICU」原則</li>
-      <li><strong>用小朋友懂的語言解釋</strong>:「<strong>爺爺手術後腦袋暫時有點亂,像睡覺睡很深沒辦法叫醒一樣。醫生說過幾天就會好</strong>」 — 不要說「他不認識我們了」「他瘋了」這種讓孩子恐懼的話</li>
-      <li><strong>避免讓小朋友看到爺爺/奶奶躁動的影片或照片</strong> — 即使家屬群組分享只是想「讓大家知道狀況」,但這些畫面對孩子的影響可能持續很久</li>
-      <li><strong>讓小朋友畫畫、寫卡片、錄一段聲音留言</strong>,由您帶到病房 — 病人在清醒的時刻看到/聽到,常會記得「孫子有來」</li>
-      <li><strong>譫妄恢復後再帶小朋友來會客</strong>(通常術後第 4-7 天)— 此時病人通常已能微笑、認人,小朋友看到的是「恢復中的爺爺」,而不是「混亂的爺爺」</li>
-      <li><strong>留意小朋友的情緒反應</strong> — 退化行為(尿床、不想上學、惡夢)持續超過 2 週仍未緩解,請告訴護理師或社工協助轉介心理諮商</li>
-    </ul>
-    <p>同樣的原則適用於<strong>家中有失智長輩、孕婦、有焦慮症病史的家屬</strong> — 譫妄期間的陪伴,要保護這些<strong>更敏感的家庭成員</strong>不受過度衝擊。</p>
-  </div>
-
   <!-- Outlook & timeline -->
   <div class="section-title">如果發生了,會持續多久?</div>
 
@@ -1229,7 +1221,7 @@
       <li><strong>突然認不得家人</strong>、視線無法跟著您、叫名字反應變慢</li>
       <li><strong>嗜睡到難以叫醒</strong>、不主動進食喝水、長時間眼神呆滯</li>
       <li><strong>嚴重躁動</strong>、想拔管子、想下床、可能危及自身安全</li>
-      <li><strong>出現新的神經學症狀(這可能是中風,不是譫妄)</strong>:單側手腳無力、講話含糊不清、嘴角下垂 —— 這需要團隊立即區分。<strong>中風與譫妄不同</strong>:中風是急性、有<strong>局部</strong>徵兆(一邊身體出問題);譫妄是全面性的意識混亂。<strong>任何上述徵兆都請立即按鈴</strong> <span class="link-ref">連結 8-1b FAST 口訣</span></li>
+      <li><strong>出現新的神經學症狀(這可能是中風,不是譫妄)</strong>:單側手腳無力、講話含糊不清、嘴角下垂 —— 這需要團隊立即區分。<strong>中風與譫妄不同</strong>:中風是急性、有<strong>局部</strong>徵兆(一邊身體出問題);譫妄是全面性的意識混亂。<strong>任何上述徵兆都請立即按鈴</strong> 連結 <a class="link-ref" href="8-1b-cognitive-family.html">8-1b</a> FAST 口訣</li>
       <li>譫妄症狀<strong>持續超過 1 週仍無改善</strong>,或出院前仍嚴重</li>
       <li>出院後家人<strong>記憶力、注意力明顯比術前差</strong>,持續超過 1 個月</li>
       <li><strong>家屬感到無法承受、嚴重睡眠不足</strong> —— 請主動尋求支持
@@ -1249,21 +1241,21 @@
     <h4>譫妄與認知相關的閱讀路徑 — 最深恐懼三部曲第 2 部</h4>
     <div class="sub">這份單張同時位於「<strong>中風守護鏈最深處理節點</strong>」與「<strong>最深恐懼三部曲第 2 部(腦的變化恐懼)</strong>」</div>
     <ol>
-      <li>體外循環機 CPB 3-2(中風守護鏈起點)</li>
-      <li>NIRS 腦氧監測 4-3(術中即時腦氧守護)</li>
-      <li>BIS 麻醉深度監測 4-4(術中麻醉深度控制 — 避免過深麻醉)</li>
-      <li>圍術期體溫管理 4-6(體溫過低增加譫妄)</li>
-      <li>多模式止痛 5-1 · 術後疼痛 5-1b(減少鴉片類)</li>
-      <li>早期拔管 6-2(縮短鎮靜時間)</li>
-      <li>外科加護病房 6-1(最深恐懼三部曲第 1 部:環境隔離恐懼)</li>
-      <li>HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援)</li>
-      <li>術後神經學評估 病人版 8-1a · 家屬版 8-1b(基本陪伴策略)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(中風守護鏈起點)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(術中即時腦氧守護)</a></li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(術中麻醉深度控制 — 避免過深麻醉)</a></li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6(體溫過低增加譫妄)</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1 · 術後疼痛 5-1b(減少鴉片類)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(縮短鎮靜時間)</a></li>
+      <li><a href="6-1-sicu.html">外科加護病房 6-1(最深恐懼三部曲第 1 部:環境隔離恐懼)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(維持清醒的呼吸支援)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">術後神經學評估 病人版 8-1a · 家屬版 8-1b(基本陪伴策略)</a></li>
       <li class="current"><strong>譫妄專篇 8-2(您正在讀:腦的變化恐懼 — 最深恐懼三部曲第 2 部 · 中風守護鏈最深處理節點)</strong></li>
-      <li>保護性約束 6-5(最深恐懼三部曲第 3 部:身體束縛恐懼 — 譫妄 → 約束 → 家屬陪伴鏈)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(早期活動降低譫妄)</li>
-      <li>術後吞嚥 7-5 · 喝水進食 7-7(代謝穩定促進譫妄恢復)</li>
-      <li>主動恢復入門 10-1a(您也是康復團隊的一員 — 譫妄恢復後的主動參與)</li>
-      <li>整套衛教整合與終身指南 10-1b(最深恐懼三部曲完整收束 — 集大成篇)</li>
+      <li><a href="6-5-restraint.html">保護性約束 6-5(最深恐懼三部曲第 3 部:身體束縛恐懼 — 譫妄 → 約束 → 家屬陪伴鏈)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(早期活動降低譫妄)</a></li>
+      <li><a href="7-5-swallow.html">術後吞嚥 7-5 · 喝水進食 7-7(代謝穩定促進譫妄恢復)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(您也是康復團隊的一員 — 譫妄恢復後的主動參與)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(最深恐懼三部曲完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

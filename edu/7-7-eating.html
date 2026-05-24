@@ -6,7 +6,7 @@
 <title>喝水與進食 — 心臟加速康復衛教</title>
 <meta name="description" content="為什麼經口喝水優於靜脈點滴、口渴中樞如何運作、心臟手術不需要清流質階段、術後沒胃口怎麼辦">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -187,6 +187,51 @@
   line-height: 1.75;
 }
 .total-timeline .tt-what strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -216,7 +261,7 @@
   <div class="callout prep-actions" style="background:var(--paper);border-left:3px solid var(--teal);">
     <h4>本份與 7-5 吞嚥評估的關係</h4>
     <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.85;margin:0;">
-      <strong>7-5 是「能不能吃」的安全閘門,7-7 是「通過閘門後怎麼吃」的開始</strong>。兩份單張形成<strong>「閘門 → 終點」對稱結構</strong>:7-5 告訴您「為什麼要等」,7-7 告訴您「等到之後怎麼做」。如果您還沒通過吞嚥評估,請先讀 <span class="link-ref">連結 7-5</span>;如果已經通過,本份是接下來的指引。
+      <strong>7-5 是「能不能吃」的安全閘門,7-7 是「通過閘門後怎麼吃」的開始</strong>。兩份單張形成<strong>「閘門 → 終點」對稱結構</strong>:7-5 告訴您「為什麼要等」,7-7 告訴您「等到之後怎麼做」。如果您還沒通過吞嚥評估,請先讀 連結 <a class="link-ref" href="7-5-swallow.html">7-5</a>;如果已經通過,本份是接下來的指引。
     </p>
   </div>
 
@@ -245,7 +290,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">葡萄柚汁</span>
-      <span class="lex-def">會抑制肝臟代謝某些心臟用藥的「酵素」(CYP3A4),讓藥物濃度<strong>意外升高</strong>,可能引起副作用。常見受影響藥物:某些<strong>抗凝血藥、降血脂藥(Statin)、降血壓藥(鈣離子阻斷劑)</strong>。詳見 <strong>9-3 心臟飲食</strong>。</span>
+      <span class="lex-def">會抑制肝臟代謝某些心臟用藥的「酵素」(CYP3A4),讓藥物濃度<strong>意外升高</strong>,可能引起副作用。常見受影響藥物:某些<strong>抗凝血藥、降血脂藥(Statin)、降血壓藥(鈣離子阻斷劑)</strong>。詳見 <a class="link-ref" href="9-3-cardiac-diet.html">9-3 心臟飲食</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">CYP3A4</span>
@@ -384,7 +429,7 @@
 
     <div class="tt-row">
       <div class="tt-when">術後 1 週</div>
-      <div class="tt-what"><strong>進食量與味覺都回到術前水準</strong>。此時開始實施<strong>心臟飲食</strong>原則(低鹽、好油、優質蛋白) <span class="link-ref">連結 9-3</span>。</div>
+      <div class="tt-what"><strong>進食量與味覺都回到術前水準</strong>。此時開始實施<strong>心臟飲食</strong>原則(低鹽、好油、優質蛋白) 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a>。</div>
     </div>
   </div>
 
@@ -405,7 +450,7 @@
       <span class="stage">自然進食量增加</span>
     </div>
 
-    <p>本院鼓勵您<strong>坐起、下床、漸進式活動</strong> <span class="link-ref">連結 7-6 · 7-6a · 7-6b</span> —— 這不只是肌肉復健，<strong>更是讓胃口重新回來的關鍵</strong>。當您開始活動，腸胃會跟著動起來，自然會餓，飯也會變得好吃。</p>
+    <p>本院鼓勵您<strong>坐起、下床、漸進式活動</strong> 連結 <a class="link-ref" href="7-6-early-mobilization.html">7-6</a> · <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a> —— 這不只是肌肉復健，<strong>更是讓胃口重新回來的關鍵</strong>。當您開始活動，腸胃會跟著動起來，自然會餓，飯也會變得好吃。</p>
     <p>所以如果您術後第一天沒胃口，請放心:<strong>等坐起、下床之後，您的胃口會自己回來</strong>。在那之前,不需要強迫自己吃完整碗。</p>
   </div>
 
@@ -449,7 +494,7 @@
     <ul>
       <li><strong>感到口渴就喝</strong>：不要忍著不喝，這是身體在告訴您它的需求</li>
       <li><strong>不感到口渴也可以小口潤喉</strong>：少量多次，特別是吹了 HFNC 或鼻管氧氣後口會乾</li>
-      <li><strong>避免葡萄柚汁、葡萄柚相關飲料</strong>:葡萄柚中的「呋喃香豆素」會<strong>抑制肝臟 CYP3A4 酵素</strong>(代謝藥物的關鍵酵素)— 像「<strong>把藥的清除工人鎖在儲藏室</strong>」— 結果<strong>藥物在血液中累積、濃度升高,可能引起副作用</strong>。常見受影響:某些<strong>抗凝血藥、降血脂藥(Statin)、降血壓藥(鈣離子阻斷劑)</strong>。詳細飲食調整 <span class="link-ref">連結 9-3</span></li>
+      <li><strong>避免葡萄柚汁、葡萄柚相關飲料</strong>:葡萄柚中的「呋喃香豆素」會<strong>抑制肝臟 CYP3A4 酵素</strong>(代謝藥物的關鍵酵素)— 像「<strong>把藥的清除工人鎖在儲藏室</strong>」— 結果<strong>藥物在血液中累積、濃度升高,可能引起副作用</strong>。常見受影響:某些<strong>抗凝血藥、降血脂藥(Statin)、降血壓藥(鈣離子阻斷劑)</strong>。詳細飲食調整 連結 <a class="link-ref" href="9-3-cardiac-diet.html">9-3</a></li>
       <li><strong>吃想吃的、喜歡的</strong>：第一天不要強迫自己吃「該吃的」，依胃口選擇喜歡的口味才是最重要的</li>
       <li><strong>不要勉強吃完整碗</strong>：少量多餐優於強迫一餐吃完；先求安全與愉快，再求量</li>
       <li><strong>沒胃口時，先動再吃</strong>：坐起來、下床走動幾分鐘，胃口會慢慢回來</li>
@@ -490,16 +535,16 @@
     <h4>術後恢復鏈閱讀路徑 — 從拔管到進食的終點</h4>
     <div class="sub">「從拔管 → 進食是一個漸進的過程,每一步都有保護機制」 — 7-7 是這條鏈的<strong>終點(恢復術前飲食習慣)</strong>。</div>
     <ol>
-      <li>早期拔管 6-2(進食恢復的前提)</li>
-      <li>HFNC 6-6(不影響說話喝水進食)</li>
-      <li>術後疼痛 5-1b(讓動作不痛,敢吃)</li>
-      <li>拔管後吞嚥暫時困難 7-5(進食前的安全閘門)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(進食恢復的前提)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 6-6(不影響說話喝水進食)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(讓動作不痛</a>,敢吃)</li>
+      <li><a href="7-5-swallow.html">拔管後吞嚥暫時困難 7-5(進食前的安全閘門)</a></li>
       <li class="current"><strong>喝水與進食 7-7(您正在讀:通過閘門後的正式進食 — 鏈的終點)</strong></li>
-      <li>早期下床 7-6 · 7-6a · 7-6b(下床活動 = 胃口回來的關鍵)</li>
-      <li>心臟飲食 9-3(出院後的長期飲食原則 — CYP3A4 與葡萄柚汁、低鹽等)</li>
-      <li>術後咳嗽 7-2(咳嗽反射是吞嚥安全前提)</li>
-      <li>主動恢復入門 10-1a(口渴自己喝水、餓了想吃 — 日常小事就是康復指標)</li>
-      <li>整套衛教整合與終身指南 10-1b(主動恢復鏈關鍵節點完整收束 — 集大成篇)</li>
+      <li><a href="7-6-early-mobilization.html">早期下床 7-6 · 7-6a · 7-6b(下床活動 = 胃口回來的關鍵)</a></li>
+      <li><a href="9-3-cardiac-diet.html">心臟飲食 9-3(出院後的長期飲食原則 — CYP3A4 與葡萄柚汁</a>、低鹽等)</li>
+      <li><a href="7-2-cough.html">術後咳嗽 7-2(咳嗽反射是吞嚥安全前提)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(口渴自己喝水</a>、餓了想吃 — 日常小事就是康復指標)</li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(主動恢復鏈關鍵節點完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

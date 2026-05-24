@@ -6,7 +6,7 @@
 <title>誘發性肺量計使用方式 — 心臟加速康復衛教</title>
 <meta name="description" content="術後最常見的肺塌陷如何用呼吸訓練器預防、五步驟正確使用方式、建議頻率">
 
-<meta name="article:modified_time" content="2026-05-17">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -295,6 +295,51 @@
   max-width: 520px;
 }
 .signature-tool .explain strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -342,7 +387,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">會呼吸的痛</span>
-      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。這是病人不敢深呼吸的主要原因 — 必須先處理好,呼吸訓練器才能用得起來。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。這是病人不敢深呼吸的主要原因 — 必須先處理好,呼吸訓練器才能用得起來。詳見 <a class="link-ref" href="5-1b-postop-pain.html">5-1b 術後疼痛</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">過度通氣</span>
@@ -357,9 +402,9 @@
     <h4>四個原因同時發生,所以呼吸訓練器特別重要</h4>
     <p>心臟手術病人比一般病人更容易肺塌陷,主要因為這四個原因會同時發生:</p>
     <ul>
-      <li><strong>體外循環機(CPB)期間肺暫停運作</strong> —— 手術中肺暫時休息,部分肺泡因失去「持續呼吸的張力」而塌陷 <span class="link-ref">連結 3-2</span></li>
-      <li><strong>「會呼吸的痛」讓人不敢深呼吸</strong> —— 胸口傷口、胸管牽扯,每次深呼吸都會被牽動,病人本能地淺呼吸 <span class="link-ref">連結 5-1b</span></li>
-      <li><strong>胸管的存在讓胸壁活動受限</strong> —— 不敢用力擴張胸壁,深呼吸幅度自然變小 <span class="link-ref">連結 6-3</span></li>
+      <li><strong>體外循環機(CPB)期間肺暫停運作</strong> —— 手術中肺暫時休息,部分肺泡因失去「持續呼吸的張力」而塌陷 連結 <a class="link-ref" href="3-2-cpb.html">3-2</a></li>
+      <li><strong>「會呼吸的痛」讓人不敢深呼吸</strong> —— 胸口傷口、胸管牽扯,每次深呼吸都會被牽動,病人本能地淺呼吸 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></li>
+      <li><strong>胸管的存在讓胸壁活動受限</strong> —— 不敢用力擴張胸壁,深呼吸幅度自然變小 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a></li>
       <li><strong>長時間平躺、缺乏活動</strong> —— 肺部底部的氣體交換變少,小肺泡更容易塌陷</li>
     </ul>
     <p>呼吸訓練器的設計目的,就是<strong>用一個具體可看見的工具</strong>(浮球到刻度幾),讓您即使在「會呼吸的痛」狀態下,也能<strong>有目標、有方法地把肺重新打開</strong>。</p>
@@ -444,7 +489,7 @@
 
     <div class="when-row">
       <div class="wr-stage">手術當天 / 拔管後</div>
-      <div class="wr-what">拔氣管內管後通常 <strong>1-2 小時內</strong>就會開始使用(在 HFNC <span class="link-ref">連結 6-6</span> 支援下執行)。剛拔管時可能只能吹到原本一半左右的刻度 — <strong>這完全正常</strong>,持續練習會逐步進步。</div>
+      <div class="wr-what">拔氣管內管後通常 <strong>1-2 小時內</strong>就會開始使用(在 HFNC 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a> 支援下執行)。剛拔管時可能只能吹到原本一半左右的刻度 — <strong>這完全正常</strong>,持續練習會逐步進步。</div>
     </div>
 
     <div class="when-row">
@@ -454,7 +499,7 @@
 
     <div class="when-row">
       <div class="wr-stage">普通病房</div>
-      <div class="wr-what">繼續每 1-2 小時一輪,並<strong>搭配下床走路</strong> <span class="link-ref">連結 7-6b</span>。<strong>站著或坐直做訓練器效果最好</strong>(橫膈膜能完整下降);躺著做效果會打折。</div>
+      <div class="wr-what">繼續每 1-2 小時一輪,並<strong>搭配下床走路</strong> 連結 <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a>。<strong>站著或坐直做訓練器效果最好</strong>(橫膈膜能完整下降);躺著做效果會打折。</div>
     </div>
 
     <div class="when-row">
@@ -474,7 +519,7 @@
   <div class="callout prep-actions">
     <h4>讓訓練效果更好的撇步</h4>
     <ul>
-      <li><strong>抱枕固定胸口</strong>：用枕頭或捲起的小毯子輕壓胸骨傷口，能大幅減少深呼吸時的疼痛感 <span class="link-ref">連結 7-2</span></li>
+      <li><strong>抱枕固定胸口</strong>：用枕頭或捲起的小毯子輕壓胸骨傷口，能大幅減少深呼吸時的疼痛感 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
       <li><strong>術前就先練習</strong>：建議在手術前 1–2 週開始用，熟悉動作，術後可以立刻派上用場</li>
       <li><strong>會頭暈是正常的</strong>：剛開始可能因為深呼吸而短暫頭暈，停下休息一下就好</li>
       <li><strong>痰多時搭配咳嗽</strong>：做完一輪深呼吸後，配合有效咳嗽把鬆動的痰咳出來</li>
@@ -500,7 +545,7 @@
 
     <div class="timeline-row">
       <div class="tr-when">剛開始吸氣時</div>
-      <div class="tr-what">會感覺胸壁有<strong>輕微的擴張感</strong>,如果有胸口傷口會有牽扯感。<strong>用抱枕固定胸口能明顯減輕</strong> <span class="link-ref">連結 7-2</span>。</div>
+      <div class="tr-what">會感覺胸壁有<strong>輕微的擴張感</strong>,如果有胸口傷口會有牽扯感。<strong>用抱枕固定胸口能明顯減輕</strong> 連結 <a class="link-ref" href="7-2-cough.html">7-2</a>。</div>
     </div>
 
     <div class="timeline-row">
@@ -567,15 +612,15 @@
     <div class="sub">心臟手術後最關鍵的議題之一,就是「<strong>讓肺重新動起來</strong>」。下面是構成這條鏈的單張,呼吸訓練器是其中<strong>唯一隨身工具</strong>。</div>
     <ol>
       <li class="current"><strong>誘發性肺量計 7-1(您正在讀:主動訓練工具,從術前到出院後都用)</strong></li>
-      <li>術後咳嗽與咳痰 7-2(抱枕固定 + 配合呼吸訓練器把痰咳出)</li>
-      <li>術後疼痛 5-1b(「會呼吸的痛」核心議題,止痛到位才敢深呼吸)</li>
-      <li>早期拔管 6-2(呼吸肌力恢復是拔管的前提)</li>
-      <li>HFNC 高流量鼻導管 6-6(拔管後的呼吸支援,減少呼吸費力)</li>
-      <li>認識胸管 6-3(深呼吸主動推動胸管引流)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(站著或坐直做訓練器,效果最好)</li>
-      <li>體外循環機 CPB 3-2(術中肺暫停運作 — 肺塌陷的源頭之一)</li>
-      <li>主動恢復入門 10-1a(呼吸練習是主動恢復的核心動作)</li>
-      <li>整套衛教整合與終身指南 10-1b(呼吸論述鏈完整收束 — 集大成篇)</li>
+      <li><a href="7-2-cough.html">術後咳嗽與咳痰 7-2(抱枕固定 + 配合呼吸訓練器把痰咳出)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(「會呼吸的痛」核心議題</a>,止痛到位才敢深呼吸)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(呼吸肌力恢復是拔管的前提)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(拔管後的呼吸支援</a>,減少呼吸費力)</li>
+      <li><a href="6-3-chest-tube.html">認識胸管 6-3(深呼吸主動推動胸管引流)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(站著或坐直做訓練器</a>,效果最好)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(術中肺暫停運作 — 肺塌陷的源頭之一)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(呼吸練習是主動恢復的核心動作)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(呼吸論述鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

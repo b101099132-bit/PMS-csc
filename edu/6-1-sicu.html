@@ -694,6 +694,51 @@
   .bring-list { padding: 18px 20px; }
   .qa-list { padding: 18px 20px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -768,7 +813,7 @@
       <h4>病人在 SICU 就開始主動恢復</h4>
       <div class="p-en">Early Active Recovery</div>
       <p>傳統 ICU 印象是<strong>「躺著、禁食、不能說話、不能動」</strong>。本院 SICU 不一樣:</p>
-      <p><strong>能喝水進食</strong>(拔管後即可練習) <span class="link-ref">連結 7-7</span>、<strong>能坐起與走路</strong>(拔管後 6 小時床邊坐、24 小時走路) <span class="link-ref">連結 7-6a · 7-6b</span>、<strong>能使用手機</strong>(與家人聯絡、聽音樂、看影片打發時間)、<strong>能說話交談</strong>(拔管後即可,HFNC(高流量鼻導管)銜接也不影響說話)。</p>
+      <p><strong>能喝水進食</strong>(拔管後即可練習) 連結 <a class="link-ref" href="7-7-eating.html">7-7</a>、<strong>能坐起與走路</strong>(拔管後 6 小時床邊坐、24 小時走路) 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a>、<strong>能使用手機</strong>(與家人聯絡、聽音樂、看影片打發時間)、<strong>能說話交談</strong>(拔管後即可,HFNC(高流量鼻導管)銜接也不影響說話)。</p>
       <p><strong>這些不是「特權」</strong> —— 是<strong>降低譫妄、縮短住院、加速復原</strong>的核心策略。國際研究證實:在 ICU 越早動、越早吃、越能溝通的病人,恢復明顯更快。</p>
     </article>
 
@@ -873,16 +918,16 @@
     <h4>本院 SICU 標準監測項目</h4>
     <div class="sub">所有數據 24 小時連續記錄</div>
     <ul>
-      <li><strong>心電圖(ECG)</strong> —— 24 小時監測心律與心跳速率,第一時間發現心房顫動或心律不整 <span class="link-ref">連結 8-3</span></li>
+      <li><strong>心電圖(ECG)</strong> —— 24 小時監測心律與心跳速率,第一時間發現心房顫動或心律不整 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a></li>
       <li><strong>動脈血壓</strong> —— 經由<strong>動脈導管</strong>(從手腕動脈插入的細管)即時顯示<strong>每一次心跳的血壓</strong>,比手臂血壓計更精準</li>
       <li><strong>血氧濃度</strong> —— 手指夾上的小儀器持續顯示血液中氧氣飽和度</li>
       <li><strong>呼吸速率與型態</strong> —— 持續監測</li>
-      <li><strong>體溫</strong> —— 維持 ≥ 36°C 是重要目標 <span class="link-ref">連結 4-6</span></li>
+      <li><strong>體溫</strong> —— 維持 ≥ 36°C 是重要目標 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
       <li><strong>中央靜脈壓(CVP)</strong> —— 從脖子或鎖骨下大靜脈測量的壓力,<strong>反映心臟充血狀況與體液狀態</strong></li>
-      <li><strong>每小時尿量</strong> —— 重要的腎臟與循環指標 <span class="link-ref">連結 6-4 · 8-4</span></li>
-      <li><strong>胸管引流量</strong> —— 每小時記錄,是評估出血的關鍵 <span class="link-ref">連結 6-3</span></li>
-      <li><strong>意識狀態與神經學評估</strong> —— 定期評估,早期辨識譫妄 <span class="link-ref">連結 8-2</span></li>
-      <li><strong>疼痛分數</strong> —— 規律詢問 0–10 分 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>每小時尿量</strong> —— 重要的腎臟與循環指標 連結 <a class="link-ref" href="6-4-foley.html">6-4</a> · <a class="link-ref" href="8-4-aki.html">8-4</a></li>
+      <li><strong>胸管引流量</strong> —— 每小時記錄,是評估出血的關鍵 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a></li>
+      <li><strong>意識狀態與神經學評估</strong> —— 定期評估,早期辨識譫妄 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>疼痛分數</strong> —— 規律詢問 0–10 分 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
       <li><strong>定期抽血</strong> —— 監測肌酸酐、電解質、血色素、凝血、血糖等</li>
     </ul>
   </div>
@@ -900,7 +945,7 @@
 
     <div class="j-row">
       <div class="j-when">剛抵達 SICU</div>
-      <div class="j-what"><strong>多數病人已在手術房拔管</strong> <span class="link-ref">連結 6-2</span>,抵達時清醒、能說話。配戴 <strong>HFNC 高流量鼻導管</strong> <span class="link-ref">連結 6-6</span> 支持呼吸。家屬通常可在轉入後不久看到您(依當天會客時間)。</div>
+      <div class="j-what"><strong>多數病人已在手術房拔管</strong> 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a>,抵達時清醒、能說話。配戴 <strong>HFNC 高流量鼻導管</strong> 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a> 支持呼吸。家屬通常可在轉入後不久看到您(依當天會客時間)。</div>
     </div>
 
     <div class="j-row">
@@ -910,7 +955,7 @@
 
     <div class="j-row">
       <div class="j-when">2–6 小時</div>
-      <div class="j-what">疼痛由<strong>多模式止痛策略</strong> <span class="link-ref">連結 5-1</span> 控制,不會讓您忍痛。<strong>拔管後 6 小時可以開始床邊坐起</strong> <span class="link-ref">連結 7-6a</span>。<strong>可以開始小口練習喝水</strong> <span class="link-ref">連結 7-7</span>。</div>
+      <div class="j-what">疼痛由<strong>多模式止痛策略</strong> 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a> 控制,不會讓您忍痛。<strong>拔管後 6 小時可以開始床邊坐起</strong> 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a>。<strong>可以開始小口練習喝水</strong> 連結 <a class="link-ref" href="7-7-eating.html">7-7</a>。</div>
     </div>
 
     <div class="j-row">
@@ -920,12 +965,12 @@
 
     <div class="j-row">
       <div class="j-when">術後第 1 天早上</div>
-      <div class="j-what">護理師協助您<strong>第一次下床走路</strong> <span class="link-ref">連結 7-6b</span>,通常是繞護理站一圈。可以開始進食。動脈導管可能在這天移除。</div>
+      <div class="j-what">護理師協助您<strong>第一次下床走路</strong> 連結 <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a>,通常是繞護理站一圈。可以開始進食。動脈導管可能在這天移除。</div>
     </div>
 
     <div class="j-row">
       <div class="j-when">術後第 1–2 天</div>
-      <div class="j-what">隨著生命徵象穩定,<strong>逐步移除監測管路</strong>。胸管、尿管依引流量與下床能力評估移除 <span class="link-ref">連結 6-3 · 6-4</span>。</div>
+      <div class="j-what">隨著生命徵象穩定,<strong>逐步移除監測管路</strong>。胸管、尿管依引流量與下床能力評估移除 連結 <a class="link-ref" href="6-3-chest-tube.html">6-3</a> · <a class="link-ref" href="6-4-foley.html">6-4</a>。</div>
     </div>
 
     <div class="j-row">
@@ -946,7 +991,7 @@
       <ul>
         <li>用<strong>平常的聲音</strong>跟病人說話,不需要刻意大聲或慢</li>
         <li><strong>輕輕握著病人的手</strong>,觸覺有定向與安撫作用</li>
-        <li>告訴病人<strong>「現在是早上、你在加護病房、手術很順利、我是 OO」</strong> —— 這對譫妄預防有幫助 <span class="link-ref">連結 8-2</span></li>
+        <li>告訴病人<strong>「現在是早上、你在加護病房、手術很順利、我是 OO」</strong> —— 這對譫妄預防有幫助 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
       </ul>
     </div>
 
@@ -973,10 +1018,10 @@
     <div class="help-section">
       <div class="h-label">04 · 鼓勵主動恢復動作</div>
       <ul>
-        <li>陪同<strong>練習深呼吸</strong> <span class="link-ref">連結 7-1</span></li>
-        <li>陪同<strong>練習咳嗽</strong> <span class="link-ref">連結 7-2</span></li>
-        <li>陪同<strong>練習坐起、走路</strong> <span class="link-ref">連結 7-6a · 7-6b</span></li>
-        <li>鼓勵<strong>小口喝水、嘗試進食</strong> <span class="link-ref">連結 7-7</span></li>
+        <li>陪同<strong>練習深呼吸</strong> 連結 <a class="link-ref" href="7-1-spirometer.html">7-1</a></li>
+        <li>陪同<strong>練習咳嗽</strong> 連結 <a class="link-ref" href="7-2-cough.html">7-2</a></li>
+        <li>陪同<strong>練習坐起、走路</strong> 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+        <li>鼓勵<strong>小口喝水、嘗試進食</strong> 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
       </ul>
     </div>
 
@@ -1002,15 +1047,15 @@
     <h4>SICU 設計如何串連整套 ERAS 策略</h4>
     <div class="sub">每一項設計都對應一個恢復目標</div>
     <ul>
-      <li><strong>手術室內拔管</strong> + HFNC(高流量鼻導管) —— 病人抵達 SICU 時是醒著的,能說話、能配合恢復 <span class="link-ref">連結 6-2 · 6-6</span></li>
-      <li><strong>多模式止痛</strong> —— 病人不會躺著痛,敢咳、敢動 <span class="link-ref">連結 5-1</span></li>
-      <li><strong>早期下床(6 小時坐起、24 小時走路)</strong> —— 縮短臥床、降低譫妄、降低肺部與血栓併發症 <span class="link-ref">連結 7-6a · 7-6b</span></li>
-      <li><strong>早期進食喝水</strong> —— 維持腸胃功能、減少靜脈點滴依賴 <span class="link-ref">連結 7-7</span></li>
+      <li><strong>手術室內拔管</strong> + HFNC(高流量鼻導管) —— 病人抵達 SICU 時是醒著的,能說話、能配合恢復 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a> · <a class="link-ref" href="6-6-hfnc.html">6-6</a></li>
+      <li><strong>多模式止痛</strong> —— 病人不會躺著痛,敢咳、敢動 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
+      <li><strong>早期下床(6 小時坐起、24 小時走路)</strong> —— 縮短臥床、降低譫妄、降低肺部與血栓併發症 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a> · <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a></li>
+      <li><strong>早期進食喝水</strong> —— 維持腸胃功能、減少靜脈點滴依賴 連結 <a class="link-ref" href="7-7-eating.html">7-7</a></li>
       <li><strong>使用手機</strong> —— 與家人聯絡、減少焦慮、有事做(降低譫妄)</li>
-      <li><strong>家屬陪病彈性</strong> —— 多項研究證實家屬陪伴能<strong>降低譫妄發生率 25-50%</strong>、縮短 ICU 停留天數、加速認知與情緒恢復;心臟手術術後加速康復學會2024年共識指引建議常規開放家屬陪伴 <span class="link-ref">連結 8-2</span></li>
-      <li><strong>降低約束需求</strong> —— 家屬陪伴 + 譫妄預防 + 主動恢復鏈,讓本院 SICU 心臟術後病人<strong>幾乎不需要使用保護性約束</strong> <span class="link-ref">連結 6-5</span></li>
-      <li><strong>連續監測</strong> —— 早期發現心房顫動、急性腎損傷、出血等 <span class="link-ref">連結 8-3 · 8-4</span></li>
-      <li><strong>規律疼痛評估</strong> —— 不讓病人忍痛 <span class="link-ref">連結 5-1</span></li>
+      <li><strong>家屬陪病彈性</strong> —— 多項研究證實家屬陪伴能<strong>降低譫妄發生率 25-50%</strong>、縮短 ICU 停留天數、加速認知與情緒恢復;心臟手術術後加速康復學會2024年共識指引建議常規開放家屬陪伴 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a></li>
+      <li><strong>降低約束需求</strong> —— 家屬陪伴 + 譫妄預防 + 主動恢復鏈,讓本院 SICU 心臟術後病人<strong>幾乎不需要使用保護性約束</strong> 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a></li>
+      <li><strong>連續監測</strong> —— 早期發現心房顫動、急性腎損傷、出血等 連結 <a class="link-ref" href="8-3-poaf.html">8-3</a> · <a class="link-ref" href="8-4-aki.html">8-4</a></li>
+      <li><strong>規律疼痛評估</strong> —— 不讓病人忍痛 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
     </ul>
   </div>
 
@@ -1039,7 +1084,7 @@
 
     <div class="qa-item">
       <div class="question">我會不會被綁起來?</div>
-      <div class="answer"><strong>約束不是懲罰、不是「醫療人員嫌您麻煩」</strong> —— 而是當您在譫妄或迷糊狀態下,<strong>避免您自己無意識中拔掉胸管、動脈導管等重要設備</strong>的<strong>短暫保護工具</strong>。本院盡量<strong>不使用約束</strong>,任何被約束的病人都會持續評估,<strong>清醒後、情況改善後立刻解開</strong>。<strong>家屬陪伴是降低約束機率最有效的方式之一</strong> —— 這也是本院 SICU 提供陪病過夜的原因之一 <span class="link-ref">連結 6-5</span>。</div>
+      <div class="answer"><strong>約束不是懲罰、不是「醫療人員嫌您麻煩」</strong> —— 而是當您在譫妄或迷糊狀態下,<strong>避免您自己無意識中拔掉胸管、動脈導管等重要設備</strong>的<strong>短暫保護工具</strong>。本院盡量<strong>不使用約束</strong>,任何被約束的病人都會持續評估,<strong>清醒後、情況改善後立刻解開</strong>。<strong>家屬陪伴是降低約束機率最有效的方式之一</strong> —— 這也是本院 SICU 提供陪病過夜的原因之一 連結 <a class="link-ref" href="6-5-restraint.html">6-5</a>。</div>
     </div>
 
     <div class="qa-item">
@@ -1049,7 +1094,7 @@
 
     <div class="qa-item">
       <div class="question">我會不會痛醒?</div>
-      <div class="answer">本院的<strong>多模式止痛策略</strong> <span class="link-ref">連結 5-1</span> 會讓您的疼痛被良好控制。<strong>痛是正常的,但不應該忍下來</strong> —— 隨時告訴護理師您的疼痛分數(0–10),他們會即時調整。</div>
+      <div class="answer">本院的<strong>多模式止痛策略</strong> 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a> 會讓您的疼痛被良好控制。<strong>痛是正常的,但不應該忍下來</strong> —— 隨時告訴護理師您的疼痛分數(0–10),他們會即時調整。</div>
     </div>
 
     <div class="qa-item">
@@ -1098,7 +1143,7 @@
       <span class="note">這些都可能是譫妄、疼痛、感染等問題的早期徵兆。您的直覺往往是對的。</span>
     </div>
     <ul>
-      <li><strong>病人認不得您、眼神呆滯、講話內容跳躍</strong>(可能譫妄 <span class="link-ref">連結 8-2</span>)</li>
+      <li><strong>病人認不得您、眼神呆滯、講話內容跳躍</strong>(可能譫妄 連結 <a class="link-ref" href="8-2-delirium.html">8-2</a>)</li>
       <li><strong>病人在忍痛但不講</strong>(皺眉、流汗、肌肉緊繃)</li>
       <li><strong>病人呼吸明顯比剛才喘、嘴唇發紫</strong></li>
       <li><strong>病人有不尋常的胸痛、頭痛</strong></li>
@@ -1114,17 +1159,17 @@
     <div class="sub">這份單張是 ICU 階段所有衛教的「環境基礎」 — 前面的單張告訴您「會做什麼」,這份告訴您「會在哪裡做、會被誰照顧、會有什麼設備」。建議在術前訪視時讀,降低入院後的焦慮。</div>
     <ol>
       <li class="current"><strong>外科加護病房 SICU 介紹 6-1(您正在讀)</strong></li>
-      <li>早期拔管 6-2(手術室內拔管)</li>
-      <li>HFNC 高流量鼻導管 6-6</li>
-      <li>多模式止痛 5-1</li>
-      <li>從躺到坐 7-6a、從站到走 7-6b</li>
-      <li>喝水進食 7-7、心臟手術後飲食 9-3</li>
-      <li>認識尿管 6-4、認識胸管 6-3</li>
-      <li>譫妄專篇 8-2</li>
-      <li>保護性約束 6-5</li>
-      <li>認知復健 病人版 8-1a、家屬版 8-1b</li>
-      <li>主動恢復入門 10-1a(SICU 是「主動恢復的開始」)</li>
-      <li>整套衛教整合與終身指南 10-1b(最深恐懼三部曲第 1 部完整收束 — 集大成篇)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(手術室內拔管)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6</a></li>
+      <li><a href="5-1-multimodal.html">多模式止痛 5-1</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a</a>、<a href="7-6b-stand-walk.html">從站到走 7-6b</a></li>
+      <li><a href="7-7-eating.html">喝水進食 7-7</a>、<a href="9-3-cardiac-diet.html">心臟手術後飲食 9-3</a></li>
+      <li><a href="6-4-foley.html">認識尿管 6-4</a>、<a href="6-3-chest-tube.html">認識胸管 6-3</a></li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2</a></li>
+      <li><a href="6-5-restraint.html">保護性約束 6-5</a></li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 病人版 8-1a</a>、<a href="8-1b-cognitive-family.html">家屬版 8-1b</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(SICU 是「主動恢復的開始」)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(最深恐懼三部曲第 1 部完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

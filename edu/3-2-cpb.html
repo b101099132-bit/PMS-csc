@@ -6,7 +6,7 @@
 <title>認識體外循環機(人工心肺機) — 心臟加速康復衛教</title>
 <meta name="description" content="人工心肺機如何運作的三步驟、肝素與魚精蛋白的中和、圍術期中風風險與本院預防作為、體外循環師的角色">
 
-<meta name="article:modified_time" content="2026-05-20">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -323,6 +323,51 @@
   .risk-box { padding: 22px 18px; }
   .team-note { padding: 20px 18px; gap: 14px; }
 }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -510,10 +555,10 @@
     <h4>人工心肺機如何串連到加速康復</h4>
     <div class="sub">手術期間穩定保護全身器官及循環,運作越穩、停機越順,幫助病人術後更快恢復</div>
     <ul>
-      <li><strong>體溫管理</strong> —— 機器本身能調溫,降溫保護心臟與大腦,結束時的回溫精準 <span class="link-ref">連結 4-6</span></li>
-      <li><strong>少出血</strong> —— 配合<strong>止血藥(Tranexamic Acid · TXA,中文常稱「傳明酸」,藥袋上常見品名 Transamin)</strong>、凝血因子精準補充 <span class="link-ref">連結 5-2</span></li>
-      <li><strong>腦部守護</strong> —— NIRS、BIS、體外循環師三方互補 <span class="link-ref">連結 4-3 · 4-4</span></li>
-      <li><strong>支援早期拔管</strong> —— 機器停止越順,病人越快恢復自主循環,越早能拔管 <span class="link-ref">連結 6-2</span></li>
+      <li><strong>體溫管理</strong> —— 機器本身能調溫,降溫保護心臟與大腦,結束時的回溫精準 連結 <a class="link-ref" href="4-6-temperature.html">4-6</a></li>
+      <li><strong>少出血</strong> —— 配合<strong>止血藥(Tranexamic Acid · TXA,中文常稱「傳明酸」,藥袋上常見品名 Transamin)</strong>、凝血因子精準補充 連結 <a class="link-ref" href="5-2-coagulation.html">5-2</a></li>
+      <li><strong>腦部守護</strong> —— NIRS、BIS、體外循環師三方互補 連結 <a class="link-ref" href="4-3-nirs.html">4-3</a> · <a class="link-ref" href="4-4-bis.html">4-4</a></li>
+      <li><strong>支援早期拔管</strong> —— 機器停止越順,病人越快恢復自主循環,越早能拔管 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a></li>
     </ul>
   </div>
 
@@ -523,15 +568,15 @@
     <div class="sub">體外循環雖然是圍術期中風的主要風險來源,但本院的中風守護不是只在「機器運作那段時間」,而是<strong>從術前停藥、術中監測、到術後辨識</strong>的完整鏈條。下面是構成這條鏈的關鍵單張。</div>
     <ol>
       <li class="current"><strong>體外循環機 CPB 3-2(您正在讀:中風風險來源與機器面預防)</strong></li>
-      <li>三種冠狀動脈繞道手術比較 3-1(心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露)</li>
-      <li>凝血功能與止血藥物 5-2(抗凝血藥停藥節奏 + 術中 TXA · 傳明酸)</li>
-      <li>NIRS 腦氧監測 4-3(術中即時看見腦部血氧變化,中風前兆的早期警示)</li>
-      <li>BIS 麻醉深度監測 4-4(避免過深麻醉,降低術後譫妄與認知併發症)</li>
-      <li>圍術期體溫管理 4-6(維持 ≥ 36°C,低體溫會增加凝血異常與感染)</li>
-      <li>譫妄專篇 8-2(術後認知混亂與中風的鑑別)</li>
-      <li>認知復健 病人版 8-1a、家屬版 8-1b(萬一出現認知變化,如何辨識 FAST 與復健)</li>
-      <li>主動恢復入門 10-1a(認識 CPB 後的主動恢復角色)</li>
-      <li>整套衛教整合與終身指南 10-1b(中風守護鏈起點完整收束 — 集大成篇)</li>
+      <li><a href="3-1-cabg-comparison.html">三種冠狀動脈繞道手術比較 3-1(心臟跳動下繞道:縮短體外循環時間 = 減少風險暴露)</a></li>
+      <li><a href="5-2-coagulation.html">凝血功能與止血藥物 5-2(抗凝血藥停藥節奏 + 術中 TXA · 傳明酸)</a></li>
+      <li><a href="4-3-nirs.html">NIRS 腦氧監測 4-3(術中即時看見腦部血氧變化</a>,中風前兆的早期警示)</li>
+      <li><a href="4-4-bis.html">BIS 麻醉深度監測 4-4(避免過深麻醉</a>,降低術後譫妄與認知併發症)</li>
+      <li><a href="4-6-temperature.html">圍術期體溫管理 4-6(維持 ≥ 36°C</a>,低體溫會增加凝血異常與感染)</li>
+      <li><a href="8-2-delirium.html">譫妄專篇 8-2(術後認知混亂與中風的鑑別)</a></li>
+      <li><a href="8-1a-cognitive-patient.html">認知復健 病人版 8-1a</a>、<a href="8-1b-cognitive-family.html">家屬版 8-1b(萬一出現認知變化</a>,如何辨識 FAST 與復健)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(認識 CPB 後的主動恢復角色)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(中風守護鏈起點完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

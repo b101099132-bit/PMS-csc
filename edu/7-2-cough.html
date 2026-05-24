@@ -6,7 +6,7 @@
 <title>術後咳嗽與咳痰 — 心臟加速康復衛教</title>
 <meta name="description" content="為什麼術後一定要咳、抱枕固定法、有效咳嗽五步驟、痰的顏色判讀、為什麼坐起來咳特別有效">
 
-<meta name="article:modified_time" content="2026-05-23">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -289,6 +289,51 @@
 }
 .family-note ul li:last-child { margin-bottom: 0; }
 .family-note ul li strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -321,7 +366,7 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">肺塌陷 · 肺擴張不全</span>
-      <span class="lex-def">Atelectasis,<strong>肺部底部的小肺泡沒有完全打開、被壓扁</strong>。痰堵在小氣管會造成下游肺泡塌陷。詳見 <strong>7-1 誘發性肺量計</strong>。</span>
+      <span class="lex-def">Atelectasis,<strong>肺部底部的小肺泡沒有完全打開、被壓扁</strong>。痰堵在小氣管會造成下游肺泡塌陷。詳見 <a class="link-ref" href="7-1-spirometer.html">7-1 誘發性肺量計</a>。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">抱枕固定法</span>
@@ -337,11 +382,11 @@
     </div>
     <div class="lex-row">
       <span class="lex-term">VAP · 呼吸器相關肺炎</span>
-      <span class="lex-def">Ventilator-Associated Pneumonia,<strong>因為長時間插管引起的肺部感染</strong>。本院早期拔管 <span class="link-ref">連結 6-2</span> + 規律咳嗽,就是為了降低 VAP 與其他術後肺炎的風險。</span>
+      <span class="lex-def">Ventilator-Associated Pneumonia,<strong>因為長時間插管引起的肺部感染</strong>。本院早期拔管 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a> + 規律咳嗽,就是為了降低 VAP 與其他術後肺炎的風險。</span>
     </div>
     <div class="lex-row">
       <span class="lex-term">會呼吸的痛</span>
-      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。咳嗽是「會呼吸的痛」中最被牽動的動作 —— 多模式止痛 + 抱枕能大幅化解。詳見 <strong>5-1b 術後疼痛</strong>。</span>
+      <span class="lex-def">每次<strong>呼吸、咳嗽、深吸氣、翻身</strong>都會被牽動的痛(胸口傷口、胸管周圍)。咳嗽是「會呼吸的痛」中最被牽動的動作 —— 多模式止痛 + 抱枕能大幅化解。詳見 <a class="link-ref" href="5-1b-postop-pain.html">5-1b 術後疼痛</a>。</span>
     </div>
   </div>
 
@@ -361,7 +406,7 @@
     <article class="reason-card">
       <div class="r-num">理由 02</div>
       <h4>避免肺部塌陷、降低 VAP 與術後肺炎</h4>
-      <p>痰積在小氣管裡,會讓對應的肺泡塌陷(atelectasis),<strong>血氧下降</strong>、細菌容易滋生引起肺炎。本院透過<strong>早期拔管</strong>降低呼吸器相關肺炎(VAP)的風險 <span class="link-ref">連結 6-2</span>;但拔管後若不主動咳嗽,<strong>術後肺炎(HAP)仍可能發生</strong>。<strong>咳嗽,就是把「降低 VAP」的成果延續下去的關鍵動作</strong>。</p>
+      <p>痰積在小氣管裡,會讓對應的肺泡塌陷(atelectasis),<strong>血氧下降</strong>、細菌容易滋生引起肺炎。本院透過<strong>早期拔管</strong>降低呼吸器相關肺炎(VAP)的風險 連結 <a class="link-ref" href="6-2-extubation.html">6-2</a>;但拔管後若不主動咳嗽,<strong>術後肺炎(HAP)仍可能發生</strong>。<strong>咳嗽,就是把「降低 VAP」的成果延續下去的關鍵動作</strong>。</p>
     </article>
     <article class="reason-card">
       <div class="r-num">理由 03</div>
@@ -376,8 +421,8 @@
   <div class="callout tradeoffs">
     <h4>這些擔心都是合理的 ——</h4>
     <ul>
-      <li><strong>胸口傷口會痛</strong>：這是會呼吸的痛，咳嗽會特別牽動 <span class="link-ref">連結 5-1</span></li>
-      <li><strong>害怕胸骨「裂開」或縫線斷掉</strong>:胸骨已經用鋼絲(或鋼板)牢牢固定,正常咳嗽不會讓它移位 <span class="link-ref">連結 3-4</span></li>
+      <li><strong>胸口傷口會痛</strong>：這是會呼吸的痛，咳嗽會特別牽動 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
+      <li><strong>害怕胸骨「裂開」或縫線斷掉</strong>:胸骨已經用鋼絲(或鋼板)牢牢固定,正常咳嗽不會讓它移位 連結 <a class="link-ref" href="3-4-sternal-fixation.html">3-4</a></li>
       <li><strong>怕扯到胸腔引流管</strong>：管子有縫線固定，正常咳嗽不會拉出來</li>
       <li><strong>咳出帶血絲的痰</strong>：早期少量血絲是正常的，不代表出血</li>
     </ul>
@@ -393,10 +438,10 @@
   <div class="callout prep-actions">
     <h4>四個準備到位後，咳嗽就會輕鬆很多</h4>
     <ul>
-      <li><strong>多模式止痛先到位</strong>：神經阻斷、常規 acetaminophen 把傷口痛降到最低 —— 動作前若仍痛，主動告訴護理師 <span class="link-ref">連結 5-1</span></li>
-      <li><strong>HFNC 減少呼吸費力</strong>：胸壁活動減少，傷口被牽動就少 <span class="link-ref">連結 6-6</span></li>
+      <li><strong>多模式止痛先到位</strong>：神經阻斷、常規 acetaminophen 把傷口痛降到最低 —— 動作前若仍痛，主動告訴護理師 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a></li>
+      <li><strong>HFNC 減少呼吸費力</strong>：胸壁活動減少，傷口被牽動就少 連結 <a class="link-ref" href="6-6-hfnc.html">6-6</a></li>
       <li><strong>抱枕固定法</strong>：外部固定胸骨，吸收咳嗽時的震動（下一段詳細說明）</li>
-      <li><strong>採坐姿或半坐臥</strong>：橫膈膜下沉、肺活量增加，咳的力道更夠 <span class="link-ref">連結 7-6a</span></li>
+      <li><strong>採坐姿或半坐臥</strong>：橫膈膜下沉、肺活量增加，咳的力道更夠 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a></li>
     </ul>
   </div>
 
@@ -505,7 +550,7 @@
     <h4>主動規律地咳，比等到痰多了再咳更有效</h4>
     <ul>
       <li><strong>每 1–2 小時主動咳一次</strong>：不要等到痰多到擾人才咳，規律清痰比一次大清掃更舒服</li>
-      <li><strong>痰多時搭配誘發性肺量計</strong>：先做幾下肺量計把肺撐開，痰會自動鬆動，再咳就容易出來 <span class="link-ref">連結 7-1</span></li>
+      <li><strong>痰多時搭配誘發性肺量計</strong>：先做幾下肺量計把肺撐開，痰會自動鬆動，再咳就容易出來 連結 <a class="link-ref" href="7-1-spirometer.html">7-1</a></li>
       <li><strong>一輪咳完休息 1–2 分鐘</strong>，再做下一輪；連續 2–3 輪比一次硬撐 10 下更有效</li>
       <li><strong>每天的進度由您掌握</strong>：每天累積有效咳的次數會逐漸增加，這是恢復的具體指標</li>
     </ul>
@@ -533,7 +578,7 @@
       </div>
     </div>
 
-    <p>所以本院鼓勵您<strong>儘早坐起、儘早下床</strong> —— 這不只是肌肉復健，更直接<strong>改善肺活量、增強咳嗽效力、加速胸腔血水排除</strong> <span class="link-ref">連結 7-6a</span>。</p>
+    <p>所以本院鼓勵您<strong>儘早坐起、儘早下床</strong> —— 這不只是肌肉復健，更直接<strong>改善肺活量、增強咳嗽效力、加速胸腔血水排除</strong> 連結 <a class="link-ref" href="7-6a-sit-up.html">7-6a</a>。</p>
   </div>
 
   <!-- Patient experience -->
@@ -594,7 +639,7 @@
       <li><strong>陪伴第一次咳嗽</strong> —— 病人對「第一次咳」最有心理障礙,家屬陪伴 + 一起說「準備好了,咳吧」會有很大幫助</li>
       <li><strong>幫病人計時休息</strong> —— 一輪咳完後說「休息 1-2 分鐘再做下一輪」,讓病人有節奏</li>
       <li><strong>觀察痰的顏色</strong> —— 顏色變黃綠、變鮮紅、量明顯增加,告訴護理師</li>
-      <li><strong>動作前提醒打止痛藥</strong> —— 病人常忍痛硬咳。動作前 5-10 分鐘提醒病人主動要止痛藥,效果會好很多 <span class="link-ref">連結 5-1b</span></li>
+      <li><strong>動作前提醒打止痛藥</strong> —— 病人常忍痛硬咳。動作前 5-10 分鐘提醒病人主動要止痛藥,效果會好很多 連結 <a class="link-ref" href="5-1b-postop-pain.html">5-1b</a></li>
       <li><strong>出院後也持續關心</strong> —— 出院後常被忽略,但<strong>規律咳嗽應該持續到回診評估</strong>。家屬定期問「今天咳了幾輪?」</li>
     </ul>
   </div>
@@ -604,17 +649,17 @@
     <h4>呼吸論述鏈閱讀路徑</h4>
     <div class="sub">心臟手術後最關鍵的議題之一,就是「<strong>讓肺重新動起來</strong>」。下面是構成這條鏈的單張,7-2 是這條鏈中<strong>最具體可執行的核心動作</strong>。</div>
     <ol>
-      <li>體外循環機 CPB 3-2(術中肺暫停運作 — 肺塌陷的源頭)</li>
-      <li>早期拔管 6-2(拔管 = 主動呼吸的起點,降低 VAP 風險)</li>
-      <li>HFNC 高流量鼻導管 6-6(拔管後的呼吸支援設備)</li>
-      <li>術後疼痛 5-1b(「會呼吸的痛」核心 — 止痛到位才敢咳)</li>
-      <li>誘發性肺量計 7-1(主動深呼吸的訓練器 — 與抱枕並列「兩個隨身工具」)</li>
+      <li><a href="3-2-cpb.html">體外循環機 CPB 3-2(術中肺暫停運作 — 肺塌陷的源頭)</a></li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(拔管 = 主動呼吸的起點</a>,降低 VAP 風險)</li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(拔管後的呼吸支援設備)</a></li>
+      <li><a href="5-1b-postop-pain.html">術後疼痛 5-1b(「會呼吸的痛」核心 — 止痛到位才敢咳)</a></li>
+      <li><a href="7-1-spirometer.html">誘發性肺量計 7-1(主動深呼吸的訓練器 — 與抱枕並列「兩個隨身工具」)</a></li>
       <li class="current"><strong>術後咳嗽與咳痰 7-2(您正在讀:主動咳痰的核心動作)</strong></li>
-      <li>胸骨固定:鋼絲 vs 鋼板 3-4(咳嗽不會讓胸骨移位的依據)</li>
-      <li>認識胸管 6-3(咳嗽加速胸管引流 — 「主動推動」的核心)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(姿勢影響肺活量,坐起咳力道增加 20-30%)</li>
-      <li>主動恢復入門 10-1a(主動咳痰是主動恢復的核心動作)</li>
-      <li>整套衛教整合與終身指南 10-1b(呼吸論述鏈完整收束 — 集大成篇)</li>
+      <li><a href="3-4-sternal-fixation.html">胸骨固定:鋼絲 vs 鋼板 3-4(咳嗽不會讓胸骨移位的依據)</a></li>
+      <li><a href="6-3-chest-tube.html">認識胸管 6-3(咳嗽加速胸管引流 — 「主動推動」的核心)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(姿勢影響肺活量</a>,坐起咳力道增加 20-30%)</li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(主動咳痰是主動恢復的核心動作)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(呼吸論述鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 

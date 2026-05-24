@@ -6,7 +6,7 @@
 <title>認識術後尿管 — 心臟加速康復衛教</title>
 <meta name="description" content="術後尿管的兩大任務、放置與移除時機、家屬會客如何協助">
 
-<meta name="article:modified_time" content="2026-05-23">
+<meta name="article:modified_time" content="2026-05-24">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -337,6 +337,51 @@
   line-height: 1.75;
 }
 .patient-experience .tr-what strong { color: var(--ink); font-weight: 600; }
+
+/* ── 衛教交互連結 (link-ref) ── */
+a.link-ref {
+  display: inline-block;
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 1px 7px 2px;
+  margin: 0 2px;
+  background: var(--teal-soft, #E6EDED);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+a.link-ref:hover, a.link-ref:focus {
+  background: var(--teal, #1F5A5A);
+  color: #fff;
+  outline: none;
+}
+a.link-ref:active { transform: translateY(1px); }
+
+
+/* ── 閱讀路徑 reading-map 內可點擊連結 ── */
+.reading-map li a {
+  color: var(--teal, #1F5A5A);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.reading-map li a:hover,
+.reading-map li a:focus {
+  color: var(--gold, #A87B4D);
+  border-bottom-color: var(--teal-soft, #6A9595);
+  outline: none;
+}
+.reading-map li:not(.current) {
+  position: relative;
+  transition: color 0.15s ease;
+}
+.reading-map li:not(.current):hover {
+  color: var(--ink, #1A1A1A);
+}
+
 </style>
 </head>
 <body>
@@ -383,7 +428,7 @@
       <div class="why">麻醉、止痛藥、剛拔管後活動受限都會影響膀胱反射</div>
       <p>麻醉藥、<strong>強效止痛藥（嗎啡類）</strong>、剛拔管後幾小時不能下床 —— 這些會讓<strong>膀胱「想尿」的反射暫時遲鈍</strong>。不放尿管的話，尿可能憋在膀胱裡，自己不知道、也起不來。</p>
       <p>過度脹尿可能造成<strong>膀胱損傷、影響腎臟功能、引發血壓波動</strong>。留置尿管期間自動引流，完全避開這個風險。</p>
-      <p style="font-size:13px;color:var(--ink-faint);font-style:italic">這也是為什麼本院採用「多模式止痛」 —— 用<strong style="color:var(--teal);font-weight:500;font-style:normal">在神經周圍打止痛藥、普拿疼</strong>等取代大量強效止痛藥，讓您的膀胱反射更早恢復、尿管也能更早畢業 <span class="link-ref">連結 5-1</span>。</p>
+      <p style="font-size:13px;color:var(--ink-faint);font-style:italic">這也是為什麼本院採用「多模式止痛」 —— 用<strong style="color:var(--teal);font-weight:500;font-style:normal">在神經周圍打止痛藥、普拿疼</strong>等取代大量強效止痛藥，讓您的膀胱反射更早恢復、尿管也能更早畢業 連結 <a class="link-ref" href="5-1-multimodal.html">5-1</a>。</p>
     </article>
 
     <article class="task-card t2">
@@ -391,7 +436,7 @@
       <h4>幫團隊精準掌握您的腎臟狀況</h4>
       <div class="why">尿量是反映腎臟血流與心臟輸出最直接的指標</div>
       <p>心臟手術過程中，<strong>腎臟對血流變化非常敏感</strong>。每一小時尿了多少 cc，是團隊判斷您<strong>腎臟有沒有得到足夠血液、心臟每分鐘打出的血量是否正常、身體含水量是否平衡</strong>的關鍵數據。</p>
-      <p>留置尿管能<strong>精準到每小時、每 cc</strong>的記錄。如果不靠尿管,依賴病人自己感覺與如廁,根本無法達到這種精準度。這份數據是團隊判斷<strong>是否出現急性腎損傷(AKI)</strong>的最重要早期警示之一 <span class="link-ref">連結 8-4</span>。</p>
+      <p>留置尿管能<strong>精準到每小時、每 cc</strong>的記錄。如果不靠尿管,依賴病人自己感覺與如廁,根本無法達到這種精準度。這份數據是團隊判斷<strong>是否出現急性腎損傷(AKI)</strong>的最重要早期警示之一 連結 <a class="link-ref" href="8-4-aki.html">8-4</a>。</p>
     </article>
   </div>
 
@@ -414,7 +459,7 @@
   <div class="removal">
     <h3>能自己下床走到廁所 = 尿管可以「畢業」</h3>
     <div class="sub">本院的早期活動進度，讓尿管也能早期移除</div>
-    <p>國際指引建議：<strong>術後 24 小時內，只要狀況許可就應移除尿管</strong>，因為留置越久，<strong>泌尿道感染</strong>的風險越高。本院的早期活動目標（6 小時坐、24 小時走路繞護理站）讓尿管也能跟著早期畢業 <span class="link-ref">連結 7-6b</span>。</p>
+    <p>國際指引建議：<strong>術後 24 小時內，只要狀況許可就應移除尿管</strong>，因為留置越久，<strong>泌尿道感染</strong>的風險越高。本院的早期活動目標（6 小時坐、24 小時走路繞護理站）讓尿管也能跟著早期畢業 連結 <a class="link-ref" href="7-6b-stand-walk.html">7-6b</a>。</p>
 
     <div class="criteria">
       <div class="c-label">移除尿管的條件</div>
@@ -554,15 +599,15 @@
     <h4>術後管路衛教鏈閱讀路徑</h4>
     <div class="sub">所有管路都是<strong>暫時的橋樑</strong>,目標都是「畢業」。下面是構成這條鏈的單張與相關串連。</div>
     <ol>
-      <li>早期拔管 6-2(術後第一個拔的管路:氣管內管)</li>
-      <li>HFNC 高流量鼻導管 6-6(拔氣管內管後的呼吸支援)</li>
-      <li>認識胸管引流 6-3(術後另一條重要管路 — 結構對等的姐妹篇)</li>
+      <li><a href="6-2-extubation.html">早期拔管 6-2(術後第一個拔的管路:氣管內管)</a></li>
+      <li><a href="6-6-hfnc.html">HFNC 高流量鼻導管 6-6(拔氣管內管後的呼吸支援)</a></li>
+      <li><a href="6-3-chest-tube.html">認識胸管引流 6-3(術後另一條重要管路 — 結構對等的姐妹篇)</a></li>
       <li class="current"><strong>認識術後尿管 6-4(您正在讀)</strong></li>
-      <li>圍術期多模式止痛 5-1(用神經阻斷取代強效鴉片 → 膀胱反射更早恢復 → 尿管更早畢業)</li>
-      <li>從躺到坐 7-6a · 從站到走 7-6b(走到廁所的能力 = 尿管畢業的條件)</li>
-      <li>急性腎損傷 AKI 8-4(尿量是團隊判斷腎臟狀況的關鍵數據 — 任務 02 的延伸閱讀)</li>
-      <li>主動恢復入門 10-1a(尿管移除後的主動恢復)</li>
-      <li>整套衛教整合與終身指南 10-1b(術後管路衛教鏈完整收束 — 集大成篇)</li>
+      <li><a href="5-1-multimodal.html">圍術期多模式止痛 5-1(用神經阻斷取代強效鴉片 → 膀胱反射更早恢復 → 尿管更早畢業)</a></li>
+      <li><a href="7-6a-sit-up.html">從躺到坐 7-6a · 從站到走 7-6b(走到廁所的能力 = 尿管畢業的條件)</a></li>
+      <li><a href="8-4-aki.html">急性腎損傷 AKI 8-4(尿量是團隊判斷腎臟狀況的關鍵數據 — 任務 02 的延伸閱讀)</a></li>
+      <li><a href="10-1a-active-recovery.html">主動恢復入門 10-1a(尿管移除後的主動恢復)</a></li>
+      <li><a href="10-1b-active-recovery.html">整套衛教整合與終身指南 10-1b(術後管路衛教鏈完整收束 — 集大成篇)</a></li>
     </ol>
   </div>
 
