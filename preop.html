@@ -918,8 +918,8 @@ form.addEventListener('submit', async (e) => {
     if (!firstErrorField) firstErrorField = fld;
   }
 
-  // 單選群組
-  [['gender', 'gender'], ['contact_pref', 'contact_pref']].forEach(([name]) => {
+  // 單選群組(gender 必選;contact_pref 移除驗證 — LINE 由 hidden input 永遠送出,備援為選填)
+  [['gender', 'gender']].forEach(([name]) => {
     if (!form.querySelector(`[name="${name}"]:checked`)) {
       const fld = form.querySelector(`.field[data-name="${name}"]`);
       if (fld) {
