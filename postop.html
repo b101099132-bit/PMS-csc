@@ -1055,6 +1055,16 @@ function escapeHtml(s) {
   })[c]);
 }
 
+// 姓名中間遮罩(個資保護):2 字 → 王*;3+ 字 → 王*明
+function maskName(name) {
+  if (name == null) return '';
+  const s = String(name).trim();
+  if (!s) return '';
+  if (s.length === 1) return s;
+  if (s.length === 2) return s[0] + '*';
+  return s[0] + '*' + s[s.length - 1];
+}
+
 async function loadRecent() {
   const key = $('doctor_key').value.trim();
   if (!key) {
@@ -1089,7 +1099,7 @@ async function loadRecent() {
       return `
         <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
           <div class="recent-main">
-            <div class="recent-name">${escapeHtml(p.name)} <span class="small">${escapeHtml(p.gender || '')} · ${p.age != null ? p.age + ' 歲' : ''}</span></div>
+            <div class="recent-name">${escapeHtml(maskName(p.name))} <span class="small">${escapeHtml(p.gender || '')} · ${p.age != null ? p.age + ' 歲' : ''}</span></div>
             <div class="recent-detail">
               <span class="date">${p.surgeryDate}${dateNote} · ${dayLabel}</span>
               <span class="surgery">${escapeHtml(p.surgery || '—')}</span>
@@ -1124,7 +1134,7 @@ function showAlert(id, msg) {
 }
 
 function showPatient(p) {
-  $('pc_name').textContent = p.name || '—';
+  $('pc_name').textContent = maskName(p.name) || '—';
   $('pc_gender_age').textContent = `${p.gender || '—'} / ${p.age != null ? p.age + ' 歲' : '—'}`;
   $('pc_pk').textContent = p.pk || '—';
   $('pc_scheduled').textContent = p.currentScheduledDate || '—';
