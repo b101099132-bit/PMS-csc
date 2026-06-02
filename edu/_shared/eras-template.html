@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>範例衛教 — 心臟加速康復</title>
+<meta name="description" content="示範如何使用 eras-shared.css 套版">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- 共用 CSS -->
+<link rel="stylesheet" href="eras-shared.css">
+
+<!-- 個別篇章特有的少量自訂（若需要） -->
+<style>
+  /* 此處放本篇特有的 CSS，例如:
+     - 特殊解剖示意圖
+     - 特殊圖表元素
+     - 一次性的視覺效果
+     共用元件不必再寫 */
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ============= HEADER ============= -->
+  <header>
+    <div class="eyebrow">心臟加速康復衛教 · XX</div>
+    <h1>主題名稱</h1>
+    <p class="subtitle">副標題 — 中文一句話<br>English Subtitle</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- ============= LEAD ============= -->
+  <div class="lead">
+    <strong>核心訊息一句話</strong>
+    <p>第一段引言 —— 帶<span class="em">關鍵概念</span>進來。</p>
+    <p>第二段引言 —— 點出為什麼這個主題重要。</p>
+    <p>第三段引言 —— 連到 ERAS 加速康復。</p>
+  </div>
+
+  <!-- ============= LEXICON ============= -->
+  <div class="lexicon">
+    <h4>名詞速查</h4>
+    <div class="lex-row">
+      <span class="lex-term">術語 1</span>
+      <span class="lex-def">白話定義，可加 <strong>重點</strong>。</span>
+    </div>
+    <div class="lex-row">
+      <span class="lex-term">術語 2</span>
+      <span class="lex-def">白話定義。</span>
+    </div>
+  </div>
+
+  <!-- ============= SECTION ============= -->
+  <div class="section-title">第一段標題</div>
+
+  <p class="section-intro">
+    引言段落，可用 <span class="em">強調語</span> 標記重點。
+  </p>
+
+  <!-- ============= COMPARISON OVERVIEW ============= -->
+  <div class="compare-overview">
+    <div class="compare-col left-col">
+      <div class="col-label">標籤 A</div>
+      <h3>方式 A</h3>
+      <div class="col-en">Method A in English</div>
+      <div class="col-body">簡短說明 A 的核心。<strong>關鍵字</strong>。</div>
+    </div>
+    <div class="compare-col right-col">
+      <div class="col-label">標籤 B</div>
+      <h3>方式 B</h3>
+      <div class="col-en">Method B in English</div>
+      <div class="col-body">簡短說明 B 的核心。<strong>關鍵字</strong>。</div>
+    </div>
+  </div>
+
+  <!-- ============= METHOD CARDS ============= -->
+  <article class="method-card teal-side">
+    <div class="m-tag">方式 01 · 標籤</div>
+    <h3>方式 A 詳細</h3>
+    <div class="m-en">Detailed English Name</div>
+    <p>詳細描述...</p>
+    <div class="pros-cons">
+      <div class="pc-col pros">
+        <span class="pc-label">優點</span>
+        <ul>
+          <li>優點 1</li>
+          <li>優點 2</li>
+        </ul>
+      </div>
+      <div class="pc-col cons">
+        <span class="pc-label">取捨</span>
+        <ul>
+          <li>取捨 1</li>
+          <li>取捨 2</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============= DATA TABLE ============= -->
+  <div class="recovery-compare">
+    <h4>研究數據對照</h4>
+    <div class="sub">資料來源說明</div>
+
+    <div class="rc-header">
+      <div class="h-metric">指標</div>
+      <div class="h-teal">A 組</div>
+      <div class="h-gold">B 組</div>
+    </div>
+    <div class="rc-row">
+      <div class="metric">指標 1<span class="sub-metric">補充說明</span></div>
+      <div class="left-val">數值 A</div>
+      <div class="right-val">數值 B</div>
+    </div>
+
+    <div class="rc-source"><strong>資料來源</strong>：研究 1、研究 2。</div>
+
+    <div class="interp">
+      <strong>如何解讀：</strong>數據意義說明。
+    </div>
+  </div>
+
+  <!-- ============= FLOATING LABEL (本院實際表現/11萬換到什麼) ============= -->
+  <div class="floating-label" data-label="本院實際表現">
+    <h4>標題說明這個 callout 的核心</h4>
+    <p>說明內容...</p>
+    <ul>
+      <li>★ 重點 1</li>
+      <li>★ 重點 2</li>
+    </ul>
+    <div class="closing-em">
+      收束句，<strong>核心訊息再次強調</strong>。
+    </div>
+  </div>
+
+  <!-- ============= CANDIDACY YES/NO ============= -->
+  <div class="candidacy">
+    <div class="cand-box yes">
+      <h4>適合的人</h4>
+      <ul>
+        <li>條件 1</li>
+        <li>條件 2</li>
+      </ul>
+    </div>
+    <div class="cand-box no">
+      <h4>不適合 / 建議其他</h4>
+      <ul>
+        <li>條件 1</li>
+        <li>條件 2</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============= ERAS BENEFITS CHAIN ============= -->
+  <div class="callout eras-benefits">
+    <h4>如何串連到 ERAS 加速康復</h4>
+    <div class="sub">副標</div>
+    <ul>
+      <li><strong>好處 1</strong> —— 說明 <span class="link-ref">連結 第 XX 篇</span></li>
+      <li><strong>好處 2</strong> —— 說明 <span class="link-ref">連結 第 XX 篇</span></li>
+    </ul>
+  </div>
+
+  <!-- ============= TRADE-OFFS ============= -->
+  <div class="callout tradeoffs">
+    <h4>不是「越多越好」 —— 也有取捨</h4>
+    <ul>
+      <li><strong>取捨 1</strong>：說明</li>
+      <li><strong>取捨 2</strong>：說明</li>
+    </ul>
+  </div>
+
+  <!-- ============= ERAS BANNER (本院的選擇邏輯) ============= -->
+  <div class="callout eras-banner">
+    <h4>本院的選擇邏輯</h4>
+    <p>遵循 <strong>國際 ERAS 指引</strong></p>
+    <p><span class="em-teal">情境 A</span> → 建議做法 A。</p>
+    <p><span class="em-teal">情境 B</span> → 建議做法 B。</p>
+  </div>
+
+  <!-- ============= DISCUSS WITH DOCTOR ============= -->
+  <div class="callout discuss">
+    <h4>術前訪視時你可以問醫師</h4>
+    <ul>
+      <li><strong>問題 1</strong>？</li>
+      <li><strong>問題 2</strong>？</li>
+    </ul>
+  </div>
+
+  <!-- ============= FAMILY DISCUSS ============= -->
+  <div class="callout family-discuss">
+    <h4>如何與家屬一起討論</h4>
+    <ul>
+      <li><strong>建議 1</strong> —— 說明</li>
+      <li><strong>建議 2</strong> —— 說明</li>
+    </ul>
+  </div>
+
+  <!-- ============= WARNINGS ============= -->
+  <div class="callout warnings">
+    <h4>警示徵兆 — 出現請立即告知</h4>
+    <ul>
+      <li><strong>警示 1</strong> —— 說明</li>
+      <li><strong>警示 2</strong> —— 說明</li>
+    </ul>
+  </div>
+
+  <!-- ============= READING MAP ============= -->
+  <div class="reading-map">
+    <h4>相關閱讀路徑</h4>
+    <div class="sub">這份單張在整套系列中的位置</div>
+    <ol>
+      <li>第 01 篇 前序篇章</li>
+      <li>第 02 篇 前序篇章</li>
+      <li class="current"><strong>第 XX 篇 本篇（你正在讀）</strong></li>
+      <li>第 YY 篇 後續篇章</li>
+    </ol>
+  </div>
+
+  <!-- ============= CLOSING ============= -->
+  <div class="closing">
+    <p>結尾段落 —— <span class="em">核心訊息再次強調</span>。</p>
+    <p>對本主題有任何疑問，歡迎在<span class="em">門診</span>或<span class="em">術前訪視</span>時討論。</p>
+    <div class="signature">心臟加速康復團隊 · 與你同莘</div>
+    <div class="signature-note">同莘 — 同心 · 耕莘</div>
+  </div>
+
+  <!-- ============= REFERENCES ============= -->
+  <div class="references">
+    <div class="ref-title">參考資料</div>
+    <ol>
+      <li>Author A, Author B, et al. Title. <em>Journal.</em> Year;Vol(Issue):Pages.</li>
+    </ol>
+  </div>
+
+  <!-- ============= FOOTER ============= -->
+  <footer>
+    <div class="clinic">心臟加速康復團隊衛教資料</div>
+    <div class="disclaimer">本單張為一般性衛教資訊。個別病人的醫療決定以心臟外科醫師依您的臨床狀況評估為準。</div>
+  </footer>
+
+</div>
+</body>
+</html>
