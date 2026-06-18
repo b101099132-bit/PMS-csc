@@ -664,11 +664,20 @@ footer {
       <!-- Recent surgeries quick list -->
       <div class="recent-wrap" id="recentWrap" style="display:none">
         <div class="recent-head">
-          <span class="label">最近 7 天的手術病人</span>
+          <span class="label">14 天內未結案病人</span>
           <button type="button" class="btn-refresh" id="refreshRecentBtn">↻ 重新整理</button>
         </div>
         <div class="recent-list" id="recentList"></div>
-        <div class="divider-or"><span>或者，查詢 7 天前的病人</span></div>
+
+        <!-- 已結案(摺疊) -->
+        <div id="closedSection" style="margin-top:12px;display:none">
+          <button type="button" id="closedToggle" style="background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:13px;padding:6px 0;display:flex;align-items:center;gap:6px">
+            <span id="closedArrow">▸</span> 14 天內已結案病人（<span id="closedCount">0</span>）
+          </button>
+          <div class="recent-list" id="closedList" style="display:none;margin-top:8px"></div>
+        </div>
+
+        <div class="divider-or"><span>或者，手動查詢病人</span></div>
       </div>
 
       <div class="alert alert-error" id="lookupAlert"></div>
@@ -786,31 +795,81 @@ footer {
         </div>
 
         <!-- B.3 Clinical Observations -->
-        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">臨床觀察與 AKI 評估</div>
+        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">腎功能與 AKI 評估</div>
 
-        <div class="field" data-name="wound">
-          <label>傷口狀況</label>
-          <div class="radio-group">
-            <div class="option">
-              <input type="radio" id="w_good" name="wound" value="良好">
-              <label for="w_good">良好</label>
+        <!-- 術前基線(自動帶入,唯讀) -->
+        <div style="background:#FAF7F1;border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:14px">
+          <div style="font-size:12px;color:#8A8580;margin-bottom:6px">術前基線(自動帶入)</div>
+          <div style="display:flex;flex-wrap:wrap;gap:18px;font-size:14px;color:var(--ink)">
+            <span>術前 Crea：<strong id="pc_crea_pre">—</strong> mg/dL</span>
+            <span>術前體重：<strong id="pc_weight_pre">—</strong> kg</span>
+            <span>術前 eGFR：<strong id="pc_egfr_pre">—</strong></span>
+          </div>
+        </div>
+
+        <div class="row row-2">
+          <div class="field">
+            <label for="weight_post">術後體重 (kg)</label>
+            <input type="number" id="weight_post" name="weight_post" step="0.1" min="0" max="300">
+            <div class="hint">用於尿量 mL/kg/hr 換算</div>
+          </div>
+          <div class="field"></div>
+        </div>
+
+        <div class="row row-3">
+          <div class="field">
+            <label for="crea_first">術後第一筆 Crea</label>
+            <input type="number" id="crea_first" name="crea_first" step="0.01" min="0" max="20">
+            <div class="hint">mg/dL</div>
+          </div>
+          <div class="field">
+            <label for="crea_72">術後 72hr Crea</label>
+            <input type="number" id="crea_72" name="crea_72" step="0.01" min="0" max="20">
+            <div class="hint">mg/dL</div>
+          </div>
+          <div class="field">
+            <label for="crea_last">出院前最後一筆 Crea</label>
+            <input type="number" id="crea_last" name="crea_last" step="0.01" min="0" max="20">
+            <div class="hint">mg/dL</div>
+          </div>
+        </div>
+
+        <div class="row row-2">
+          <div class="field">
+            <label for="urine_8h">術後 8 小時尿量 (mL)</label>
+            <input type="number" id="urine_8h" name="urine_8h" step="1" min="0">
+          </div>
+          <div class="field">
+            <label for="urine_816h">術後 8–16 小時尿量 (mL)</label>
+            <input type="number" id="urine_816h" name="urine_816h" step="1" min="0">
+          </div>
+        </div>
+
+        <!-- 系統自動判讀(可覆寫) -->
+        <div style="background:#F0F5F5;border:1px solid #CDE0E0;border-radius:6px;padding:14px;margin-bottom:14px">
+          <div style="font-size:12px;color:#1F5A5A;margin-bottom:10px;font-weight:600">⚙ 系統自動判讀(可手動覆寫)</div>
+          <div class="row row-2">
+            <div class="field">
+              <label for="egfr_post">術後 eGFR <span style="font-weight:400;color:#8A8580">(CKD-EPI 2021)</span></label>
+              <input type="number" id="egfr_post" name="egfr_post" step="0.1" min="0" max="200">
+              <div class="hint">mL/min/1.73m²;取最差 Crea 計算</div>
             </div>
-            <div class="option">
-              <input type="radio" id="w_red" name="wound" value="紅腫">
-              <label for="w_red">紅腫</label>
-            </div>
-            <div class="option">
-              <input type="radio" id="w_ooze" name="wound" value="滲液">
-              <label for="w_ooze">滲液</label>
-            </div>
-            <div class="option">
-              <input type="radio" id="w_crack" name="wound" value="裂開">
-              <label for="w_crack">裂開</label>
+            <div class="field">
+              <label for="aki">AKI 判讀 <span style="font-weight:400;color:#8A8580">(KDIGO)</span></label>
+              <select id="aki" name="aki">
+                <option value="">未判讀</option>
+                <option>無AKI</option>
+                <option>Stage 1</option>
+                <option>Stage 2</option>
+                <option>Stage 3</option>
+              </select>
+              <div class="hint" id="akiReason">輸入 Crea / 尿量後自動判讀</div>
             </div>
           </div>
         </div>
 
-        <div class="row row-3">
+        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">臨床觀察</div>
+        <div class="row row-2">
           <div class="field">
             <label for="max_temp">最高體溫 (°C)</label>
             <input type="number" id="max_temp" name="max_temp" step="0.1" min="34" max="42">
@@ -819,38 +878,49 @@ footer {
             <label for="max_pain">最高疼痛 (0–10)</label>
             <input type="number" id="max_pain" name="max_pain" step="1" min="0" max="10">
           </div>
-          <div class="field">
-            <label for="egfr_post">術後 eGFR</label>
-            <input type="number" id="egfr_post" name="egfr_post" step="0.1" min="0" max="200">
-            <div class="hint">mL/min/1.73m²</div>
-          </div>
         </div>
 
+        <div class="subhead" style="font-size:14px;color:#A04545;margin-top:18px">重大異常事件</div>
+        <div class="field" data-name="major_event">
+          <label>重大異常事件（可複選）</label>
+          <div style="font-size:12px;color:#A04545;margin-bottom:8px;line-height:1.6">
+            勾選任一項，儲存時此病人將<strong>結案</strong>，其里程碑數據不納入成效統計（流程已偏離常規）。
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 16px">
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
+              <input type="checkbox" name="major_event" value="術後急救"> 術後急救</label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
+              <input type="checkbox" name="major_event" value="重新插管"> 重新插管</label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
+              <input type="checkbox" name="major_event" value="再次手術"> 再次手術</label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
+              <input type="checkbox" name="major_event" value="中風"> 中風</label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="major_event_note">重大事件補充說明</label>
+          <textarea id="major_event_note" name="major_event_note" placeholder="例：急救原因、再次手術原因…"></textarea>
+        </div>
+
+        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">一般異常事件</div>
         <div class="row row-2">
           <div class="field">
-            <label for="aki">AKI 判讀</label>
-            <select id="aki" name="aki">
-              <option value="">未判讀</option>
-              <option>無AKI</option>
-              <option>Stage 1</option>
-              <option>Stage 2</option>
-              <option>Stage 3</option>
-              <option>疑似</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="event">異常事件</label>
+            <label for="event">一般異常事件</label>
             <select id="event" name="event">
               <option value="">未填</option>
               <option>無</option>
               <option>發燒</option>
-              <option>出血</option>
+              <option>大出血</option>
               <option>心律不整</option>
               <option>感染</option>
-              <option>AKI</option>
               <option>其他</option>
             </select>
+            <div class="hint" id="bleedNote" style="display:none;color:#A04545;line-height:1.6">
+              大出血定義（UDPB Class 3–4，符合任一）：術後 12hr 胸管引流 ≥1001 mL／輸 RBC 或 FFP ≥5 單位／延遲關胸／需外科再次探查止血。<br>
+              <span style="color:#8A8580">參考：Dyke C, et al. J Thorac Cardiovasc Surg. 2014（UDPB）</span>
+            </div>
           </div>
+          <div class="field"></div>
         </div>
 
         <div class="field">
@@ -861,17 +931,6 @@ footer {
         <div class="field">
           <label for="pn_note">備註</label>
           <textarea id="pn_note" name="pn_note"></textarea>
-        </div>
-
-        <div class="row row-2">
-          <div class="field">
-            <label for="recorder">紀錄者</label>
-            <input type="text" id="recorder" name="recorder" placeholder="例：王護理師">
-          </div>
-          <div class="field">
-            <label for="record_date">紀錄完成日</label>
-            <input type="date" id="record_date" name="record_date">
-          </div>
         </div>
 
         <div class="alert alert-error" id="saveAlert"></div>
@@ -1120,11 +1179,12 @@ async function loadRecent() {
       return;
     }
     if (!res.list || res.list.length === 0) {
-      recentList.innerHTML = '<div class="recent-empty">最近 7 天沒有手術病人</div>';
+      recentList.innerHTML = '<div class="recent-empty">14 天內沒有手術病人</div>';
+      $('closedSection').style.display = 'none';
       return;
     }
 
-    recentList.innerHTML = res.list.map(p => {
+    const renderItem = (p) => {
       const dayLabel = p.daysFromToday === 0 ? '今天' :
                        p.daysFromToday === -1 ? '昨天' :
                        Math.abs(p.daysFromToday) + ' 天前';
@@ -1141,19 +1201,41 @@ async function loadRecent() {
             </div>
           </div>
           <span class="recent-status ${statusClass}">${statusText}</span>
-        </div>
-      `;
-    }).join('');
+        </div>`;
+    };
 
-    recentList.querySelectorAll('.recent-item').forEach(item => {
-      item.addEventListener('click', () => {
-        doLookup(item.dataset.pk);
-      });
+    // 分組:未結案 / 已結案
+    const openList = res.list.filter(p => !p.closed);
+    const closedList = res.list.filter(p => p.closed);
+
+    recentList.innerHTML = openList.length
+      ? openList.map(renderItem).join('')
+      : '<div class="recent-empty">14 天內沒有未結案病人</div>';
+
+    if (closedList.length) {
+      $('closedSection').style.display = 'block';
+      $('closedCount').textContent = closedList.length;
+      $('closedList').innerHTML = closedList.map(renderItem).join('');
+    } else {
+      $('closedSection').style.display = 'none';
+    }
+
+    // 綁定點擊(兩組都要)
+    document.querySelectorAll('#recentList .recent-item, #closedList .recent-item').forEach(item => {
+      item.addEventListener('click', () => { doLookup(item.dataset.pk); });
     });
   } catch (err) {
     recentList.innerHTML = `<div class="recent-empty" style="color:var(--error)">載入失敗：${escapeHtml(err.message)}</div>`;
   }
 }
+
+// 已結案摺疊開關
+$('closedToggle').addEventListener('click', () => {
+  const list = $('closedList');
+  const open = list.style.display !== 'none';
+  list.style.display = open ? 'none' : 'block';
+  $('closedArrow').textContent = open ? '▸' : '▾';
+});
 
 $('refreshRecentBtn').addEventListener('click', loadRecent);
 
@@ -1177,6 +1259,10 @@ function showPatient(p) {
   const eg = (p.preopEgfr != null && p.preopEgfr !== '') ? p.preopEgfr : '—';
   const lv = (p.preopLvef != null && p.preopLvef !== '') ? p.preopLvef + '%' : '—';
   $('pc_egfr_lvef').textContent = `${eg} / ${lv}`;
+  // 腎功能區術前基線
+  if ($('pc_crea_pre')) $('pc_crea_pre').textContent = (p.preopCrea != null && p.preopCrea !== '') ? p.preopCrea : '—';
+  if ($('pc_weight_pre')) $('pc_weight_pre').textContent = (p.preopWeight != null && p.preopWeight !== '') ? p.preopWeight : '—';
+  if ($('pc_egfr_pre')) $('pc_egfr_pre').textContent = eg;
 
   $('patientCard').style.display = 'grid';
   $('formSection').classList.remove('disabled');
@@ -1231,27 +1317,119 @@ function fillExisting(p) {
     $('m_triflow_balls').value = po.m_triflow_balls;
   }
 
+  // 腎功能
+  if (po.weight_post != null && po.weight_post !== '') $('weight_post').value = po.weight_post;
+  if (po.crea_first != null && po.crea_first !== '') $('crea_first').value = po.crea_first;
+  if (po.crea_72 != null && po.crea_72 !== '') $('crea_72').value = po.crea_72;
+  if (po.crea_last != null && po.crea_last !== '') $('crea_last').value = po.crea_last;
+  if (po.urine_8h != null && po.urine_8h !== '') $('urine_8h').value = po.urine_8h;
+  if (po.urine_816h != null && po.urine_816h !== '') $('urine_816h').value = po.urine_816h;
+  if (po.egfr_post != null && po.egfr_post !== '') { $('egfr_post').value = po.egfr_post; $('egfr_post').dataset.userEdited = '1'; }
+  if (po.aki) { $('aki').value = po.aki; $('aki').dataset.userEdited = '1'; }
+
   // Clinical
-  if (po.wound) {
-    const r = document.querySelector(`input[name="wound"][value="${po.wound}"]`);
-    if (r) r.checked = true;
-  }
   if (po.max_temp != null && po.max_temp !== '') $('max_temp').value = po.max_temp;
   if (po.max_pain != null && po.max_pain !== '') $('max_pain').value = po.max_pain;
-  if (po.egfr_post != null && po.egfr_post !== '') $('egfr_post').value = po.egfr_post;
-  if (po.aki) $('aki').value = po.aki;
-  if (po.event) $('event').value = po.event;
+
+  // 重大異常事件(複選,逗號分隔)
+  if (po.major_event) {
+    const events = String(po.major_event).split(/[,，、]/).map(s => s.trim());
+    document.querySelectorAll('input[name="major_event"]').forEach(cb => {
+      if (events.indexOf(cb.value) >= 0) cb.checked = true;
+    });
+  }
+  if (po.major_event_note) $('major_event_note').value = po.major_event_note;
+
+  // 一般異常事件(出血→大出血 相容:舊值「出血」自動對應「大出血」)
+  if (po.event) $('event').value = (po.event === '出血') ? '大出血' : po.event;
+  toggleBleedNote();
   if (po.event_action) $('event_action').value = po.event_action;
   if (po.pn_note) $('pn_note').value = po.pn_note;
-  if (po.recorder) $('recorder').value = po.recorder;
-  if (po.record_date) $('record_date').value = po.record_date;
+
+  // 載入後算一次 AKI(不覆寫已存的 egfr/aki)
+  assessAKI();
 }
+
+// ========== CKD-EPI 2021 + KDIGO AKI 自動判讀 ==========
+function ckdEpi2021(crea, age, gender) {
+  if (!crea || !age || crea <= 0 || age <= 0) return null;
+  const female = (gender === '女' || gender === 'F' || gender === 'female');
+  const k = female ? 0.7 : 0.9;
+  const a = female ? -0.241 : -0.302;
+  const scrK = crea / k;
+  let egfr = 142 * Math.pow(Math.min(scrK, 1), a) * Math.pow(Math.max(scrK, 1), -1.200) * Math.pow(0.9938, age);
+  if (female) egfr *= 1.012;
+  return Math.round(egfr * 10) / 10;
+}
+
+function assessAKI() {
+  const num = (id) => { const v = parseFloat($(id).value); return isNaN(v) ? null : v; };
+  const creaPre = currentPatient ? parseFloat(currentPatient.preopCrea) : NaN;
+  const age = currentPatient ? parseFloat(currentPatient.age) : NaN;
+  const gender = currentPatient ? currentPatient.gender : '';
+  const weight = num('weight_post');
+  const creas = ['crea_first', 'crea_72', 'crea_last'].map(num).filter(v => v !== null);
+
+  // 術後 eGFR(取最差=最高 Crea 算),只在未手動編輯時帶入
+  if (creas.length && !isNaN(age) && gender) {
+    const egfr = ckdEpi2021(Math.max.apply(null, creas), age, gender);
+    if (egfr != null && $('egfr_post').dataset.userEdited !== '1') $('egfr_post').value = egfr;
+  }
+
+  // AKI 雙標準,取較嚴重
+  let stage = 0; const reason = [];
+  if (!isNaN(creaPre) && creaPre > 0 && creas.length) {
+    const peak = Math.max.apply(null, creas);
+    const ratio = peak / creaPre, delta = peak - creaPre;
+    if (ratio >= 3.0 || peak >= 4.0) { stage = Math.max(stage, 3); reason.push('Crea ' + ratio.toFixed(1) + '×基線'); }
+    else if (ratio >= 2.0) { stage = Math.max(stage, 2); reason.push('Crea ' + ratio.toFixed(1) + '×基線'); }
+    else if (ratio >= 1.5 || delta >= 0.3) { stage = Math.max(stage, 1); reason.push(ratio >= 1.5 ? ('Crea ' + ratio.toFixed(1) + '×基線') : ('Crea 升 ' + delta.toFixed(1))); }
+  }
+  if (weight && weight > 0) {
+    const u1 = num('urine_8h'), u2 = num('urine_816h');
+    const r1 = u1 !== null ? u1 / weight / 8 : null;
+    const r2 = u2 !== null ? u2 / weight / 8 : null;
+    if (r1 !== null && r2 !== null && r1 < 0.5 && r2 < 0.5) { stage = Math.max(stage, 2); reason.push('尿量<0.5 mL/kg/hr ≥12hr'); }
+    else if ((r1 !== null && r1 < 0.5) || (r2 !== null && r2 < 0.5)) { stage = Math.max(stage, 1); reason.push('尿量<0.5 mL/kg/hr ≥6hr'); }
+  }
+
+  // 建議值(只在未手動編輯時帶入)
+  const hasInput = creas.length || (weight && (num('urine_8h') !== null || num('urine_816h') !== null));
+  if (hasInput && $('aki').dataset.userEdited !== '1') {
+    $('aki').value = stage === 0 ? '無AKI' : 'Stage ' + stage;
+  }
+  $('akiReason').textContent = reason.length
+    ? '依據：' + reason.join('、') + '（取較嚴重；尿量資料僅 16hr，Stage 3 主要由 Crea 判定）'
+    : '輸入 Crea / 尿量後自動判讀';
+}
+
+function toggleBleedNote() {
+  const n = $('bleedNote');
+  if (n) n.style.display = ($('event').value === '大出血') ? 'block' : 'none';
+}
+
+// 綁定:腎功能欄位變動 → 重算 AKI
+['weight_post', 'crea_first', 'crea_72', 'crea_last', 'urine_8h', 'urine_816h'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', assessAKI);
+});
+// 醫師手動改 eGFR/AKI → 標記，後續不自動覆寫
+['egfr_post', 'aki'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', () => { el.dataset.userEdited = '1'; });
+});
+$('event').addEventListener('change', toggleBleedNote);
 
 // ========== Change patient ==========
 function resetAll() {
   currentPatient = null;
   isUpdate = false;
   $('recordForm').reset();
+  // 清除自動計算的手動覆寫標記(換病人時重置)
+  ['egfr_post', 'aki'].forEach(id => { if ($(id)) delete $(id).dataset.userEdited; });
+  if ($('akiReason')) $('akiReason').textContent = '輸入 Crea / 尿量後自動判讀';
+  if ($('bleedNote')) $('bleedNote').style.display = 'none';
+  ['pc_crea_pre', 'pc_weight_pre', 'pc_egfr_pre'].forEach(id => { if ($(id)) $(id).textContent = '—'; });
   $('patientCard').style.display = 'none';
   $('formSection').classList.add('disabled');
   $('changePatientBtn').style.display = 'none';
@@ -1282,10 +1460,27 @@ $('recordForm').addEventListener('submit', async (e) => {
     return;
   }
 
+  // 重大異常事件:組裝複選值 + 結案確認(版本2)
+  const majorChecked = Array.from(document.querySelectorAll('input[name="major_event"]:checked')).map(c => c.value);
+  if (majorChecked.length) {
+    const ok = confirm(
+      '⚠️ 確認發生重大併發症並結案？\n\n' +
+      '您勾選了：' + majorChecked.join('、') + '\n\n' +
+      '結案後：\n' +
+      '① 此病人移至「已結案」清單\n' +
+      '② 併發症計入統計\n' +
+      '③ 里程碑數據不納入成效分析（因流程已偏離常規）\n\n' +
+      '仍可隨時回到已結案清單編輯。'
+    );
+    if (!ok) return;
+  }
+
   $('saveBtn').disabled = true;
   $('saveBtn').innerHTML = '<span class="loading"></span>儲存中…';
 
   const formData = new FormData($('recordForm'));
+  formData.delete('major_event');                          // 移除多個同名值
+  formData.set('major_event', majorChecked.join(','));     // 改存逗號分隔字串
   formData.append('action', 'savePostop');
   formData.append('pk', currentPatient.pk);
   formData.append('key', $('doctor_key').value.trim());

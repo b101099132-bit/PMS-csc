@@ -1222,6 +1222,25 @@ function render(d) {
     </div>
   `);
 
+  // ===== 06+ 本期重大併發症率（B1，即時從重大異常事件欄）=====
+  const comp = d.metrics.complications;
+  if (comp && comp.total > 0) {
+    const cc = (o) => ({ count: o.count, total: comp.total, pct: o.pct });
+    html.push(`
+      <h2 class="section-title">
+        <span class="num">06+</span>
+        <span>本期重大併發症率</span>
+        <span class="sub">${comp.total} 例術後紀錄</span>
+      </h2>
+      <div class="rate-grid">
+        ${rateCard('術後急救 (CPR)', '重大異常事件記錄', cc(comp.cpr), null)}
+        ${rateCard('重新插管', '重大異常事件記錄', cc(comp.reintubation), null)}
+        ${rateCard('再次手術', '重大異常事件記錄', cc(comp.reoperation), null)}
+        ${rateCard('中風', '重大異常事件記錄', cc(comp.stroke), null)}
+      </div>
+    `);
+  }
+
   // ===== 07 病患滿意度 =====
   const sat = d.satisfaction;
   if (sat && sat.totalResponses > 0) {
