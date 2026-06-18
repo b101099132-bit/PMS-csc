@@ -756,6 +756,19 @@ footer {
           </div>
         </div>
 
+        <div class="row row-2">
+          <div class="field">
+            <label for="crea_pre">術前 Crea</label>
+            <input type="number" id="crea_pre" name="crea_pre" step="0.01" min="0" max="20" placeholder="mg/dL">
+            <div class="hint">mg/dL（術後 AKI 判讀的基線）</div>
+          </div>
+          <div class="field">
+            <label for="weight_pre">術前體重</label>
+            <input type="number" id="weight_pre" name="weight_pre" step="0.1" min="0" max="300" placeholder="kg">
+            <div class="hint">kg（對照術後體重看體液變化）</div>
+          </div>
+        </div>
+
         <div class="submit-area">
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">儲存預約</button>
           <p class="submit-note">送出後將更新病人主檔的手術相關欄位，並設定手術狀態為「排定中」</p>
@@ -1011,6 +1024,21 @@ function showPatient(p) {
     $('pc_existing_box').style.display = 'none';
   }
 
+  // 回填既有手術/術前資訊(已排程過的病人)
+  if (p.diagnosis) $('diagnosis').value = p.diagnosis;
+  if (p.currentScheduledDate) $('scheduled_date').value = p.currentScheduledDate;
+  if (p.surgeryType) {
+    const r = document.querySelector(`input[name="surgery_type"][value="${p.surgeryType}"]`);
+    if (r) { r.checked = true; r.dispatchEvent(new Event('change')); }
+  }
+  if (p.surgeryOther) $('surgery_other').value = p.surgeryOther;
+  const setIf = (id, v) => { if (v != null && v !== '') $(id).value = v; };
+  setIf('egfr', p.preopEgfr);
+  setIf('lvef', p.preopLvef);
+  setIf('crea_pre', p.preopCrea);
+  setIf('weight_pre', p.preopWeight);
+  setIf('surgery_code', p.surgeryCode);
+
   patientCard.style.display = 'grid';
   surgerySection.classList.remove('disabled');
   changePatientBtn.style.display = 'inline-block';
@@ -1115,6 +1143,8 @@ surgeryForm.addEventListener('submit', async (e) => {
       <div class="row-pair"><span>術式</span><span>${surgeryName}</span></div>
       ${$('egfr').value ? `<div class="row-pair"><span>術前 eGFR</span><span>${$('egfr').value}</span></div>` : ''}
       ${$('lvef').value ? `<div class="row-pair"><span>術前 LVEF</span><span>${$('lvef').value}%</span></div>` : ''}
+      ${$('crea_pre').value ? `<div class="row-pair"><span>術前 Crea</span><span>${$('crea_pre').value} mg/dL</span></div>` : ''}
+      ${$('weight_pre').value ? `<div class="row-pair"><span>術前體重</span><span>${$('weight_pre').value} kg</span></div>` : ''}
       ${$('surgery_code').value ? `<div class="row-pair"><span>手術代碼</span><span>${$('surgery_code').value}</span></div>` : ''}
     `;
     $('successSummary').innerHTML = summary;
