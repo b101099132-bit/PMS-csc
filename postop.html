@@ -913,12 +913,13 @@ const MILESTONES = [
   { name: 'm_water', label: '首次 Try Water' },
   { name: 'm_food_order', label: '首次固體食物（醫囑）' },
   { name: 'm_food_eat', label: '首次固體食物進食' },
-  { name: 'm_triflow_start', label: '開始 Triflow', hasBalls: true },
+  { name: 'm_triflow_start', label: '第一次練 Triflow', hasBalls: true },
   { name: 'm_triflow_1', label: 'Triflow 1 顆球' },
   { name: 'm_triflow_2', label: 'Triflow 2 顆球' },
   { name: 'm_triflow_3', label: 'Triflow 3 顆球' },
   { name: 'm_tube_first', label: '拔第一根胸管' },
   { name: 'm_tube_all', label: '移除全部胸管' },
+  { name: 'm_foley_remove', label: '移除尿管' },
   { name: 'm_urine', label: '自解尿' },
   { name: 'm_sit', label: '第一次上坐' },
   { name: 'm_oob_sit', label: '第一次下床坐' },
@@ -943,8 +944,16 @@ function buildMilestones() {
           </div>
           <button type="button" class="btn-now" data-target="${m.name}">現在</button>
           <div class="milestone-label" style="font-size:13px;color:var(--ink-soft)">球顆數</div>
-          <input type="number" name="m_triflow_balls" id="m_triflow_balls" min="0" max="3" step="1" style="max-width:120px">
-          <span></span>
+          <select name="m_triflow_balls" id="m_triflow_balls" style="max-width:120px">
+            <option value="">—</option>
+            <option value="0.5">0.5 顆(半顆)</option>
+            <option value="1">1 顆</option>
+            <option value="2">2 顆</option>
+            <option value="3">3 顆</option>
+          </select>
+          <span style="grid-column:1/-1;font-size:12px;color:var(--ink-soft);margin-top:2px">
+            選擇球顆數後,對應的「Triflow N 顆球」會自動帶入「第一次練 Triflow」的時間(已手動填寫的不覆蓋)。
+          </span>
         </div>`;
     }
     return `
@@ -966,8 +975,34 @@ function buildMilestones() {
         const now = new Date();
         const pad = (n) => String(n).padStart(2, '0');
         target.value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+        if (btn.dataset.target === 'm_triflow_start') syncTriflowBalls();
       }
     });
+  });
+
+  // Triflow 球顆數連動:球顆數=N → Triflow 1..N 顆球帶入「第一次練 Triflow」時間
+  const ballsSel = $('m_triflow_balls');
+  const startInput = $('m_triflow_start');
+  if (ballsSel) ballsSel.addEventListener('change', syncTriflowBalls);
+  if (startInput) startInput.addEventListener('change', syncTriflowBalls);
+}
+
+// 連動函數:依球顆數把「第一次練 Triflow」時間帶入對應的「Triflow N 顆球」
+//  - 達成的顆數(N≧該球):若該欄為空 → 帶入(不覆蓋手動填的值)
+//  - 未達成的顆數:若該欄值剛好等於「第一次練」時間(先前自動帶入的殘留)→ 清空;手動填的不同值則保留
+//  - 0.5 顆(半顆)視為未達成 1 顆,1/2/3 皆不帶入
+function syncTriflowBalls() {
+  const balls = parseFloat(($('m_triflow_balls') || {}).value || '0');
+  const startVal = ($('m_triflow_start') || {}).value || '';
+  [['m_triflow_1', 1], ['m_triflow_2', 2], ['m_triflow_3', 3]].forEach(([id, n]) => {
+    const el = $(id);
+    if (!el) return;
+    const cur = el.value;
+    if (startVal && balls >= n) {
+      if (!cur) el.value = startVal;            // 達成且空白 → 帶入
+    } else if (cur && cur === startVal) {
+      el.value = '';                            // 未達成且為自動帶入殘留 → 清空
+    }
   });
 }
 buildMilestones();
