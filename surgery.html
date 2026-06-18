@@ -704,26 +704,19 @@ footer {
 
         <div class="row row-mix">
           <div class="field" data-name="surgery_type">
-            <label>術式 <span class="req">*</span></label>
-            <div class="radio-group">
-              <div class="option">
-                <input type="radio" id="s1" name="surgery_type" value="CABG" required>
-                <label for="s1">CABG</label>
-              </div>
-              <div class="option">
-                <input type="radio" id="s2" name="surgery_type" value="EVAR">
-                <label for="s2">EVAR</label>
-              </div>
-              <div class="option">
-                <input type="radio" id="s3" name="surgery_type" value="TEVAR">
-                <label for="s3">TEVAR</label>
-              </div>
-              <div class="option">
-                <input type="radio" id="s4" name="surgery_type" value="其他">
-                <label for="s4">其他</label>
-              </div>
+            <label>術式 <span class="req">*</span>（可複選）</label>
+            <div class="radio-group" style="flex-wrap:wrap;gap:8px 12px">
+              <div class="option"><input type="checkbox" id="s_mics" name="surgery_type" value="MICS"><label for="s_mics">MICS（微創）</label></div>
+              <div class="option"><input type="checkbox" id="s_cabg" name="surgery_type" value="CABG"><label for="s_cabg">CABG</label></div>
+              <div class="option"><input type="checkbox" id="s_mvr" name="surgery_type" value="MVR"><label for="s_mvr">MVR</label></div>
+              <div class="option"><input type="checkbox" id="s_avr" name="surgery_type" value="AVR"><label for="s_avr">AVR</label></div>
+              <div class="option"><input type="checkbox" id="s_tvr" name="surgery_type" value="TVr"><label for="s_tvr">TVr</label></div>
+              <div class="option"><input type="checkbox" id="s_bentall" name="surgery_type" value="Bentall"><label for="s_bentall">Bentall</label></div>
+              <div class="option"><input type="checkbox" id="s_tar" name="surgery_type" value="TAR"><label for="s_tar">TAR</label></div>
+              <div class="option"><input type="checkbox" id="s_evar" name="surgery_type" value="EVAR"><label for="s_evar">EVAR</label></div>
+              <div class="option"><input type="checkbox" id="s_tevar" name="surgery_type" value="TEVAR"><label for="s_tevar">TEVAR</label></div>
             </div>
-            <div class="error-msg">請選擇術式</div>
+            <div class="error-msg">請至少選擇一項術式</div>
           </div>
 
           <div class="field">
@@ -733,10 +726,9 @@ footer {
           </div>
         </div>
 
-        <div class="field" id="surgeryOtherField" style="display:none">
-          <label for="surgery_other">術式補述 <span class="req">*</span></label>
-          <input type="text" id="surgery_other" name="surgery_other" placeholder="例：OPCAB、MVR、AVR">
-          <div class="error-msg">術式選「其他」時必填</div>
+        <div class="field" id="surgeryOtherField">
+          <label for="surgery_other">術式補述（選填）</label>
+          <input type="text" id="surgery_other" name="surgery_other" placeholder="清單外術式或補充，例：OPCAB、Redo、David procedure">
         </div>
 
         <div class="row row-3">
@@ -832,12 +824,7 @@ $('doctor_key').addEventListener('change', () => {
   }
 });
 
-// ===== Surgery type 「其他」 toggle =====
-document.querySelectorAll('input[name="surgery_type"]').forEach(r => {
-  r.addEventListener('change', () => {
-    $('surgeryOtherField').style.display = (r.value === '其他' && r.checked) ? 'block' : 'none';
-  });
-});
+// ===== 術式補述欄常駐顯示（複選模式不再需要「其他」toggle）=====
 
 // ===== Clear errors on input =====
 [surgeryForm, $('lookupSection')].forEach(container => {
@@ -1028,8 +1015,10 @@ function showPatient(p) {
   if (p.diagnosis) $('diagnosis').value = p.diagnosis;
   if (p.currentScheduledDate) $('scheduled_date').value = p.currentScheduledDate;
   if (p.surgeryType) {
-    const r = document.querySelector(`input[name="surgery_type"][value="${p.surgeryType}"]`);
-    if (r) { r.checked = true; r.dispatchEvent(new Event('change')); }
+    const types = String(p.surgeryType).split(/[,，、]/).map(s => s.trim());
+    document.querySelectorAll('input[name="surgery_type"]').forEach(cb => {
+      if (types.indexOf(cb.value) >= 0) cb.checked = true;
+    });
   }
   if (p.surgeryOther) $('surgery_other').value = p.surgeryOther;
   const setIf = (id, v) => { if (v != null && v !== '') $(id).value = v; };
@@ -1096,20 +1085,14 @@ surgeryForm.addEventListener('submit', async (e) => {
       if (!firstErr) firstErr = fld;
     }
   });
-  // Surgery type radio
-  const stChecked = surgeryForm.querySelector('input[name="surgery_type"]:checked');
-  if (!stChecked) {
+  // Surgery type（複選）：至少勾一項，或填補述
+  const checkedTypes = Array.from(surgeryForm.querySelectorAll('input[name="surgery_type"]:checked')).map(c => c.value);
+  const otherText = $('surgery_other').value.trim();
+  if (checkedTypes.length === 0 && !otherText) {
     const fld = surgeryForm.querySelector('[data-name="surgery_type"]');
     fld.classList.add('has-error');
     valid = false;
     if (!firstErr) firstErr = fld;
-  } else if (stChecked.value === '其他') {
-    const other = $('surgery_other').value.trim();
-    if (!other) {
-      $('surgery_other').closest('.field').classList.add('has-error');
-      valid = false;
-      if (!firstErr) firstErr = $('surgery_other').closest('.field');
-    }
   }
 
   if (!valid) {
@@ -1122,6 +1105,8 @@ surgeryForm.addEventListener('submit', async (e) => {
   submitBtn.innerHTML = '<span class="loading"></span>儲存中…';
 
   const formData = new FormData(surgeryForm);
+  formData.delete('surgery_type');                          // 移除多個同名值
+  formData.set('surgery_type', checkedTypes.join(','));     // 改存逗號分隔
   formData.append('action', 'updateSurgery');
   formData.append('pk', currentPatient.pk);
   formData.append('key', $('doctor_key').value.trim());
@@ -1135,7 +1120,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     });
 
     // Build summary
-    const surgeryName = stChecked.value === '其他' ? $('surgery_other').value.trim() : stChecked.value;
+    const surgeryName = checkedTypes.join('、') + (otherText ? '（' + otherText + '）' : '');
     const summary = `
       <div class="row-pair"><span>病人</span><span>${currentPatient.name} (${currentPatient.pk})</span></div>
       <div class="row-pair"><span>術前診斷</span><span>${$('diagnosis').value.trim()}</span></div>
