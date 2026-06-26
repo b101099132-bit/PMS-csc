@@ -284,8 +284,9 @@ select {
 .row { display: grid; gap: 12px; }
 .row.row-2 { grid-template-columns: 1fr 1fr; }
 .row.row-3 { grid-template-columns: 1fr 1fr 1fr; }
+.row.row-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 @media (max-width: 640px) {
-  .row.row-2, .row.row-3 { grid-template-columns: 1fr; }
+  .row.row-2, .row.row-3, .row.row-4 { grid-template-columns: 1fr; }
 }
 
 /* ========== Milestone rows ========== */
@@ -794,7 +795,68 @@ footer {
           <!-- Filled by JS -->
         </div>
 
-        <!-- B.3 Clinical Observations -->
+        <!-- B.3 ROX 指數評估 -->
+        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">ROX 指數評估（拔管後 HFNC 監測）</div>
+        <div style="font-size:12px;color:#8A8580;margin-bottom:10px;line-height:1.7">
+          各時間點輸入 SpO₂、FiO₂、呼吸次數（RR）、心跳（HR），系統自動計算 ROX 與 ROX-HR。<br>
+          ROX = SpO₂ ÷ FiO₂ ÷ RR；ROX-HR = 100 × SpO₂ ÷ FiO₂ ÷ RR ÷ HR。<strong>FiO₂ 以 % 輸入</strong>（例：50 代表 50%）。
+        </div>
+
+        <div id="roxAlert" style="display:none;border-radius:6px;padding:12px 14px;margin-bottom:14px;font-size:14px;font-weight:600"></div>
+
+        <div style="border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:600;color:#1F5A5A;margin-bottom:8px">拔管後 4 小時</div>
+          <div class="row row-4">
+            <div class="field"><label for="rox_spo2_4h">SpO₂ (%)</label><input type="number" id="rox_spo2_4h" name="rox_spo2_4h" step="1" min="0" max="100"></div>
+            <div class="field"><label for="rox_fio2_4h">FiO₂ (%)</label><input type="number" id="rox_fio2_4h" name="rox_fio2_4h" step="1" min="21" max="100"></div>
+            <div class="field"><label for="rox_rr_4h">呼吸次數 RR</label><input type="number" id="rox_rr_4h" name="rox_rr_4h" step="1" min="1" max="80"></div>
+            <div class="field"><label for="rox_hr_4h">心跳 HR</label><input type="number" id="rox_hr_4h" name="rox_hr_4h" step="1" min="1" max="250"></div>
+          </div>
+          <div style="font-size:13px;margin-top:8px;color:var(--ink)">ROX：<strong id="rox_idx_4h_disp">—</strong>　ROX-HR：<strong id="rox_hridx_4h_disp">—</strong></div>
+          <input type="hidden" name="rox_idx_4h" id="rox_idx_4h">
+          <input type="hidden" name="rox_hridx_4h" id="rox_hridx_4h">
+        </div>
+
+        <div style="border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:600;color:#1F5A5A;margin-bottom:8px">拔管後 6 小時</div>
+          <div class="row row-4">
+            <div class="field"><label for="rox_spo2_6h">SpO₂ (%)</label><input type="number" id="rox_spo2_6h" name="rox_spo2_6h" step="1" min="0" max="100"></div>
+            <div class="field"><label for="rox_fio2_6h">FiO₂ (%)</label><input type="number" id="rox_fio2_6h" name="rox_fio2_6h" step="1" min="21" max="100"></div>
+            <div class="field"><label for="rox_rr_6h">呼吸次數 RR</label><input type="number" id="rox_rr_6h" name="rox_rr_6h" step="1" min="1" max="80"></div>
+            <div class="field"><label for="rox_hr_6h">心跳 HR</label><input type="number" id="rox_hr_6h" name="rox_hr_6h" step="1" min="1" max="250"></div>
+          </div>
+          <div style="font-size:13px;margin-top:8px;color:var(--ink)">ROX：<strong id="rox_idx_6h_disp">—</strong>　ROX-HR：<strong id="rox_hridx_6h_disp">—</strong></div>
+          <input type="hidden" name="rox_idx_6h" id="rox_idx_6h">
+          <input type="hidden" name="rox_hridx_6h" id="rox_hridx_6h">
+        </div>
+
+        <div style="border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:600;color:#1F5A5A;margin-bottom:8px">拔管後 10 小時</div>
+          <div class="row row-4">
+            <div class="field"><label for="rox_spo2_10h">SpO₂ (%)</label><input type="number" id="rox_spo2_10h" name="rox_spo2_10h" step="1" min="0" max="100"></div>
+            <div class="field"><label for="rox_fio2_10h">FiO₂ (%)</label><input type="number" id="rox_fio2_10h" name="rox_fio2_10h" step="1" min="21" max="100"></div>
+            <div class="field"><label for="rox_rr_10h">呼吸次數 RR</label><input type="number" id="rox_rr_10h" name="rox_rr_10h" step="1" min="1" max="80"></div>
+            <div class="field"><label for="rox_hr_10h">心跳 HR</label><input type="number" id="rox_hr_10h" name="rox_hr_10h" step="1" min="1" max="250"></div>
+          </div>
+          <div style="font-size:13px;margin-top:8px;color:var(--ink)">ROX：<strong id="rox_idx_10h_disp">—</strong>　ROX-HR：<strong id="rox_hridx_10h_disp">—</strong></div>
+          <input type="hidden" name="rox_idx_10h" id="rox_idx_10h">
+          <input type="hidden" name="rox_hridx_10h" id="rox_hridx_10h">
+        </div>
+
+        <div style="border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:600;color:#1F5A5A;margin-bottom:8px">拔管後 12 小時</div>
+          <div class="row row-4">
+            <div class="field"><label for="rox_spo2_12h">SpO₂ (%)</label><input type="number" id="rox_spo2_12h" name="rox_spo2_12h" step="1" min="0" max="100"></div>
+            <div class="field"><label for="rox_fio2_12h">FiO₂ (%)</label><input type="number" id="rox_fio2_12h" name="rox_fio2_12h" step="1" min="21" max="100"></div>
+            <div class="field"><label for="rox_rr_12h">呼吸次數 RR</label><input type="number" id="rox_rr_12h" name="rox_rr_12h" step="1" min="1" max="80"></div>
+            <div class="field"><label for="rox_hr_12h">心跳 HR</label><input type="number" id="rox_hr_12h" name="rox_hr_12h" step="1" min="1" max="250"></div>
+          </div>
+          <div style="font-size:13px;margin-top:8px;color:var(--ink)">ROX：<strong id="rox_idx_12h_disp">—</strong>　ROX-HR：<strong id="rox_hridx_12h_disp">—</strong></div>
+          <input type="hidden" name="rox_idx_12h" id="rox_idx_12h">
+          <input type="hidden" name="rox_hridx_12h" id="rox_hridx_12h">
+        </div>
+
+        <!-- B.4 Clinical Observations -->
         <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">腎功能與 AKI 評估</div>
 
         <!-- 術前基線(自動帶入,唯讀) -->
@@ -1331,6 +1393,15 @@ function fillExisting(p) {
   if (po.max_temp != null && po.max_temp !== '') $('max_temp').value = po.max_temp;
   if (po.max_pain != null && po.max_pain !== '') $('max_pain').value = po.max_pain;
 
+  // ROX 指數評估（回填 16 原始輸入，計算值由 computeRox 重算）
+  ['4h', '6h', '10h', '12h'].forEach(tp => {
+    ['spo2', 'fio2', 'rr', 'hr'].forEach(pp => {
+      const k = 'rox_' + pp + '_' + tp;
+      if (po[k] != null && po[k] !== '' && $(k)) $(k).value = po[k];
+    });
+  });
+  computeRox();
+
   // 重大異常事件(複選,逗號分隔)
   if (po.major_event) {
     const events = String(po.major_event).split(/[,，、]/).map(s => s.trim());
@@ -1420,11 +1491,65 @@ function toggleBleedNote() {
 });
 $('event').addEventListener('change', toggleBleedNote);
 
+// ========== ROX index / ROX-HR index 自動計算與警示 ==========
+function computeRox() {
+  const TPS = ['4h', '6h', '10h', '12h'];
+  const num = (id) => { const el = $(id); if (!el) return null; const v = parseFloat(el.value); return isNaN(v) ? null : v; };
+  const rox = {}, roxhr = {};
+  TPS.forEach(tp => {
+    const spo2 = num('rox_spo2_' + tp);
+    const fio2pct = num('rox_fio2_' + tp);
+    const rr = num('rox_rr_' + tp);
+    const hr = num('rox_hr_' + tp);
+    const fio2 = (fio2pct && fio2pct > 0) ? fio2pct / 100 : null;   // FiO2 % → 小數
+    let r = null, rh = null;
+    if (spo2 != null && fio2 && rr) r = Math.round(spo2 / fio2 / rr * 100) / 100;
+    if (spo2 != null && fio2 && rr && hr) rh = Math.round(100 * spo2 / fio2 / rr / hr * 100) / 100;
+    rox[tp] = r; roxhr[tp] = rh;
+    if ($('rox_idx_' + tp + '_disp')) $('rox_idx_' + tp + '_disp').textContent = (r != null) ? r.toFixed(2) : '—';
+    if ($('rox_hridx_' + tp + '_disp')) $('rox_hridx_' + tp + '_disp').textContent = (rh != null) ? rh.toFixed(2) : '—';
+    if ($('rox_idx_' + tp)) $('rox_idx_' + tp).value = (r != null) ? r : '';
+    if ($('rox_hridx_' + tp)) $('rox_hridx_' + tp).value = (rh != null) ? rh : '';
+  });
+  evaluateRox(rox, roxhr);
+}
+
+function evaluateRox(rox, roxhr) {
+  const el = $('roxAlert');
+  if (!el) return;
+  const anyVal = ['4h', '6h', '10h', '12h'].some(tp => rox[tp] != null || roxhr[tp] != null);
+  if (!anyVal) { el.style.display = 'none'; return; }
+  const lt = (v, t) => (v != null && v < t);
+  const gt = (v, t) => (v != null && v > t);
+  // 危險：4hr ROX<2.85 或 6hr ROX<3.47 或 12hr ROX<3.85 或 10hr ROX-HR<6.8
+  const danger = lt(rox['4h'], 2.85) || lt(rox['6h'], 3.47) || lt(rox['12h'], 3.85) || lt(roxhr['10h'], 6.8);
+  // 安全：任一時間點 ROX>4.88 或 10hr ROX-HR>8.00
+  const safe = gt(rox['4h'], 4.88) || gt(rox['6h'], 4.88) || gt(rox['10h'], 4.88) || gt(rox['12h'], 4.88) || gt(roxhr['10h'], 8.00);
+  let msg, bg, bd, fg;
+  if (danger) { msg = '⚠ 需要考慮及早介入，甚至準備插管'; bg = '#F7ECEC'; bd = '#E0B4B4'; fg = '#B85450'; }
+  else if (safe) { msg = '✓ 維持 HFNC 治療即可，避免插管'; bg = '#EDF4ED'; bd = '#C2D8C2'; fg = '#4A7A5A'; }
+  else { msg = '維持 HFNC 治療並觀察'; bg = '#FAF7F1'; bd = '#E8E2D5'; fg = '#1F5A5A'; }
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.background = bg;
+  el.style.border = '1px solid ' + bd;
+  el.style.color = fg;
+}
+
+// 綁定：ROX 任一輸入變動 → 重算
+['4h', '6h', '10h', '12h'].forEach(tp => {
+  ['spo2', 'fio2', 'rr', 'hr'].forEach(pp => {
+    const el = $('rox_' + pp + '_' + tp);
+    if (el) el.addEventListener('input', computeRox);
+  });
+});
+
 // ========== Change patient ==========
 function resetAll() {
   currentPatient = null;
   isUpdate = false;
   $('recordForm').reset();
+  if (typeof computeRox === 'function') computeRox();   // 清空 ROX 顯示與警示
   // 清除自動計算的手動覆寫標記(換病人時重置)
   ['egfr_post', 'aki'].forEach(id => { if ($(id)) delete $(id).dataset.userEdited; });
   if ($('akiReason')) $('akiReason').textContent = '輸入 Crea / 尿量後自動判讀';
