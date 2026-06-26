@@ -631,6 +631,39 @@ footer {
         <span class="section-title">查詢病人</span>
       </div>
 
+      <!-- 急診一鍵收案 -->
+      <div style="border:1px solid #E0C9A0;background:#FBF6EC;border-radius:8px;padding:14px 16px;margin-bottom:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div>
+            <div style="font-weight:600;color:#A87B4D">🚑 急診收案（無術前資料）</div>
+            <div style="font-size:12px;color:#8A8580;margin-top:3px;line-height:1.6">急診手術來不及填術前資料時，一鍵建立可做術後追蹤的病人（系統自動產生收案編號、不推播衛教）。</div>
+          </div>
+          <button type="button" class="btn btn-primary" id="emergToggleBtn">急診收案</button>
+        </div>
+
+        <div id="emergForm" style="display:none;margin-top:14px">
+          <div class="alert alert-error" id="emergAlert"></div>
+          <div class="field">
+            <label for="emerg_name">病患姓名 <span class="req">*</span></label>
+            <input type="text" id="emerg_name" autocomplete="off" placeholder="例：王大明">
+          </div>
+          <div class="field">
+            <label for="emerg_diagnosis">診斷 <span class="req">*</span></label>
+            <textarea id="emerg_diagnosis" rows="2" placeholder="例：急性主動脈剝離 Stanford A"></textarea>
+          </div>
+          <div class="field">
+            <label for="emerg_surgery">手術內容 <span class="req">*</span></label>
+            <input type="text" id="emerg_surgery" autocomplete="off" placeholder="例：緊急升主動脈置換 + 半弓重建">
+          </div>
+          <div style="margin-top:10px">
+            <button type="button" class="btn btn-primary" id="emergSubmitBtn">建立收案</button>
+            <button type="button" id="emergCancelBtn" style="margin-left:8px;padding:10px 18px;border:1px solid #CFC7B6;background:#fff;border-radius:6px;cursor:pointer;color:#6B6457">取消</button>
+          </div>
+        </div>
+
+        <div id="emergSuccess" style="display:none;margin-top:14px;background:#EDF4ED;border:1px solid #C2D8C2;border-radius:6px;padding:12px 14px;color:#3A6A4A;font-size:14px;line-height:1.7"></div>
+      </div>
+
       <!-- Recent registrations quick list -->
       <div class="recent-wrap" id="recentWrap" style="display:none">
         <div class="recent-head">
@@ -1148,6 +1181,61 @@ surgeryForm.addEventListener('submit', async (e) => {
     submitBtn.textContent = '儲存預約';
   }
 });
+
+// ===== 急診一鍵收案 =====
+(function () {
+  const tog = $('emergToggleBtn');
+  if (!tog) return;
+  const form = $('emergForm'), succ = $('emergSuccess'), alertEl = $('emergAlert');
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  const clearFields = () => { $('emerg_name').value = ''; $('emerg_diagnosis').value = ''; $('emerg_surgery').value = ''; };
+
+  tog.addEventListener('click', () => {
+    form.style.display = 'block';
+    tog.style.display = 'none';
+    succ.style.display = 'none';
+    alertEl.classList.remove('show');
+  });
+  $('emergCancelBtn').addEventListener('click', () => {
+    form.style.display = 'none';
+    tog.style.display = '';
+    clearFields();
+    alertEl.classList.remove('show');
+  });
+  $('emergSubmitBtn').addEventListener('click', async () => {
+    const name = $('emerg_name').value.trim();
+    const diagnosis = $('emerg_diagnosis').value.trim();
+    const surgery = $('emerg_surgery').value.trim();
+    const key = $('doctor_key') ? $('doctor_key').value.trim() : '';
+    alertEl.classList.remove('show');
+    if (!key) { alertEl.textContent = '請先輸入醫師通行碼'; alertEl.classList.add('show'); return; }
+    if (!name || !diagnosis || !surgery) { alertEl.textContent = '姓名、診斷、手術內容皆為必填'; alertEl.classList.add('show'); return; }
+
+    const btn = $('emergSubmitBtn');
+    btn.disabled = true; btn.innerHTML = '<span class="loading"></span>建立中…';
+    const fd = new FormData();
+    fd.append('action', 'addEmergencyCase');
+    fd.append('key', key);
+    fd.append('name', name);
+    fd.append('diagnosis', diagnosis);
+    fd.append('surgery', surgery);
+    try {
+      await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd });
+      form.style.display = 'none';
+      tog.style.display = '';
+      succ.innerHTML = '✓ 已收案：<strong>' + esc(name) + '</strong>（' + esc(surgery) + '）<br>'
+        + '已建立病人、實際手術日記為今日、不推播衛教。<br>'
+        + '請至「術後追蹤（postop）」用<strong>「近期手術」清單</strong>看姓名挑選此病人記錄術後資料。';
+      succ.style.display = 'block';
+      clearFields();
+      succ.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      alertEl.textContent = '建立失敗：' + err.message; alertEl.classList.add('show');
+    } finally {
+      btn.disabled = false; btn.textContent = '建立收案';
+    }
+  });
+})();
 
 // ===== Success actions =====
 $('addAnotherBtn').addEventListener('click', () => {
