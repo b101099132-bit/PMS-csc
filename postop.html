@@ -859,13 +859,25 @@ footer {
         <!-- B.4 Clinical Observations -->
         <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">腎功能與 AKI 評估</div>
 
-        <!-- 術前基線(自動帶入,唯讀) -->
+        <!-- 術前基線(可補填;急診或較晚取得者) -->
         <div style="background:#FAF7F1;border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:14px">
-          <div style="font-size:12px;color:#8A8580;margin-bottom:6px">術前基線(自動帶入)</div>
-          <div style="display:flex;flex-wrap:wrap;gap:18px;font-size:14px;color:var(--ink)">
-            <span>術前 Crea：<strong id="pc_crea_pre">—</strong> mg/dL</span>
-            <span>術前體重：<strong id="pc_weight_pre">—</strong> kg</span>
-            <span>術前 eGFR：<strong id="pc_egfr_pre">—</strong></span>
+          <div style="font-size:12px;color:#8A8580;margin-bottom:10px">術前基線（自動帶入，可補填；儲存時寫回病人主檔。<strong>術前 Crea</strong> 為 AKI 判讀基線）</div>
+          <div class="row row-3">
+            <div class="field">
+              <label for="preop_crea">術前 Crea</label>
+              <input type="number" id="preop_crea" name="preop_crea" step="0.01" min="0" max="20">
+              <div class="hint">mg/dL</div>
+            </div>
+            <div class="field">
+              <label for="preop_weight">術前體重</label>
+              <input type="number" id="preop_weight" name="preop_weight" step="0.1" min="0" max="300">
+              <div class="hint">kg</div>
+            </div>
+            <div class="field">
+              <label for="preop_egfr">術前 eGFR</label>
+              <input type="number" id="preop_egfr" name="preop_egfr" step="0.1" min="0" max="200">
+              <div class="hint">mL/min/1.73m²</div>
+            </div>
           </div>
         </div>
 
@@ -1322,9 +1334,9 @@ function showPatient(p) {
   const lv = (p.preopLvef != null && p.preopLvef !== '') ? p.preopLvef + '%' : '—';
   $('pc_egfr_lvef').textContent = `${eg} / ${lv}`;
   // 腎功能區術前基線
-  if ($('pc_crea_pre')) $('pc_crea_pre').textContent = (p.preopCrea != null && p.preopCrea !== '') ? p.preopCrea : '—';
-  if ($('pc_weight_pre')) $('pc_weight_pre').textContent = (p.preopWeight != null && p.preopWeight !== '') ? p.preopWeight : '—';
-  if ($('pc_egfr_pre')) $('pc_egfr_pre').textContent = eg;
+  if ($('preop_crea')) $('preop_crea').value = (p.preopCrea != null && p.preopCrea !== '') ? p.preopCrea : '';
+  if ($('preop_weight')) $('preop_weight').value = (p.preopWeight != null && p.preopWeight !== '') ? p.preopWeight : '';
+  if ($('preop_egfr')) $('preop_egfr').value = (p.preopEgfr != null && p.preopEgfr !== '') ? p.preopEgfr : '';
 
   $('patientCard').style.display = 'grid';
   $('formSection').classList.remove('disabled');
@@ -1435,7 +1447,8 @@ function ckdEpi2021(crea, age, gender) {
 
 function assessAKI() {
   const num = (id) => { const v = parseFloat($(id).value); return isNaN(v) ? null : v; };
-  const creaPre = currentPatient ? parseFloat(currentPatient.preopCrea) : NaN;
+  const preopCreaInput = num('preop_crea');
+  const creaPre = (preopCreaInput != null) ? preopCreaInput : (currentPatient ? parseFloat(currentPatient.preopCrea) : NaN);
   const age = currentPatient ? parseFloat(currentPatient.age) : NaN;
   const gender = currentPatient ? currentPatient.gender : '';
   const weight = num('weight_post');
@@ -1480,7 +1493,7 @@ function toggleBleedNote() {
 }
 
 // 綁定:腎功能欄位變動 → 重算 AKI
-['weight_post', 'crea_first', 'crea_72', 'crea_last', 'urine_8h', 'urine_816h'].forEach(id => {
+['weight_post', 'crea_first', 'crea_72', 'crea_last', 'urine_8h', 'urine_816h', 'preop_crea', 'preop_weight'].forEach(id => {
   const el = $(id);
   if (el) el.addEventListener('input', assessAKI);
 });
