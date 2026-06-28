@@ -84,7 +84,10 @@
         <span class="section-title">查詢病人</span>
       </div>
       <div id="recentWrap" style="display:none">
-        <div class="subhead" style="margin-top:0">最近 14 天有手術／排程的病人（點選即帶入）</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+          <span class="subhead" style="margin:0">14 天內開刀病人（含已結案，點選即帶入）</span>
+          <button type="button" id="refreshRecentBtn" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer">↻ 重新整理</button>
+        </div>
         <div class="recent-list" id="recentList"></div>
         <div class="divider-or"><span>或，用出生年月日 + 身分證末 4 碼查詢</span></div>
       </div>
@@ -365,20 +368,26 @@ function jsonp(url, params){
 // ===== 載入近期病人清單 =====
 async function loadRecent(){
   const key=$('doctor_key').value.trim();
-  if(!key) return;
+  if(!key){ $('recentWrap').style.display='none'; return; }
+  $('recentWrap').style.display='block';
+  $('recentList').innerHTML='<div class="meta" style="padding:8px 0"><span class="loading" style="border-color:rgba(31,90,90,.3);border-top-color:var(--teal)"></span> 載入中…</div>';
   try{
     const res=await jsonp(APPS_SCRIPT_URL,{action:'recentSurgeries',key});
-    if(res.error||!res.list||!res.list.length){ $('recentWrap').style.display='none'; return; }
+    if(res.error||!res.list||!res.list.length){
+      $('recentList').innerHTML='<div class="meta" style="padding:8px 0">14 天內沒有手術病人</div>';
+      return;
+    }
+    // 14 天內開刀病人全部攤平顯示（不論是否結案）
     $('recentList').innerHTML = res.list.map(p=>
       '<div class="recent-item" data-pk="'+esc(p.pk)+'"><div><div class="nm">'+esc(p.name||'—')+
+      (p.closed?' <span class="meta" style="color:var(--gold)">· 已結案</span>':'')+
       '</div><div class="meta">'+esc(p.surgery||'—')+' · '+esc(p.surgeryDate||'')+'</div></div>'+
       '<span class="meta">'+(p.gender||'')+' '+(p.age!=null?p.age+'歲':'')+'</span></div>'
     ).join('');
-    $('recentWrap').style.display='block';
     document.querySelectorAll('#recentList .recent-item').forEach(it=>{
       it.addEventListener('click',()=>lookupByPk(it.dataset.pk));
     });
-  }catch(e){ $('recentWrap').style.display='none'; }
+  }catch(e){ $('recentList').innerHTML='<div class="meta" style="padding:8px 0;color:var(--danger)">載入失敗：'+esc(e.message)+'</div>'; }
 }
 
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -444,6 +453,8 @@ function fillPatient(res){
 
 // 依基礎資料自動帶入可推導的風險因子（僅新建時）
 function autoDerive(res){
+  // STS 術式：從病人主檔帶入（可再依 STS 類別調整）
+  if(res.currentSurgery) setVal('sts_proc', res.currentSurgery);
   // PONV 女性
   if(res.gender) setVal('ponv_female', res.gender==='女'?'是':'否');
   // LV 功能分層（EuroSCORE）+ POAF LVEF<30
@@ -510,6 +521,7 @@ $('anotherBtn').addEventListener('click', ()=>{
 // 輸入通行碼 → 載入近期清單
 $('doctor_key').addEventListener('change', loadRecent);
 $('doctor_key').addEventListener('blur', loadRecent);
+$('refreshRecentBtn').addEventListener('click', loadRecent);
 </script>
 </body>
 </html>
