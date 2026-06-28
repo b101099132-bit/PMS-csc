@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>危險因子預測 — 醫師專用</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#1F5A5A; --teal-hover:#174646; --gold:#A87B4D;
+    --ink:#1A1A1A; --ink-soft:#5C5C5C; --line:#E8E2D5; --cream:#FAF7F1; --danger:#B85450; --safe:#4A7A5A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans TC',sans-serif;color:var(--ink);background:#F4EFE7;line-height:1.6;padding:20px 12px}
+  .wrap{max-width:680px;margin:0 auto}
+  h1{font-size:22px;color:var(--teal);font-weight:700}
+  .sub{font-size:13px;color:var(--ink-soft);margin-top:4px}
+  .section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin-top:16px}
+  .section.disabled{opacity:.5;pointer-events:none}
+  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .section-num{background:var(--teal);color:#fff;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .section-title{font-size:16px;font-weight:700;color:var(--teal)}
+  .section-action{margin-left:auto;background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;text-decoration:underline}
+  .subhead{font-size:14px;color:var(--ink-soft);font-weight:500;margin:18px 0 8px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:4px}
+  .field input,.field select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;font-size:15px;font-family:inherit;background:#fff}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--teal)}
+  .hint{font-size:12px;color:#8A8580;margin-top:3px}
+  .req{color:var(--danger)}
+  .row{display:grid;gap:12px}
+  .row-2{grid-template-columns:1fr 1fr}
+  .row-3{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:640px){.row-2,.row-3{grid-template-columns:1fr}}
+  .btn{padding:11px 22px;border:none;border-radius:6px;font-size:15px;font-family:inherit;cursor:pointer;font-weight:500}
+  .btn-primary{background:var(--teal);color:#fff}
+  .btn-primary:hover{background:var(--teal-hover)}
+  .btn-primary:disabled{opacity:.6;cursor:not-allowed}
+  .alert{display:none;padding:10px 12px;border-radius:6px;font-size:14px;margin-bottom:12px}
+  .alert.show{display:block}
+  .alert-error{background:#F7ECEC;border:1px solid #E0B4B4;color:var(--danger)}
+  .alert-info{background:#EDF2F2;border:1px solid #C5DADA;color:var(--teal)}
+  .result-box{background:#F0F5F5;border:1px solid #CDE0E0;border-radius:6px;padding:12px 14px;margin-top:10px;font-size:15px}
+  .result-box strong{font-size:18px;color:var(--teal)}
+  .pcard{background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:16px;font-size:14px;margin-bottom:16px}
+  .pcard b{color:var(--teal)}
+  .recent-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+  .recent-item{border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .recent-item:hover{border-color:var(--teal);background:var(--cream)}
+  .recent-item .nm{font-weight:500}
+  .recent-item .meta{font-size:12px;color:var(--ink-soft)}
+  .divider-or{text-align:center;font-size:12px;color:#8A8580;margin:10px 0}
+  .loading{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .zone{border:1px solid var(--line);border-radius:8px;padding:14px;margin-top:14px}
+  .zone-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:10px}
+  footer{text-align:center;color:#8A8580;font-size:12px;margin-top:24px}
+  .success{display:none;text-align:center;padding:30px 20px}
+  .success.show{display:block}
+  .success .big{font-size:42px}
+  .success h2{color:var(--teal);margin:10px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>危險因子預測</h1>
+  <div class="sub">心臟外科手術病人管理系統 · 醫師端　|　EuroSCORE II · POAF · PONV · STS</div>
+
+  <div id="mainForm">
+    <!-- 通行碼 -->
+    <div class="section">
+      <div class="field" style="margin-bottom:0">
+        <label for="doctor_key">醫師通行碼 <span class="req">*</span></label>
+        <input type="password" id="doctor_key" autocomplete="off" placeholder="輸入後查詢病人">
+      </div>
+    </div>
+
+    <!-- 01 查詢病人 -->
+    <section class="section" id="lookupSection">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <span class="section-title">查詢病人</span>
+      </div>
+      <div id="recentWrap" style="display:none">
+        <div class="subhead" style="margin-top:0">最近 14 天有手術／排程的病人（點選即帶入）</div>
+        <div class="recent-list" id="recentList"></div>
+        <div class="divider-or"><span>或，用出生年月日 + 身分證末 4 碼查詢</span></div>
+      </div>
+      <div class="alert alert-error" id="lookupAlert"></div>
+      <div class="row row-2">
+        <div class="field">
+          <label for="lookup_birthdate">出生年月日</label>
+          <input type="date" id="lookup_birthdate">
+        </div>
+        <div class="field">
+          <label for="lookup_id4">身分證末 4 碼</label>
+          <input type="text" inputmode="numeric" maxlength="4" id="lookup_id4" autocomplete="off">
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" id="lookupBtn">查詢病人</button>
+    </section>
+
+    <!-- 02 評分 -->
+    <section class="section disabled" id="formSection">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">危險因子評分</span>
+        <button type="button" class="section-action" id="changePatientBtn" style="display:none">換一位病人</button>
+      </div>
+
+      <div class="pcard" id="patientCard" style="display:none">
+        <span>姓名：<b id="pc_name">—</b></span>
+        <span>性別／年齡：<b id="pc_gender_age">—</b></span>
+        <span>主鍵：<b id="pc_pk" style="font-size:12px">—</b></span>
+      </div>
+
+      <form id="riskForm">
+        <div class="alert alert-info" id="modeAlert"></div>
+
+        <!-- 共用基礎資料 -->
+        <div class="zone">
+          <div class="zone-title">共用基礎資料（自動帶入，可修改；下列各分數共用）</div>
+          <div class="row row-3">
+            <div class="field"><label>年齡</label><input type="number" name="age" id="f_age" step="1" min="0" max="120"></div>
+            <div class="field"><label>性別</label>
+              <select name="sex" id="f_sex"><option value="">—</option><option>男</option><option>女</option></select>
+            </div>
+            <div class="field"><label>體重 (kg)</label><input type="number" name="weight" id="f_weight" step="0.1" min="0" max="300"></div>
+          </div>
+          <div class="row row-3">
+            <div class="field"><label>血清 Crea (mg/dL)</label><input type="number" name="crea" id="f_crea" step="0.01" min="0" max="20"></div>
+            <div class="field"><label>LVEF (%)</label><input type="number" name="lvef" id="f_lvef" step="1" min="0" max="90"></div>
+            <div class="field"><label>eGFR</label><input type="number" name="egfr" id="f_egfr" step="0.1" min="0" max="200"></div>
+          </div>
+          <div class="hint" id="crcl_hint"></div>
+        </div>
+
+        <!-- EuroSCORE II -->
+        <div class="zone">
+          <div class="zone-title">EuroSCORE II（院內死亡率，依 Nashef 2012 官方係數即時計算）</div>
+          <div id="esFields"></div>
+          <div class="result-box">預測院內死亡率：<strong id="es_mortality_disp">—</strong></div>
+          <input type="hidden" name="es_mortality" id="h_es_mortality">
+        </div>
+
+        <!-- POAF-Score -->
+        <div class="zone">
+          <div class="zone-title">POAF-Score（術後心房顫動，Mariscalco 2014 加總點數）</div>
+          <div id="poafFields"></div>
+          <div class="result-box">POAF 分數：<strong id="poaf_score_disp">—</strong>　預測術後 AF：<strong id="poaf_risk_disp">—</strong></div>
+          <input type="hidden" name="poaf_score" id="h_poaf_score">
+          <input type="hidden" name="poaf_risk" id="h_poaf_risk">
+        </div>
+
+        <!-- PONV (Apfel) -->
+        <div class="zone">
+          <div class="zone-title">PONV（術後噁心嘔吐，Apfel 簡化分數）</div>
+          <div id="ponvFields"></div>
+          <div class="result-box">Apfel 分數：<strong id="ponv_score_disp">—</strong>　預測 PONV：<strong id="ponv_risk_disp">—</strong></div>
+          <input type="hidden" name="ponv_score" id="h_ponv_score">
+          <input type="hidden" name="ponv_risk" id="h_ponv_risk">
+        </div>
+
+        <!-- STS -->
+        <div class="zone">
+          <div class="zone-title">STS Score（登錄官方計算機結果，院內不重算）</div>
+          <div class="hint" style="margin-bottom:10px">用 STS 官方線上計算機算好後，把各項 % 填入。STS 僅適用 CABG／瓣膜類，主動脈剝離／弓部手術不適用。</div>
+          <div class="field"><label>術式（STS 類別）</label><input type="text" name="sts_proc" id="f_sts_proc" placeholder="例：Isolated CABG / AVR / CABG+AVR"></div>
+          <div id="stsFields"></div>
+        </div>
+
+        <div class="alert alert-error" id="saveAlert" style="margin-top:14px"></div>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="margin-top:8px">儲存危險因子預測</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="success" id="successScreen">
+    <div class="big">✓</div>
+    <h2>已儲存</h2>
+    <p id="successMsg" class="sub"></p>
+    <div style="margin-top:20px">
+      <button type="button" class="btn btn-primary" id="anotherBtn">評估另一位病人</button>
+    </div>
+  </div>
+
+  <footer>心臟外科手術病人管理系統 · 危險因子預測 v1.0</footer>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = id => document.getElementById(id);
+const byName = n => document.querySelector('[name="' + n + '"]');
+let currentPatient = null;
+
+// ===== 欄位設定（動態渲染） =====
+const YN = [{v:'否'},{v:'是'}];
+function selOpts(opts, placeholder){
+  let h = placeholder ? '<option value="">'+placeholder+'</option>' : '';
+  opts.forEach(o => { const val=o.v!==undefined?o.v:o; const lbl=o.l!==undefined?o.l:val; h+='<option value="'+val+'">'+lbl+'</option>'; });
+  return h;
+}
+function renderFields(containerId, cfg, cols){
+  const c = $(containerId); let html='';
+  const per = cols||2;
+  for(let i=0;i<cfg.length;i+=per){
+    html += '<div class="row row-'+per+'">';
+    for(let j=i;j<i+per && j<cfg.length;j++){
+      const f = cfg[j];
+      html += '<div class="field"><label>'+f.label+'</label>';
+      if(f.type==='select'){
+        html += '<select name="'+f.name+'">'+selOpts(f.options, f.placeholder||'—')+'</select>';
+      } else {
+        html += '<input type="number" name="'+f.name+'" step="'+(f.step||'0.1')+'" min="0">';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+  c.innerHTML = html;
+}
+
+const ES_FIELDS = [
+  {name:'es_nyha', label:'NYHA 分級', type:'select', options:[{v:'1',l:'I'},{v:'2',l:'II'},{v:'3',l:'III'},{v:'4',l:'IV'}]},
+  {name:'es_ccs4', label:'CCS class 4 心絞痛', type:'select', options:YN},
+  {name:'es_lv', label:'LV 功能', type:'select', options:[{v:'good',l:'良好 >50%'},{v:'moderate',l:'中等 31–50%'},{v:'poor',l:'差 21–30%'},{v:'very poor',l:'極差 ≤20%'}]},
+  {name:'es_renal', label:'腎功能（CrCl / 洗腎）', type:'select', options:[{v:'>85',l:'CrCl >85'},{v:'50-85',l:'CrCl 50–85'},{v:'<=50',l:'CrCl ≤50'},{v:'dialysis',l:'洗腎'}]},
+  {name:'es_dm_insulin', label:'胰島素依賴糖尿病', type:'select', options:YN},
+  {name:'es_eca', label:'心臟外動脈病變', type:'select', options:YN},
+  {name:'es_mobility', label:'行動不良', type:'select', options:YN},
+  {name:'es_redo', label:'曾接受心臟手術', type:'select', options:YN},
+  {name:'es_cld', label:'慢性肺病', type:'select', options:YN},
+  {name:'es_endocarditis', label:'活動性心內膜炎', type:'select', options:YN},
+  {name:'es_critical', label:'術前危急狀態', type:'select', options:YN},
+  {name:'es_recent_mi', label:'近期心肌梗塞 (<90天)', type:'select', options:YN},
+  {name:'es_pa', label:'肺動脈收縮壓', type:'select', options:[{v:'<31',l:'<31 mmHg'},{v:'31-55',l:'31–55 mmHg'},{v:'>=55',l:'≥55 mmHg'}]},
+  {name:'es_urgency', label:'手術緊急度', type:'select', options:[{v:'elective',l:'Elective 選擇性'},{v:'urgent',l:'Urgent'},{v:'emergency',l:'Emergency'},{v:'salvage',l:'Salvage'}]},
+  {name:'es_weight_proc', label:'手術權重', type:'select', options:[{v:'cabg',l:'單獨 CABG'},{v:'1noncabg',l:'單一非 CABG 大手術'},{v:'2',l:'2 項手術'},{v:'3',l:'3 項以上'}]},
+  {name:'es_thoracic_aorta', label:'胸主動脈手術', type:'select', options:YN}
+];
+const POAF_FIELDS = [
+  {name:'poaf_copd', label:'COPD', type:'select', options:YN},
+  {name:'poaf_egfr15', label:'eGFR<15 或洗腎', type:'select', options:YN},
+  {name:'poaf_emergency', label:'急診手術', type:'select', options:YN},
+  {name:'poaf_iabp', label:'術前 IABP', type:'select', options:YN},
+  {name:'poaf_lvef30', label:'LVEF <30%', type:'select', options:YN},
+  {name:'poaf_valve', label:'瓣膜手術', type:'select', options:YN}
+];
+const PONV_FIELDS = [
+  {name:'ponv_female', label:'女性', type:'select', options:YN},
+  {name:'ponv_nonsmoker', label:'不吸菸', type:'select', options:YN},
+  {name:'ponv_hx', label:'PONV 或暈動病史', type:'select', options:YN},
+  {name:'ponv_opioid', label:'術後使用類鴉片', type:'select', options:YN}
+];
+const STS_FIELDS = [
+  {name:'sts_mortality', label:'死亡率 %'},
+  {name:'sts_morb_mort', label:'併發症或死亡 %'},
+  {name:'sts_stroke', label:'永久中風 %'},
+  {name:'sts_vent', label:'長期插管 %'},
+  {name:'sts_dswi', label:'深部胸骨傷口感染 %'},
+  {name:'sts_reop', label:'再手術 %'},
+  {name:'sts_renal', label:'腎衰竭 %'},
+  {name:'sts_long_los', label:'住院過長 %'},
+  {name:'sts_short_los', label:'住院過短 %'}
+];
+
+renderFields('esFields', ES_FIELDS, 2);
+renderFields('poafFields', POAF_FIELDS, 2);
+renderFields('ponvFields', PONV_FIELDS, 2);
+renderFields('stsFields', STS_FIELDS, 3);
+
+// ===== 計算：EuroSCORE II（Nashef 2012，官方係數）=====
+const ES_B = {
+  c:-5.324537, age:0.0285181, female:0.2196434,
+  nyha:{'2':0.1070545,'3':0.2958358,'4':0.5597929},
+  ccs4:0.2226147, iddm:0.3542749, eca:0.5360268, cld:0.1886564, mobility:0.2407181, redo:1.118599,
+  renal:{'50-85':0.303553,'<=50':0.8592256,'dialysis':0.6421508},
+  endocarditis:0.6194522, critical:1.086517,
+  lv:{'moderate':0.3150652,'poor':0.8084096,'very poor':0.9346919},
+  recentMi:0.1528943, pa:{'31-55':0.1788899,'>=55':0.3491475},
+  urgency:{'urgent':0.3174673,'emergency':0.7039121,'salvage':1.362947},
+  wp:{'1noncabg':0.0062118,'2':0.5521478,'3':0.9724533},
+  thoracic:0.6527205
+};
+function gv(n){ const el=byName(n); return el?el.value:''; }
+function gn(n){ const el=byName(n); if(!el) return null; const x=parseFloat(el.value); return isNaN(x)?null:x; }
+function computeEuroscore(){
+  const age=gn('age'), weight=gn('weight'), crea=gn('crea'), female=(gv('sex')==='女');
+  let crcl=null;
+  if(age&&weight&&crea&&crea>0){ crcl=Math.round(((140-age)*weight*(female?0.85:1))/(72*crea)*10)/10; }
+  $('crcl_hint').textContent = crcl!=null ? ('Cockcroft-Gault CrCl ≈ '+crcl+' mL/min（供選腎功能分層參考）') : '';
+  if(age==null){ $('es_mortality_disp').textContent='—'; $('h_es_mortality').value=''; return; }
+  let y=ES_B.c + ES_B.age*Math.max(1,age-59);
+  if(female) y+=ES_B.female;
+  if(ES_B.nyha[gv('es_nyha')]) y+=ES_B.nyha[gv('es_nyha')];
+  if(gv('es_ccs4')==='是') y+=ES_B.ccs4;
+  if(gv('es_dm_insulin')==='是') y+=ES_B.iddm;
+  if(gv('es_eca')==='是') y+=ES_B.eca;
+  if(gv('es_cld')==='是') y+=ES_B.cld;
+  if(gv('es_mobility')==='是') y+=ES_B.mobility;
+  if(gv('es_redo')==='是') y+=ES_B.redo;
+  if(ES_B.renal[gv('es_renal')]) y+=ES_B.renal[gv('es_renal')];
+  if(gv('es_endocarditis')==='是') y+=ES_B.endocarditis;
+  if(gv('es_critical')==='是') y+=ES_B.critical;
+  if(ES_B.lv[gv('es_lv')]) y+=ES_B.lv[gv('es_lv')];
+  if(gv('es_recent_mi')==='是') y+=ES_B.recentMi;
+  if(ES_B.pa[gv('es_pa')]) y+=ES_B.pa[gv('es_pa')];
+  if(ES_B.urgency[gv('es_urgency')]) y+=ES_B.urgency[gv('es_urgency')];
+  if(ES_B.wp[gv('es_weight_proc')]) y+=ES_B.wp[gv('es_weight_proc')];
+  if(gv('es_thoracic_aorta')==='是') y+=ES_B.thoracic;
+  const mort=Math.round(Math.exp(y)/(1+Math.exp(y))*100*100)/100;
+  $('es_mortality_disp').textContent = mort.toFixed(2)+' %';
+  $('h_es_mortality').value = mort;
+}
+
+// ===== 計算：POAF-Score（Mariscalco 2014）=====
+function computePoaf(){
+  const age=gn('age');
+  if(age==null){ $('poaf_score_disp').textContent='—'; $('poaf_risk_disp').textContent='—'; $('h_poaf_score').value=''; $('h_poaf_risk').value=''; return; }
+  let score=0;
+  if(age>=80) score+=3; else if(age>=70) score+=2; else if(age>=60) score+=1;
+  ['poaf_copd','poaf_egfr15','poaf_emergency','poaf_iabp','poaf_lvef30','poaf_valve'].forEach(n=>{ if(gv(n)==='是') score+=1; });
+  const risk = score>=3 ? '40.9' : ({0:'11.1',1:'20.1',2:'28.7'})[score];
+  $('poaf_score_disp').textContent = String(score);
+  $('poaf_risk_disp').textContent = risk+' %';
+  $('h_poaf_score').value = score;
+  $('h_poaf_risk').value = risk;
+}
+
+// ===== 計算：PONV（Apfel）=====
+function computePonv(){
+  const factors=['ponv_female','ponv_nonsmoker','ponv_hx','ponv_opioid'];
+  let score=0, filled=false;
+  factors.forEach(n=>{ const v=gv(n); if(v==='是') score+=1; if(v!=='') filled=true; });
+  const RISK={0:'10',1:'21',2:'39',3:'61',4:'79'};
+  $('ponv_score_disp').textContent = filled?String(score):'—';
+  $('ponv_risk_disp').textContent = filled?(RISK[score]+' %'):'—';
+  $('h_ponv_score').value = filled?score:'';
+  $('h_ponv_risk').value = filled?RISK[score]:'';
+}
+
+function computeAll(){ computeEuroscore(); computePoaf(); computePonv(); }
+
+// 任一欄位變動 → 重算
+$('riskForm').addEventListener('input', computeAll);
+$('riskForm').addEventListener('change', computeAll);
+
+// ===== JSONP =====
+function jsonp(url, params){
+  return new Promise((resolve,reject)=>{
+    const cb='_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp=new URLSearchParams({...params, callback:cb});
+    const s=document.createElement('script');
+    const timer=setTimeout(()=>{cleanup();reject(new Error('查詢逾時'));},15000);
+    function cleanup(){clearTimeout(timer);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}
+    window[cb]=d=>{cleanup();resolve(d);};
+    s.onerror=()=>{cleanup();reject(new Error('連線失敗'));};
+    s.src=url+'?'+usp.toString();
+    document.body.appendChild(s);
+  });
+}
+
+// ===== 載入近期病人清單 =====
+async function loadRecent(){
+  const key=$('doctor_key').value.trim();
+  if(!key) return;
+  try{
+    const res=await jsonp(APPS_SCRIPT_URL,{action:'recentSurgeries',key});
+    if(res.error||!res.list||!res.list.length){ $('recentWrap').style.display='none'; return; }
+    $('recentList').innerHTML = res.list.map(p=>
+      '<div class="recent-item" data-pk="'+esc(p.pk)+'"><div><div class="nm">'+esc(p.name||'—')+
+      '</div><div class="meta">'+esc(p.surgery||'—')+' · '+esc(p.surgeryDate||'')+'</div></div>'+
+      '<span class="meta">'+(p.gender||'')+' '+(p.age!=null?p.age+'歲':'')+'</span></div>'
+    ).join('');
+    $('recentWrap').style.display='block';
+    document.querySelectorAll('#recentList .recent-item').forEach(it=>{
+      it.addEventListener('click',()=>lookupByPk(it.dataset.pk));
+    });
+  }catch(e){ $('recentWrap').style.display='none'; }
+}
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ===== 查詢 =====
+$('lookupBtn').addEventListener('click', ()=>{
+  const bd=$('lookup_birthdate').value, id4=$('lookup_id4').value.trim();
+  if(!bd||!/^\d{4}$/.test(id4)){ showLookupErr('請填出生年月日與 4 位數身分證末碼'); return; }
+  const pk=bd.replace(/-/g,'')+'-'+id4;
+  lookupByPk(pk);
+});
+function showLookupErr(m){ const a=$('lookupAlert'); a.textContent=m; a.classList.add('show'); }
+
+async function lookupByPk(pk){
+  const key=$('doctor_key').value.trim();
+  $('lookupAlert').classList.remove('show');
+  if(!key){ showLookupErr('請先輸入醫師通行碼'); return; }
+  try{
+    const res=await jsonp(APPS_SCRIPT_URL,{action:'lookupRisk',pk,key});
+    if(res.error==='unauthorized'){ showLookupErr('通行碼錯誤'); return; }
+    if(!res.found){ showLookupErr('找不到此病人（PK：'+pk+'）'); return; }
+    currentPatient=res;
+    fillPatient(res);
+    $('formSection').classList.remove('disabled');
+    $('changePatientBtn').style.display='inline';
+    $('formSection').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){ showLookupErr('查詢失敗：'+e.message); }
+}
+
+function setVal(name, value){ const el=byName(name); if(el) el.value=(value==null?'':value); }
+
+function fillPatient(res){
+  $('patientCard').style.display='flex';
+  $('pc_name').textContent=res.name||'—';
+  $('pc_gender_age').textContent=(res.gender||'—')+' / '+(res.age!=null?res.age+' 歲':'—');
+  $('pc_pk').textContent=res.pk||'—';
+
+  const r=res.risk;
+  if(r && r.exists){
+    $('modeAlert').textContent='此病人已有危險因子預測紀錄，載入後可修改更新。';
+    $('modeAlert').className='alert alert-info show';
+    // 載入既有紀錄
+    ['age','sex','weight','crea','lvef','egfr',
+     'es_nyha','es_ccs4','es_dm_insulin','es_eca','es_mobility','es_redo','es_cld','es_endocarditis','es_critical','es_lv','es_recent_mi','es_pa','es_urgency','es_weight_proc','es_thoracic_aorta','es_renal',
+     'poaf_copd','poaf_egfr15','poaf_emergency','poaf_iabp','poaf_lvef30','poaf_valve',
+     'ponv_female','ponv_nonsmoker','ponv_hx','ponv_opioid',
+     'sts_proc','sts_mortality','sts_morb_mort','sts_stroke','sts_vent','sts_dswi','sts_reop','sts_renal','sts_long_los','sts_short_los'
+    ].forEach(n=>{ if(r[n]!=null && r[n]!=='') setVal(n, r[n]); });
+  } else {
+    $('modeAlert').textContent='此病人尚無危險因子預測，將建立新紀錄（部分欄位已依術前資料自動帶入）。';
+    $('modeAlert').className='alert alert-info show';
+    // 從病人主檔自動帶入基礎資料
+    setVal('age', res.age);
+    setVal('sex', res.gender);
+    setVal('weight', res.preopWeight);
+    setVal('crea', res.preopCrea);
+    setVal('lvef', res.preopLvef);
+    setVal('egfr', res.preopEgfr);
+    autoDerive(res);
+  }
+  computeAll();
+}
+
+// 依基礎資料自動帶入可推導的風險因子（僅新建時）
+function autoDerive(res){
+  // PONV 女性
+  if(res.gender) setVal('ponv_female', res.gender==='女'?'是':'否');
+  // LV 功能分層（EuroSCORE）+ POAF LVEF<30
+  const lvef=parseFloat(res.preopLvef);
+  if(!isNaN(lvef)){
+    setVal('es_lv', lvef>50?'good':(lvef>=31?'moderate':(lvef>=21?'poor':'very poor')));
+    setVal('poaf_lvef30', lvef<30?'是':'否');
+  }
+  // POAF eGFR<15
+  const egfr=parseFloat(res.preopEgfr);
+  if(!isNaN(egfr)) setVal('poaf_egfr15', egfr<15?'是':'否');
+  // 腎功能分層（用 Cockcroft-Gault CrCl 建議；洗腎需人工選）
+  const age=parseFloat(res.age), w=parseFloat(res.preopWeight), cr=parseFloat(res.preopCrea), female=(res.gender==='女');
+  if(!isNaN(age)&&!isNaN(w)&&!isNaN(cr)&&cr>0){
+    const crcl=((140-age)*w*(female?0.85:1))/(72*cr);
+    setVal('es_renal', crcl>85?'>85':(crcl>=50?'50-85':'<=50'));
+  }
+}
+
+// ===== 儲存 =====
+$('saveBtn').addEventListener('click', async ()=>{
+  if(!currentPatient){ return; }
+  const key=$('doctor_key').value.trim();
+  $('saveAlert').classList.remove('show');
+  if(!key){ $('saveAlert').textContent='缺少通行碼'; $('saveAlert').classList.add('show'); return; }
+  const btn=$('saveBtn'); btn.disabled=true; btn.innerHTML='<span class="loading"></span>儲存中…';
+  const fd=new FormData($('riskForm'));
+  fd.append('action','saveRisk');
+  fd.append('pk',currentPatient.pk);
+  fd.append('key',key);
+  try{
+    await fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',body:fd});
+    $('mainForm').style.display='none';
+    $('successScreen').classList.add('show');
+    $('successMsg').textContent='已儲存 '+(currentPatient.name||'')+' 的危險因子預測。';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(err){
+    $('saveAlert').textContent='儲存失敗：'+err.message; $('saveAlert').classList.add('show');
+    btn.disabled=false; btn.textContent='儲存危險因子預測';
+  }
+});
+
+// ===== 換病人 / 再評估 =====
+function resetAll(){
+  currentPatient=null;
+  $('riskForm').reset();
+  $('patientCard').style.display='none';
+  $('formSection').classList.add('disabled');
+  $('changePatientBtn').style.display='none';
+  $('modeAlert').classList.remove('show');
+  $('lookup_birthdate').value=''; $('lookup_id4').value='';
+  computeAll();
+}
+$('changePatientBtn').addEventListener('click', resetAll);
+$('anotherBtn').addEventListener('click', ()=>{
+  resetAll();
+  $('successScreen').classList.remove('show');
+  $('mainForm').style.display='block';
+  $('saveBtn').disabled=false; $('saveBtn').textContent='儲存危險因子預測';
+  loadRecent();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// 輸入通行碼 → 載入近期清單
+$('doctor_key').addEventListener('change', loadRecent);
+$('doctor_key').addEventListener('blur', loadRecent);
+</script>
+</body>
+</html>
