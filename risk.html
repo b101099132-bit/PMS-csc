@@ -522,6 +522,12 @@ $('anotherBtn').addEventListener('click', ()=>{
 $('doctor_key').addEventListener('change', loadRecent);
 $('doctor_key').addEventListener('blur', loadRecent);
 $('refreshRecentBtn').addEventListener('click', loadRecent);
+
+// 從首頁卡片帶入通行碼（連結的 #k=），並自動載入近期清單
+if (window.location.hash.startsWith('#k=')) {
+  $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+  loadRecent();
+}
 </script>
 </body>
 </html>
