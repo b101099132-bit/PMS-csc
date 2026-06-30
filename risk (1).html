@@ -84,10 +84,7 @@
         <span class="section-title">查詢病人</span>
       </div>
       <div id="recentWrap" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
-          <span class="subhead" style="margin:0">14 天內開刀病人（含已結案，點選即帶入）</span>
-          <button type="button" id="refreshRecentBtn" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer">↻ 重新整理</button>
-        </div>
+        <div class="subhead" style="margin-top:0">最近 14 天有手術／排程的病人（點選即帶入）</div>
         <div class="recent-list" id="recentList"></div>
         <div class="divider-or"><span>或，用出生年月日 + 身分證末 4 碼查詢</span></div>
       </div>
@@ -155,37 +152,6 @@
           <div class="result-box">POAF 分數：<strong id="poaf_score_disp">—</strong>　預測術後 AF：<strong id="poaf_risk_disp">—</strong></div>
           <input type="hidden" name="poaf_score" id="h_poaf_score">
           <input type="hidden" name="poaf_risk" id="h_poaf_risk">
-        </div>
-
-        <!-- CHA2DS2-VASc -->
-        <div class="zone">
-          <div class="zone-title">CHA₂DS₂-VASc（心房顫動中風風險；年齡、性別取自上方共用基礎資料）</div>
-          <div id="chadsFields"></div>
-          <div class="result-box">CHA₂DS₂-VASc 分數：<strong id="chads_score_disp">—</strong>　年中風風險：<strong id="chads_risk_disp">—</strong></div>
-          <input type="hidden" name="chads_score" id="h_chads_score">
-          <input type="hidden" name="chads_risk" id="h_chads_risk">
-        </div>
-
-        <!-- Clinical Frailty Scale -->
-        <div class="zone">
-          <div class="zone-title">Clinical Frailty Scale（CFS v2.0，臨床衰弱量表；臨床整體評級 1–9）</div>
-          <div class="field">
-            <label for="f_cfs">CFS 等級</label>
-            <select name="cfs_level" id="f_cfs">
-              <option value="">—</option>
-              <option value="1">1 — Very Fit 非常健壯</option>
-              <option value="2">2 — Fit 健壯</option>
-              <option value="3">3 — Managing Well 良好</option>
-              <option value="4">4 — Living with Very Mild Frailty 極輕度衰弱</option>
-              <option value="5">5 — Living with Mild Frailty 輕度衰弱</option>
-              <option value="6">6 — Living with Moderate Frailty 中度衰弱</option>
-              <option value="7">7 — Living with Severe Frailty 重度衰弱</option>
-              <option value="8">8 — Living with Very Severe Frailty 極重度衰弱</option>
-              <option value="9">9 — Terminally Ill 末期</option>
-            </select>
-          </div>
-          <div class="result-box">衰弱程度：<strong id="cfs_disp">—</strong></div>
-          <input type="hidden" name="cfs_label" id="h_cfs_label">
         </div>
 
         <!-- PONV (Apfel) -->
@@ -302,14 +268,6 @@ const STS_FIELDS = [
 
 renderFields('esFields', ES_FIELDS, 2);
 renderFields('poafFields', POAF_FIELDS, 2);
-const CHADS_FIELDS = [
-  {name:'chads_chf', label:'CHF 或 LV 功能異常', type:'select', options:YN},
-  {name:'chads_htn', label:'高血壓', type:'select', options:YN},
-  {name:'chads_dm', label:'糖尿病', type:'select', options:YN},
-  {name:'chads_stroke', label:'中風 / TIA / 血栓栓塞史', type:'select', options:YN},
-  {name:'chads_vascular', label:'血管疾病(PAD/MI/主動脈斑塊)', type:'select', options:YN}
-];
-renderFields('chadsFields', CHADS_FIELDS, 2);
 renderFields('ponvFields', PONV_FIELDS, 2);
 renderFields('stsFields', STS_FIELDS, 3);
 
@@ -383,36 +341,7 @@ function computePonv(){
   $('h_ponv_risk').value = filled?RISK[score]:'';
 }
 
-// ===== 計算：CHA2DS2-VASc（年中風風險表 = Lip 2010 / Michigan Medicine 指引）=====
-function computeChads(){
-  const age=gn('age'); const female=(gv('sex')==='女');
-  if(age==null){ $('chads_score_disp').textContent='—'; $('chads_risk_disp').textContent='—'; $('h_chads_score').value=''; $('h_chads_risk').value=''; return; }
-  let score=0;
-  if(age>=75) score+=2; else if(age>=65) score+=1;   // A2 / A
-  if(female) score+=1;                                 // Sc
-  if(gv('chads_chf')==='是') score+=1;                 // C
-  if(gv('chads_htn')==='是') score+=1;                 // H
-  if(gv('chads_dm')==='是') score+=1;                  // D
-  if(gv('chads_stroke')==='是') score+=2;              // S2
-  if(gv('chads_vascular')==='是') score+=1;            // V
-  const RISK={0:'0',1:'1.3',2:'2.2',3:'3.2',4:'4.0',5:'6.7',6:'9.8',7:'9.6',8:'6.7',9:'15.2'};
-  $('chads_score_disp').textContent=String(score);
-  $('chads_risk_disp').textContent=(RISK[score]!=null?RISK[score]:'—')+' %';
-  $('h_chads_score').value=score;
-  $('h_chads_risk').value=(RISK[score]!=null?RISK[score]:'');
-}
-
-// ===== CFS（臨床衰弱量表）：僅記錄等級，描述/分級由等級對應 =====
-function computeCfs(){
-  const lv=gv('cfs_level');
-  const L={'1':'Very Fit 非常健壯','2':'Fit 健壯','3':'Managing Well 良好','4':'極輕度衰弱','5':'輕度衰弱','6':'中度衰弱','7':'重度衰弱','8':'極重度衰弱','9':'末期 Terminally Ill'};
-  const B={'1':'無衰弱','2':'無衰弱','3':'無衰弱','4':'易損','5':'輕度衰弱','6':'中度衰弱','7':'重度衰弱','8':'重度衰弱','9':'末期'};
-  if(!lv){ $('cfs_disp').textContent='—'; $('h_cfs_label').value=''; return; }
-  $('cfs_disp').textContent=lv+' — '+L[lv]+'（'+B[lv]+'）';
-  $('h_cfs_label').value=L[lv];
-}
-
-function computeAll(){ computeEuroscore(); computePoaf(); computePonv(); computeChads(); computeCfs(); }
+function computeAll(){ computeEuroscore(); computePoaf(); computePonv(); }
 
 // 任一欄位變動 → 重算
 $('riskForm').addEventListener('input', computeAll);
@@ -436,38 +365,23 @@ function jsonp(url, params){
 // ===== 載入近期病人清單 =====
 async function loadRecent(){
   const key=$('doctor_key').value.trim();
-  if(!key){ $('recentWrap').style.display='none'; return; }
-  $('recentWrap').style.display='block';
-  $('recentList').innerHTML='<div class="meta" style="padding:8px 0"><span class="loading" style="border-color:rgba(31,90,90,.3);border-top-color:var(--teal)"></span> 載入中…</div>';
+  if(!key) return;
   try{
     const res=await jsonp(APPS_SCRIPT_URL,{action:'recentSurgeries',key});
-    if(res.error||!res.list||!res.list.length){
-      $('recentList').innerHTML='<div class="meta" style="padding:8px 0">14 天內沒有手術病人</div>';
-      return;
-    }
-    // 14 天內開刀病人全部攤平顯示（不論是否結案）
+    if(res.error||!res.list||!res.list.length){ $('recentWrap').style.display='none'; return; }
     $('recentList').innerHTML = res.list.map(p=>
-      '<div class="recent-item" data-pk="'+esc(p.pk)+'"><div><div class="nm">'+esc(maskName(p.name)||'—')+
-      (p.closed?' <span class="meta" style="color:var(--gold)">· 已結案</span>':'')+
+      '<div class="recent-item" data-pk="'+esc(p.pk)+'"><div><div class="nm">'+esc(p.name||'—')+
       '</div><div class="meta">'+esc(p.surgery||'—')+' · '+esc(p.surgeryDate||'')+'</div></div>'+
       '<span class="meta">'+(p.gender||'')+' '+(p.age!=null?p.age+'歲':'')+'</span></div>'
     ).join('');
+    $('recentWrap').style.display='block';
     document.querySelectorAll('#recentList .recent-item').forEach(it=>{
       it.addEventListener('click',()=>lookupByPk(it.dataset.pk));
     });
-  }catch(e){ $('recentList').innerHTML='<div class="meta" style="padding:8px 0;color:var(--danger)">載入失敗：'+esc(e.message)+'</div>'; }
+  }catch(e){ $('recentWrap').style.display='none'; }
 }
 
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-// 姓名遮罩（比照 postop：頭+尾保留，中間以單一 * 代替）
-function maskName(name){
-  if(name==null) return '';
-  const s=String(name).trim();
-  if(!s) return '';
-  if(s.length===1) return s;
-  if(s.length===2) return s[0]+'*';
-  return s[0]+'*'+s[s.length-1];
-}
 
 // ===== 查詢 =====
 $('lookupBtn').addEventListener('click', ()=>{
@@ -498,7 +412,7 @@ function setVal(name, value){ const el=byName(name); if(el) el.value=(value==nul
 
 function fillPatient(res){
   $('patientCard').style.display='flex';
-  $('pc_name').textContent=maskName(res.name)||'—';
+  $('pc_name').textContent=res.name||'—';
   $('pc_gender_age').textContent=(res.gender||'—')+' / '+(res.age!=null?res.age+' 歲':'—');
   $('pc_pk').textContent=res.pk||'—';
 
@@ -511,9 +425,7 @@ function fillPatient(res){
      'es_nyha','es_ccs4','es_dm_insulin','es_eca','es_mobility','es_redo','es_cld','es_endocarditis','es_critical','es_lv','es_recent_mi','es_pa','es_urgency','es_weight_proc','es_thoracic_aorta','es_renal',
      'poaf_copd','poaf_egfr15','poaf_emergency','poaf_iabp','poaf_lvef30','poaf_valve',
      'ponv_female','ponv_nonsmoker','ponv_hx','ponv_opioid',
-     'sts_proc','sts_mortality','sts_morb_mort','sts_stroke','sts_vent','sts_dswi','sts_reop','sts_renal','sts_long_los','sts_short_los',
-     'chads_chf','chads_htn','chads_dm','chads_stroke','chads_vascular',
-     'cfs_level'
+     'sts_proc','sts_mortality','sts_morb_mort','sts_stroke','sts_vent','sts_dswi','sts_reop','sts_renal','sts_long_los','sts_short_los'
     ].forEach(n=>{ if(r[n]!=null && r[n]!=='') setVal(n, r[n]); });
   } else {
     $('modeAlert').textContent='此病人尚無危險因子預測，將建立新紀錄（部分欄位已依術前資料自動帶入）。';
@@ -532,8 +444,6 @@ function fillPatient(res){
 
 // 依基礎資料自動帶入可推導的風險因子（僅新建時）
 function autoDerive(res){
-  // STS 術式：從病人主檔帶入（可再依 STS 類別調整）
-  if(res.currentSurgery) setVal('sts_proc', res.currentSurgery);
   // PONV 女性
   if(res.gender) setVal('ponv_female', res.gender==='女'?'是':'否');
   // LV 功能分層（EuroSCORE）+ POAF LVEF<30
@@ -600,13 +510,6 @@ $('anotherBtn').addEventListener('click', ()=>{
 // 輸入通行碼 → 載入近期清單
 $('doctor_key').addEventListener('change', loadRecent);
 $('doctor_key').addEventListener('blur', loadRecent);
-$('refreshRecentBtn').addEventListener('click', loadRecent);
-
-// 從首頁卡片帶入通行碼（連結的 #k=），並自動載入近期清單
-if (window.location.hash.startsWith('#k=')) {
-  $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
-  loadRecent();
-}
 </script>
 </body>
 </html>

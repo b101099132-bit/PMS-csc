@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心臟外科手術病人管理系統 — 入口</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #FAF7F2;
+  --paper: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-soft: #5C5C5C;
+  --ink-faint: #8A8580;
+  --teal: #1F5A5A;
+  --teal-tint: #F5F9F9;
+  --teal-soft: #E6EDED;
+  --gold: #A87B4D;
+  --plum: #6B5876;
+  --navy: #2C4866;
+  --sage: #5A7A52;
+  --border: #E8E2D5;
+  --border-strong: #D4CDB8;
+}
+
+body {
+  font-family: 'Noto Sans TC', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 32px 16px 60px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 880px; margin: 0 auto; }
+
+/* ============ Hero ============ */
+header {
+  text-align: center;
+  margin: 28px 0 44px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 38px);
+  color: var(--ink);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.subtitle {
+  color: var(--ink-soft);
+  font-size: 15px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin: 28px auto 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.divider::before { left: -10px; }
+.divider::after { right: -10px; }
+
+/* ============ Key Bar ============ */
+.key-bar {
+  background: var(--teal-tint);
+  border: 1px solid var(--teal-soft);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.key-bar label {
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 500;
+}
+.key-bar input {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  background: white;
+  color: var(--ink);
+}
+.key-bar input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(31, 90, 90, 0.12);
+}
+.key-bar .hint {
+  width: 100%;
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+/* ============ Grid ============ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 3px;
+  padding: 24px 26px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+.card[data-color="teal"]  { --accent: var(--teal); }
+.card[data-color="gold"]  { --accent: var(--gold); }
+.card[data-color="plum"]  { --accent: var(--plum); }
+.card[data-color="navy"]  { --accent: var(--navy); }
+.card[data-color="sage"]  { --accent: var(--sage); }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.card-tag {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-family: 'Noto Serif TC', serif;
+}
+.card-role {
+  background: var(--accent);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+.card-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 21px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  flex: 1;
+}
+.card-arrow {
+  align-self: flex-end;
+  font-size: 22px;
+  color: var(--accent);
+  font-weight: 300;
+  margin-top: 8px;
+  transition: transform 0.2s ease;
+  font-family: 'JetBrains Mono', monospace;
+}
+.card:hover .card-arrow { transform: translateX(4px); }
+
+.card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--cream);
+  color: var(--ink-faint);
+  padding: 3px 9px;
+  font-size: 10px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* ============ Footer ============ */
+footer {
+  text-align: center;
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+footer .clinic {
+  font-family: 'Noto Serif TC', serif;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Patient Management System</div>
+    <h1>心臟外科手術病人管理系統</h1>
+    <p class="subtitle">心血管手術病人從術前到術後的完整數位流程</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後將自動帶入醫師/團隊端" autocomplete="off">
+    <div class="hint">在此輸入一次，下方點擊各工具時會自動帶入。病人端不需通行碼。</div>
+  </div>
+
+  <div class="grid">
+    <a class="card" data-color="teal" href="preop.html" id="card-preop">
+      <div class="card-head">
+        <span class="card-tag">01 · 術前</span>
+        <span class="card-role">病人</span>
+      </div>
+      <div class="card-title">術前資料填寫</div>
+      <p class="card-desc">病人線上填寫基本資料、聯絡方式、健康狀況、個資使用同意。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" data-color="gold" href="surgery.html" id="card-surgery">
+      <div class="card-head">
+        <span class="card-tag">02 · 預約</span>
+        <span class="card-role">醫師</span>
+      </div>
+      <div class="card-title">手術預約輸入</div>
+      <p class="card-desc">查詢病人後填入術前診斷、預定手術日、術式、術前 eGFR / LVEF 等。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" data-color="plum" href="postop.html" id="card-postop">
+      <div class="card-head">
+        <span class="card-tag">03 · 術後</span>
+        <span class="card-role">團隊</span>
+      </div>
+      <div class="card-title">手術完成與術後追蹤</div>
+      <p class="card-desc">登錄實際手術日、手術代碼，並逐筆記錄 ERAS 恢復里程碑與臨床觀察。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" data-color="navy" href="dashboard.html" id="card-dashboard">
+      <div class="card-head">
+        <span class="card-tag">04 · 統計</span>
+        <span class="card-role">管理</span>
+      </div>
+      <div class="card-title">儀表板</div>
+      <p class="card-desc">瀏覽待開刀、進行中、待追蹤的病人，並查看每月手術成效與 ERAS 指標。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" data-color="teal" href="risk.html" id="card-risk">
+      <div class="card-head">
+        <span class="card-tag">05 · 風險</span>
+        <span class="card-role">醫師</span>
+      </div>
+      <div class="card-title">危險因子預測</div>
+      <p class="card-desc">EuroSCORE II、POAF、PONV、STS 風險評分；術前或術後皆可填，自動帶入既有術前資料。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" data-color="sage" href="edu/index.html" id="card-edu">
+      <div class="card-head">
+        <span class="card-tag">05 · 衛教</span>
+        <span class="card-role">資源</span>
+      </div>
+      <div class="card-title">衛教資源目錄</div>
+      <p class="card-desc"><span data-edu-count>35</span> 份病人衛教單張,依術前到長期追蹤分類,可瀏覽、查閱、分享給病人與家屬。</p>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <footer>
+    <div class="clinic">心臟外科手術病人管理系統</div>
+    <div>v1.0 · 內部團隊入口</div>
+  </footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+// 從 URL hash 載入通行碼
+if (window.location.hash.startsWith('#k=')) {
+  $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+}
+
+// 更新所有需要通行碼的連結
+function updateLinks() {
+  const v = $('doctor_key').value.trim();
+  ['card-surgery', 'card-postop', 'card-dashboard'].forEach(id => {
+    const card = $(id);
+    // 第一次執行時存下原始 URL，之後不再讀已被加 hash 的版本
+    let base = card.getAttribute('data-base');
+    if (!base) {
+      base = card.getAttribute('href').split('#')[0];
+      card.setAttribute('data-base', base);
+    }
+    card.setAttribute('href', v ? `${base}#k=${encodeURIComponent(v)}` : base);
+  });
+  if (v) {
+    history.replaceState(null, '', '#k=' + encodeURIComponent(v));
+  }
+}
+
+$('doctor_key').addEventListener('input', updateLinks);
+$('doctor_key').addEventListener('change', updateLinks);
+
+updateLinks();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- 自動同步衛教檔案數量                                                  -->
+<!-- 原理:fetch edu/index.html,計算內含的 piece-card 數量,更新顯示       -->
+<!-- 維護方式:在 edu/ 內新增/刪除衛教檔(更新 edu/index.html 內的卡片)   -->
+<!--           → 系統入口頁的「N 份」自動同步,不必回來改這裡              -->
+<!-- Fallback:fetch 失敗時,維持手寫值(目前 35)作為顯示                  -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<script>
+(async function syncEduCount() {
+  try {
+    const res = await fetch('edu/index.html', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const html = await res.text();
+
+    // 計算 piece-card[href] 數量(對齊 edu/index.html 內 autoSyncIndex 的算法)
+    const cardPattern = /<a\s+class="piece-card[^"]*"\s+href="[^"]+\.html"/g;
+    const matches = html.match(cardPattern);
+    if (!matches || matches.length === 0) return;
+    const total = matches.length;
+
+    // 寫入所有 [data-edu-count] 標記處
+    document.querySelectorAll('[data-edu-count]').forEach(el => {
+      el.textContent = total;
+    });
+  } catch (err) {
+    // 靜默失敗,保留手寫值作 fallback
+    console.debug('[edu-count-sync] skip:', err.message);
+  }
+})();
+</script>
+</body>
+</html>
