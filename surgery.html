@@ -655,6 +655,26 @@ footer {
             <label for="emerg_surgery">手術內容 <span class="req">*</span></label>
             <input type="text" id="emerg_surgery" autocomplete="off" placeholder="例：緊急升主動脈置換 + 半弓重建">
           </div>
+          <div class="row row-2">
+            <div class="field">
+              <label for="emerg_egfr">術前 eGFR <span class="req">*</span></label>
+              <input type="number" id="emerg_egfr" step="0.1" min="0" max="200" placeholder="ml/min/1.73m²">
+            </div>
+            <div class="field">
+              <label for="emerg_lvef">術前 LVEF <span class="req">*</span></label>
+              <input type="number" id="emerg_lvef" step="1" min="0" max="100" placeholder="百分比 %">
+            </div>
+          </div>
+          <div class="row row-2">
+            <div class="field">
+              <label for="emerg_crea">術前 Crea <span class="req">*</span></label>
+              <input type="number" id="emerg_crea" step="0.01" min="0" max="20" placeholder="mg/dL">
+            </div>
+            <div class="field">
+              <label for="emerg_weight">術前體重 <span class="req">*</span></label>
+              <input type="number" id="emerg_weight" step="0.1" min="0" max="300" placeholder="kg">
+            </div>
+          </div>
           <div style="margin-top:10px">
             <button type="button" class="btn btn-primary" id="emergSubmitBtn">建立收案</button>
             <button type="button" id="emergCancelBtn" style="margin-left:8px;padding:10px 18px;border:1px solid #CFC7B6;background:#fff;border-radius:6px;cursor:pointer;color:#6B6457">取消</button>
@@ -1188,7 +1208,7 @@ surgeryForm.addEventListener('submit', async (e) => {
   if (!tog) return;
   const form = $('emergForm'), succ = $('emergSuccess'), alertEl = $('emergAlert');
   const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-  const clearFields = () => { $('emerg_name').value = ''; $('emerg_diagnosis').value = ''; $('emerg_surgery').value = ''; };
+  const clearFields = () => { ['emerg_name','emerg_diagnosis','emerg_surgery','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; }); };
 
   tog.addEventListener('click', () => {
     form.style.display = 'block';
@@ -1206,10 +1226,14 @@ surgeryForm.addEventListener('submit', async (e) => {
     const name = $('emerg_name').value.trim();
     const diagnosis = $('emerg_diagnosis').value.trim();
     const surgery = $('emerg_surgery').value.trim();
+    const egfr = $('emerg_egfr').value.trim();
+    const lvef = $('emerg_lvef').value.trim();
+    const crea = $('emerg_crea').value.trim();
+    const weight = $('emerg_weight').value.trim();
     const key = $('doctor_key') ? $('doctor_key').value.trim() : '';
     alertEl.classList.remove('show');
     if (!key) { alertEl.textContent = '請先輸入醫師通行碼'; alertEl.classList.add('show'); return; }
-    if (!name || !diagnosis || !surgery) { alertEl.textContent = '姓名、診斷、手術內容皆為必填'; alertEl.classList.add('show'); return; }
+    if (!name || !diagnosis || !surgery || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '所有欄位皆為必填（含術前 eGFR / LVEF / Crea / 體重）'; alertEl.classList.add('show'); return; }
 
     const btn = $('emergSubmitBtn');
     btn.disabled = true; btn.innerHTML = '<span class="loading"></span>建立中…';
@@ -1219,6 +1243,10 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('name', name);
     fd.append('diagnosis', diagnosis);
     fd.append('surgery', surgery);
+    fd.append('egfr', egfr);
+    fd.append('lvef', lvef);
+    fd.append('crea_pre', crea);
+    fd.append('weight_pre', weight);
     try {
       await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd });
       form.style.display = 'none';
