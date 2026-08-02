@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研究收案 — MICS 立即拔管研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--teal:#1F5A5A;--teal-hover:#174646;--gold:#A87B4D;--ink:#1A1A1A;--ink-soft:#5C5C5C;--line:#E8E2D5;--cream:#FAF7F1;--danger:#B85450;--safe:#4A7A5A}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans TC',sans-serif;color:var(--ink);background:#F4EFE7;line-height:1.6;padding:20px 12px}
+  .wrap{max-width:720px;margin:0 auto}
+  h1{font-size:22px;color:var(--teal);font-weight:700}
+  .sub{font-size:13px;color:var(--ink-soft);margin-top:4px}
+  .section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin-top:16px}
+  .section.disabled{opacity:.5;pointer-events:none}
+  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .section-num{background:var(--teal);color:#fff;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .section-title{font-size:16px;font-weight:700;color:var(--teal)}
+  .section-action{margin-left:auto;background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;text-decoration:underline}
+  .subhead{font-size:14px;color:var(--ink-soft);font-weight:500;margin:0 0 8px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:4px}
+  .field input,.field select,.field textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;font-size:15px;font-family:inherit;background:#fff}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal)}
+  .hint{font-size:12px;color:#8A8580;margin-top:3px}
+  .req{color:var(--danger)}
+  .row{display:grid;gap:12px}
+  .row-2{grid-template-columns:1fr 1fr}
+  .row-3{grid-template-columns:1fr 1fr 1fr}
+  .row-4{grid-template-columns:1fr 1fr 1fr 1fr}
+  @media(max-width:640px){.row-2,.row-3,.row-4{grid-template-columns:1fr}}
+  .btn{padding:11px 22px;border:none;border-radius:6px;font-size:15px;font-family:inherit;cursor:pointer;font-weight:500}
+  .btn-primary{background:var(--teal);color:#fff}.btn-primary:hover{background:var(--teal-hover)}.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+  .alert{display:none;padding:10px 12px;border-radius:6px;font-size:14px;margin-bottom:12px}
+  .alert.show{display:block}
+  .alert-error{background:#F7ECEC;border:1px solid #E0B4B4;color:var(--danger)}
+  .alert-info{background:#EDF2F2;border:1px solid #C5DADA;color:var(--teal)}
+  .result-box{background:#F0F5F5;border:1px solid #CDE0E0;border-radius:6px;padding:10px 14px;margin-top:8px;font-size:14px}
+  .result-box strong{font-size:17px;color:var(--teal)}
+  .zone{border:1px solid var(--line);border-radius:8px;padding:14px;margin-top:14px}
+  .zone-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:10px}
+  .pcard{background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:16px;font-size:14px;margin-bottom:8px}
+  .pcard b{color:var(--teal)}
+  .recent-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+  .recent-item{border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .recent-item:hover{border-color:var(--teal);background:var(--cream)}
+  .recent-item .nm{font-weight:500}.recent-item .meta{font-size:12px;color:var(--ink-soft)}
+  .divider-or{text-align:center;font-size:12px;color:#8A8580;margin:10px 0}
+  .loading{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  footer{text-align:center;color:#8A8580;font-size:12px;margin-top:24px}
+  .success{display:none;text-align:center;padding:30px 20px}.success.show{display:block}.success .big{font-size:42px}.success h2{color:var(--teal);margin:10px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>研究收案</h1>
+  <div class="sub">不停跳體外循環 CABG 立即拔管：MICS vs 傳統　·　醫師/研究團隊端</div>
+
+  <div id="mainForm">
+    <div class="section">
+      <div class="field" style="margin-bottom:0">
+        <label for="doctor_key">醫師通行碼 <span class="req">*</span></label>
+        <input type="password" id="doctor_key" autocomplete="off" placeholder="輸入後查詢病人">
+      </div>
+    </div>
+
+    <section class="section" id="lookupSection">
+      <div class="section-header"><span class="section-num">01</span><span class="section-title">查詢病人</span></div>
+      <div id="recentWrap" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+          <span class="subhead" style="margin:0">14 天內開刀病人（含已結案，點選即帶入）</span>
+          <button type="button" id="refreshRecentBtn" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer">↻ 重新整理</button>
+        </div>
+        <div class="recent-list" id="recentList"></div>
+        <div class="divider-or"><span>或，用出生年月日 + 身分證末 4 碼查詢</span></div>
+      </div>
+      <div class="alert alert-error" id="lookupAlert"></div>
+      <div class="row row-2">
+        <div class="field"><label for="lookup_birthdate">出生年月日</label><input type="date" id="lookup_birthdate"></div>
+        <div class="field"><label for="lookup_id4">身分證末 4 碼</label><input type="text" inputmode="numeric" maxlength="4" id="lookup_id4" autocomplete="off"></div>
+      </div>
+      <button type="button" class="btn btn-primary" id="lookupBtn">查詢病人</button>
+    </section>
+
+    <section class="section disabled" id="formSection">
+      <div class="section-header"><span class="section-num">02</span><span class="section-title">研究 CRF</span>
+        <button type="button" class="section-action" id="changePatientBtn" style="display:none">換一位病人</button>
+      </div>
+
+      <div class="pcard" id="patientCard" style="display:none">
+        <span>姓名：<b id="pc_name">—</b></span>
+        <span>性別／年齡：<b id="pc_gender_age">—</b></span>
+        <span>術式：<b id="pc_surgery">—</b></span>
+        <span>EuroSCORE II：<b id="pc_euroscore">—</b></span>
+        <span>共病：<b id="pc_como">—</b></span>
+      </div>
+      <div class="hint" id="pc_ref" style="margin-bottom:12px"></div>
+
+      <form id="studyForm">
+        <div class="alert alert-info" id="modeAlert"></div>
+
+        <div class="zone">
+          <div class="zone-title">研究收案</div>
+          <div class="row row-2">
+            <div class="field"><label>納入本研究</label><select name="enrolled"><option value="">—</option><option>是</option><option>否</option></select></div>
+            <div class="field"><label>組別</label><select name="group"><option value="">—</option><option>MICS</option><option>傳統</option></select></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>術式決定原因</label><select name="reason_type"><option value="">—</option><option>自費/病人偏好</option><option>冠狀動脈解剖/標的血管</option><option>臨床因素</option></select></div>
+            <div class="field"><label>研究編碼</label><input type="text" name="study_id" autocomplete="off" placeholder="研究個案編號（可留白）"></div>
+          </div>
+          <div class="field"><label>原因備註（臨床因素請註明，如肺功能）</label><input type="text" name="reason_note" autocomplete="off"></div>
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">病史（新增；HTN/DM/CVA/ESRD/COPD 見上方共病）</div>
+          <div id="histFields"></div>
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">術前風險（LVEF / Crea / EuroSCORE II 自上方帶入；ACEF 自動算）</div>
+          <div class="row row-3">
+            <div class="field"><label>身高 (cm)</label><input type="number" name="height" id="f_height" step="0.1" min="0" max="250"></div>
+            <div class="field"><label>繞道支數</label><input type="number" name="bypass_grafts" step="1" min="0" max="8"></div>
+            <div class="field"><label>標的血管</label><input type="text" name="target_vessels" autocomplete="off" placeholder="如 LAD/LCX/RCA"></div>
+          </div>
+          <div class="result-box">BMI：<strong id="bmi_disp">—</strong>　ACEF：<strong id="acef_disp">—</strong></div>
+          <input type="hidden" name="bmi" id="h_bmi"><input type="hidden" name="acef" id="h_acef">
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">手術與術式</div>
+          <div id="surgFields1"></div>
+          <div class="field"><label>轉開胸原因（若是）</label><input type="text" name="convert_reason" autocomplete="off"></div>
+          <div class="row row-3">
+            <div class="field"><label>手術時間 (分)</label><input type="number" name="op_time" step="1" min="0"></div>
+            <div class="field"><label>體外循環時間 (分)</label><input type="number" name="cpb_time" step="1" min="0"></div>
+            <div class="field"><label>出血量 (mL)</label><input type="number" name="blood_loss" step="1" min="0"></div>
+          </div>
+          <div id="surgFields2"></div>
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">拔管（主要結果）</div>
+          <div id="extFields"></div>
+          <div class="field"><label>24h 內再插管原因（若是）</label><input type="text" name="reintub_reason" autocomplete="off"></div>
+          <div class="result-box">★ 主要結果（手術室拔管且 24h 未再插管）：<strong id="primary_disp">—</strong></div>
+          <input type="hidden" name="primary_outcome" id="h_primary">
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">術後恢復（次要；POD / ICU / 住院天數 自里程碑帶入，可修改）</div>
+          <div class="row row-4">
+            <div class="field"><label>呼吸器天數</label><input type="number" name="vent_days" step="0.1" min="0"></div>
+            <div class="field"><label>ICU 天數</label><input type="number" name="icu_days" id="f_icu" step="0.1" min="0"></div>
+            <div class="field"><label>住院天數</label><input type="number" name="los_days" id="f_los" step="1" min="0"></div>
+            <div class="field"><label>30天在家日數</label><input type="number" name="daoh30" step="1" min="0" max="30"></div>
+          </div>
+          <div class="row row-3">
+            <div class="field"><label>首次坐起 POD</label><input type="number" name="sit_pod" id="f_sitpod" step="1" min="0"></div>
+            <div class="field"><label>首次下床 POD</label><input type="number" name="oob_pod" id="f_oobpod" step="1" min="0"></div>
+            <div class="field"><label>首次行走 POD</label><input type="number" name="walk_pod" id="f_walkpod" step="1" min="0"></div>
+          </div>
+          <div class="row row-4">
+            <div class="field"><label>NRS POD0</label><input type="number" name="nrs0" step="1" min="0" max="10"></div>
+            <div class="field"><label>NRS POD1</label><input type="number" name="nrs1" step="1" min="0" max="10"></div>
+            <div class="field"><label>NRS POD2</label><input type="number" name="nrs2" step="1" min="0" max="10"></div>
+            <div class="field"><label>NRS POD3</label><input type="number" name="nrs3" step="1" min="0" max="10"></div>
+          </div>
+          <div class="field"><label>鴉片類總用量 OME (mg)</label><input type="number" name="ome" step="1" min="0"></div>
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">併發症（急救/重插管/再手術/中風/大出血/院內死亡見術後追蹤）</div>
+          <div id="compFields"></div>
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">費用（術後相關）</div>
+          <div class="row row-2">
+            <div class="field"><label>術後健保給付 (NT$)</label><input type="number" name="cost_nhi" step="1" min="0"></div>
+            <div class="field"><label>術後自費 (NT$)</label><input type="number" name="cost_self" step="1" min="0"></div>
+          </div>
+        </div>
+
+        <div class="zone">
+          <div class="zone-title">PROMs（SF-36 PCS / EQ-5D-5L；量表待授權，先記收案狀態）</div>
+          <div class="hint" style="margin-bottom:10px">官方繁中量表授權取得後再嵌入題目；目前僅記錄「是否已於院外/授權管道收案」。</div>
+          <div class="row row-2">
+            <div class="field"><label>術前 PROMs</label><select name="proms_pre"><option value="">—</option><option>未收</option><option>已收</option></select></div>
+            <div class="field"><label>術後1月 PROMs</label><select name="proms_post"><option value="">—</option><option>未收</option><option>已收</option></select></div>
+          </div>
+        </div>
+
+        <div class="alert alert-error" id="saveAlert" style="margin-top:14px"></div>
+        <button type="button" class="btn btn-primary" id="saveBtn" style="margin-top:8px">儲存研究收案</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="success" id="successScreen">
+    <div class="big">✓</div><h2>已儲存</h2><p id="successMsg" class="sub"></p>
+    <div style="margin-top:20px"><button type="button" class="btn btn-primary" id="anotherBtn">收另一位病人</button></div>
+  </div>
+
+  <footer>心臟外科手術病人管理系統 · 研究收案 v1.0</footer>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = id => document.getElementById(id);
+const byName = n => document.querySelector('[name="' + n + '"]');
+let currentPatient = null;
+const YN = [{v:'否'},{v:'是'}];
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function maskName(name){ if(name==null)return''; const s=String(name).trim(); if(!s)return''; if(s.length===1)return s; if(s.length===2)return s[0]+'*'; return s[0]+'*'+s[s.length-1]; }
+
+function selOpts(opts,ph){ let h=ph?'<option value="">'+ph+'</option>':''; opts.forEach(o=>{const v=o.v!==undefined?o.v:o;const l=o.l!==undefined?o.l:v;h+='<option value="'+v+'">'+l+'</option>';}); return h; }
+function renderFields(cid,cfg,cols){ const c=$(cid); if(!c)return; let html=''; const per=cols||2;
+  for(let i=0;i<cfg.length;i+=per){ html+='<div class="row row-'+per+'">';
+    for(let j=i;j<i+per&&j<cfg.length;j++){ const f=cfg[j]; html+='<div class="field"><label>'+f.label+'</label>';
+      if(f.type==='select') html+='<select name="'+f.name+'">'+selOpts(f.options,f.placeholder||'—')+'</select>';
+      else if(f.type==='text') html+='<input type="text" name="'+f.name+'" autocomplete="off">';
+      else html+='<input type="number" name="'+f.name+'" step="'+(f.step||'1')+'" min="0">';
+      html+='</div>'; }
+    html+='</div>'; } c.innerHTML=html; }
+
+renderFields('histFields',[
+  {name:'hyperlipidemia',label:'高血脂',type:'select',options:YN},
+  {name:'cad',label:'冠心病 CAD',type:'select',options:YN},
+  {name:'smoking',label:'吸菸史',type:'select',options:YN},
+  {name:'recent_mi',label:'近三月 MI',type:'select',options:YN}
+],2);
+renderFields('surgFields1',[
+  {name:'mics_strategy',label:'MICS 建立策略',type:'select',options:[{v:'周邊CPB先行'},{v:'單肺通氣先行'},{v:'不適用(傳統)'}]},
+  {name:'cannulation',label:'插管部位',type:'select',options:[{v:'中央'},{v:'周邊(股)'}]},
+  {name:'converted',label:'是否由 MICS 轉開胸',type:'select',options:YN}
+],3);
+renderFields('surgFields2',[
+  {name:'transfusion',label:'輸血',type:'select',options:YN},
+  {name:'inotrope',label:'升壓/強心藥',type:'select',options:YN}
+],2);
+renderFields('extFields',[
+  {name:'or_extubation',label:'手術室內拔管',type:'select',options:YN},
+  {name:'extub_to_end',label:'拔管距術畢 (分)',type:'number'},
+  {name:'tof_ok',label:'拔管前 TOF≥0.9',type:'select',options:YN},
+  {name:'reintub24',label:'術後 24h 內再插管',type:'select',options:YN}
+],2);
+renderFields('compFields',[
+  {name:'c_pulm',label:'肺部併發症',type:'select',options:YN},
+  {name:'c_wound',label:'傷口併發症',type:'select',options:YN},
+  {name:'c_readmit30',label:'30天再入院',type:'select',options:YN},
+  {name:'c_mortality30',label:'30天死亡',type:'select',options:YN}
+],2);
+
+function gv(n){const el=byName(n);return el?el.value:'';}
+function gn(n){const el=byName(n);if(!el)return null;const x=parseFloat(el.value);return isNaN(x)?null:x;}
+
+// ===== 自動衍生 =====
+function computeDerived(){
+  // BMI（用主檔術前體重 + 身高）
+  const w=currentPatient?parseFloat(currentPatient.preopWeight):NaN;
+  const h=gn('height');
+  let bmi=null;
+  if(!isNaN(w)&&w>0&&h&&h>0){ bmi=Math.round(w/Math.pow(h/100,2)*10)/10; }
+  $('bmi_disp').textContent=bmi!=null?bmi:'—'; $('h_bmi').value=bmi!=null?bmi:'';
+  // ACEF = 年齡/LVEF + (Crea>2?1:0)
+  const age=currentPatient?parseFloat(currentPatient.age):NaN;
+  const lvef=currentPatient?parseFloat(currentPatient.preopLvef):NaN;
+  const crea=currentPatient?parseFloat(currentPatient.preopCrea):NaN;
+  let acef=null;
+  if(!isNaN(age)&&!isNaN(lvef)&&lvef>0){ acef=age/lvef+((!isNaN(crea)&&crea>2)?1:0); acef=Math.round(acef*100)/100; }
+  $('acef_disp').textContent=acef!=null?acef:'—'; $('h_acef').value=acef!=null?acef:'';
+  // 主要結果
+  const orx=gv('or_extubation'), re=gv('reintub24');
+  let po='';
+  if(orx&&re){ po=(orx==='是'&&re==='否')?'成功':'失敗'; }
+  $('primary_disp').textContent=po||'—'; $('h_primary').value=po;
+}
+$('studyForm').addEventListener('input',computeDerived);
+$('studyForm').addEventListener('change',computeDerived);
+
+// ===== JSONP =====
+function jsonp(url,params){return new Promise((resolve,reject)=>{const cb='_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);const usp=new URLSearchParams({...params,callback:cb});const s=document.createElement('script');const t=setTimeout(()=>{cl();reject(new Error('查詢逾時'));},15000);function cl(){clearTimeout(t);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}window[cb]=d=>{cl();resolve(d);};s.onerror=()=>{cl();reject(new Error('連線失敗'));};s.src=url+'?'+usp.toString();document.body.appendChild(s);});}
+
+async function loadRecent(){
+  const key=$('doctor_key').value.trim();
+  if(!key){$('recentWrap').style.display='none';return;}
+  $('recentWrap').style.display='block';
+  $('recentList').innerHTML='<div class="meta" style="padding:8px 0"><span class="loading" style="border-color:rgba(31,90,90,.3);border-top-color:var(--teal)"></span> 載入中…</div>';
+  try{
+    const res=await jsonp(APPS_SCRIPT_URL,{action:'recentSurgeries',key});
+    if(res.error||!res.list||!res.list.length){$('recentList').innerHTML='<div class="meta" style="padding:8px 0">14 天內沒有手術病人</div>';return;}
+    $('recentList').innerHTML=res.list.map(p=>
+      '<div class="recent-item" data-pk="'+esc(p.pk)+'"><div><div class="nm">'+esc(maskName(p.name)||'—')+
+      (p.closed?' <span class="meta" style="color:var(--gold)">· 已結案</span>':'')+
+      '</div><div class="meta">'+esc(p.surgery||'—')+' · '+esc(p.surgeryDate||'')+'</div></div>'+
+      '<span class="meta">'+(p.gender||'')+' '+(p.age!=null?p.age+'歲':'')+'</span></div>').join('');
+    document.querySelectorAll('#recentList .recent-item').forEach(it=>it.addEventListener('click',()=>lookupByPk(it.dataset.pk)));
+  }catch(e){$('recentList').innerHTML='<div class="meta" style="padding:8px 0;color:var(--danger)">載入失敗：'+esc(e.message)+'</div>';}
+}
+
+$('lookupBtn').addEventListener('click',()=>{
+  const bd=$('lookup_birthdate').value,id4=$('lookup_id4').value.trim();
+  if(!bd||!/^\d{4}$/.test(id4)){lookErr('請填出生年月日與 4 位數身分證末碼');return;}
+  lookupByPk(bd.replace(/-/g,'')+'-'+id4);
+});
+function lookErr(m){const a=$('lookupAlert');a.textContent=m;a.classList.add('show');}
+
+async function lookupByPk(pk){
+  const key=$('doctor_key').value.trim();
+  $('lookupAlert').classList.remove('show');
+  if(!key){lookErr('請先輸入醫師通行碼');return;}
+  try{
+    const res=await jsonp(APPS_SCRIPT_URL,{action:'lookupStudy',pk,key});
+    if(res.error==='unauthorized'){lookErr('通行碼錯誤');return;}
+    if(!res.found){lookErr('找不到此病人（PK：'+pk+'）');return;}
+    currentPatient=res; fillPatient(res);
+    $('formSection').classList.remove('disabled');
+    $('changePatientBtn').style.display='inline';
+    $('formSection').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){lookErr('查詢失敗：'+e.message);}
+}
+
+function setVal(name,value){const el=byName(name);if(el)el.value=(value==null?'':value);}
+function podOf(dt,surg){ if(!dt||!surg)return''; const d=new Date(String(dt).slice(0,10)),s=new Date(String(surg).slice(0,10)); if(isNaN(d)||isNaN(s))return''; return Math.round((d-s)/86400000); }
+
+function fillPatient(res){
+  $('patientCard').style.display='flex';
+  $('pc_name').textContent=maskName(res.name)||'—';
+  $('pc_gender_age').textContent=(res.gender||'—')+' / '+(res.age!=null?res.age+' 歲':'—');
+  $('pc_surgery').textContent=res.currentSurgery||'—';
+  $('pc_euroscore').textContent=(res.euroscore!=null&&res.euroscore!=='')?res.euroscore+' %':'—（可先至危險因子頁算）';
+  const como=res.como||{};
+  const cs=[]; if(como.htn==='是')cs.push('HTN'); if(como.dm==='是')cs.push('DM'); if(como.cva==='是')cs.push('CVA'); if(como.esrd==='是')cs.push('ESRD'); if(como.copd==='是')cs.push('COPD');
+  $('pc_como').textContent=cs.length?cs.join('、'):'—';
+  $('pc_ref').textContent='參考：術前 LVEF '+(res.preopLvef||'—')+'%　Crea '+(res.preopCrea||'—')+'　體重 '+(res.preopWeight||'—')+'kg　實際手術日 '+(res.actualDate||'—');
+
+  const st=res.study;
+  if(st&&st.exists){
+    $('modeAlert').textContent='此病人已有研究收案紀錄，載入後可修改。';
+    $('modeAlert').className='alert alert-info show';
+    ['enrolled','group','reason_type','reason_note','study_id','hyperlipidemia','cad','smoking','recent_mi',
+     'height','bypass_grafts','target_vessels','mics_strategy','cannulation','converted','convert_reason',
+     'op_time','cpb_time','blood_loss','transfusion','inotrope','or_extubation','extub_to_end','tof_ok','reintub24','reintub_reason',
+     'vent_days','icu_days','los_days','daoh30','sit_pod','oob_pod','walk_pod','nrs0','nrs1','nrs2','nrs3','ome',
+     'c_pulm','c_wound','c_readmit30','c_mortality30','cost_nhi','cost_self','proms_pre','proms_post'
+    ].forEach(n=>{ if(st[n]!=null&&st[n]!=='') setVal(n,st[n]); });
+  } else {
+    $('modeAlert').textContent='此病人尚無研究收案，將建立新紀錄（部分欄位已依既有資料自動帶入/衍生）。';
+    $('modeAlert').className='alert alert-info show';
+    // 從術式帶組別建議
+    if(res.currentSurgery){ if(/MICS/i.test(res.currentSurgery)) setVal('group','MICS'); }
+    // 里程碑 → POD / ICU / LOS 自動帶入
+    const po=res.postop||{}; const surg=res.actualDate;
+    if(po.exists){
+      if(po.m_sit) setVal('sit_pod',podOf(po.m_sit,surg));
+      if(po.m_oob_sit) setVal('oob_pod',podOf(po.m_oob_sit,surg));
+      if(po.m_walk) setVal('walk_pod',podOf(po.m_walk,surg));
+      if(po.m_icu_out&&surg) setVal('icu_days',podOf(po.m_icu_out,surg));
+      if(po.m_discharge&&surg) setVal('los_days',podOf(po.m_discharge,surg));
+      if(po.max_pain!=null&&po.max_pain!=='') setVal('nrs0',po.max_pain);
+    }
+  }
+  computeDerived();
+}
+
+// ===== 儲存 =====
+$('saveBtn').addEventListener('click',async()=>{
+  if(!currentPatient)return;
+  const key=$('doctor_key').value.trim();
+  $('saveAlert').classList.remove('show');
+  if(!key){$('saveAlert').textContent='缺少通行碼';$('saveAlert').classList.add('show');return;}
+  const btn=$('saveBtn');btn.disabled=true;btn.innerHTML='<span class="loading"></span>儲存中…';
+  const fd=new FormData($('studyForm'));
+  fd.append('action','saveStudy');fd.append('pk',currentPatient.pk);fd.append('key',key);
+  try{
+    await fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',body:fd});
+    $('mainForm').style.display='none';$('successScreen').classList.add('show');
+    $('successMsg').textContent='已儲存 '+maskName(currentPatient.name)+' 的研究收案。';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(err){$('saveAlert').textContent='儲存失敗：'+err.message;$('saveAlert').classList.add('show');btn.disabled=false;btn.textContent='儲存研究收案';}
+});
+
+function resetAll(){
+  currentPatient=null;$('studyForm').reset();
+  $('patientCard').style.display='none';$('pc_ref').textContent='';
+  $('formSection').classList.add('disabled');$('changePatientBtn').style.display='none';
+  $('modeAlert').classList.remove('show');$('lookup_birthdate').value='';$('lookup_id4').value='';
+  computeDerived();
+}
+$('changePatientBtn').addEventListener('click',resetAll);
+$('anotherBtn').addEventListener('click',()=>{resetAll();$('successScreen').classList.remove('show');$('mainForm').style.display='block';$('saveBtn').disabled=false;$('saveBtn').textContent='儲存研究收案';loadRecent();window.scrollTo({top:0,behavior:'smooth'});});
+
+$('doctor_key').addEventListener('change',loadRecent);
+$('doctor_key').addEventListener('blur',loadRecent);
+$('refreshRecentBtn').addEventListener('click',loadRecent);
+
+// 從首頁卡片帶入通行碼（#k=），自動載入近期清單
+if(window.location.hash.startsWith('#k=')){ $('doctor_key').value=decodeURIComponent(window.location.hash.slice(3)); loadRecent(); }
+</script>
+</body>
+</html>

@@ -188,6 +188,16 @@
           <input type="hidden" name="cfs_label" id="h_cfs_label">
         </div>
 
+        <!-- Kilic 出院再入院分數 -->
+        <div class="zone">
+          <div class="zone-title">Kilic 出院30天再入院分數（Ann Thorac Surg 2017；加總 0–20 分；含術後/出院變數，宜於出院時填）</div>
+          <div id="kilicFields"></div>
+          <div class="result-box">Kilic 分數：<strong id="kilic_score_disp">—</strong>　30天再入院風險：<strong id="kilic_risk_disp">—</strong></div>
+          <input type="hidden" name="kilic_score" id="h_kilic_score">
+          <input type="hidden" name="kilic_cat" id="h_kilic_cat">
+          <input type="hidden" name="kilic_pct" id="h_kilic_pct">
+        </div>
+
         <!-- PONV (Apfel) -->
         <div class="zone">
           <div class="zone-title">PONV（術後噁心嘔吐，Apfel 簡化分數）</div>
@@ -310,6 +320,14 @@ const CHADS_FIELDS = [
   {name:'chads_vascular', label:'血管疾病(PAD/MI/主動脈斑塊)', type:'select', options:YN}
 ];
 renderFields('chadsFields', CHADS_FIELDS, 2);
+const KILIC_FIELDS = [
+  {name:'kilic_cld', label:'嚴重慢性肺病', type:'select', options:YN},
+  {name:'kilic_aa', label:'非裔美人', type:'select', options:YN},
+  {name:'kilic_op_other', label:'術式為 Other（非CABG/瓣膜/主動脈）', type:'select', options:YN},
+  {name:'kilic_arf', label:'術後急性腎衰竭', type:'select', options:YN},
+  {name:'kilic_los7', label:'住院 > 7 天', type:'select', options:YN}
+];
+renderFields('kilicFields', KILIC_FIELDS, 2);
 renderFields('ponvFields', PONV_FIELDS, 2);
 renderFields('stsFields', STS_FIELDS, 3);
 
@@ -412,7 +430,20 @@ function computeCfs(){
   $('h_cfs_label').value=L[lv];
 }
 
-function computeAll(){ computeEuroscore(); computePoaf(); computePonv(); computeChads(); computeCfs(); }
+// ===== Kilic 出院30天再入院分數（Ann Thorac Surg 2017，Table 3 配點）=====
+function computeKilic(){
+  const P={kilic_cld:6, kilic_aa:3, kilic_op_other:4, kilic_arf:3, kilic_los7:4};
+  let score=0, any=false;
+  Object.keys(P).forEach(n=>{ const v=gv(n); if(v!=='') any=true; if(v==='是') score+=P[n]; });
+  if(!any){ $('kilic_score_disp').textContent='—'; $('kilic_risk_disp').textContent='—'; $('h_kilic_score').value=''; $('h_kilic_cat').value=''; $('h_kilic_pct').value=''; return; }
+  let cat, pct;
+  if(score===0){ cat='低'; pct='5.7'; } else if(score<=7){ cat='中'; pct='11.0'; } else { cat='高'; pct='24.2'; }
+  $('kilic_score_disp').textContent=String(score);
+  $('kilic_risk_disp').textContent=cat+'風險（約 '+pct+'%）';
+  $('h_kilic_score').value=score; $('h_kilic_cat').value=cat; $('h_kilic_pct').value=pct;
+}
+
+function computeAll(){ computeEuroscore(); computePoaf(); computePonv(); computeChads(); computeCfs(); computeKilic(); }
 
 // 任一欄位變動 → 重算
 $('riskForm').addEventListener('input', computeAll);
@@ -513,7 +544,8 @@ function fillPatient(res){
      'ponv_female','ponv_nonsmoker','ponv_hx','ponv_opioid',
      'sts_proc','sts_mortality','sts_morb_mort','sts_stroke','sts_vent','sts_dswi','sts_reop','sts_renal','sts_long_los','sts_short_los',
      'chads_chf','chads_htn','chads_dm','chads_stroke','chads_vascular',
-     'cfs_level'
+     'cfs_level',
+     'kilic_cld','kilic_aa','kilic_op_other','kilic_arf','kilic_los7'
     ].forEach(n=>{ if(r[n]!=null && r[n]!=='') setVal(n, r[n]); });
   } else {
     $('modeAlert').textContent='此病人尚無危險因子預測，將建立新紀錄（部分欄位已依術前資料自動帶入）。';

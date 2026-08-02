@@ -309,9 +309,19 @@ footer .clinic {
       <div class="card-arrow">→</div>
     </a>
 
+    <a class="card" data-color="plum" href="study.html" id="card-study">
+      <div class="card-head">
+        <span class="card-tag">06 · 研究</span>
+        <span class="card-role">團隊</span>
+      </div>
+      <div class="card-title">研究收案</div>
+      <p class="card-desc">MICS vs 傳統 CABG 立即拔管研究的 CRF 收案；自動帶入既有資料，只補研究欄位。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
     <a class="card" data-color="sage" href="edu/index.html" id="card-edu">
       <div class="card-head">
-        <span class="card-tag">06 · 衛教</span>
+        <span class="card-tag">07 · 衛教</span>
         <span class="card-role">資源</span>
       </div>
       <div class="card-title">衛教資源目錄</div>
@@ -337,7 +347,7 @@ if (window.location.hash.startsWith('#k=')) {
 // 更新所有需要通行碼的連結
 function updateLinks() {
   const v = $('doctor_key').value.trim();
-  ['card-surgery', 'card-postop', 'card-dashboard', 'card-risk'].forEach(id => {
+  ['card-surgery', 'card-postop', 'card-dashboard', 'card-risk', 'card-study'].forEach(id => {
     const card = $(id);
     // 第一次執行時存下原始 URL，之後不再讀已被加 hash 的版本
     let base = card.getAttribute('data-base');
