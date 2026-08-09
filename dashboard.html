@@ -375,6 +375,71 @@ header {
 }
 .rate-value.muted { color: var(--ink-faint); font-size: 18px; }
 
+/* ========== ERAS / 非ERAS 兩組並列對照 ========== */
+.group-legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.group-legend .gl-item { display: inline-flex; align-items: center; gap: 6px; }
+.group-legend .gl-dot {
+  width: 10px; height: 10px; border-radius: 3px; display: inline-block;
+}
+.group-legend .gl-dot.eras { background: var(--teal); }
+.group-legend .gl-dot.non  { background: var(--gold); }
+
+/* metric card 內兩欄 */
+.mc-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+.mc-col {
+  border-left: 3px solid var(--gc);
+  padding-left: 9px;
+}
+.mc-col.eras { --gc: var(--teal); }
+.mc-col.non  { --gc: var(--gold); }
+.mc-col .mc-col-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--gc);
+  margin-bottom: 3px;
+}
+.mc-col .mc-value { font-size: 20px; }
+.mc-col .mc-value .unit { font-size: 11px; }
+
+/* rate card 內兩欄 */
+.rate-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 4px;
+}
+.rate-col {
+  border-left: 3px solid var(--gc);
+  padding-left: 11px;
+}
+.rate-col.eras { --gc: var(--teal); }
+.rate-col.non  { --gc: var(--gold); }
+.rate-col .tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--gc);
+  margin-bottom: 4px;
+}
+.rate-col .rate-value { color: var(--gc); font-size: 26px; }
+.rate-col .rate-value.muted { color: var(--ink-faint); font-size: 18px; }
+@media (max-width: 400px) {
+  .rate-compare { grid-template-columns: 1fr; gap: 10px; }
+}
+
 /* Satisfaction placeholder */
 .placeholder-card {
   background: var(--paper);
@@ -1173,27 +1238,32 @@ function render(d) {
     </div>
   `);
 
-  // ===== 05 ERAS 原始數值 =====
-  const rv = d.metrics.rawValues;
+  // ===== 05 ERAS 原始數值（ERAS vs 非ERAS 兩組並列）=====
+  const me = d.metrics.eras, mn = d.metrics.nonEras;
+  const rve = me.rawValues, rvn = mn.rawValues;
+  const unclNote = d.metrics.unclassifiedCount
+    ? ` · 另 ${d.metrics.unclassifiedCount} 筆未標記流程`
+    : '';
   html.push(`
     <h2 class="section-title">
       <span class="num">05</span>
       <span>ERAS 指標 · 原始數值（本系統平均）</span>
-      <span class="sub">歷史對照見上方背景區塊</span>
+      <span class="sub">ERAS n=${me.n} · 非ERAS n=${mn.n}${unclNote}</span>
     </h2>
+    ${groupLegend()}
     <div class="metric-grid">
-      ${metricCard('術後脫離呼吸器時間', rv.extubation)}
-      ${metricCard('術後首次 Try Water 時間', rv.tryWater)}
-      ${metricCard('術後首次固體食物進食時間', rv.foodIntake)}
-      ${metricCard('術後首次下床走路', rv.ambulation)}
-      ${metricCard('術後胸管全拔時間', rv.chestTube)}
-      ${metricCard('平均 ICU 滯留時間', rv.icuStay)}
-      ${metricCard('平均住院天數', rv.hospitalLOS)}
+      ${metricCard2('術後脫離呼吸器時間', rve.extubation, rvn.extubation)}
+      ${metricCard2('術後首次 Try Water 時間', rve.tryWater, rvn.tryWater)}
+      ${metricCard2('術後首次固體食物進食時間', rve.foodIntake, rvn.foodIntake)}
+      ${metricCard2('術後首次下床走路', rve.ambulation, rvn.ambulation)}
+      ${metricCard2('術後胸管全拔時間', rve.chestTube, rvn.chestTube)}
+      ${metricCard2('平均 ICU 滯留時間', rve.icuStay, rvn.icuStay)}
+      ${metricCard2('平均住院天數', rve.hospitalLOS, rvn.hospitalLOS)}
     </div>
   `);
 
-  // ===== 06 ERAS 指標率 =====
-  const rt = d.metrics.rates;
+  // ===== 06 ERAS 指標率（兩組並列）=====
+  const rte = me.rates, rtn = mn.rates;
   let histOR = null, histEarly = null;
   if (h && h.overall) {
     const o = h.overall;
@@ -1206,37 +1276,39 @@ function render(d) {
       <span class="num">06</span>
       <span>ERAS 指標 · 指標率</span>
     </h2>
+    ${groupLegend()}
     <div class="rate-grid">
-      ${rateCard(
+      ${rateCard2(
         '手術室中拔管比例',
         '拔管時間 &lt; 轉入加護病房時間',
-        rt.extubatedInOR,
+        rte.extubatedInOR, rtn.extubatedInOR,
         histOR
       )}
-      ${rateCard(
+      ${rateCard2(
         '術後立即拔管比例',
         '術後脫離呼吸器時間 &lt; 6 小時（含手術室中拔管）',
-        rt.earlyExtubation,
+        rte.earlyExtubation, rtn.earlyExtubation,
         histEarly
       )}
     </div>
   `);
 
-  // ===== 06+ 本期重大併發症率（B1，即時從重大異常事件欄）=====
-  const comp = d.metrics.complications;
-  if (comp && comp.total > 0) {
-    const cc = (o) => ({ count: o.count, total: comp.total, pct: o.pct });
+  // ===== 06+ 本期重大併發症率（B1，即時從重大異常事件欄；兩組並列）=====
+  const compE = me.complications, compN = mn.complications;
+  if (compE && compN && (compE.total + compN.total) > 0) {
+    const cc = (o, total) => ({ count: o.count, total: total, pct: o.pct });
     html.push(`
       <h2 class="section-title">
         <span class="num">06+</span>
         <span>本期重大併發症率</span>
-        <span class="sub">${comp.total} 例術後紀錄</span>
+        <span class="sub">ERAS ${compE.total} · 非ERAS ${compN.total} 例術後紀錄</span>
       </h2>
+      ${groupLegend()}
       <div class="rate-grid">
-        ${rateCard('術後急救 (CPR)', '重大異常事件記錄', cc(comp.cpr), null)}
-        ${rateCard('重新插管', '重大異常事件記錄', cc(comp.reintubation), null)}
-        ${rateCard('再次手術', '重大異常事件記錄', cc(comp.reoperation), null)}
-        ${rateCard('中風', '重大異常事件記錄', cc(comp.stroke), null)}
+        ${rateCard2('術後急救 (CPR)', '重大異常事件記錄', cc(compE.cpr, compE.total), cc(compN.cpr, compN.total), null)}
+        ${rateCard2('重新插管', '重大異常事件記錄', cc(compE.reintubation, compE.total), cc(compN.reintubation, compN.total), null)}
+        ${rateCard2('再次手術', '重大異常事件記錄', cc(compE.reoperation, compE.total), cc(compN.reoperation, compN.total), null)}
+        ${rateCard2('中風', '重大異常事件記錄', cc(compE.stroke, compE.total), cc(compN.stroke, compN.total), null)}
       </div>
     `);
   }
@@ -1739,6 +1811,59 @@ function ovCard(accent, label, value, unit) {
     <div class="ov-card" data-accent="${accent}">
       <div class="ov-label">${label}</div>
       <div class="ov-value">${value}<span class="ov-unit">${unit}</span></div>
+    </div>
+  `;
+}
+
+// ===== 分組圖例 =====
+function groupLegend() {
+  return `
+    <div class="group-legend">
+      <span class="gl-item"><span class="gl-dot eras"></span>ERAS 流程</span>
+      <span class="gl-item"><span class="gl-dot non"></span>非 ERAS 流程</span>
+    </div>
+  `;
+}
+
+// ===== 原始數值卡（兩組並列）=====
+function metricCard2(label, e, n) {
+  const col = (m, cls, tag) => {
+    if (!m || m.avg == null) {
+      return `<div class="mc-col ${cls}"><div class="mc-col-tag">${tag}</div><div class="mc-value muted">—</div><div class="mc-meta">尚無資料</div></div>`;
+    }
+    return `<div class="mc-col ${cls}"><div class="mc-col-tag">${tag}</div><div class="mc-value">${m.avg}<span class="unit">${escapeHtml(m.unit || '')}</span></div><div class="mc-meta">${m.count} 筆</div></div>`;
+  };
+  return `
+    <div class="mc">
+      <div class="mc-label">${label}</div>
+      <div class="mc-compare">
+        ${col(e, 'eras', 'ERAS')}
+        ${col(n, 'non', '非ERAS')}
+      </div>
+    </div>
+  `;
+}
+
+// ===== 指標率卡（兩組並列）=====
+function rateCard2(label, defText, e, n, histRef) {
+  const histLine = histRef
+    ? `<div class="historical-ref">${escapeHtml(histRef.label || '歷史')}：<span class="hist-val">${histRef.pct}%</span>（${histRef.count} / ${histRef.total}）</div>`
+    : '';
+  const col = (r, cls, tag) => {
+    if (!r || r.pct == null) {
+      return `<div class="rate-col ${cls}"><div class="tag">${tag}</div><div class="rate-value muted">—</div><div class="rate-frac">尚無資料</div></div>`;
+    }
+    return `<div class="rate-col ${cls}"><div class="tag">${tag}</div><div class="rate-value">${r.pct}<span class="unit">%</span></div><div class="rate-frac">${r.count} / ${r.total} 位</div></div>`;
+  };
+  return `
+    <div class="rate-card">
+      <div class="rate-label">${label}</div>
+      <div class="rate-def">${defText}</div>
+      <div class="rate-compare">
+        ${col(e, 'eras', 'ERAS')}
+        ${col(n, 'non', '非ERAS')}
+      </div>
+      ${histLine}
     </div>
   `;
 }
