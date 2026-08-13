@@ -687,11 +687,16 @@ footer {
       <!-- Recent registrations quick list -->
       <div class="recent-wrap" id="recentWrap" style="display:none">
         <div class="recent-head">
-          <span class="label">最近 14 天新建的病人</span>
+          <span class="label">待處理病人（最近收案 ＋ 未開刀）</span>
           <button type="button" class="btn-refresh" id="refreshRecentBtn">↻ 重新整理</button>
         </div>
         <div class="recent-list" id="recentList"></div>
-        <div class="divider-or"><span>或者，查詢 14 天前的病人</span></div>
+        <div class="name-search" style="display:flex;gap:8px;margin-top:12px">
+          <input type="text" id="nameSearch" placeholder="依姓名搜尋任何病人（含急診、已完成，不限日期）" style="flex:1;padding:8px 12px;border:1px solid #D4CDB8;border-radius:6px;font-family:inherit;font-size:14px">
+          <button type="button" class="btn-refresh" id="nameSearchBtn">🔍 搜尋姓名</button>
+        </div>
+        <div class="recent-list" id="searchResults" style="display:none;margin-top:8px"></div>
+        <div class="divider-or"><span>或者，用生日＋身分證末4碼查詢病人</span></div>
       </div>
 
       <div class="alert alert-error" id="lookupAlert"></div>
@@ -992,7 +997,50 @@ function getRecentStatus(p) {
   return { text: '🟡 未預約', cls: 'pending', dim: false };
 }
 
-async function loadRecent() {
+// 單筆病人項目 HTML（recent 清單與姓名搜尋結果共用）
+function renderRecentItem(p) {
+  const dayLabel = p.daysFromToday == null ? '' :
+                   p.daysFromToday === 0 ? '今天' :
+                   p.daysFromToday === -1 ? '昨天' :
+                   Math.abs(p.daysFromToday) + ' 天前';
+  const status = getRecentStatus(p);
+  const itemClass = status.dim ? 'recent-item inactive' : 'recent-item';
+
+  const dateStr = p.createdDate
+    ? ('建檔 ' + p.createdDate.slice(5) + (dayLabel ? ' · ' + dayLabel : ''))
+    : '';
+
+  let detailRight = '';
+  if (p.surgery && p.scheduledDate) {
+    detailRight = `<span class="surgery">${escapeHtml(p.surgery)} · 預定 ${p.scheduledDate.slice(5)}</span>`;
+  } else if (p.diagnosis) {
+    detailRight = `<span class="diag">${escapeHtml(p.diagnosis.length > 24 ? p.diagnosis.slice(0,24)+'…' : p.diagnosis)}</span>`;
+  } else {
+    detailRight = `<span class="diag" style="font-style:italic">尚未填寫診斷</span>`;
+  }
+
+  return `
+    <div class="${itemClass}" data-pk="${escapeHtml(p.pk)}">
+      <div class="recent-main">
+        <div class="recent-name">${escapeHtml(p.name)} <span class="small">${escapeHtml(p.gender || '')} · ${p.age != null ? p.age + ' 歲' : ''}</span></div>
+        <div class="recent-detail">
+          <span class="date">${dateStr}</span>
+          ${detailRight}
+        </div>
+      </div>
+      <span class="recent-status ${status.cls}">${status.text}</span>
+    </div>
+  `;
+}
+
+function bindRecentItems(container) {
+  container.querySelectorAll('.recent-item').forEach(item => {
+    item.addEventListener('click', () => doLookup(item.dataset.pk));
+  });
+}
+
+// fresh=true 時後端略過 90 秒快取取最新（重新整理鈕、剛改完狀態後用）
+async function loadRecent(fresh) {
   const key = $('doctor_key').value.trim();
   if (!key) {
     $('recentWrap').style.display = 'none';
@@ -1005,58 +1053,57 @@ async function loadRecent() {
   recentList.innerHTML = '<div class="recent-empty"><span class="loading"></span> 載入中…</div>';
 
   try {
-    const res = await jsonp(APPS_SCRIPT_URL, { action: 'recentRegistrations', key });
+    const params = { action: 'recentRegistrations', key };
+    if (fresh) params.fresh = '1';
+    const res = await jsonp(APPS_SCRIPT_URL, params);
 
     if (res.error === 'unauthorized') {
       recentWrap.style.display = 'none';
       return;
     }
     if (!res.list || res.list.length === 0) {
-      recentList.innerHTML = '<div class="recent-empty">最近 14 天沒有新建的病人</div>';
+      recentList.innerHTML = '<div class="recent-empty">目前沒有待處理的病人（最近14天收案或尚未開刀者）</div>';
       return;
     }
 
-    recentList.innerHTML = res.list.map(p => {
-      const dayLabel = p.daysFromToday === 0 ? '今天' :
-                       p.daysFromToday === -1 ? '昨天' :
-                       Math.abs(p.daysFromToday) + ' 天前';
-      const status = getRecentStatus(p);
-      const itemClass = status.dim ? 'recent-item inactive' : 'recent-item';
-
-      let detailRight = '';
-      if (p.surgery && p.scheduledDate) {
-        detailRight = `<span class="surgery">${escapeHtml(p.surgery)} · 預定 ${p.scheduledDate.slice(5)}</span>`;
-      } else if (p.diagnosis) {
-        detailRight = `<span class="diag">${escapeHtml(p.diagnosis.length > 24 ? p.diagnosis.slice(0,24)+'…' : p.diagnosis)}</span>`;
-      } else {
-        detailRight = `<span class="diag" style="font-style:italic">尚未填寫診斷</span>`;
-      }
-
-      return `
-        <div class="${itemClass}" data-pk="${escapeHtml(p.pk)}">
-          <div class="recent-main">
-            <div class="recent-name">${escapeHtml(p.name)} <span class="small">${escapeHtml(p.gender || '')} · ${p.age != null ? p.age + ' 歲' : ''}</span></div>
-            <div class="recent-detail">
-              <span class="date">建檔 ${p.createdDate.slice(5)} · ${dayLabel}</span>
-              ${detailRight}
-            </div>
-          </div>
-          <span class="recent-status ${status.cls}">${status.text}</span>
-        </div>
-      `;
-    }).join('');
-
-    recentList.querySelectorAll('.recent-item').forEach(item => {
-      item.addEventListener('click', () => doLookup(item.dataset.pk));
-    });
+    recentList.innerHTML = res.list.map(renderRecentItem).join('');
+    bindRecentItems(recentList);
   } catch (err) {
     recentList.innerHTML = `<div class="recent-empty" style="color:var(--error)">載入失敗：${escapeHtml(err.message)}</div>`;
   }
 }
 
-$('refreshRecentBtn').addEventListener('click', loadRecent);
+$('refreshRecentBtn').addEventListener('click', () => loadRecent(true));  // 重新整理 = 強制取最新
 $('doctor_key').addEventListener('blur', () => {
   if ($('doctor_key').value.trim()) loadRecent();
+});
+
+// ===== 依姓名搜尋任何病人（找清單外的病人，如急診已完成案）=====
+async function doNameSearch() {
+  const key = $('doctor_key').value.trim();
+  const q = $('nameSearch').value.trim();
+  const box = $('searchResults');
+  if (!key) { lookupAlert.textContent = '請先輸入醫師通行碼'; lookupAlert.classList.add('show'); return; }
+  if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
+
+  box.style.display = 'block';
+  box.innerHTML = '<div class="recent-empty"><span class="loading"></span> 搜尋中…</div>';
+  try {
+    const res = await jsonp(APPS_SCRIPT_URL, { action: 'searchPatients', key, q });
+    if (res.error === 'unauthorized') { box.innerHTML = '<div class="recent-empty">通行碼錯誤</div>'; return; }
+    if (res.error) { box.innerHTML = `<div class="recent-empty" style="color:var(--error)">搜尋失敗：${escapeHtml(res.error)}</div>`; return; }
+    if (!res.list || res.list.length === 0) { box.innerHTML = `<div class="recent-empty">查無「${escapeHtml(q)}」的病人</div>`; return; }
+
+    const note = `<div class="recent-empty" style="text-align:left;font-style:normal;color:var(--ink-soft,#5C5C5C)">搜尋結果 ${res.count} 筆${res.count > res.list.length ? '（顯示前 ' + res.list.length + '）' : ''}，點選以載入</div>`;
+    box.innerHTML = note + res.list.map(renderRecentItem).join('');
+    bindRecentItems(box);
+  } catch (err) {
+    box.innerHTML = `<div class="recent-empty" style="color:var(--error)">搜尋失敗：${escapeHtml(err.message)}</div>`;
+  }
+}
+$('nameSearchBtn').addEventListener('click', doNameSearch);
+$('nameSearch').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); doNameSearch(); }
 });
 
 function showPatient(p) {
@@ -1121,11 +1168,8 @@ function renderStatusAction(p) {
   const msg = $('statusActionMsg');
   $('cancelReasonWrap').style.display = 'none';
   $('cancel_reason').value = '';
-  msg.textContent = '';
+  msg.innerHTML = '';
   const st = p.currentSurgeryStatus || '';
-
-  // 已完成的病人不提供此操作（避免誤取消已手術者）
-  if (st === '已完成') { box.style.display = 'none'; return; }
   box.style.display = 'flex';
 
   if (st === '取消') {
@@ -1136,6 +1180,10 @@ function renderStatusAction(p) {
     $('restoreBtn').addEventListener('click', () => submitStatusChange('排定中', ''));
   } else {
     btns.innerHTML = `<button type="button" id="cancelStartBtn" style="padding:9px 18px;border:1px solid #B85450;background:#fff;color:#B85450;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500">✕ 取消此收案（移出待手術清單）</button>`;
+    // 已完成者仍可取消（供「急診收案但實際未開刀」修正），但顯示警語提醒謹慎
+    if (st === '已完成') {
+      msg.innerHTML = '<span style="color:#B8842D">⚠ 此病人已標記「已完成」。僅在實際未開刀（如急診收案後未手術）時才改為取消；一般已開刀者請勿取消。</span>';
+    }
     $('cancelStartBtn').addEventListener('click', () => {
       $('cancelReasonWrap').style.display = 'block';
       $('cancel_reason').focus();
@@ -1168,7 +1216,9 @@ async function submitStatusChange(newStatus, reason) {
     $('statusActionMsg').textContent = newStatus === '取消'
       ? '已取消，並移出待手術清單。'
       : '已恢復為「排定中」，重新回到待手術清單。';
-    loadRecent();
+    loadRecent(true);  // 後端已清快取，強制取最新以即時反映
+    // 若目前有姓名搜尋結果，也一併重整
+    if ($('searchResults').style.display !== 'none' && $('nameSearch').value.trim()) doNameSearch();
   } catch (err) {
     msg.textContent = '操作失敗：' + err.message;
     allBtns.forEach(b => b && (b.disabled = false));
