@@ -1100,7 +1100,7 @@ $('doctor_key').addEventListener('change', () => {
 });
 
 // ===== JSONP =====
-function jsonp(url, params, timeoutMs = 20000) {
+function jsonp(url, params, timeoutMs = 35000) {
   return new Promise((resolve, reject) => {
     const cb = '_dash_cb_' + Date.now() + '_' + Math.floor(Math.random()*1e6);
     const usp = new URLSearchParams({ ...params, callback: cb });
@@ -1115,7 +1115,8 @@ function jsonp(url, params, timeoutMs = 20000) {
 }
 
 // ===== Load =====
-async function load() {
+// fresh=true 時強制後端略過快取取最新（「重新載入」按鈕用）；一般載入吃 300 秒快取，較快
+async function load(fresh) {
   const key = $('doctor_key').value.trim();
   $('errAlert').classList.remove('show');
 
@@ -1127,7 +1128,9 @@ async function load() {
   $('content').innerHTML = '<div class="loading-block"><span class="loading"></span> 載入中…</div>';
 
   try {
-    const res = await jsonp(APPS_SCRIPT_URL, { action: 'dashboard', key });
+    const params = { action: 'dashboard', key };
+    if (fresh) params.fresh = '1';
+    const res = await jsonp(APPS_SCRIPT_URL, params);
     if (res.error === 'unauthorized') {
       showError('通行碼錯誤');
       $('content').innerHTML = '';
@@ -1183,7 +1186,7 @@ function showError(msg) {
   el.classList.add('show');
 }
 
-$('refreshBtn').addEventListener('click', load);
+$('refreshBtn').addEventListener('click', () => load(true));  // 重新載入 = 強制取最新（略過快取）
 
 // ===== Render =====
 function render(d) {
