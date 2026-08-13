@@ -744,6 +744,18 @@ footer {
           <span class="item-label">目前狀態</span>
           <span class="item-value warn" id="pc_existing">—</span>
         </div>
+        <div class="item" id="pc_status_action" style="display:none;grid-column:1/-1;flex-direction:column;align-items:stretch;gap:8px">
+          <span class="item-label">收案狀態管理</span>
+          <div id="statusActionBtns" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+          <div id="cancelReasonWrap" style="display:none">
+            <textarea id="cancel_reason" placeholder="取消原因（例：家屬決定不手術、轉院、病情變化、暫緩排程…）" style="width:100%;min-height:60px;padding:8px;border:1px solid #D4CDB8;border-radius:6px;font-family:inherit;font-size:14px;box-sizing:border-box"></textarea>
+            <div style="display:flex;gap:8px;margin-top:6px">
+              <button type="button" id="cancelConfirmBtn" style="padding:8px 16px;border:none;background:#B85450;color:#fff;border-radius:6px;cursor:pointer;font-family:inherit">確認取消</button>
+              <button type="button" id="cancelDismissBtn" style="padding:8px 16px;border:1px solid #CFC7B6;background:#fff;color:#6B6457;border-radius:6px;cursor:pointer;font-family:inherit">返回</button>
+            </div>
+          </div>
+          <div id="statusActionMsg" style="font-size:13px;color:#5C5C5C"></div>
+        </div>
       </div>
 
       <form id="surgeryForm">
@@ -1054,15 +1066,9 @@ function showPatient(p) {
   $('pc_phone').textContent = p.phone || '—';
 
   // Show existing surgery info if any
-  if (p.currentSurgeryStatus || p.currentScheduledDate) {
-    $('pc_existing').textContent =
-      `目前 ${p.currentSurgeryStatus || ''}` +
-      (p.currentScheduledDate ? ` · 預定 ${p.currentScheduledDate}` : '') +
-      (p.currentSurgery ? ` · ${p.currentSurgery}` : '');
-    $('pc_existing_box').style.display = 'flex';
-  } else {
-    $('pc_existing_box').style.display = 'none';
-  }
+  refreshExistingLine(p);
+  // 收案狀態管理（取消 / 反取消）
+  renderStatusAction(p);
 
   // 回填既有手術/術前資訊(已排程過的病人)
   if (p.diagnosis) $('diagnosis').value = p.diagnosis;
@@ -1094,6 +1100,97 @@ function showPatient(p) {
   surgerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   setTimeout(() => $('diagnosis').focus(), 400);
 }
+
+// ===== 目前狀態列 =====
+function refreshExistingLine(p) {
+  if (p.currentSurgeryStatus || p.currentScheduledDate) {
+    $('pc_existing').textContent =
+      `目前 ${p.currentSurgeryStatus || ''}` +
+      (p.currentScheduledDate ? ` · 預定 ${p.currentScheduledDate}` : '') +
+      (p.currentSurgery ? ` · ${p.currentSurgery}` : '');
+    $('pc_existing_box').style.display = 'flex';
+  } else {
+    $('pc_existing_box').style.display = 'none';
+  }
+}
+
+// ===== 收案狀態管理（取消 / 反取消）=====
+function renderStatusAction(p) {
+  const box = $('pc_status_action');
+  const btns = $('statusActionBtns');
+  const msg = $('statusActionMsg');
+  $('cancelReasonWrap').style.display = 'none';
+  $('cancel_reason').value = '';
+  msg.textContent = '';
+  const st = p.currentSurgeryStatus || '';
+
+  // 已完成的病人不提供此操作（避免誤取消已手術者）
+  if (st === '已完成') { box.style.display = 'none'; return; }
+  box.style.display = 'flex';
+
+  if (st === '取消') {
+    btns.innerHTML = `<button type="button" id="restoreBtn" style="padding:9px 18px;border:1px solid #4A7A5A;background:#EDF3EE;color:#3A5F46;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500">↩ 恢復為排定中</button>`;
+    msg.textContent = p.cancelReason
+      ? ('取消原因：' + p.cancelReason + '（此病人不在待手術清單中）')
+      : '此病人目前為「取消」狀態，不在待手術清單中。';
+    $('restoreBtn').addEventListener('click', () => submitStatusChange('排定中', ''));
+  } else {
+    btns.innerHTML = `<button type="button" id="cancelStartBtn" style="padding:9px 18px;border:1px solid #B85450;background:#fff;color:#B85450;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500">✕ 取消此收案（移出待手術清單）</button>`;
+    $('cancelStartBtn').addEventListener('click', () => {
+      $('cancelReasonWrap').style.display = 'block';
+      $('cancel_reason').focus();
+    });
+  }
+}
+
+async function submitStatusChange(newStatus, reason) {
+  if (!currentPatient) return;
+  const box = $('statusActionBtns');
+  const msg = $('statusActionMsg');
+  const allBtns = [...box.querySelectorAll('button'), $('cancelConfirmBtn'), $('cancelDismissBtn')];
+  allBtns.forEach(b => b && (b.disabled = true));
+  msg.textContent = '處理中…';
+
+  const fd = new FormData();
+  fd.append('action', 'updateSurgeryStatus');
+  fd.append('pk', currentPatient.pk);
+  fd.append('key', $('doctor_key').value.trim());
+  fd.append('new_status', newStatus);
+  fd.append('reason', reason || '');
+
+  try {
+    await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd });
+    // 樂觀更新（no-cors 回應不可讀，比照本頁既有寫入流程）
+    currentPatient.currentSurgeryStatus = newStatus;
+    currentPatient.cancelReason = newStatus === '取消' ? (reason || '') : '';
+    refreshExistingLine(currentPatient);
+    renderStatusAction(currentPatient);
+    $('statusActionMsg').textContent = newStatus === '取消'
+      ? '已取消，並移出待手術清單。'
+      : '已恢復為「排定中」，重新回到待手術清單。';
+    loadRecent();
+  } catch (err) {
+    msg.textContent = '操作失敗：' + err.message;
+    allBtns.forEach(b => b && (b.disabled = false));
+  }
+}
+
+// 靜態按鈕綁定（取消原因確認 / 返回）
+$('cancelConfirmBtn').addEventListener('click', () => {
+  const r = $('cancel_reason').value.trim();
+  if (!r) {
+    $('cancel_reason').style.borderColor = '#B85450';
+    $('cancel_reason').focus();
+    $('statusActionMsg').textContent = '請先填寫取消原因。';
+    return;
+  }
+  $('cancel_reason').style.borderColor = '#D4CDB8';
+  submitStatusChange('取消', r);
+});
+$('cancelDismissBtn').addEventListener('click', () => {
+  $('cancelReasonWrap').style.display = 'none';
+  $('statusActionMsg').textContent = '';
+});
 
 // ===== Change patient =====
 changePatientBtn.addEventListener('click', () => {
