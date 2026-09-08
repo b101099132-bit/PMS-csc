@@ -279,19 +279,29 @@ footer .clinic {
       <div class="card-arrow">→</div>
     </a>
 
+    <a class="card" data-color="teal" href="recovery.html" id="card-recovery">
+      <div class="card-head">
+        <span class="card-tag">03 · 恢復室</span>
+        <span class="card-role">恢復室</span>
+      </div>
+      <div class="card-title">恢復室紀錄</div>
+      <p class="card-desc">手術室拔管後於恢復室記錄體溫、生命徵象、改良 Aldrete 分數與轉出加護病房標準。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
     <a class="card" data-color="plum" href="postop.html" id="card-postop">
       <div class="card-head">
-        <span class="card-tag">03 · 術後</span>
+        <span class="card-tag">04 · 術後</span>
         <span class="card-role">團隊</span>
       </div>
       <div class="card-title">手術完成與術後追蹤</div>
-      <p class="card-desc">登錄實際手術日、手術代碼，並逐筆記錄 ERAS 恢復里程碑與臨床觀察。</p>
+      <p class="card-desc">登錄實際手術日、手術代碼，並逐筆記錄 ERAS 恢復里程碑與臨床觀察（含加護病房體溫）。</p>
       <div class="card-arrow">→</div>
     </a>
 
     <a class="card" data-color="navy" href="dashboard.html" id="card-dashboard">
       <div class="card-head">
-        <span class="card-tag">04 · 統計</span>
+        <span class="card-tag">05 · 統計</span>
         <span class="card-role">管理</span>
       </div>
       <div class="card-title">儀表板</div>
@@ -301,7 +311,7 @@ footer .clinic {
 
     <a class="card" data-color="teal" href="risk.html" id="card-risk">
       <div class="card-head">
-        <span class="card-tag">05 · 風險</span>
+        <span class="card-tag">06 · 風險</span>
         <span class="card-role">團隊</span>
       </div>
       <div class="card-title">危險因子預測</div>
@@ -311,7 +321,7 @@ footer .clinic {
 
     <a class="card" data-color="plum" href="study.html" id="card-study">
       <div class="card-head">
-        <span class="card-tag">06 · 研究</span>
+        <span class="card-tag">07 · 研究</span>
         <span class="card-role">團隊</span>
       </div>
       <div class="card-title">研究收案</div>
@@ -321,7 +331,7 @@ footer .clinic {
 
     <a class="card" data-color="sage" href="edu/index.html" id="card-edu">
       <div class="card-head">
-        <span class="card-tag">07 · 衛教</span>
+        <span class="card-tag">08 · 衛教</span>
         <span class="card-role">資源</span>
       </div>
       <div class="card-title">衛教資源目錄</div>
@@ -347,7 +357,7 @@ if (window.location.hash.startsWith('#k=')) {
 // 更新所有需要通行碼的連結
 function updateLinks() {
   const v = $('doctor_key').value.trim();
-  ['card-surgery', 'card-postop', 'card-dashboard', 'card-risk', 'card-study'].forEach(id => {
+  ['card-surgery', 'card-recovery', 'card-postop', 'card-dashboard', 'card-risk', 'card-study'].forEach(id => {
     const card = $(id);
     // 第一次執行時存下原始 URL，之後不再讀已被加 hash 的版本
     let base = card.getAttribute('data-base');

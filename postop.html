@@ -982,7 +982,12 @@ footer {
         </div>
 
         <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">臨床觀察</div>
-        <div class="row row-2">
+        <div class="row row-3">
+          <div class="field">
+            <label for="icu_temp">加護病房體溫 (°C)</label>
+            <input type="number" id="icu_temp" name="icu_temp" step="0.1" min="30" max="43">
+            <div class="hint" style="font-size:11px;color:var(--ink-faint)">抵達加護病房時體溫</div>
+          </div>
           <div class="field">
             <label for="max_temp">最高體溫 (°C)</label>
             <input type="number" id="max_temp" name="max_temp" step="0.1" min="34" max="42">
@@ -1441,6 +1446,7 @@ function fillExisting(p) {
   if (po.aki) { $('aki').value = po.aki; $('aki').dataset.userEdited = '1'; }
 
   // Clinical
+  if (po.icu_temp != null && po.icu_temp !== '') $('icu_temp').value = po.icu_temp;
   if (po.max_temp != null && po.max_temp !== '') $('max_temp').value = po.max_temp;
   if (po.max_pain != null && po.max_pain !== '') $('max_pain').value = po.max_pain;
 

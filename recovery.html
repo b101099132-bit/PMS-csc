@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恢復室紀錄 — 心臟外科手術病人管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:#FAF7F2; --paper:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --ink-faint:#8A8580;
+  --teal:#1F5A5A; --gold:#A87B4D; --navy:#2C4866; --plum:#6B5876;
+  --border:#E8E2D5; --border-strong:#D4CDB8;
+  --success:#4A7A5A; --success-bg:#EDF3EE; --warn:#B8842D; --warn-bg:#FBF3DE;
+  --error:#B85450; --error-bg:#FBEFEE;
+}
+body { font-family:'Noto Sans TC',system-ui,sans-serif; background:var(--cream); color:var(--ink);
+  font-size:15px; line-height:1.6; padding:20px 16px 60px; -webkit-font-smoothing:antialiased; }
+.container { max-width:760px; margin:0 auto; }
+header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; font-weight:500; margin-bottom:6px; }
+.brand h1 { font-family:'Noto Serif TC',serif; font-size:23px; font-weight:600; }
+.brand .flow { font-size:12px; color:var(--ink-faint); margin-top:4px; }
+.role-tag { background:var(--teal); color:#fff; padding:4px 12px; border-radius:3px; font-size:12px; letter-spacing:0.1em; font-weight:500; }
+
+.key-bar { background:#EEF2F7; border:1px solid #DCE3EB; border-radius:3px; padding:12px 16px; margin-bottom:18px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.key-bar label { font-size:13px; color:var(--navy); font-weight:500; }
+.key-bar input { flex:1; min-width:160px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:3px;
+  font-family:'JetBrains Mono',monospace; font-size:13px; background:#fff; }
+
+.card { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:18px 20px; margin-bottom:18px; }
+.card > h2 { font-family:'Noto Serif TC',serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:14px;
+  display:flex; align-items:baseline; gap:8px; }
+.card > h2 .num { font-size:12px; color:var(--gold); letter-spacing:0.1em; }
+.subhead { font-size:14px; color:var(--ink-soft); font-weight:600; margin:16px 0 8px; }
+.hint { font-size:12px; color:var(--ink-faint); line-height:1.7; margin-bottom:10px; }
+
+.row { display:grid; gap:12px; }
+.row-2 { grid-template-columns:repeat(2,1fr); }
+.row-3 { grid-template-columns:repeat(3,1fr); }
+.row-4 { grid-template-columns:repeat(4,1fr); }
+@media (max-width:560px){ .row-3,.row-4 { grid-template-columns:repeat(2,1fr); } }
+.field { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
+.field label { font-size:13px; color:var(--ink-soft); font-weight:500; }
+.field input, .field select, .field textarea {
+  padding:8px 10px; border:1px solid var(--border-strong); border-radius:6px; font-family:inherit; font-size:14px; background:#fff; width:100%; }
+.field textarea { min-height:56px; resize:vertical; }
+.field .sub { font-size:11px; color:var(--ink-faint); }
+
+.pcard { display:grid; grid-template-columns:repeat(2,1fr); gap:8px 18px; }
+.pcard .item { display:flex; flex-direction:column; }
+.pcard .item .lbl { font-size:11px; color:var(--ink-faint); }
+.pcard .item .val { font-size:15px; font-weight:500; }
+.pcard .item.wide { grid-column:1/-1; }
+
+.ald-score { font-family:'JetBrains Mono',monospace; font-weight:700; }
+.criteria-list { display:flex; flex-direction:column; gap:2px; }
+.crit { display:flex; align-items:flex-start; gap:10px; padding:9px 10px; border:1px solid var(--border); border-radius:6px; background:#fff; }
+.crit input[type=checkbox] { width:18px; height:18px; margin-top:2px; accent-color:var(--teal); flex-shrink:0; }
+.crit .ct { font-size:13.5px; }
+.crit .ct .k { font-weight:600; }
+.crit .ct .d { color:var(--ink-faint); font-size:12px; }
+.crit.on { background:var(--success-bg); border-color:#C2D8C2; }
+
+.verdict { border-radius:6px; padding:12px 16px; font-weight:600; font-size:15px; margin-top:12px; text-align:center; }
+.verdict.go { background:var(--success-bg); color:var(--success); border:1px solid #C2D8C2; }
+.verdict.hold { background:var(--warn-bg); color:var(--warn); border:1px solid #E6D3A0; }
+
+.btn { padding:11px 18px; border:none; border-radius:6px; cursor:pointer; font-family:inherit; font-size:15px; font-weight:600; }
+.btn-primary { background:var(--teal); color:#fff; width:100%; }
+.btn-primary:disabled { opacity:0.6; cursor:default; }
+.btn-ghost { background:#fff; border:1px solid var(--border-strong); color:var(--ink-soft); font-size:13px; font-weight:500; padding:7px 14px; }
+
+.alert { padding:11px 14px; border-radius:6px; margin-bottom:14px; font-size:14px; font-weight:500; display:none; }
+.alert.show { display:block; }
+.alert-error { background:var(--error-bg); color:var(--error); border-left:3px solid var(--error); }
+.alert-success { background:var(--success-bg); color:var(--success); border-left:3px solid var(--success); }
+
+.recent-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.recent-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:9px 12px;
+  border:1px solid var(--border); border-radius:6px; cursor:pointer; background:#fff; }
+.recent-item:hover { border-color:var(--teal); background:var(--cream); }
+.recent-item .nm { font-weight:500; }
+.recent-item .mt { font-size:12px; color:var(--ink-faint); }
+.recent-empty { padding:14px; text-align:center; color:var(--ink-faint); font-size:13px; font-style:italic; }
+.divider-or { text-align:center; color:var(--ink-faint); font-size:12px; margin:12px 0; }
+
+.loading { display:inline-block; width:14px; height:14px; border:2px solid currentColor; border-right-color:transparent;
+  border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:-2px; margin-right:6px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.disabled { opacity:0.5; pointer-events:none; }
+footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-faint); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="brand">
+      <div class="eyebrow">Recovery Room</div>
+      <h1>恢復室紀錄</h1>
+      <div class="flow">術後流程：手術室拔管 → <strong>恢復室</strong> → 加護病房</div>
+    </div>
+    <span class="role-tag">恢復室</span>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後查詢病人" autocomplete="off">
+  </div>
+
+  <div class="alert alert-error" id="topAlert"></div>
+
+  <!-- 1. 查詢病人 -->
+  <div class="card" id="lookupCard">
+    <h2><span class="num">1</span><span>查詢病人</span></h2>
+    <div class="row row-2">
+      <div class="field"><label for="lookup_birthdate">出生年月日</label><input type="date" id="lookup_birthdate"></div>
+      <div class="field"><label for="lookup_id4">身分證末 4 碼</label><input type="text" id="lookup_id4" maxlength="4" inputmode="numeric" placeholder="0000"></div>
+    </div>
+    <button type="button" class="btn btn-ghost" id="lookupBtn">查詢病人</button>
+    <div class="divider-or">或從最近手術病人挑選</div>
+    <div class="recent-list" id="recentList"><div class="recent-empty">輸入通行碼後顯示最近手術病人</div></div>
+  </div>
+
+  <!-- 2. 恢復室紀錄表單 -->
+  <div class="card disabled" id="formCard">
+    <h2><span class="num">2</span><span>恢復室紀錄</span></h2>
+    <div class="pcard" id="patientCard" style="margin-bottom:16px">
+      <div class="item"><span class="lbl">姓名</span><span class="val" id="pc_name">—</span></div>
+      <div class="item"><span class="lbl">性別 / 年齡</span><span class="val" id="pc_ga">—</span></div>
+      <div class="item"><span class="lbl">病人主鍵</span><span class="val" id="pc_pk" style="font-family:'JetBrains Mono',monospace;font-size:13px">—</span></div>
+      <div class="item"><span class="lbl">術式</span><span class="val" id="pc_surgery">—</span></div>
+    </div>
+
+    <div class="alert alert-error" id="formAlert"></div>
+    <div class="alert alert-success" id="okAlert"></div>
+
+    <form id="recForm">
+      <div class="subhead">抵達與體溫</div>
+      <div class="row row-2">
+        <div class="field"><label for="arrival">抵達恢復室時間</label><input type="datetime-local" id="arrival" name="arrival"></div>
+        <div class="field"><label for="temp_arrival">到達恢復室體溫 (°C)</label><input type="number" id="temp_arrival" name="temp_arrival" step="0.1" min="30" max="43" placeholder="°C"></div>
+      </div>
+
+      <div class="subhead">轉出評估生命徵象</div>
+      <div class="row row-4">
+        <div class="field"><label for="hr">HR</label><input type="number" id="hr" name="hr" step="1" min="0" max="250"></div>
+        <div class="field"><label for="sbp">收縮壓</label><input type="number" id="sbp" name="sbp" step="1" min="0" max="300"></div>
+        <div class="field"><label for="dbp">舒張壓</label><input type="number" id="dbp" name="dbp" step="1" min="0" max="200"></div>
+        <div class="field"><label for="spo2">SpO₂ (%)</label><input type="number" id="spo2" name="spo2" step="1" min="0" max="100"></div>
+      </div>
+      <div class="row row-4">
+        <div class="field"><label for="rr">呼吸 RR</label><input type="number" id="rr" name="rr" step="1" min="0" max="80"></div>
+        <div class="field"><label for="chest_tube_rate">胸管引流</label><input type="number" id="chest_tube_rate" name="chest_tube_rate" step="1" min="0" placeholder="mL/hr"><span class="sub">mL/hr</span></div>
+        <div class="field"><label for="urine_rate">尿量</label><input type="number" id="urine_rate" name="urine_rate" step="0.1" min="0" placeholder="mL/kg/hr"><span class="sub">mL/kg/hr</span></div>
+        <div class="field"><label for="temp_out">轉出前體溫 (°C)</label><input type="number" id="temp_out" name="temp_out" step="0.1" min="30" max="43" placeholder="恢復室體溫"></div>
+      </div>
+
+      <div class="subhead">改良 Aldrete 分數（各 0–2，總分 ≥ 9 為達標）</div>
+      <div class="row row-2">
+        <div class="field"><label for="ald_activity">活動力</label>
+          <select id="ald_activity" name="ald_activity"><option value="">—</option><option value="2">2 · 四肢皆可自主活動</option><option value="1">1 · 兩肢可活動</option><option value="0">0 · 無法活動</option></select></div>
+        <div class="field"><label for="ald_resp">呼吸</label>
+          <select id="ald_resp" name="ald_resp"><option value="">—</option><option value="2">2 · 能深呼吸與咳嗽</option><option value="1">1 · 呼吸受限/費力</option><option value="0">0 · 呼吸暫停</option></select></div>
+        <div class="field"><label for="ald_circ">循環（血壓）</label>
+          <select id="ald_circ" name="ald_circ"><option value="">—</option><option value="2">2 · 與術前差 ±20% 內</option><option value="1">1 · 差 ±20–50%</option><option value="0">0 · 差 &gt;±50%</option></select></div>
+        <div class="field"><label for="ald_consc">意識</label>
+          <select id="ald_consc" name="ald_consc"><option value="">—</option><option value="2">2 · 完全清醒</option><option value="1">1 · 可喚醒</option><option value="0">0 · 無反應</option></select></div>
+        <div class="field"><label for="ald_spo2">血氧</label>
+          <select id="ald_spo2" name="ald_spo2"><option value="">—</option><option value="2">2 · 室氣 SpO₂ &gt;92%</option><option value="1">1 · 需氧氣維持 &gt;90%</option><option value="0">0 · 吸氧仍 &lt;90%</option></select></div>
+        <div class="field"><label>Aldrete 總分</label><div style="padding:8px 10px"><span class="ald-score" id="ald_total_disp">—</span> / 10</div></div>
+      </div>
+      <input type="hidden" name="ald_total" id="ald_total">
+
+      <div class="subhead">心臟手術恢復室轉出標準（逐項確認）</div>
+      <div class="hint">綜合門檻：Aldrete ≥ 9，並符合以下 8 項。全部勾選即代表可轉出加護病房。</div>
+      <div class="criteria-list" id="critList">
+        <label class="crit"><input type="checkbox" data-crit="c_hemo"><span class="ct"><span class="k">血流動力學穩定</span><br><span class="d">HR/心律/血壓穩定、無持續活動性出血、無心肌缺血；升壓強心藥停用或低劑量穩定</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_resp"><span class="ct"><span class="k">呼吸穩定</span><br><span class="d">已拔管、自呼穩定、SpO₂ ≥ 92%（或術前基準）、低/免氧氣支持</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_neuro"><span class="ct"><span class="k">意識／神經</span><br><span class="d">清醒、可遵從指令、回到基準（直接轉 ICU 可放寬）</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_temp"><span class="ct"><span class="k">體溫 ≥ 36.0°C</span><br><span class="d">已回溫、無明顯顫抖</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_chest"><span class="ct"><span class="k">胸管引流 &lt; 100 mL/hr</span><br><span class="d">無氣漏、引流量未持續增加</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_urine"><span class="ct"><span class="k">尿量足夠</span><br><span class="d">約 &gt; 0.5 mL/kg/hr</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_pain"><span class="ct"><span class="k">疼痛控制良好、噁心嘔吐輕微</span></span></label>
+        <label class="crit"><input type="checkbox" data-crit="c_wound"><span class="ct"><span class="k">傷口完整、胸骨穩定</span></span></label>
+      </div>
+      <div class="verdict hold" id="verdict">尚未符合全部轉出標準</div>
+      <input type="hidden" name="c_hemo" id="c_hemo"><input type="hidden" name="c_resp" id="c_resp">
+      <input type="hidden" name="c_neuro" id="c_neuro"><input type="hidden" name="c_temp" id="c_temp">
+      <input type="hidden" name="c_chest" id="c_chest"><input type="hidden" name="c_urine" id="c_urine">
+      <input type="hidden" name="c_pain" id="c_pain"><input type="hidden" name="c_wound" id="c_wound">
+      <input type="hidden" name="meet_all" id="meet_all">
+
+      <div class="subhead">轉出</div>
+      <div class="row row-2">
+        <div class="field"><label for="out_time">轉出恢復室時間</label><input type="datetime-local" id="out_time" name="out_time"></div>
+        <div class="field"><label for="destination">轉出去向</label>
+          <select id="destination" name="destination"><option value="">—</option><option value="加護病房">加護病房</option><option value="降階病房">降階病房</option><option value="其他">其他</option></select></div>
+      </div>
+      <div class="field"><label for="note">備註</label><textarea id="note" name="note" placeholder="延遲轉出原因、未達標項目處置、其他觀察…"></textarea></div>
+
+      <div style="margin-top:16px"><button type="submit" class="btn btn-primary" id="saveBtn">儲存恢復室紀錄</button></div>
+    </form>
+  </div>
+
+  <footer>心臟外科手術病人管理系統 · 恢復室紀錄 v1.0</footer>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = (id) => document.getElementById(id);
+let currentPatient = null;
+
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ===== key hash carry =====
+if (window.location.hash.startsWith('#k=')) $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+$('doctor_key').addEventListener('change', () => {
+  const v = $('doctor_key').value;
+  if (v){ history.replaceState(null,'','#k='+encodeURIComponent(v)); loadRecent(); }
+});
+$('doctor_key').addEventListener('blur', () => { if($('doctor_key').value.trim()) loadRecent(); });
+
+// ===== JSONP =====
+function jsonp(url, params, timeoutMs = 25000){
+  return new Promise((resolve,reject)=>{
+    const cb = '_rec_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp = new URLSearchParams({...params, callback:cb});
+    const s = document.createElement('script');
+    const t = setTimeout(()=>{cl();reject(new Error('查詢逾時'));}, timeoutMs);
+    function cl(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = d => { cl(); resolve(d); };
+    s.onerror = () => { cl(); reject(new Error('連線失敗')); };
+    s.src = url+'?'+usp.toString();
+    document.body.appendChild(s);
+  });
+}
+
+function showTop(msg){ const el=$('topAlert'); el.textContent=msg; el.classList.add('show'); }
+function hideTop(){ $('topAlert').classList.remove('show'); }
+
+// ===== recent operated patients =====
+async function loadRecent(){
+  const key = $('doctor_key').value.trim();
+  const box = $('recentList');
+  if(!key){ box.innerHTML='<div class="recent-empty">輸入通行碼後顯示最近手術病人</div>'; return; }
+  box.innerHTML='<div class="recent-empty"><span class="loading"></span> 載入中…</div>';
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'recentSurgeries', key });
+    if(res.error){ box.innerHTML='<div class="recent-empty">'+escapeHtml(res.error==='unauthorized'?'通行碼錯誤':res.error)+'</div>'; return; }
+    if(!res.list || !res.list.length){ box.innerHTML='<div class="recent-empty">最近 14 天沒有手術病人</div>'; return; }
+    box.innerHTML = res.list.map(p => `
+      <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
+        <div><span class="nm">${escapeHtml(p.name)}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null?p.age+'歲':''}</span></div>
+        <div class="mt">${escapeHtml(p.surgery||'')}${p.surgeryDate?' · '+p.surgeryDate.slice(5):''}</div>
+      </div>`).join('');
+    box.querySelectorAll('.recent-item').forEach(it => it.addEventListener('click', ()=>doLookup(it.dataset.pk)));
+  }catch(err){ box.innerHTML='<div class="recent-empty" style="color:var(--error)">載入失敗：'+escapeHtml(err.message)+'</div>'; }
+}
+
+// ===== lookup =====
+$('lookupBtn').addEventListener('click', () => {
+  hideTop();
+  const key = $('doctor_key').value.trim();
+  const bd = $('lookup_birthdate').value;
+  const id4 = $('lookup_id4').value.trim();
+  if(!key){ showTop('請先輸入通行碼'); return; }
+  if(!bd || !/^[0-9]{4}$/.test(id4)){ showTop('請填出生年月日與身分證末 4 碼'); return; }
+  doLookup(bd.replace(/-/g,'') + '-' + id4);
+});
+
+async function doLookup(pk){
+  hideTop();
+  const key = $('doctor_key').value.trim();
+  if(!key){ showTop('請先輸入通行碼'); return; }
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'lookupRecovery', pk, key });
+    if(res.error==='unauthorized'){ showTop('通行碼錯誤'); return; }
+    if(!res.found){ showTop('找不到此病人，請確認或先完成術前/手術收案'); return; }
+    currentPatient = res;
+    showPatient(res);
+  }catch(err){ showTop('查詢失敗：'+err.message); }
+}
+
+function showPatient(p){
+  $('pc_name').textContent = p.name || '—';
+  $('pc_ga').textContent = (p.gender||'—') + ' / ' + (p.age!=null?p.age+' 歲':'—');
+  $('pc_pk').textContent = p.pk || '—';
+  $('pc_surgery').textContent = p.currentSurgery || '—';
+  $('formCard').classList.remove('disabled');
+  $('okAlert').classList.remove('show');
+  fillExisting(p.recovery || {});
+  $('formCard').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function fillExisting(rv){
+  const setV = (id, v) => { if(v!=null && v!=='' && $(id)) $(id).value = v; };
+  ['arrival','out_time'].forEach(k => { if(rv[k] && $(k)) $(k).value = rv[k].slice(0,16); });
+  setV('destination', rv.destination);
+  setV('temp_arrival', rv.temp_arrival); setV('temp_out', rv.temp_out);
+  setV('hr', rv.hr); setV('sbp', rv.sbp); setV('dbp', rv.dbp); setV('spo2', rv.spo2); setV('rr', rv.rr);
+  setV('chest_tube_rate', rv.chest_tube_rate); setV('urine_rate', rv.urine_rate);
+  setV('ald_activity', rv.ald_activity); setV('ald_resp', rv.ald_resp); setV('ald_circ', rv.ald_circ);
+  setV('ald_consc', rv.ald_consc); setV('ald_spo2', rv.ald_spo2);
+  setV('note', rv.note);
+  // criteria checkboxes
+  document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => {
+    cb.checked = (rv[cb.dataset.crit] === '是');
+  });
+  computeAldrete();
+  computeCriteria();
+}
+
+// ===== Aldrete total =====
+function computeAldrete(){
+  const ids = ['ald_activity','ald_resp','ald_circ','ald_consc','ald_spo2'];
+  let any = false, total = 0;
+  ids.forEach(id => { const v = $(id).value; if(v!==''){ any = true; total += parseInt(v,10); } });
+  $('ald_total_disp').textContent = any ? total : '—';
+  $('ald_total').value = any ? total : '';
+}
+['ald_activity','ald_resp','ald_circ','ald_consc','ald_spo2'].forEach(id => $(id).addEventListener('change', computeAldrete));
+
+// ===== criteria + verdict =====
+function computeCriteria(){
+  let all = true;
+  document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => {
+    const on = cb.checked;
+    cb.closest('.crit').classList.toggle('on', on);
+    $(cb.dataset.crit).value = on ? '是' : '否';
+    if(!on) all = false;
+  });
+  const ald = parseInt($('ald_total').value, 10);
+  const aldOk = !isNaN(ald) && ald >= 9;
+  const go = all && aldOk;
+  $('meet_all').value = go ? '是' : '否';
+  const v = $('verdict');
+  if(go){ v.className = 'verdict go'; v.textContent = '✓ 已符合全部轉出標準（Aldrete ' + ald + ' ≥ 9），可轉出加護病房'; }
+  else {
+    v.className = 'verdict hold';
+    const miss = [];
+    if(!aldOk) miss.push('Aldrete ' + (isNaN(ald)?'未填':ald) + ' &lt; 9');
+    const nMiss = document.querySelectorAll('.crit input[type=checkbox]:not(:checked)').length;
+    if(nMiss) miss.push('尚有 ' + nMiss + ' 項標準未符合');
+    v.innerHTML = '尚未符合全部轉出標準' + (miss.length ? '（' + miss.join('、') + '）' : '');
+  }
+}
+document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => cb.addEventListener('change', computeCriteria));
+['ald_activity','ald_resp','ald_circ','ald_consc','ald_spo2'].forEach(id => $(id).addEventListener('change', computeCriteria));
+
+// ===== submit =====
+$('recForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('formAlert').classList.remove('show');
+  $('okAlert').classList.remove('show');
+  if(!currentPatient){ $('formAlert').textContent='請先查詢病人'; $('formAlert').classList.add('show'); return; }
+  computeAldrete(); computeCriteria();
+
+  const btn = $('saveBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
+  const fd = new FormData($('recForm'));
+  fd.append('action','saveRecovery');
+  fd.append('pk', currentPatient.pk);
+  fd.append('key', $('doctor_key').value.trim());
+  try{
+    await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+    const el = $('okAlert');
+    el.textContent = '已儲存恢復室紀錄' + ($('meet_all').value==='是' ? '（已達轉出標準）' : '');
+    el.classList.add('show');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }catch(err){
+    $('formAlert').textContent = '儲存失敗：' + err.message; $('formAlert').classList.add('show');
+  }finally{
+    btn.disabled = false; btn.textContent = '儲存恢復室紀錄';
+  }
+});
+
+// ===== init =====
+window.addEventListener('load', () => { if($('doctor_key').value.trim()) loadRecent(); });
+</script>
+</body>
+</html>
