@@ -697,6 +697,13 @@ footer {
       </div>
 
       <button type="button" class="btn btn-primary" id="lookupBtn">查詢病人</button>
+
+      <div class="divider-or"><span>或者，依姓名搜尋（含回溯 / 急診收案病人）</span></div>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="nameSearch" placeholder="輸入姓名搜尋任何病人（不限日期）" style="flex:1;padding:9px 12px;border:1px solid var(--border-strong,#D4CDB8);border-radius:6px;font-family:inherit;font-size:14px">
+        <button type="button" class="btn-refresh" id="nameSearchBtn">🔍 搜尋</button>
+      </div>
+      <div class="recent-list" id="searchResults" style="display:none;margin-top:8px"></div>
     </section>
 
     <!-- ============ Step 2: Forms ============ -->
@@ -1361,6 +1368,39 @@ $('refreshRecentBtn').addEventListener('click', loadRecent);
 $('doctor_key').addEventListener('blur', () => {
   if ($('doctor_key').value.trim()) loadRecent();
 });
+
+// ===== 依姓名搜尋任何病人（找回溯/急診收案、超過14天的病人來補術後追蹤）=====
+async function doNameSearch() {
+  const key = $('doctor_key').value.trim();
+  const q = $('nameSearch').value.trim();
+  const box = $('searchResults');
+  if (!key) { showAlert('lookupAlert', '請先輸入醫師通行碼'); return; }
+  if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  box.style.display = 'block';
+  box.innerHTML = '<div class="recent-empty"><span class="loading"></span> 搜尋中…</div>';
+  try {
+    const res = await jsonp(APPS_SCRIPT_URL, { action: 'searchPatients', key, q });
+    if (res.error === 'unauthorized') { box.innerHTML = '<div class="recent-empty">通行碼錯誤</div>'; return; }
+    if (res.error) { box.innerHTML = `<div class="recent-empty" style="color:var(--error)">搜尋失敗：${escapeHtml(res.error)}</div>`; return; }
+    if (!res.list || !res.list.length) { box.innerHTML = `<div class="recent-empty">查無「${escapeHtml(q)}」的病人</div>`; return; }
+    const note = `<div class="recent-empty" style="text-align:left;font-style:normal;color:var(--ink-soft)">搜尋結果 ${res.count} 筆${res.count > res.list.length ? '（顯示前 ' + res.list.length + '）' : ''}，點選以載入</div>`;
+    box.innerHTML = note + res.list.map(p => `
+      <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
+        <div class="recent-main">
+          <div class="recent-name">${escapeHtml(maskName(p.name))} <span class="small">${escapeHtml(p.gender || '')} · ${p.age != null ? p.age + ' 歲' : ''}</span></div>
+          <div class="recent-detail">
+            <span class="surgery">${escapeHtml(p.surgery || '—')}</span>
+            <span class="date">${escapeHtml(p.surgeryStatus || '')}${p.scheduledDate ? ' · ' + p.scheduledDate.slice(5) : ''}</span>
+          </div>
+        </div>
+      </div>`).join('');
+    box.querySelectorAll('.recent-item').forEach(item => item.addEventListener('click', () => doLookup(item.dataset.pk)));
+  } catch (err) {
+    box.innerHTML = `<div class="recent-empty" style="color:var(--error)">搜尋失敗：${escapeHtml(err.message)}</div>`;
+  }
+}
+$('nameSearchBtn').addEventListener('click', doNameSearch);
+$('nameSearch').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); doNameSearch(); } });
 
 function showAlert(id, msg) {
   const el = $(id);

@@ -161,6 +161,39 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
         <div class="field"><label for="temp_out">轉出前體溫 (°C)</label><input type="number" id="temp_out" name="temp_out" step="0.1" min="30" max="43" placeholder="恢復室體溫"></div>
       </div>
 
+      <div class="subhead">VIS 血管活性—強心藥物分數（到恢復室 / 轉出恢復室）</div>
+      <div class="hint">單位：兒茶酚胺類 µg/kg/min、Vasopressin U/kg/min；未使用者留空。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vasopressin。</div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">到恢復室</div>
+        <div class="row row-3">
+          <div class="field"><label for="vis_in_dopa">Dopamine</label><input type="number" id="vis_in_dopa" name="vis_in_dopa" step="0.1" min="0"></div>
+          <div class="field"><label for="vis_in_dobu">Dobutamine</label><input type="number" id="vis_in_dobu" name="vis_in_dobu" step="0.1" min="0"></div>
+          <div class="field"><label for="vis_in_epi">Epinephrine</label><input type="number" id="vis_in_epi" name="vis_in_epi" step="0.01" min="0"></div>
+        </div>
+        <div class="row row-3">
+          <div class="field"><label for="vis_in_norepi">Norepinephrine</label><input type="number" id="vis_in_norepi" name="vis_in_norepi" step="0.01" min="0"></div>
+          <div class="field"><label for="vis_in_milri">Milrinone</label><input type="number" id="vis_in_milri" name="vis_in_milri" step="0.01" min="0"></div>
+          <div class="field"><label for="vis_in_vaso">Vasopressin</label><input type="number" id="vis_in_vaso" name="vis_in_vaso" step="0.0001" min="0"></div>
+        </div>
+        <div style="font-size:14px;margin-top:6px">VIS 分數：<strong id="vis_in_score_disp">—</strong></div>
+        <input type="hidden" name="vis_in_score" id="vis_in_score">
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:12px">
+        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">轉出恢復室</div>
+        <div class="row row-3">
+          <div class="field"><label for="vis_out_dopa">Dopamine</label><input type="number" id="vis_out_dopa" name="vis_out_dopa" step="0.1" min="0"></div>
+          <div class="field"><label for="vis_out_dobu">Dobutamine</label><input type="number" id="vis_out_dobu" name="vis_out_dobu" step="0.1" min="0"></div>
+          <div class="field"><label for="vis_out_epi">Epinephrine</label><input type="number" id="vis_out_epi" name="vis_out_epi" step="0.01" min="0"></div>
+        </div>
+        <div class="row row-3">
+          <div class="field"><label for="vis_out_norepi">Norepinephrine</label><input type="number" id="vis_out_norepi" name="vis_out_norepi" step="0.01" min="0"></div>
+          <div class="field"><label for="vis_out_milri">Milrinone</label><input type="number" id="vis_out_milri" name="vis_out_milri" step="0.01" min="0"></div>
+          <div class="field"><label for="vis_out_vaso">Vasopressin</label><input type="number" id="vis_out_vaso" name="vis_out_vaso" step="0.0001" min="0"></div>
+        </div>
+        <div style="font-size:14px;margin-top:6px">VIS 分數：<strong id="vis_out_score_disp">—</strong></div>
+        <input type="hidden" name="vis_out_score" id="vis_out_score">
+      </div>
+
       <div class="subhead">改良 Aldrete 分數（各 0–2，總分 ≥ 9 為達標）</div>
       <div class="row row-2">
         <div class="field"><label for="ald_activity">活動力</label>
@@ -307,6 +340,7 @@ function fillExisting(rv){
   setV('chest_tube_rate', rv.chest_tube_rate); setV('urine_rate', rv.urine_rate);
   setV('ald_activity', rv.ald_activity); setV('ald_resp', rv.ald_resp); setV('ald_circ', rv.ald_circ);
   setV('ald_consc', rv.ald_consc); setV('ald_spo2', rv.ald_spo2);
+  ['in','out'].forEach(ph => ['dopa','dobu','epi','norepi','milri','vaso'].forEach(d => setV('vis_'+ph+'_'+d, rv['vis_'+ph+'_'+d])));
   setV('note', rv.note);
   // criteria checkboxes
   document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => {
@@ -314,6 +348,7 @@ function fillExisting(rv){
   });
   computeAldrete();
   computeCriteria();
+  computeVis();
 }
 
 // ===== Aldrete total =====
@@ -325,6 +360,23 @@ function computeAldrete(){
   $('ald_total').value = any ? total : '';
 }
 ['ald_activity','ald_resp','ald_circ','ald_consc','ald_spo2'].forEach(id => $(id).addEventListener('change', computeAldrete));
+
+// ===== VIS（到恢復室 / 轉出恢復室）=====
+function computeVis(){
+  const num = (id) => { const el = $(id); if(!el) return 0; const v = parseFloat(el.value); return isNaN(v)?0:v; };
+  ['in','out'].forEach(ph => {
+    const pre = 'vis_' + ph + '_';
+    const drugs = ['dopa','dobu','epi','norepi','milri','vaso'];
+    const has = drugs.some(d => { const el = $(pre+d); return el && el.value !== '' && !isNaN(parseFloat(el.value)); });
+    const score = num(pre+'dopa') + num(pre+'dobu') + 100*num(pre+'epi') + 100*num(pre+'norepi') + 10*num(pre+'milri') + 10000*num(pre+'vaso');
+    const rounded = Math.round(score*100)/100;
+    if($(pre+'score_disp')) $(pre+'score_disp').textContent = has ? rounded : '—';
+    if($(pre+'score')) $(pre+'score').value = has ? rounded : '';
+  });
+}
+['in','out'].forEach(ph => ['dopa','dobu','epi','norepi','milri','vaso'].forEach(d => {
+  const el = $('vis_'+ph+'_'+d); if(el) el.addEventListener('input', computeVis);
+}));
 
 // ===== criteria + verdict =====
 function computeCriteria(){
@@ -359,7 +411,7 @@ $('recForm').addEventListener('submit', async (e) => {
   $('formAlert').classList.remove('show');
   $('okAlert').classList.remove('show');
   if(!currentPatient){ $('formAlert').textContent='請先查詢病人'; $('formAlert').classList.add('show'); return; }
-  computeAldrete(); computeCriteria();
+  computeAldrete(); computeCriteria(); computeVis();
 
   const btn = $('saveBtn');
   btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
