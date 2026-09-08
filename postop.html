@@ -795,6 +795,45 @@ footer {
           <!-- Filled by JS -->
         </div>
 
+        <!-- B.2b VIS 血管活性—強心藥物分數（出開刀房前/後） -->
+        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">VIS 血管活性—強心藥物分數（出開刀房前 / 後）</div>
+        <div style="font-size:12px;color:#8A8580;margin-bottom:10px;line-height:1.7">
+          輸入當下各升壓／強心藥物劑量，系統自動計算 VIS。單位：兒茶酚胺類為 <strong>µg/kg/min</strong>，Vasopressin 為 <strong>U/kg/min</strong>；未使用者留空即可。<br>
+          VIS ＝ Dopamine ＋ Dobutamine ＋ 100×Epinephrine ＋ 100×Norepinephrine ＋ 10×Milrinone ＋ 10000×Vasopressin。
+        </div>
+
+        <div style="border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:600;color:#A87B4D;margin-bottom:8px">出開刀房前</div>
+          <div class="row row-3">
+            <div class="field"><label for="vis_pre_dopa">Dopamine</label><input type="number" id="vis_pre_dopa" name="vis_pre_dopa" step="0.1" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_pre_dobu">Dobutamine</label><input type="number" id="vis_pre_dobu" name="vis_pre_dobu" step="0.1" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_pre_epi">Epinephrine</label><input type="number" id="vis_pre_epi" name="vis_pre_epi" step="0.01" min="0" placeholder="µg/kg/min"></div>
+          </div>
+          <div class="row row-3">
+            <div class="field"><label for="vis_pre_norepi">Norepinephrine</label><input type="number" id="vis_pre_norepi" name="vis_pre_norepi" step="0.01" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_pre_milri">Milrinone</label><input type="number" id="vis_pre_milri" name="vis_pre_milri" step="0.01" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_pre_vaso">Vasopressin</label><input type="number" id="vis_pre_vaso" name="vis_pre_vaso" step="0.0001" min="0" placeholder="U/kg/min"></div>
+          </div>
+          <div style="font-size:14px;margin-top:8px;color:var(--ink)">VIS 分數：<strong id="vis_pre_score_disp">—</strong></div>
+          <input type="hidden" name="vis_pre_score" id="vis_pre_score">
+        </div>
+
+        <div style="border:1px solid #E8E2D5;border-radius:6px;padding:12px 14px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:600;color:#A87B4D;margin-bottom:8px">出開刀房後</div>
+          <div class="row row-3">
+            <div class="field"><label for="vis_post_dopa">Dopamine</label><input type="number" id="vis_post_dopa" name="vis_post_dopa" step="0.1" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_post_dobu">Dobutamine</label><input type="number" id="vis_post_dobu" name="vis_post_dobu" step="0.1" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_post_epi">Epinephrine</label><input type="number" id="vis_post_epi" name="vis_post_epi" step="0.01" min="0" placeholder="µg/kg/min"></div>
+          </div>
+          <div class="row row-3">
+            <div class="field"><label for="vis_post_norepi">Norepinephrine</label><input type="number" id="vis_post_norepi" name="vis_post_norepi" step="0.01" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_post_milri">Milrinone</label><input type="number" id="vis_post_milri" name="vis_post_milri" step="0.01" min="0" placeholder="µg/kg/min"></div>
+            <div class="field"><label for="vis_post_vaso">Vasopressin</label><input type="number" id="vis_post_vaso" name="vis_post_vaso" step="0.0001" min="0" placeholder="U/kg/min"></div>
+          </div>
+          <div style="font-size:14px;margin-top:8px;color:var(--ink)">VIS 分數：<strong id="vis_post_score_disp">—</strong></div>
+          <input type="hidden" name="vis_post_score" id="vis_post_score">
+        </div>
+
         <!-- B.3 ROX 指數評估 -->
         <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">ROX 指數評估（拔管後 HFNC 監測）</div>
         <div style="font-size:12px;color:#8A8580;margin-bottom:10px;line-height:1.7">
@@ -1414,6 +1453,15 @@ function fillExisting(p) {
   });
   computeRox();
 
+  // VIS 出開刀房前/後（回填 12 藥劑量，分數由 computeVis 重算）
+  ['pre', 'post'].forEach(ph => {
+    ['dopa', 'dobu', 'epi', 'norepi', 'milri', 'vaso'].forEach(d => {
+      const k = 'vis_' + ph + '_' + d;
+      if (po[k] != null && po[k] !== '' && $(k)) $(k).value = po[k];
+    });
+  });
+  computeVis();
+
   // 重大異常事件(複選,逗號分隔)
   if (po.major_event) {
     const events = String(po.major_event).split(/[,，、]/).map(s => s.trim());
@@ -1557,12 +1605,38 @@ function evaluateRox(rox, roxhr) {
   });
 });
 
+// ===== VIS 血管活性—強心藥物分數 =====
+// VIS = dopa + dobu + 100×epi + 100×norepi + 10×milrinone + 10000×vasopressin（Gaies 2010）
+function computeVis() {
+  const num = (id) => { const el = $(id); if (!el) return 0; const v = parseFloat(el.value); return isNaN(v) ? 0 : v; };
+  ['pre', 'post'].forEach(ph => {
+    const pre = 'vis_' + ph + '_';
+    const drugs = ['dopa', 'dobu', 'epi', 'norepi', 'milri', 'vaso'];
+    const has = drugs.some(d => { const el = $(pre + d); return el && el.value !== '' && !isNaN(parseFloat(el.value)); });
+    const score = num(pre + 'dopa') + num(pre + 'dobu')
+      + 100 * num(pre + 'epi') + 100 * num(pre + 'norepi')
+      + 10 * num(pre + 'milri') + 10000 * num(pre + 'vaso');
+    const rounded = Math.round(score * 100) / 100;
+    if ($(pre + 'score_disp')) $(pre + 'score_disp').textContent = has ? rounded : '—';
+    if ($(pre + 'score')) $(pre + 'score').value = has ? rounded : '';
+  });
+}
+
+// 綁定：VIS 任一藥物輸入變動 → 重算
+['pre', 'post'].forEach(ph => {
+  ['dopa', 'dobu', 'epi', 'norepi', 'milri', 'vaso'].forEach(d => {
+    const el = $('vis_' + ph + '_' + d);
+    if (el) el.addEventListener('input', computeVis);
+  });
+});
+
 // ========== Change patient ==========
 function resetAll() {
   currentPatient = null;
   isUpdate = false;
   $('recordForm').reset();
   if (typeof computeRox === 'function') computeRox();   // 清空 ROX 顯示與警示
+  if (typeof computeVis === 'function') computeVis();   // 清空 VIS 顯示
   // 清除自動計算的手動覆寫標記(換病人時重置)
   ['egfr_post', 'aki'].forEach(id => { if ($(id)) delete $(id).dataset.userEdited; });
   if ($('akiReason')) $('akiReason').textContent = '輸入 Crea / 尿量後自動判讀';
