@@ -647,6 +647,16 @@ footer {
             <label for="emerg_name">病患姓名 <span class="req">*</span></label>
             <input type="text" id="emerg_name" autocomplete="off" placeholder="例：王大明">
           </div>
+          <div class="row row-2">
+            <div class="field">
+              <label for="emerg_gender">性別</label>
+              <select id="emerg_gender"><option value="">—</option><option value="男">男</option><option value="女">女</option></select>
+            </div>
+            <div class="field">
+              <label for="emerg_age">年齡</label>
+              <input type="number" id="emerg_age" step="1" min="0" max="120" placeholder="歲">
+            </div>
+          </div>
           <div class="field">
             <label for="emerg_diagnosis">診斷 <span class="req">*</span></label>
             <textarea id="emerg_diagnosis" rows="2" placeholder="例：急性主動脈剝離 Stanford A"></textarea>
@@ -1355,7 +1365,7 @@ surgeryForm.addEventListener('submit', async (e) => {
   if (!tog) return;
   const form = $('emergForm'), succ = $('emergSuccess'), alertEl = $('emergAlert');
   const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-  const clearFields = () => { ['emerg_name','emerg_diagnosis','emerg_surgery','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; }); };
+  const clearFields = () => { ['emerg_name','emerg_gender','emerg_age','emerg_diagnosis','emerg_surgery','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; }); };
 
   tog.addEventListener('click', () => {
     form.style.display = 'block';
@@ -1371,6 +1381,8 @@ surgeryForm.addEventListener('submit', async (e) => {
   });
   $('emergSubmitBtn').addEventListener('click', async () => {
     const name = $('emerg_name').value.trim();
+    const gender = $('emerg_gender').value;
+    const age = $('emerg_age').value.trim();
     const diagnosis = $('emerg_diagnosis').value.trim();
     const surgery = $('emerg_surgery').value.trim();
     const egfr = $('emerg_egfr').value.trim();
@@ -1388,6 +1400,8 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('action', 'addEmergencyCase');
     fd.append('key', key);
     fd.append('name', name);
+    if (gender) fd.append('gender', gender);
+    if (age) fd.append('age', age);
     fd.append('diagnosis', diagnosis);
     fd.append('surgery', surgery);
     fd.append('egfr', egfr);
