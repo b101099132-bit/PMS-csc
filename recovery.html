@@ -161,17 +161,25 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
         <div class="field"><label for="dbp">舒張壓</label><input type="number" id="dbp" name="dbp" step="1" min="0" max="200"></div>
         <div class="field"><label for="spo2">SpO₂ (%)</label><input type="number" id="spo2" name="spo2" step="1" min="0" max="100"></div>
       </div>
-      <div class="row row-4">
+      <div class="row row-2">
         <div class="field"><label for="rr">呼吸 RR</label><input type="number" id="rr" name="rr" step="1" min="0" max="80"></div>
-        <div class="field"><label for="chest_tube_rate">胸管引流</label><input type="number" id="chest_tube_rate" name="chest_tube_rate" step="1" min="0" placeholder="mL/hr"><span class="sub">mL/hr</span></div>
-        <div class="field"><label for="urine_rate">尿量</label><input type="number" id="urine_rate" name="urine_rate" step="0.1" min="0" placeholder="mL/kg/hr"><span class="sub">mL/kg/hr</span></div>
         <div class="field"><label for="temp_out">轉出前體溫 (°C)</label><input type="number" id="temp_out" name="temp_out" step="0.1" min="30" max="43" placeholder="恢復室體溫"></div>
       </div>
 
-      <div class="subhead">VIS 血管活性—強心藥物分數（到恢復室 / 轉出恢復室）</div>
+      <div class="subhead">引流與尿量（輸入恢復室期間總量，依停留時間自動換算）</div>
+      <div class="hint">恢復室停留時間：<strong id="recovery_hrs_disp">—</strong> 小時（由抵達／離開恢復室時間自動計算，需兩個時間都填）。體重預設帶入術前體重，可修改。</div>
+      <div class="row row-3">
+        <div class="field"><label for="chest_tube_total">胸管引流總量 (mL)</label><input type="number" id="chest_tube_total" name="chest_tube_total" step="1" min="0" placeholder="mL"><span class="sub">＝ <strong id="chest_tube_rate_disp">—</strong> mL/hr</span></div>
+        <div class="field"><label for="urine_total">尿量總量 (mL)</label><input type="number" id="urine_total" name="urine_total" step="1" min="0" placeholder="mL"><span class="sub">＝ <strong id="urine_rate_disp">—</strong> mL/kg/hr</span></div>
+        <div class="field"><label for="weight_kg">體重 (kg)</label><input type="number" id="weight_kg" name="weight_kg" step="0.1" min="0" placeholder="kg"><span class="sub">用於尿量/kg 計算</span></div>
+      </div>
+      <input type="hidden" id="chest_tube_rate" name="chest_tube_rate">
+      <input type="hidden" id="urine_rate" name="urine_rate">
+
+      <div class="subhead">VIS 血管活性—強心藥物分數（抵達恢復室時 / 離開恢復室時）</div>
       <div class="hint">單位：兒茶酚胺類 µg/kg/min、Vasopressin U/kg/min；未使用者留空。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vasopressin。</div>
       <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:10px">
-        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">到恢復室</div>
+        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">抵達恢復室時</div>
         <div class="row row-3">
           <div class="field"><label for="vis_in_dopa">Dopamine</label><input type="number" id="vis_in_dopa" name="vis_in_dopa" step="0.1" min="0"></div>
           <div class="field"><label for="vis_in_dobu">Dobutamine</label><input type="number" id="vis_in_dobu" name="vis_in_dobu" step="0.1" min="0"></div>
@@ -186,7 +194,7 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
         <input type="hidden" name="vis_in_score" id="vis_in_score">
       </div>
       <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:12px">
-        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">轉出恢復室</div>
+        <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">離開恢復室時</div>
         <div class="row row-3">
           <div class="field"><label for="vis_out_dopa">Dopamine</label><input type="number" id="vis_out_dopa" name="vis_out_dopa" step="0.1" min="0"></div>
           <div class="field"><label for="vis_out_dobu">Dobutamine</label><input type="number" id="vis_out_dobu" name="vis_out_dobu" step="0.1" min="0"></div>
@@ -297,13 +305,41 @@ function setDT(name, iso){
 DT_FIELDS.forEach(name => {
   ['__d','__t'].forEach(sfx => {
     const el = $(name+sfx);
-    if(el){ el.addEventListener('input', () => syncDT(name)); el.addEventListener('change', () => syncDT(name)); }
+    if(el){ const h = () => { syncDT(name); computeRates(); }; el.addEventListener('input', h); el.addEventListener('change', h); }
   });
 });
 document.querySelectorAll('.dt-now').forEach(btn => btn.addEventListener('click', () => {
   const now = new Date(); const pad = n => String(n).padStart(2,'0');
   setDT(btn.dataset.target, `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`);
+  computeRates();
 }));
+
+// ===== 引流/尿量：依恢復室停留時間(抵達→離開)自動換算 =====
+function recoveryHours(){
+  const a = $('arrival').value, o = $('out_time').value;   // 隱藏合併值 yyyy-MM-ddTHH:mm
+  if(!a || !o) return null;
+  const ta = new Date(a).getTime(), to = new Date(o).getTime();
+  if(isNaN(ta) || isNaN(to) || to <= ta) return null;
+  return (to - ta) / 3600000;
+}
+function computeRates(){
+  const hrs = recoveryHours();
+  if($('recovery_hrs_disp')) $('recovery_hrs_disp').textContent = hrs ? (Math.round(hrs*10)/10) : '—';
+  const ct = parseFloat($('chest_tube_total').value);
+  const ur = parseFloat($('urine_total').value);
+  const wt = parseFloat($('weight_kg').value);
+  // 胸管 mL/hr
+  let ctr = '';
+  if(hrs && !isNaN(ct)) ctr = Math.round(ct / hrs * 10) / 10;
+  $('chest_tube_rate_disp').textContent = (ctr !== '') ? ctr : '—';
+  $('chest_tube_rate').value = ctr;
+  // 尿量 mL/kg/hr
+  let urr = '';
+  if(hrs && wt > 0 && !isNaN(ur)) urr = Math.round(ur / wt / hrs * 100) / 100;
+  $('urine_rate_disp').textContent = (urr !== '') ? urr : '—';
+  $('urine_rate').value = urr;
+}
+['chest_tube_total','urine_total','weight_kg'].forEach(id => { const el = $(id); if(el) el.addEventListener('input', computeRates); });
 
 function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -384,6 +420,9 @@ function showPatient(p){
   $('formCard').classList.remove('disabled');
   $('okAlert').classList.remove('show');
   fillExisting(p.recovery || {});
+  // 體重：既有恢復室紀錄沒有時，帶入病人術前體重（可修改）
+  if(!$('weight_kg').value && p.preopWeight != null && p.preopWeight !== '') { $('weight_kg').value = p.preopWeight; }
+  computeRates();
   $('formCard').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
@@ -393,7 +432,7 @@ function fillExisting(rv){
   setV('destination', rv.destination);
   setV('temp_arrival', rv.temp_arrival); setV('temp_out', rv.temp_out);
   setV('hr', rv.hr); setV('sbp', rv.sbp); setV('dbp', rv.dbp); setV('spo2', rv.spo2); setV('rr', rv.rr);
-  setV('chest_tube_rate', rv.chest_tube_rate); setV('urine_rate', rv.urine_rate);
+  setV('chest_tube_total', rv.chest_tube_total); setV('urine_total', rv.urine_total); setV('weight_kg', rv.weight_kg);
   setV('ald_activity', rv.ald_activity); setV('ald_resp', rv.ald_resp); setV('ald_circ', rv.ald_circ);
   setV('ald_consc', rv.ald_consc); setV('ald_spo2', rv.ald_spo2);
   ['in','out'].forEach(ph => ['dopa','dobu','epi','norepi','milri','vaso'].forEach(d => setV('vis_'+ph+'_'+d, rv['vis_'+ph+'_'+d])));
@@ -405,6 +444,7 @@ function fillExisting(rv){
   computeAldrete();
   computeCriteria();
   computeVis();
+  computeRates();
 }
 
 // ===== Aldrete total =====
@@ -469,6 +509,7 @@ $('recForm').addEventListener('submit', async (e) => {
   if(!currentPatient){ $('formAlert').textContent='請先查詢病人'; $('formAlert').classList.add('show'); return; }
   computeAldrete(); computeCriteria(); computeVis();
   DT_FIELDS.forEach(syncDT);   // 送出前確保時間隱藏合併值最新
+  computeRates();              // 依最新時間/總量重算 mL/hr、mL/kg/hr
 
   const btn = $('saveBtn');
   btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
