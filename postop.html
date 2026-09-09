@@ -314,7 +314,8 @@ select {
   gap: 8px;
   align-items: center;
 }
-.milestone-input input[type="datetime-local"] { flex: 1; min-width: 0; }
+.milestone-input input[type="date"] { flex: 1; min-width: 0; }
+.milestone-input .dt-time { width: 84px; text-align: center; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
 .btn-now {
   padding: 7px 12px;
   font-size: 12px;
@@ -1116,6 +1117,39 @@ const $ = (id) => document.getElementById(id);
 let currentPatient = null;
 let isUpdate = false; // 是否為更新既有紀錄
 
+// ===== 時間欄位 = 月曆日期(X__d) + 24小時制時間文字(X__t) + 隱藏合併值(name=X, yyyy-MM-ddTHH:mm) =====
+// 原生 datetime-local 的 12/24 顯示由瀏覽器/裝置語系決定、無法用 HTML 控制，故時間改用自控的 HH:mm 文字框
+function normTime(s){
+  s = String(s == null ? '' : s).replace(/[^\d:]/g, '');
+  if(!s) return '';
+  let h, mi;
+  if(s.indexOf(':') >= 0){ const p = s.split(':'); h = parseInt(p[0]||'0',10); mi = parseInt(p[1]||'0',10); }
+  else if(s.length <= 2){ h = parseInt(s,10); mi = 0; }
+  else { mi = parseInt(s.slice(-2),10); h = parseInt(s.slice(0,-2),10); }
+  if(isNaN(h) || isNaN(mi) || h > 23 || mi > 59) return null;   // 不合法
+  return String(h).padStart(2,'0') + ':' + String(mi).padStart(2,'0');
+}
+function syncDT(name){
+  const de = $(name+'__d'), te = $(name+'__t'), hid = $(name);
+  if(!de || !te || !hid) return '';
+  const traw = te.value.trim();
+  const t = normTime(traw);
+  te.style.borderColor = (traw && t === null) ? '#B85450' : '';
+  hid.value = (de.value && t) ? (de.value + 'T' + t) : '';   // 需日期與有效時間皆有才成立
+  return hid.value;
+}
+function setDT(name, iso){
+  const de = $(name+'__d'), te = $(name+'__t'), hid = $(name);
+  let d = '', t = '';
+  const m = String(iso || '').match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/);
+  if(m){ d = m[1]; t = m[2]; }
+  else if(/^\d{4}-\d{2}-\d{2}$/.test(iso || '')){ d = iso; }
+  if(de) de.value = d;
+  if(te){ te.value = t; te.style.borderColor = ''; }
+  if(hid) hid.value = (d && t) ? (d + 'T' + t) : '';
+}
+function syncAllMilestones(){ MILESTONES.forEach(m => syncDT(m.name)); }
+
 // ========== Build milestone rows ==========
 function buildMilestones() {
   const html = MILESTONES.map(m => {
@@ -1124,7 +1158,9 @@ function buildMilestones() {
         <div class="milestone-row-2">
           <div class="milestone-label">${m.label}</div>
           <div class="milestone-input">
-            <input type="datetime-local" lang="ja" name="${m.name}" id="${m.name}">
+            <input type="date" id="${m.name}__d">
+            <input type="text" class="dt-time" id="${m.name}__t" inputmode="numeric" maxlength="5" placeholder="HH:mm">
+            <input type="hidden" name="${m.name}" id="${m.name}">
           </div>
           <button type="button" class="btn-now" data-target="${m.name}">現在</button>
           <div class="milestone-label" style="font-size:13px;color:var(--ink-soft)">球顆數</div>
@@ -1144,22 +1180,34 @@ function buildMilestones() {
       <div class="milestone-row-2">
         <div class="milestone-label">${m.label}</div>
         <div class="milestone-input">
-          <input type="datetime-local" lang="ja" name="${m.name}" id="${m.name}">
+          <input type="date" id="${m.name}__d">
+            <input type="text" class="dt-time" id="${m.name}__t" inputmode="numeric" maxlength="5" placeholder="HH:mm">
+            <input type="hidden" name="${m.name}" id="${m.name}">
         </div>
         <button type="button" class="btn-now" data-target="${m.name}">現在</button>
       </div>`;
   }).join('');
   $('milestoneList').innerHTML = html;
 
-  // Bind "now" buttons
+  // Bind "now" buttons（填今天日期 + 現在時間 HH:mm）
   $('milestoneList').querySelectorAll('.btn-now').forEach(btn => {
     btn.addEventListener('click', () => {
-      const target = $(btn.dataset.target);
-      if (target) {
-        const now = new Date();
-        const pad = (n) => String(n).padStart(2, '0');
-        target.value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
-        if (btn.dataset.target === 'm_triflow_start') syncTriflowBalls();
+      const name = btn.dataset.target;
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      setDT(name, `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`);
+      if (name === 'm_triflow_start') syncTriflowBalls();
+    });
+  });
+
+  // 綁定每個里程碑的 日期 / 時間 輸入 → 同步隱藏合併值
+  MILESTONES.forEach(m => {
+    ['__d', '__t'].forEach(sfx => {
+      const el = $(m.name + sfx);
+      if (el) {
+        const handler = () => { syncDT(m.name); if (m.name === 'm_triflow_start') syncTriflowBalls(); };
+        el.addEventListener('input', handler);
+        el.addEventListener('change', handler);
       }
     });
   });
@@ -1179,13 +1227,13 @@ function syncTriflowBalls() {
   const balls = parseFloat(($('m_triflow_balls') || {}).value || '0');
   const startVal = ($('m_triflow_start') || {}).value || '';
   [['m_triflow_1', 1], ['m_triflow_2', 2], ['m_triflow_3', 3]].forEach(([id, n]) => {
-    const el = $(id);
-    if (!el) return;
-    const cur = el.value;
+    const hid = $(id);
+    if (!hid) return;
+    const cur = hid.value;
     if (startVal && balls >= n) {
-      if (!cur) el.value = startVal;            // 達成且空白 → 帶入
+      if (!cur) setDT(id, startVal);            // 達成且空白 → 帶入
     } else if (cur && cur === startVal) {
-      el.value = '';                            // 未達成且為自動帶入殘留 → 清空
+      setDT(id, '');                            // 未達成且為自動帶入殘留 → 清空
     }
   });
 }
@@ -1467,9 +1515,9 @@ function fillExisting(p) {
   }
   if (po.anesthetist) $('anesthetist').value = po.anesthetist;
 
-  // Milestones
+  // Milestones（拆日期 + HH:mm 回填）
   MILESTONES.forEach(m => {
-    if (po[m.name]) $(m.name).value = po[m.name];
+    if (po[m.name]) setDT(m.name, po[m.name]);
   });
   if (po.m_triflow_balls != null && po.m_triflow_balls !== '') {
     $('m_triflow_balls').value = po.m_triflow_balls;
@@ -1717,6 +1765,8 @@ $('recordForm').addEventListener('submit', async (e) => {
     showAlert('saveAlert', '請先查詢病人');
     return;
   }
+
+  syncAllMilestones();   // 送出前確保所有里程碑的隱藏合併值為最新
 
   // 重大異常事件:組裝複選值 + 結案確認(版本2)
   const majorChecked = Array.from(document.querySelectorAll('input[name="major_event"]:checked')).map(c => c.value);
