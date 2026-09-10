@@ -440,6 +440,132 @@ header {
   .rate-compare { grid-template-columns: 1fr; gap: 10px; }
 }
 
+/* ========== ★2026-09 篩選列 / 類別總覽 / 統計卡 ========== */
+.filter-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--teal);
+  border-radius: 3px;
+  padding: 14px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.filter-row { display: flex; flex-direction: column; gap: 6px; }
+.filter-row.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.filter-row.two > div { display: flex; flex-direction: column; gap: 6px; }
+@media (max-width: 560px) { .filter-row.two { grid-template-columns: 1fr; } }
+.filter-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  padding: 4px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+.chip:hover { border-color: var(--teal); color: var(--teal); }
+.chip.active { background: var(--teal); border-color: var(--teal); color: white; font-weight: 500; }
+.chip .chip-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.filter-summary {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.filter-summary strong { color: var(--ink); font-weight: 600; }
+.small-n {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 10px;
+  font-weight: 600;
+  vertical-align: middle;
+  letter-spacing: 0.04em;
+}
+.stat-legend {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.mc-stats {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.mc-stats strong { color: var(--ink); font-weight: 600; }
+.mc-stats .u { font-size: 10px; color: var(--ink-faint); margin-left: 1px; }
+
+.cat-table-wrap {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow-x: auto;
+}
+.cat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 620px;
+}
+.cat-table th, .cat-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+.cat-table th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  background: var(--cream);
+}
+.cat-table th.num, .cat-table td.num { text-align: right; font-family: 'JetBrains Mono', monospace; }
+.cat-table td.num .u { font-size: 10px; color: var(--ink-faint); margin-left: 2px; }
+.cat-table td.num .frac { display: block; font-size: 10px; color: var(--ink-faint); }
+.cat-table td .muted { color: var(--ink-faint); }
+.cat-table td .warn { color: var(--error); font-weight: 600; }
+.cat-table .cat-row[data-cat] { cursor: pointer; }
+.cat-table .cat-row[data-cat]:hover { background: var(--teal-tint); }
+.cat-table .cat-row.selected { background: var(--teal-soft); }
+.cat-table .cat-row.selected .cat-name { color: var(--teal); font-weight: 600; }
+.cat-table .cat-row.total td { border-top: 2px solid var(--border-strong); border-bottom: none; font-weight: 500; background: var(--cream); }
+.cat-name { font-weight: 500; color: var(--ink); }
+
+.rate-grid.comp { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 760px) { .rate-grid.comp { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .rate-grid.comp { grid-template-columns: 1fr; } }
+.rate-card.comp { border-left-color: var(--error); padding: 14px 16px; }
+.rate-card.comp .rate-value { color: var(--error); font-size: 26px; }
+.rate-card.comp .rate-def { margin-bottom: 8px; }
+.trend-note {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
 /* Satisfaction placeholder */
 .placeholder-card {
   background: var(--paper);
@@ -1072,7 +1198,7 @@ footer {
     <div class="loading-block"><span class="loading"></span> 載入中…</div>
   </div>
 
-  <footer>心臟外科手術病人管理系統 · 儀表板 v1.0</footer>
+  <footer>心臟外科手術病人管理系統 · 儀表板 v2.0 · 依手術類別／季度</footer>
 </div>
 
 <script>
@@ -1223,107 +1349,18 @@ function render(d) {
   // ===== 03 年度趨勢分析 =====
   if (h && h.years && h.years.length >= 2) html.push(renderTrends(h));
 
-  // ===== 04 病人清單 =====
-  html.push(`
-    <h2 class="section-title">
-      <span class="num">04</span>
-      <span>病人清單（本系統）</span>
-    </h2>
-    <div class="tabs" id="tabBar">
-      <button type="button" class="tab active" data-tab="pending">待開刀 <span class="count">${d.lists.pending.length}</span></button>
-      <button type="button" class="tab" data-tab="inProgress">進行中 <span class="count">${d.lists.inProgress.length}</span></button>
-      <button type="button" class="tab" data-tab="closed">已結案 <span class="count">${d.lists.closed.length}</span></button>
-    </div>
-    <div class="tab-content">
-      <div id="tab-pending" class="tab-panel">${renderList(d.lists.pending, 'pending')}</div>
-      <div id="tab-inProgress" class="tab-panel" style="display:none">${renderList(d.lists.inProgress, 'inProgress')}</div>
-      <div id="tab-closed" class="tab-panel" style="display:none">${renderList(d.lists.closed, 'closed')}</div>
-    </div>
-  `);
+  // ===== 04–09 本系統成效（★2026-09：依手術類別 × 季度 × 途徑 × 流程 即時篩選）=====
+  // 由 cases[]（去識別逐案紀錄）在前端計算；篩選改變只重畫 #dyn，不重載後端。
+  html.push('<div id="dyn"></div>');
 
-  // ===== 05 ERAS 原始數值（ERAS vs 非ERAS 兩組並列）=====
-  const me = d.metrics.eras, mn = d.metrics.nonEras;
-  const rve = me.rawValues, rvn = mn.rawValues;
-  const unclNote = d.metrics.unclassifiedCount
-    ? ` · 另 ${d.metrics.unclassifiedCount} 筆未標記流程`
-    : '';
-  html.push(`
-    <h2 class="section-title">
-      <span class="num">05</span>
-      <span>ERAS 指標 · 原始數值（本系統平均）</span>
-      <span class="sub">ERAS n=${me.n} · 非ERAS n=${mn.n}${unclNote}</span>
-    </h2>
-    ${groupLegend()}
-    <div class="metric-grid">
-      ${metricCard2('術後脫離呼吸器時間', rve.extubation, rvn.extubation)}
-      ${metricCard2('術後首次 Try Water 時間', rve.tryWater, rvn.tryWater)}
-      ${metricCard2('術後首次固體食物進食時間', rve.foodIntake, rvn.foodIntake)}
-      ${metricCard2('術後首次下床走路', rve.ambulation, rvn.ambulation)}
-      ${metricCard2('術後胸管全拔時間', rve.chestTube, rvn.chestTube)}
-      ${metricCard2('平均 ICU 滯留時間', rve.icuStay, rvn.icuStay)}
-      ${metricCard2('平均住院天數', rve.hospitalLOS, rvn.hospitalLOS)}
-    </div>
-  `);
-
-  // ===== 06 ERAS 指標率（兩組並列）=====
-  const rte = me.rates, rtn = mn.rates;
-  let histOR = null, histEarly = null;
-  if (h && h.overall) {
-    const o = h.overall;
-    const extKnown = o.extubationTiming.inOR + o.extubationTiming.early + o.extubationTiming.late;
-    histOR = { pct: o.rates.orExtubationPct, count: o.extubationTiming.inOR, total: extKnown, label: '歷史 ' + o.totalPatients + ' 例' };
-    histEarly = { pct: o.rates.earlyExtubationPct, count: o.extubationTiming.inOR + o.extubationTiming.early, total: extKnown, label: '歷史 ' + o.totalPatients + ' 例' };
-  }
-  html.push(`
-    <h2 class="section-title">
-      <span class="num">06</span>
-      <span>ERAS 指標 · 指標率</span>
-    </h2>
-    ${groupLegend()}
-    <div class="rate-grid">
-      ${rateCard2(
-        '手術室中拔管比例',
-        '拔管時間 &lt; 轉入加護病房時間',
-        rte.extubatedInOR, rtn.extubatedInOR,
-        histOR
-      )}
-      ${rateCard2(
-        '術後立即拔管比例',
-        '術後脫離呼吸器時間 &lt; 6 小時（含手術室中拔管）',
-        rte.earlyExtubation, rtn.earlyExtubation,
-        histEarly
-      )}
-    </div>
-  `);
-
-  // ===== 06+ 本期重大併發症率（B1，即時從重大異常事件欄；兩組並列）=====
-  const compE = me.complications, compN = mn.complications;
-  if (compE && compN && (compE.total + compN.total) > 0) {
-    const cc = (o, total) => ({ count: o.count, total: total, pct: o.pct });
-    html.push(`
-      <h2 class="section-title">
-        <span class="num">06+</span>
-        <span>本期重大併發症率</span>
-        <span class="sub">ERAS ${compE.total} · 非ERAS ${compN.total} 例術後紀錄</span>
-      </h2>
-      ${groupLegend()}
-      <div class="rate-grid">
-        ${rateCard2('術後急救 (CPR)', '重大異常事件記錄', cc(compE.cpr, compE.total), cc(compN.cpr, compN.total), null)}
-        ${rateCard2('重新插管', '重大異常事件記錄', cc(compE.reintubation, compE.total), cc(compN.reintubation, compN.total), null)}
-        ${rateCard2('再次手術', '重大異常事件記錄', cc(compE.reoperation, compE.total), cc(compN.reoperation, compN.total), null)}
-        ${rateCard2('中風', '重大異常事件記錄', cc(compE.stroke, compE.total), cc(compN.stroke, compN.total), null)}
-      </div>
-    `);
-  }
-
-  // ===== 07 病患滿意度 =====
+  // ===== 10 病患滿意度 =====
   const sat = d.satisfaction;
   if (sat && sat.totalResponses > 0) {
     html.push(renderSatisfaction(sat));
   } else {
     html.push(`
       <h2 class="section-title">
-        <span class="num">07</span>
+        <span class="num">10</span>
         <span>病患滿意度</span>
       </h2>
       <div class="placeholder-card">
@@ -1335,18 +1372,396 @@ function render(d) {
 
   $('content').innerHTML = html.join('');
 
-  // Tab binding (patient lists)
-  document.querySelectorAll('.tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-      $('tab-' + btn.dataset.tab).style.display = 'block';
-    });
-  });
+  _dashData = d;
+  renderDynamic();
 
   // Year tab binding (historical)
   if (h) bindYearTabs();
+}
+
+/* ============================================================
+ *  ★ 本系統成效：篩選 + 類別總覽 + 季度趨勢 + 指標明細 + 併發症 + 病人清單
+ *  資料來源 d.cases[]：{ d, y, q, cat, mics, surg, eras, ext, water, food, walk, tube, icu, los, major, aki, ... }
+ *  設計原則：
+ *   - 每格同時給 平均 與 中位數(IQR)、都標 n；n<5 標「樣本少」而不隱藏
+ *   - 里程碑指標排除有重大異常事件者（與後端舊邏輯一致）；併發症率則以全部案為分母
+ *   - 歷史背景（2020–2026/02）全為 CABG，只在類別=CABG 時當基準並列
+ * ============================================================ */
+let _dashData = null;
+const SMALL_N = 5;
+const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all' };
+const CAT_ORDER = ['CABG', '瓣膜', 'CABG+瓣膜', '主動脈開放', '主動脈血管內', '其他'];
+const CAT_LABEL = {
+  'CABG': '冠狀動脈繞道 CABG',
+  '瓣膜': '瓣膜手術',
+  'CABG+瓣膜': 'CABG＋瓣膜 複合',
+  '主動脈開放': '主動脈開放手術（TAR／Bentall）',
+  '主動脈血管內': '主動脈血管內治療（EVAR／TEVAR）',
+  '其他': '其他',
+};
+
+// ---- 統計小工具 ----
+const S = {
+  nums: (arr) => arr.filter(v => v != null && !isNaN(v)),
+  mean: (arr) => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length * 10) / 10 : null,
+  quantile: (sorted, p) => {
+    if (!sorted.length) return null;
+    const pos = (sorted.length - 1) * p, lo = Math.floor(pos), hi = Math.ceil(pos);
+    const v = sorted[lo] + (sorted[hi] - sorted[lo]) * (pos - lo);
+    return Math.round(v * 10) / 10;
+  },
+  summary(arr) {
+    const v = S.nums(arr).slice().sort((a, b) => a - b);
+    return { n: v.length, mean: S.mean(v), median: S.quantile(v, 0.5), q1: S.quantile(v, 0.25), q3: S.quantile(v, 0.75) };
+  },
+  pct: (k, n) => n ? Math.round(k / n * 1000) / 10 : null,
+};
+
+// ---- 篩選 ----
+function periodOf(c) { return { y: c.y ? String(c.y) : '', q: c.q || '' }; }
+function matchPeriod(c, period) {
+  if (period === 'all') return true;
+  const p = periodOf(c);
+  return /Q/.test(period) ? p.q === period : p.y === period;
+}
+function matchBase(c, f) {   // 不含類別的篩選（類別總覽表要跨類別比較）
+  if (!matchPeriod(c, f.period)) return false;
+  if (f.mics === 'mics' && !c.mics) return false;
+  if (f.mics === 'open' && c.mics) return false;
+  if (f.eras === 'eras' && c.eras !== '是') return false;
+  if (f.eras === 'non' && c.eras !== '否') return false;
+  return true;
+}
+function matchAll(c, f) { return matchBase(c, f) && (f.cat === 'all' || c.cat === f.cat); }
+
+// ---- 一組案例的指標 ----
+function computeGroup(rows) {
+  const clean = rows.filter(c => !c.major);   // 里程碑排除重大事件者
+  const m = (k) => S.summary(clean.map(c => c[k]));
+  const ext = S.nums(clean.map(c => c.ext));
+  const orN = ext.filter(v => v < 0).length, earlyN = ext.filter(v => v < 6).length;
+  const total = rows.length;
+  const cnt = (kw) => rows.filter(c => c.major && c.major.indexOf(kw) >= 0).length;
+  const akiN = rows.filter(c => c.aki && c.aki !== '無AKI' && c.aki !== '無' && !/^no/i.test(c.aki)).length;
+  const akiKnown = rows.filter(c => c.aki).length;
+  return {
+    n: total, nClean: clean.length, nMajor: total - clean.length,
+    metrics: {
+      extubation: m('ext'), tryWater: m('water'), foodIntake: m('food'), ambulation: m('walk'),
+      chestTube: m('tube'), icuStay: m('icu'), hospitalLOS: m('los'),
+    },
+    rates: {
+      extubatedInOR:   { count: orN,    total: ext.length, pct: S.pct(orN, ext.length) },
+      earlyExtubation: { count: earlyN, total: ext.length, pct: S.pct(earlyN, ext.length) },
+    },
+    complications: {
+      total,
+      cpr:          { count: cnt('術後急救'), total, pct: S.pct(cnt('術後急救'), total) },
+      reintubation: { count: cnt('重新插管'), total, pct: S.pct(cnt('重新插管'), total) },
+      reoperation:  { count: cnt('再次手術'), total, pct: S.pct(cnt('再次手術'), total) },
+      stroke:       { count: cnt('中風'),     total, pct: S.pct(cnt('中風'), total) },
+      aki:          { count: akiN, total: akiKnown, pct: S.pct(akiN, akiKnown) },
+    },
+  };
+}
+
+function periodOptions(cases) {
+  const years = [...new Set(cases.map(c => c.y).filter(Boolean))].sort();
+  const quarters = [...new Set(cases.map(c => c.q).filter(Boolean))].sort();
+  return { years: years.map(String), quarters };
+}
+function filterLabel(f) {
+  const parts = [];
+  parts.push(f.cat === 'all' ? '全部類別' : CAT_LABEL[f.cat] || f.cat);
+  parts.push(f.period === 'all' ? '全部期間' : f.period);
+  if (f.mics !== 'all') parts.push(f.mics === 'mics' ? '微創 MICS' : '傳統開胸');
+  if (f.eras !== 'all') parts.push(f.eras === 'eras' ? 'ERAS 流程' : '非 ERAS 流程');
+  return parts.join(' · ');
+}
+
+// ---- 主渲染 ----
+function renderDynamic() {
+  const d = _dashData;
+  if (!d) return;
+  const cases = d.cases || [];
+  const h = d.historical || null;
+  const html = [];
+
+  // 若期間選項已不存在（例如換了通行碼/資料），退回全部
+  const po = periodOptions(cases);
+  if (_f.period !== 'all' && !po.years.includes(_f.period) && !po.quarters.includes(_f.period)) _f.period = 'all';
+
+  const base = cases.filter(c => matchBase(c, _f));
+  const sel  = cases.filter(c => matchAll(c, _f));
+  const g = computeGroup(sel);
+
+  // ===== 04 篩選 =====
+  const catCount = (cat) => base.filter(c => cat === 'all' || c.cat === cat).length;
+  const chip = (group, val, label, n, active) =>
+    `<button type="button" class="chip${active ? ' active' : ''}" data-group="${group}" data-val="${escapeHtml(val)}">${escapeHtml(label)}${n != null ? `<span class="chip-n">${n}</span>` : ''}</button>`;
+  const catChips = [chip('cat', 'all', '全部', catCount('all'), _f.cat === 'all')]
+    .concat(CAT_ORDER.filter(c => cases.some(x => x.cat === c)).map(c => chip('cat', c, c, catCount(c), _f.cat === c)));
+  const perChips = [chip('period', 'all', '全部', null, _f.period === 'all')]
+    .concat(po.years.map(y => chip('period', y, y + ' 全年', null, _f.period === y)))
+    .concat(po.quarters.map(q => chip('period', q, q, null, _f.period === q)));
+  const micsChips = [['all', '全部'], ['mics', '微創 MICS'], ['open', '傳統開胸']].map(([v, l]) => chip('mics', v, l, null, _f.mics === v));
+  const erasChips = [['all', '全部'], ['eras', 'ERAS'], ['non', '非 ERAS']].map(([v, l]) => chip('eras', v, l, null, _f.eras === v));
+  const unclassified = cases.filter(c => c.eras !== '是' && c.eras !== '否').length;
+
+  html.push(`
+    <h2 class="section-title">
+      <span class="num">04</span>
+      <span>本系統成效 · 篩選條件</span>
+      <span class="sub">${cases.length} 筆術後紀錄${unclassified ? ` · ${unclassified} 筆未標記流程` : ''}</span>
+    </h2>
+    <div class="filter-card">
+      <div class="filter-row"><div class="filter-label">手術類別</div><div class="chip-row">${catChips.join('')}</div></div>
+      <div class="filter-row"><div class="filter-label">期間（實際手術日）</div><div class="chip-row">${perChips.join('')}</div></div>
+      <div class="filter-row two">
+        <div><div class="filter-label">術式途徑</div><div class="chip-row">${micsChips.join('')}</div></div>
+        <div><div class="filter-label">流程</div><div class="chip-row">${erasChips.join('')}</div></div>
+      </div>
+      <div class="filter-summary">目前條件：<strong>${escapeHtml(filterLabel(_f))}</strong> · n = <strong>${g.n}</strong>${g.nMajor ? `（含 ${g.nMajor} 例重大異常事件，里程碑不計入）` : ''}${g.n && g.n < SMALL_N ? smallN() : ''}</div>
+    </div>
+  `);
+
+  // ===== 05 手術類別總覽 =====
+  html.push(renderCategoryTable(base, cases));
+
+  // ===== 06 季度趨勢 =====
+  html.push(renderQuarterTrend(cases.filter(c => matchAll(c, { ..._f, period: 'all' })), po.quarters));
+
+  // ===== 07 指標明細 =====
+  const mm = g.metrics;
+  html.push(`
+    <h2 class="section-title">
+      <span class="num">07</span>
+      <span>恢復里程碑 · 原始數值</span>
+      <span class="sub">${escapeHtml(filterLabel(_f))} · 有效 n=${g.nClean}</span>
+    </h2>
+    <div class="stat-legend">平均值 ／ 中位數（IQR 四分位距）· 小時自轉入加護病房起算，負值 = 手術室內已完成</div>
+    <div class="metric-grid">
+      ${metricCardS('術後脫離呼吸器時間', mm.extubation, '小時')}
+      ${metricCardS('術後首次 Try Water 時間', mm.tryWater, '小時')}
+      ${metricCardS('術後首次固體食物進食時間', mm.foodIntake, '小時')}
+      ${metricCardS('術後首次下床走路', mm.ambulation, '小時')}
+      ${metricCardS('術後胸管全拔時間', mm.chestTube, '小時')}
+      ${metricCardS('ICU 滯留時間', mm.icuStay, '小時')}
+      ${metricCardS('住院天數', mm.hospitalLOS, '天')}
+    </div>
+  `);
+
+  // ===== 08 指標率 + 併發症 =====
+  let histOR = null, histEarly = null;
+  const showHist = h && h.overall && (_f.cat === 'CABG');
+  if (showHist) {
+    const o = h.overall;
+    const extKnown = o.extubationTiming.inOR + o.extubationTiming.early + o.extubationTiming.late;
+    histOR = { pct: o.rates.orExtubationPct, count: o.extubationTiming.inOR, total: extKnown, label: '歷史 CABG 基準 ' + o.totalPatients + ' 例' };
+    histEarly = { pct: o.rates.earlyExtubationPct, count: o.extubationTiming.inOR + o.extubationTiming.early, total: extKnown, label: '歷史 CABG 基準 ' + o.totalPatients + ' 例' };
+  }
+  const cp = g.complications;
+  html.push(`
+    <h2 class="section-title">
+      <span class="num">08</span>
+      <span>拔管指標率與重大併發症</span>
+      <span class="sub">${escapeHtml(filterLabel(_f))}${h && _f.cat !== 'CABG' ? ' · 歷史基準僅限 CABG，此類別不並列' : ''}</span>
+    </h2>
+    <div class="rate-grid">
+      ${rateCardS('手術室中拔管比例', '拔管時間 &lt; 轉入加護病房時間', g.rates.extubatedInOR, histOR)}
+      ${rateCardS('術後立即拔管比例', '術後脫離呼吸器時間 &lt; 6 小時（含手術室中拔管）', g.rates.earlyExtubation, histEarly)}
+    </div>
+    <div class="rate-grid comp" style="margin-top:12px">
+      ${rateCardS('術後急救 (CPR)', '重大異常事件記錄', cp.cpr, null, true)}
+      ${rateCardS('重新插管', '重大異常事件記錄', cp.reintubation, null, true)}
+      ${rateCardS('再次手術', '重大異常事件記錄', cp.reoperation, null, true)}
+      ${rateCardS('中風', '重大異常事件記錄', cp.stroke, null, true)}
+      ${rateCardS('急性腎損傷 AKI', 'KDIGO 判讀 ≠ 無AKI；分母 = 有判讀者', cp.aki, null, true)}
+    </div>
+  `);
+
+  // ===== 09 病人清單（套用類別 + 期間篩選）=====
+  const lists = d.lists;
+  const catOf = (p) => _f.cat === 'all' || p.cat === _f.cat;
+  const micsOf = (p) => _f.mics === 'all' || (_f.mics === 'mics' ? p.mics : !p.mics);
+  const perOf = (p) => _f.period === 'all' || matchPeriod(caseLikeFromDate(p.actualDate), _f.period);
+  const L = {
+    pending:    lists.pending.filter(p => catOf(p) && micsOf(p)),
+    inProgress: lists.inProgress.filter(p => catOf(p) && micsOf(p) && perOf(p)),
+    closed:     lists.closed.filter(p => catOf(p) && micsOf(p) && perOf(p)),
+  };
+  html.push(`
+    <h2 class="section-title">
+      <span class="num">09</span>
+      <span>病人清單（本系統）</span>
+      <span class="sub">${_f.cat !== 'all' || _f.period !== 'all' || _f.mics !== 'all' ? '已套用篩選（待開刀不受期間限制）' : '全部'}</span>
+    </h2>
+    <div class="tabs" id="tabBar">
+      <button type="button" class="tab${_tab === 'pending' ? ' active' : ''}" data-tab="pending">待開刀 <span class="count">${L.pending.length}</span></button>
+      <button type="button" class="tab${_tab === 'inProgress' ? ' active' : ''}" data-tab="inProgress">進行中 <span class="count">${L.inProgress.length}</span></button>
+      <button type="button" class="tab${_tab === 'closed' ? ' active' : ''}" data-tab="closed">已結案 <span class="count">${L.closed.length}</span></button>
+    </div>
+    <div class="tab-content">
+      <div id="tab-pending" class="tab-panel" style="display:${_tab === 'pending' ? 'block' : 'none'}">${renderList(L.pending, 'pending')}</div>
+      <div id="tab-inProgress" class="tab-panel" style="display:${_tab === 'inProgress' ? 'block' : 'none'}">${renderList(L.inProgress, 'inProgress')}</div>
+      <div id="tab-closed" class="tab-panel" style="display:${_tab === 'closed' ? 'block' : 'none'}">${renderList(L.closed, 'closed')}</div>
+    </div>
+  `);
+
+  $('dyn').innerHTML = html.join('');
+  bindDynamic();
+}
+
+let _tab = 'pending';
+function caseLikeFromDate(dateStr) {
+  if (!dateStr) return { y: null, q: '' };
+  const y = parseInt(dateStr.slice(0, 4), 10), m = parseInt(dateStr.slice(5, 7), 10);
+  return { y, q: y + 'Q' + (Math.floor((m - 1) / 3) + 1) };
+}
+
+function bindDynamic() {
+  document.querySelectorAll('#dyn .chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _f[btn.dataset.group] = btn.dataset.val;
+      renderDynamic();
+    });
+  });
+  document.querySelectorAll('#dyn .cat-row[data-cat]').forEach(tr => {
+    tr.addEventListener('click', () => { _f.cat = tr.dataset.cat; renderDynamic(); });
+  });
+  document.querySelectorAll('#dyn .tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _tab = btn.dataset.tab;
+      document.querySelectorAll('#dyn .tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#dyn .tab-panel').forEach(p => p.style.display = 'none');
+      $('tab-' + _tab).style.display = 'block';
+    });
+  });
+}
+
+function smallN() { return `<span class="small-n" title="樣本數少於 ${SMALL_N}，數值僅供參考">樣本少</span>`; }
+const fmt1 = (v) => (v == null || isNaN(v)) ? '—' : (Math.round(v * 10) / 10);
+
+// ---- 05 類別總覽表 ----
+function renderCategoryTable(base, allCases) {
+  const cats = CAT_ORDER.filter(c => allCases.some(x => x.cat === c));
+  const rows = cats.map(cat => {
+    const g = computeGroup(base.filter(c => c.cat === cat));
+    return { cat, g };
+  });
+  const gAll = computeGroup(base);
+  const cell = (v, unit) => v == null ? '<span class="muted">—</span>' : `${v}<span class="u">${unit || ''}</span>`;
+  const pctCell = (r) => r.pct == null ? '<span class="muted">—</span>' : `${r.pct}<span class="u">%</span><span class="frac">${r.count}/${r.total}</span>`;
+  const medCell = (m, unit) => m.median == null ? '<span class="muted">—</span>' : `${m.median}<span class="u">${unit}</span><span class="frac">IQR ${fmt1(m.q1)} ～ ${fmt1(m.q3)}</span>`;
+  const tr = (label, cat, g, cls) => `
+    <tr class="cat-row${cls || ''}${cat && _f.cat === cat ? ' selected' : ''}" ${cat ? `data-cat="${escapeHtml(cat)}"` : ''}>
+      <td class="cat-name">${escapeHtml(label)}${g.n && g.n < SMALL_N ? smallN() : ''}</td>
+      <td class="num">${g.n}</td>
+      <td class="num">${pctCell(g.rates.extubatedInOR)}</td>
+      <td class="num">${pctCell(g.rates.earlyExtubation)}</td>
+      <td class="num">${medCell(g.metrics.icuStay, ' 時')}</td>
+      <td class="num">${medCell(g.metrics.hospitalLOS, ' 天')}</td>
+      <td class="num">${g.nMajor ? `<span class="warn">${g.nMajor}</span>` : '0'}</td>
+    </tr>`;
+  const periodTxt = _f.period === 'all' ? '全部期間' : _f.period;
+  return `
+    <h2 class="section-title">
+      <span class="num">05</span>
+      <span>手術類別總覽</span>
+      <span class="sub">${escapeHtml(periodTxt)}${_f.mics !== 'all' ? (_f.mics === 'mics' ? ' · 微創' : ' · 傳統') : ''}${_f.eras !== 'all' ? (_f.eras === 'eras' ? ' · ERAS' : ' · 非ERAS') : ''} · 點列可切換類別</span>
+    </h2>
+    <div class="cat-table-wrap">
+      <table class="cat-table">
+        <thead><tr>
+          <th>手術類別</th><th class="num">n</th><th class="num">手術室拔管</th><th class="num">立即拔管 &lt;6h</th>
+          <th class="num">ICU 中位</th><th class="num">住院 中位</th><th class="num">重大事件</th>
+        </tr></thead>
+        <tbody>
+          ${rows.map(r => tr(r.cat, r.cat, r.g)).join('')}
+          ${tr('全部', 'all', gAll, ' total')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ---- 06 季度趨勢（單一序列小圖，避免只靠顏色辨識）----
+function renderQuarterTrend(rows, quarters) {
+  if (!quarters || quarters.length < 2) {
+    return `
+      <h2 class="section-title"><span class="num">06</span><span>季度趨勢</span><span class="sub">${escapeHtml(_f.cat === 'all' ? '全部類別' : _f.cat)}</span></h2>
+      <div class="placeholder-card"><div class="ph-title">資料跨越 ≥ 2 個季度後顯示</div><div class="ph-desc">目前只有 ${quarters ? quarters.length : 0} 個季度有手術紀錄。</div></div>`;
+  }
+  const byQ = quarters.map(q => computeGroup(rows.filter(c => c.q === q)));
+  const xLabels = quarters.map(q => q.replace(/^20/, ''));   // 26Q1
+  const vol   = byQ.map(g => g.n);
+  const orPct = byQ.map(g => g.rates.extubatedInOR.pct);
+  const icuMd = byQ.map(g => g.metrics.icuStay.median);
+  const losMd = byQ.map(g => g.metrics.hospitalLOS.median);
+  const small = byQ.some(g => g.n && g.n < SMALL_N);
+  const title = _f.cat === 'all' ? '全部類別' : (CAT_LABEL[_f.cat] || _f.cat);
+  return `
+    <h2 class="section-title">
+      <span class="num">06</span>
+      <span>季度趨勢</span>
+      <span class="sub">${escapeHtml(title)}${_f.mics !== 'all' || _f.eras !== 'all' ? '（含途徑／流程篩選）' : ''} · ${quarters[0]} – ${quarters[quarters.length - 1]}</span>
+    </h2>
+    <div class="trend-grid">
+      <div class="chart-card">
+        <div class="chart-title">季度案量</div>
+        ${renderBarChart({ xLabels, values: vol, color: CHART_COLORS.teal, yUnit: ' 例' })}
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">手術室中拔管比例</div>
+        ${renderLineChart({ xLabels, series: [{ name: '手術室拔管 %', color: CHART_COLORS.green, values: orPct }], yUnit: '%', yMin: 0, yMax: 100 })}
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">ICU 滯留時間 · 中位數（小時）</div>
+        ${renderLineChart({ xLabels, series: [{ name: 'ICU', color: CHART_COLORS.plum, values: icuMd }], yUnit: ' 時', yMin: 0 })}
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">住院天數 · 中位數（天）</div>
+        ${renderLineChart({ xLabels, series: [{ name: 'LOS', color: CHART_COLORS.gold, values: losMd }], yUnit: ' 天', yMin: 0 })}
+      </div>
+    </div>
+    <div class="trend-note">${quarters.map((q, i) => `${q}：n=${byQ[i].n}`).join(' · ')}${small ? ' · 有季度樣本少於 ' + SMALL_N + '，趨勢僅供參考' : ''}</div>
+  `;
+}
+
+// ---- 07 指標卡（平均 + 中位數/IQR + n）----
+function metricCardS(label, m, unit) {
+  if (!m || m.n === 0) {
+    return `<div class="mc"><div class="mc-label">${label}</div><div class="mc-value muted">—</div><div class="mc-meta">尚無資料</div></div>`;
+  }
+  return `
+    <div class="mc">
+      <div class="mc-label">${label}</div>
+      <div class="mc-value">${m.mean}<span class="unit">${escapeHtml(unit)}</span></div>
+      <div class="mc-stats">中位 <strong>${m.median}</strong><span class="u">${escapeHtml(unit)}</span> · IQR ${fmt1(m.q1)} ～ ${fmt1(m.q3)}</div>
+      <div class="mc-meta">n = ${m.n}${m.n < SMALL_N ? smallN() : ''}</div>
+    </div>
+  `;
+}
+
+// ---- 08 率卡（單值 + 可選歷史基準）----
+function rateCardS(label, defText, r, histRef, isComp) {
+  const histLine = histRef && histRef.pct != null
+    ? `<div class="historical-ref">${escapeHtml(histRef.label || '歷史')}：<span class="hist-val">${histRef.pct}%</span>（${histRef.count} / ${histRef.total}）</div>`
+    : '';
+  const cls = isComp ? ' comp' : '';
+  if (!r || r.pct == null) {
+    return `<div class="rate-card${cls}"><div class="rate-label">${label}</div><div class="rate-def">${defText}</div><div class="rate-value muted">尚無資料</div>${histLine}</div>`;
+  }
+  return `
+    <div class="rate-card${cls}">
+      <div class="rate-label">${label}</div>
+      <div class="rate-def">${defText}</div>
+      <div class="rate-value">${r.pct}<span class="unit">%</span></div>
+      <div class="rate-frac">${r.count} / ${r.total} 位${r.total < SMALL_N ? smallN() : ''}</div>
+      ${histLine}
+    </div>
+  `;
 }
 
 // ===== Historical section renderer =====
@@ -1783,7 +2198,7 @@ function renderSatisfaction(sat) {
 
   return `
     <h2 class="section-title">
-      <span class="num">07</span>
+      <span class="num">10</span>
       <span>病患滿意度</span>
       <span class="sub">${sat.totalResponses} 份回覆</span>
     </h2>
@@ -1977,7 +2392,7 @@ function renderEduStats(res) {
   if (res.empty) {
     return `
       <h2 class="section-title">
-        <span class="num">08</span>
+        <span class="num">11</span>
         <span>衛教瀏覽量統計</span>
       </h2>
       <div class="edu-empty-card">
@@ -2068,7 +2483,7 @@ function renderEduStats(res) {
 
   return `
     <h2 class="section-title">
-      <span class="num">08</span>
+      <span class="num">11</span>
       <span>衛教瀏覽量統計</span>
       <span class="sub">${t.totalViews} 次累計瀏覽 · ${t.uniquePatients} 位病人</span>
     </h2>
