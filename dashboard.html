@@ -1390,13 +1390,13 @@ function render(d) {
 let _dashData = null;
 const SMALL_N = 5;
 const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all' };
-const CAT_ORDER = ['CABG', '瓣膜', 'CABG+瓣膜', '主動脈開放', '主動脈血管內', '其他'];
+const CAT_ORDER = ['CABG', '瓣膜', 'CABG+瓣膜', '主動脈手術', '主動脈支架', '其他'];
 const CAT_LABEL = {
   'CABG': '冠狀動脈繞道 CABG',
   '瓣膜': '瓣膜手術',
   'CABG+瓣膜': 'CABG＋瓣膜 複合',
-  '主動脈開放': '主動脈開放手術（TAR／Bentall）',
-  '主動脈血管內': '主動脈血管內治療（EVAR／TEVAR）',
+  '主動脈手術': '主動脈手術（開放式：TAR／Bentall／升主動脈）',
+  '主動脈支架': '主動脈支架置放（EVAR／TEVAR）',
   '其他': '其他',
 };
 
