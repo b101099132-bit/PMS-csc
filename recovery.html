@@ -177,18 +177,21 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
       <input type="hidden" id="urine_rate" name="urine_rate">
 
       <div class="subhead">VIS 血管活性—強心藥物分數（抵達恢復室時 / 離開恢復室時）</div>
-      <div class="hint">單位：兒茶酚胺類 µg/kg/min、Vasopressin U/kg/min；未使用者留空。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vasopressin。</div>
+      <div class="hint">Dopamine／Dobutamine／Norepinephrine(Levophed)／Milrinone(Primacor) 輸入幫浦速率 <strong>mL/hr</strong>，系統依院內固定泡法＋體重自動換算成 µg/kg/min（<strong>需先填上方體重</strong>）。Epinephrine 輸入 µg/kg/min、Vasopressin 輸入 U/kg/min（手動）。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vaso。<br>泡法：Dopamine 400mg/250mL、Levophed 8mg/500mL、Gendobu 500mg/250mL、Primacor 100µg/mL、Perdipine 0.5mg/mL。Perdipine 為降壓藥、<strong>不列入 VIS</strong>，僅記錄。</div>
       <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:10px">
         <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">抵達恢復室時</div>
         <div class="row row-3">
-          <div class="field"><label for="vis_in_dopa">Dopamine</label><input type="number" id="vis_in_dopa" name="vis_in_dopa" step="0.1" min="0"></div>
-          <div class="field"><label for="vis_in_dobu">Dobutamine</label><input type="number" id="vis_in_dobu" name="vis_in_dobu" step="0.1" min="0"></div>
-          <div class="field"><label for="vis_in_epi">Epinephrine</label><input type="number" id="vis_in_epi" name="vis_in_epi" step="0.01" min="0"></div>
+          <div class="field"><label for="vis_in_dopa">Dopamine (mL/hr)</label><input type="number" id="vis_in_dopa" name="vis_in_dopa" step="0.1" min="0"><span class="sub">≈ <strong id="vis_in_dopa_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_in_dobu">Dobutamine (mL/hr)</label><input type="number" id="vis_in_dobu" name="vis_in_dobu" step="0.1" min="0"><span class="sub">≈ <strong id="vis_in_dobu_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_in_epi">Epinephrine (µg/kg/min)</label><input type="number" id="vis_in_epi" name="vis_in_epi" step="0.01" min="0"></div>
         </div>
         <div class="row row-3">
-          <div class="field"><label for="vis_in_norepi">Norepinephrine</label><input type="number" id="vis_in_norepi" name="vis_in_norepi" step="0.01" min="0"></div>
-          <div class="field"><label for="vis_in_milri">Milrinone</label><input type="number" id="vis_in_milri" name="vis_in_milri" step="0.01" min="0"></div>
-          <div class="field"><label for="vis_in_vaso">Vasopressin</label><input type="number" id="vis_in_vaso" name="vis_in_vaso" step="0.0001" min="0"></div>
+          <div class="field"><label for="vis_in_norepi">Norepinephrine (mL/hr)</label><input type="number" id="vis_in_norepi" name="vis_in_norepi" step="0.1" min="0"><span class="sub">≈ <strong id="vis_in_norepi_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_in_milri">Milrinone (mL/hr)</label><input type="number" id="vis_in_milri" name="vis_in_milri" step="0.1" min="0"><span class="sub">≈ <strong id="vis_in_milri_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_in_vaso">Vasopressin (U/kg/min)</label><input type="number" id="vis_in_vaso" name="vis_in_vaso" step="0.0001" min="0"></div>
+        </div>
+        <div class="row row-3">
+          <div class="field"><label for="vis_in_perdipine">Perdipine (mL/hr)</label><input type="number" id="vis_in_perdipine" name="perdipine_in_rate" step="0.1" min="0"><span class="sub">≈ <strong id="vis_in_perdipine_dose">—</strong> µg/kg/min · 不列入VIS</span></div>
         </div>
         <div style="font-size:14px;margin-top:6px">VIS 分數：<strong id="vis_in_score_disp">—</strong></div>
         <input type="hidden" name="vis_in_score" id="vis_in_score">
@@ -196,14 +199,17 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
       <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:12px">
         <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">離開恢復室時</div>
         <div class="row row-3">
-          <div class="field"><label for="vis_out_dopa">Dopamine</label><input type="number" id="vis_out_dopa" name="vis_out_dopa" step="0.1" min="0"></div>
-          <div class="field"><label for="vis_out_dobu">Dobutamine</label><input type="number" id="vis_out_dobu" name="vis_out_dobu" step="0.1" min="0"></div>
-          <div class="field"><label for="vis_out_epi">Epinephrine</label><input type="number" id="vis_out_epi" name="vis_out_epi" step="0.01" min="0"></div>
+          <div class="field"><label for="vis_out_dopa">Dopamine (mL/hr)</label><input type="number" id="vis_out_dopa" name="vis_out_dopa" step="0.1" min="0"><span class="sub">≈ <strong id="vis_out_dopa_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_out_dobu">Dobutamine (mL/hr)</label><input type="number" id="vis_out_dobu" name="vis_out_dobu" step="0.1" min="0"><span class="sub">≈ <strong id="vis_out_dobu_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_out_epi">Epinephrine (µg/kg/min)</label><input type="number" id="vis_out_epi" name="vis_out_epi" step="0.01" min="0"></div>
         </div>
         <div class="row row-3">
-          <div class="field"><label for="vis_out_norepi">Norepinephrine</label><input type="number" id="vis_out_norepi" name="vis_out_norepi" step="0.01" min="0"></div>
-          <div class="field"><label for="vis_out_milri">Milrinone</label><input type="number" id="vis_out_milri" name="vis_out_milri" step="0.01" min="0"></div>
-          <div class="field"><label for="vis_out_vaso">Vasopressin</label><input type="number" id="vis_out_vaso" name="vis_out_vaso" step="0.0001" min="0"></div>
+          <div class="field"><label for="vis_out_norepi">Norepinephrine (mL/hr)</label><input type="number" id="vis_out_norepi" name="vis_out_norepi" step="0.1" min="0"><span class="sub">≈ <strong id="vis_out_norepi_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_out_milri">Milrinone (mL/hr)</label><input type="number" id="vis_out_milri" name="vis_out_milri" step="0.1" min="0"><span class="sub">≈ <strong id="vis_out_milri_dose">—</strong> µg/kg/min</span></div>
+          <div class="field"><label for="vis_out_vaso">Vasopressin (U/kg/min)</label><input type="number" id="vis_out_vaso" name="vis_out_vaso" step="0.0001" min="0"></div>
+        </div>
+        <div class="row row-3">
+          <div class="field"><label for="vis_out_perdipine">Perdipine (mL/hr)</label><input type="number" id="vis_out_perdipine" name="perdipine_out_rate" step="0.1" min="0"><span class="sub">≈ <strong id="vis_out_perdipine_dose">—</strong> µg/kg/min · 不列入VIS</span></div>
         </div>
         <div style="font-size:14px;margin-top:6px">VIS 分數：<strong id="vis_out_score_disp">—</strong></div>
         <input type="hidden" name="vis_out_score" id="vis_out_score">
@@ -339,7 +345,8 @@ function computeRates(){
   $('urine_rate_disp').textContent = (urr !== '') ? urr : '—';
   $('urine_rate').value = urr;
 }
-['chest_tube_total','urine_total','weight_kg'].forEach(id => { const el = $(id); if(el) el.addEventListener('input', computeRates); });
+['chest_tube_total','urine_total'].forEach(id => { const el = $(id); if(el) el.addEventListener('input', computeRates); });
+{ const w = $('weight_kg'); if(w) w.addEventListener('input', () => { computeRates(); computeVis(); }); }   // 體重同時影響尿量率與 VIS 換算
 
 function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -423,6 +430,7 @@ function showPatient(p){
   // 體重：既有恢復室紀錄沒有時，帶入病人術前體重（可修改）
   if(!$('weight_kg').value && p.preopWeight != null && p.preopWeight !== '') { $('weight_kg').value = p.preopWeight; }
   computeRates();
+  computeVis();   // 體重帶入後重算 VIS 劑量換算
   $('formCard').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
@@ -436,6 +444,7 @@ function fillExisting(rv){
   setV('ald_activity', rv.ald_activity); setV('ald_resp', rv.ald_resp); setV('ald_circ', rv.ald_circ);
   setV('ald_consc', rv.ald_consc); setV('ald_spo2', rv.ald_spo2);
   ['in','out'].forEach(ph => ['dopa','dobu','epi','norepi','milri','vaso'].forEach(d => setV('vis_'+ph+'_'+d, rv['vis_'+ph+'_'+d])));
+  setV('vis_in_perdipine', rv.perdipine_in_rate); setV('vis_out_perdipine', rv.perdipine_out_rate);
   setV('note', rv.note);
   // criteria checkboxes
   document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => {
@@ -458,19 +467,49 @@ function computeAldrete(){
 ['ald_activity','ald_resp','ald_circ','ald_consc','ald_spo2'].forEach(id => $(id).addEventListener('change', computeAldrete));
 
 // ===== VIS（到恢復室 / 轉出恢復室）=====
+// 院內固定泡法濃度(µg/mL)：由幫浦速率 mL/hr 換算劑量 µg/kg/min
+const VIS_CONC = { dopa:1600, dobu:2000, norepi:16, milri:100 };  // Dopamine400/250、Levophed8/500、Gendobu500/250、Primacor100µg/mL
+const PERDIPINE_CONC = 500;   // 0.5 mg/mL
 function computeVis(){
   const num = (id) => { const el = $(id); if(!el) return 0; const v = parseFloat(el.value); return isNaN(v)?0:v; };
+  const wt = parseFloat($('weight_kg').value);
+  const r2 = (x) => Math.round(x*100)/100;
   ['in','out'].forEach(ph => {
     const pre = 'vis_' + ph + '_';
-    const drugs = ['dopa','dobu','epi','norepi','milri','vaso'];
-    const has = drugs.some(d => { const el = $(pre+d); return el && el.value !== '' && !isNaN(parseFloat(el.value)); });
-    const score = num(pre+'dopa') + num(pre+'dobu') + 100*num(pre+'epi') + 100*num(pre+'norepi') + 10*num(pre+'milri') + 10000*num(pre+'vaso');
-    const rounded = Math.round(score*100)/100;
-    if($(pre+'score_disp')) $(pre+'score_disp').textContent = has ? rounded : '—';
-    if($(pre+'score')) $(pre+'score').value = has ? rounded : '';
+    // 速率(mL/hr) → 劑量 µg/kg/min（需體重）
+    const doseFromRate = (drug) => {
+      const rate = num(pre+drug);
+      if(!(rate>0) || !(wt>0)) return null;
+      return rate * VIS_CONC[drug] / 60 / wt;
+    };
+    const doses = {};
+    ['dopa','dobu','norepi','milri'].forEach(d => {
+      doses[d] = doseFromRate(d);
+      const el = $(pre+d+'_dose'); if(el) el.textContent = (doses[d]!=null) ? r2(doses[d]) : '—';
+    });
+    const epi = num(pre+'epi');    // µg/kg/min 手動
+    const vaso = num(pre+'vaso');  // U/kg/min 手動
+    // Perdipine（不列入 VIS，僅顯示換算劑量）
+    const pRate = num(pre+'perdipine');
+    const pDose = (pRate>0 && wt>0) ? pRate*PERDIPINE_CONC/60/wt : null;
+    if($(pre+'perdipine_dose')) $(pre+'perdipine_dose').textContent = (pDose!=null) ? r2(pDose) : '—';
+    // VIS 分數
+    const dripPresent = ['dopa','dobu','norepi','milri'].some(d => num(pre+d) > 0);
+    const anyVis = dripPresent || epi > 0 || vaso > 0;
+    if(dripPresent && !(wt>0)){
+      if($(pre+'score_disp')) $(pre+'score_disp').textContent = '需先填體重';
+      if($(pre+'score')) $(pre+'score').value = '';
+    } else if(anyVis){
+      const score = (doses.dopa||0) + (doses.dobu||0) + 100*epi + 100*(doses.norepi||0) + 10*(doses.milri||0) + 10000*vaso;
+      if($(pre+'score_disp')) $(pre+'score_disp').textContent = r2(score);
+      if($(pre+'score')) $(pre+'score').value = r2(score);
+    } else {
+      if($(pre+'score_disp')) $(pre+'score_disp').textContent = '—';
+      if($(pre+'score')) $(pre+'score').value = '';
+    }
   });
 }
-['in','out'].forEach(ph => ['dopa','dobu','epi','norepi','milri','vaso'].forEach(d => {
+['in','out'].forEach(ph => ['dopa','dobu','epi','norepi','milri','vaso','perdipine'].forEach(d => {
   const el = $('vis_'+ph+'_'+d); if(el) el.addEventListener('input', computeVis);
 }));
 
