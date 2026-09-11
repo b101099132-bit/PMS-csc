@@ -579,10 +579,11 @@ header {
 }
 .ms-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
-@media (max-width: 700px) { .ms-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .ms-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .ms-grid { grid-template-columns: 1fr; } }
 .ms-tile {
   border: 1px solid var(--border);
   border-top: 3px solid var(--accent, var(--teal));
@@ -593,10 +594,11 @@ header {
 .ms-tile[data-accent="green"] { --accent: var(--success); }
 .ms-tile[data-accent="teal"]  { --accent: var(--teal); }
 .ms-tile[data-accent="gold"]  { --accent: var(--gold); }
+.ms-tile[data-accent="plum"]  { --accent: var(--plum); }
 .ms-label { font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
 .ms-value {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.1;
   color: var(--ink);
@@ -1369,7 +1371,7 @@ function render(d) {
 
   // ===== 01 總覽 =====
   const split = (h && ov.currentSystemVolume != null)
-    ? `<div class="ov-split"><span>歷史 ${h.totalPatients}</span><span>本系統 ${ov.currentSystemVolume}</span></div>`
+    ? `<div class="ov-split"><span>歷史 ${h.overall ? h.overall.totalPatients : ov.historicalVolume}</span><span>本系統 ${ov.currentSystemVolume}</span></div>`
     : '';
   html.push(`
     <h2 class="section-title">
@@ -1439,9 +1441,10 @@ function render(d) {
 let _dashData = null;
 const SMALL_N = 5;
 const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all' };
-const CAT_ORDER = ['CABG', '瓣膜', 'CABG+瓣膜', '主動脈手術', '主動脈支架', '其他'];
+const CAT_ORDER = ['CABG', 'MICS-CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動脈支架', '其他'];
 const CAT_LABEL = {
-  'CABG': '冠狀動脈繞道 CABG',
+  'CABG': '冠狀動脈繞道 CABG（傳統開胸）',
+  'MICS-CABG': '微創冠狀動脈繞道 MICS-CABG',
   '瓣膜': '瓣膜手術',
   'CABG+瓣膜': 'CABG＋瓣膜 複合',
   '主動脈手術': '主動脈手術（開放式：TAR／Bentall／升主動脈）',
@@ -1685,11 +1688,13 @@ function renderMilestones() {
   const sysOR    = cnt(c => c.ext != null && c.ext < 0);
   const sysWater = cnt(c => c.water != null && c.water <= 1);
   const sysWalk  = cnt(c => c.walk != null && c.walk <= 24);
+  const sysWalk2 = cnt(c => c.walk != null && c.walk <= 48);
   const bg = (v) => (histApplies && v != null) ? v : 0;
-  const bgOR = bg(hc && hc.inOR), bgWater = bg(hc && hc.water1h), bgWalk = bg(hc && hc.walk1d);
+  const bgOR = bg(hc && hc.inOR), bgWater = bg(hc && hc.water1h), bgWalk = bg(hc && hc.walk1d), bgWalk2 = bg(hc && hc.walk2d);
   const missing = [];
   if (histApplies && hc.water1h == null) missing.push('1 小時內喝水');
   if (histApplies && hc.walk1d == null) missing.push('1 天內下床');
+  if (histApplies && hc.walk2d == null) missing.push('48 小時內下床');
 
   const chip = (val, label, active) =>
     `<button type="button" class="chip${active ? ' active' : ''}" data-mcat="${escapeHtml(val)}">${escapeHtml(label)}</button>`;
@@ -1718,8 +1723,9 @@ function renderMilestones() {
         ${tile('green', '累計手術室拔管', sysOR + bgOR, sysOR, bgOR, '拔管時間早於轉入加護病房')}
         ${tile('teal', '術後 1 小時內喝水', sysWater + bgWater, sysWater, bgWater, '首次 Try Water ≤ 轉入加護病房後 1 小時')}
         ${tile('gold', '術後 1 天內下床', sysWalk + bgWalk, sysWalk, bgWalk, '首次下床走路 ≤ 轉入加護病房後 24 小時')}
+        ${tile('plum', '術後 48 小時內下床', sysWalk2 + bgWalk2, sysWalk2, bgWalk2, '首次下床走路 ≤ 轉入加護病房後 48 小時（含 1 天內者）')}
       </div>
-      ${missing.length ? `<div class="ms-note">歷史背景表尚無「${missing.join('」「')}」欄，背景值該項以 0 計；在「歷史背景」工作表加欄「術後1小時喝水」「術後1天下床」（1＝達成）即會自動併入。</div>` : ''}
+      ${missing.length ? `<div class="ms-note">歷史背景表尚無「${missing.join('」「')}」欄，背景值該項以 0 計；在「歷史背景」工作表加欄「術後1小時喝水」「術後1天下床」「術後2天下床」（1＝達成）即會自動併入。</div>` : ''}
       ${!histApplies && hc ? `<div class="ms-note">${_mf.cat === 'MICS' ? '歷史背景表無微創註記，MICS 標籤不併入背景值。' : '歷史背景全為 CABG，此術式不併入背景值。'}</div>` : ''}
     </div>
   `;
