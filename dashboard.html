@@ -613,6 +613,15 @@ header {
 .ms-def { font-size: 11px; color: var(--ink-faint); font-style: italic; margin-top: 6px; }
 .ms-note { font-size: 12px; color: var(--warn); }
 
+/* ========== ★ 06+ 沖積圖 / 樹狀圖 ========== */
+.flow-card { margin-bottom: 14px; }
+.flow-card .chart-title { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.flow-card .chart-sub { font-size: 11px; color: var(--ink-faint); font-weight: 400; }
+.flow-scroll { overflow-x: auto; }
+.flow-scroll .echart { min-width: 640px; }
+.echart { width: 100%; }
+.chart-note { font-size: 11px; color: var(--ink-faint); margin-top: 8px; font-style: italic; }
+
 /* Satisfaction placeholder */
 .placeholder-card {
   background: var(--paper);
@@ -1248,6 +1257,7 @@ footer {
   <footer>心臟外科手術病人管理系統 · 儀表板 v2.0 · 依手術類別／季度</footer>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js"></script>
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
 
@@ -1583,6 +1593,9 @@ function renderDynamic() {
   // ===== 06 季度趨勢 =====
   html.push(renderQuarterTrend(cases.filter(c => matchAll(c, { ..._f, period: 'all' })), po.quarters));
 
+  // ===== 06+ 病人流向（沖積圖）＋ 案量組成（樹狀圖）（★2026-09-11，ECharts）=====
+  html.push(renderFlowSection(sel));
+
   // ===== 07 指標明細 =====
   const mm = g.metrics;
   html.push(`
@@ -1662,6 +1675,7 @@ function renderDynamic() {
 
   $('dyn').innerHTML = html.join('');
   bindDynamic();
+  drawFlowCharts(sel);
 }
 
 /* ============================================================
@@ -1733,6 +1747,143 @@ function renderMilestones() {
     btn.addEventListener('click', () => { _mf.cat = btn.dataset.mcat; renderMilestones(); });
   });
 }
+
+/* ============================================================
+ *  ★ 06+ 病人流向（沖積圖／桑基圖）＋ 案量組成（樹狀圖）
+ *   - 用 ECharts（CDN）；資料 = 目前篩選後的 cases
+ *   - 沖積圖四層：術式類別（選單一類別時改為 微創／傳統）→ 拔管時機 → ICU 停留 → 結果
+ *   - 未記錄者以灰色節點保留，不悄悄丟掉
+ *   - 品牌色彩度低，辨識靠節點直接標名＋人數，不靠顏色
+ * ============================================================ */
+const FLOW_COLORS = {
+  cat: { 'CABG': '#1F5A5A', 'MICS-CABG': '#3E8A8A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A' },
+  ext: { '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
+  icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
+  out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
+};
+let _charts = {};
+function flowLayers(c, singleCat) {
+  const l1 = singleCat ? (c.mics ? '微創 MICS' : '傳統開胸') : c.cat;
+  const l2 = c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : (c.ext < 6 ? '<6 小時拔管' : '≥6 小時拔管'));
+  const l3 = c.icu == null ? 'ICU 未記錄' : (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'));
+  const l4 = c.major ? '重大異常事件' : '順利追蹤';
+  return [l1, l2, l3, l4];
+}
+function renderFlowSection(sel) {
+  const title = _f.cat === 'all' ? '全部類別' : (CAT_LABEL[_f.cat] || _f.cat);
+  if (!sel.length) {
+    return `<h2 class="section-title"><span class="num">06+</span><span>病人流向與案量組成</span></h2>
+      <div class="placeholder-card"><div class="ph-title">目前篩選條件下沒有資料</div></div>`;
+  }
+  return `
+    <h2 class="section-title">
+      <span class="num">06+</span>
+      <span>病人流向與案量組成</span>
+      <span class="sub">${escapeHtml(title)} · n=${sel.length}</span>
+    </h2>
+    <div class="chart-card flow-card">
+      <div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">${_f.cat === 'all' ? '術式類別' : '微創／傳統'} → 拔管時機 → ICU 停留 → 結果（帶寬 = 人數）</span></div>
+      <div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(320, 200 + sel.length * 2)}px"></div></div>
+      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入；ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
+    </div>
+    <div class="chart-card flow-card">
+      <div class="chart-title"><span>案量組成 · 樹狀圖</span><span class="chart-sub">類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）</span></div>
+      <div id="treemapChart" class="echart" style="height:340px"></div>
+    </div>
+  `;
+}
+function drawFlowCharts(sel) {
+  const sk = $('sankeyChart'), tm = $('treemapChart');
+  if (!sk || !tm) return;
+  if (!window.echarts) {
+    sk.innerHTML = tm.innerHTML = '<div class="plist-empty">圖表函式庫（ECharts）載入失敗，請檢查網路後重新整理。</div>';
+    return;
+  }
+  Object.values(_charts).forEach(ch => { try { ch.dispose(); } catch (e) {} });
+  _charts = {};
+  const singleCat = _f.cat !== 'all';
+  const font = { fontFamily: "'Noto Sans TC', sans-serif" };
+
+  // ---- 沖積圖 ----
+  const nodeCount = {}, linkCount = {};
+  sel.forEach(c => {
+    const L = flowLayers(c, singleCat);
+    L.forEach((n, i) => { nodeCount[n] = (nodeCount[n] || 0) + 1; });
+    for (let i = 0; i < 3; i++) { const k = L[i] + '→' + L[i + 1]; linkCount[k] = (linkCount[k] || 0) + 1; }
+  });
+  const colorOf = (n) => FLOW_COLORS.cat[n] || FLOW_COLORS.ext[n] || FLOW_COLORS.icu[n] || FLOW_COLORS.out[n] || '#8E8A84';
+  const layerOrder = (n) => FLOW_COLORS.cat[n] !== undefined ? 0 : FLOW_COLORS.ext[n] !== undefined ? 1 : FLOW_COLORS.icu[n] !== undefined ? 2 : 3;
+  const withinOrder = (n) => {
+    const seq = [].concat(Object.keys(FLOW_COLORS.cat), Object.keys(FLOW_COLORS.ext), Object.keys(FLOW_COLORS.icu), Object.keys(FLOW_COLORS.out));
+    const i = seq.indexOf(n); return i < 0 ? 999 : i;
+  };
+  const nodes = Object.keys(nodeCount).sort((a, b) => (layerOrder(a) - layerOrder(b)) || (withinOrder(a) - withinOrder(b))).map(n => ({
+    name: n, depth: layerOrder(n), value: nodeCount[n],
+    itemStyle: { color: colorOf(n), borderColor: colorOf(n) },
+    label: { ...font, formatter: (p) => `${p.name}  ${nodeCount[p.name]}` },
+  }));
+  const links = Object.keys(linkCount).map(k => { const [a, b] = k.split('→'); return { source: a, target: b, value: linkCount[k] }; });
+  _charts.sankey = echarts.init(sk, null, { renderer: 'svg' });
+  _charts.sankey.setOption({
+    tooltip: { trigger: 'item', triggerOn: 'mousemove', formatter: (p) => p.dataType === 'edge'
+      ? `${p.data.source} → ${p.data.target}：<b>${p.data.value}</b> 人`
+      : `${p.name}：<b>${p.value}</b> 人（${Math.round(p.value / sel.length * 1000) / 10}%）` },
+    series: [{
+      type: 'sankey', layout: 'none', orient: 'horizontal', layoutIterations: 0,
+      left: 8, right: 130, top: 12, bottom: 12,
+      nodeWidth: 14, nodeGap: 14, nodeAlign: 'justify',
+      emphasis: { focus: 'adjacency' },
+      data: nodes, links: links,
+      lineStyle: { color: 'source', opacity: 0.32, curveness: 0.5 },
+      label: { ...font, fontSize: 12, color: '#1A1A1A', position: 'right' },
+      levels: [{ depth: 0, label: { position: 'right' } }],
+    }],
+  });
+
+  // ---- 樹狀圖 ----
+  const tree = {};
+  sel.forEach(c => {
+    const a = c.cat, b = c.mics ? '微創 MICS' : '傳統開胸';
+    const d = c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : '非手術室內拔管');
+    tree[a] = tree[a] || {}; tree[a][b] = tree[a][b] || {}; tree[a][b][d] = (tree[a][b][d] || 0) + 1;
+  });
+  const hexA = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+  const leafColor = (a, d) => d === '手術室內拔管' ? FLOW_COLORS.cat[a] : (d === '非手術室內拔管' ? hexA(FLOW_COLORS.cat[a], 0.55) : '#C9C3B8');
+  const tmData = CAT_ORDER.filter(a => tree[a]).map(a => ({
+    name: a, itemStyle: { color: FLOW_COLORS.cat[a] },
+    children: ['微創 MICS', '傳統開胸'].filter(b => tree[a][b]).map(b => ({
+      name: b, itemStyle: { color: hexA(FLOW_COLORS.cat[a], 0.18) },
+      children: ['手術室內拔管', '非手術室內拔管', '拔管未記錄'].filter(d => tree[a][b][d]).map(d => ({
+        name: d, value: tree[a][b][d], itemStyle: { color: leafColor(a, d) },
+        label: { color: d === '拔管未記錄' ? '#1A1A1A' : '#fff' },
+      })),
+    })),
+  }));
+  _charts.treemap = echarts.init(tm, null, { renderer: 'svg' });
+  _charts.treemap.setOption({
+    tooltip: { formatter: (p) => `${p.treePathInfo.map(x => x.name).filter(Boolean).join(' › ')}：<b>${p.value}</b> 人` },
+    series: [{
+      type: 'treemap', left: 4, right: 4, top: 4, bottom: 4,
+      roam: false, nodeClick: false,
+      breadcrumb: { show: false },
+      label: { ...font, fontSize: 12, formatter: (p) => `${p.name}\n${p.value}` },
+      upperLabel: { show: true, height: 22, ...font, fontSize: 12, formatter: (p) => `${p.name} · ${p.value}` },
+      itemStyle: { borderColor: '#FAF7F2', borderWidth: 2, gapWidth: 2 },
+      levels: [
+        { itemStyle: { borderWidth: 2, gapWidth: 6, borderColor: '#FAF7F2' }, upperLabel: { show: true, color: '#1A1A1A', fontWeight: 600 } },
+        { itemStyle: { gapWidth: 3, borderColor: '#FAF7F2' }, upperLabel: { show: true, color: '#1A1A1A' } },
+        { itemStyle: { gapWidth: 2, borderColor: '#FAF7F2' } },
+      ],
+      data: tmData,
+    }],
+  });
+
+  if (!_flowResizeBound) {
+    window.addEventListener('resize', () => Object.values(_charts).forEach(ch => { try { ch.resize(); } catch (e) {} }));
+    _flowResizeBound = true;
+  }
+}
+let _flowResizeBound = false;
 
 let _tab = 'pending';
 function caseLikeFromDate(dateStr) {
