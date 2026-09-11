@@ -1257,7 +1257,8 @@ footer {
   <footer>心臟外科手術病人管理系統 · 儀表板 v2.0 · 依手術類別／季度</footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js"></script>
+<!-- ECharts 5.5.1：自帶於 repo（echarts.min.js），避免院內網路擋 CDN；載入失敗才退回 jsDelivr -->
+<script src="echarts.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js';document.head.appendChild(s);"></script>
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
 
