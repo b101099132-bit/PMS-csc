@@ -566,6 +566,51 @@ header {
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* ========== ★ 01+ 里程碑累計 ========== */
+.ms-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--success);
+  border-radius: 3px;
+  padding: 14px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 700px) { .ms-grid { grid-template-columns: 1fr; } }
+.ms-tile {
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent, var(--teal));
+  border-radius: 3px;
+  padding: 14px 16px 12px;
+  background: var(--cream);
+}
+.ms-tile[data-accent="green"] { --accent: var(--success); }
+.ms-tile[data-accent="teal"]  { --accent: var(--teal); }
+.ms-tile[data-accent="gold"]  { --accent: var(--gold); }
+.ms-label { font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
+.ms-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.ms-value .ms-unit { font-size: 14px; font-weight: 400; color: var(--ink-faint); margin-left: 4px; }
+.ms-split {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--ink-soft);
+  margin-top: 6px;
+}
+.ms-def { font-size: 11px; color: var(--ink-faint); font-style: italic; margin-top: 6px; }
+.ms-note { font-size: 12px; color: var(--warn); }
+
 /* Satisfaction placeholder */
 .placeholder-card {
   background: var(--paper);
@@ -1343,6 +1388,9 @@ function render(d) {
     </div>
   `);
 
+  // ===== 01+ 里程碑累計（★2026-09：三大指標達成人數，含歷史背景；可切換術式）=====
+  html.push('<div id="milestones"></div>');
+
   // ===== 02 歷史背景資料 =====
   if (h) html.push(renderHistorical(h));
 
@@ -1373,6 +1421,7 @@ function render(d) {
   $('content').innerHTML = html.join('');
 
   _dashData = d;
+  renderMilestones();
   renderDynamic();
 
   // Year tab binding (historical)
@@ -1610,6 +1659,73 @@ function renderDynamic() {
 
   $('dyn').innerHTML = html.join('');
   bindDynamic();
+}
+
+/* ============================================================
+ *  ★ 01+ 里程碑累計：三大指標「達成人數」（本系統 + 歷史背景）
+ *   - 手術室拔管：本系統 ext < 0；背景 = 拔管時機=1
+ *   - 術後 1 小時內喝水：本系統 water ≤ 1（自轉入 ICU 起算，手術室內已喝為負值）；背景 = 可選欄「術後1小時喝水」
+ *   - 術後 1 天內下床：本系統 walk ≤ 24；背景 = 可選欄「術後1天下床」
+ *   - 達成人數不排除重大事件者（是「達成」的累計，不是均值）
+ *   - 歷史背景全為 CABG → 只在術式=全部／CABG 時併入
+ * ============================================================ */
+const _mf = { cat: 'all' };
+function renderMilestones() {
+  const d = _dashData;
+  if (!d) return;
+  const el = $('milestones');
+  if (!el) return;
+  const cases = d.cases || [];
+  const h = d.historical || null;
+  const hc = (h && h.overall && h.overall.milestoneCounts) ? h.overall.milestoneCounts : null;
+  const histApplies = !!hc && (_mf.cat === 'all' || _mf.cat === 'CABG');   // MICS 標籤：背景表無微創註記，不併入
+
+  const sel = cases.filter(c => _mf.cat === 'all' || (_mf.cat === 'MICS' ? c.mics : c.cat === _mf.cat));
+  const cnt = (fn) => sel.filter(c => fn(c)).length;
+  const sysOR    = cnt(c => c.ext != null && c.ext < 0);
+  const sysWater = cnt(c => c.water != null && c.water <= 1);
+  const sysWalk  = cnt(c => c.walk != null && c.walk <= 24);
+  const bg = (v) => (histApplies && v != null) ? v : 0;
+  const bgOR = bg(hc && hc.inOR), bgWater = bg(hc && hc.water1h), bgWalk = bg(hc && hc.walk1d);
+  const missing = [];
+  if (histApplies && hc.water1h == null) missing.push('1 小時內喝水');
+  if (histApplies && hc.walk1d == null) missing.push('1 天內下床');
+
+  const chip = (val, label, active) =>
+    `<button type="button" class="chip${active ? ' active' : ''}" data-mcat="${escapeHtml(val)}">${escapeHtml(label)}</button>`;
+  const chips = [chip('all', '全部術式', _mf.cat === 'all')]
+    .concat(CAT_ORDER.filter(c => cases.some(x => x.cat === c)).map(c => chip(c, c, _mf.cat === c)))
+    .concat(cases.some(x => x.mics) ? [chip('MICS', '微創 MICS', _mf.cat === 'MICS')] : []);
+
+  const tile = (accent, label, total, sys, bgN, defText) => `
+    <div class="ms-tile" data-accent="${accent}">
+      <div class="ms-label">${label}</div>
+      <div class="ms-value">${total}<span class="ms-unit">人</span></div>
+      <div class="ms-split"><span>本系統 ${sys}</span>${histApplies ? `<span>背景 ${bgN}</span>` : ''}</div>
+      <div class="ms-def">${defText}</div>
+    </div>`;
+
+  const catTitle = _mf.cat === 'all' ? '全部術式' : (_mf.cat === 'MICS' ? '微創 MICS（跨術式）' : (CAT_LABEL[_mf.cat] || _mf.cat));
+  el.innerHTML = `
+    <h2 class="section-title">
+      <span class="num">01+</span>
+      <span>里程碑累計</span>
+      <span class="sub">${escapeHtml(catTitle)} · 本系統 ${sel.length} 例${histApplies ? ` ＋ 背景 ${h.overall.totalPatients} 例（CABG）` : ''}</span>
+    </h2>
+    <div class="ms-card">
+      <div class="chip-row">${chips.join('')}</div>
+      <div class="ms-grid">
+        ${tile('green', '累計手術室拔管', sysOR + bgOR, sysOR, bgOR, '拔管時間早於轉入加護病房')}
+        ${tile('teal', '術後 1 小時內喝水', sysWater + bgWater, sysWater, bgWater, '首次 Try Water ≤ 轉入加護病房後 1 小時')}
+        ${tile('gold', '術後 1 天內下床', sysWalk + bgWalk, sysWalk, bgWalk, '首次下床走路 ≤ 轉入加護病房後 24 小時')}
+      </div>
+      ${missing.length ? `<div class="ms-note">歷史背景表尚無「${missing.join('」「')}」欄，背景值該項以 0 計；在「歷史背景」工作表加欄「術後1小時喝水」「術後1天下床」（1＝達成）即會自動併入。</div>` : ''}
+      ${!histApplies && hc ? `<div class="ms-note">${_mf.cat === 'MICS' ? '歷史背景表無微創註記，MICS 標籤不併入背景值。' : '歷史背景全為 CABG，此術式不併入背景值。'}</div>` : ''}
+    </div>
+  `;
+  el.querySelectorAll('.chip[data-mcat]').forEach(btn => {
+    btn.addEventListener('click', () => { _mf.cat = btn.dataset.mcat; renderMilestones(); });
+  });
 }
 
 let _tab = 'pending';
