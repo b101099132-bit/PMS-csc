@@ -1973,7 +1973,7 @@ function drawFlowCharts(sel) {
  *   C. CUSUM：依病人序累積（成功 − 目標），看學習曲線；主動脈支架 = 不插管成功，其餘 = 手術室內拔管
  *   忽略期間篩選（趨勢要看全時段），其餘篩選（類別/途徑/ERAS）照用
  * ============================================================ */
-const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null };   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
+const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null, xmode: 'seq' };   // xmode：run chart 橫軸 seq=依手術順序等距 / time=依日期   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
 function trendCat() {
   const avail = CAT_ORDER.filter(c => (_dashData.cases || []).some(x => x.cat === c));
   if (_t.cat && avail.indexOf(_t.cat) >= 0) return _t.cat;
@@ -2020,7 +2020,9 @@ function renderTrendSection() {
     </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>A · 逐案時序圖</span><span class="chart-sub">每位病人一點 · 移動中位數（9 例）· 垂直線 = 介入時間點 · 空心 = 背景案</span></div>
-      <div class="chip-row" style="margin-bottom:8px">${metrics.map(m => chip('metric', m[0], m[1], _t.metric === m[0])).join('')}</div>
+      <div class="chip-row" style="margin-bottom:8px">${metrics.map(m => chip('metric', m[0], m[1], _t.metric === m[0])).join('')}
+        <span style="width:1px;height:20px;background:#DDD6CA;margin:0 4px;display:inline-block"></span>
+        ${chip('xmode', 'seq', '橫軸：依手術順序', _t.xmode === 'seq')}${chip('xmode', 'time', '橫軸：依日期', _t.xmode === 'time')}</div>
       <div class="flow-scroll"><div id="runChart" class="echart" style="height:320px"></div></div>
       <div class="chart-note" id="runNote"></div>
     </div>
@@ -2084,22 +2086,41 @@ function drawTrendCharts() {
   hist.forEach(hc => { const v = M.hist(hc); if (v != null) pts.push({ d: hc.d, v, bg: true, cat: (hc.cats || [])[0] }); });
   pts.sort((a, b) => a.d.localeCompare(b.d));
   const med = movingMedian(pts.map(p => p.v), 9);
-  const sysPts = pts.filter(p => !p.bg).map(p => [p.d, p.v]);
-  const bgPts = pts.filter(p => p.bg).map(p => [p.d, p.v]);
+  // 橫軸：bySeq = 每案等距（第 1、2、3…例，避免早年零星案例把近期案例壓在軸邊）；time = 真實日期
+  const bySeq = _t.xmode === 'seq';
+  const X = (p, i) => bySeq ? i + 1 : p.d;
+  const sysPts = [], bgPts = [];
+  pts.forEach((p, i) => (p.bg ? bgPts : sysPts).push([X(p, i), p.v, p.d]));
+  // 介入時間線：bySeq 模式放在「第一個 ≥ 該日期的案例」前半格
+  const mlData = phases.map(p => {
+    if (!bySeq) return { xAxis: p.date, name: p.name };
+    const idx = pts.findIndex(q => q.d >= p.date);
+    return idx < 0 ? null : { xAxis: idx + 0.5, name: p.name };
+  }).filter(Boolean);
+  const runMarkLine = { ...markLine, data: mlData };
+  // bySeq 模式刻度：只在年份改變處標年份（含首例）
+  const yearTicks = {};
+  if (bySeq) pts.forEach((p, i) => { const y = p.d.slice(0, 4); if (!(y in yearTicks) ) yearTicks[y] = i + 1; });
+  const tickIdx = Object.values(yearTicks);
+  const xAxis = bySeq
+    ? { type: 'value', min: 0, max: pts.length + 1, interval: 1, name: '手術順序', nameLocation: 'middle', nameGap: 26, nameTextStyle: { ...font, fontSize: 11 },
+        axisLabel: { ...font, fontSize: 11, showMinLabel: false, showMaxLabel: false, formatter: (v) => { const i = Math.round(v); const p = pts[i - 1]; if (!p) return ''; if (tickIdx.indexOf(i) >= 0) return `第${i}例\n${p.d.slice(0, 4)}`; const step = pts.length > 120 ? 20 : 10; return (i % step === 0 && !tickIdx.some(t => Math.abs(t - i) < step / 2)) ? `第${i}例` : ''; } },
+        axisTick: { show: false }, splitLine: { show: false } }
+    : { type: 'time', axisLabel: { ...font, fontSize: 11 } };
   _charts.run = echarts.init($('runChart'), null, { renderer: 'svg' });
   _charts.run.setOption({
-    grid: { left: 48, right: 24, top: 28, bottom: 36 },
-    tooltip: { trigger: 'item', formatter: (p) => p.seriesName === '移動中位數' ? `${p.data[0]}：中位 ${p.data[1]}${M.unit}` : `${p.data[0]}：${p.data[1]}${M.unit}${p.seriesName === '背景案' ? '（背景）' : ''}` },
+    grid: { left: 48, right: 24, top: 28, bottom: bySeq ? 52 : 36 },
+    tooltip: { trigger: 'item', formatter: (p) => { const d = p.data[2] || p.data[0]; const pre = bySeq ? `第 ${p.data[0]} 例 · ` : ''; return p.seriesName === '移動中位數' ? `${pre}${d}：中位 ${p.data[1]}${M.unit}` : `${pre}${d}：${p.data[1]}${M.unit}${p.seriesName === '背景案' ? '（背景）' : ''}`; } },
     legend: { top: 0, right: 0, textStyle: { ...font, fontSize: 11 }, data: ['本系統', '背景案', '移動中位數'] },
-    xAxis: { type: 'time', axisLabel: { ...font, fontSize: 11 } },
+    xAxis,
     yAxis: { type: 'value', name: M.label, nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
     series: [
       { name: '本系統', type: 'scatter', data: sysPts, symbolSize: 7, itemStyle: { color: '#1F5A5A', opacity: 0.75 } },
       { name: '背景案', type: 'scatter', data: bgPts, symbolSize: 7, itemStyle: { color: '#FAF7F2', borderColor: '#A87B4D', borderWidth: 1.5 } },
-      { name: '移動中位數', type: 'line', data: pts.map((p, i) => [p.d, Math.round(med[i] * 10) / 10]), showSymbol: false, lineStyle: { color: '#B85450', width: 2 }, markLine },
+      { name: '移動中位數', type: 'line', data: pts.map((p, i) => [X(p, i), Math.round(med[i] * 10) / 10, p.d]), showSymbol: false, lineStyle: { color: '#B85450', width: 2 }, markLine: runMarkLine },
     ],
   });
-  $('runNote').textContent = `本系統 ${sysPts.length} 例、背景 ${bgPts.length} 例有此指標${M.histNote ? '；' + M.histNote : ''}${bgPts.length === 0 && hist.length ? '；背景案無此指標' : ''}。`;
+  $('runNote').textContent = `本系統 ${sysPts.length} 例、背景 ${bgPts.length} 例有此指標${bySeq ? '；橫軸為手術順序（每案等距，年份標於該年首例）' : '；橫軸為真實日期'}${M.histNote ? '；' + M.histNote : ''}${bgPts.length === 0 && hist.length ? '；背景案無此指標' : ''}。`;
 
   // ---------- B. p-chart ----------
   const P = {
