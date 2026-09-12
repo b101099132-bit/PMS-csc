@@ -662,8 +662,29 @@ footer {
             <textarea id="emerg_diagnosis" rows="2" placeholder="例：急性主動脈剝離 Stanford A"></textarea>
           </div>
           <div class="field">
-            <label for="emerg_surgery">手術內容 <span class="req">*</span></label>
-            <input type="text" id="emerg_surgery" autocomplete="off" placeholder="例：緊急升主動脈置換 + 半弓重建">
+            <label>術式 <span class="req">*</span>（可複選）</label>
+            <div class="radio-group" id="emergSurgeryTypes" style="flex-wrap:wrap;gap:8px 12px">
+              <div class="option"><input type="checkbox" id="es_mics" name="emerg_surgery_type" value="MICS"><label for="es_mics">MICS（微創）</label></div>
+              <div class="option"><input type="checkbox" id="es_cabg" name="emerg_surgery_type" value="CABG"><label for="es_cabg">CABG</label></div>
+              <div class="option"><input type="checkbox" id="es_mvr" name="emerg_surgery_type" value="MVR"><label for="es_mvr">MVR</label></div>
+              <div class="option"><input type="checkbox" id="es_avr" name="emerg_surgery_type" value="AVR"><label for="es_avr">AVR</label></div>
+              <div class="option"><input type="checkbox" id="es_tvr" name="emerg_surgery_type" value="TVr"><label for="es_tvr">TVr</label></div>
+              <div class="option"><input type="checkbox" id="es_bentall" name="emerg_surgery_type" value="Bentall"><label for="es_bentall">Bentall</label></div>
+              <div class="option"><input type="checkbox" id="es_tar" name="emerg_surgery_type" value="TAR"><label for="es_tar">TAR</label></div>
+              <div class="option"><input type="checkbox" id="es_evar" name="emerg_surgery_type" value="EVAR"><label for="es_evar">EVAR</label></div>
+              <div class="option"><input type="checkbox" id="es_tevar" name="emerg_surgery_type" value="TEVAR"><label for="es_tevar">TEVAR</label></div>
+              <div class="option"><input type="checkbox" id="es_other" name="emerg_surgery_type" value="其他"><label for="es_other">其他</label></div>
+            </div>
+          </div>
+          <div class="row row-2">
+            <div class="field">
+              <label for="emerg_surgery">手術內容補述（選填）</label>
+              <input type="text" id="emerg_surgery" autocomplete="off" placeholder="例：TEVAR+chimney、Aortofemoral bypass">
+            </div>
+            <div class="field">
+              <label for="emerg_date">實際手術日（預設今天；補建舊案請改）</label>
+              <input type="date" id="emerg_date">
+            </div>
           </div>
           <div class="row row-2">
             <div class="field">
@@ -1365,7 +1386,10 @@ surgeryForm.addEventListener('submit', async (e) => {
   if (!tog) return;
   const form = $('emergForm'), succ = $('emergSuccess'), alertEl = $('emergAlert');
   const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-  const clearFields = () => { ['emerg_name','emerg_gender','emerg_age','emerg_diagnosis','emerg_surgery','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; }); };
+  const clearFields = () => {
+    ['emerg_name','emerg_gender','emerg_age','emerg_diagnosis','emerg_surgery','emerg_date','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; });
+    document.querySelectorAll('input[name="emerg_surgery_type"]').forEach(cb => { cb.checked = false; });
+  };
 
   tog.addEventListener('click', () => {
     form.style.display = 'block';
@@ -1384,7 +1408,9 @@ surgeryForm.addEventListener('submit', async (e) => {
     const gender = $('emerg_gender').value;
     const age = $('emerg_age').value.trim();
     const diagnosis = $('emerg_diagnosis').value.trim();
-    const surgery = $('emerg_surgery').value.trim();
+    const surgery = $('emerg_surgery').value.trim();                                   // 補述（選填）
+    const types = Array.from(document.querySelectorAll('input[name="emerg_surgery_type"]:checked')).map(c => c.value);   // ★術式複選
+    const emergDate = $('emerg_date') ? $('emerg_date').value : '';
     const egfr = $('emerg_egfr').value.trim();
     const lvef = $('emerg_lvef').value.trim();
     const crea = $('emerg_crea').value.trim();
@@ -1392,7 +1418,9 @@ surgeryForm.addEventListener('submit', async (e) => {
     const key = $('doctor_key') ? $('doctor_key').value.trim() : '';
     alertEl.classList.remove('show');
     if (!key) { alertEl.textContent = '請先輸入醫師通行碼'; alertEl.classList.add('show'); return; }
-    if (!name || !diagnosis || !surgery || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '所有欄位皆為必填（含術前 eGFR / LVEF / Crea / 體重）'; alertEl.classList.add('show'); return; }
+    if (!name || !diagnosis || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '姓名、診斷、術前 eGFR / LVEF / Crea / 體重 皆為必填'; alertEl.classList.add('show'); return; }
+    if (!types.length) { alertEl.textContent = '請至少勾選一項術式'; alertEl.classList.add('show'); return; }
+    if (types.indexOf('其他') >= 0 && !surgery) { alertEl.textContent = '術式選「其他」時請填手術內容補述'; alertEl.classList.add('show'); return; }
 
     const btn = $('emergSubmitBtn');
     btn.disabled = true; btn.innerHTML = '<span class="loading"></span>建立中…';
@@ -1403,7 +1431,9 @@ surgeryForm.addEventListener('submit', async (e) => {
     if (gender) fd.append('gender', gender);
     if (age) fd.append('age', age);
     fd.append('diagnosis', diagnosis);
-    fd.append('surgery', surgery);
+    fd.append('surgery_type', types.join('、'));          // ★AC 術式（主選，複選以「、」連接，與術式選單一致）
+    fd.append('surgery', surgery);                       // AD 補述
+    if (emergDate) fd.append('actual_date', emergDate);  // ★實際手術日（補建舊案）
     fd.append('egfr', egfr);
     fd.append('lvef', lvef);
     fd.append('crea_pre', crea);
@@ -1412,8 +1442,8 @@ surgeryForm.addEventListener('submit', async (e) => {
       await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd });
       form.style.display = 'none';
       tog.style.display = '';
-      succ.innerHTML = '✓ 已收案：<strong>' + esc(name) + '</strong>（' + esc(surgery) + '）<br>'
-        + '已建立病人、實際手術日記為今日、不推播衛教。<br>'
+      succ.innerHTML = '✓ 已收案：<strong>' + esc(name) + '</strong>（' + esc(types.join('、')) + (surgery ? '／' + esc(surgery) : '') + '）<br>'
+        + '已建立病人、實際手術日記為 ' + (emergDate || '今日') + '、不推播衛教。<br>'
         + '請至「術後追蹤（postop）」用<strong>「近期手術」清單</strong>看姓名挑選此病人記錄術後資料。';
       succ.style.display = 'block';
       clearFields();
