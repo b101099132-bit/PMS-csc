@@ -685,6 +685,13 @@ footer {
               <label for="emerg_date">實際手術日（預設今天；補建舊案請改）</label>
               <input type="date" id="emerg_date">
             </div>
+            <div class="field">
+              <label>手術性質 <span class="req">*</span>（必填；此流程也用於常規病人，請確實勾選）</label>
+              <div class="radio-group" id="emergNature" style="gap:8px 12px">
+                <div class="option"><input type="radio" id="en_emerg" name="emerg_nature" value="急診"><label for="en_emerg">急診手術</label></div>
+                <div class="option"><input type="radio" id="en_elective" name="emerg_nature" value="常規"><label for="en_elective">常規手術</label></div>
+              </div>
+            </div>
           </div>
           <div class="row row-2">
             <div class="field">
@@ -1389,6 +1396,7 @@ surgeryForm.addEventListener('submit', async (e) => {
   const clearFields = () => {
     ['emerg_name','emerg_gender','emerg_age','emerg_diagnosis','emerg_surgery','emerg_date','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; });
     document.querySelectorAll('input[name="emerg_surgery_type"]').forEach(cb => { cb.checked = false; });
+    document.querySelectorAll('input[name="emerg_nature"]').forEach(rb => { rb.checked = false; });
   };
 
   tog.addEventListener('click', () => {
@@ -1411,6 +1419,8 @@ surgeryForm.addEventListener('submit', async (e) => {
     const surgery = $('emerg_surgery').value.trim();                                   // 補述（選填）
     const types = Array.from(document.querySelectorAll('input[name="emerg_surgery_type"]:checked')).map(c => c.value);   // ★術式複選
     const emergDate = $('emerg_date') ? $('emerg_date').value : '';
+    const natureEl = document.querySelector('input[name="emerg_nature"]:checked');
+    const nature = natureEl ? natureEl.value : '';   // ★手術性質（常規／急診）→ 主檔 AY
     const egfr = $('emerg_egfr').value.trim();
     const lvef = $('emerg_lvef').value.trim();
     const crea = $('emerg_crea').value.trim();
@@ -1420,6 +1430,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     if (!key) { alertEl.textContent = '請先輸入醫師通行碼'; alertEl.classList.add('show'); return; }
     if (!name || !diagnosis || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '姓名、診斷、術前 eGFR / LVEF / Crea / 體重 皆為必填'; alertEl.classList.add('show'); return; }
     if (!types.length) { alertEl.textContent = '請至少勾選一項術式'; alertEl.classList.add('show'); return; }
+    if (!nature) { alertEl.textContent = '請勾選手術性質（急診手術／常規手術）'; alertEl.classList.add('show'); return; }
     if (types.indexOf('其他') >= 0 && !surgery) { alertEl.textContent = '術式選「其他」時請填手術內容補述'; alertEl.classList.add('show'); return; }
 
     const btn = $('emergSubmitBtn');
@@ -1434,6 +1445,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('surgery_type', types.join('、'));          // ★AC 術式（主選，複選以「、」連接，與術式選單一致）
     fd.append('surgery', surgery);                       // AD 補述
     if (emergDate) fd.append('actual_date', emergDate);  // ★實際手術日（補建舊案）
+    if (nature) fd.append('nature', nature);             // ★手術性質
     fd.append('egfr', egfr);
     fd.append('lvef', lvef);
     fd.append('crea_pre', crea);

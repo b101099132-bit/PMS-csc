@@ -1459,7 +1459,7 @@ function histFor(h, cat) {
   if (!h.hasCategoryColumn && cat === 'CABG') return h.overall;
   return null;
 }
-const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all' };
+const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all', nature: 'all' };   // nature：all / elective（常規）/ emerg（急診）★2026-09-12 依灌注表回填
 const CAT_ORDER = ['CABG', 'MICS-CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動脈支架', '其他'];
 const CAT_LABEL = {
   'CABG': '冠狀動脈繞道 CABG（傳統開胸）',
@@ -1501,6 +1501,8 @@ function matchBase(c, f) {   // 不含類別的篩選（類別總覽表要跨類
   if (f.mics === 'open' && c.mics) return false;
   if (f.eras === 'eras' && c.eras !== '是') return false;
   if (f.eras === 'non' && c.eras !== '否') return false;
+  if (f.nature === 'elective' && c.nature !== '常規') return false;
+  if (f.nature === 'emerg' && c.nature !== '急診') return false;
   return true;
 }
 function matchAll(c, f) { return matchBase(c, f) && (f.cat === 'all' || c.cat === f.cat); }
@@ -1560,6 +1562,7 @@ function filterLabel(f) {
   parts.push(f.period === 'all' ? '全部期間' : f.period);
   if (f.mics !== 'all') parts.push(f.mics === 'mics' ? '微創 MICS' : '傳統開胸');
   if (f.eras !== 'all') parts.push(f.eras === 'eras' ? 'ERAS 流程' : '非 ERAS 流程');
+  if (f.nature !== 'all') parts.push(f.nature === 'emerg' ? '急診刀' : '常規刀');
   return parts.join(' · ');
 }
 
@@ -1590,6 +1593,8 @@ function renderDynamic() {
     .concat(po.quarters.map(q => chip('period', q, q, null, _f.period === q)));
   const micsChips = [['all', '全部'], ['mics', '微創 MICS'], ['open', '傳統開胸']].map(([v, l]) => chip('mics', v, l, null, _f.mics === v));
   const erasChips = [['all', '全部'], ['eras', 'ERAS'], ['non', '非 ERAS']].map(([v, l]) => chip('eras', v, l, null, _f.eras === v));
+  const natureChips = [['all', '全部'], ['elective', '常規刀'], ['emerg', '急診刀']].map(([v, l]) => chip('nature', v, l, v === 'all' ? null : cases.filter(c => c.nature === (v === 'emerg' ? '急診' : '常規')).length, _f.nature === v));
+  const natureUnknown = cases.filter(c => !c.nature).length;
   const unclassified = cases.filter(c => c.eras !== '是' && c.eras !== '否').length;
 
   html.push(`
@@ -1605,6 +1610,7 @@ function renderDynamic() {
         <div><div class="filter-label">術式途徑</div><div class="chip-row">${micsChips.join('')}</div></div>
         <div><div class="filter-label">流程</div><div class="chip-row">${erasChips.join('')}</div></div>
       </div>
+      <div class="filter-row"><div class="filter-label">手術性質（依灌注 CPB／大支架表）${natureUnknown ? `<span style="font-weight:400;color:var(--muted)"> · ${natureUnknown} 筆未標記，選常規或急診時不計入</span>` : ''}</div><div class="chip-row">${natureChips.join('')}</div></div>
       <div class="filter-summary">目前條件：<strong>${escapeHtml(filterLabel(_f))}</strong> · n = <strong>${g.n}</strong>${g.nMajor ? `（含 ${g.nMajor} 例重大異常事件，里程碑不計入）` : ''}${g.n && g.n < SMALL_N ? smallN() : ''}</div>
     </div>
   `);
@@ -1973,7 +1979,7 @@ function drawFlowCharts(sel) {
  *   C. CUSUM：依病人序累積（成功 − 目標），看學習曲線；主動脈支架 = 不插管成功，其餘 = 手術室內拔管
  *   忽略期間篩選（趨勢要看全時段），其餘篩選（類別/途徑/ERAS）照用
  * ============================================================ */
-const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null, xmode: 'seq' };   // xmode：run chart 橫軸 seq=依手術順序等距 / time=依日期   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
+const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null, xmode: 'seq', yscale: 'log' };   // xmode：run chart 橫軸 seq=依手術順序等距 / time=依日期；yscale：log=對數壓縮（symlog，可含負值）/ linear=等差   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
 function trendCat() {
   const avail = CAT_ORDER.filter(c => (_dashData.cases || []).some(x => x.cat === c));
   if (_t.cat && avail.indexOf(_t.cat) >= 0) return _t.cat;
@@ -1991,7 +1997,8 @@ function trendData() {
   const sys = (d.cases || []).filter(c => matchAll(c, { ..._f, period: 'all', cat: tc }) && c.d);
   const catOk = (hc) => (hc.cats || []).indexOf(tc) >= 0;
   const erasOk = (hc) => _f.eras === 'all' || (_f.eras === 'eras' ? hc.eras === 1 : hc.eras === 2);
-  const hist = (h && h.cases ? h.cases : []).filter(hc => hc.d && catOk(hc) && erasOk(hc) && _f.mics === 'all');
+  const natureOk = (hc) => _f.nature === 'all' || (_f.nature === 'emerg' ? hc.emerg === 1 : hc.emerg === 0);   // 背景案急診欄：1/0/null（null = 灌注表無紀錄，不計入）
+  const hist = (h && h.cases ? h.cases : []).filter(hc => hc.d && catOk(hc) && erasOk(hc) && natureOk(hc) && _f.mics === 'all');
   return { sys, hist };
 }
 function renderTrendSection() {
@@ -2013,16 +2020,19 @@ function renderTrendSection() {
     <h2 class="section-title">
       <span class="num">06++</span>
       <span>趨勢與改善</span>
-      <span class="sub">${escapeHtml(title)}${_f.mics !== 'all' || _f.eras !== 'all' ? '（含途徑／流程篩選）' : ''} · 全時段（不受期間篩選）· 含 ≤2025/04/15 背景案</span>
+      <span class="sub">${escapeHtml(title)}${_f.mics !== 'all' || _f.eras !== 'all' ? '（含途徑／流程篩選）' : ''}${_f.nature !== 'all' ? (_f.nature === 'emerg' ? ' · 急診刀' : ' · 常規刀') : ''} · 全時段（不受期間篩選）· 含 ≤2025/04/15 背景案</span>
     </h2>
     <div class="filter-card" style="margin-bottom:12px">
       <div class="filter-row"><div class="filter-label">趨勢分析術式（單一術式，不混算）</div><div class="chip-row">${catChips}</div></div>
+      <div class="filter-row"><div class="filter-label">手術性質</div><div class="chip-row">${[['all', '全部'], ['elective', '常規刀'], ['emerg', '急診刀']].map(([v, l]) => chip('nature', v, l, _f.nature === v)).join('')}</div></div>
     </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>A · 逐案時序圖</span><span class="chart-sub">每位病人一點 · 移動中位數（9 例）· 垂直線 = 介入時間點 · 空心 = 背景案</span></div>
       <div class="chip-row" style="margin-bottom:8px">${metrics.map(m => chip('metric', m[0], m[1], _t.metric === m[0])).join('')}
         <span style="width:1px;height:20px;background:#DDD6CA;margin:0 4px;display:inline-block"></span>
-        ${chip('xmode', 'seq', '橫軸：依手術順序', _t.xmode === 'seq')}${chip('xmode', 'time', '橫軸：依日期', _t.xmode === 'time')}</div>
+        ${chip('xmode', 'seq', '橫軸：依手術順序', _t.xmode === 'seq')}${chip('xmode', 'time', '橫軸：依日期', _t.xmode === 'time')}
+        <span style="width:1px;height:20px;background:#DDD6CA;margin:0 4px;display:inline-block"></span>
+        ${chip('yscale', 'log', '縱軸：對數壓縮', _t.yscale === 'log')}${chip('yscale', 'linear', '縱軸：等差', _t.yscale === 'linear')}</div>
       <div class="flow-scroll"><div id="runChart" class="echart" style="height:320px"></div></div>
       <div class="chart-note" id="runNote"></div>
     </div>
@@ -2046,6 +2056,7 @@ function bindTrendChips() {
       const g = btn.dataset.tgroup, v = btn.dataset.val;
       if (g === 'target') _t.target = parseFloat(v); else _t[g] = v;
       if (g === 'cat') { _t.prop = 'auto'; renderDynamic(); return; }   // 換術式：指標選項不同，整區重畫
+      if (g === 'nature') { _f.nature = v; renderDynamic(); return; }   // 手術性質與 04 篩選同一狀態，整頁重畫
       document.querySelectorAll(`#dyn .chip[data-tgroup="${g}"]`).forEach(b => b.classList.toggle('active', b.dataset.val === v));
       drawTrendCharts();
     });
@@ -2090,7 +2101,15 @@ function drawTrendCharts() {
   const bySeq = _t.xmode === 'seq';
   const X = (p, i) => bySeq ? i + 1 : p.d;
   const sysPts = [], bgPts = [];
-  pts.forEach((p, i) => (p.bg ? bgPts : sysPts).push([X(p, i), p.v, p.d]));
+  // 縱軸：symlog 壓縮（極端值如插管 1000+ 小時不會把多數點壓扁；負值 = 手術室內拔管仍可顯示）
+  const logY = _t.yscale === 'log';
+  const T = v => logY ? Math.sign(v) * Math.log10(1 + Math.abs(v)) : v;
+  const vals = pts.map(p => p.v); const vmin = Math.min(0, ...vals), vmax = Math.max(0, ...vals);
+  const nice = _t.metric === 'ext' ? [1, 6, 24, 72, 168, 336, 720, 1440, 2880] : [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000];   // 小時指標用臨床節點（6h、1天、3天、1週…）
+  const yTicksRaw = logY ? [0].concat(nice.filter(t => t <= vmax * 1.05), nice.filter(t => -t >= vmin * 1.05).map(t => -t)).sort((a, b) => a - b) : null;
+  // 刻度太密時（>8 個）只留 1-10-100 級
+  const yTicks = yTicksRaw && yTicksRaw.length > 8 && _t.metric !== 'ext' ? yTicksRaw.filter(t => t === 0 || /^[15]0*$/.test(String(Math.abs(t)))) : yTicksRaw;
+  pts.forEach((p, i) => (p.bg ? bgPts : sysPts).push([X(p, i), T(p.v), p.d, p.v]));
   // 介入時間線：bySeq 模式放在「第一個 ≥ 該日期的案例」前半格
   const mlData = phases.map(p => {
     if (!bySeq) return { xAxis: p.date, name: p.name };
@@ -2110,17 +2129,21 @@ function drawTrendCharts() {
   _charts.run = echarts.init($('runChart'), null, { renderer: 'svg' });
   _charts.run.setOption({
     grid: { left: 48, right: 24, top: 28, bottom: bySeq ? 52 : 36 },
-    tooltip: { trigger: 'item', formatter: (p) => { const d = p.data[2] || p.data[0]; const pre = bySeq ? `第 ${p.data[0]} 例 · ` : ''; return p.seriesName === '移動中位數' ? `${pre}${d}：中位 ${p.data[1]}${M.unit}` : `${pre}${d}：${p.data[1]}${M.unit}${p.seriesName === '背景案' ? '（背景）' : ''}`; } },
+    tooltip: { trigger: 'item', formatter: (p) => { const d = p.data[2] || p.data[0]; const pre = bySeq ? `第 ${p.data[0]} 例 · ` : ''; const val = p.data[3]; return p.seriesName === '移動中位數' ? `${pre}${d}：中位 ${val}${M.unit}` : `${pre}${d}：${val}${M.unit}${p.seriesName === '背景案' ? '（背景）' : ''}`; } },
     legend: { top: 0, right: 0, textStyle: { ...font, fontSize: 11 }, data: ['本系統', '背景案', '移動中位數'] },
     xAxis,
-    yAxis: { type: 'value', name: M.label, nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    yAxis: logY
+      ? { type: 'value', name: M.label + '（對數壓縮）', nameTextStyle: { ...font, fontSize: 11, align: 'left' }, min: T(vmin) - 0.1, max: T(vmax) + 0.15,
+          axisLabel: { ...font, fontSize: 11, customValues: yTicks.map(T), formatter: (v) => { const r = Math.round(Math.sign(v) * (Math.pow(10, Math.abs(v)) - 1)); return String(r); } },
+          axisTick: { customValues: yTicks.map(T) }, splitLine: { lineStyle: { color: '#EEE8DC' }, customValues: yTicks.map(T) } }
+      : { type: 'value', name: M.label, nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
     series: [
       { name: '本系統', type: 'scatter', data: sysPts, symbolSize: 7, itemStyle: { color: '#1F5A5A', opacity: 0.75 } },
       { name: '背景案', type: 'scatter', data: bgPts, symbolSize: 7, itemStyle: { color: '#FAF7F2', borderColor: '#A87B4D', borderWidth: 1.5 } },
-      { name: '移動中位數', type: 'line', data: pts.map((p, i) => [X(p, i), Math.round(med[i] * 10) / 10, p.d]), showSymbol: false, lineStyle: { color: '#B85450', width: 2 }, markLine: runMarkLine },
+      { name: '移動中位數', type: 'line', data: pts.map((p, i) => [X(p, i), T(med[i]), p.d, Math.round(med[i] * 10) / 10]), showSymbol: false, lineStyle: { color: '#B85450', width: 2 }, markLine: runMarkLine },
     ],
   });
-  $('runNote').textContent = `本系統 ${sysPts.length} 例、背景 ${bgPts.length} 例有此指標${bySeq ? '；橫軸為手術順序（每案等距，年份標於該年首例）' : '；橫軸為真實日期'}${M.histNote ? '；' + M.histNote : ''}${bgPts.length === 0 && hist.length ? '；背景案無此指標' : ''}。`;
+  $('runNote').textContent = `本系統 ${sysPts.length} 例、背景 ${bgPts.length} 例有此指標${bySeq ? '；橫軸為手術順序（每案等距，年份標於該年首例）' : '；橫軸為真實日期'}${logY ? '；縱軸為對數壓縮（symlog），刻度間距不等' : '；縱軸為等差'}${M.histNote ? '；' + M.histNote : ''}${bgPts.length === 0 && hist.length ? '；背景案無此指標' : ''}。`;
 
   // ---------- B. p-chart ----------
   const P = {
@@ -2206,7 +2229,7 @@ function caseLikeFromDate(dateStr) {
 }
 
 function bindDynamic() {
-  document.querySelectorAll('#dyn .chip').forEach(btn => {
+  document.querySelectorAll('#dyn .chip[data-group]').forEach(btn => {
     btn.addEventListener('click', () => {
       _f[btn.dataset.group] = btn.dataset.val;
       renderDynamic();
