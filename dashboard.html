@@ -526,7 +526,7 @@ header {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
-  min-width: 620px;
+  min-width: 700px;
 }
 .cat-table th, .cat-table td {
   padding: 10px 12px;
@@ -1506,6 +1506,10 @@ function computeGroup(rows) {
   const total = rows.length;
   const cnt = (kw) => rows.filter(c => c.major && c.major.indexOf(kw) >= 0).length;
   const akiN = rows.filter(c => c.aki && c.aki !== '無AKI' && c.aki !== '無' && !/^no/i.test(c.aki)).length;
+  const noTubeN = rows.filter(c => c.airway === '不插管 HFNC').length;   // ★不插管麻醉（從頭到尾無氣道裝置）
+  const convN = rows.filter(c => c.airway === '不插管→轉插管').length;
+  const losKnown = rows.filter(c => c.los != null);                       // ★主動脈支架目標：48 小時內出院
+  const dis48N = losKnown.filter(c => c.los <= 2).length;
   const akiKnown = rows.filter(c => c.aki).length;
   return {
     n: total, nClean: clean.length, nMajor: total - clean.length,
@@ -1514,8 +1518,10 @@ function computeGroup(rows) {
       chestTube: m('tube'), icuStay: m('icu'), hospitalLOS: m('los'),
     },
     rates: {
-      extubatedInOR:   { count: orN,    total: ext.length, pct: S.pct(orN, ext.length) },
+      extubatedInOR:   { count: orN,    total: ext.length, pct: S.pct(orN, ext.length) },   // 分母 = 有拔管時間者（ETT/LMA）；不插管者不在內
       earlyExtubation: { count: earlyN, total: ext.length, pct: S.pct(earlyN, ext.length) },
+      noIntubation:    { count: noTubeN, total: total, pct: S.pct(noTubeN, total), conv: convN },   // ★不插管率（分母 = 全部案）
+      discharge48h:    { count: dis48N, total: losKnown.length, pct: S.pct(dis48N, losKnown.length) },   // ★住院 ≤2 天（分母 = 有出院日者）
     },
     complications: {
       total,
@@ -1599,6 +1605,40 @@ function renderDynamic() {
 
   // ===== 07 指標明細 =====
   const mm = g.metrics;
+  const isStent = (_f.cat === '主動脈支架');
+  if (isStent) {
+    // ★主動脈支架：發展不插管麻醉、目標 48 小時內出院 → 不看拔管時間，只看 不插管率 / 48h 出院率 / 住院天數
+    const cp2 = g.complications;
+    html.push(`
+      <h2 class="section-title">
+        <span class="num">07</span>
+        <span>主動脈支架 · 恢復指標</span>
+        <span class="sub">${escapeHtml(filterLabel(_f))} · n=${g.n}</span>
+      </h2>
+      <div class="stat-legend">主動脈支架以「不插管麻醉」與「48 小時內出院」為目標指標，不採用拔管時間指標；住院天數 = 出院日 − 手術日</div>
+      <div class="rate-grid">
+        ${rateCardS('不插管麻醉比例', '氣道方式 = 不插管 HFNC（全程無氣道裝置）；分母 = 全部案' + (g.rates.noIntubation.conv ? `；另 ${g.rates.noIntubation.conv} 例術中轉插管` : ''), g.rates.noIntubation, null)}
+        ${rateCardS('48 小時內出院比例', '住院天數 ≤ 2 天；分母 = 已有出院日者', g.rates.discharge48h, null)}
+      </div>
+      <div class="metric-grid" style="margin-top:12px">
+        ${metricCardS('住院天數', mm.hospitalLOS, '天')}
+        ${metricCardS('ICU 滯留時間（有進 ICU 者）', mm.icuStay, '小時')}
+        ${metricCardS('術後首次下床走路', mm.ambulation, '小時')}
+      </div>
+      <h2 class="section-title">
+        <span class="num">08</span>
+        <span>重大併發症</span>
+        <span class="sub">${escapeHtml(filterLabel(_f))}</span>
+      </h2>
+      <div class="rate-grid comp">
+        ${rateCardS('術後急救 (CPR)', '重大異常事件記錄', cp2.cpr, null, true)}
+        ${rateCardS('重新插管／插管', '重大異常事件記錄', cp2.reintubation, null, true)}
+        ${rateCardS('再次手術', '重大異常事件記錄', cp2.reoperation, null, true)}
+        ${rateCardS('中風', '重大異常事件記錄', cp2.stroke, null, true)}
+        ${rateCardS('急性腎損傷 AKI', 'KDIGO 判讀 ≠ 無AKI；分母 = 有判讀者', cp2.aki, null, true)}
+      </div>
+    `);
+  } else {
   html.push(`
     <h2 class="section-title">
       <span class="num">07</span>
@@ -1636,6 +1676,7 @@ function renderDynamic() {
     <div class="rate-grid">
       ${rateCardS('手術室中拔管比例', '拔管時間 &lt; 轉入加護病房時間', g.rates.extubatedInOR, histOR)}
       ${rateCardS('術後立即拔管比例', '術後脫離呼吸器時間 &lt; 6 小時（含手術室中拔管）', g.rates.earlyExtubation, histEarly)}
+      ${(g.rates.noIntubation.count || _f.cat === '主動脈支架') ? rateCardS('不插管麻醉比例', '氣道方式 = 不插管 HFNC（全程無氣道裝置）；分母 = 全部案' + (g.rates.noIntubation.conv ? `；另 ${g.rates.noIntubation.conv} 例術中轉插管` : ''), g.rates.noIntubation, null) : ''}
     </div>
     <div class="rate-grid comp" style="margin-top:12px">
       ${rateCardS('術後急救 (CPR)', '重大異常事件記錄', cp.cpr, null, true)}
@@ -1645,6 +1686,7 @@ function renderDynamic() {
       ${rateCardS('急性腎損傷 AKI', 'KDIGO 判讀 ≠ 無AKI；分母 = 有判讀者', cp.aki, null, true)}
     </div>
   `);
+  }   // end if (!isStent)
 
   // ===== 09 病人清單（套用類別 + 期間篩選）=====
   const lists = d.lists;
@@ -1735,7 +1777,7 @@ function renderMilestones() {
     <div class="ms-card">
       <div class="chip-row">${chips.join('')}</div>
       <div class="ms-grid">
-        ${tile('green', '累計手術室拔管', sysOR + bgOR, sysOR, bgOR, '拔管時間早於轉入加護病房')}
+        ${tile('green', '累計手術室拔管', sysOR + bgOR, sysOR, bgOR, '拔管時間早於轉入加護病房（含 LMA 手術室內移除；不插管者另計）')}
         ${tile('teal', '術後 1 小時內喝水', sysWater + bgWater, sysWater, bgWater, '首次 Try Water ≤ 轉入加護病房後 1 小時')}
         ${tile('gold', '術後 1 天內下床', sysWalk + bgWalk, sysWalk, bgWalk, '首次下床走路 ≤ 轉入加護病房後 24 小時')}
         ${tile('plum', '術後 48 小時內下床', sysWalk2 + bgWalk2, sysWalk2, bgWalk2, '首次下床走路 ≤ 轉入加護病房後 48 小時（含 1 天內者）')}
@@ -1758,14 +1800,14 @@ function renderMilestones() {
  * ============================================================ */
 const FLOW_COLORS = {
   cat: { 'CABG': '#1F5A5A', 'MICS-CABG': '#3E8A8A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A' },
-  ext: { '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
+  ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
   out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
 };
 let _charts = {};
 function flowLayers(c, singleCat) {
   const l1 = singleCat ? (c.mics ? '微創 MICS' : '傳統開胸') : c.cat;
-  const l2 = c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : (c.ext < 6 ? '<6 小時拔管' : '≥6 小時拔管'));
+  const l2 = c.airway === '不插管 HFNC' ? '不插管 HFNC' : (c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : (c.ext < 6 ? '<6 小時拔管' : '≥6 小時拔管')));
   const l3 = c.icu == null ? 'ICU 未記錄' : (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'));
   const l4 = c.major ? '重大異常事件' : '順利追蹤';
   return [l1, l2, l3, l4];
@@ -1785,7 +1827,7 @@ function renderFlowSection(sel) {
     <div class="chart-card flow-card">
       <div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">${_f.cat === 'all' ? '術式類別' : '微創／傳統'} → 拔管時機 → ICU 停留 → 結果（帶寬 = 人數）</span></div>
       <div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(320, 200 + sel.length * 2)}px"></div></div>
-      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入；ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
+      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入（含喉罩 LMA 手術室內移除）；「不插管 HFNC」= 全程無氣道裝置。ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
     </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>案量組成 · 樹狀圖</span><span class="chart-sub">類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）</span></div>
@@ -1845,16 +1887,16 @@ function drawFlowCharts(sel) {
   const tree = {};
   sel.forEach(c => {
     const a = c.cat, b = c.mics ? '微創 MICS' : '傳統開胸';
-    const d = c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : '非手術室內拔管');
+    const d = c.airway === '不插管 HFNC' ? '不插管' : (c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : '非手術室內拔管'));
     tree[a] = tree[a] || {}; tree[a][b] = tree[a][b] || {}; tree[a][b][d] = (tree[a][b][d] || 0) + 1;
   });
   const hexA = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
-  const leafColor = (a, d) => d === '手術室內拔管' ? FLOW_COLORS.cat[a] : (d === '非手術室內拔管' ? hexA(FLOW_COLORS.cat[a], 0.55) : '#C9C3B8');
+  const leafColor = (a, d) => d === '手術室內拔管' ? FLOW_COLORS.cat[a] : (d === '不插管' ? '#2C4866' : (d === '非手術室內拔管' ? hexA(FLOW_COLORS.cat[a], 0.55) : '#C9C3B8'));
   const tmData = CAT_ORDER.filter(a => tree[a]).map(a => ({
     name: a, itemStyle: { color: FLOW_COLORS.cat[a] },
     children: ['微創 MICS', '傳統開胸'].filter(b => tree[a][b]).map(b => ({
       name: b, itemStyle: { color: hexA(FLOW_COLORS.cat[a], 0.18) },
-      children: ['手術室內拔管', '非手術室內拔管', '拔管未記錄'].filter(d => tree[a][b][d]).map(d => ({
+      children: ['不插管', '手術室內拔管', '非手術室內拔管', '拔管未記錄'].filter(d => tree[a][b][d]).map(d => ({
         name: d, value: tree[a][b][d], itemStyle: { color: leafColor(a, d) },
         label: { color: d === '拔管未記錄' ? '#1A1A1A' : '#fff' },
       })),
@@ -1934,6 +1976,7 @@ function renderCategoryTable(base, allCases) {
       <td class="num">${g.n}</td>
       <td class="num">${pctCell(g.rates.extubatedInOR)}</td>
       <td class="num">${pctCell(g.rates.earlyExtubation)}</td>
+      <td class="num">${g.rates.noIntubation.count ? pctCell(g.rates.noIntubation) : '<span class="muted">—</span>'}</td>
       <td class="num">${medCell(g.metrics.icuStay, ' 時')}</td>
       <td class="num">${medCell(g.metrics.hospitalLOS, ' 天')}</td>
       <td class="num">${g.nMajor ? `<span class="warn">${g.nMajor}</span>` : '0'}</td>
@@ -1948,7 +1991,7 @@ function renderCategoryTable(base, allCases) {
     <div class="cat-table-wrap">
       <table class="cat-table">
         <thead><tr>
-          <th>手術類別</th><th class="num">n</th><th class="num">手術室拔管</th><th class="num">立即拔管 &lt;6h</th>
+          <th>手術類別</th><th class="num">n</th><th class="num">手術室拔管</th><th class="num">立即拔管 &lt;6h</th><th class="num">不插管</th>
           <th class="num">ICU 中位</th><th class="num">住院 中位</th><th class="num">重大事件</th>
         </tr></thead>
         <tbody>
@@ -1970,7 +2013,8 @@ function renderQuarterTrend(rows, quarters) {
   const byQ = quarters.map(q => computeGroup(rows.filter(c => c.q === q)));
   const xLabels = quarters.map(q => q.replace(/^20/, ''));   // 26Q1
   const vol   = byQ.map(g => g.n);
-  const orPct = byQ.map(g => g.rates.extubatedInOR.pct);
+  const stent = (_f.cat === '主動脈支架');
+  const orPct = byQ.map(g => stent ? g.rates.noIntubation.pct : g.rates.extubatedInOR.pct);
   const icuMd = byQ.map(g => g.metrics.icuStay.median);
   const losMd = byQ.map(g => g.metrics.hospitalLOS.median);
   const small = byQ.some(g => g.n && g.n < SMALL_N);
@@ -1987,8 +2031,8 @@ function renderQuarterTrend(rows, quarters) {
         ${renderBarChart({ xLabels, values: vol, color: CHART_COLORS.teal, yUnit: ' 例' })}
       </div>
       <div class="chart-card">
-        <div class="chart-title">手術室中拔管比例</div>
-        ${renderLineChart({ xLabels, series: [{ name: '手術室拔管 %', color: CHART_COLORS.green, values: orPct }], yUnit: '%', yMin: 0, yMax: 100 })}
+        <div class="chart-title">${stent ? '不插管麻醉比例' : '手術室中拔管比例'}</div>
+        ${renderLineChart({ xLabels, series: [{ name: stent ? '不插管 %' : '手術室拔管 %', color: stent ? CHART_COLORS.navy : CHART_COLORS.green, values: orPct }], yUnit: '%', yMin: 0, yMax: 100 })}
       </div>
       <div class="chart-card">
         <div class="chart-title">ICU 滯留時間 · 中位數（小時）</div>

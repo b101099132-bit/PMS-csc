@@ -1112,11 +1112,21 @@ function setDT(name, iso){
 function syncAllMilestones(){ MILESTONES.forEach(m => syncDT(m.name)); }
 
 // ========== Build milestone rows ==========
+// ★氣道方式：不插管 HFNC → 清空並鎖住「脫離呼吸器」；其他 → 解鎖
+function applyAirway() {
+  const noTube = $('airway') && $('airway').value === '不插管 HFNC';
+  if (noTube) setDT('m_extubate', '');
+  ['m_extubate__d', 'm_extubate__t'].forEach(id => { const el = $(id); if (el) el.disabled = noTube; });
+  const btn = document.querySelector('.btn-now[data-target="m_extubate"]');
+  if (btn) btn.disabled = noTube;
+}
+
 // ★2026-09-12 每次載入病人前把整張表清乾淨（避免前一位病人的值殘留在這位沒填的欄位）
 function clearRecordForm() {
   $('recordForm').reset();
   MILESTONES.forEach(m => setDT(m.name, ''));
   if ($('m_triflow_balls')) $('m_triflow_balls').value = '';
+  if ($('airway')) { $('airway').value = ''; applyAirway(); }
   ['egfr_post', 'aki'].forEach(id => { if ($(id)) delete $(id).dataset.userEdited; });
   if ($('akiReason')) $('akiReason').textContent = '輸入 Crea / 尿量後自動判讀';
   if ($('bleedNote')) $('bleedNote').style.display = 'none';
@@ -1148,7 +1158,22 @@ function buildMilestones() {
           </span>
         </div>`;
     }
-    return `
+    // ★2026-09-12 氣道方式（放在「脫離呼吸器」之前）：不插管 HFNC → 免填脫離呼吸器
+    const airwayRow = (m.name === 'm_extubate') ? `
+      <div class="milestone-row-2">
+        <div class="milestone-label">氣道方式</div>
+        <div class="milestone-input">
+          <select name="airway" id="airway" style="max-width:220px">
+            <option value="">（未填＝氣管內管）</option>
+            <option value="氣管內管 ETT">氣管內管 ETT</option>
+            <option value="喉罩 LMA">喉罩 LMA（手術室內移除）</option>
+            <option value="不插管 HFNC">不插管 HFNC（免填脫離呼吸器）</option>
+            <option value="不插管→轉插管">不插管 → 術中轉插管</option>
+          </select>
+        </div>
+        <span></span>
+      </div>` : '';
+    return airwayRow + `
       <div class="milestone-row-2">
         <div class="milestone-label">${m.label}</div>
         <div class="milestone-input">
@@ -1160,6 +1185,7 @@ function buildMilestones() {
       </div>`;
   }).join('');
   $('milestoneList').innerHTML = html;
+  if ($('airway')) $('airway').addEventListener('change', applyAirway);
 
   // Bind "now" buttons（填今天日期 + 現在時間 HH:mm）
   $('milestoneList').querySelectorAll('.btn-now').forEach(btn => {
@@ -1488,6 +1514,7 @@ function fillExisting(p) {
     if (r) r.checked = true;
   }
   if (po.anesthetist) $('anesthetist').value = po.anesthetist;
+  if ($('airway')) { $('airway').value = po.airway || ''; applyAirway(); }
 
   // Milestones（拆日期 + HH:mm 回填）
   MILESTONES.forEach(m => {
