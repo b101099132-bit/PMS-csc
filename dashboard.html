@@ -1510,7 +1510,9 @@ function computeGroup(rows) {
   const clean = rows.filter(c => !c.major);   // 里程碑排除重大事件者
   const m = (k) => S.summary(clean.map(c => c[k]));
   const ext = S.nums(clean.map(c => c.ext));
-  const orN = ext.filter(v => v < 0).length, earlyN = ext.filter(v => v < 6).length;
+  // ★拔管分級：有小時數者依數值；2025 CPB 回溯案無時間者依備註「拔管 <6h／≥6h」（後端 extClass）
+  const known = clean.filter(c => c.extClass);
+  const orN = known.filter(c => c.extClass === 'or').length, earlyN = known.filter(c => c.extClass !== 'ge6').length;
   const total = rows.length;
   const cnt = (kw) => rows.filter(c => c.major && c.major.indexOf(kw) >= 0).length;
   const akiN = rows.filter(c => c.aki && c.aki !== '無AKI' && c.aki !== '無' && !/^no/i.test(c.aki)).length;
@@ -1527,8 +1529,8 @@ function computeGroup(rows) {
       chestTube: m('tube'), icuStay: m('icu'), hospitalLOS: m('los'),
     },
     rates: {
-      extubatedInOR:   { count: orN,    total: ext.length, pct: S.pct(orN, ext.length) },   // 分母 = 有拔管時間者（ETT/LMA）；不插管者不在內
-      earlyExtubation: { count: earlyN, total: ext.length, pct: S.pct(earlyN, ext.length) },
+      extubatedInOR:   { count: orN,    total: known.length, pct: S.pct(orN, known.length) },   // 分母 = 有拔管分級者（ETT/LMA）；不插管者不在內
+      earlyExtubation: { count: earlyN, total: known.length, pct: S.pct(earlyN, known.length) },
       noIntubation:    { count: noTubeN, total: total, pct: S.pct(noTubeN, total), conv: convN },   // ★不插管率（分母 = 全部案）
       discharge48h:    { count: dis48N, total: losKnown.length, pct: S.pct(dis48N, losKnown.length) },   // ★住院 ≤2 天（分母 = 有出院日者）
       discharge24h:    { count: dis24N, total: losKnown.length, pct: S.pct(dis24N, losKnown.length) },   // ★住院 ≤1 天
@@ -1769,7 +1771,7 @@ function renderMilestones() {
 
   const sel = cases.filter(c => _mf.cat === 'all' || (_mf.cat === 'MICS' ? c.mics : c.cat === _mf.cat));
   const cnt = (fn) => sel.filter(c => fn(c)).length;
-  const sysOR    = cnt(c => c.ext != null && c.ext < 0);
+  const sysOR    = cnt(c => c.extClass === 'or');
   const sysWater = cnt(c => c.water != null && c.water <= 1);
   const sysWalk  = cnt(c => c.walk != null && c.walk <= 24);
   const sysWalk2 = cnt(c => c.walk != null && c.walk <= 48);
@@ -1845,7 +1847,7 @@ const FLOW_COLORS = {
 let _charts = {};
 function flowLayers(c, singleCat) {
   const l1 = singleCat ? (c.mics ? '微創 MICS' : '傳統開胸') : c.cat;
-  const l2 = c.airway === '不插管 HFNC' ? '不插管 HFNC' : (c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : (c.ext < 6 ? '<6 小時拔管' : '≥6 小時拔管')));
+  const l2 = c.airway === '不插管 HFNC' ? '不插管 HFNC' : ({ or: '手術室內拔管', lt6: '<6 小時拔管', ge6: '≥6 小時拔管' }[c.extClass] || '拔管未記錄');
   const l3 = c.icu == null ? 'ICU 未記錄' : (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'));
   const l4 = c.major ? '重大異常事件' : '順利追蹤';
   return [l1, l2, l3, l4];
@@ -1865,7 +1867,7 @@ function renderFlowSection(sel) {
     <div class="chart-card flow-card">
       <div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">${_f.cat === 'all' ? '術式類別' : '微創／傳統'} → 拔管時機 → ICU 停留 → 結果（帶寬 = 人數）</span></div>
       <div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(320, 200 + sel.length * 2)}px"></div></div>
-      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入（含喉罩 LMA 手術室內移除）；「不插管 HFNC」= 全程無氣道裝置。ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
+      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入（含喉罩 LMA 手術室內移除）；「不插管 HFNC」= 全程無氣道裝置。2025 年回溯案無時間者依原表「ventilator&lt;6 hrs」歸 &lt;6／≥6 小時。ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
     </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>案量組成 · 樹狀圖</span><span class="chart-sub">類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）</span></div>
@@ -1925,7 +1927,7 @@ function drawFlowCharts(sel) {
   const tree = {};
   sel.forEach(c => {
     const a = c.cat, b = c.mics ? '微創 MICS' : '傳統開胸';
-    const d = c.airway === '不插管 HFNC' ? '不插管' : (c.ext == null ? '拔管未記錄' : (c.ext < 0 ? '手術室內拔管' : '非手術室內拔管'));
+    const d = c.airway === '不插管 HFNC' ? '不插管' : (c.extClass === 'or' ? '手術室內拔管' : (c.extClass ? '非手術室內拔管' : '拔管未記錄'));
     tree[a] = tree[a] || {}; tree[a][b] = tree[a][b] || {}; tree[a][b][d] = (tree[a][b][d] || 0) + 1;
   });
   const hexA = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
@@ -2101,9 +2103,9 @@ function drawTrendCharts() {
 
   // ---------- B. p-chart ----------
   const P = {
-    or:     { label: '手術室內拔管率', sys: c => c.ext == null ? null : (c.ext < 0 ? 1 : 0), hist: hc => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing === 1 ? 1 : 0) : null },
-    early:  { label: '<6 小時拔管率', sys: c => c.ext == null ? null : (c.ext < 6 ? 1 : 0), hist: hc => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing <= 2 ? 1 : 0) : null },
-    notube: { label: '不插管麻醉率', sys: c => c.airway === '不插管 HFNC' ? 1 : 0, hist: hc => hc.timing === 4 ? 1 : (hc.timing != null ? 0 : 0) },
+    or:     { label: '手術室內拔管率', sys: c => c.extClass ? (c.extClass === 'or' ? 1 : 0) : null, hist: hc => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing === 1 ? 1 : 0) : null },
+    early:  { label: '<6 小時拔管率', sys: c => c.extClass ? (c.extClass !== 'ge6' ? 1 : 0) : null, hist: hc => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing <= 2 ? 1 : 0) : null },
+    notube: { label: '不插管麻醉率', sys: c => c.airway ? (c.airway === '不插管 HFNC' ? 1 : 0) : null, hist: hc => hc.timing == null ? null : (hc.timing === 4 ? 1 : 0) },
     dis48:  { label: '48 小時內出院率', sys: c => c.los == null ? null : (c.los <= 2 ? 1 : 0), hist: hc => hc.los == null ? null : (hc.los <= 2 ? 1 : 0) },
     dis24:  { label: '24 小時內出院率', sys: c => c.los == null ? null : (c.los <= 1 ? 1 : 0), hist: hc => hc.los == null ? null : (hc.los <= 1 ? 1 : 0) },
   }[_t.prop];
@@ -2145,9 +2147,10 @@ function drawTrendCharts() {
   $('pNote').textContent = `背景期中心線 ${clS.length && cl.A != null ? Math.round(cl.A * 1000) / 10 + '%（' + pool.A.k + '/' + pool.A.n + '）' : '—'} → ERAS 期 ${cl.B != null ? Math.round(cl.B * 1000) / 10 + '%（' + pool.B.k + '/' + pool.B.n + '）' : '—'}。${small.length ? '樣本少於 ' + SMALL_N + ' 的季度不標數值：' + small.join('、') + '。' : ''}點落在界限外或連續 8 點在中心線同側，代表非隨機變化。`;
 
   // ---------- C. CUSUM ----------
+  // ★氣道方式空白（尚未填）不算失敗，排除於 CUSUM／不插管率 p-chart 之外
   const succ = isStent
-    ? (c) => c.airway === '不插管 HFNC' ? 1 : 0
-    : (c) => c.ext == null ? null : (c.ext < 0 ? 1 : 0);
+    ? (c) => c.airway ? (c.airway === '不插管 HFNC' ? 1 : 0) : null
+    : (c) => c.extClass ? (c.extClass === 'or' ? 1 : 0) : null;
   const hsucc = isStent
     ? (hc) => hc.timing == null ? 0 : (hc.timing === 4 ? 1 : 0)
     : (hc) => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing === 1 ? 1 : 0) : null;
@@ -2168,7 +2171,8 @@ function drawTrendCharts() {
         data: [{ yAxis: 0, name: '' }].concat(firstB > 0 ? [{ xAxis: firstB + 1, name: 'ERAS 啟動' }] : []) } }],
   });
   const total = seq.length, ok = seq.reduce((a, o) => a + o.x, 0);
-  $('cusumNote').textContent = `共 ${total} 例（含背景 ${seq.filter(o => o.bg).length} 例），成功 ${ok} 例（${total ? Math.round(ok / total * 1000) / 10 : 0}%）；目標 ${Math.round(_t.target * 100)}%。曲線斜率 > 0 表示該段成功率高於目標。`;
+  const unk = isStent ? sys.filter(c => !c.airway).length : 0;
+  $('cusumNote').textContent = `共 ${total} 例（含背景 ${seq.filter(o => o.bg).length} 例），成功 ${ok} 例（${total ? Math.round(ok / total * 1000) / 10 : 0}%）；目標 ${Math.round(_t.target * 100)}%。曲線斜率 > 0 表示該段成功率高於目標。${unk ? `另 ${unk} 例氣道方式未填，未納入。` : ''}`;
 }
 
 let _flowResizeBound = false;
