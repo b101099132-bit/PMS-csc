@@ -728,7 +728,7 @@ footer {
 
       <div class="alert alert-info" id="modeAlert" style="display:none"></div>
 
-      <form id="recordForm">
+      <form id="recordForm" autocomplete="off">
 
         <!-- ============ Section A: Surgery Completion ============ -->
         <div class="subhead">A. 手術完成登錄（更新病人主檔）</div>
@@ -1112,6 +1112,17 @@ function setDT(name, iso){
 function syncAllMilestones(){ MILESTONES.forEach(m => syncDT(m.name)); }
 
 // ========== Build milestone rows ==========
+// ★2026-09-12 每次載入病人前把整張表清乾淨（避免前一位病人的值殘留在這位沒填的欄位）
+function clearRecordForm() {
+  $('recordForm').reset();
+  MILESTONES.forEach(m => setDT(m.name, ''));
+  if ($('m_triflow_balls')) $('m_triflow_balls').value = '';
+  ['egfr_post', 'aki'].forEach(id => { if ($(id)) delete $(id).dataset.userEdited; });
+  if ($('akiReason')) $('akiReason').textContent = '輸入 Crea / 尿量後自動判讀';
+  if ($('bleedNote')) $('bleedNote').style.display = 'none';
+  if (typeof computeRox === 'function') computeRox();
+}
+
 function buildMilestones() {
   const html = MILESTONES.map(m => {
     if (m.hasBalls) {
@@ -1438,6 +1449,8 @@ function showPatient(p) {
   $('step1Indicator').classList.remove('active');
   $('step2Indicator').classList.add('active');
 
+  // ★先清空整張表再回填（不同病人之間不留殘值）
+  clearRecordForm();
   // Fill existing data if any
   fillExisting(p);
 
@@ -1693,6 +1706,23 @@ $('recordForm').addEventListener('submit', async (e) => {
   }
 
   syncAllMilestones();   // 送出前確保所有里程碑的隱藏合併值為最新
+
+  // ★2026-09-12 日期防呆：里程碑不得早於手術日、出院不得早於轉出／抵達 ICU
+  const surgDate = $('actual_date').value || (currentPatient && currentPatient.actualDate) || '';
+  const bad = [];
+  const dOf = (name) => { const v = $(name) ? $(name).value : ''; return v ? v.slice(0, 10) : ''; };
+  MILESTONES.forEach(m => {
+    const d = dOf(m.name);
+    if (surgDate && d && d < surgDate) bad.push(`${m.label}（${d}）早於手術日 ${surgDate}`);
+  });
+  const icuD = dOf('m_icu'), outD = dOf('m_icu_out'), disD = dOf('m_discharge');
+  if (disD && outD && disD < outD) bad.push(`出院（${disD}）早於轉出加護病房（${outD}）`);
+  if (disD && icuD && disD < icuD) bad.push(`出院（${disD}）早於抵達加護病房（${icuD}）`);
+  if (bad.length) {
+    showAlert('saveAlert', '日期有矛盾，請檢查後再儲存（可能是前一位病人的資料殘留）：' + bad.join('；'));
+    $('saveAlert').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
 
   // 重大異常事件:組裝複選值 + 結案確認(版本2)
   const majorChecked = Array.from(document.querySelectorAll('input[name="major_event"]:checked')).map(c => c.value);

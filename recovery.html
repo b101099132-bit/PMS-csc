@@ -140,7 +140,7 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
     <div class="alert alert-error" id="formAlert"></div>
     <div class="alert alert-success" id="okAlert"></div>
 
-    <form id="recForm">
+    <form id="recForm" autocomplete="off">
       <div class="subhead">抵達與體溫</div>
       <div class="row row-2">
         <div class="field"><label for="arrival__d">抵達恢復室時間</label>
@@ -426,6 +426,10 @@ function showPatient(p){
   $('pc_surgery').textContent = p.currentSurgery || '—';
   $('formCard').classList.remove('disabled');
   $('okAlert').classList.remove('show');
+  // ★2026-09-12 先清空整張表再回填（不同病人之間不留殘值）
+  $('recForm').reset();
+  ['arrival','out_time'].forEach(k => setDT(k, ''));
+  document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => { cb.checked = false; });
   fillExisting(p.recovery || {});
   // 體重：既有恢復室紀錄沒有時，帶入病人術前體重（可修改）
   if(!$('weight_kg').value && p.preopWeight != null && p.preopWeight !== '') { $('weight_kg').value = p.preopWeight; }
