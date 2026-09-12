@@ -1616,6 +1616,9 @@ function renderDynamic() {
   // ===== 06+ 病人流向（沖積圖）＋ 案量組成（樹狀圖）（★2026-09-11，ECharts）=====
   html.push(renderFlowSection(sel));
 
+  // ===== 06++ 趨勢與改善（★2026-09-12：逐案時序圖 + SPC p-chart + CUSUM）=====
+  html.push(renderTrendSection());
+
   // ===== 07 指標明細 =====
   const mm = g.metrics;
   const isStent = (_f.cat === '主動脈支架');
@@ -1741,6 +1744,7 @@ function renderDynamic() {
   $('dyn').innerHTML = html.join('');
   bindDynamic();
   drawFlowCharts(sel);
+  drawTrendCharts();
 }
 
 /* ============================================================
@@ -1960,6 +1964,199 @@ function drawFlowCharts(sel) {
     _flowResizeBound = true;
   }
 }
+/* ============================================================
+ *  ★ 06++ 趨勢與改善
+ *   A. 逐案時序圖（run chart）：每位病人一點 + 移動中位數 + 介入時間線；背景案（有手術日者）以空心點並列
+ *   B. SPC p-chart：季度比例 + 分期中心線（≤2025/04/15 背景期 vs 之後）+ 3σ 管制界限
+ *   C. CUSUM：依病人序累積（成功 − 目標），看學習曲線；主動脈支架 = 不插管成功，其餘 = 手術室內拔管
+ *   忽略期間篩選（趨勢要看全時段），其餘篩選（類別/途徑/ERAS）照用
+ * ============================================================ */
+const _t = { metric: 'los', prop: 'auto', target: 0.8 };
+const PHASES = [
+  { date: '2025-04-15', name: 'ERAS 啟動' },
+  { date: '2026-03-01', name: '平台收案' },
+];
+const STENT_PHASE = { date: '2025-04-23', name: '不插管麻醉開始' };
+function trendData() {
+  const d = _dashData; const h = d.historical || null;
+  const sys = (d.cases || []).filter(c => matchAll(c, { ..._f, period: 'all' }) && c.d);
+  const catOk = (hc) => _f.cat === 'all' || (hc.cats || []).indexOf(_f.cat) >= 0;
+  const erasOk = (hc) => _f.eras === 'all' || (_f.eras === 'eras' ? hc.eras === 1 : hc.eras === 2);
+  const hist = (h && h.cases ? h.cases : []).filter(hc => hc.d && catOk(hc) && erasOk(hc) && _f.mics === 'all');
+  return { sys, hist };
+}
+function renderTrendSection() {
+  const isStent = _f.cat === '主動脈支架';
+  const title = _f.cat === 'all' ? '全部類別' : (CAT_LABEL[_f.cat] || _f.cat);
+  const chip = (group, val, label, active) => `<button type="button" class="chip${active ? ' active' : ''}" data-tgroup="${group}" data-val="${val}">${label}</button>`;
+  const metrics = isStent
+    ? [['los', '住院天數'], ['icu', 'ICU 滯留'], ['walk', '首次下床']]
+    : [['ext', '脫離呼吸器時間'], ['los', '住院天數'], ['icu', 'ICU 滯留'], ['walk', '首次下床'], ['water', '首次喝水']];
+  if (!metrics.some(m => m[0] === _t.metric)) _t.metric = metrics[0][0];
+  const props = isStent
+    ? [['notube', '不插管率'], ['dis48', '48 小時內出院率'], ['dis24', '24 小時內出院率']]
+    : [['or', '手術室內拔管率'], ['early', '<6 小時拔管率'], ['dis48', '48 小時內出院率']];
+  if (_t.prop === 'auto' || !props.some(pp => pp[0] === _t.prop)) _t.prop = props[0][0];
+  return `
+    <h2 class="section-title">
+      <span class="num">06++</span>
+      <span>趨勢與改善</span>
+      <span class="sub">${escapeHtml(title)}${_f.mics !== 'all' || _f.eras !== 'all' ? '（含途徑／流程篩選）' : ''} · 全時段（不受期間篩選）· 含 ≤2025/04/15 背景案</span>
+    </h2>
+    <div class="chart-card flow-card">
+      <div class="chart-title"><span>A · 逐案時序圖</span><span class="chart-sub">每位病人一點 · 移動中位數（9 例）· 垂直線 = 介入時間點 · 空心 = 背景案</span></div>
+      <div class="chip-row" style="margin-bottom:8px">${metrics.map(m => chip('metric', m[0], m[1], _t.metric === m[0])).join('')}</div>
+      <div class="flow-scroll"><div id="runChart" class="echart" style="height:320px"></div></div>
+      <div class="chart-note" id="runNote"></div>
+    </div>
+    <div class="chart-card flow-card">
+      <div class="chart-title"><span>B · SPC 管制圖（p-chart，季度）</span><span class="chart-sub">中心線依期別分段（背景期 ≤2025/04/15 ／ ERAS 期）· 虛線 = 3σ 管制界限（依各季 n 計）</span></div>
+      <div class="chip-row" style="margin-bottom:8px">${props.map(pp => chip('prop', pp[0], pp[1], _t.prop === pp[0])).join('')}</div>
+      <div class="flow-scroll"><div id="pChart" class="echart" style="height:320px"></div></div>
+      <div class="chart-note" id="pNote"></div>
+    </div>
+    <div class="chart-card flow-card">
+      <div class="chart-title"><span>C · CUSUM 學習曲線</span><span class="chart-sub">依手術順序累積（成功 − 目標比例）· 往上 = 優於目標 · ${isStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}</span></div>
+      <div class="chip-row" style="margin-bottom:8px">${[0.6, 0.7, 0.8, 0.9].map(t => chip('target', String(t), '目標 ' + Math.round(t * 100) + '%', _t.target === t)).join('')}</div>
+      <div class="flow-scroll"><div id="cusumChart" class="echart" style="height:280px"></div></div>
+      <div class="chart-note" id="cusumNote"></div>
+    </div>
+  `;
+}
+function bindTrendChips() {
+  document.querySelectorAll('#dyn .chip[data-tgroup]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.dataset.tgroup, v = btn.dataset.val;
+      if (g === 'target') _t.target = parseFloat(v); else _t[g] = v;
+      document.querySelectorAll(`#dyn .chip[data-tgroup="${g}"]`).forEach(b => b.classList.toggle('active', b.dataset.val === v));
+      drawTrendCharts();
+    });
+  });
+}
+function movingMedian(vals, win) {
+  const out = []; const half = Math.floor(win / 2);
+  for (let i = 0; i < vals.length; i++) {
+    const seg = vals.slice(Math.max(0, i - half), Math.min(vals.length, i + half + 1)).slice().sort((a, b) => a - b);
+    const m = Math.floor(seg.length / 2);
+    out.push(seg.length % 2 ? seg[m] : (seg[m - 1] + seg[m]) / 2);
+  }
+  return out;
+}
+function quarterKey(dstr) { const y = dstr.slice(0, 4), m = parseInt(dstr.slice(5, 7), 10); return y + 'Q' + (Math.floor((m - 1) / 3) + 1); }
+function drawTrendCharts() {
+  if (!$('runChart') || !window.echarts) {
+    ['runChart', 'pChart', 'cusumChart'].forEach(id => { if ($(id)) $(id).innerHTML = '<div class="plist-empty">圖表函式庫（ECharts）載入失敗。</div>'; });
+    return;
+  }
+  const { sys, hist } = trendData();
+  const isStent = _f.cat === '主動脈支架';
+  const font = { fontFamily: "'Noto Sans TC', sans-serif" };
+  const phases = PHASES.concat(isStent ? [STENT_PHASE] : []);
+  const markLine = { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' }, data: phases.map(p => ({ xAxis: p.date, name: p.name })) };
+  ['run', 'p', 'cusum'].forEach(k => { if (_charts[k]) { try { _charts[k].dispose(); } catch (e) {} delete _charts[k]; } });
+
+  // ---------- A. run chart ----------
+  const M = {
+    ext:   { label: '脫離呼吸器時間（小時，負值 = 手術室內）', unit: ' 時', sys: c => c.ext, hist: hc => hc.intubD != null ? hc.intubD * 24 : null, histNote: '背景案僅有「術後插管天數」，以天×24 換算（日解析度）' },
+    los:   { label: '住院天數（天）', unit: ' 天', sys: c => c.los, hist: hc => hc.los },
+    icu:   { label: 'ICU 滯留（天）', unit: ' 天', sys: c => c.icu != null ? Math.round(c.icu / 24 * 10) / 10 : null, hist: hc => hc.icuD },
+    walk:  { label: '首次下床走路（自轉入 ICU，小時）', unit: ' 時', sys: c => c.walk, hist: () => null },
+    water: { label: '首次喝水（自轉入 ICU，小時）', unit: ' 時', sys: c => c.water, hist: () => null },
+  }[_t.metric];
+  const pts = [];
+  sys.forEach(c => { const v = M.sys(c); if (v != null) pts.push({ d: c.d, v, bg: false, cat: c.cat }); });
+  hist.forEach(hc => { const v = M.hist(hc); if (v != null) pts.push({ d: hc.d, v, bg: true, cat: (hc.cats || [])[0] }); });
+  pts.sort((a, b) => a.d.localeCompare(b.d));
+  const med = movingMedian(pts.map(p => p.v), 9);
+  const sysPts = pts.filter(p => !p.bg).map(p => [p.d, p.v]);
+  const bgPts = pts.filter(p => p.bg).map(p => [p.d, p.v]);
+  _charts.run = echarts.init($('runChart'), null, { renderer: 'svg' });
+  _charts.run.setOption({
+    grid: { left: 48, right: 24, top: 28, bottom: 36 },
+    tooltip: { trigger: 'item', formatter: (p) => p.seriesName === '移動中位數' ? `${p.data[0]}：中位 ${p.data[1]}${M.unit}` : `${p.data[0]}：${p.data[1]}${M.unit}${p.seriesName === '背景案' ? '（背景）' : ''}` },
+    legend: { top: 0, right: 0, textStyle: { ...font, fontSize: 11 }, data: ['本系統', '背景案', '移動中位數'] },
+    xAxis: { type: 'time', axisLabel: { ...font, fontSize: 11 } },
+    yAxis: { type: 'value', name: M.label, nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    series: [
+      { name: '本系統', type: 'scatter', data: sysPts, symbolSize: 7, itemStyle: { color: '#1F5A5A', opacity: 0.75 } },
+      { name: '背景案', type: 'scatter', data: bgPts, symbolSize: 7, itemStyle: { color: '#FAF7F2', borderColor: '#A87B4D', borderWidth: 1.5 } },
+      { name: '移動中位數', type: 'line', data: pts.map((p, i) => [p.d, Math.round(med[i] * 10) / 10]), showSymbol: false, lineStyle: { color: '#B85450', width: 2 }, markLine },
+    ],
+  });
+  $('runNote').textContent = `本系統 ${sysPts.length} 例、背景 ${bgPts.length} 例有此指標${M.histNote ? '；' + M.histNote : ''}${bgPts.length === 0 && hist.length ? '；背景案無此指標' : ''}。`;
+
+  // ---------- B. p-chart ----------
+  const P = {
+    or:     { label: '手術室內拔管率', sys: c => c.ext == null ? null : (c.ext < 0 ? 1 : 0), hist: hc => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing === 1 ? 1 : 0) : null },
+    early:  { label: '<6 小時拔管率', sys: c => c.ext == null ? null : (c.ext < 6 ? 1 : 0), hist: hc => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing <= 2 ? 1 : 0) : null },
+    notube: { label: '不插管麻醉率', sys: c => c.airway === '不插管 HFNC' ? 1 : 0, hist: hc => hc.timing === 4 ? 1 : (hc.timing != null ? 0 : 0) },
+    dis48:  { label: '48 小時內出院率', sys: c => c.los == null ? null : (c.los <= 2 ? 1 : 0), hist: hc => hc.los == null ? null : (hc.los <= 2 ? 1 : 0) },
+    dis24:  { label: '24 小時內出院率', sys: c => c.los == null ? null : (c.los <= 1 ? 1 : 0), hist: hc => hc.los == null ? null : (hc.los <= 1 ? 1 : 0) },
+  }[_t.prop];
+  const obs = [];
+  sys.forEach(c => { const x = P.sys(c); if (x != null) obs.push({ d: c.d, x }); });
+  hist.forEach(hc => { const x = P.hist(hc); if (x != null) obs.push({ d: hc.d, x }); });
+  obs.sort((a, b) => a.d.localeCompare(b.d));
+  const CUTOFF = '2025-04-15';
+  const byQ = {};
+  obs.forEach(o => { const q = quarterKey(o.d); (byQ[q] = byQ[q] || { n: 0, k: 0, ds: [] }); byQ[q].n++; byQ[q].k += o.x; byQ[q].ds.push(o.d); });
+  const qs = Object.keys(byQ).sort();
+  const phaseOf = (q) => byQ[q].ds.filter(d => d > CUTOFF).length > byQ[q].n / 2 ? 'B' : 'A';
+  const pool = { A: { n: 0, k: 0 }, B: { n: 0, k: 0 } };
+  obs.forEach(o => { const ph = o.d > CUTOFF ? 'B' : 'A'; pool[ph].n++; pool[ph].k += o.x; });
+  const cl = { A: pool.A.n ? pool.A.k / pool.A.n : null, B: pool.B.n ? pool.B.k / pool.B.n : null };
+  const pctS = qs.map(q => Math.round(byQ[q].k / byQ[q].n * 1000) / 10);
+  const clS = qs.map(q => cl[phaseOf(q)] == null ? null : Math.round(cl[phaseOf(q)] * 1000) / 10);
+  const lim = (q, sign) => { const pbar = cl[phaseOf(q)]; if (pbar == null) return null; const se = Math.sqrt(pbar * (1 - pbar) / byQ[q].n); return Math.round(Math.min(1, Math.max(0, pbar + sign * 3 * se)) * 1000) / 10; };
+  const ucl = qs.map(q => lim(q, 1)), lcl = qs.map(q => lim(q, -1));
+  const xq = qs.map(q => q.replace(/^20/, ''));
+  const bIdx = qs.findIndex(q => phaseOf(q) === 'B');
+  _charts.p = echarts.init($('pChart'), null, { renderer: 'svg' });
+  _charts.p.setOption({
+    grid: { left: 48, right: 24, top: 34, bottom: 36 },
+    tooltip: { trigger: 'axis', formatter: (ps) => { const i = ps[0].dataIndex; const q = qs[i]; return `${q}：${pctS[i]}%（${byQ[q].k}/${byQ[q].n}）<br>中心線 ${clS[i]}% · 界限 ${lcl[i]}–${ucl[i]}%`; } },
+    legend: { top: 0, left: 60, textStyle: { ...font, fontSize: 11 }, data: [P.label, '中心線', '管制界限'] },
+    xAxis: { type: 'category', data: xq, axisLabel: { ...font, fontSize: 11 } },
+    yAxis: { type: 'value', min: 0, max: 100, axisLabel: { ...font, fontSize: 11, formatter: '{value}%' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    series: [
+      { name: P.label, type: 'line', data: pctS, symbolSize: 8, lineStyle: { color: '#1F5A5A', width: 2 }, itemStyle: { color: '#1F5A5A' },
+        label: { ...font, show: true, fontSize: 10, color: '#5C5C5C', formatter: (p) => byQ[qs[p.dataIndex]].n < SMALL_N ? '' : p.value + '%' },
+        markLine: bIdx > 0 ? { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: 'ERAS 啟動', position: 'insideEndTop' }, data: [{ xAxis: bIdx - 0.5 }] } : undefined },
+      { name: '中心線', type: 'line', data: clS, step: 'middle', showSymbol: false, lineStyle: { color: '#B85450', width: 1.5 } },
+      { name: '管制界限', type: 'line', data: ucl, step: 'middle', showSymbol: false, lineStyle: { color: '#A87B4D', type: 'dashed', width: 1 } },
+      { name: '管制界限', type: 'line', data: lcl, step: 'middle', showSymbol: false, lineStyle: { color: '#A87B4D', type: 'dashed', width: 1 } },
+    ],
+  });
+  const small = qs.filter(q => byQ[q].n < SMALL_N);
+  $('pNote').textContent = `背景期中心線 ${clS.length && cl.A != null ? Math.round(cl.A * 1000) / 10 + '%（' + pool.A.k + '/' + pool.A.n + '）' : '—'} → ERAS 期 ${cl.B != null ? Math.round(cl.B * 1000) / 10 + '%（' + pool.B.k + '/' + pool.B.n + '）' : '—'}。${small.length ? '樣本少於 ' + SMALL_N + ' 的季度不標數值：' + small.join('、') + '。' : ''}點落在界限外或連續 8 點在中心線同側，代表非隨機變化。`;
+
+  // ---------- C. CUSUM ----------
+  const succ = isStent
+    ? (c) => c.airway === '不插管 HFNC' ? 1 : 0
+    : (c) => c.ext == null ? null : (c.ext < 0 ? 1 : 0);
+  const hsucc = isStent
+    ? (hc) => hc.timing == null ? 0 : (hc.timing === 4 ? 1 : 0)
+    : (hc) => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing === 1 ? 1 : 0) : null;
+  const seq = [];
+  sys.forEach(c => { const x = succ(c); if (x != null) seq.push({ d: c.d, x, bg: false }); });
+  hist.forEach(hc => { const x = hsucc(hc); if (x != null) seq.push({ d: hc.d, x, bg: true }); });
+  seq.sort((a, b) => a.d.localeCompare(b.d));
+  let S = 0; const cus = seq.map((o, i) => { S += o.x - _t.target; return [i + 1, Math.round(S * 100) / 100, o.d, o.bg]; });
+  const firstB = seq.findIndex(o => o.d > CUTOFF);
+  _charts.cusum = echarts.init($('cusumChart'), null, { renderer: 'svg' });
+  _charts.cusum.setOption({
+    grid: { left: 48, right: 24, top: 24, bottom: 36 },
+    tooltip: { trigger: 'item', formatter: (p) => `第 ${p.data[0]} 例（${p.data[2]}${p.data[3] ? '，背景' : ''}）：CUSUM ${p.data[1]}` },
+    xAxis: { type: 'value', name: '病人序（依手術日）', nameLocation: 'middle', nameGap: 22, nameTextStyle: { ...font, fontSize: 11 }, axisLabel: { ...font, fontSize: 11 }, min: 1 },
+    yAxis: { type: 'value', name: 'Σ(成功 − 目標)', nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    series: [{ type: 'line', data: cus, showSymbol: cus.length <= 80, symbolSize: 5, lineStyle: { color: '#2C4866', width: 2 }, itemStyle: { color: '#2C4866' }, areaStyle: { color: 'rgba(44,72,102,0.08)' },
+      markLine: { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' },
+        data: [{ yAxis: 0, name: '' }].concat(firstB > 0 ? [{ xAxis: firstB + 1, name: 'ERAS 啟動' }] : []) } }],
+  });
+  const total = seq.length, ok = seq.reduce((a, o) => a + o.x, 0);
+  $('cusumNote').textContent = `共 ${total} 例（含背景 ${seq.filter(o => o.bg).length} 例），成功 ${ok} 例（${total ? Math.round(ok / total * 1000) / 10 : 0}%）；目標 ${Math.round(_t.target * 100)}%。曲線斜率 > 0 表示該段成功率高於目標。`;
+}
+
 let _flowResizeBound = false;
 
 let _tab = 'pending';
@@ -1979,6 +2176,7 @@ function bindDynamic() {
   document.querySelectorAll('#dyn .cat-row[data-cat]').forEach(tr => {
     tr.addEventListener('click', () => { _f.cat = tr.dataset.cat; renderDynamic(); });
   });
+  bindTrendChips();
   document.querySelectorAll('#dyn .tab').forEach(btn => {
     btn.addEventListener('click', () => {
       _tab = btn.dataset.tab;
@@ -2691,6 +2889,17 @@ function rateCard(label, defText, r, histRef) {
   `;
 }
 
+// 姓名中間遮罩（個資保護）：2 字 → 王*；3 字以上 → 王*明（中間全部以 * 取代）
+function maskName(name) {
+  if (name == null) return '';
+  const t = String(name).trim();
+  if (!t) return '';
+  const ch = Array.from(t);
+  if (ch.length <= 1) return t;
+  if (ch.length === 2) return ch[0] + '*';
+  return ch[0] + '*'.repeat(ch.length - 2) + ch[ch.length - 1];
+}
+
 function renderList(items, kind) {
   if (!items || items.length === 0) {
     let msg = '目前無資料';
@@ -2714,7 +2923,7 @@ function renderList(items, kind) {
     rows.push(`
       <div class="plist-row">
         <div>
-          <span class="name">${escapeHtml(p.name)}</span>
+          <span class="name" title="${escapeHtml(p.pk || '')}">${escapeHtml(maskName(p.name))}</span>
           <span class="meta"> · ${escapeHtml(p.gender || '')} ${p.age != null ? p.age + ' 歲' : ''}</span>
         </div>
         <div class="date">${dateShown}</div>
