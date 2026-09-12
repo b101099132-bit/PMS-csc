@@ -1800,12 +1800,23 @@ function renderMilestones() {
     <div class="ms-card">
       <div class="chip-row">${chips.join('')}</div>
       <div class="ms-grid">
+        ${_mf.cat === '主動脈支架' ? (() => {
+          // ★主動脈支架：換成 案量 / 不插管 / 24h 出院 / 48h 出院（皆含背景）
+          const sysN = sel.length, sysNT = cnt(c => c.airway === '不插管 HFNC');
+          const sys24 = cnt(c => c.los != null && c.los <= 1), sys48 = cnt(c => c.los != null && c.los <= 2);
+          const st = (histApplies && hsum.stent) ? hsum.stent : null;
+          const bgN = histApplies ? hsum.totalPatients : 0, bgNT = st ? (st.noTube || 0) : 0, bg24 = st ? (st.dis24 || 0) : 0, bg48 = st ? (st.dis48 || 0) : 0;
+          return tile('teal', '累計主動脈支架案數', sysN + bgN, sysN, bgN, 'EVAR／TEVAR／主動脈血管手術')
+            + tile('green', '累計不插管麻醉', sysNT + bgNT, sysNT, bgNT, '氣道方式 = 不插管 HFNC（全程無氣道裝置）')
+            + tile('gold', '24 小時內出院', sys24 + bg24, sys24, bg24, '住院天數 ≤ 1 天（出院日 − 手術日）')
+            + tile('plum', '48 小時內出院', sys48 + bg48, sys48, bg48, '住院天數 ≤ 2 天');
+        })() : `
         ${tile('green', '累計手術室拔管', sysOR + bgOR, sysOR, bgOR, '拔管時間早於轉入加護病房（含 LMA 手術室內移除；不插管者另計）')}
         ${tile('teal', '術後 1 小時內喝水', sysWater + bgWater, sysWater, bgWater, '首次 Try Water ≤ 轉入加護病房後 1 小時')}
         ${tile('gold', '術後 1 天內下床', sysWalk + bgWalk, sysWalk, bgWalk, '首次下床走路 ≤ 轉入加護病房後 24 小時')}
-        ${tile('plum', '術後 48 小時內下床', sysWalk2 + bgWalk2, sysWalk2, bgWalk2, '首次下床走路 ≤ 轉入加護病房後 48 小時（含 1 天內者）')}
+        ${tile('plum', '術後 48 小時內下床', sysWalk2 + bgWalk2, sysWalk2, bgWalk2, '首次下床走路 ≤ 轉入加護病房後 48 小時（含 1 天內者）')}`}
       </div>
-      ${missing.length ? `<div class="ms-note">歷史背景表尚無「${missing.join('」「')}」欄，背景值該項以 0 計；在「歷史背景」工作表加欄「術後1小時喝水」「術後1天下床」「術後2天下床」（1＝達成）即會自動併入。</div>` : ''}
+      ${missing.length && _mf.cat !== '主動脈支架' ? `<div class="ms-note">歷史背景表尚無「${missing.join('」「')}」欄，背景值該項以 0 計；在「歷史背景」工作表加欄「術後1小時喝水」「術後1天下床」「術後2天下床」（1＝達成）即會自動併入。</div>` : ''}
       ${!histApplies && h ? `<div class="ms-note">${_mf.cat === 'MICS' ? '歷史背景表無微創註記，MICS 標籤不併入背景值。' : '歷史背景表沒有此術式的背景案。'}</div>` : ''}
     </div>
   `;
