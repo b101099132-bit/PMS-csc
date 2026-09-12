@@ -1845,14 +1845,16 @@ function renderMilestones() {
  *   - 品牌色彩度低，辨識靠節點直接標名＋人數，不靠顏色
  * ============================================================ */
 const FLOW_COLORS = {
-  cat: { 'CABG': '#1F5A5A', 'MICS-CABG': '#3E8A8A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A' },
+  cat: { 'CABG': '#1F5A5A', 'MICS-CABG': '#3E8A8A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A', '血管內支架': '#4A7A5A' },
   ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
   out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
 };
 let _charts = {};
+// ★途徑標籤：主動脈支架（EVAR／TEVAR）本身就是血管內微創手術，不套「傳統開胸／微創 MICS」
+function approachOf(c) { return c.cat === '主動脈支架' ? '血管內支架' : (c.mics ? '微創 MICS' : '傳統開胸'); }
 function flowLayers(c, singleCat) {
-  const l1 = singleCat ? (c.mics ? '微創 MICS' : '傳統開胸') : c.cat;
+  const l1 = singleCat ? approachOf(c) : c.cat;
   const l2 = c.airway === '不插管 HFNC' ? '不插管 HFNC' : ({ or: '手術室內拔管', lt6: '<6 小時拔管', ge6: '≥6 小時拔管' }[c.extClass] || '拔管未記錄');
   const l3 = c.icu == null ? 'ICU 未記錄' : (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'));
   const l4 = c.major ? '重大異常事件' : '順利追蹤';
@@ -1932,7 +1934,7 @@ function drawFlowCharts(sel) {
   // ---- 樹狀圖 ----
   const tree = {};
   sel.forEach(c => {
-    const a = c.cat, b = c.mics ? '微創 MICS' : '傳統開胸';
+    const a = c.cat, b = approachOf(c);
     const d = c.airway === '不插管 HFNC' ? '不插管' : (c.extClass === 'or' ? '手術室內拔管' : (c.extClass ? '非手術室內拔管' : '拔管未記錄'));
     tree[a] = tree[a] || {}; tree[a][b] = tree[a][b] || {}; tree[a][b][d] = (tree[a][b][d] || 0) + 1;
   });
@@ -1940,7 +1942,7 @@ function drawFlowCharts(sel) {
   const leafColor = (a, d) => d === '手術室內拔管' ? FLOW_COLORS.cat[a] : (d === '不插管' ? '#2C4866' : (d === '非手術室內拔管' ? hexA(FLOW_COLORS.cat[a], 0.55) : '#C9C3B8'));
   const tmData = CAT_ORDER.filter(a => tree[a]).map(a => ({
     name: a, itemStyle: { color: FLOW_COLORS.cat[a] },
-    children: ['微創 MICS', '傳統開胸'].filter(b => tree[a][b]).map(b => ({
+    children: ['微創 MICS', '傳統開胸', '血管內支架'].filter(b => tree[a][b]).map(b => ({
       name: b, itemStyle: { color: hexA(FLOW_COLORS.cat[a], 0.18) },
       children: ['不插管', '手術室內拔管', '非手術室內拔管', '拔管未記錄'].filter(d => tree[a][b][d]).map(d => ({
         name: d, value: tree[a][b][d], itemStyle: { color: leafColor(a, d) },
