@@ -1971,7 +1971,13 @@ function drawFlowCharts(sel) {
  *   C. CUSUM：依病人序累積（成功 − 目標），看學習曲線；主動脈支架 = 不插管成功，其餘 = 手術室內拔管
  *   忽略期間篩選（趨勢要看全時段），其餘篩選（類別/途徑/ERAS）照用
  * ============================================================ */
-const _t = { metric: 'los', prop: 'auto', target: 0.8 };
+const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null };   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
+function trendCat() {
+  const avail = CAT_ORDER.filter(c => (_dashData.cases || []).some(x => x.cat === c));
+  if (_t.cat && avail.indexOf(_t.cat) >= 0) return _t.cat;
+  if (_f.cat !== 'all' && avail.indexOf(_f.cat) >= 0) return _f.cat;
+  return avail.indexOf('CABG') >= 0 ? 'CABG' : (avail[0] || 'CABG');
+}
 const PHASES = [
   { date: '2025-04-15', name: 'ERAS 啟動' },
   { date: '2026-03-01', name: '平台收案' },
@@ -1979,16 +1985,20 @@ const PHASES = [
 const STENT_PHASE = { date: '2025-04-23', name: '不插管麻醉開始' };
 function trendData() {
   const d = _dashData; const h = d.historical || null;
-  const sys = (d.cases || []).filter(c => matchAll(c, { ..._f, period: 'all' }) && c.d);
-  const catOk = (hc) => _f.cat === 'all' || (hc.cats || []).indexOf(_f.cat) >= 0;
+  const tc = trendCat();
+  const sys = (d.cases || []).filter(c => matchAll(c, { ..._f, period: 'all', cat: tc }) && c.d);
+  const catOk = (hc) => (hc.cats || []).indexOf(tc) >= 0;
   const erasOk = (hc) => _f.eras === 'all' || (_f.eras === 'eras' ? hc.eras === 1 : hc.eras === 2);
   const hist = (h && h.cases ? h.cases : []).filter(hc => hc.d && catOk(hc) && erasOk(hc) && _f.mics === 'all');
   return { sys, hist };
 }
 function renderTrendSection() {
-  const isStent = _f.cat === '主動脈支架';
-  const title = _f.cat === 'all' ? '全部類別' : (CAT_LABEL[_f.cat] || _f.cat);
+  const tc = trendCat();
+  const isStent = tc === '主動脈支架';
+  const title = CAT_LABEL[tc] || tc;
   const chip = (group, val, label, active) => `<button type="button" class="chip${active ? ' active' : ''}" data-tgroup="${group}" data-val="${val}">${label}</button>`;
+  const avail = CAT_ORDER.filter(c => (_dashData.cases || []).some(x => x.cat === c));
+  const catChips = avail.map(c => chip('cat', c, c, tc === c)).join('');
   const metrics = isStent
     ? [['los', '住院天數'], ['icu', 'ICU 滯留'], ['walk', '首次下床']]
     : [['ext', '脫離呼吸器時間'], ['los', '住院天數'], ['icu', 'ICU 滯留'], ['walk', '首次下床'], ['water', '首次喝水']];
@@ -2003,6 +2013,9 @@ function renderTrendSection() {
       <span>趨勢與改善</span>
       <span class="sub">${escapeHtml(title)}${_f.mics !== 'all' || _f.eras !== 'all' ? '（含途徑／流程篩選）' : ''} · 全時段（不受期間篩選）· 含 ≤2025/04/15 背景案</span>
     </h2>
+    <div class="filter-card" style="margin-bottom:12px">
+      <div class="filter-row"><div class="filter-label">趨勢分析術式（單一術式，不混算）</div><div class="chip-row">${catChips}</div></div>
+    </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>A · 逐案時序圖</span><span class="chart-sub">每位病人一點 · 移動中位數（9 例）· 垂直線 = 介入時間點 · 空心 = 背景案</span></div>
       <div class="chip-row" style="margin-bottom:8px">${metrics.map(m => chip('metric', m[0], m[1], _t.metric === m[0])).join('')}</div>
@@ -2028,6 +2041,7 @@ function bindTrendChips() {
     btn.addEventListener('click', () => {
       const g = btn.dataset.tgroup, v = btn.dataset.val;
       if (g === 'target') _t.target = parseFloat(v); else _t[g] = v;
+      if (g === 'cat') { _t.prop = 'auto'; renderDynamic(); return; }   // 換術式：指標選項不同，整區重畫
       document.querySelectorAll(`#dyn .chip[data-tgroup="${g}"]`).forEach(b => b.classList.toggle('active', b.dataset.val === v));
       drawTrendCharts();
     });
@@ -2049,7 +2063,7 @@ function drawTrendCharts() {
     return;
   }
   const { sys, hist } = trendData();
-  const isStent = _f.cat === '主動脈支架';
+  const isStent = trendCat() === '主動脈支架';
   const font = { fontFamily: "'Noto Sans TC', sans-serif" };
   const phases = PHASES.concat(isStent ? [STENT_PHASE] : []);
   const markLine = { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' }, data: phases.map(p => ({ xAxis: p.date, name: p.name })) };

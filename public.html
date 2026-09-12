@@ -1286,7 +1286,13 @@ const FLOW_COLORS = {
   out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
 };
 const font = { fontFamily: "'Noto Sans TC', sans-serif" };
-let _d = null, _cat = 'all', _charts = {}, _t = { prop: 'auto', target: 0.8 };
+let _d = null, _cat = 'all', _charts = {}, _t = { prop: 'auto', target: 0.8, cat: null };
+function trendCat() {
+  const avail = CAT_ORDER.filter(c => _d.byCat[c] && _d.byCat[c].n);
+  if (_t.cat && avail.indexOf(_t.cat) >= 0) return _t.cat;
+  if (_cat !== 'all' && avail.indexOf(_cat) >= 0) return _cat;
+  return avail.indexOf('CABG') >= 0 ? 'CABG' : (avail[0] || 'CABG');
+}
 const dash = (v, unit) => (v == null) ? '<span class="suppressed">—</span>' : `${v}<span class="u">${unit || ''}</span>`;
 
 async function load() {
@@ -1378,17 +1384,19 @@ function render() {
     <div class="chart-card flow-card"><div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">帶寬 = 人數</span></div><div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(300, 180 + g.n * 1.5)}px"></div></div></div>
     <div class="chart-card flow-card"><div class="chart-title"><span>案量組成 · 樹狀圖</span><span class="chart-sub">類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）</span></div><div id="treemapChart" class="echart" style="height:300px"></div></div>
   `);
-  // 06 趨勢與改善
-  const props = isStent ? [['notube', '不插管率'], ['dis48', '48 小時內出院率'], ['dis24', '24 小時內出院率']] : [['or', '手術室內拔管率'], ['early', '<6 小時拔管率'], ['dis48', '48 小時內出院率']];
+  // 06 趨勢與改善（單一術式，不混算）
+  const tc = trendCat(); const tStent = tc === '主動脈支架';
+  const props = tStent ? [['notube', '不插管率'], ['dis48', '48 小時內出院率'], ['dis24', '24 小時內出院率']] : [['or', '手術室內拔管率'], ['early', '<6 小時拔管率'], ['dis48', '48 小時內出院率']];
   if (_t.prop === 'auto' || !props.some(p => p[0] === _t.prop)) _t.prop = props[0][0];
   const tchip = (grp, v, l, a) => `<button type="button" class="chip${a ? ' active' : ''}" data-tgroup="${grp}" data-val="${v}">${l}</button>`;
   html.push(`
-    <h2 class="section-title"><span class="num">06</span><span>趨勢與改善</span><span class="sub">${escapeHtml(CAT_LABEL[_cat])} · 含背景期（≤2025/04/15）</span></h2>
+    <h2 class="section-title"><span class="num">06</span><span>趨勢與改善</span><span class="sub">${escapeHtml(CAT_LABEL[tc])} · 含背景期（≤2025/04/15）· 單一術式</span></h2>
+    <div class="filter-card" style="margin-bottom:12px"><div class="filter-row"><div class="filter-label">趨勢分析術式</div><div class="chip-row">${CAT_ORDER.filter(c => d.byCat[c] && d.byCat[c].n).map(c => tchip('cat', c, c, tc === c)).join('')}</div></div></div>
     <div class="chart-card flow-card"><div class="chart-title"><span>A · 季度中位數時序</span><span class="chart-sub">住院天數與 ICU 天數 · 垂直線 = ERAS 啟動</span></div><div class="flow-scroll"><div id="runChart" class="echart" style="height:280px"></div></div></div>
     <div class="chart-card flow-card"><div class="chart-title"><span>B · SPC 管制圖（p-chart，季度）</span><span class="chart-sub">中心線依期別分段 · 虛線 = 3σ 管制界限</span></div>
       <div class="chip-row" style="margin-bottom:8px">${props.map(p => tchip('prop', p[0], p[1], _t.prop === p[0])).join('')}</div>
       <div class="flow-scroll"><div id="pChart" class="echart" style="height:300px"></div></div><div class="chart-note" id="pNote"></div></div>
-    <div class="chart-card flow-card"><div class="chart-title"><span>C · CUSUM 學習曲線</span><span class="chart-sub">依手術順序累積（成功 − 目標）· 往上 = 優於目標 · ${isStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}</span></div>
+    <div class="chart-card flow-card"><div class="chart-title"><span>C · CUSUM 學習曲線</span><span class="chart-sub">依手術順序累積（成功 − 目標）· 往上 = 優於目標 · ${tStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}</span></div>
       <div class="chip-row" style="margin-bottom:8px">${[0.6, 0.7, 0.8, 0.9].map(t => tchip('target', String(t), '目標 ' + Math.round(t * 100) + '%', _t.target === t)).join('')}</div>
       <div class="flow-scroll"><div id="cusumChart" class="echart" style="height:260px"></div></div><div class="chart-note" id="cusumNote"></div></div>
   `);
@@ -1396,6 +1404,7 @@ function render() {
   document.querySelectorAll('[data-cat]').forEach(el => el.addEventListener('click', () => { _cat = el.dataset.cat; _t.prop = 'auto'; render(); window.scrollTo({ top: 0 }); }));
   document.querySelectorAll('.chip[data-tgroup]').forEach(btn => btn.addEventListener('click', () => {
     const grp = btn.dataset.tgroup, v = btn.dataset.val; if (grp === 'target') _t.target = parseFloat(v); else _t[grp] = v;
+    if (grp === 'cat') { _t.prop = 'auto'; render(); document.querySelector('#runChart').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
     document.querySelectorAll(`.chip[data-tgroup="${grp}"]`).forEach(b => b.classList.toggle('active', b.dataset.val === v)); drawTrend();
   }));
   drawCharts();
@@ -1452,7 +1461,7 @@ function drawCharts() {
 function drawTrend() {
   ['runChart', 'pChart', 'cusumChart'].forEach(k => { if (_charts[k]) { try { _charts[k].dispose(); } catch (e) {} delete _charts[k]; } });
   if (!window.echarts) return;
-  const g = _d.byCat[_cat]; const isStent = _cat === '主動脈支架';
+  const tc = trendCat(); const g = _d.byCat[tc]; const isStent = tc === '主動脈支架';
   // A. quarter medians (system + background)
   const rq = g.runQuarters; const xs = rq.map(q => q.q.replace(/^20/, ''));
   const bIdx = rq.findIndex(q => q.q >= '2025Q2');
