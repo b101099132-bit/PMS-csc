@@ -1601,7 +1601,7 @@ function renderDynamic() {
     <h2 class="section-title">
       <span class="num">04</span>
       <span>本系統成效 · 篩選條件</span>
-      <span class="sub">${cases.length} 筆術後紀錄${unclassified ? ` · ${unclassified} 筆未標記流程` : ''}</span>
+      <span class="sub">${cases.length} 筆術後紀錄${unclassified ? ` · ${unclassified} 筆未標記流程` : ''}${_dashData.reopExcluded ? ` · 另 ${_dashData.reopExcluded} 筆同住院再次手術僅計手術量、不計成效` : ''}</span>
     </h2>
     <div class="filter-card">
       <div class="filter-row"><div class="filter-label">手術類別</div><div class="chip-row">${catChips.join('')}</div></div>

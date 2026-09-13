@@ -692,6 +692,17 @@ footer {
                 <div class="option"><input type="radio" id="en_elective" name="emerg_nature" value="常規"><label for="en_elective">常規手術</label></div>
               </div>
             </div>
+            <div class="field">
+              <label>同一住院內的再次手術？（例：主動脈弓術後併發症再放支架）</label>
+              <div class="radio-group" style="gap:8px 12px">
+                <div class="option"><input type="checkbox" id="emerg_reop" name="emerg_reop" value="1"><label for="emerg_reop">是，本次為同一住院之再次手術</label></div>
+              </div>
+              <div id="emergReopBox" style="display:none;margin-top:8px">
+                <label for="emerg_reop_of">指標手術（第一次手術）的病人主鍵 <span class="req">*</span></label>
+                <input type="text" id="emerg_reop_of" autocomplete="off" placeholder="例：EMG-20260527-02（可從術後追蹤「近期手術」清單複製）">
+                <div class="hint" style="font-size:12px;color:var(--muted,#8A8580);margin-top:4px">勾選後，這一筆只計入手術量，不進 ERAS 成效與里程碑；併發症請在指標手術的術後追蹤標「再次手術」。</div>
+              </div>
+            </div>
           </div>
           <div class="row row-2">
             <div class="field">
@@ -1397,6 +1408,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     ['emerg_name','emerg_gender','emerg_age','emerg_diagnosis','emerg_surgery','emerg_date','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; });
     document.querySelectorAll('input[name="emerg_surgery_type"]').forEach(cb => { cb.checked = false; });
     document.querySelectorAll('input[name="emerg_nature"]').forEach(rb => { rb.checked = false; });
+    if ($('emerg_reop')) { $('emerg_reop').checked = false; $('emerg_reop_of').value = ''; $('emergReopBox').style.display = 'none'; }
   };
 
   tog.addEventListener('click', () => {
@@ -1421,6 +1433,8 @@ surgeryForm.addEventListener('submit', async (e) => {
     const emergDate = $('emerg_date') ? $('emerg_date').value : '';
     const natureEl = document.querySelector('input[name="emerg_nature"]:checked');
     const nature = natureEl ? natureEl.value : '';   // ★手術性質（常規／急診）→ 主檔 AY
+    const reopChk = $('emerg_reop') && $('emerg_reop').checked;
+    const reopOf = reopChk ? ($('emerg_reop_of').value || '').trim() : '';
     const egfr = $('emerg_egfr').value.trim();
     const lvef = $('emerg_lvef').value.trim();
     const crea = $('emerg_crea').value.trim();
@@ -1431,6 +1445,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     if (!name || !diagnosis || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '姓名、診斷、術前 eGFR / LVEF / Crea / 體重 皆為必填'; alertEl.classList.add('show'); return; }
     if (!types.length) { alertEl.textContent = '請至少勾選一項術式'; alertEl.classList.add('show'); return; }
     if (!nature) { alertEl.textContent = '請勾選手術性質（急診手術／常規手術）'; alertEl.classList.add('show'); return; }
+    if (reopChk && !reopOf) { alertEl.textContent = '已勾選同一住院再次手術，請填指標手術的病人主鍵'; alertEl.classList.add('show'); return; }
     if (types.indexOf('其他') >= 0 && !surgery) { alertEl.textContent = '術式選「其他」時請填手術內容補述'; alertEl.classList.add('show'); return; }
 
     const btn = $('emergSubmitBtn');
@@ -1446,6 +1461,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('surgery', surgery);                       // AD 補述
     if (emergDate) fd.append('actual_date', emergDate);  // ★實際手術日（補建舊案）
     if (nature) fd.append('nature', nature);             // ★手術性質
+    if (reopOf) fd.append('reop_of', reopOf);            // ★同住院再次手術 → 指標案主鍵（AZ）
     fd.append('egfr', egfr);
     fd.append('lvef', lvef);
     fd.append('crea_pre', crea);
@@ -1509,6 +1525,7 @@ window.addEventListener('load', () => {
     $('doctor_key').focus();
   }
 });
+document.addEventListener('DOMContentLoaded', () => { const cb = document.getElementById('emerg_reop'); if (cb) cb.addEventListener('change', () => { document.getElementById('emergReopBox').style.display = cb.checked ? '' : 'none'; }); });
 </script>
 </body>
 </html>
