@@ -1277,10 +1277,10 @@ function jsonp(url, params, timeoutMs = 35000) {
     document.body.appendChild(script);
   });
 }
-const CAT_ORDER = ['CABG', 'MICS-CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動脈支架', '其他'];
-const CAT_LABEL = { 'all': '全部術式', 'CABG': '冠狀動脈繞道 CABG（傳統開胸）', 'MICS-CABG': '微創冠狀動脈繞道 MICS-CABG', '主動脈手術': '主動脈手術（開放式：TAR／Bentall／升主動脈）', '瓣膜': '瓣膜手術', 'CABG+瓣膜': 'CABG＋瓣膜 複合', '主動脈支架': '主動脈支架置放（EVAR／TEVAR）', '其他': '其他' };
+const CAT_ORDER = ['CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動脈支架', '其他'];   // ★2026-09-14 MICS-CABG 併入 CABG（用途徑篩選區分）
+const CAT_LABEL = { 'all': '全部術式', 'CABG': '冠狀動脈繞道 CABG（含 MICS-CABG）', '主動脈手術': '主動脈手術（開放式：TAR／Bentall／升主動脈）', '瓣膜': '瓣膜手術', 'CABG+瓣膜': 'CABG＋瓣膜 複合', '主動脈支架': '主動脈支架置放（EVAR／TEVAR）', '其他': '其他' };
 const FLOW_COLORS = {
-  cat: { 'CABG': '#1F5A5A', 'MICS-CABG': '#3E8A8A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A', '血管內支架': '#4A7A5A' },
+  cat: { 'CABG': '#1F5A5A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A', '血管內支架': '#4A7A5A' },
   ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
   out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
