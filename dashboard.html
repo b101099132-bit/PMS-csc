@@ -2088,7 +2088,8 @@ function drawTrendCharts() {
 
   // ---------- A. run chart ----------
   const M = {
-    ext:   { label: '脫離呼吸器時間（小時，負值 = 手術室內）', unit: ' 時', sys: c => c.ext, hist: hc => hc.intubD != null ? hc.intubD * 24 : null, histNote: '背景案僅有「術後插管天數」，以天×24 換算（日解析度）' },
+    // ★2026-09-14：背景案只有「拔管時機」類別（手術室／<6h／>6h）與日解析度的插管天數，沒有拔管時刻；<6h 案會被畫成 0 小時、誤導為立即拔管，故此指標不畫背景案（背景的拔管時機請看 B 圖 p-chart）
+    ext:   { label: '脫離呼吸器時間（小時，負值 = 手術室內）', unit: ' 時', sys: c => c.ext, hist: () => null, histNote: '背景案僅有拔管時機分類（無拔管時刻），不在此圖呈現；背景拔管率見 B 圖' },
     los:   { label: '住院天數（天）', unit: ' 天', sys: c => c.los, hist: hc => hc.los },
     icu:   { label: 'ICU 滯留（天）', unit: ' 天', sys: c => c.icu != null ? Math.round(c.icu / 24 * 10) / 10 : null, hist: hc => hc.icuD },
     walk:  { label: '首次下床走路（自轉入 ICU，小時）', unit: ' 時', sys: c => c.walk, hist: () => null },
