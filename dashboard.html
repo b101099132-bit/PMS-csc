@@ -1856,7 +1856,9 @@ function approachOf(c) { return c.cat === '主動脈支架' ? '血管內支架' 
 function flowLayers(c, singleCat) {
   const l1 = singleCat ? approachOf(c) : c.cat;
   const l2 = c.airway === '不插管 HFNC' ? '不插管 HFNC' : ({ or: '手術室內拔管', lt6: '<6 小時拔管', ge6: '≥6 小時拔管' }[c.extClass] || '拔管未記錄');
-  const l3 = c.icu == null ? 'ICU 未記錄' : (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'));
+  // ★2026-09-14：有小時數用小時；只有日期（回溯案，無時間）用天差：同日 → <24 小時、1–2 天、≥3 天 → >2 天
+  const l3 = c.icu != null ? (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'))
+    : (c.icuD != null ? (c.icuD === 0 ? 'ICU <24 小時' : (c.icuD <= 2 ? 'ICU 1–2 天' : 'ICU >2 天')) : 'ICU 未記錄');
   const l4 = c.major ? '重大異常事件' : '順利追蹤';
   return [l1, l2, l3, l4];
 }
@@ -2091,7 +2093,7 @@ function drawTrendCharts() {
     // ★2026-09-14：背景案只有「拔管時機」類別（手術室／<6h／>6h）與日解析度的插管天數，沒有拔管時刻；<6h 案會被畫成 0 小時、誤導為立即拔管，故此指標不畫背景案（背景的拔管時機請看 B 圖 p-chart）
     ext:   { label: '脫離呼吸器時間（小時，負值 = 手術室內）', unit: ' 時', sys: c => c.ext, hist: () => null, histNote: '背景案僅有拔管時機分類（無拔管時刻），不在此圖呈現；背景拔管率見 B 圖' },
     los:   { label: '住院天數（天）', unit: ' 天', sys: c => c.los, hist: hc => hc.los },
-    icu:   { label: 'ICU 滯留（天）', unit: ' 天', sys: c => c.icu != null ? Math.round(c.icu / 24 * 10) / 10 : null, hist: hc => hc.icuD },
+    icu:   { label: 'ICU 滯留（天）', unit: ' 天', sys: c => c.icu != null ? Math.round(c.icu / 24 * 10) / 10 : (c.icuD != null ? c.icuD : null), hist: hc => hc.icuD, histNote: '無時間之回溯案以日期差（天）計' },
     walk:  { label: '首次下床走路（自轉入 ICU，小時）', unit: ' 時', sys: c => c.walk, hist: () => null },
     water: { label: '首次喝水（自轉入 ICU，小時）', unit: ' 時', sys: c => c.water, hist: () => null },
   }[_t.metric];
