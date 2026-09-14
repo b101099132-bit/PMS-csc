@@ -1251,6 +1251,7 @@ body.tv h1 { font-size: 34px; }
       <div class="as-of" id="asOf"></div>
     </div>
     <span class="role-tag">公開版</span>
+    <button type="button" class="chip" style="margin-left:8px" onclick="toggleLang()" title="切換語言 / Switch language">EN / 中文</button>
   </header>
   <div class="pub-note">本頁僅呈現彙總統計，不含任何個案資料；樣本數少於 5 的項目以「—」隱藏。背景值 = 2025/04/15（ERAS 啟動）以前之歷史病例。資料每小時更新。</div>
   <div class="alert alert-error" id="errAlert"></div>
@@ -1281,12 +1282,117 @@ const CAT_ORDER = ['CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動�
 const CAT_LABEL = { 'all': '全部術式', 'CABG': '冠狀動脈繞道 CABG（含 MICS-CABG）', '主動脈手術': '主動脈手術（開放式：TAR／Bentall／升主動脈）', '瓣膜': '瓣膜手術', 'CABG+瓣膜': 'CABG＋瓣膜 複合', '主動脈支架': '主動脈支架置放（EVAR／TEVAR）', '其他': '其他' };
 const FLOW_COLORS = {
   cat: { 'CABG': '#1F5A5A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A', '血管內支架': '#4A7A5A' },
+  eras: { 'Cardiac ERAS': '#1F5A5A', '傳統照護': '#A87B4D', 'ERAS 未標記': '#C9C3B8' },
   ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
   out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
 };
 const font = { fontFamily: "'Noto Sans TC', sans-serif" };
 let _d = null, _cat = 'all', _charts = {}, _t = { prop: 'auto', target: 0.8, cat: null, cmode: 'oe', cfrom: 'all' };
+
+// ===== ★2026-09-14 英文介面（?lang=en 或右上角切換）=====
+// 做法：同一份頁面，英文模式時對「渲染出的 HTML／ECharts option 字串／tooltip 輸出／說明文字」做片語字典替換（長片語優先）。
+// 資料本身（類別鍵、後端欄位）維持中文鍵值，只在呈現層翻譯。
+const LANG = (() => { try { const q = new URLSearchParams(location.search).get('lang'); if (q) return q === 'en' ? 'en' : 'zh'; return localStorage.getItem('pub_lang') === 'en' ? 'en' : 'zh'; } catch (e) { return 'zh'; } })();
+const DICT_EN = {
+  // 標題／版面
+  '公開版 · 儀表板 — 心臟外科手術病人管理系統': 'Public Dashboard — Cardiac Surgery Patient Management System',
+  '心臟加速康復團隊 · 成效儀表板': 'Cardiac ERAS Team · Outcomes Dashboard',
+  '公開版儀表板': 'public dashboard', '公開版': 'Public',
+  '本頁僅呈現彙總統計，不含任何個案資料；樣本數少於 5 的項目以「—」隱藏。背景值 = 2025/04/15（ERAS 啟動）以前之歷史病例。資料每小時更新。': 'This page shows aggregated statistics only — no patient-level data. Items with fewer than 5 cases are shown as “—”. Baseline = historical cases before 15 Apr 2025 (ERAS launch). Data refresh hourly.',
+  '心臟加速康復團隊 · 與你同莘 · 天主教耕莘醫院（區域醫院模式）· 公開版儀表板': 'Cardiac ERAS Team · Cardinal Tien Hospital (regional-hospital model) · Public dashboard',
+  '載入中…': 'Loading…', '載入失敗：': 'Failed to load: ', '查詢逾時': 'request timed out', '網路錯誤': 'network error', '資料時間：': 'Data as of ',
+  '尚無足夠資料': 'Insufficient data', '尚無資料': 'No data', '樣本不足（n=': 'insufficient sample (n=', '樣本不足': 'insufficient sample',
+  // 區塊標題
+  '總覽與里程碑累計': 'Overview & Cumulative Milestones', '手術類別總覽': 'Overview by Surgery Type', '拔管指標率': 'Extubation Indicators',
+  '主動脈支架 · 恢復指標': 'Aortic Stent Graft · Recovery Indicators', '季度趨勢': 'Quarterly Trends', '病人流向與案量組成': 'Patient Flow & Case Mix', '趨勢與改善': 'Trends & Improvement',
+  '病人流向 · 沖積圖': 'Patient Flow · Alluvial Diagram', '案量組成 · 樹狀圖': 'Case Mix · Treemap', '術式 → 照護路徑（Cardiac ERAS／傳統照護）→ 拔管時機 → ICU 停留 → 結果 · 帶寬 = 人數': 'Surgery → care pathway (Cardiac ERAS / conventional) → extubation → ICU stay → outcome · band width = patients', '帶寬 = 人數': 'band width = patients',
+  '類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）': 'Type → MICS / open → in-OR extubation (area = patients)',
+  'A · 季度中位數時序': 'A · Quarterly Medians', '住院天數與 ICU 天數 · 垂直線 = ERAS 啟動': 'Length of stay and ICU days · vertical line = ERAS launch',
+  'B · SPC 管制圖（p-chart，季度）': 'B · SPC Control Chart (quarterly p-chart)', '中心線依期別分段 · 虛線 = 3σ 管制界限': 'Center line by phase · dashed = 3σ control limits',
+  'C · CUSUM 學習曲線': 'C · CUSUM Learning Curve', '依手術順序累積 · 成功 = B 圖所選項目 · 目標與模式見下方': 'Cumulative by case order · success = indicator selected in B · target and mode below',
+  'D · 累積成功率曲線': 'D · Cumulative Success Rate', '依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · 成功 = B 圖所選項目 · 前 4 例不畫': 'Cumulative success proportion by case order · shading = Wilson 95% CI · dashed = target · success = indicator selected in B · first 4 cases not drawn',
+  '· 含背景期（≤2025/04/15）· 單一術式': '· incl. baseline (≤ 15 Apr 2025) · single surgery type', '趨勢分析術式': 'Surgery type for trend analysis',
+  // 類別
+  '全部術式': 'All types', '冠狀動脈繞道 CABG（含 MICS-CABG）': 'CABG (incl. MICS-CABG)', '主動脈手術（開放式：TAR／Bentall／升主動脈）': 'Open aortic surgery (TAR / Bentall / ascending aorta)',
+  '瓣膜手術': 'Valve surgery', 'CABG＋瓣膜 複合': 'CABG + valve', '主動脈支架置放（EVAR／TEVAR）': 'Aortic stent graft (EVAR / TEVAR)', 'EVAR／TEVAR／主動脈血管手術': 'EVAR / TEVAR / aortic vascular',
+  '主動脈手術': 'Aortic surgery', '主動脈支架': 'Aortic stent', 'CABG+瓣膜': 'CABG+valve', '瓣膜': 'Valve', '其他': 'Other', '全部': 'All',
+  '微創 MICS': 'MICS', '傳統開胸': 'Open', '血管內支架': 'Endovascular', '傳統照護': 'Conventional care', 'ERAS 未標記': 'ERAS not recorded',
+  // 卡片／指標
+  '累積服務量（全術式）': 'Cumulative volume (all types)', '本系統收案': 'Platform cases', '＋ 背景': '+ baseline', '背景基準': 'Baseline', '背景期中心線': 'Baseline center line', '→ ERAS 期': '→ ERAS phase',
+  '累計手術室拔管': 'Cumulative in-OR extubations', '累計不插管麻醉': 'Cumulative tubeless anesthesia', '累計主動脈支架案數': 'Cumulative aortic stent cases',
+  '術後 1 小時內喝水': 'Oral fluids within 1 h', '術後 1 天內下床': 'Ambulation within 1 day', '術後 48 小時內下床': 'Ambulation within 48 h',
+  '首次 Try Water ≤ 轉入 ICU 後 1 小時': 'First oral fluids ≤ 1 h after ICU arrival', '首次下床走路 ≤ 24 小時': 'First ambulation ≤ 24 h', '首次下床走路 ≤ 48 小時': 'First ambulation ≤ 48 h', '首次下床走路（自轉入 ICU）': 'First ambulation (from ICU arrival)',
+  '拔管時間早於轉入加護病房': 'extubated before ICU arrival', '術後立即拔管比例': 'Immediate extubation rate', '手術室中拔管比例': 'In-OR extubation rate', '手術室內拔管率': 'In-OR extubation rate', '手術室內拔管': 'In-OR extubation', '手術室拔管': 'In-OR extubation',
+  '非手術室內拔管': 'Not in OR', '6 小時拔管率': '6 h extubation rate', '6 小時拔管': '6 h extubation', '6 小時（含手術室中）': '6 h (incl. in-OR)', '≥6 小時拔管': '≥6 h extubation', '拔管未記錄': 'Extubation not recorded',
+  '不插管麻醉比例': 'Tubeless anesthesia rate', '不插管麻醉率': 'Tubeless anesthesia rate', '不插管率': 'Tubeless rate', '不插管 HFNC': 'Tubeless HFNC', '不插管': 'Tubeless', '氣道方式 = 不插管 HFNC': 'airway = tubeless HFNC',
+  '48 小時內出院率': '48 h discharge rate', '48 小時內出院': 'Discharge within 48 h', '24 小時內出院率': '24 h discharge rate', '24 小時內出院': 'Discharge within 24 h', '48h 出院': '48 h discharge',
+  '住院天數 ≤ 2 天': 'LOS ≤ 2 days', '住院天數 ≤ 1 天': 'LOS ≤ 1 day', '住院天數 · 中位數（天）': 'Length of stay · median (days)', '住院天數（中位）': 'LOS (median)', '住院天數': 'Length of stay', '住院 中位': 'LOS median', '住院': 'LOS',
+  'ICU 滯留 · 中位數（小時）': 'ICU stay · median (hours)', 'ICU 滯留時間': 'ICU stay', 'ICU 天數（中位）': 'ICU days (median)', 'ICU 中位': 'ICU median', 'ICU 未記錄': 'ICU not recorded', 'ICU 1–2 天': 'ICU 1–2 days', '2 天': '2 days', '24 小時': '24 h',
+  '術後脫離呼吸器時間': 'Time to ventilator weaning', '脫離呼吸器': 'Ventilator weaning', '中位數 · IQR': 'median · IQR', '· 背景中位': '· baseline median', '· 本系統': '· platform', '· 平均': '· mean', '本系統 · 點列可切換': 'Platform · click a row to switch', '本系統': 'Platform', '背景': 'baseline',
+  '手術類別': 'Surgery type', '季度案量': 'Quarterly volume', '資料跨越 ≥ 2 個季度後顯示': 'Shown once data span ≥ 2 quarters', '重大異常事件': 'Major adverse event', '順利追蹤': 'Uneventful',
+  '病患整體滿意度': 'Overall patient satisfaction', '推薦意願': 'Willingness to recommend',
+  // 趨勢區
+  '項目：': 'Indicator: ', '目標 ': 'Target ', '目標': 'target', 'O−E 累積': 'O−E cumulative', 'Bernoulli CUSUM（決策界限）': 'Bernoulli CUSUM (decision limit)', 'LC-CUSUM（達標判定）': 'LC-CUSUM (competence)',
+  '含背景期時曲線前段偏低屬預期，可切換「自 ERAS 啟動起算」。': 'A low early segment is expected when the baseline period is included; switch to “From ERAS launch”.',
+  '含背景期': 'Incl. baseline', '自 ERAS 啟動起算': 'From ERAS launch', 'ERAS 啟動': 'ERAS launch', '決策界限 h =': 'decision limit h =', 'Σ(成功 − 目標)': 'Σ(success − target)',
+  'Bernoulli CUSUM（失敗累積）': 'Bernoulli CUSUM (failure accumulation)', 'LC-CUSUM（成功累積）': 'LC-CUSUM (success accumulation)', '病人序（依手術日）': 'Case order (by surgery date)',
+  '曲線斜率 > 0 表示該段成功率高於目標。': 'A positive slope means the success rate exceeded the target in that segment.',
+  '可接受失敗率': 'Acceptable failure rate', '%、不可接受': '%, unacceptable', '%（勝算加倍），h =': '% (odds doubled), h =', '（α 0.05／β 0.20）。': ' (α 0.05 / β 0.20).',
+  '警訊出現於第': 'Signals at case', '全程未跨越決策界限：無退步警訊。': 'The decision limit was never crossed: no deterioration signal.',
+  '合格失敗率': 'Adequate failure rate', '%、不足': '%, inadequate', '例時首次可宣告達到目標水準。': ': competence at the target level can first be declared.', '尚未累積到足以宣告達標的證據。': 'Not yet enough evidence to declare competence.',
+  '目前累積': 'Cumulative', '累積成功率': 'Cumulative success rate', '例：累積': ': cumulative', '（自 ERAS 啟動起算）': ' (from ERAS launch)', '（含背景期）': ' (incl. baseline)', '），成功': '), successes', '，背景': ', baseline',
+  '中心線': 'center line', '管制界限': 'control limits', '。樣本少於': '. Quarters with fewer than', '的季度不標數值。': ' cases are unlabeled.',
+  '成功': 'successes', '。共': '. Total', '例。': ' cases.', '例（': ' cases (', '例：': ': ', '%）；目標': '%); target', '，': ', ', '；': '; ', '。': '. ', '（': ' (', '）': ')', '、': ', ', '：': ': ',
+  '第 ': 'Case ', ' 例': ' cases', ' 位': ' patients', ' 人': ' patients', ' 天': ' d', ' 時': ' h', ' 小時': ' h', '天': 'd', '小時': 'h', '人': '', '位': '', '例': ' cases',
+};
+const _DICT_KEYS = Object.keys(DICT_EN).sort((a, b) => b.length - a.length);
+const _RE_CJK = /[一-鿿（）、，；：。]/;
+function trText(s) {
+  let out = s;
+  for (const k of _DICT_KEYS) { if (out.indexOf(k) >= 0) out = out.split(k).join(DICT_EN[k]); }
+  return out.replace(/[ ]{2,}/g, ' ');
+}
+function tr(s) {
+  if (LANG !== 'en' || typeof s !== 'string' || !_RE_CJK.test(s)) return s;
+  // HTML 字串：data-* 屬性值是資料鍵（類別／項目），不可翻譯
+  if (s.indexOf('<') >= 0) return s.split(/(data-[a-z]+="[^"]*")/).map((seg, i) => i % 2 ? seg : trText(seg)).join('');
+  return trText(s);
+}
+function trDeep(o, key) {   // ECharts option：翻譯字串值與 formatter 輸出；series data／links（資料鍵，formatter 會查表）保持原文
+  if (LANG !== 'en' || o == null) return o;
+  if (key === 'data' || key === 'links') return wrapFns(o);   // 只包 formatter，不翻資料值
+  if (typeof o === 'string') return tr(o);
+  if (typeof o === 'function') return function () { return tr(o.apply(this, arguments)); };
+  if (Array.isArray(o)) return o.map(x => trDeep(x));
+  if (typeof o === 'object') { const r = {}; for (const k in o) r[k] = trDeep(o[k], k); return r; }
+  return o;
+}
+function wrapFns(o) {
+  if (o == null) return o;
+  if (typeof o === 'function') return function () { return tr(o.apply(this, arguments)); };
+  if (Array.isArray(o)) return o.map(wrapFns);
+  if (typeof o === 'object') { const r = {}; for (const k in o) r[k] = wrapFns(o[k]); return r; }
+  return o;
+}
+function trDom(root) {   // 渲染後補翻譯（說明文字等以 textContent 直接寫入者）
+  if (LANG !== 'en' || !root) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); const nodes = [];
+  while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n => { if (_RE_CJK.test(n.nodeValue)) n.nodeValue = tr(n.nodeValue); });
+}
+if (LANG === 'en') {
+  document.documentElement.lang = 'en';
+  document.addEventListener('DOMContentLoaded', () => { document.title = tr(document.title); trDom(document.body); });
+  // 包住 echarts.init，讓每次 setOption 自動翻譯
+  (function wrapEcharts() {
+    if (!window.echarts) { setTimeout(wrapEcharts, 200); return; }   // CDN 備援載入時稍候
+    const _init = echarts.init.bind(echarts);
+    echarts.init = function () { const inst = _init.apply(null, arguments); const _so = inst.setOption.bind(inst); inst.setOption = (opt, ...rest) => _so(trDeep(opt), ...rest); return inst; };
+  })();
+}
+function toggleLang() { try { localStorage.setItem('pub_lang', LANG === 'en' ? 'zh' : 'en'); } catch (e) {} const u = new URL(location.href); u.searchParams.set('lang', LANG === 'en' ? 'zh' : 'en'); location.href = u.toString(); }
+
 // ===== ★2026-09-14 學習曲線工具（dashboard.html 與 public.html 共用同一份邏輯）=====
 // xs：依手術順序的 0/1（1 = 成功）；target：目標成功率
 //  oe   ：Σ(成功 − 目標)（描述用，往上 = 優於目標）
@@ -1335,11 +1441,11 @@ async function load() {
     _d = res; render();
   } catch (err) { showError('載入失敗：' + err.message); }
 }
-function showError(m) { const el = $('errAlert'); el.textContent = m; el.classList.add('show'); $('content').innerHTML = ''; }
+function showError(m) { const el = $('errAlert'); el.textContent = tr(m); el.classList.add('show'); $('content').innerHTML = ''; }
 
 function render() {
   const d = _d; const g = d.byCat[_cat]; const bg = g.background;
-  $('asOf').textContent = '資料時間：' + d.asOf;
+  $('asOf').textContent = tr('資料時間：') + d.asOf;
   const chip = (v, l, a) => `<button type="button" class="chip${a ? ' active' : ''}" data-cat="${v}">${l}</button>`;
   const catChips = [chip('all', '全部術式', _cat === 'all')].concat(CAT_ORDER.filter(c => d.byCat[c] && d.byCat[c].n).map(c => chip(c, c, _cat === c)));
   const isStent = _cat === '主動脈支架';
@@ -1414,7 +1520,7 @@ function render() {
   // 05 流向與組成
   html.push(`
     <h2 class="section-title"><span class="num">05</span><span>病人流向與案量組成</span><span class="sub">${escapeHtml(CAT_LABEL[_cat])} · n=${g.n}</span></h2>
-    <div class="chart-card flow-card"><div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">帶寬 = 人數</span></div><div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(300, 180 + g.n * 1.5)}px"></div></div></div>
+    <div class="chart-card flow-card"><div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">術式 → 照護路徑（Cardiac ERAS／傳統照護）→ 拔管時機 → ICU 停留 → 結果 · 帶寬 = 人數</span></div><div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(300, 180 + g.n * 1.5)}px"></div></div></div>
     <div class="chart-card flow-card"><div class="chart-title"><span>案量組成 · 樹狀圖</span><span class="chart-sub">類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）</span></div><div id="treemapChart" class="echart" style="height:300px"></div></div>
   `);
   // 06 趨勢與改善（單一術式，不混算）
@@ -1439,7 +1545,7 @@ function render() {
     <div class="chart-card flow-card"><div class="chart-title"><span>D · 累積成功率曲線</span><span class="chart-sub">依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · 成功 = B 圖所選項目 · 前 4 例不畫</span></div>
       <div class="flow-scroll"><div id="cumChart" class="echart" style="height:260px"></div></div><div class="chart-note" id="cumNote"></div></div>
   `);
-  $('content').innerHTML = html.join('');
+  $('content').innerHTML = tr(html.join(''));
   document.querySelectorAll('[data-cat]').forEach(el => el.addEventListener('click', () => { _cat = el.dataset.cat; _t.prop = 'auto'; render(); window.scrollTo({ top: 0 }); }));
   document.querySelectorAll('.chip[data-tgroup]').forEach(btn => btn.addEventListener('click', () => {
     const grp = btn.dataset.tgroup, v = btn.dataset.val; if (grp === 'target') _t.target = parseFloat(v); else _t[grp] = v;
@@ -1474,9 +1580,9 @@ function drawCharts() {
     line('qLos', xs, qs.map(q => q.losMedian), '#A87B4D', ' 天');
   }
   // sankey
-  const fl = g.flow; const colorOf = n => FLOW_COLORS.cat[n] || FLOW_COLORS.ext[n] || FLOW_COLORS.icu[n] || FLOW_COLORS.out[n] || '#8E8A84';
-  const layerOrder = n => FLOW_COLORS.cat[n] !== undefined ? 0 : FLOW_COLORS.ext[n] !== undefined ? 1 : FLOW_COLORS.icu[n] !== undefined ? 2 : 3;
-  const seq = [].concat(Object.keys(FLOW_COLORS.cat), Object.keys(FLOW_COLORS.ext), Object.keys(FLOW_COLORS.icu), Object.keys(FLOW_COLORS.out));
+  const fl = g.flow; const colorOf = n => FLOW_COLORS.cat[n] || FLOW_COLORS.eras[n] || FLOW_COLORS.ext[n] || FLOW_COLORS.icu[n] || FLOW_COLORS.out[n] || '#8E8A84';
+  const layerOrder = n => FLOW_COLORS.cat[n] !== undefined ? 0 : FLOW_COLORS.eras[n] !== undefined ? 1 : FLOW_COLORS.ext[n] !== undefined ? 2 : FLOW_COLORS.icu[n] !== undefined ? 3 : 4;
+  const seq = [].concat(Object.keys(FLOW_COLORS.cat), Object.keys(FLOW_COLORS.eras), Object.keys(FLOW_COLORS.ext), Object.keys(FLOW_COLORS.icu), Object.keys(FLOW_COLORS.out));
   const nodes = Object.keys(fl.nodes).sort((a, b) => (layerOrder(a) - layerOrder(b)) || (seq.indexOf(a) - seq.indexOf(b))).map(n => ({ name: n, depth: layerOrder(n), value: fl.nodes[n], itemStyle: { color: colorOf(n), borderColor: colorOf(n) }, label: { ...font, formatter: p => `${p.name}  ${fl.nodes[p.name]}` } }));
   const links = Object.keys(fl.links).map(k => { const [a, b] = k.split('→'); return { source: a, target: b, value: fl.links[k] }; });
   if ($('sankeyChart') && nodes.length) {
@@ -1574,6 +1680,7 @@ function drawTrend() {
     const last = cr[cr.length - 1];
     $('cumNote').textContent = `目前累積 ${last.k}/${last.n} = ${pct(last.p)}%（95% CI ${pct(last.lo)}–${pct(last.hi)}%）。${!useEras && cu.firstB > 0 ? '含背景期時曲線前段偏低屬預期，可切換「自 ERAS 啟動起算」。' : ''}`;
   } else { ['cusumChart', 'cumChart'].forEach(id => { if ($(id)) $(id).innerHTML = '<div class="plist-empty">尚無足夠資料</div>'; }); }
+  trDom($('content'));
 }
 window.addEventListener('resize', () => Object.values(_charts).forEach(c => { try { c.resize(); } catch (e) {} }));
 load();

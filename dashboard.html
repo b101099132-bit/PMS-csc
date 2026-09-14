@@ -1839,12 +1839,13 @@ function renderMilestones() {
 /* ============================================================
  *  ★ 06+ 病人流向（沖積圖／桑基圖）＋ 案量組成（樹狀圖）
  *   - 用 ECharts（CDN）；資料 = 目前篩選後的 cases
- *   - 沖積圖四層：術式類別（選單一類別時改為 微創／傳統）→ 拔管時機 → ICU 停留 → 結果
+ *   - 沖積圖五層：術式類別（選單一類別時改為 微創／傳統）→ 照護路徑（Cardiac ERAS／傳統照護／未標記，2026-09-14 加）→ 拔管時機 → ICU 停留 → 結果
  *   - 未記錄者以灰色節點保留，不悄悄丟掉
  *   - 品牌色彩度低，辨識靠節點直接標名＋人數，不靠顏色
  * ============================================================ */
 const FLOW_COLORS = {
   cat: { 'CABG': '#1F5A5A', '主動脈手術': '#A87B4D', '瓣膜': '#6B5876', 'CABG+瓣膜': '#2C4866', '主動脈支架': '#4A7A5A', '其他': '#8E8A84', '微創 MICS': '#3E8A8A', '傳統開胸': '#1F5A5A', '血管內支架': '#4A7A5A' },
+  eras: { 'Cardiac ERAS': '#1F5A5A', '傳統照護': '#A87B4D', 'ERAS 未標記': '#C9C3B8' },
   ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
   out: { '順利追蹤': '#1F5A5A', '重大異常事件': '#B85450' },
@@ -1859,7 +1860,9 @@ function flowLayers(c, singleCat) {
   const l3 = c.icu != null ? (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'))
     : (c.icuD != null ? (c.icuD === 0 ? 'ICU <24 小時' : (c.icuD <= 2 ? 'ICU 1–2 天' : 'ICU >2 天')) : 'ICU 未記錄');
   const l4 = c.major ? '重大異常事件' : '順利追蹤';
-  return [l1, l2, l3, l4];
+  // ★2026-09-14：術式與呼吸道之間加一層照護路徑（Cardiac ERAS／傳統照護；ERAS 欄空白 → 未標記）
+  const lE = c.eras === '是' ? 'Cardiac ERAS' : (c.eras === '否' ? '傳統照護' : 'ERAS 未標記');
+  return [l1, lE, l2, l3, l4];
 }
 function renderFlowSection(sel) {
   const title = _f.cat === 'all' ? '全部類別' : (CAT_LABEL[_f.cat] || _f.cat);
@@ -1874,7 +1877,7 @@ function renderFlowSection(sel) {
       <span class="sub">${escapeHtml(title)} · n=${sel.length}</span>
     </h2>
     <div class="chart-card flow-card">
-      <div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">${_f.cat === 'all' ? '術式類別' : '微創／傳統'} → 拔管時機 → ICU 停留 → 結果（帶寬 = 人數）</span></div>
+      <div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">${_f.cat === 'all' ? '術式類別' : '微創／傳統'} → 照護路徑（Cardiac ERAS／傳統照護）→ 拔管時機 → ICU 停留 → 結果（帶寬 = 人數）</span></div>
       <div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(320, 200 + sel.length * 2)}px"></div></div>
       <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入（含喉罩 LMA 手術室內移除）；「不插管 HFNC」= 全程無氣道裝置。2025 年回溯案無時間者依原表「ventilator&lt;6 hrs」歸 &lt;6／≥6 小時。ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
     </div>
@@ -1901,12 +1904,12 @@ function drawFlowCharts(sel) {
   sel.forEach(c => {
     const L = flowLayers(c, singleCat);
     L.forEach((n, i) => { nodeCount[n] = (nodeCount[n] || 0) + 1; });
-    for (let i = 0; i < 3; i++) { const k = L[i] + '→' + L[i + 1]; linkCount[k] = (linkCount[k] || 0) + 1; }
+    for (let i = 0; i < L.length - 1; i++) { const k = L[i] + '→' + L[i + 1]; linkCount[k] = (linkCount[k] || 0) + 1; }
   });
-  const colorOf = (n) => FLOW_COLORS.cat[n] || FLOW_COLORS.ext[n] || FLOW_COLORS.icu[n] || FLOW_COLORS.out[n] || '#8E8A84';
-  const layerOrder = (n) => FLOW_COLORS.cat[n] !== undefined ? 0 : FLOW_COLORS.ext[n] !== undefined ? 1 : FLOW_COLORS.icu[n] !== undefined ? 2 : 3;
+  const colorOf = (n) => FLOW_COLORS.cat[n] || FLOW_COLORS.eras[n] || FLOW_COLORS.ext[n] || FLOW_COLORS.icu[n] || FLOW_COLORS.out[n] || '#8E8A84';
+  const layerOrder = (n) => FLOW_COLORS.cat[n] !== undefined ? 0 : FLOW_COLORS.eras[n] !== undefined ? 1 : FLOW_COLORS.ext[n] !== undefined ? 2 : FLOW_COLORS.icu[n] !== undefined ? 3 : 4;
   const withinOrder = (n) => {
-    const seq = [].concat(Object.keys(FLOW_COLORS.cat), Object.keys(FLOW_COLORS.ext), Object.keys(FLOW_COLORS.icu), Object.keys(FLOW_COLORS.out));
+    const seq = [].concat(Object.keys(FLOW_COLORS.cat), Object.keys(FLOW_COLORS.eras), Object.keys(FLOW_COLORS.ext), Object.keys(FLOW_COLORS.icu), Object.keys(FLOW_COLORS.out));
     const i = seq.indexOf(n); return i < 0 ? 999 : i;
   };
   const nodes = Object.keys(nodeCount).sort((a, b) => (layerOrder(a) - layerOrder(b)) || (withinOrder(a) - withinOrder(b))).map(n => ({
