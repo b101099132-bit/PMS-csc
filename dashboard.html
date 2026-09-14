@@ -2076,7 +2076,7 @@ function renderTrendSection() {
       <div class="chart-note" id="pNote"></div>
     </div>
     <div class="chart-card flow-card">
-      <div class="chart-title"><span>C · CUSUM 學習曲線</span><span class="chart-sub">依手術順序累積（成功 − 目標比例）· 往上 = 優於目標 · ${isStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}</span></div>
+      <div class="chart-title"><span>C · CUSUM 學習曲線</span><span class="chart-sub">依手術順序累積 · 成功 = B 圖所選項目（${(props.find(pp => pp[0] === _t.prop) || [])[1] || ''}）· 目標與模式見下方</span></div>
       <div class="chip-row" style="margin-bottom:8px">${[0.6, 0.7, 0.8, 0.9].map(t => chip('target', String(t), '目標 ' + Math.round(t * 100) + '%', _t.target === t)).join('')}
         <span style="width:1px;height:20px;background:#DDD6CA;margin:0 4px;display:inline-block"></span>
         ${chip('cmode', 'oe', 'O−E 累積', _t.cmode === 'oe')}${chip('cmode', 'bern', 'Bernoulli CUSUM（決策界限）', _t.cmode === 'bern')}${chip('cmode', 'lc', 'LC-CUSUM（達標判定）', _t.cmode === 'lc')}
@@ -2086,7 +2086,7 @@ function renderTrendSection() {
       <div class="chart-note" id="cusumNote"></div>
     </div>
     <div class="chart-card flow-card">
-      <div class="chart-title"><span>D · 累積成功率曲線</span><span class="chart-sub">依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · ${isStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}（目標與起算點同 C 圖）</span></div>
+      <div class="chart-title"><span>D · 累積成功率曲線</span><span class="chart-sub">依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · 成功 = B 圖所選項目 · 前 4 例不畫（目標與起算點同 C 圖）</span></div>
       <div class="flow-scroll"><div id="cumChart" class="echart" style="height:280px"></div></div>
       <div class="chart-note" id="cumNote"></div>
     </div>
@@ -2196,6 +2196,7 @@ function drawTrendCharts() {
     dis48:  { label: '48 小時內出院率', sys: c => c.los == null ? null : (c.los <= 2 ? 1 : 0), hist: hc => hc.los == null ? null : (hc.los <= 2 ? 1 : 0) },
     dis24:  { label: '24 小時內出院率', sys: c => c.los == null ? null : (c.los <= 1 ? 1 : 0), hist: hc => hc.los == null ? null : (hc.los <= 1 ? 1 : 0) },
   }[_t.prop];
+  const props = isStent ? [['notube', '不插管率'], ['dis48', '48 小時內出院率'], ['dis24', '24 小時內出院率']] : [['or', '手術室內拔管率'], ['early', '<6 小時拔管率'], ['dis48', '48 小時內出院率']];
   const obs = [];
   sys.forEach(c => { const x = P.sys(c); if (x != null) obs.push({ d: c.d, x }); });
   hist.forEach(hc => { const x = P.hist(hc); if (x != null) obs.push({ d: hc.d, x }); });
@@ -2235,12 +2236,8 @@ function drawTrendCharts() {
 
   // ---------- C. CUSUM ----------
   // ★氣道方式空白（尚未填）不算失敗，排除於 CUSUM／不插管率 p-chart 之外
-  const succ = isStent
-    ? (c) => c.airway ? (c.airway === '不插管 HFNC' ? 1 : 0) : null
-    : (c) => c.extClass ? (c.extClass === 'or' ? 1 : 0) : null;
-  const hsucc = isStent
-    ? (hc) => hc.timing == null ? 0 : (hc.timing === 4 ? 1 : 0)
-    : (hc) => [1, 2, 3].indexOf(hc.timing) >= 0 ? (hc.timing === 1 ? 1 : 0) : null;
+  // ★2026-09-14：C／D 圖的「成功」跟著 B 圖選的項目（同一組 chips），不再固定為手術室拔管／不插管
+  const succ = P.sys, hsucc = P.hist;
   const seq = [];
   sys.forEach(c => { const x = succ(c); if (x != null) seq.push({ d: c.d, x, bg: false }); });
   hist.forEach(hc => { const x = hsucc(hc); if (x != null) seq.push({ d: hc.d, x, bg: true }); });
@@ -2273,12 +2270,13 @@ function drawTrendCharts() {
   if (_t.cmode === 'oe') interp = '曲線斜率 > 0 表示該段成功率高於目標。';
   else if (_t.cmode === 'bern') interp = `可接受失敗率 ${pct(cc.pA)}%、不可接受 ${pct(cc.pI)}%（勝算加倍），h = ${cc.h}（α 0.05／β 0.20，Wald 近似）。${cc.signals.length ? '警訊出現於第 ' + cc.signals.join('、') + ' 例（該段失敗率顯著高於可接受水準）。' : '全程未跨越決策界限：無退步警訊。'}`;
   else interp = `合格失敗率 ${pct(cc.pA)}%、不足 ${pct(cc.pI)}%，h = ${cc.h}。${cc.signals.length ? '第 ' + cc.signals[0] + ' 例時首次可宣告達到目標水準' + (cc.signals.length > 1 ? '（之後歸零重測，再次達標於第 ' + cc.signals.slice(1).join('、') + ' 例）' : '') + '。' : '尚未累積到足以宣告達標的證據。'}`;
-  $('cusumNote').textContent = `共 ${total} 例（${_t.cfrom === 'eras' ? '自 ERAS 啟動起算' : '含背景 ' + useSeq.filter(o => o.bg).length + ' 例'}），成功 ${ok} 例（${total ? pct(ok / total) : 0}%）；目標 ${Math.round(_t.target * 100)}%。${interp}${unk ? `另 ${unk} 例氣道方式未填，未納入。` : ''}`;
+  $('cusumNote').textContent = `項目：${(props.find(pp => pp[0] === _t.prop) || [])[1] || ''}。共 ${total} 例（${_t.cfrom === 'eras' ? '自 ERAS 啟動起算' : '含背景 ' + useSeq.filter(o => o.bg).length + ' 例'}），成功 ${ok} 例（${total ? pct(ok / total) : 0}%）；目標 ${Math.round(_t.target * 100)}%。${interp}${unk ? `另 ${unk} 例氣道方式未填，未納入。` : ''}`;
 
   // ---------- D. 累積成功率曲線 ----------
   const cr = cumRate(xs);
   const xcat = cr.map(r => r.n);
-  const loS = cr.map(r => pct(r.lo)), bandS = cr.map(r => pct(r.hi - r.lo)), rateS = cr.map(r => pct(r.p));
+  const MINN = 5;   // 前 4 例分母太小、逐例劇烈擺動，不畫
+  const loS = cr.map(r => r.n < MINN ? null : pct(r.lo)), bandS = cr.map(r => r.n < MINN ? null : pct(r.hi - r.lo)), rateS = cr.map(r => r.n < MINN ? null : pct(r.p));
   _charts.cum = echarts.init($('cumChart'), null, { renderer: 'svg' });
   _charts.cum.setOption({
     grid: { left: 48, right: 24, top: 24, bottom: 36 },
