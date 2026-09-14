@@ -1983,7 +1983,36 @@ function drawFlowCharts(sel) {
  *   C. CUSUM：依病人序累積（成功 − 目標），看學習曲線；主動脈支架 = 不插管成功，其餘 = 手術室內拔管
  *   忽略期間篩選（趨勢要看全時段），其餘篩選（類別/途徑/ERAS）照用
  * ============================================================ */
-const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null, xmode: 'seq', yscale: 'log' };   // xmode：run chart 橫軸 seq=依手術順序等距 / time=依日期；yscale：log=對數壓縮（symlog，可含負值）/ linear=等差   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
+const _t = { metric: 'los', prop: 'auto', target: 0.8, cat: null, xmode: 'seq', yscale: 'log', cmode: 'oe', cfrom: 'all' };   // cmode：C 圖模式 oe/bern/lc；cfrom：all 含背景 / eras 自 ERAS 啟動起算（C、D 圖共用）
+// ===== ★2026-09-14 學習曲線工具（dashboard.html 與 public.html 共用同一份邏輯）=====
+// xs：依手術順序的 0/1（1 = 成功）；target：目標成功率
+//  oe   ：Σ(成功 − 目標)（描述用，往上 = 優於目標）
+//  bern ：Bernoulli CUSUM（監測退步）：可接受失敗率 pA = 1 − 目標；不可接受 pI = 失敗勝算加倍；失敗加分、成功扣分、下限 0；
+//         S ≥ h 代表失敗率顯著高於可接受 → 訊號後歸零重新監測
+//  lc   ：LC-CUSUM（Biau 2008，證明「已達標」）：H0 = 表現不足（pI），H1 = 表現合格（pA）；成功加分、失敗扣分、下限 0；
+//         S ≥ h 代表可宣告達到目標水準（學習曲線完成）→ 訊號後歸零
+//  h 以 Wald 近似 ln((1−β)/α)，α = 0.05、β = 0.20 → 2.77
+function cusumCalc(xs, target, mode) {
+  const pA = 1 - target, pI = Math.min(0.99, 2 * pA / (1 + pA));
+  const h = Math.log((1 - 0.2) / 0.05);
+  const wS = mode === 'bern' ? Math.log((1 - pI) / (1 - pA)) : Math.log((1 - pA) / (1 - pI));
+  const wF = mode === 'bern' ? Math.log(pI / pA) : Math.log(pA / pI);
+  const data = [], signals = []; let S = 0;
+  xs.forEach((x, i) => {
+    if (mode === 'oe') { S += x - target; data.push(Math.round(S * 100) / 100); return; }
+    S = Math.max(0, S + (x ? wS : wF));
+    data.push(Math.round(S * 100) / 100);
+    if (S >= h) { signals.push(i + 1); S = 0; }
+  });
+  return { data, h: Math.round(h * 100) / 100, pA, pI, signals, wS, wF };
+}
+function wilsonCI(k, n) {
+  if (!n) return [null, null];
+  const z = 1.96, p = k / n, d = 1 + z * z / n, c = p + z * z / (2 * n), r = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n));
+  return [(c - r) / d, (c + r) / d];
+}
+function cumRate(xs) { let k = 0; return xs.map((x, i) => { k += x; const ci = wilsonCI(k, i + 1); return { n: i + 1, k, p: k / (i + 1), lo: ci[0], hi: ci[1] }; }); }
+   // xmode：run chart 橫軸 seq=依手術順序等距 / time=依日期；yscale：log=對數壓縮（symlog，可含負值）/ linear=等差   // cat：趨勢區自己的術式（不與其他術式混算；不提供「全部」）
 function trendCat() {
   const avail = CAT_ORDER.filter(c => (_dashData.cases || []).some(x => x.cat === c));
   if (_t.cat && avail.indexOf(_t.cat) >= 0) return _t.cat;
@@ -2048,9 +2077,18 @@ function renderTrendSection() {
     </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>C · CUSUM 學習曲線</span><span class="chart-sub">依手術順序累積（成功 − 目標比例）· 往上 = 優於目標 · ${isStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}</span></div>
-      <div class="chip-row" style="margin-bottom:8px">${[0.6, 0.7, 0.8, 0.9].map(t => chip('target', String(t), '目標 ' + Math.round(t * 100) + '%', _t.target === t)).join('')}</div>
+      <div class="chip-row" style="margin-bottom:8px">${[0.6, 0.7, 0.8, 0.9].map(t => chip('target', String(t), '目標 ' + Math.round(t * 100) + '%', _t.target === t)).join('')}
+        <span style="width:1px;height:20px;background:#DDD6CA;margin:0 4px;display:inline-block"></span>
+        ${chip('cmode', 'oe', 'O−E 累積', _t.cmode === 'oe')}${chip('cmode', 'bern', 'Bernoulli CUSUM（決策界限）', _t.cmode === 'bern')}${chip('cmode', 'lc', 'LC-CUSUM（達標判定）', _t.cmode === 'lc')}
+        <span style="width:1px;height:20px;background:#DDD6CA;margin:0 4px;display:inline-block"></span>
+        ${chip('cfrom', 'all', '含背景期', _t.cfrom === 'all')}${chip('cfrom', 'eras', '自 ERAS 啟動起算', _t.cfrom === 'eras')}</div>
       <div class="flow-scroll"><div id="cusumChart" class="echart" style="height:280px"></div></div>
       <div class="chart-note" id="cusumNote"></div>
+    </div>
+    <div class="chart-card flow-card">
+      <div class="chart-title"><span>D · 累積成功率曲線</span><span class="chart-sub">依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · ${isStent ? '成功 = 不插管完成' : '成功 = 手術室內拔管'}（目標與起算點同 C 圖）</span></div>
+      <div class="flow-scroll"><div id="cumChart" class="echart" style="height:280px"></div></div>
+      <div class="chart-note" id="cumNote"></div>
     </div>
   `;
 }
@@ -2078,7 +2116,7 @@ function movingMedian(vals, win) {
 function quarterKey(dstr) { const y = dstr.slice(0, 4), m = parseInt(dstr.slice(5, 7), 10); return y + 'Q' + (Math.floor((m - 1) / 3) + 1); }
 function drawTrendCharts() {
   if (!$('runChart') || !window.echarts) {
-    ['runChart', 'pChart', 'cusumChart'].forEach(id => { if ($(id)) $(id).innerHTML = '<div class="plist-empty">圖表函式庫（ECharts）載入失敗。</div>'; });
+    ['runChart', 'pChart', 'cusumChart', 'cumChart'].forEach(id => { if ($(id)) $(id).innerHTML = '<div class="plist-empty">圖表函式庫（ECharts）載入失敗。</div>'; });
     return;
   }
   const { sys, hist } = trendData();
@@ -2086,7 +2124,7 @@ function drawTrendCharts() {
   const font = { fontFamily: "'Noto Sans TC', sans-serif" };
   const phases = PHASES.concat(isStent ? [STENT_PHASE] : []);
   const markLine = { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' }, data: phases.map(p => ({ xAxis: p.date, name: p.name })) };
-  ['run', 'p', 'cusum'].forEach(k => { if (_charts[k]) { try { _charts[k].dispose(); } catch (e) {} delete _charts[k]; } });
+  ['run', 'p', 'cusum', 'cum'].forEach(k => { if (_charts[k]) { try { _charts[k].dispose(); } catch (e) {} delete _charts[k]; } });
 
   // ---------- A. run chart ----------
   const M = {
@@ -2207,21 +2245,56 @@ function drawTrendCharts() {
   sys.forEach(c => { const x = succ(c); if (x != null) seq.push({ d: c.d, x, bg: false }); });
   hist.forEach(hc => { const x = hsucc(hc); if (x != null) seq.push({ d: hc.d, x, bg: true }); });
   seq.sort((a, b) => a.d.localeCompare(b.d));
-  let S = 0; const cus = seq.map((o, i) => { S += o.x - _t.target; return [i + 1, Math.round(S * 100) / 100, o.d, o.bg]; });
-  const firstB = seq.findIndex(o => o.d > CUTOFF);
+  const firstBAll = seq.findIndex(o => o.d > CUTOFF);
+  // ★起算點：含背景期（全序列）或自 ERAS 啟動（2025-04-15 之後第一例）起算
+  const useSeq = _t.cfrom === 'eras' && firstBAll > 0 ? seq.slice(firstBAll) : seq;
+  const firstB = _t.cfrom === 'eras' ? -1 : firstBAll;
+  const xs = useSeq.map(o => o.x);
+  const cc = cusumCalc(xs, _t.target, _t.cmode);
+  const cus = cc.data.map((v, i) => [i + 1, v, useSeq[i].d, useSeq[i].bg]);
+  const modeLabel = { oe: 'Σ(成功 − 目標)', bern: 'Bernoulli CUSUM（失敗累積）', lc: 'LC-CUSUM（成功累積）' }[_t.cmode];
+  const sigPts = cc.signals.map(n => [n, cus[n - 1][1]]);
+  const cMlData = [{ yAxis: 0, name: '' }].concat(firstB > 0 ? [{ xAxis: firstB + 1, name: 'ERAS 啟動' }] : [])
+    .concat(_t.cmode !== 'oe' ? [{ yAxis: cc.h, name: '決策界限 h = ' + cc.h }] : []);
   _charts.cusum = echarts.init($('cusumChart'), null, { renderer: 'svg' });
   _charts.cusum.setOption({
     grid: { left: 48, right: 24, top: 24, bottom: 36 },
-    tooltip: { trigger: 'item', formatter: (p) => `第 ${p.data[0]} 例（${p.data[2]}${p.data[3] ? '，背景' : ''}）：CUSUM ${p.data[1]}` },
-    xAxis: { type: 'value', name: '病人序（依手術日）', nameLocation: 'middle', nameGap: 22, nameTextStyle: { ...font, fontSize: 11 }, axisLabel: { ...font, fontSize: 11 }, min: 1 },
-    yAxis: { type: 'value', name: 'Σ(成功 − 目標)', nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
-    series: [{ type: 'line', data: cus, showSymbol: cus.length <= 80, symbolSize: 5, lineStyle: { color: '#2C4866', width: 2 }, itemStyle: { color: '#2C4866' }, areaStyle: { color: 'rgba(44,72,102,0.08)' },
-      markLine: { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' },
-        data: [{ yAxis: 0, name: '' }].concat(firstB > 0 ? [{ xAxis: firstB + 1, name: 'ERAS 啟動' }] : []) } }],
+    tooltip: { trigger: 'item', formatter: (p) => p.seriesName === '訊號' ? `第 ${p.data[0]} 例：${_t.cmode === 'bern' ? '失敗率顯著高於可接受，發出警訊' : '達到目標水準'}` : `第 ${p.data[0]} 例（${p.data[2]}${p.data[3] ? '，背景' : ''}）：${p.data[1]}` },
+    xAxis: { type: 'value', name: '病人序（依手術日）', nameLocation: 'middle', nameGap: 22, nameTextStyle: { ...font, fontSize: 11 }, axisLabel: { ...font, fontSize: 11 }, min: 1, max: Math.max(2, cus.length) },
+    yAxis: { type: 'value', name: modeLabel, nameTextStyle: { ...font, fontSize: 11, align: 'left' }, axisLabel: { ...font, fontSize: 11 }, splitLine: { lineStyle: { color: '#EEE8DC' } }, max: _t.cmode !== 'oe' ? Math.ceil(Math.max(cc.h * 1.15, ...cc.data) * 10) / 10 : null },
+    series: [{ name: 'CUSUM', type: 'line', data: cus, showSymbol: cus.length <= 80, symbolSize: 5, lineStyle: { color: _t.cmode === 'bern' ? '#B85450' : '#2C4866', width: 2 }, itemStyle: { color: _t.cmode === 'bern' ? '#B85450' : '#2C4866' }, areaStyle: { color: _t.cmode === 'bern' ? 'rgba(184,84,80,0.08)' : 'rgba(44,72,102,0.08)' },
+      markLine: { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' }, data: cMlData } },
+      { name: '訊號', type: 'scatter', data: sigPts, symbol: 'diamond', symbolSize: 12, itemStyle: { color: _t.cmode === 'bern' ? '#B85450' : '#4A7A5A', borderColor: '#fff', borderWidth: 1.5 } }],
   });
-  const total = seq.length, ok = seq.reduce((a, o) => a + o.x, 0);
+  const total = useSeq.length, ok = xs.reduce((a, x) => a + x, 0);
   const unk = isStent ? sys.filter(c => !c.airway).length : 0;
-  $('cusumNote').textContent = `共 ${total} 例（含背景 ${seq.filter(o => o.bg).length} 例），成功 ${ok} 例（${total ? Math.round(ok / total * 1000) / 10 : 0}%）；目標 ${Math.round(_t.target * 100)}%。曲線斜率 > 0 表示該段成功率高於目標。${unk ? `另 ${unk} 例氣道方式未填，未納入。` : ''}`;
+  const pct = (v) => Math.round(v * 1000) / 10;
+  let interp;
+  if (_t.cmode === 'oe') interp = '曲線斜率 > 0 表示該段成功率高於目標。';
+  else if (_t.cmode === 'bern') interp = `可接受失敗率 ${pct(cc.pA)}%、不可接受 ${pct(cc.pI)}%（勝算加倍），h = ${cc.h}（α 0.05／β 0.20，Wald 近似）。${cc.signals.length ? '警訊出現於第 ' + cc.signals.join('、') + ' 例（該段失敗率顯著高於可接受水準）。' : '全程未跨越決策界限：無退步警訊。'}`;
+  else interp = `合格失敗率 ${pct(cc.pA)}%、不足 ${pct(cc.pI)}%，h = ${cc.h}。${cc.signals.length ? '第 ' + cc.signals[0] + ' 例時首次可宣告達到目標水準' + (cc.signals.length > 1 ? '（之後歸零重測，再次達標於第 ' + cc.signals.slice(1).join('、') + ' 例）' : '') + '。' : '尚未累積到足以宣告達標的證據。'}`;
+  $('cusumNote').textContent = `共 ${total} 例（${_t.cfrom === 'eras' ? '自 ERAS 啟動起算' : '含背景 ' + useSeq.filter(o => o.bg).length + ' 例'}），成功 ${ok} 例（${total ? pct(ok / total) : 0}%）；目標 ${Math.round(_t.target * 100)}%。${interp}${unk ? `另 ${unk} 例氣道方式未填，未納入。` : ''}`;
+
+  // ---------- D. 累積成功率曲線 ----------
+  const cr = cumRate(xs);
+  const xcat = cr.map(r => r.n);
+  const loS = cr.map(r => pct(r.lo)), bandS = cr.map(r => pct(r.hi - r.lo)), rateS = cr.map(r => pct(r.p));
+  _charts.cum = echarts.init($('cumChart'), null, { renderer: 'svg' });
+  _charts.cum.setOption({
+    grid: { left: 48, right: 24, top: 24, bottom: 36 },
+    tooltip: { trigger: 'axis', formatter: (ps) => { const i = ps[0].dataIndex, r = cr[i]; return `第 ${r.n} 例（${useSeq[i].d}${useSeq[i].bg ? '，背景' : ''}）：累積 ${r.k}/${r.n} = ${pct(r.p)}%<br>95% CI ${pct(r.lo)}–${pct(r.hi)}%`; } },
+    xAxis: { type: 'category', data: xcat, boundaryGap: false, name: '病人序（依手術日）', nameLocation: 'middle', nameGap: 22, nameTextStyle: { ...font, fontSize: 11 }, axisLabel: { ...font, fontSize: 11, interval: Math.max(0, Math.floor(xcat.length / 12)) } },
+    yAxis: { type: 'value', min: 0, max: 100, axisLabel: { ...font, fontSize: 11, formatter: '{value}%' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    series: [
+      { name: 'lo', type: 'line', data: loS, stack: 'ci', showSymbol: false, lineStyle: { opacity: 0 }, silent: true, tooltip: { show: false } },
+      { name: 'band', type: 'line', data: bandS, stack: 'ci', showSymbol: false, lineStyle: { opacity: 0 }, areaStyle: { color: 'rgba(31,90,90,0.14)' }, silent: true, tooltip: { show: false } },
+      { name: '累積成功率', type: 'line', data: rateS, showSymbol: false, lineStyle: { color: '#1F5A5A', width: 2.5 },
+        markLine: { silent: true, symbol: 'none', lineStyle: { type: 'dashed', color: '#8A8580' }, label: { ...font, fontSize: 11, color: '#5C5C5C', formatter: (p) => p.name, position: 'insideEndTop' },
+          data: [{ yAxis: Math.round(_t.target * 100), name: '目標 ' + Math.round(_t.target * 100) + '%' }].concat(firstB > 0 ? [{ xAxis: firstB, name: 'ERAS 啟動' }] : []) } },
+    ],
+  });
+  const last = cr[cr.length - 1];
+  $('cumNote').textContent = last ? `目前累積 ${last.k}/${last.n} = ${pct(last.p)}%（95% CI ${pct(last.lo)}–${pct(last.hi)}%）。${_t.cfrom === 'all' && firstBAll > 0 ? '含背景期時曲線前段偏低屬預期，建議切換「自 ERAS 啟動起算」看學習曲線本身。' : '曲線趨於平坦且信賴帶收窄，代表成功率已穩定。'}` : '尚無資料。';
 }
 
 let _flowResizeBound = false;
