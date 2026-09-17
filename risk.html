@@ -89,9 +89,18 @@
           <button type="button" id="refreshRecentBtn" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer">↻ 重新整理</button>
         </div>
         <div class="recent-list" id="recentList"></div>
-        <div class="divider-or"><span>或，用出生年月日 + 身分證末 4 碼查詢</span></div>
+        <div class="divider-or"><span>或，輸入姓名搜尋（不限 14 天，含舊病例）</span></div>
       </div>
       <div class="alert alert-error" id="lookupAlert"></div>
+      <div class="row" style="grid-template-columns:1fr auto;align-items:end">
+        <div class="field" style="margin-bottom:0">
+          <label for="lookup_name">病人姓名（可只輸入部分）</label>
+          <input type="text" id="lookup_name" autocomplete="off" placeholder="例：陳、陳月">
+        </div>
+        <button type="button" class="btn btn-primary" id="nameSearchBtn">搜尋</button>
+      </div>
+      <div class="recent-list" id="nameResults" style="margin-top:10px"></div>
+      <div class="divider-or"><span>或，用出生年月日 + 身分證末 4 碼查詢</span></div>
       <div class="row row-2">
         <div class="field">
           <label for="lookup_birthdate">出生年月日</label>
@@ -207,6 +216,35 @@
           <input type="hidden" name="ponv_risk" id="h_ponv_risk">
         </div>
 
+        <!-- 術前抗血小板／抗凝 -->
+        <div class="zone">
+          <div class="zone-title">術前抗血小板／抗凝藥物（純登錄，不計分；停藥天數 = 最後一劑到手術日）</div>
+          <div class="row row-2">
+            <div class="field"><label>Aspirin</label>
+              <select name="ap_aspirin"><option value="">—</option><option>未使用</option><option>持續至手術</option><option>術前停藥</option></select>
+            </div>
+            <div class="field"><label>Aspirin 停藥天數</label><input type="number" name="ap_aspirin_days" step="1" min="0" max="60"></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>P2Y12 抑制劑</label>
+              <select name="ap_p2y12"><option value="">—</option><option>無</option><option>Clopidogrel</option><option>Ticagrelor</option><option>Prasugrel</option></select>
+            </div>
+            <div class="field"><label>P2Y12 停藥天數</label><input type="number" name="ap_p2y12_days" step="1" min="0" max="60"></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>抗凝劑</label>
+              <select name="ac_agent"><option value="">—</option><option>無</option><option>Warfarin</option><option>Rivaroxaban</option><option>Apixaban</option><option>Edoxaban</option><option>Dabigatran</option><option>Heparin (UFH)</option><option>LMWH (Enoxaparin)</option><option>其他</option></select>
+            </div>
+            <div class="field"><label>抗凝劑停藥天數</label><input type="number" name="ac_days" step="1" min="0" max="60"></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>術前 Heparin bridging</label>
+              <select name="ac_bridge"><option value="">—</option><option>否</option><option>是</option></select>
+            </div>
+            <div class="field"><label>備註（如急診未停藥、雙重抗血小板）</label><input type="text" name="ap_note" maxlength="100"></div>
+          </div>
+        </div>
+
         <!-- STS -->
         <div class="zone">
           <div class="zone-title">STS Score（登錄官方計算機結果，院內不重算）</div>
@@ -230,7 +268,7 @@
     </div>
   </div>
 
-  <footer>心臟外科手術病人管理系統 · 危險因子預測 v1.0</footer>
+  <footer>心臟外科手術病人管理系統 · 危險因子預測 v1.1</footer>
 </div>
 
 <script>
@@ -500,6 +538,35 @@ function maskName(name){
   return s[0]+'*'+s[s.length-1];
 }
 
+// ===== 姓名搜尋（後端 searchPatients：病人主檔姓名子字串比對，不限日期）=====
+async function searchByName(){
+  const key=$('doctor_key').value.trim();
+  const q=$('lookup_name').value.trim();
+  $('lookupAlert').classList.remove('show');
+  if(!key){ showLookupErr('請先輸入醫師通行碼'); return; }
+  if(!q){ showLookupErr('請輸入姓名（可只輸入部分）'); return; }
+  const box=$('nameResults');
+  box.innerHTML='<div class="meta" style="padding:8px 0"><span class="loading" style="border-color:rgba(31,90,90,.3);border-top-color:var(--teal)"></span> 搜尋中…</div>';
+  try{
+    const res=await jsonp(APPS_SCRIPT_URL,{action:'searchPatients',key,q});
+    if(res.error==='unauthorized'){ box.innerHTML=''; showLookupErr('通行碼錯誤'); return; }
+    if(res.error) throw new Error(res.error);
+    if(!res.list||!res.list.length){ box.innerHTML='<div class="meta" style="padding:8px 0">找不到姓名含「'+esc(q)+'」的病人</div>'; return; }
+    // 姓名有遮罩，同姓者以手術日／年齡／主鍵區分
+    box.innerHTML = res.list.map(p=>
+      '<div class="recent-item" data-pk="'+esc(p.pk)+'"><div><div class="nm">'+esc(maskName(p.name)||'—')+
+      (p.surgeryStatus?' <span class="meta" style="color:var(--gold)">· '+esc(p.surgeryStatus)+'</span>':'')+
+      '</div><div class="meta">'+esc(p.surgery||'—')+' · '+esc(p.scheduledDate||p.createdDate||'')+' · '+esc(p.pk)+'</div></div>'+
+      '<span class="meta">'+(p.gender||'')+' '+(p.age!=null&&p.age!==''?p.age+'歲':'')+'</span></div>'
+    ).join('') + (res.count>res.list.length?'<div class="meta" style="padding:4px 0">共 '+res.count+' 筆，僅顯示前 '+res.list.length+' 筆，請輸入更完整的姓名</div>':'');
+    box.querySelectorAll('.recent-item').forEach(it=>{
+      it.addEventListener('click',()=>lookupByPk(it.dataset.pk));
+    });
+  }catch(e){ box.innerHTML='<div class="meta" style="padding:8px 0;color:var(--danger)">搜尋失敗：'+esc(e.message)+'</div>'; }
+}
+$('nameSearchBtn').addEventListener('click', searchByName);
+$('lookup_name').addEventListener('keydown', ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); searchByName(); } });
+
 // ===== 查詢 =====
 $('lookupBtn').addEventListener('click', ()=>{
   const bd=$('lookup_birthdate').value, id4=$('lookup_id4').value.trim();
@@ -545,7 +612,8 @@ function fillPatient(res){
      'sts_proc','sts_mortality','sts_morb_mort','sts_stroke','sts_vent','sts_dswi','sts_reop','sts_renal','sts_long_los','sts_short_los',
      'chads_chf','chads_htn','chads_dm','chads_stroke','chads_vascular',
      'cfs_level',
-     'kilic_cld','kilic_aa','kilic_op_other','kilic_arf','kilic_los7'
+     'kilic_cld','kilic_aa','kilic_op_other','kilic_arf','kilic_los7',
+     'ap_aspirin','ap_aspirin_days','ap_p2y12','ap_p2y12_days','ac_agent','ac_days','ac_bridge','ap_note'
     ].forEach(n=>{ if(r[n]!=null && r[n]!=='') setVal(n, r[n]); });
   } else {
     $('modeAlert').textContent='此病人尚無危險因子預測，將建立新紀錄（部分欄位已依術前資料自動帶入）。';
@@ -617,6 +685,7 @@ function resetAll(){
   $('changePatientBtn').style.display='none';
   $('modeAlert').classList.remove('show');
   $('lookup_birthdate').value=''; $('lookup_id4').value='';
+  $('lookup_name').value=''; $('nameResults').innerHTML='';
   computeAll();
 }
 $('changePatientBtn').addEventListener('click', resetAll);
