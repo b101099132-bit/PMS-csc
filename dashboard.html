@@ -1459,7 +1459,7 @@ function histFor(h, cat) {
   if (!h.hasCategoryColumn && cat === 'CABG') return h.overall;
   return null;
 }
-const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all', nature: 'all' };   // nature：all / elective（常規）/ emerg（急診）★2026-09-12 依灌注表回填
+const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all', nature: 'all', fperiod: 'all' };   // fperiod：沖積圖／樹狀圖專用時段（2026-09-24）   // nature：all / elective（常規）/ emerg（急診）★2026-09-12 依灌注表回填
 const CAT_ORDER = ['CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動脈支架', '其他'];   // ★2026-09-14 MICS-CABG 併入 CABG（用途徑篩選區分）
 const CAT_LABEL = {
   'CABG': '冠狀動脈繞道 CABG（含 MICS-CABG）',
@@ -1621,7 +1621,8 @@ function renderDynamic() {
   html.push(renderQuarterTrend(cases.filter(c => matchAll(c, { ..._f, period: 'all' })), po.quarters));
 
   // ===== 06+ 病人流向（沖積圖）＋ 案量組成（樹狀圖）（★2026-09-11，ECharts）=====
-  html.push(renderFlowSection(sel));
+  const _flowRows = flowRowsByPeriod();
+  html.push(renderFlowSection(_flowRows));
 
   // ===== 06++ 趨勢與改善（★2026-09-12：逐案時序圖 + SPC p-chart + CUSUM）=====
   html.push(renderTrendSection());
@@ -1750,7 +1751,7 @@ function renderDynamic() {
 
   $('dyn').innerHTML = html.join('');
   bindDynamic();
-  drawFlowCharts(sel);
+  drawFlowCharts(_flowRows[_f.fperiod] || _flowRows.all);
   drawTrendCharts();
 }
 
@@ -1848,7 +1849,7 @@ const FLOW_COLORS = {
   eras: { 'Cardiac ERAS': '#1F5A5A', '傳統照護': '#A87B4D', 'ERAS 未標記': '#C9C3B8' },
   ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
-  out: { '無重大異常事件': '#1F5A5A', '重大異常事件': '#B85450' },
+  out: { '無重大異常事件': '#1F5A5A', '重大異常事件': '#B85450', '存活出院（其他事件未登錄）': '#7E9C9C', '住院死亡': '#8C3B38', '結果未記錄': '#C9C3B8' },
 };
 let _charts = {};
 // ★途徑標籤：主動脈支架（EVAR／TEVAR）本身就是血管內微創手術，不套「傳統開胸／微創 MICS」
@@ -1859,27 +1860,68 @@ function flowLayers(c, singleCat) {
   // ★2026-09-14：有小時數用小時；只有日期（回溯案，無時間）用天差：同日 → <24 小時、1–2 天、≥3 天 → >2 天
   const l3 = c.icu != null ? (c.icu < 24 ? 'ICU <24 小時' : (c.icu <= 48 ? 'ICU 1–2 天' : 'ICU >2 天'))
     : (c.icuD != null ? (c.icuD === 0 ? 'ICU <24 小時' : (c.icuD <= 2 ? 'ICU 1–2 天' : 'ICU >2 天')) : 'ICU 未記錄');
-  const l4 = c.major ? '重大異常事件' : '無重大異常事件';
+  // ★2026-09-24：背景期只記住院死亡 → 不套「無重大異常事件」
+  const l4 = c.bg ? (c.death === 1 ? '住院死亡' : (c.death === 0 ? '存活出院（其他事件未登錄）' : '結果未記錄')) : (c.major ? '重大異常事件' : '無重大異常事件');
   // ★2026-09-14：術式與呼吸道之間加一層照護路徑（Cardiac ERAS／傳統照護；ERAS 欄空白 → 未標記）
   const lE = c.eras === '是' ? 'Cardiac ERAS' : (c.eras === '否' ? '傳統照護' : 'ERAS 未標記');
   return [l1, lE, l2, l3, l4];
 }
-function renderFlowSection(sel) {
+// ★2026-09-24 沖積圖時段切換（團隊成立 = 2025/04/15；背景期 = 歷史背景表，無 ERAS、無微創）
+const FLOW_CUT = '2025-04-15', FLOW_Y1END = '2026-04-15';
+const FLOW_PERIODS = [
+  ['all', '不分時間（含背景期）'],
+  ['pre', '2025/04/15 以前（背景期）'],
+  ['team', '團隊成立後（2025/04/16 起）'],
+  ['y1', '2025/04/16–2026/04/15'],
+  ['y2', '2026/04/16 以後'],
+];
+function flowBgRows() {
+  const h = _dashData && _dashData.historical;
+  if (_f.mics === 'mics' || _f.eras === 'eras') return [];   // 背景期沒有微創、沒有 ERAS
+  return (h && h.cases ? h.cases : []).filter(hc => {
+    const inPre = hc.d ? hc.d <= FLOW_CUT : (hc.y && hc.y < 2025);
+    if (!inPre) return false;
+    if (_f.cat !== 'all' && (hc.cats || []).indexOf(_f.cat) < 0) return false;
+    if (_f.nature === 'emerg' && hc.emerg !== 1) return false;
+    if (_f.nature === 'elective' && hc.emerg !== 0) return false;
+    return true;
+  }).map(hc => {
+    const c0 = (hc.cats || [])[0];
+    return { bg: true, d: hc.d || '', cat: _f.cat !== 'all' ? _f.cat : (CAT_ORDER.indexOf(c0) >= 0 ? c0 : '其他'),
+      mics: false, eras: '否', airway: hc.timing === 4 ? '不插管 HFNC' : '', extClass: ({ 1: 'or', 2: 'lt6', 3: 'ge6' })[hc.timing] || '',
+      icu: null, icuD: hc.icuD, death: hc.death };
+  });
+}
+// 沖積圖不套上方「期間」篩選（改用本區時段切換），其餘篩選（類別／途徑／流程／性質）照用
+function flowRowsByPeriod() {
+  const sys = (_dashData.cases || []).filter(c => matchAll(c, { ..._f, period: 'all' }));
+  const bg = flowBgRows();
+  return {
+    all: bg.concat(sys), pre: bg, team: sys,
+    y1: sys.filter(c => c.d && c.d > FLOW_CUT && c.d <= FLOW_Y1END),
+    y2: sys.filter(c => c.d && c.d > FLOW_Y1END),
+  };
+}
+function renderFlowSection(fr) {
   const title = _f.cat === 'all' ? '全部類別' : (CAT_LABEL[_f.cat] || _f.cat);
-  if (!sel.length) {
-    return `<h2 class="section-title"><span class="num">06+</span><span>病人流向與案量組成</span></h2>
-      <div class="placeholder-card"><div class="ph-title">目前篩選條件下沒有資料</div></div>`;
-  }
-  return `
-    <h2 class="section-title">
+  if (!fr[_f.fperiod]) _f.fperiod = 'all';
+  const sel = fr[_f.fperiod];
+  const chips = FLOW_PERIODS.map(([v, l]) => `<button type="button" class="chip${_f.fperiod === v ? ' active' : ''}" data-group="fperiod" data-val="${v}">${escapeHtml(l)}<span class="chip-n">${fr[v].length}</span></button>`).join('');
+  const nBg = sel.filter(c => c.bg).length;
+  const head = `<h2 class="section-title">
       <span class="num">06+</span>
       <span>病人流向與案量組成</span>
-      <span class="sub">${escapeHtml(title)} · n=${sel.length}</span>
+      <span class="sub">${escapeHtml(title)} · n=${sel.length}${nBg ? `（背景期 ${nBg}）` : ''}</span>
     </h2>
+    <div class="filter-card" style="margin-bottom:12px"><div class="filter-row"><div class="filter-label">時段（實際手術日；本區不套上方「期間」篩選）</div><div class="chip-row">${chips}</div></div></div>`;
+  if (!sel.length) {
+    return head + `<div class="placeholder-card"><div class="ph-title">此時段在目前篩選條件下沒有資料</div></div>`;
+  }
+  return head + `
     <div class="chart-card flow-card">
       <div class="chart-title"><span>病人流向 · 沖積圖</span><span class="chart-sub">${_f.cat === 'all' ? '術式類別' : '微創／傳統'} → 照護路徑（Cardiac ERAS／傳統照護）→ 拔管時機 → ICU 停留 → 結果（帶寬 = 人數）</span></div>
       <div class="flow-scroll"><div id="sankeyChart" class="echart" style="height:${Math.max(320, 200 + sel.length * 2)}px"></div></div>
-      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入（含喉罩 LMA 手術室內移除）；「不插管 HFNC」= 全程無氣道裝置。2025 年回溯案無時間者依原表「ventilator&lt;6 hrs」歸 &lt;6／≥6 小時。ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。</div>
+      <div class="chart-note">拔管時機以轉入加護病房為基準：手術室內拔管 = 拔管早於轉入（含喉罩 LMA 手術室內移除）；「不插管 HFNC」= 全程無氣道裝置。2025 年回溯案無時間者依原表「ventilator&lt;6 hrs」歸 &lt;6／≥6 小時。ICU 停留以抵達至轉出加護病房計。灰色 = 該項未記錄。${nBg ? '<br>背景期（2025/04/15 以前，歷史背景表）：當時尚無 ERAS 與微創，照護路徑一律為傳統照護、途徑為傳統開胸；ICU 只有天數；結果只記錄住院死亡，其餘異常事件未登錄，故標為「存活出院（其他事件未登錄）」而非「無重大異常事件」。' : ''}</div>
     </div>
     <div class="chart-card flow-card">
       <div class="chart-title"><span>案量組成 · 樹狀圖</span><span class="chart-sub">類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）</span></div>
@@ -1925,7 +1967,7 @@ function drawFlowCharts(sel) {
       : `${p.name}：<b>${p.value}</b> 人（${Math.round(p.value / sel.length * 1000) / 10}%）` },
     series: [{
       type: 'sankey', layout: 'none', orient: 'horizontal', layoutIterations: 0,
-      left: 8, right: 130, top: 12, bottom: 12,
+      left: 8, right: nodes.some(n => n.name.length > 10) ? 220 : 130, top: 12, bottom: 12,   // ★背景期結果標籤較長
       nodeWidth: 14, nodeGap: 14, nodeAlign: 'justify',
       emphasis: { focus: 'adjacency' },
       data: nodes, links: links,
