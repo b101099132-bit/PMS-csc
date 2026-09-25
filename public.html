@@ -80,10 +80,16 @@ header {
   font-weight: 500;
 }
 .as-of {
-  font-size: 12px;
-  color: var(--ink-faint);
-  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft, #5C5C5C);
+  margin: 6px 0 8px;
 }
+/* ★2026-09-25 視窗由寬變窄（平板轉向、拉窄視窗）時，格線內的圖表不可撐開整頁 */
+.trend-grid > *, .pub-kpi > *, .rate-grid > *, .metric-grid > *, .ms-grid > *, .overview-grid > *, .chart-card { min-width: 0; }
+.pub-nav a[href="#s-methods"] { font-weight: 600; border-bottom: 2px solid currentColor; }
+.load-retry { margin-top: 8px; padding: 6px 14px; border: 1px solid currentColor; background: #fff; color: inherit; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 13px; }
+.stale-note { font-size: 12px; color: var(--ink-faint); margin: -6px 0 12px; }
 
 /* ========== Key Bar ========== */
 .key-bar {
@@ -1268,15 +1274,16 @@ body.tv h1 { font-size: 34px; }
     <div class="brand">
       <div class="eyebrow">Cardiac ERAS · Public Dashboard</div>
       <h1>心臟加速康復團隊 · 成效儀表板</h1>
-      <div class="hero-line">天主教耕莘醫院心臟外科／麻醉團隊自 2025 年 4 月起推行心臟手術加速康復（Cardiac ERAS）：以手術室內拔管、早期進食與下床、縮短加護與住院時間為目標，並持續公開追蹤成效。</div>
       <div class="as-of" id="asOf"></div>
+      <div class="hero-line">天主教耕莘醫院心臟外科／麻醉團隊自 2025 年 4 月起推行心臟手術加速康復（Cardiac ERAS）：以手術室內拔管、早期進食與下床、縮短加護與住院時間為目標，並持續公開追蹤成效。</div>
     </div>
     <span class="role-tag">公開版</span>
     <span style="margin-left:8px;white-space:nowrap"><button type="button" class="chip lang-btn" id="langZh" onclick="setLang('zh')">中文</button><button type="button" class="chip lang-btn" id="langEn" onclick="setLang('en')">English</button></span>
   </header>
   <nav class="pub-nav"><a href="#s-overview">成效總覽</a><a href="#s-proc">術式成果</a><a href="#s-trend">趨勢分析</a><a href="#s-methods">資料與方法</a></nav>
-  <div class="pub-note">本頁僅呈現彙總統計，不含任何個案資料。比率與中位數在分母少於 5 例時不顯示數值（以「—」或「樣本不足」表示），人數仍會顯示。背景期 = 2025/04/15（含）以前之歷史病例；平台期自 2025/04/16 起。資料每小時更新。各指標的定義、分母與排除條件見「資料與方法」。</div>
+  <div class="pub-note">本頁僅呈現彙總統計，不含任何個案資料。比率與中位數在分母少於 5 例時不顯示數值（以「—」或「樣本不足」表示），人數仍會顯示。背景期 = 2025/04/15（含）以前之歷史病例；平台期自 2025/04/16 起。資料約每 30 分鐘更新。各指標的定義、分母與排除條件見「資料與方法」。</div>
   <div class="alert alert-error" id="errAlert"></div>
+  <div class="stale-note" id="staleNote" style="display:none"></div>
   <div id="content"><div class="loading-block"><span class="loading"></span> 載入中…</div></div>
   <footer>心臟加速康復團隊 · 與你同莘 · 天主教耕莘醫院（區域醫院模式）· 公開版儀表板</footer>
 </div>
@@ -1295,7 +1302,8 @@ function jsonp(url, params, timeoutMs = 35000) {
     const timer = setTimeout(() => { cleanup(); reject(new Error('查詢逾時')); }, timeoutMs);
     function cleanup() { delete window[cb]; script.remove(); clearTimeout(timer); }
     window[cb] = (data) => { cleanup(); resolve(data); };
-    script.onerror = () => { cleanup(); reject(new Error('網路錯誤')); };
+    script.onerror = () => { cleanup(); reject(new Error('load')); };
+    script.onload = () => { if (window[cb]) { cleanup(); reject(new Error('bad-response')); } };   // ★載入了但沒呼叫 callback（例如伺服器回傳 HTML 錯誤頁）→ 立即重試，不等逾時
     script.src = url + '?' + usp.toString();
     document.body.appendChild(script);
   });
@@ -1308,11 +1316,44 @@ const FLOW_COLORS = {
   ext: { '不插管 HFNC': '#2C4866', '手術室內拔管': '#4A7A5A', '<6 小時拔管': '#7FA07F', '≥6 小時拔管': '#B8842D', '拔管未記錄': '#C9C3B8' },
   icu: { 'ICU <24 小時': '#4A7A5A', 'ICU 1–2 天': '#A87B4D', 'ICU >2 天': '#B85450', 'ICU 未記錄': '#C9C3B8' },
   los: { '出院 ≤2 天': '#1F5A5A', '出院 3–7 天': '#4A7A5A', '出院 8–14 天': '#A87B4D', '出院 15–30 天': '#C0703F', '出院 >30 天': '#B85450', '住院中死亡': '#6E2E2B', '尚未出院／未記錄': '#C9C3B8' },
-  out: { '無重大異常事件': '#1F5A5A', '重大異常事件': '#B85450', '存活出院（其他事件未登錄）': '#7E9C9C', '住院死亡': '#8C3B38', '結果未記錄': '#C9C3B8' },
+  out: { '無重大異常事件': '#1F5A5A', '重大異常事件（非死亡）': '#B85450', '存活出院（其他事件未登錄）': '#7E9C9C', '住院死亡': '#8C3B38', '結果未記錄': '#C9C3B8' },
 };
 // ★2026-09-24 沖積圖時段切換（團隊成立 = 2025/04/15）
 const FLOW_PERIODS = [['all', '不分時間（含背景期）'], ['pre', '2025/04/15 以前（背景期）'], ['team', '團隊成立後（2025/04/16 起）'], ['y1', '2025/04/16–2026/04/15'], ['y2', '2026/04/16 以後']];
-let _fp = 'all';
+let _fp = 'all', _tmData = null;
+// ★2026-09-25 樹狀圖：依實際格子大小決定是否顯示文字，放不下就不顯示（細節見滑鼠提示與下方資料表），不出現「微創...」這類殘字
+function textW(t) { let w = 0; for (const ch of String(t)) w += /[\u2E80-\uFFFF]/.test(ch) ? 12.5 : 7.2; return w; }
+function fitTreemap() { for (let i = 0; i < 4; i++) { if (!fitTreemapOnce()) break; } }   // 隱藏上層標籤後格子會重排，重覆到穩定
+function fitTreemapOnce() {
+  const ch = _charts.treemap; if (!ch || !_tmData) return false;
+  let root; try { root = ch.getModel().getSeriesByIndex(0).getData().tree.root; } catch (e) { return false; }
+  const byPath = {};
+  const walk = (arr, pre) => arr.forEach(o => { const k = pre + '/' + o.name; byPath[k] = o; if (o.children) walk(o.children, k); });
+  walk(_tmData, '');
+  let changed = false;
+  root.eachNode(node => {
+    if (node === root) return;
+    const names = []; let n = node; while (n && n !== root) { names.unshift(n.name); n = n.parentNode; }
+    const o = byPath['/' + names.join('/')]; const L = node.getLayout && node.getLayout(); if (!o || !L) return;
+    const v = node.getValue();
+    if (node.children && node.children.length) {
+      const fits = L.width >= textW(tr(o.name) + ' · ' + v) + 10 && L.height >= 26;
+      const want = fits ? undefined : false;
+      if ((o.upperLabel && o.upperLabel.show === false) !== !fits) { o.upperLabel = fits ? undefined : { show: false }; changed = true; }
+    } else {
+      const full = L.width >= textW(tr(o.name)) + 10 && L.height >= 36;
+      const numOnly = !full && L.width >= textW(String(v)) + 8 && L.height >= 18;
+      const mode = full ? 'full' : (numOnly ? 'num' : 'none');
+      if (o._lm !== mode) {
+        o._lm = mode; changed = true;
+        o.label = Object.assign({}, o.label, { show: mode !== 'none', formatter: mode === 'num' ? String(v) : undefined });
+        if (mode === 'full') delete o.label.formatter;
+      }
+    }
+  });
+  if (changed) ch.setOption({ series: [{ data: _tmData }] });
+  return changed;
+}
 const font = { fontFamily: "'Noto Sans TC', sans-serif" };
 let _d = null, _cat = 'all', _charts = {}, _t = { prop: 'auto', target: 0.8, cat: null, cmode: 'oe', cfrom: 'all' }, _advOpen = false;
 
@@ -1326,12 +1367,12 @@ const DICT_EN = {
   '心臟加速康復團隊 · 成效儀表板': 'Cardiac ERAS Team · Outcomes Dashboard',
   '公開版儀表板': 'public dashboard', '公開版': 'Public', '成效總覽': 'Overview', '術式成果': 'Outcomes by procedure', '趨勢分析': 'Trends & analysis', '資料與方法': 'Data & methods', '定義': 'definitions',
   '天主教耕莘醫院心臟外科／麻醉團隊自 2025 年 4 月起推行心臟手術加速康復（Cardiac ERAS）：以手術室內拔管、早期進食與下床、縮短加護與住院時間為目標，並持續公開追蹤成效。': 'Since April 2025 the cardiac surgery and anaesthesia teams at Cardinal Tien Hospital have run an Enhanced Recovery After Cardiac Surgery (Cardiac ERAS) programme: extubation in the operating room, early oral intake and ambulation, and shorter ICU and hospital stays, with outcomes tracked openly here.',
-  '本頁僅呈現彙總統計，不含任何個案資料。比率與中位數在分母少於 5 例時不顯示數值（以「—」或「樣本不足」表示），人數仍會顯示。背景期 = 2025/04/15（含）以前之歷史病例；平台期自 2025/04/16 起。資料每小時更新。各指標的定義、分母與排除條件見「資料與方法」。': 'This page shows aggregated statistics only — no patient-level data. Rates and medians are suppressed when the denominator is fewer than 5 cases (shown as “—” or “insufficient sample”); counts are still shown. Baseline = historical cases on or before 15 Apr 2025; registry period from 16 Apr 2025. Data are updated hourly. See “Data & Methods” for definitions, denominators and exclusions.',
+  '本頁僅呈現彙總統計，不含任何個案資料。比率與中位數在分母少於 5 例時不顯示數值（以「—」或「樣本不足」表示），人數仍會顯示。背景期 = 2025/04/15（含）以前之歷史病例；平台期自 2025/04/16 起。資料約每 30 分鐘更新。各指標的定義、分母與排除條件見「資料與方法」。': 'This page shows aggregated statistics only — no patient-level data. Rates and medians are suppressed when the denominator is fewer than 5 cases (shown as “—” or “insufficient sample”); counts are still shown. Baseline = historical cases on or before 15 Apr 2025; registry period from 16 Apr 2025. Data are refreshed about every 30 minutes. See “Data & Methods” for definitions, denominators and exclusions.',
   '心臟加速康復團隊 · 與你同莘 · 天主教耕莘醫院（區域醫院模式）· 公開版儀表板': 'Cardiac ERAS Team · Cardinal Tien Hospital (regional-hospital model) · Public dashboard',
   '載入中…': 'Loading…', '載入失敗：': 'Failed to load: ', '查詢逾時': 'request timed out', '網路錯誤': 'network error', '資料時間：': 'Data as of ',
   '尚無足夠資料': 'Insufficient data', '尚無資料': 'No data', '樣本不足（n=': 'insufficient sample (n=', '樣本不足': 'insufficient sample',
   // 區塊標題
-  '總覽與里程碑累計': 'Overview & Cumulative Milestones', '成效總覽': 'Outcomes Overview', '全術式累計 · 平台期 2025/04/16 起': 'All procedures · registry period from 16 Apr 2025', '手術室內拔管率（全術式）': 'In-OR extubation rate (all procedures)', '（排除重大異常事件者）': ' (excluding major adverse events)', '住院天數（中位）': 'Median hospital stay', 'ICU 滯留（中位）': 'Median ICU stay', '（有時間紀錄者）': ' (with time stamps)', '推薦意願 ': 'Willingness to recommend ', '累積服務量 ': 'Total patients served ', '（本系統收案 ': ' (registry ', '、背景期 ': ', baseline ', '；本系統納入成效分析 ': '; included in outcome analysis: ', '，另 ': ', plus ', ' 例為同一住院內之再次手術，僅計入手術量': ' re-operation(s) within the same admission counted toward volume only', '目前選擇：': 'Current selection: ', ' · 里程碑累計（本系統 ': ' · cumulative milestones (registry ', '里程碑累計為人數，含重大異常事件者；下方 02–05 區塊隨此處選擇的術式更新。': 'Milestone counts are patients, including those with a major adverse event; sections 02–05 below follow the procedure selected here.', '手術類別總覽': 'Overview by Procedure', '本系統 · 點選列可篩選下方結果': 'Registry data · select a row to filter the results below', '拔管指標率': 'Extubation Indicators', ' · 比率排除重大異常事件者': ' · rates exclude major adverse events', '手術室內拔管率': 'In-OR extubation rate', '不插管率': 'Non-intubated rate', 'ICU 中位（小時）': 'Median ICU stay (h)', '住院中位（天）': 'Median hospital stay (days)', '48 小時內出院率': 'Discharge within 48 h (%)', '樣本不足（分母 <5）': 'Suppressed (denominator <5)', '不適用或樣本不足': 'Not applicable or suppressed', '早期拔管率（<6 小時）': 'Early extubation rate (<6 h)', '轉入 ICU 後 6 小時內拔管（含手術室內拔管）': 'Extubation within 6 h of ICU admission (including in-OR extubation)', '拔管時間（相對於轉入 ICU；負值 = 入 ICU 前已拔管）': 'Extubation time relative to ICU admission (h; negative = extubated before ICU admission)', '（含重大異常事件者）': ' (including major adverse events)', '術後 24 小時內下床': 'Ambulation within 24 h', '首次下床走路 ≤ 轉入 ICU 後 24 小時': 'First walk ≤ 24 h after ICU arrival', '首次下床走路 ≤ 轉入 ICU 後 48 小時': 'First walk ≤ 48 h after ICU arrival', '累計手術室內拔管': 'Patients extubated in the OR', '趨勢與表現': 'Trends & Performance', '含背景期（2025/04/15 含以前）· 單一術式，不混算': 'incl. baseline (on or before 15 Apr 2025) · single procedure', '趨勢分析術式（僅套用至本區）': 'Procedure for trend analysis (this section only)', '進階分析指標（套用至下方 B、C、D 圖）': 'Indicator for advanced analysis (applies to charts B, C, D below)', 'A · 住院天數與 ICU 天數（季度中位數）': 'A · Hospital and ICU stay (quarterly medians)', '固定顯示，不隨下方指標切換 · 垂直線 = ERAS 啟動': 'Fixed; does not change with the indicator below · vertical line = ERAS launch', '查看資料表（樹狀圖完整文字）': 'Show data table (full treemap labels)', '途徑': 'Approach', '拔管': 'Extubation', '人數': 'Patients', '查看進階統計分析：SPC 管制圖、CUSUM 學習曲線、累積成功率': 'Show advanced analysis: SPC control chart, CUSUM learning curve, cumulative success rate', 'B · SPC 管制圖：': 'B · SPC control chart: ', '（季度 p-chart）': ' (quarterly p-chart)', 'C · CUSUM 學習曲線：': 'C · CUSUM learning curve: ', 'D · 累積成功率曲線：': 'D · Cumulative success rate: ', '依手術順序累積 · 目標與模式見下方': 'Cumulative by case order · target and mode below', '依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · 前 4 例不畫': 'Cumulative success proportion by case order · shading = Wilson 95% CI · dashed = target · first 4 cases not drawn', '累積觀察減預期（O−E）': 'Cumulative observed minus expected (O−E)', '最近一季（': 'Latest quarter (', '）住院天數中位 ': ') median hospital stay ', '背景期起點': 'baseline start', '起始季': 'first quarter', '住院天數中位 ': 'median hospital stay ', '* = 尚未結束之季度。': '* = quarter to date.', '，ERAS 期顯著提升': ', higher in the ERAS phase', '，兩期相近': ', similar in both phases', '點落在虛線外或連續 8 點在中心線同側，代表非隨機變化。': 'Points outside the dashed limits, or 8 consecutive points on one side of the centre line, indicate non-random change.', '背景期 ': 'baseline ', 'ERAS 期': 'ERAS phase', '無重大異常事件': 'No major adverse event', '出院 ≤2 天': 'LOS ≤2 d', '出院 3–7 天': 'LOS 3–7 d', '出院 8–14 天': 'LOS 8–14 d', '出院 15–30 天': 'LOS 15–30 d', '出院 >30 天': 'LOS >30 d', '住院中死亡': 'Died in hospital', '尚未出院／未記錄': 'LOS not recorded', '術後住院天數 = 出院日 − 手術日（日曆天）；住院中死亡者另列，不計入天數分段。': 'LOS (postoperative hospital stay) = discharge date − surgery date (calendar days); "LOS not recorded" = not yet discharged or no discharge date; in-hospital deaths are shown separately and not assigned to a length-of-stay band.', '存活出院（其他事件未登錄）': 'Discharged alive (other events not recorded)', '結果未記錄': 'Outcome not recorded', '不分時間（含背景期）': 'All periods (incl. baseline)', '2025/04/15 以前（背景期）': 'On or before 15 Apr 2025 (baseline)', '團隊成立後（2025/04/16 起）': 'Since team launch (from 16 Apr 2025)', '2025/04/16–2026/04/15': '16 Apr 2025 – 15 Apr 2026', '2026/04/16 以後': 'From 16 Apr 2026', '此時段沒有資料': 'No data for this period', '背景期（2025/04/15 以前）：當時尚無 ERAS 與微創手術，照護路徑一律為傳統照護、途徑為傳統開胸；ICU 只有天數；結果只記錄住院死亡，其餘異常事件未登錄，故標為「存活出院（其他事件未登錄）」而非「無重大異常事件」。': 'Baseline period (on or before 15 Apr 2025): ERAS and minimally invasive surgery had not yet been introduced, so all baseline patients are shown as conventional care via sternotomy; ICU stay is available in days only; only in-hospital death was recorded, so survivors are labelled "discharged alive (other events not recorded)" rather than "no major adverse event".', '住院死亡': 'In-hospital death', '手術室外拔管': 'Extubated outside the OR', '不插管麻醉率': 'Non-intubated anaesthesia rate', '48h 出院': 'Discharge within 48 h', '術後 1 天內下床': 'Ambulation within 24 h',
+  '總覽與里程碑累計': 'Overview & Cumulative Milestones', '成效總覽': 'Outcomes Overview', '全術式累計 · 平台期 2025/04/16 起': 'All procedures · registry period from 16 Apr 2025', '手術室內拔管率（全術式）': 'In-OR extubation rate (all procedures)', '（排除重大異常事件者）': ' (excluding major adverse events)', '住院天數（中位）': 'Median hospital stay', 'ICU 滯留（中位）': 'Median ICU stay', '（有時間紀錄者）': ' (with time stamps)', '推薦意願 ': 'Willingness to recommend ', '累積服務量 ': 'Total patients served ', '（本系統收案 ': ' (registry ', '、背景期 ': ', baseline ', '；本系統納入成效分析 ': '; included in outcome analysis: ', '，另 ': ', plus ', ' 例為同一住院內之再次手術，僅計入手術量': ' re-operation(s) within the same admission counted toward volume only', '目前選擇：': 'Current selection: ', ' · 里程碑累計（本系統 ': ' · cumulative milestones (registry ', '里程碑累計為人數，含重大異常事件者；下方 02–05 區塊隨此處選擇的術式更新。': 'Milestone counts are patients, including those with a major adverse event; sections 02–05 below follow the procedure selected here.', '手術類別總覽': 'Overview by Procedure', '本系統 · 點選列可篩選下方結果': 'Registry data · select a row to filter the results below', '拔管指標率': 'Extubation Indicators', ' · 比率排除重大異常事件者': ' · rates exclude major adverse events', '手術室內拔管率': 'In-OR extubation rate', '不插管率': 'Non-intubated rate', 'ICU 中位（小時）': 'Median ICU stay (h)', '住院中位（天）': 'Median hospital stay (days)', '48 小時內出院率': 'Discharge within 48 h (%)', '樣本不足（分母 <5）': 'Suppressed (denominator <5)', '不適用或樣本不足': 'Not applicable or suppressed', '早期拔管率（<6 小時）': 'Early extubation rate (<6 h)', '轉入 ICU 後 6 小時內拔管（含手術室內拔管）': 'Extubation within 6 h of ICU admission (including in-OR extubation)', '拔管時間（相對於轉入 ICU；負值 = 入 ICU 前已拔管）': 'Extubation time relative to ICU admission (h; negative = extubated before ICU admission)', '（含重大異常事件者）': ' (including major adverse events)', '術後 24 小時內下床': 'Ambulation within 24 h', '首次下床走路 ≤ 轉入 ICU 後 24 小時': 'First walk ≤ 24 h after ICU arrival', '首次下床走路 ≤ 轉入 ICU 後 48 小時': 'First walk ≤ 48 h after ICU arrival', '累計手術室內拔管': 'Patients extubated in the OR', '趨勢與表現': 'Trends & Performance', '含背景期（2025/04/15 含以前）· 單一術式，不混算': 'incl. baseline (on or before 15 Apr 2025) · single procedure', '趨勢分析術式（僅套用至本區）': 'Procedure for trend analysis (this section only)', '進階分析指標（套用至下方 B、C、D 圖）': 'Indicator for advanced analysis (applies to charts B, C, D below)', 'A · 住院天數與 ICU 天數（季度中位數）': 'A · Hospital and ICU stay (quarterly medians)', '固定顯示，不隨下方指標切換 · 垂直線 = ERAS 啟動': 'Fixed; does not change with the indicator below · vertical line = ERAS launch', '查看資料表（樹狀圖完整文字）': 'Show data table (full treemap labels)', '途徑': 'Approach', '拔管': 'Extubation', '人數': 'Patients', '查看進階統計分析：SPC 管制圖、CUSUM 學習曲線、累積成功率': 'Show advanced analysis: SPC control chart, CUSUM learning curve, cumulative success rate', 'B · SPC 管制圖：': 'B · SPC control chart: ', '（季度 p-chart）': ' (quarterly p-chart)', 'C · CUSUM 學習曲線：': 'C · CUSUM learning curve: ', 'D · 累積成功率曲線：': 'D · Cumulative success rate: ', '依手術順序累積 · 目標與模式見下方': 'Cumulative by case order · target and mode below', '依手術順序之累積成功比例 · 陰影 = Wilson 95% 信賴帶 · 虛線 = 目標 · 前 4 例不畫': 'Cumulative success proportion by case order · shading = Wilson 95% CI · dashed = target · first 4 cases not drawn', '累積觀察減預期（O−E）': 'Cumulative observed minus expected (O−E)', '最近一季（': 'Latest quarter (', '）住院天數中位 ': ') median hospital stay ', '背景期起點': 'baseline start', '起始季': 'first quarter', '住院天數中位 ': 'median hospital stay ', '* = 尚未結束之季度。': '* = quarter to date.', '，ERAS 期顯著提升': ', higher in the ERAS phase', '，兩期相近': ', similar in both phases', '點落在虛線外或連續 8 點在中心線同側，代表非隨機變化。': 'Points outside the dashed limits, or 8 consecutive points on one side of the centre line, indicate non-random change.', '背景期 ': 'baseline ', 'ERAS 期': 'ERAS phase', '無重大異常事件': 'No major adverse event', '重大異常事件（非死亡）': 'Major adverse event (survived)', '重新載入': 'Reload', '資料載入失敗，請重新整理。': 'Data failed to load. Please reload the page.', '顯示上次載入的資料（資料時間 ': 'Showing previously loaded data (as of ', '），正在更新…': '); updating…', '目前無法取得最新資料，畫面為資料時間 ': 'Latest data unavailable; showing data as of ', ' 的內容。': '.', '；05 區流向圖（不分時間）含背景期共 ': '; the patient-flow diagram in section 05 (all periods) includes the baseline period, total ', '分母 = 該季全部主動脈支架病例。': 'Denominator = all endovascular aortic repairs in the quarter.', '全術式合計，比率受各季術式組成影響，建議於 01 區切換單一術式查看。': 'All procedures combined; the rate depends on each quarter\'s case mix — select a single procedure in section 01 for a like-for-like view. ', '分母 = 有插管且拔管時機可判定者（不插管 HFNC 不計入），排除重大異常事件者。2025 年各季之拔管時機多依病歷紀錄推定（無時間戳記）。': 'Denominator = intubated patients with a determinable extubation time (non-intubated HFNC cases excluded), excluding major adverse events. In 2025 quarters, extubation timing was mostly inferred from chart records (no time stamps).', '僅計有 ICU 進出時間紀錄者（': 'Only patients with ICU admission and transfer time stamps (', ' 例，排除重大異常事件者）；分母少於 5 例之季度不顯示，屬刻意抑制，並非資料遺漏。': ' patients, excluding major adverse events); quarters with fewer than 5 are deliberately suppressed, not missing.', '* 尚未結束之季度：仍住院者未納入，中位數可能偏高，不代表最終值。': '* Quarter to date: patients still in hospital are not yet included, so the median may be biased and is not final.', 'ICU 中位 ': 'median ICU stay ', '背景期最早有值季度': 'earliest baseline quarter with data', '全部 · ': 'All · ', '出院 ≤2 天': 'LOS ≤2 d', '出院 3–7 天': 'LOS 3–7 d', '出院 8–14 天': 'LOS 8–14 d', '出院 15–30 天': 'LOS 15–30 d', '出院 >30 天': 'LOS >30 d', '住院中死亡': 'Died in hospital', '尚未出院／未記錄': 'LOS not recorded', '術後住院天數 = 出院日 − 手術日（日曆天）；住院中死亡者另列，不計入天數分段。': 'LOS (postoperative hospital stay) = discharge date − surgery date (calendar days); "LOS not recorded" = not yet discharged or no discharge date; in-hospital deaths are shown separately and not assigned to a length-of-stay band.', '存活出院（其他事件未登錄）': 'Discharged alive (other events not recorded)', '結果未記錄': 'Outcome not recorded', '不分時間（含背景期）': 'All periods (incl. baseline)', '2025/04/15 以前（背景期）': 'On or before 15 Apr 2025 (baseline)', '團隊成立後（2025/04/16 起）': 'Since team launch (from 16 Apr 2025)', '2025/04/16–2026/04/15': '16 Apr 2025 – 15 Apr 2026', '2026/04/16 以後': 'From 16 Apr 2026', '此時段沒有資料': 'No data for this period', '背景期（2025/04/15 以前）：當時尚無 ERAS 與微創手術，照護路徑一律為傳統照護、途徑為傳統開胸；ICU 只有天數；結果只記錄住院死亡，其餘異常事件未登錄，故標為「存活出院（其他事件未登錄）」而非「無重大異常事件」。': 'Baseline period (on or before 15 Apr 2025): ERAS and minimally invasive surgery had not yet been introduced, so all baseline patients are shown as conventional care via sternotomy; ICU stay is available in days only; only in-hospital death was recorded, so survivors are labelled "discharged alive (other events not recorded)" rather than "no major adverse event".', '住院死亡': 'In-hospital death', '手術室外拔管': 'Extubated outside the OR', '不插管麻醉率': 'Non-intubated anaesthesia rate', '48h 出院': 'Discharge within 48 h', '術後 1 天內下床': 'Ambulation within 24 h',
   '主動脈支架 · 恢復指標': 'Aortic Stent Graft · Recovery Indicators', '季度趨勢': 'Quarterly Trends', '病人流向與案量組成': 'Patient Flow & Case Mix', '趨勢與改善': 'Trends & Improvement',
   '病人流向 · 沖積圖': 'Patient Flow · Alluvial Diagram', '案量組成 · 樹狀圖': 'Case Mix · Treemap', '術式 → 照護路徑（Cardiac ERAS／傳統照護）→ 拔管時機 → ICU 停留 → 術後住院天數 → 結果 · 帶寬 = 人數': 'Surgery → care pathway (Cardiac ERAS / conventional) → extubation → ICU stay → postoperative hospital stay → outcome · band width = patients', '帶寬 = 人數': 'band width = patients',
   '類別 → 微創／傳統 → 是否手術室內拔管（面積 = 人數）': 'Type → MICS / open → in-OR extubation (area = patients)',
@@ -1498,18 +1539,37 @@ function trendCat() {
 }
 const dash = (v, unit) => (v == null) ? '<span class="suppressed">—</span>' : `${v}<span class="u">${unit || ''}</span>`;
 
+// ★2026-09-25 載入：自動重試（2 秒、4 秒）＋ 瀏覽器保留上次成功資料（回訪者立即看到，背景更新）
+const SNAP_KEY = 'pub_stats_snapshot_v1';
+function readSnap() { try { const x = JSON.parse(localStorage.getItem(SNAP_KEY) || 'null'); return x && x.data && x.data.byCat ? x.data : null; } catch (e) { return null; } }
+function writeSnap(data) { try { localStorage.setItem(SNAP_KEY, JSON.stringify({ t: Date.now(), data })); } catch (e) {} }
+function setStale(msg) { const el = $('staleNote'); if (!el) return; el.textContent = msg ? tr(msg) : ''; el.style.display = msg ? '' : 'none'; }
 async function load() {
-  try {
-    // 持通行碼者可強制重算：public.html?fresh=1#k=通行碼（一般訪客永遠吃 1 小時快取）
-    const params = { action: 'publicStats' };
-    const usp = new URLSearchParams(location.search);
-    if (usp.get('fresh') === '1' && location.hash.startsWith('#k=')) { params.fresh = '1'; params.key = decodeURIComponent(location.hash.slice(3)); }
-    const res = await jsonp(APPS_SCRIPT_URL, params);
-    if (res.error) { showError(res.error); return; }
-    _d = res; render();
-  } catch (err) { showError('載入失敗：' + err.message); }
+  // 持通行碼者可強制重算：public.html?fresh=1#k=通行碼（一般訪客吃伺服器快取）
+  const params = { action: 'publicStats' };
+  const usp = new URLSearchParams(location.search);
+  const forced = usp.get('fresh') === '1' && location.hash.startsWith('#k=');
+  if (forced) { params.fresh = '1'; params.key = decodeURIComponent(location.hash.slice(3)); }
+  const snap = forced ? null : readSnap();
+  if (snap && !_d) { _d = snap; render(); setStale('顯示上次載入的資料（資料時間 ' + snap.asOf + '），正在更新…'); }
+  const waits = [0, 2000, 4000];
+  for (let i = 0; i < waits.length; i++) {
+    if (waits[i]) await new Promise(r => setTimeout(r, waits[i]));
+    try {
+      const res = await jsonp(APPS_SCRIPT_URL, params);
+      if (res && res.byCat && !res.error) {
+        $('errAlert').classList.remove('show'); setStale('');
+        const changed = !_d || _d.asOf !== res.asOf;
+        _d = res; writeSnap(res);
+        if (changed) render();
+        return;
+      }
+    } catch (err) { /* 重試 */ }
+  }
+  if (_d) { setStale('目前無法取得最新資料，畫面為資料時間 ' + _d.asOf + ' 的內容。'); return; }
+  showError('資料載入失敗，請重新整理。');
 }
-function showError(m) { const el = $('errAlert'); el.textContent = tr(m); el.classList.add('show'); $('content').innerHTML = ''; }
+function showError(m) { const el = $('errAlert'); el.innerHTML = escapeHtml(tr(m)) + `<div><button type="button" class="load-retry" onclick="location.reload()">${tr('重新載入')}</button></div>`; el.classList.add('show'); $('content').innerHTML = ''; }
 
 function render() {
   const d = _d; const g = d.byCat[_cat]; const bg = g.background;
@@ -1542,7 +1602,7 @@ function render() {
       ${kpi('teal', 'ICU 滯留（中位）', A.icu && A.icu.median != null ? A.icu.median : '<span class="muted">—</span>', A.icu && A.icu.median != null ? ' 小時' : '', A.icu && A.icu.n ? `n = ${A.icu.n}（有時間紀錄者）` : '')}
       ${kpi('plum', '病患整體滿意度', sat.overall && sat.overall.avg != null ? sat.overall.avg : '<span class="muted">—</span>', sat.overall && sat.overall.avg != null ? ' / ' + (sat.overall.scale || 10) : '', sat.recommend && sat.recommend.avg != null ? '推薦意願 ' + sat.recommend.avg + ' / ' + (sat.recommend.scale || 5) : '')}
     </div>
-    <div class="chart-note" style="margin:-6px 0 14px">累積服務量 ${d.overview.totalServiceVolume} 位（本系統收案 ${d.overview.currentSystemVolume} 位、背景期 ${d.overview.historicalVolume} 位）；本系統納入成效分析 ${d.overview.analyzed != null ? d.overview.analyzed : d.byCat.all.n} 例${d.overview.reopExcluded ? `，另 ${d.overview.reopExcluded} 例為同一住院內之再次手術，僅計入手術量`: ''}。</div>
+    <div class="chart-note" style="margin:-6px 0 14px">累積服務量 ${d.overview.totalServiceVolume} 位（本系統收案 ${d.overview.currentSystemVolume} 位、背景期 ${d.overview.historicalVolume} 位）；本系統納入成效分析 ${d.overview.analyzed != null ? d.overview.analyzed : d.byCat.all.n} 例${d.overview.reopExcluded ? `，另 ${d.overview.reopExcluded} 例為同一住院內之再次手術，僅計入手術量`: ''}${A.flows && A.flows.all ? `；05 區流向圖（不分時間）含背景期共 ${A.flows.all.n} 例` : ''}。</div>
     <div class="block-title">目前選擇：${escapeHtml(CAT_LABEL[_cat])} · 里程碑累計（本系統 ${g.n} 例${bg ? ` ＋ 背景 ${bg.n} 例` : ''}）</div>
     <div class="ms-card"><div class="chip-row" id="catChips">${catChips.join('')}</div><div class="ms-grid">${tiles}</div><div class="chart-note">里程碑累計為人數，含重大異常事件者；下方 02–05 區塊隨此處選擇的術式更新。</div></div>
   `);
@@ -1585,10 +1645,10 @@ function render() {
     <h2 class="section-title" id="s-trend"><span class="num">04</span><span>季度趨勢</span><span class="sub">${escapeHtml(CAT_LABEL[_cat])} · 本系統</span></h2>
     ${qs.length >= 2 ? `<div class="trend-grid">
       <div class="chart-card"><div class="chart-title">季度案量</div><div id="qVol" class="echart" style="height:220px"></div></div>
-      <div class="chart-card"><div class="chart-title">${isStent ? '不插管麻醉率' : '手術室內拔管率'}</div><div id="qRate" class="echart" style="height:220px"></div></div>
-      <div class="chart-card"><div class="chart-title">ICU 滯留 · 中位數（小時）</div><div id="qIcu" class="echart" style="height:220px"></div></div>
+      <div class="chart-card"><div class="chart-title">${isStent ? '不插管麻醉率' : '手術室內拔管率'}</div><div id="qRate" class="echart" style="height:220px"></div><div class="chart-note">${isStent ? '分母 = 該季全部主動脈支架病例。' : (_cat === 'all' ? '全術式合計，比率受各季術式組成影響，建議於 01 區切換單一術式查看。' : '') + '分母 = 有插管且拔管時機可判定者（不插管 HFNC 不計入），排除重大異常事件者。2025 年各季之拔管時機多依病歷紀錄推定（無時間戳記）。'}</div></div>
+      <div class="chart-card"><div class="chart-title">ICU 滯留 · 中位數（小時）</div><div id="qIcu" class="echart" style="height:220px"></div><div class="chart-note">僅計有 ICU 進出時間紀錄者（${g.icu.n} / ${g.n - (g.nMajor || 0)} 例，排除重大異常事件者）；分母少於 5 例之季度不顯示，屬刻意抑制，並非資料遺漏。</div></div>
       <div class="chart-card"><div class="chart-title">住院天數 · 中位數（天）</div><div id="qLos" class="echart" style="height:220px"></div></div>
-    </div>` : '<div class="placeholder-card"><div class="ph-title">資料跨越 ≥ 2 個季度後顯示</div></div>'}
+    </div>${qs.some(q => /\*$/.test(qLabel(q.q))) ? '<div class="chart-note">* 尚未結束之季度：仍住院者未納入，中位數可能偏高，不代表最終值。</div>' : ''}` : '<div class="placeholder-card"><div class="ph-title">資料跨越 ≥ 2 個季度後顯示</div></div>'}
   `);
   // 05 流向與組成（★2026-09-24 加時段切換；舊後端無 flows 時退回 g.flow）
   const flows = g.flows || null;
@@ -1688,10 +1748,12 @@ function drawCharts() {
   const tree = fsel ? fsel.tree : g.tree;
   const tmData = CAT_ORDER.filter(a => tree[a]).map(a => ({ name: a, itemStyle: { color: FLOW_COLORS.cat[a] }, children: ['微創 MICS', '傳統開胸', '血管內支架'].filter(b => tree[a][b]).map(b => ({ name: b, itemStyle: { color: hexA(FLOW_COLORS.cat[a], 0.18) }, children: ['不插管', '手術室內拔管', '手術室外拔管', '拔管未記錄'].filter(d => tree[a][b][d]).map(d => ({ name: d, value: tree[a][b][d], itemStyle: { color: leafColor(a, d) }, label: { color: d === '拔管未記錄' ? '#1A1A1A' : '#fff' } })) })) }));
   if ($('treemapChart') && tmData.length) {
+    _tmData = tmData;
     _charts.treemap = echarts.init($('treemapChart'), null, { renderer: 'svg' });
     _charts.treemap.setOption({ tooltip: { formatter: p => `${p.treePathInfo.map(x => x.name).filter(Boolean).join(' › ')}：<b>${p.value}</b> 人` },
-      series: [{ type: 'treemap', left: 4, right: 4, top: 4, bottom: 4, roam: false, nodeClick: false, breadcrumb: { show: false }, label: { ...font, fontSize: 12, formatter: p => `${p.name}\n${p.value}` }, upperLabel: { show: true, height: 22, ...font, fontSize: 12, formatter: p => `${p.name} · ${p.value}` }, itemStyle: { borderColor: '#FAF7F2', borderWidth: 2, gapWidth: 2 },
+      series: [{ type: 'treemap', left: 4, right: 4, top: 4, bottom: 4, roam: false, nodeClick: false, breadcrumb: { show: false }, label: { ...font, fontSize: 12, formatter: p => `${p.name}\n${p.value}` }, upperLabel: { show: true, height: 22, ...font, fontSize: 12, formatter: p => p.name ? `${p.name} · ${p.value}` : `全部 · ${p.value}` }, itemStyle: { borderColor: '#FAF7F2', borderWidth: 2, gapWidth: 2 },
         levels: [{ itemStyle: { borderWidth: 2, gapWidth: 6, borderColor: '#FAF7F2' }, upperLabel: { show: true, color: '#1A1A1A', fontWeight: 600 } }, { itemStyle: { gapWidth: 3, borderColor: '#FAF7F2' }, upperLabel: { show: true, color: '#1A1A1A' } }, { itemStyle: { gapWidth: 2, borderColor: '#FAF7F2' } }], data: tmData }] });
+    fitTreemap();
     // ★2026-09-15 樹狀圖資料表（解決文字截斷）
     if ($('treemapTable')) {
       const rows = [];
@@ -1720,7 +1782,15 @@ function drawTrend() {
         { name: 'ICU 天數（中位）', type: 'line', data: rq.map(q => q.icuDaysMedian), lineStyle: { color: '#6B5876', width: 2 }, itemStyle: { color: '#6B5876' }, symbolSize: 6, connectNulls: true },
       ] });
     const lastQ = rq[rq.length - 1], firstQ = rq[0];
-    if ($('runSummary')) $('runSummary').textContent = `最近一季（${qLabel(lastQ.q)}）住院天數中位 ${lastQ.losMedian == null ? '—' : lastQ.losMedian + ' 天'}、ICU ${lastQ.icuDaysMedian == null ? '—' : lastQ.icuDaysMedian + ' 天'}；${firstQ.q < '2025Q2' ? '背景期起點' : '起始季'}（${qLabel(firstQ.q)}）住院天數中位 ${firstQ.losMedian == null ? '—' : firstQ.losMedian + ' 天'}。* = 尚未結束之季度。`;
+    if ($('runSummary')) {   // ★2026-09-25 無值的句子整句不輸出；星號寫成完整說明
+      const parts = [];
+      const lastBits = [lastQ.losMedian != null ? '住院天數中位 ' + lastQ.losMedian + ' 天' : '', lastQ.icuDaysMedian != null ? 'ICU 中位 ' + lastQ.icuDaysMedian + ' 天' : ''].filter(Boolean);
+      if (lastBits.length) parts.push(`最近一季（${qLabel(lastQ.q)}）${lastBits.join('、')}。`);
+      const fq = rq.find(q => q.losMedian != null);
+      if (fq && fq !== lastQ) parts.push(`${fq.q < '2025Q2' ? '背景期最早有值季度' : '起始季'}（${qLabel(fq.q)}）住院天數中位 ${fq.losMedian} 天。`);
+      if (/\*$/.test(qLabel(lastQ.q))) parts.push('* 尚未結束之季度：仍住院者未納入，中位數可能偏高，不代表最終值。');
+      $('runSummary').textContent = tr(parts.join(''));
+    }
   }
   // B. p-chart
   const sp = g.spc[_t.prop]; const labels = { or: '手術室內拔管率', early: '<6 小時拔管率', notube: '不插管麻醉率', dis48: '48 小時內出院率', dis24: '24 小時內出院率' };
@@ -1784,7 +1854,7 @@ function drawTrend() {
   } else { ['cusumChart', 'cumChart'].forEach(id => { if ($(id)) $(id).innerHTML = '<div class="plist-empty">尚無足夠資料</div>'; }); }
   trDom($('content'));
 }
-window.addEventListener('resize', () => Object.values(_charts).forEach(c => { try { c.resize(); } catch (e) {} }));
+window.addEventListener('resize', () => { Object.values(_charts).forEach(c => { try { c.resize(); } catch (e) {} }); fitTreemap(); });
 load();
 </script>
 </body>

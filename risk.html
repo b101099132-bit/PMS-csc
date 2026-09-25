@@ -645,6 +645,12 @@ function autoDerive(res){
   // POAF eGFR<15
   const egfr=parseFloat(res.preopEgfr);
   if(!isNaN(egfr)) setVal('poaf_egfr15', egfr<15?'是':'否');
+  // ★2026-09-25 手術急迫性（主檔 1–4）→ EuroSCORE Urgency、POAF 急診；術前危急狀態 → ES 術前危急、POAF 術前 IABP
+  const u=parseInt(res.urgency,10);
+  if(u>=1&&u<=4){ setVal('es_urgency',({1:'elective',2:'urgent',3:'emergency',4:'salvage'})[u]); setVal('poaf_emergency', u>=3?'是':'否'); }
+  const flags=[res.preopEtt,res.preopEcmo,res.preopCpr,res.preopIabp,res.preopInotrope];
+  if(flags.some(v=>v==='是'||v==='否')){ setVal('es_critical', flags.some(v=>v==='是')?'是':'否'); }
+  if(res.preopIabp==='是'||res.preopIabp==='否') setVal('poaf_iabp', res.preopIabp);
   // 腎功能分層（用 Cockcroft-Gault CrCl 建議；洗腎需人工選）
   const age=parseFloat(res.age), w=parseFloat(res.preopWeight), cr=parseFloat(res.preopCrea), female=(res.gender==='女');
   if(!isNaN(age)&&!isNaN(w)&&!isNaN(cr)&&cr>0){

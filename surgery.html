@@ -139,6 +139,11 @@ header {
   color: var(--gold);
   letter-spacing: 0.1em;
 }
+.urg-group { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+.urg-group .option label { display: flex; flex-direction: column; line-height: 1.35; }
+.urg-hint { font-size: 11.5px; color: #8A8580; font-weight: 400; }
+.urg-group input:checked + label .urg-hint { color: rgba(255,255,255,.82); }
+@media (max-width: 560px) { .urg-group { grid-template-columns: 1fr; } }
 .section-title {
   font-family: 'Noto Serif TC', serif;
   font-size: 19px;
@@ -685,12 +690,15 @@ footer {
               <label for="emerg_date">實際手術日（預設今天；補建舊案請改）</label>
               <input type="date" id="emerg_date">
             </div>
+            <div class="field" data-name="emerg_urgency">
+              <label>手術急迫性 <span class="req">*</span>（EuroSCORE II 定義；Elective／Urgent 計為常規刀，Emergent／Salvage 計為急診刀）</label>
+              <div class="radio-group urg-group"><div class="option" title="例行排程入院"><input type="radio" id="emerg_u1" name="emerg_urgency" value="1"><label for="emerg_u1">Elective 常規<span class="urg-hint">例行排程入院</span></label></div><div class="option" title="本次住院需手術、不能先出院"><input type="radio" id="emerg_u2" name="emerg_urgency" value="2"><label for="emerg_u2">Urgent 緊急<span class="urg-hint">本次住院需手術、不能先出院</span></label></div><div class="option" title="決定後須在下一個工作天前手術"><input type="radio" id="emerg_u3" name="emerg_urgency" value="3"><label for="emerg_u3">Emergent 急診<span class="urg-hint">決定後須在下一個工作天前手術</span></label></div><div class="option" title="進開刀房途中或麻醉誘導前仍在 CPR／ECMO"><input type="radio" id="emerg_u4" name="emerg_urgency" value="4"><label for="emerg_u4">Salvage 搶救<span class="urg-hint">進開刀房途中或麻醉誘導前仍在 CPR／ECMO</span></label></div></div>
+              <div class="error-msg">請選擇手術急迫性</div>
+            </div>
             <div class="field">
-              <label>手術性質 <span class="req">*</span>（必填；此流程也用於常規病人，請確實勾選）</label>
-              <div class="radio-group" id="emergNature" style="gap:8px 12px">
-                <div class="option"><input type="radio" id="en_emerg" name="emerg_nature" value="急診"><label for="en_emerg">急診手術</label></div>
-                <div class="option"><input type="radio" id="en_elective" name="emerg_nature" value="常規"><label for="en_elective">常規手術</label></div>
-              </div>
+              <label>術前危急狀態（本次住院、進開刀房前；可複選，未勾 = 無）</label>
+              <div class="radio-group" style="flex-wrap:wrap;gap:8px 12px"><div class="option"><input type="checkbox" id="emerg_preop_ett" name="emerg_preop_ett" value="是"><label for="emerg_preop_ett">術前插管</label></div><div class="option"><input type="checkbox" id="emerg_preop_ecmo" name="emerg_preop_ecmo" value="是"><label for="emerg_preop_ecmo">術前 ECMO</label></div><div class="option"><input type="checkbox" id="emerg_preop_cpr" name="emerg_preop_cpr" value="是"><label for="emerg_preop_cpr">術前 CPR</label></div><div class="option"><input type="checkbox" id="emerg_preop_iabp" name="emerg_preop_iabp" value="是"><label for="emerg_preop_iabp">術前 IABP</label></div><div class="option"><input type="checkbox" id="emerg_preop_inotrope" name="emerg_preop_inotrope" value="是"><label for="emerg_preop_inotrope">術前強心／升壓劑</label></div></div>
+              <input type="text" id="emerg_preop_note" name="emerg_preop_note" maxlength="200" placeholder="備註（選填）：例 ECMO 置放時間、CPR 持續時間、IABP 1:1、Levophed 0.1" style="margin-top:8px">
             </div>
             <div class="field">
               <label>同一住院內的再次手術？（例：主動脈弓術後併發症再放支架）</label>
@@ -880,6 +888,17 @@ footer {
           </div>
         </div>
 
+        <div class="field" data-name="urgency">
+              <label>手術急迫性 <span class="req">*</span>（EuroSCORE II 定義；Elective／Urgent 計為常規刀，Emergent／Salvage 計為急診刀）</label>
+              <div class="radio-group urg-group"><div class="option" title="例行排程入院"><input type="radio" id="s_u1" name="urgency" value="1"><label for="s_u1">Elective 常規<span class="urg-hint">例行排程入院</span></label></div><div class="option" title="本次住院需手術、不能先出院"><input type="radio" id="s_u2" name="urgency" value="2"><label for="s_u2">Urgent 緊急<span class="urg-hint">本次住院需手術、不能先出院</span></label></div><div class="option" title="決定後須在下一個工作天前手術"><input type="radio" id="s_u3" name="urgency" value="3"><label for="s_u3">Emergent 急診<span class="urg-hint">決定後須在下一個工作天前手術</span></label></div><div class="option" title="進開刀房途中或麻醉誘導前仍在 CPR／ECMO"><input type="radio" id="s_u4" name="urgency" value="4"><label for="s_u4">Salvage 搶救<span class="urg-hint">進開刀房途中或麻醉誘導前仍在 CPR／ECMO</span></label></div></div>
+              <div class="error-msg">請選擇手術急迫性</div>
+            </div>
+            <div class="field">
+              <label>術前危急狀態（本次住院、進開刀房前；可複選，未勾 = 無）</label>
+              <div class="radio-group" style="flex-wrap:wrap;gap:8px 12px"><div class="option"><input type="checkbox" id="s_preop_ett" name="preop_ett" value="是"><label for="s_preop_ett">術前插管</label></div><div class="option"><input type="checkbox" id="s_preop_ecmo" name="preop_ecmo" value="是"><label for="s_preop_ecmo">術前 ECMO</label></div><div class="option"><input type="checkbox" id="s_preop_cpr" name="preop_cpr" value="是"><label for="s_preop_cpr">術前 CPR</label></div><div class="option"><input type="checkbox" id="s_preop_iabp" name="preop_iabp" value="是"><label for="s_preop_iabp">術前 IABP</label></div><div class="option"><input type="checkbox" id="s_preop_inotrope" name="preop_inotrope" value="是"><label for="s_preop_inotrope">術前強心／升壓劑</label></div></div>
+              <input type="text" id="s_preop_note" name="preop_note" maxlength="200" placeholder="備註（選填）：例 ECMO 置放時間、CPR 持續時間、IABP 1:1、Levophed 0.1" style="margin-top:8px">
+            </div>
+        <input type="hidden" name="preop_form" value="1">
         <div class="submit-area">
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">儲存預約</button>
           <p class="submit-note">送出後將更新病人主檔的手術相關欄位，並設定手術狀態為「排定中」</p>
@@ -1182,6 +1201,10 @@ function showPatient(p) {
   setIf('crea_pre', p.preopCrea);
   setIf('weight_pre', p.preopWeight);
   setIf('surgery_code', p.surgeryCode);
+  // ★2026-09-25 手術急迫性／術前危急狀態回填（舊資料只有常規／急診時不預選）
+  document.querySelectorAll('input[name="urgency"]').forEach(rb => { rb.checked = String(p.urgency || '') === rb.value; });
+  [['preop_ett', 'preopEtt'], ['preop_ecmo', 'preopEcmo'], ['preop_cpr', 'preopCpr'], ['preop_iabp', 'preopIabp'], ['preop_inotrope', 'preopInotrope']].forEach(([n, k]) => { if ($('s_' + n)) $('s_' + n).checked = p[k] === '是'; });
+  if ($('s_preop_note')) $('s_preop_note').value = p.preopNote || '';
 
   patientCard.style.display = 'grid';
   surgerySection.classList.remove('disabled');
@@ -1337,6 +1360,12 @@ surgeryForm.addEventListener('submit', async (e) => {
   // Surgery type（複選）：至少勾一項，或填補述
   const checkedTypes = Array.from(surgeryForm.querySelectorAll('input[name="surgery_type"]:checked')).map(c => c.value);
   const otherText = $('surgery_other').value.trim();
+  // ★2026-09-25 手術急迫性必填
+  if (!surgeryForm.querySelector('input[name="urgency"]:checked')) {
+    const fld = surgeryForm.querySelector('[data-name="urgency"]');
+    fld.classList.add('has-error'); valid = false;
+    if (!firstErr) firstErr = fld;
+  }
   if (checkedTypes.length === 0 && !otherText) {
     const fld = surgeryForm.querySelector('[data-name="surgery_type"]');
     fld.classList.add('has-error');
@@ -1379,6 +1408,8 @@ surgeryForm.addEventListener('submit', async (e) => {
       ${$('lvef').value ? `<div class="row-pair"><span>術前 LVEF</span><span>${$('lvef').value}%</span></div>` : ''}
       ${$('crea_pre').value ? `<div class="row-pair"><span>術前 Crea</span><span>${$('crea_pre').value} mg/dL</span></div>` : ''}
       ${$('weight_pre').value ? `<div class="row-pair"><span>術前體重</span><span>${$('weight_pre').value} kg</span></div>` : ''}
+      ${(() => { const u = surgeryForm.querySelector('input[name="urgency"]:checked'); return u ? `<div class="row-pair"><span>手術急迫性</span><span>${({ 1: 'Elective', 2: 'Urgent', 3: 'Emergent', 4: 'Salvage' })[u.value]}</span></div>` : ''; })()}
+      ${(() => { const f = Array.from(surgeryForm.querySelectorAll('input[name^="preop_"][type="checkbox"]:checked')).map(c => c.nextElementSibling.textContent); return f.length ? `<div class="row-pair"><span>術前危急狀態</span><span>${f.join('、')}</span></div>` : ''; })()}
       ${$('surgery_code').value ? `<div class="row-pair"><span>手術代碼</span><span>${$('surgery_code').value}</span></div>` : ''}
     `;
     $('successSummary').innerHTML = summary;
@@ -1407,7 +1438,9 @@ surgeryForm.addEventListener('submit', async (e) => {
   const clearFields = () => {
     ['emerg_name','emerg_gender','emerg_age','emerg_diagnosis','emerg_surgery','emerg_date','emerg_egfr','emerg_lvef','emerg_crea','emerg_weight'].forEach(id => { if ($(id)) $(id).value = ''; });
     document.querySelectorAll('input[name="emerg_surgery_type"]').forEach(cb => { cb.checked = false; });
-    document.querySelectorAll('input[name="emerg_nature"]').forEach(rb => { rb.checked = false; });
+    document.querySelectorAll('input[name="emerg_urgency"]').forEach(rb => { rb.checked = false; });
+    ['preop_ett', 'preop_ecmo', 'preop_cpr', 'preop_iabp', 'preop_inotrope'].forEach(n => { if ($('emerg_' + n)) $('emerg_' + n).checked = false; });
+    if ($('emerg_preop_note')) $('emerg_preop_note').value = '';
     if ($('emerg_reop')) { $('emerg_reop').checked = false; $('emerg_reop_of').value = ''; $('emergReopBox').style.display = 'none'; }
   };
 
@@ -1431,8 +1464,9 @@ surgeryForm.addEventListener('submit', async (e) => {
     const surgery = $('emerg_surgery').value.trim();                                   // 補述（選填）
     const types = Array.from(document.querySelectorAll('input[name="emerg_surgery_type"]:checked')).map(c => c.value);   // ★術式複選
     const emergDate = $('emerg_date') ? $('emerg_date').value : '';
-    const natureEl = document.querySelector('input[name="emerg_nature"]:checked');
-    const nature = natureEl ? natureEl.value : '';   // ★手術性質（常規／急診）→ 主檔 AY
+    const urgEl = document.querySelector('input[name="emerg_urgency"]:checked');
+    const urgency = urgEl ? urgEl.value : '';        // ★2026-09-25 手術急迫性 1–4 → 主檔 BA（後端同步推導手術性質 AY）
+    const nature = urgency ? (parseInt(urgency, 10) <= 2 ? '常規' : '急診') : '';
     const reopChk = $('emerg_reop') && $('emerg_reop').checked;
     const reopOf = reopChk ? ($('emerg_reop_of').value || '').trim() : '';
     const egfr = $('emerg_egfr').value.trim();
@@ -1444,7 +1478,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     if (!key) { alertEl.textContent = '請先輸入醫師通行碼'; alertEl.classList.add('show'); return; }
     if (!name || !diagnosis || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '姓名、診斷、術前 eGFR / LVEF / Crea / 體重 皆為必填'; alertEl.classList.add('show'); return; }
     if (!types.length) { alertEl.textContent = '請至少勾選一項術式'; alertEl.classList.add('show'); return; }
-    if (!nature) { alertEl.textContent = '請勾選手術性質（急診手術／常規手術）'; alertEl.classList.add('show'); return; }
+    if (!urgency) { alertEl.textContent = '請選擇手術急迫性（Elective／Urgent／Emergent／Salvage）'; alertEl.classList.add('show'); return; }
     if (reopChk && !reopOf) { alertEl.textContent = '已勾選同一住院再次手術，請填指標手術的病人主鍵'; alertEl.classList.add('show'); return; }
     if (types.indexOf('其他') >= 0 && !surgery) { alertEl.textContent = '術式選「其他」時請填手術內容補述'; alertEl.classList.add('show'); return; }
 
@@ -1460,7 +1494,11 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('surgery_type', types.join('、'));          // ★AC 術式（主選，複選以「、」連接，與術式選單一致）
     fd.append('surgery', surgery);                       // AD 補述
     if (emergDate) fd.append('actual_date', emergDate);  // ★實際手術日（補建舊案）
-    if (nature) fd.append('nature', nature);             // ★手術性質
+    if (nature) fd.append('nature', nature);             // ★手術性質（由急迫性推導，舊後端相容）
+    fd.append('urgency', urgency);                       // ★手術急迫性 1–4
+    fd.append('preop_form', '1');
+    ['preop_ett', 'preop_ecmo', 'preop_cpr', 'preop_iabp', 'preop_inotrope'].forEach(n => { if ($('emerg_' + n) && $('emerg_' + n).checked) fd.append(n, '是'); });
+    fd.append('preop_note', ($('emerg_preop_note') ? $('emerg_preop_note').value : '').trim());
     if (reopOf) fd.append('reop_of', reopOf);            // ★同住院再次手術 → 指標案主鍵（AZ）
     fd.append('egfr', egfr);
     fd.append('lvef', lvef);
