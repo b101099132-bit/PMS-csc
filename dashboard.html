@@ -1228,6 +1228,15 @@ footer {
   line-height: 1.7;
 }
 
+/* ★2026-09-26 資料待補清單 */
+.gap-card { background: var(--paper, #fff); border: 1px solid var(--border, #E8E2D5); border-radius: 3px; padding: 6px 14px; margin-bottom: 18px; }
+.gap-item { border-bottom: 1px solid var(--border, #E8E2D5); padding: 8px 0; }
+.gap-item:last-child { border-bottom: none; }
+.gap-item summary { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; gap: 10px; }
+.gap-n { background: #F3E3D3; color: #8A4B1F; border-radius: 10px; padding: 1px 9px; font-size: 12px; font-weight: 600; }
+.gap-hint { font-size: 12px; color: var(--ink-faint, #8A8580); margin: 6px 0 4px; }
+.gap-row { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; padding: 4px 0; }
+.gap-row .mono { font-family: ui-monospace, monospace; font-size: 11px; }
 </style>
 </head>
 <body>
@@ -1292,7 +1301,8 @@ function jsonp(url, params, timeoutMs = 35000) {
     const timer = setTimeout(() => { cleanup(); reject(new Error('查詢逾時')); }, timeoutMs);
     function cleanup() { delete window[cb]; script.remove(); clearTimeout(timer); }
     window[cb] = (data) => { cleanup(); resolve(data); };
-    script.onerror = () => { cleanup(); reject(new Error('網路錯誤')); };
+    script.onerror = () => { cleanup(); reject(new Error('load')); };
+    script.onload = () => { if (window[cb]) { cleanup(); reject(new Error('bad-response')); } };   // ★2026-09-26 載入了卻沒呼叫 callback（伺服器回 HTML 錯誤頁）→ 立即重試
     script.src = url + '?' + usp.toString();
     document.body.appendChild(script);
   });
@@ -1314,7 +1324,13 @@ async function load(fresh) {
   try {
     const params = { action: 'dashboard', key };
     if (fresh) params.fresh = '1';
-    const res = await jsonp(APPS_SCRIPT_URL, params);
+    // ★2026-09-26 自動重試：立即、2 秒、4 秒；全部失敗才顯示錯誤
+    let res = null;
+    for (const w of [0, 2000, 4000]) {
+      if (w) await new Promise(r => setTimeout(r, w));
+      try { res = await jsonp(APPS_SCRIPT_URL, params); if (res) break; } catch (e) { res = null; }
+    }
+    if (!res) throw new Error('retry');
     if (res.error === 'unauthorized') {
       showError('通行碼錯誤');
       $('content').innerHTML = '';
@@ -1333,7 +1349,7 @@ async function load(fresh) {
       // 副載入失敗不顯示錯誤橫幅,只在 console 警告
     });
   } catch (err) {
-    showError('載入失敗:' + err.message);
+    showError('資料載入失敗，請重新載入。', true);
     $('content').innerHTML = '';
   }
 }
@@ -1364,9 +1380,10 @@ async function loadEduStats(key) {
   }
 }
 
-function showError(msg) {
+function showError(msg, withRetry) {
   const el = $('errAlert');
   el.textContent = msg;
+  if (withRetry) { const b = document.createElement('button'); b.type = 'button'; b.textContent = '重新載入'; b.style.cssText = 'display:block;margin-top:8px;padding:6px 14px;border:1px solid currentColor;background:#fff;color:inherit;border-radius:4px;cursor:pointer;font-family:inherit'; b.onclick = () => load(); el.appendChild(b); }
   el.classList.add('show');
 }
 
@@ -1731,6 +1748,7 @@ function renderDynamic() {
     inProgress: lists.inProgress.filter(p => catOf(p) && micsOf(p) && perOf(p)),
     closed:     lists.closed.filter(p => catOf(p) && micsOf(p) && perOf(p)),
   };
+  html.push(renderDataGaps(_dashData.dataGaps));
   html.push(`
     <h2 class="section-title">
       <span class="num">09</span>
@@ -2004,6 +2022,7 @@ function drawFlowCharts(sel) {
       })),
     })),
   }));
+  _tmData = tmData;
   _charts.treemap = echarts.init(tm, null, { renderer: 'svg' });
   _charts.treemap.setOption({
     tooltip: { formatter: (p) => `${p.treePathInfo.map(x => x.name).filter(Boolean).join(' › ')}：<b>${p.value}</b> 人` },
@@ -2012,7 +2031,7 @@ function drawFlowCharts(sel) {
       roam: false, nodeClick: false,
       breadcrumb: { show: false },
       label: { ...font, fontSize: 12, formatter: (p) => `${p.name}\n${p.value}` },
-      upperLabel: { show: true, height: 22, ...font, fontSize: 12, formatter: (p) => `${p.name} · ${p.value}` },
+      upperLabel: { show: true, height: 22, ...font, fontSize: 12, formatter: (p) => p.name ? `${p.name} · ${p.value}` : `全部 · ${p.value}` },
       itemStyle: { borderColor: '#FAF7F2', borderWidth: 2, gapWidth: 2 },
       levels: [
         { itemStyle: { borderWidth: 2, gapWidth: 6, borderColor: '#FAF7F2' }, upperLabel: { show: true, color: '#1A1A1A', fontWeight: 600 } },
@@ -2023,10 +2042,44 @@ function drawFlowCharts(sel) {
     }],
   });
 
+  fitTreemap();
   if (!_flowResizeBound) {
-    window.addEventListener('resize', () => Object.values(_charts).forEach(ch => { try { ch.resize(); } catch (e) {} }));
+    window.addEventListener('resize', () => { Object.values(_charts).forEach(ch => { try { ch.resize(); } catch (e) {} }); fitTreemap(); });
     _flowResizeBound = true;
   }
+}
+// ★2026-09-26 樹狀圖：依實際格子大小決定是否顯示文字（放不下只顯示數字或不顯示），不出現「微...」殘字；細節見滑鼠提示
+let _tmData = null;
+function textW(t) { let w = 0; for (const ch of String(t)) w += /[\u2E80-\uFFFF]/.test(ch) ? 12.5 : 7.2; return w; }
+function fitTreemap() { for (let i = 0; i < 4; i++) { if (!fitTreemapOnce()) break; } }
+function fitTreemapOnce() {
+  const ch = _charts.treemap; if (!ch || !_tmData) return false;
+  let root; try { root = ch.getModel().getSeriesByIndex(0).getData().tree.root; } catch (e) { return false; }
+  const byPath = {};
+  const walk = (arr, pre) => arr.forEach(o => { const k = pre + '/' + o.name; byPath[k] = o; if (o.children) walk(o.children, k); });
+  walk(_tmData, '');
+  let changed = false;
+  root.eachNode(node => {
+    if (node === root) return;
+    const names = []; let n = node; while (n && n !== root) { names.unshift(n.name); n = n.parentNode; }
+    const o = byPath['/' + names.join('/')]; const L = node.getLayout && node.getLayout(); if (!o || !L) return;
+    const v = node.getValue();
+    if (node.children && node.children.length) {
+      const fits = L.width >= textW(o.name + ' · ' + v) + 10 && L.height >= 26;
+      if ((o.upperLabel && o.upperLabel.show === false) !== !fits) { o.upperLabel = fits ? undefined : { show: false }; changed = true; }
+    } else {
+      const full = L.width >= textW(o.name) + 10 && L.height >= 36;
+      const numOnly = !full && L.width >= textW(String(v)) + 8 && L.height >= 18;
+      const mode = full ? 'full' : (numOnly ? 'num' : 'none');
+      if (o._lm !== mode) {
+        o._lm = mode; changed = true;
+        o.label = Object.assign({}, o.label, { show: mode !== 'none', formatter: mode === 'num' ? String(v) : undefined });
+        if (mode === 'full') delete o.label.formatter;
+      }
+    }
+  });
+  if (changed) ch.setOption({ series: [{ data: _tmData }] });
+  return changed;
 }
 /* ============================================================
  *  ★ 06++ 趨勢與改善
@@ -3125,13 +3178,35 @@ function renderList(items, kind) {
   return rows.join('');
 }
 
+// ★2026-09-26 資料待補清單（僅團隊版；後端 dataGaps）
+const GAP_DEFS = [
+  ['noPostop', '已完成手術、術後追蹤紀錄未建立', '到術後追蹤頁建立紀錄；未建立前不進成效分析與流向圖'],
+  ['airway', '氣道方式空白', '術後追蹤「脫離呼吸器」段選擇氣道方式（9/24 前的存檔錯誤會留下這類空白）'],
+  ['notClosed', '已填出院日、主檔未標結案', '在術後追蹤頁重新存檔一次即會補上結案（同一存檔錯誤造成）'],
+  ['noDischarge', '術後超過 30 天仍無出院日', '確認是否仍住院，或補填出院日'],
+  ['urgency', '手術急迫性空白（2026-09-25 起的手術）', '在手術預約資訊選擇 Elective／Urgent／Emergent／Salvage'],
+];
+function renderDataGaps(gaps) {
+  if (!gaps) return '';
+  const rows = GAP_DEFS.filter(([k]) => gaps[k] && gaps[k].length);
+  const total = rows.reduce((a, [k]) => a + gaps[k].length, 0);
+  const body = rows.length ? rows.map(([k, label, hint]) => `
+    <details class="gap-item"><summary><span class="gap-label">${escapeHtml(label)}</span><span class="gap-n">${gaps[k].length}</span></summary>
+      <div class="gap-hint">${escapeHtml(hint)}</div>
+      <div class="gap-list">${gaps[k].map(g => `<div class="gap-row"><span class="name" title="${escapeHtml(g.pk || '')}">${escapeHtml(maskName(g.name))}</span><span class="meta">${escapeHtml(g.date || '—')} · ${escapeHtml(g.surgery || '—')}</span><span class="meta mono">${escapeHtml(g.pk || '')}</span></div>`).join('')}</div>
+    </details>`).join('') : '<div class="plist-empty">目前沒有待補資料 ✓</div>';
+  return `
+    <h2 class="section-title"><span class="num">08+</span><span>資料待補清單</span><span class="sub">${total ? `共 ${total} 筆 · 點開看是哪幾位` : '全部完整'}</span></h2>
+    <div class="gap-card">${body}</div>`;
+}
 function statusPill(p) {
   if (p.status === '取消') return '<span class="status-pill cancelled">取消</span>';
   if (p.status === '改期') return '<span class="status-pill reschedule">改期</span>';
   if (p.status === '已完成') {
-    return p.closed
+    const warn = p.noPostop ? ' <span class="status-pill reschedule" title="已完成手術，但尚未建立術後追蹤紀錄">術後紀錄未建立</span>' : '';   // ★2026-09-26
+    return (p.closed
       ? '<span class="status-pill cancelled">已結案</span>'
-      : '<span class="status-pill completed">已完成</span>';
+      : '<span class="status-pill completed">已完成</span>') + warn;
   }
   if (p.status === '排定中') return '<span class="status-pill scheduled">排定中</span>';
   return '<span class="status-pill cancelled">—</span>';

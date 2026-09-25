@@ -375,7 +375,34 @@ function updateLinks() {
 $('doctor_key').addEventListener('input', updateLinks);
 $('doctor_key').addEventListener('change', updateLinks);
 
+// ★2026-09-26 依通行碼權限顯示卡片：團隊碼只顯示急診收案／恢復室／術後追蹤；管理員碼顯示全部
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const ADMIN_ONLY = ['card-dashboard', 'card-risk', 'card-study'];
+let _roleTimer = null;
+function applyRole(role) {
+  ADMIN_ONLY.forEach(id => { const c = $(id); if (c) c.style.display = role === 'team' ? 'none' : ''; });
+  const sc = $('card-surgery');
+  if (sc) {
+    const t = sc.querySelector('.card-title'), d = sc.querySelector('.card-desc');
+    if (!sc.dataset.t0) { sc.dataset.t0 = t.textContent; sc.dataset.d0 = d.textContent; }
+    t.textContent = role === 'team' ? '急診收案（新增手術）' : sc.dataset.t0;
+    d.textContent = role === 'team' ? '開完刀後由團隊以急診收案方式建立病人與手術紀錄。' : sc.dataset.d0;
+  }
+}
+function checkRole() {
+  const v = $('doctor_key').value.trim();
+  if (!v) { applyRole(null); return; }
+  const cb = '_role_' + Date.now();
+  const s = document.createElement('script');
+  window[cb] = (r) => { delete window[cb]; s.remove(); applyRole(r && r.role); };
+  s.onerror = () => { delete window[cb]; s.remove(); };
+  s.src = APPS_SCRIPT_URL + '?action=role&key=' + encodeURIComponent(v) + '&callback=' + cb;
+  document.body.appendChild(s);
+}
+$('doctor_key').addEventListener('input', () => { clearTimeout(_roleTimer); _roleTimer = setTimeout(checkRole, 700); });
+
 updateLinks();
+checkRole();
 </script>
 
 <!-- ════════════════════════════════════════════════════════════════════ -->

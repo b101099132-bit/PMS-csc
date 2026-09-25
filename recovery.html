@@ -348,6 +348,7 @@ function computeRates(){
 ['chest_tube_total','urine_total'].forEach(id => { const el = $(id); if(el) el.addEventListener('input', computeRates); });
 { const w = $('weight_kg'); if(w) w.addEventListener('input', () => { computeRates(); computeVis(); }); }   // 體重同時影響尿量率與 VIS 換算
 
+function maskName(n){ const t=String(n==null?'':n).trim(); if(t.length<=1) return t; if(t.length===2) return t[0]+'*'; return t[0]+'*'+t[t.length-1]; }   // ★2026-09-26 姓名遮罩（與術後追蹤一致）
 function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 // ===== key hash carry =====
@@ -388,7 +389,7 @@ async function loadRecent(){
     if(!res.list || !res.list.length){ box.innerHTML='<div class="recent-empty">最近 14 天沒有手術病人</div>'; return; }
     box.innerHTML = res.list.map(p => `
       <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
-        <div><span class="nm">${escapeHtml(p.name)}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null?p.age+'歲':''}</span></div>
+        <div><span class="nm">${escapeHtml(maskName(p.name))}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null?p.age+'歲':''}</span></div>
         <div class="mt">${escapeHtml(p.surgery||'')}${p.surgeryDate?' · '+p.surgeryDate.slice(5):''}</div>
       </div>`).join('');
     box.querySelectorAll('.recent-item').forEach(it => it.addEventListener('click', ()=>doLookup(it.dataset.pk)));
@@ -420,7 +421,7 @@ async function doLookup(pk){
 }
 
 function showPatient(p){
-  $('pc_name').textContent = p.name || '—';
+  $('pc_name').textContent = maskName(p.name) || '—';
   $('pc_ga').textContent = (p.gender||'—') + ' / ' + (p.age!=null?p.age+' 歲':'—');
   $('pc_pk').textContent = p.pk || '—';
   $('pc_surgery').textContent = p.currentSurgery || '—';

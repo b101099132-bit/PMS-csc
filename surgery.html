@@ -1108,12 +1108,37 @@ function bindRecentItems(container) {
 }
 
 // fresh=true 時後端略過 90 秒快取取最新（重新整理鈕、剛改完狀態後用）
+// ★2026-09-26 權限分級：團隊通行碼在本頁只能用「急診收案」，其餘（病人清單、查詢、預約）只有管理員
+let _role = null, _roleKey = null;
+async function ensureRole(key) {
+  if (_roleKey === key && _role) return _role;
+  try { const r = await jsonp(APPS_SCRIPT_URL, { action: 'role', key }); _role = (r && r.role) || 'none'; } catch (e) { _role = 'unknown'; }
+  _roleKey = key; return _role;
+}
+function applyTeamMode(isTeam) {
+  const hideIds = ['recentWrap', 'surgerySection'];
+  hideIds.forEach(id => { const el = $(id); if (el) el.style.display = isTeam ? 'none' : ''; });
+  const lb = $('lookupBtn'); if (lb && lb.parentElement) lb.parentElement.style.display = isTeam ? 'none' : '';
+  const row = $('lookup_birthdate') && $('lookup_birthdate').closest('.row'); if (row) row.style.display = isTeam ? 'none' : '';
+  let note = $('teamModeNote');
+  if (isTeam && !note) {
+    note = document.createElement('div'); note.id = 'teamModeNote';
+    note.style.cssText = 'font-size:13px;color:#6B6457;background:#F4EFE7;border-radius:6px;padding:10px 12px;margin-top:4px;line-height:1.6';
+    note.textContent = '團隊通行碼：本頁僅開放「急診收案」。收案後請到「恢復室」或「術後追蹤」頁面接續填寫。';
+    $('lookupAlert').parentElement.insertBefore(note, $('lookupAlert'));
+  }
+  if (note) note.style.display = isTeam ? '' : 'none';
+  if (isTeam && $('emergForm') && $('emergForm').style.display === 'none') $('emergToggleBtn').click();
+}
 async function loadRecent(fresh) {
   const key = $('doctor_key').value.trim();
   if (!key) {
     $('recentWrap').style.display = 'none';
     return;
   }
+  const role = await ensureRole(key);
+  applyTeamMode(role === 'team');
+  if (role === 'team') return;
 
   const recentWrap = $('recentWrap');
   const recentList = $('recentList');
