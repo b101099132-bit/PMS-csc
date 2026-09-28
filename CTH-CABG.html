@@ -76,9 +76,9 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 <header>
   <div class="eyebrow">Cardiac ERAS · Cardinal Tien Hospital</div>
   <h1><span data-zh>冠狀動脈繞道手術（CABG）<br>立即拔管 ERAS 導入前後成效</span><span data-en>Coronary Artery Bypass Grafting (CABG)<br>Outcomes Before and After the Immediate-Extubation ERAS Protocol</span></h1>
-  <div class="sub"><span data-zh>天主教耕莘醫院 心臟加速康復團隊（心臟血管外科 × 心血管麻醉科）· 2025 年 4 月 15 日起導入手術室內立即拔管 protocol</span><span data-en>Cardinal Tien Hospital Cardiac ERAS Team (Cardiovascular Surgery × Cardiothoracic Anaesthesia) · In-OR immediate-extubation protocol implemented since 15 Apr 2025</span></div>
+  <div class="sub"><span data-zh>天主教耕莘醫院 心臟加速康復團隊「與你同莘」· 2025 年 4 月 15 日起導入手術室內立即拔管 protocol</span><span data-en>Cardinal Tien Hospital Cardiac ERAS Team · In-OR immediate-extubation protocol implemented since 15 Apr 2025</span></div>
   <div class="topbar">
-    <span class="asof"><span data-zh>資料截止：2026/09/28（凍結版）</span><span data-en>Data as of 28 Sep 2026 (frozen snapshot)</span></span>
+    <span class="asof"><span data-zh>資料截止：2026/09/28（凍結版，09/29 修訂死亡登錄）</span><span data-en>Data as of 28 Sep 2026 (frozen snapshot; mortality record corrected 29 Sep)</span></span>
     <span class="lang"><button type="button" id="btnZh" class="on">中文</button><button type="button" id="btnEn">English</button></span>
   </div>
   <div class="live" style="margin-top:8px"><span data-zh>即時更新版（全術式公開儀表板，選「CABG」）：</span><span data-en>Live version (all-procedure public dashboard, select “CABG”): </span><a href="public.html?cat=CABG" target="_blank" rel="noopener">public.html</a></div>
@@ -118,6 +118,8 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
   <p data-en><b>Inclusion</b>: isolated CABG (including minimally invasive MICS-CABG) operated between 6 Mar 2020 and 23 Sep 2026; CABG combined with valve surgery and re-operations within the same admission (counted toward volume only) were excluded.</p>
   <p data-zh><b>手術室內拔管</b>：拔管時間早於轉入加護病房；導入前病例依灌流紀錄與病歷備註判定拔管時機。<b>ERAS 流程</b>：由心血管麻醉科依團隊 protocol 執行之麻醉與術後照護。</p>
   <p data-en><b>In-OR extubation</b>: extubation before ICU admission; pre-implementation extubation timing was classified from perfusion records and chart notes. <b>ERAS pathway</b>: anaesthesia and postoperative care delivered by the cardiothoracic anaesthesia division according to the team protocol.</p>
+  <p data-zh><b>重新插管</b>：住院期間任何時間之再插管（含術後急救），非限 24／48 小時內；導入後 3 例均為手術室內拔管者，換算拔管後再插管率 3/60（5.0%）。兩期人數少，差異無統計意義。</p>
+  <p data-en><b>Reintubation</b>: any reintubation during the index admission (including post-arrest), not restricted to 24/48 h after extubation; all 3 post-implementation cases had been extubated in the OR (3/60, 5.0%). Counts are small and the difference is not statistically meaningful.</p>
   <p data-zh><b>切點</b>：2025/04/15 為 protocol 導入日；導入前包含 2025/01–04/15 的 7 例。<b>統計</b>：連續變項以中位數（平均值）呈現；比率以分子／分母呈現，未做假設檢定。導入後人數少，死亡與再入院比率會隨個案變動，請同時參考人數。</p>
   <p data-en><b>Cut-off</b>: protocol launch on 15 Apr 2025; the pre-implementation group includes 7 cases from Jan–15 Apr 2025. <b>Statistics</b>: continuous variables shown as median (mean); rates as numerator/denominator; no hypothesis testing. Post-implementation counts are small, so death and readmission rates are sensitive to single cases — please read them together with the counts.</p>
   <p data-zh><b>本頁為 2026/09/28 資料凍結版</b>，供 SNQ 國家品質標章審查參考；即時更新版見頁首連結。院內品質改善用途依本院 IRB 意見免送審；公開發表之研究另經 IRB 審查。</p>
@@ -133,7 +135,7 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 const D = {
   cmp: { // 導入前 / 導入後
     n: [131, 64], or: [[0,131],[60,64]], icuMed: [4,2], icuMean: [10.3,4.6], losMed: [13,8], losMean: [17.4,12.8],
-    death: [[15,131],[2,64]], r30: [[9,116],[3,59]], r90: [[20,116],[3,47]]
+    death: [[15,131],[3,64]], reint: [[7,131],[3,64]], r30: [[9,116],[3,58]], r90: [[20,116],[3,46]]
   },
   years: [
     { k:'2020', n:18, or:[0,18], icu:[5,7.6], los:[15,21.3], death:3 },
@@ -143,7 +145,7 @@ const D = {
     { k:'2024', n:50, or:[0,50], icu:[4,7.3], los:[11,16.0], death:6 },
     { k:'2025a', n:7,  or:[0,7],  icu:[4,6.6], los:[10,12.3], death:1 },
     { k:'2025b', n:23, or:[20,23], icu:[3,5.6], los:[10,14.0], death:1, post:true },
-    { k:'2026', n:41, or:[40,41], icu:[2,4.1], los:[8,12.0], death:1, post:true },
+    { k:'2026', n:41, or:[40,41], icu:[2,4.1], los:[8,12.0], death:2, post:true },
   ],
   eras: [
     { zh:'ERAS 流程 · 常規 CABG', en:'ERAS pathway · elective CABG', k:57, n:57 },
@@ -153,7 +155,7 @@ const D = {
   ],
   flows: {
     pre: {"n":131,"nodes":{"傳統開胸":131,"傳統照護":131,"<6 小時拔管":59,"ICU >2 天":116,"出院 8–14 天":68,"存活出院（其他事件未登錄）":116,"≥6 小時拔管":72,"出院 >30 天":13,"出院 15–30 天":23,"住院中死亡":15,"住院死亡":15,"ICU 1–2 天":14,"出院 3–7 天":12,"ICU <24 小時":1},"links":{"傳統開胸→傳統照護":131,"傳統照護→<6 小時拔管":59,"<6 小時拔管→ICU >2 天":45,"ICU >2 天→出院 8–14 天":59,"出院 8–14 天→存活出院（其他事件未登錄）":68,"傳統照護→≥6 小時拔管":72,"≥6 小時拔管→ICU >2 天":71,"ICU >2 天→出院 >30 天":13,"出院 >30 天→存活出院（其他事件未登錄）":13,"ICU >2 天→出院 15–30 天":23,"出院 15–30 天→存活出院（其他事件未登錄）":23,"ICU >2 天→住院中死亡":13,"住院中死亡→住院死亡":15,"≥6 小時拔管→ICU 1–2 天":1,"ICU 1–2 天→住院中死亡":1,"<6 小時拔管→ICU 1–2 天":13,"ICU 1–2 天→出院 8–14 天":9,"ICU >2 天→出院 3–7 天":8,"出院 3–7 天→存活出院（其他事件未登錄）":12,"ICU 1–2 天→出院 3–7 天":4,"<6 小時拔管→ICU <24 小時":1,"ICU <24 小時→住院中死亡":1}},
-    team: {"n":64,"nodes":{"傳統開胸":51,"Cardiac ERAS":60,"手術室內拔管":60,"ICU 1–2 天":19,"出院 3–7 天":28,"無重大異常事件":58,"傳統照護":4,"≥6 小時拔管":4,"ICU >2 天":31,"出院 >30 天":5,"重大異常事件（非死亡）":4,"出院 15–30 天":8,"出院 8–14 天":19,"住院中死亡":2,"住院死亡":2,"微創 MICS":13,"ICU <24 小時":13,"尚未出院／未記錄":2,"ICU 未記錄":1},"links":{"傳統開胸→Cardiac ERAS":47,"Cardiac ERAS→手術室內拔管":60,"手術室內拔管→ICU 1–2 天":18,"ICU 1–2 天→出院 3–7 天":13,"出院 3–7 天→無重大異常事件":27,"傳統開胸→傳統照護":4,"傳統照護→≥6 小時拔管":4,"≥6 小時拔管→ICU >2 天":3,"ICU >2 天→出院 >30 天":5,"出院 >30 天→重大異常事件（非死亡）":2,"手術室內拔管→ICU >2 天":28,"ICU >2 天→出院 15–30 天":6,"出院 15–30 天→無重大異常事件":8,"ICU >2 天→出院 8–14 天":8,"出院 8–14 天→無重大異常事件":19,"出院 >30 天→無重大異常事件":3,"ICU >2 天→出院 3–7 天":10,"ICU 1–2 天→出院 8–14 天":4,"ICU >2 天→住院中死亡":2,"住院中死亡→住院死亡":2,"≥6 小時拔管→ICU 1–2 天":1,"ICU 1–2 天→出院 15–30 天":2,"微創 MICS→Cardiac ERAS":13,"手術室內拔管→ICU <24 小時":13,"ICU <24 小時→出院 3–7 天":5,"ICU <24 小時→出院 8–14 天":7,"出院 3–7 天→重大異常事件（非死亡）":1,"ICU <24 小時→尚未出院／未記錄":1,"尚未出院／未記錄→無重大異常事件":1,"手術室內拔管→ICU 未記錄":1,"ICU 未記錄→尚未出院／未記錄":1,"尚未出院／未記錄→重大異常事件（非死亡）":1}}
+    team: {"n":64,"nodes":{"傳統開胸":51,"Cardiac ERAS":60,"手術室內拔管":60,"ICU 1–2 天":19,"出院 3–7 天":27,"無重大異常事件":58,"傳統照護":4,"≥6 小時拔管":4,"ICU >2 天":31,"出院 >30 天":5,"重大異常事件（非死亡）":3,"出院 15–30 天":8,"出院 8–14 天":19,"住院中死亡":3,"住院死亡":3,"微創 MICS":13,"ICU <24 小時":13,"尚未出院／未記錄":2,"ICU 未記錄":1},"links":{"傳統開胸→Cardiac ERAS":47,"Cardiac ERAS→手術室內拔管":60,"手術室內拔管→ICU 1–2 天":18,"ICU 1–2 天→出院 3–7 天":13,"出院 3–7 天→無重大異常事件":27,"傳統開胸→傳統照護":4,"傳統照護→≥6 小時拔管":4,"≥6 小時拔管→ICU >2 天":3,"ICU >2 天→出院 >30 天":5,"出院 >30 天→重大異常事件（非死亡）":2,"手術室內拔管→ICU >2 天":28,"ICU >2 天→出院 15–30 天":6,"出院 15–30 天→無重大異常事件":8,"ICU >2 天→出院 8–14 天":8,"出院 8–14 天→無重大異常事件":19,"出院 >30 天→無重大異常事件":3,"ICU >2 天→出院 3–7 天":9,"ICU 1–2 天→出院 8–14 天":4,"ICU >2 天→住院中死亡":3,"住院中死亡→住院死亡":3,"≥6 小時拔管→ICU 1–2 天":1,"ICU 1–2 天→出院 15–30 天":2,"微創 MICS→Cardiac ERAS":13,"手術室內拔管→ICU <24 小時":13,"ICU <24 小時→出院 3–7 天":5,"ICU <24 小時→出院 8–14 天":7,"ICU <24 小時→尚未出院／未記錄":1,"尚未出院／未記錄→無重大異常事件":1,"手術室內拔管→ICU 未記錄":1,"ICU 未記錄→尚未出院／未記錄":1,"尚未出院／未記錄→重大異常事件（非死亡）":1}}
   }
 };
 const T = {
@@ -175,6 +177,7 @@ function renderKpi() {
     { lbl: t('ICU 天數（中位數）', 'ICU days (median)'), b: c.icuMed[0], a: c.icuMed[1], unit: t('天','d'), frac: t(`平均 ${c.icuMean[0]} → ${c.icuMean[1]} 天`, `mean ${c.icuMean[0]} → ${c.icuMean[1]} d`) },
     { lbl: t('術後住院天數（中位數）', 'Postoperative LOS (median)'), b: c.losMed[0], a: c.losMed[1], unit: t('天','d'), frac: t(`平均 ${c.losMean[0]} → ${c.losMean[1]} 天`, `mean ${c.losMean[0]} → ${c.losMean[1]} d`) },
     { lbl: t('住院死亡率', 'In-hospital mortality'), b: pct(...c.death[0]), a: pct(...c.death[1]), unit: '', frac: `${c.death[0][0]}/${c.death[0][1]} → ${c.death[1][0]}/${c.death[1][1]}` },
+    { lbl: t('住院期間重新插管率', 'In-hospital reintubation'), b: pct(...c.reint[0]), a: pct(...c.reint[1]), unit: '', frac: `${c.reint[0][0]}/${c.reint[0][1]} → ${c.reint[1][0]}/${c.reint[1][1]}` },
     { lbl: t('30 天再入院率', '30-day readmission'), b: pct(...c.r30[0]), a: pct(...c.r30[1]), unit: '', frac: `${c.r30[0][0]}/${c.r30[0][1]} → ${c.r30[1][0]}/${c.r30[1][1]}` },
     { lbl: t('90 天再入院率', '90-day readmission'), b: pct(...c.r90[0]), a: pct(...c.r90[1]), unit: '', frac: `${c.r90[0][0]}/${c.r90[0][1]} → ${c.r90[1][0]}/${c.r90[1][1]}` },
   ];
