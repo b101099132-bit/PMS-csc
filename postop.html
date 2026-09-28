@@ -993,6 +993,41 @@ footer {
           <textarea id="major_event_note" name="major_event_note" placeholder="例：急救原因、再次手術原因…"></textarea>
         </div>
 
+        <!-- ★2026-09-28 出院後再入院（出院後 30／90 天回填；本院任何原因再住院，急診留觀不計） -->
+        <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">出院後再入院（出院滿 30／90 天後回填）</div>
+        <input type="hidden" name="readmit_form" value="1">
+        <div class="row row-2">
+          <div class="field">
+            <label for="readmit_30">30 天內再入院</label>
+            <select id="readmit_30" name="readmit_30"><option value="">未填</option><option>否</option><option>是</option></select>
+          </div>
+          <div class="field">
+            <label for="readmit_30_date">30 天再入院日期</label>
+            <input type="date" id="readmit_30_date" name="readmit_30_date">
+          </div>
+        </div>
+        <div class="row row-2">
+          <div class="field">
+            <label for="readmit_90">90 天內再入院</label>
+            <select id="readmit_90" name="readmit_90"><option value="">未填</option><option>否</option><option>是</option></select>
+            <div class="hint">30 天內已再入院者，90 天亦填「是」</div>
+          </div>
+          <div class="field">
+            <label for="readmit_90_date">90 天再入院日期</label>
+            <input type="date" id="readmit_90_date" name="readmit_90_date">
+          </div>
+        </div>
+        <div class="row row-2">
+          <div class="field">
+            <label for="readmit_dx">再入院診斷</label>
+            <input type="text" id="readmit_dx" name="readmit_dx" maxlength="100" placeholder="例：Wound debridement、Pleural effusion">
+          </div>
+          <div class="field">
+            <label for="post_discharge_death">出院後死亡日期（如有）</label>
+            <input type="date" id="post_discharge_death" name="post_discharge_death">
+          </div>
+        </div>
+
         <div class="subhead" style="font-size:14px;color:var(--ink-soft);margin-top:18px">一般異常事件</div>
         <div class="row row-2">
           <div class="field">
@@ -1520,6 +1555,8 @@ function fillExisting(p) {
   }
   if (po.anesthetist) $('anesthetist').value = po.anesthetist;
   if ($('airway')) { $('airway').value = po.airway || ''; applyAirway(); }
+  // ★2026-09-28 再入院回填
+  ['readmit_30','readmit_30_date','readmit_90','readmit_90_date','readmit_dx','post_discharge_death'].forEach(k => { if ($(k)) $(k).value = po[k] || ''; });
 
   // Milestones（拆日期 + HH:mm 回填）
   MILESTONES.forEach(m => {
