@@ -1355,7 +1355,8 @@ function fitTreemapOnce() {
   return changed;
 }
 const font = { fontFamily: "'Noto Sans TC', sans-serif" };
-let _d = null, _cat = 'all', _charts = {}, _t = { prop: 'auto', target: 0.8, cat: null, cmode: 'oe', cfrom: 'all' }, _advOpen = false;
+let _d = null, _cat = (() => { try { const q = new URLSearchParams(location.search).get('cat'); return q && ['CABG','主動脈手術','瓣膜','CABG+瓣膜','主動脈支架','其他'].includes(q) ? q : 'all'; } catch (e) { return 'all'; } })(),   // ★2026-09-28 ?cat=CABG 直接開在該術式（SNQ 頁連結用）
+   _charts = {}, _t = { prop: 'auto', target: 0.8, cat: null, cmode: 'oe', cfrom: 'all' }, _advOpen = false;
 
 // ===== ★2026-09-14 英文介面（?lang=en 或右上角切換）=====
 // 做法：同一份頁面，英文模式時對「渲染出的 HTML／ECharts option 字串／tooltip 輸出／說明文字」做片語字典替換（長片語優先）。
