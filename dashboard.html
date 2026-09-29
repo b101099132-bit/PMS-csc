@@ -1892,7 +1892,7 @@ function flowLayers(c, singleCat) {
   const lE = c.eras === '是' ? 'Cardiac ERAS' : (c.eras === '否' ? '傳統照護' : 'ERAS 未標記');
   return [l1, lE, l2, l3, losBand(c), l4];
 }
-// ★2026-09-24 沖積圖時段切換（團隊成立 = 2025/04/15；背景期 = 歷史背景表，無 ERAS、無微創）
+// ★2026-09-24 沖積圖時段切換（團隊成立 = 2025/04/15；背景期 = 歷史背景表，微創／ERAS 依該表欄位，2026-09-29 起不再一律視為傳統）
 const FLOW_CUT = '2025-04-15', FLOW_Y1END = '2026-04-15';
 const FLOW_PERIODS = [
   ['all', '不分時間（含背景期）'],
@@ -1903,18 +1903,21 @@ const FLOW_PERIODS = [
 ];
 function flowBgRows() {
   const h = _dashData && _dashData.historical;
-  if (_f.mics === 'mics' || _f.eras === 'eras') return [];   // 背景期沒有微創、沒有 ERAS
   return (h && h.cases ? h.cases : []).filter(hc => {
     const inPre = hc.d ? hc.d <= FLOW_CUT : (hc.y && hc.y < 2025);
     if (!inPre) return false;
     if (_f.cat !== 'all' && (hc.cats || []).indexOf(_f.cat) < 0) return false;
     if (_f.nature === 'emerg' && hc.emerg !== 1) return false;
     if (_f.nature === 'elective' && hc.emerg !== 0) return false;
+    if (_f.mics === 'mics' && !hc.mics) return false;
+    if (_f.mics === 'open' && hc.mics) return false;
+    if (_f.eras === 'eras' && hc.eras !== 1) return false;
+    if (_f.eras === 'non' && hc.eras === 1) return false;
     return true;
   }).map(hc => {
     const c0 = (hc.cats || [])[0];
     return { bg: true, d: hc.d || '', cat: _f.cat !== 'all' ? _f.cat : (CAT_ORDER.indexOf(c0) >= 0 ? c0 : '其他'),
-      mics: false, eras: '否', airway: hc.timing === 4 ? '不插管 HFNC' : '', extClass: ({ 1: 'or', 2: 'lt6', 3: 'ge6' })[hc.timing] || '',
+      mics: !!hc.mics, eras: hc.eras === 1 ? '是' : '否', airway: hc.timing === 4 ? '不插管 HFNC' : '', extClass: ({ 1: 'or', 2: 'lt6', 3: 'ge6' })[hc.timing] || '',
       icu: null, icuD: hc.icuD, death: hc.death, los: hc.los };
   });
 }
