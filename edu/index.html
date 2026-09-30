@@ -25,23 +25,6 @@ header { margin-bottom: 28px; padding-bottom: 22px; }
 h1 { font-size: 30px; }
 .subtitle { max-width: 540px; }
 
-/* 返回根入口 */
-.back-link {
-  display: inline-block;
-  font-family: 'Noto Serif TC', serif;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: var(--gold);
-  text-decoration: none;
-  margin-bottom: 10px;
-  border: 1px solid var(--gold);
-  padding: 4px 12px;
-  border-radius: 2px;
-  transition: background 0.15s ease;
-}
-.back-link:hover { background: var(--gold-soft); }
-.back-link::before { content: '← '; }
-
 /* Stats bar */
 .stats-bar {
   background: linear-gradient(180deg, var(--paper) 0%, var(--teal-tint) 100%);
@@ -495,7 +478,6 @@ a.legend-item:hover {
 <div class="container">
 
   <header>
-    <a class="back-link" href="../index.html">返回系統入口</a>
     <div class="eyebrow">Patient Education Library · 衛教資源目錄</div>
     <h1>心臟加速康復衛教目錄</h1>
     <p class="subtitle"><span data-count="total">35</span> 份病人教育單張,從術前認識到出院後長期追蹤的完整旅程<br>由心臟加速康復團隊製作 · 與你同莘</p>
