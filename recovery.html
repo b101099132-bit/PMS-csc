@@ -153,6 +153,17 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
         </div>
         <div class="field"><label for="temp_arrival">到達恢復室體溫 (°C)</label><input type="number" id="temp_arrival" name="temp_arrival" step="0.1" min="30" max="43" placeholder="°C"></div>
       </div>
+      <div class="row row-2">
+        <div class="field"><label for="extubation__d">脫離呼吸器（拔管）時間</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="date" id="extubation__d" style="flex:1;min-width:0">
+            <input type="text" id="extubation__t" inputmode="numeric" maxlength="5" placeholder="HH:mm" style="width:84px;text-align:center">
+            <button type="button" class="btn-ghost dt-now" data-target="extubation">現在</button>
+            <input type="hidden" id="extubation" name="extubation">
+          </div>
+          <span class="sub">手術室內拔管者填手術室拔管時刻；儲存後會自動帶入術後追蹤紀錄的「脫離呼吸器」（該欄未填時）。</span>
+        </div>
+      </div>
 
       <div class="subhead">轉出評估生命徵象</div>
       <div class="row row-4">
@@ -177,7 +188,7 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
       <input type="hidden" id="urine_rate" name="urine_rate">
 
       <div class="subhead">VIS 血管活性—強心藥物分數（抵達恢復室時 / 離開恢復室時）</div>
-      <div class="hint">Dopamine／Dobutamine／Norepinephrine(Levophed)／Milrinone(Primacor) 輸入幫浦速率 <strong>mL/hr</strong>，系統依院內固定泡法＋體重自動換算成 µg/kg/min（<strong>需先填上方體重</strong>）。Epinephrine 輸入 µg/kg/min、Vasopressin 輸入 U/kg/min（手動）。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vaso。<br>泡法：Dopamine 400mg/250mL、Levophed 8mg/500mL、Gendobu 500mg/250mL、Primacor 100µg/mL、Perdipine 0.5mg/mL。Perdipine 為降壓藥、<strong>不列入 VIS</strong>，僅記錄。</div>
+      <div class="hint">Dopamine／Dobutamine／Norepinephrine(Levophed)／Milrinone(Primacor) 輸入幫浦速率 <strong>mL/hr</strong>，系統依院內固定泡法＋體重自動換算成 µg/kg/min（<strong>需先填上方體重</strong>）。Epinephrine 輸入 µg/kg/min、Vasopressin 輸入 U/kg/min（手動）。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vaso。<br>泡法：Dopamine 3 mg/mL（現成泡好）、Levophed 8mg/500mL、Gendobu 500mg/250mL、Primacor 100µg/mL、Perdipine 0.5mg/mL。Perdipine 為降壓藥、<strong>不列入 VIS</strong>，僅記錄。</div>
       <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:10px">
         <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">抵達恢復室時</div>
         <div class="row row-3">
@@ -278,7 +289,7 @@ const $ = (id) => document.getElementById(id);
 let currentPatient = null;
 
 // ===== 時間欄位 = 月曆日期(X__d) + 24小時制時間文字(X__t) + 隱藏合併值(name=X, yyyy-MM-ddTHH:mm) =====
-const DT_FIELDS = ['arrival', 'out_time'];
+const DT_FIELDS = ['arrival', 'out_time', 'extubation'];
 function normTime(s){
   s = String(s == null ? '' : s).replace(/[^\d:]/g, '');
   if(!s) return '';
@@ -429,7 +440,7 @@ function showPatient(p){
   $('okAlert').classList.remove('show');
   // ★2026-09-12 先清空整張表再回填（不同病人之間不留殘值）
   $('recForm').reset();
-  ['arrival','out_time'].forEach(k => setDT(k, ''));
+  ['arrival','out_time','extubation'].forEach(k => setDT(k, ''));
   document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => { cb.checked = false; });
   fillExisting(p.recovery || {});
   // 體重：既有恢復室紀錄沒有時，帶入病人術前體重（可修改）
@@ -441,7 +452,7 @@ function showPatient(p){
 
 function fillExisting(rv){
   const setV = (id, v) => { if(v!=null && v!=='' && $(id)) $(id).value = v; };
-  ['arrival','out_time'].forEach(k => { if(rv[k]) setDT(k, rv[k]); });
+  ['arrival','out_time','extubation'].forEach(k => { if(rv[k]) setDT(k, rv[k]); });
   setV('destination', rv.destination);
   setV('temp_arrival', rv.temp_arrival); setV('temp_out', rv.temp_out);
   setV('hr', rv.hr); setV('sbp', rv.sbp); setV('dbp', rv.dbp); setV('spo2', rv.spo2); setV('rr', rv.rr);
@@ -473,7 +484,7 @@ function computeAldrete(){
 
 // ===== VIS（到恢復室 / 轉出恢復室）=====
 // 院內固定泡法濃度(µg/mL)：由幫浦速率 mL/hr 換算劑量 µg/kg/min
-const VIS_CONC = { dopa:1600, dobu:2000, norepi:16, milri:100 };  // Dopamine400/250、Levophed8/500、Gendobu500/250、Primacor100µg/mL
+const VIS_CONC = { dopa:3000, dobu:2000, norepi:16, milri:100 };  // ★2026-09-30 Dopamine 改院內現成泡好 3 mg/mL；Levophed8/500、Gendobu500/250、Primacor100µg/mL
 const PERDIPINE_CONC = 500;   // 0.5 mg/mL
 function computeVis(){
   const num = (id) => { const el = $(id); if(!el) return 0; const v = parseFloat(el.value); return isNaN(v)?0:v; };

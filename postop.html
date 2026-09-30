@@ -1562,6 +1562,11 @@ function fillExisting(p) {
   MILESTONES.forEach(m => {
     if (po[m.name]) setDT(m.name, po[m.name]);
   });
+  // ★2026-09-30 術後紀錄未填「脫離呼吸器」時，預帶恢復室紀錄的拔管時刻（儲存後才寫入）
+  if (!po.m_extubate && p.prefillExtubate && $('m_extubate__d') && !$('m_extubate__d').disabled) {
+    setDT('m_extubate', p.prefillExtubate);
+    $('modeAlert').textContent += ' 「脫離呼吸器」已從恢復室紀錄預帶，請確認後儲存。';
+  }
   if (po.m_triflow_balls != null && po.m_triflow_balls !== '') {
     $('m_triflow_balls').value = po.m_triflow_balls;
   }
