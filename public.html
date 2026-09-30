@@ -1584,11 +1584,19 @@ async function load() {
 }
 function showError(m) { const el = $('errAlert'); el.innerHTML = escapeHtml(tr(m)) + `<div><button type="button" class="load-retry" onclick="location.reload()">${tr('重新載入')}</button></div>`; el.classList.add('show'); $('content').innerHTML = ''; }
 
-// ★2026-09-30 病人心聲：一次 3 張（手機 1 張），每 9 秒淡入淡出換組；滑鼠停留暫停；減少動態偏好時不自動輪播
-let _vIdx = 0, _vTimer = null;
+// ★2026-09-30 病人心聲：首組 = 最新 3 則最滿意經驗、其餘隨機；一次 3 張（手機 1 張），每 9 秒淡入淡出換組；滑鼠停留暫停；減少動態偏好時不自動輪播
+let _vIdx = 0, _vTimer = null, _vOrder = null, _vSig = '';
 function renderVoices(quotes) {
   const box = $('voices'); if (_vTimer) { clearInterval(_vTimer); _vTimer = null; }
   if (!box || !quotes.length) return;
+  // 首組固定 = 「最滿意經驗」最新 3 則（後端依問卷時間排序，取最後 3 則）；其餘每次載入隨機洗牌（同一份資料不重洗）
+  const sig = quotes.map(q => q.t).join('|');
+  if (!_vOrder || _vSig !== sig) {
+    const best = quotes.filter(q => q.q === '最滿意經驗'); const first = best.slice(-3).reverse();
+    const rest = quotes.filter(q => first.indexOf(q) < 0); for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+    _vOrder = first.concat(rest); _vSig = sig; _vIdx = 0;
+  }
+  quotes = _vOrder;
   const per = window.matchMedia('(max-width: 900px)').matches ? 1 : 3;
   const pages = Math.ceil(quotes.length / per);
   const whoTxt = (w) => w === '家屬' ? tr('家屬') : (w === '本人' ? tr('病人本人') : '');
