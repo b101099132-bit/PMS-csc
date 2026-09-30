@@ -78,7 +78,7 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
   <h1><span data-zh>冠狀動脈繞道手術（CABG）<br>立即拔管 ERAS 導入前後成效</span><span data-en>Coronary Artery Bypass Grafting (CABG)<br>Outcomes Before and After the Immediate-Extubation ERAS Protocol</span></h1>
   <div class="sub"><span data-zh>天主教耕莘醫院 心臟加速康復團隊「與你同莘」· 2025 年 4 月 15 日起導入手術室內立即拔管 protocol</span><span data-en>Cardinal Tien Hospital Cardiac ERAS Team · In-OR immediate-extubation protocol implemented since 15 Apr 2025</span></div>
   <div class="topbar">
-    <span class="asof"><span data-zh>資料截止：2026/09/28（凍結版，09/29 修訂死亡與 ICU 日期登錄）</span><span data-en>Data as of 28 Sep 2026 (frozen snapshot; mortality and ICU-date records corrected 29 Sep)</span></span>
+    <span class="asof"><span data-zh>資料最後更新：2026/09/30</span><span data-en>Data last updated: 30 Sep 2026</span></span>
     <span class="lang"><button type="button" id="btnZh" class="on">中文</button><button type="button" id="btnEn">English</button></span>
   </div>
   <div class="live" style="margin-top:8px"><span data-zh>即時更新版（全術式公開儀表板，選「CABG」）：</span><span data-en>Live version (all-procedure public dashboard, select “CABG”): </span><a href="public.html?cat=CABG" target="_blank" rel="noopener">public.html</a></div>
@@ -105,12 +105,16 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 <div class="stat-list" id="readmit"></div>
 <div class="chart-note"><span data-zh>定義：出院日起 30／90 天內因任何原因於本院再住院（急診留觀不計）。分母排除住院死亡者與尚未出院者；導入後另排除出院未滿 30 天（2 位）或未滿 90 天（14 位）者。導入後再入院診斷：傷口清創 2、肋膜積水 2、意識改變 1、A 型流感 1。</span><span data-en>Definition: any-cause readmission to this hospital within 30/90 days of discharge (ED observation excluded). Denominators exclude in-hospital deaths and patients not yet discharged; after implementation, patients with less than 30 days (n=2) or 90 days (n=14) of follow-up are also excluded. Post-implementation readmission diagnoses: wound debridement 2, pleural effusion 2, altered consciousness 1, influenza A 1.</span></div>
 
-<h2><span class="n">05</span><span data-zh>病人流向</span><span data-en>Patient Flow</span></h2>
+<h2><span class="n">05</span><span data-zh>病人滿意度</span><span data-en>Patient Satisfaction</span></h2>
+<div class="stat-list" id="satis"></div>
+<div class="chart-note"><span data-zh>出院後問卷（2026/05 起），整體滿意度 1–10 分；推薦率 = 回答「非常願意推薦」或「願意推薦」之比例。</span><span data-en>Post-discharge questionnaire (from May 2026); overall satisfaction on a 1–10 scale; recommendation rate = proportion answering “very willing” or “willing” to recommend.</span></div>
+
+<h2><span class="n">06</span><span data-zh>病人流向</span><span data-en>Patient Flow</span></h2>
 <div class="seg" id="flowSeg"><button type="button" data-fp="pre"><span data-zh>導入前 n=131</span><span data-en>Before n=131</span></button><button type="button" data-fp="team" class="on"><span data-zh>導入後 n=64</span><span data-en>After n=64</span></button></div>
 <div class="card"><div style="overflow-x:auto"><div id="cFlow" style="min-width:640px;height:360px"></div></div>
 <div class="chart-note"><span data-zh>途徑 → 照護流程 → 拔管時機 → ICU 停留 → 術後住院天數 → 結果；帶寬 = 人數。導入前資料來自灌流紀錄回溯，僅記錄住院死亡，其餘異常事件未登錄。</span><span data-en>Approach → care pathway → extubation → ICU stay → postoperative LOS → outcome; band width = patients. Pre-implementation data were abstracted from perfusion records; only in-hospital death was recorded, other adverse events were not captured.</span></div></div>
 
-<h2><span class="n">06</span><span data-zh>資料與方法</span><span data-en>Data &amp; Methods</span></h2>
+<h2><span class="n">07</span><span data-zh>資料與方法</span><span data-en>Data &amp; Methods</span></h2>
 <div class="card methods">
   <p data-zh><b>資料來源</b>：導入後病例來自本團隊「手術病人管理平台」逐案登錄（2025/04/16 起）；導入前病例由 2020–2025 年體外循環灌流紀錄與病歷回溯建檔。所有數字為彙總統計，不含任何可識別個案的資料。</p>
   <p data-en><b>Data sources</b>: post-implementation cases were prospectively registered case-by-case in the team’s surgical patient management platform (from 16 Apr 2025); pre-implementation cases were abstracted retrospectively from 2020–2025 perfusion records and charts. All figures are aggregates; no patient-identifiable data are shown.</p>
@@ -122,8 +126,8 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
   <p data-en><b>Reintubation</b>: any reintubation during the index admission (including post-arrest), not restricted to 24/48 h after extubation; all 3 post-implementation cases had been extubated in the OR (3/60, 5.0%). Counts are small and the difference is not statistically meaningful.</p>
   <p data-zh><b>切點</b>：2025/04/15 為 protocol 導入日；導入前包含 2025/01–04/15 的 7 例。<b>統計</b>：連續變項以中位數（平均值）呈現；比率以分子／分母呈現，未做假設檢定。導入後人數少，死亡與再入院比率會隨個案變動，請同時參考人數。</p>
   <p data-en><b>Cut-off</b>: protocol launch on 15 Apr 2025; the pre-implementation group includes 7 cases from Jan–15 Apr 2025. <b>Statistics</b>: continuous variables shown as median (mean); rates as numerator/denominator; no hypothesis testing. Post-implementation counts are small, so death and readmission rates are sensitive to single cases — please read them together with the counts.</p>
-  <p data-zh><b>本頁為 2026/09/28 資料凍結版</b>，供 SNQ 國家品質標章審查參考；即時更新版見頁首連結。院內品質改善用途依本院 IRB 意見免送審；公開發表之研究另經 IRB 審查。</p>
-  <p data-en><b>This page is a frozen snapshot as of 28 Sep 2026</b> prepared for the SNQ (Symbol of National Quality) review; see the link in the header for the live version. Internal quality-improvement use is exempt from IRB review per our institutional IRB; research for publication is reviewed separately.</p>
+  <p data-zh><b>本頁為 2026/09/30 資料凍結版</b>，供 SNQ 國家品質標章審查參考；即時更新版見頁首連結。院內品質改善用途依本院 IRB 意見免送審；公開發表之研究另經 IRB 審查。</p>
+  <p data-en><b>This page is a frozen snapshot as of 30 Sep 2026</b> prepared for the SNQ (Symbol of National Quality) review; see the link in the header for the live version. Internal quality-improvement use is exempt from IRB review per our institutional IRB; research for publication is reviewed separately.</p>
 </div>
 
 <footer><span data-zh>天主教耕莘醫院 心臟加速康復團隊 · 與你同莘 · 本頁僅呈現彙總統計</span><span data-en>Cardinal Tien Hospital Cardiac ERAS Team · Aggregated statistics only</span></footer>
@@ -135,6 +139,7 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 const D = {
   cmp: { // 導入前 / 導入後
     n: [131, 64], or: [[0,131],[60,64]], icuMed: [4,2], icuMean: [10.3,4.6], losMed: [13,8], losMean: [17.4,12.8],
+    satis: { n: 46, overall: 9.4, scale: 10, recommend: [45, 46] },
     death: [[15,131],[3,64]], reint: [[7,131],[3,64]], r30: [[9,116],[3,58]], r90: [[20,116],[3,46]]
   },
   years: [
@@ -186,6 +191,11 @@ function renderKpi() {
 function renderEras() {
   document.getElementById('erasStats').innerHTML = D.eras.map(e => `<div class="stat"><span class="l">${t(e.zh, e.en)}</span><span class="v">${pct(e.k, e.n)}<small>${e.k}/${e.n}</small></span></div>`).join('');
   const c = D.cmp;
+  { const v = D.cmp.satis; document.getElementById('satis').innerHTML = [
+    [t('問卷回覆數', 'Responses'), `${v.n}<small>${t('份', '')}</small>`],
+    [t('整體滿意度（平均）', 'Overall satisfaction (mean)'), `${v.overall.toFixed(1)}<small>/ ${v.scale}</small>`],
+    [t('推薦率', 'Recommendation rate'), `${pct(...v.recommend)}<small>${v.recommend[0]}/${v.recommend[1]}</small>`],
+  ].map(([l, val]) => `<div class="stat"><span class="l">${l}</span><span class="v">${val}</span></div>`).join(''); }
   document.getElementById('readmit').innerHTML = [['30', c.r30], ['90', c.r90]].map(([d, v]) => `<div class="stat"><span class="l">${t(`${d} 天再入院率 · 導入前 → 導入後`, `${d}-day readmission · before → after`)}</span><span class="v"><span style="color:var(--ink-faint);font-size:16px">${pct(...v[0])}</span> → ${pct(...v[1])}<small>${v[0][0]}/${v[0][1]} → ${v[1][0]}/${v[1][1]}</small></span></div>`).join('');
 }
 function renderTable() {
