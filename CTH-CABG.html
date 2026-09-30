@@ -57,6 +57,17 @@ tr.post td{background:var(--tint)}
 .stat{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
 .stat .l{font-size:13px;color:var(--ink-soft)}
 .stat .v{font-size:22px;font-weight:700;color:var(--teal-deep);font-family:'Noto Serif TC';white-space:nowrap}
+.voices-wrap{margin:10px 0 4px}
+.voices{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:640px){.voices{grid-template-columns:repeat(3,1fr)}}
+.voice{position:relative;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:8px;padding:14px 14px 12px 34px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;transition:opacity .45s ease}
+.voice.fade{opacity:0}
+.voice::before{content:'“';position:absolute;left:11px;top:4px;font-family:'Noto Serif TC',Georgia,serif;font-size:30px;line-height:1;color:var(--teal);opacity:.55}
+.voice .vt{font-size:13.5px;line-height:1.7;color:var(--ink)}
+.voice .vm{margin-top:8px;font-size:11px;color:var(--ink-faint)}
+.voices-ctl{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:8px;font-size:12px;color:var(--ink-faint)}
+.voices-ctl button{background:var(--paper);border:1px solid var(--line);border-radius:14px;color:var(--ink-soft);padding:1px 10px;cursor:pointer;font-size:14px;line-height:1.4}
+.voices-ctl button:hover{border-color:var(--teal);color:var(--teal)}
 .stat .v small{font-size:12px;font-weight:400;color:var(--ink-faint);font-family:'Noto Sans TC';margin-left:4px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:10px}
 .seg button{border:none;background:#fff;padding:6px 14px;font-family:inherit;font-size:13px;cursor:pointer;color:var(--ink-soft)}
@@ -107,7 +118,8 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 
 <h2><span class="n">05</span><span data-zh>病人滿意度</span><span data-en>Patient Satisfaction</span></h2>
 <div class="stat-list" id="satis"></div>
-<div class="chart-note"><span data-zh>出院後問卷（2026/05 起），整體滿意度 1–10 分；推薦率 = 回答「非常願意推薦」或「願意推薦」之比例。</span><span data-en>Post-discharge questionnaire (from May 2026); overall satisfaction on a 1–10 scale; recommendation rate = proportion answering “very willing” or “willing” to recommend.</span></div>
+<div class="voices-wrap"><div class="voices" id="voices"></div><div class="voices-ctl"><button type="button" id="vPrev" aria-label="prev">‹</button><span id="vPos"></span><button type="button" id="vNext" aria-label="next">›</button></div></div>
+<div class="chart-note"><span data-zh>出院後問卷（2026/05 起），整體滿意度 1–10 分；推薦率 = 回答「非常願意推薦」或「願意推薦」之比例。引言為病人／家屬原文，摘自「最滿意經驗」與「其他意見」。</span><span data-en>Post-discharge questionnaire (from May 2026); overall satisfaction on a 1–10 scale; recommendation rate = proportion answering “very willing” or “willing” to recommend. Quotes are verbatim patient/family responses (original language) to “most appreciated” and “other comments”.</span></div>
 
 <h2><span class="n">06</span><span data-zh>病人流向</span><span data-en>Patient Flow</span></h2>
 <div class="seg" id="flowSeg"><button type="button" data-fp="pre"><span data-zh>導入前 n=131</span><span data-en>Before n=131</span></button><button type="button" data-fp="team" class="on"><span data-zh>導入後 n=64</span><span data-en>After n=64</span></button></div>
@@ -139,7 +151,7 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 const D = {
   cmp: { // 導入前 / 導入後
     n: [131, 64], or: [[0,131],[60,64]], icuMed: [4,2], icuMean: [10.3,4.6], losMed: [13,8], losMean: [17.4,12.8],
-    satis: { n: 46, overall: 9.4, scale: 10, recommend: [45, 46] },
+    satis: { n: 61, overall: 9.5, scale: 10, recommend: [60, 61] },
     death: [[15,131],[3,64]], reint: [[7,131],[3,64]], r30: [[9,116],[3,58]], r90: [[20,116],[3,46]]
   },
   years: [
@@ -158,6 +170,7 @@ const D = {
     { zh:'ERAS 流程 · 含急診手術', en:'ERAS pathway · incl. emergency', k:60, n:60 },
     { zh:'全部 CABG（Overall）', en:'All CABG (overall)', k:60, n:64 },
   ],
+  quotes: [{"t":"很感謝醫師的照顧和關心讓我老公人可以恢復的很健康","q":"最滿意經驗","who":"家屬","when":"出院3個月後"},{"t":"醫療團隊的專業與耐心","q":"最滿意經驗","who":"本人","when":"出院3個月後"},{"t":"主治醫師及護理人員非常細心的照顧，分析解說病情的情況。非常感謝！","q":"最滿意經驗","who":"本人","when":"出院後1-3個月"},{"t":"術後沒有疼痛感","q":"最滿意經驗","who":"本人","when":"出院3個月後"},{"t":"主治醫師的專業及態度使家屬安心","q":"最滿意經驗","who":"家屬","when":"出院後1個月內"},{"t":"準確回覆疑問","q":"最滿意經驗","who":"家屬","when":"出院後1-3個月"},{"t":"陳建銘醫師親切，同理病人感受，有問立答！","q":"其他意見","who":"家屬","when":"出院後1-3個月"},{"t":"非常感謝在醫病關係緊張的現在，竟然有醫生會主動關心病人開刀出院後的恢復狀況， 陳建銘主任不僅醫術精汽、更視病如親。 感謝醫療團隊的照顧💖💖💖","q":"最滿意經驗","who":"家屬","when":"出院3個月後"},{"t":"醫生的醫術高，用心為病患說明","q":"最滿意經驗","who":"本人","when":"出院3個月後"},{"t":"陳大夫對家屬術前的詳細說明及術後對病人我的鼓勵及照護非常的貼心還詳細說明術後的運動及生活習慣。","q":"最滿意經驗","who":"本人","when":"出院3個月後"},{"t":"希望多宣傳心臟病的預防及疾病發生的治療。","q":"其他意見","who":"本人","when":"出院3個月後"},{"t":"從頭到尾都很滿意","q":"最滿意經驗","who":"本人","when":"出院3個月後"},{"t":"主治醫師及醫療團隊的醫治及照顧","q":"最滿意經驗","who":"家屬","when":"出院後1-3個月"},{"t":"感謝醫療及住院期間所有醫務人員的協助與照顧，謝謝！！！","q":"其他意見","who":"家屬","when":"出院後1-3個月"},{"t":"護士們都很nice讓我覺得很安心沒有手術壓力","q":"最滿意經驗","who":"本人","when":"出院後1週內"},{"t":"樂見耕莘醫院成長茁壯繼續守護我們的健康","q":"其他意見","who":"本人","when":"出院後1週內"},{"t":"醫師及團隊成員對手術後整體照護進度的推出，非常有經驗。","q":"最滿意經驗","who":"家屬","when":"出院後1-3個月"},{"t":"非常感謝醫師與團隊悉心照顧。","q":"其他意見","who":"家屬","when":"出院後1-3個月"},{"t":"陳建銘醫師、蔡迪宇醫師及照護團隊很盡心盡力，視如己出 非常感謝","q":"最滿意經驗","who":"本人","when":"出院後1個月內"},{"t":"繼續成為新店最好醫院","q":"其他意見","who":"本人","when":"出院後1個月內"},{"t":"在加護病房醫生和護理人員對我的照顧還有社工人員對我心裡的疏導！使我完全忘卻了，這是一個死亡率極高的手術","q":"最滿意經驗","who":"本人","when":"出院後1-3個月"},{"t":"我非常感謝陳建銘醫師還有他的醫療團隊。我非常的感激和感恩 這個命真的是他們救回來的。","q":"其他意見","who":"本人","when":"出院後1-3個月"},{"t":"每一個醫護人員都很棒","q":"最滿意經驗","who":"本人","when":"出院後1-3個月"},{"t":"1、主治醫師心臟外科主任-陳建銘醫師的精準說明、風險評估、與實際操刀、術後傷口清理，都做到無可挑剔的地步。 2、心臟手術麻醉科主任李易軒醫師，風險正負面都做了詳細的解說，手術過程中可能麻醉的部位或是經歷的身體的影響的器官都詳實的告知，一方面讓我能夠充分地感受到在手術過程中的每一步的風險，反而達到心靈的平和。…","q":"最滿意經驗","who":"本人","when":"出院後1週內"},{"t":"這一次入院9/22-9/27做了心臟外科繞道手術，三條血管，能夠在非常短的時間，在術後一切安全下出院，回去後並照主治醫師的指示復健，一切完全沒有疑慮，我會把這樣的經驗分享給親朋友好在他們心臟需要修補的時候，請千萬要來耕莘醫院，由心臟另外科整合團隊，做最好的修補。","q":"其他意見","who":"本人","when":"出院後1週內"},{"t":"醫師的治療讓病人很放心與安全感","q":"最滿意經驗","who":"本人","when":"出院3個月後"},{"t":"期盼出院回診一段時間後，能再做一次詳細的心臟健檢","q":"其他意見","who":"本人","when":"出院3個月後"},{"t":"We feel well-informed with balanced details, allowing us to understand the entire process through to the completion of the surgery.","q":"最滿意經驗","who":"家屬","when":"出院後1-3個月"},{"t":"Thank you very much for taking good care to my wife surgery. God bless all the team and Cardinal Tien hospital.","q":"其他意見","who":"家屬","when":"出院後1-3個月"},{"t":"爸爸此次接受冠狀動脈繞道微創手術，及術後立即拔管，加速了康復的速度，減少了病人的身體痛苦也減少了家庭的經濟負擔，我們家在一個多月後即恢復正軌，感謝整個醫療團隊的照護！","q":"最滿意經驗","who":"家屬","when":"出院後1-3個月"},{"t":"感謝醫療照護上有你們的付出！","q":"其他意見","who":"家屬","when":"出院後1-3個月"},{"t":"術前的說明和醫病的溝通","q":"最滿意經驗","who":"本人","when":"出院後1個月內"}],
   flows: {
     pre: {"n":131,"nodes":{"傳統開胸":130,"微創 MICS":1,"傳統照護":131,"<6 小時拔管":59,"ICU >2 天":116,"出院 8–14 天":68,"存活出院（其他事件未登錄）":116,"≥6 小時拔管":72,"出院 >30 天":13,"出院 15–30 天":23,"住院中死亡":15,"住院死亡":15,"ICU 1–2 天":14,"出院 3–7 天":12,"ICU <24 小時":1},"links":{"傳統開胸→傳統照護":130,"微創 MICS→傳統照護":1,"傳統照護→<6 小時拔管":59,"<6 小時拔管→ICU >2 天":45,"ICU >2 天→出院 8–14 天":59,"出院 8–14 天→存活出院（其他事件未登錄）":68,"傳統照護→≥6 小時拔管":72,"≥6 小時拔管→ICU >2 天":71,"ICU >2 天→出院 >30 天":13,"出院 >30 天→存活出院（其他事件未登錄）":13,"ICU >2 天→出院 15–30 天":23,"出院 15–30 天→存活出院（其他事件未登錄）":23,"ICU >2 天→住院中死亡":13,"住院中死亡→住院死亡":15,"≥6 小時拔管→ICU 1–2 天":1,"ICU 1–2 天→住院中死亡":1,"<6 小時拔管→ICU 1–2 天":13,"ICU 1–2 天→出院 8–14 天":9,"ICU >2 天→出院 3–7 天":8,"出院 3–7 天→存活出院（其他事件未登錄）":12,"ICU 1–2 天→出院 3–7 天":4,"<6 小時拔管→ICU <24 小時":1,"ICU <24 小時→住院中死亡":1}},
     team: {"n":64,"nodes":{"傳統開胸":51,"Cardiac ERAS":60,"手術室內拔管":60,"ICU 1–2 天":20,"出院 3–7 天":27,"無重大異常事件":58,"傳統照護":4,"≥6 小時拔管":4,"ICU >2 天":30,"出院 >30 天":5,"重大異常事件（非死亡）":3,"出院 15–30 天":8,"出院 8–14 天":19,"住院中死亡":3,"住院死亡":3,"微創 MICS":13,"ICU <24 小時":13,"尚未出院／未記錄":2,"ICU 未記錄":1},"links":{"傳統開胸→Cardiac ERAS":47,"Cardiac ERAS→手術室內拔管":60,"手術室內拔管→ICU 1–2 天":19,"ICU 1–2 天→出院 3–7 天":14,"出院 3–7 天→無重大異常事件":27,"傳統開胸→傳統照護":4,"傳統照護→≥6 小時拔管":4,"≥6 小時拔管→ICU >2 天":3,"ICU >2 天→出院 >30 天":5,"出院 >30 天→重大異常事件（非死亡）":2,"手術室內拔管→ICU >2 天":27,"ICU >2 天→出院 15–30 天":6,"出院 15–30 天→無重大異常事件":8,"ICU >2 天→出院 8–14 天":8,"出院 8–14 天→無重大異常事件":19,"出院 >30 天→無重大異常事件":3,"ICU >2 天→出院 3–7 天":8,"ICU 1–2 天→出院 8–14 天":4,"ICU >2 天→住院中死亡":3,"住院中死亡→住院死亡":3,"≥6 小時拔管→ICU 1–2 天":1,"ICU 1–2 天→出院 15–30 天":2,"微創 MICS→Cardiac ERAS":13,"手術室內拔管→ICU <24 小時":13,"ICU <24 小時→出院 3–7 天":5,"ICU <24 小時→出院 8–14 天":7,"ICU <24 小時→尚未出院／未記錄":1,"尚未出院／未記錄→無重大異常事件":1,"手術室內拔管→ICU 未記錄":1,"ICU 未記錄→尚未出院／未記錄":1,"尚未出院／未記錄→重大異常事件（非死亡）":1}}
@@ -234,11 +247,36 @@ function drawFlow() {
   charts.flow.setOption({ tooltip: { trigger: 'item', triggerOn: 'mousemove', textStyle: font, formatter: p => p.dataType === 'edge' ? `${L(p.data.source)} → ${L(p.data.target)}: <b>${p.data.value}</b>` : `${L(p.name)}: <b>${p.value}</b>` },
     series: [{ type: 'sankey', layout: 'none', layoutIterations: 0, left: 6, right: LANG === 'en' ? 250 : 190, top: 10, bottom: 10, nodeWidth: 12, nodeGap: 12, nodeAlign: 'justify', emphasis: { focus: 'adjacency' }, data: nodes, links, lineStyle: { color: 'source', opacity: 0.32, curveness: 0.5 }, label: { ...font, fontSize: 11.5, color: '#1A1A1A', position: 'right' } }] });
 }
+// 病人心聲（凍結：2026-09-30 問卷「公開顯示」= 是；一次 3 則、每 9 秒換組，滑鼠停留暫停）
+let _vIdx = 0, _vTimer = null;
+const WHEN_EN = { '出院當天': 'day of discharge', '出院後1週內': '≤1 week after discharge', '出院後1個月內': '≤1 month after discharge', '出院後1-3個月': '1–3 months after discharge', '出院3個月後': '>3 months after discharge' };
+function renderVoices() {
+  const box = document.getElementById('voices'), quotes = D.quotes || [];
+  if (_vTimer) { clearInterval(_vTimer); _vTimer = null; }
+  if (!box || !quotes.length) return;
+  const per = window.matchMedia('(min-width: 640px)').matches ? 3 : 1, pages = Math.ceil(quotes.length / per);
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const meta = (q) => [q.who === '家屬' ? t('家屬', 'Family member') : (q.who ? t('病人本人', 'Patient') : ''), q.when ? t(q.when, WHEN_EN[q.when] || q.when) : '', q.q === '最滿意經驗' ? t('最滿意經驗', 'Most appreciated') : t('其他意見', 'Other comments')].filter(Boolean).join(' · ');
+  const draw = () => {
+    _vIdx = ((_vIdx % pages) + pages) % pages;
+    box.innerHTML = quotes.slice(_vIdx * per, _vIdx * per + per).map(q => `<div class="voice fade"><div class="vt">${esc(q.t)}</div><div class="vm">${esc(meta(q))}</div></div>`).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => box.querySelectorAll('.voice').forEach(el => el.classList.remove('fade'))));
+    document.getElementById('vPos').textContent = t(`第 ${_vIdx + 1} / ${pages} 組 · 共 ${quotes.length} 則`, `Set ${_vIdx + 1} / ${pages} · ${quotes.length} quotes`);
+  };
+  const go = (dir) => { const cards = box.querySelectorAll('.voice'); cards.forEach(el => el.classList.add('fade')); setTimeout(() => { _vIdx += dir; draw(); }, cards.length ? 380 : 0); };
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const restart = () => { if (_vTimer) clearInterval(_vTimer); _vTimer = (pages > 1 && !reduce) ? setInterval(() => go(1), 9000) : null; };
+  draw(); restart();
+  document.getElementById('vPrev').onclick = () => { go(-1); restart(); };
+  document.getElementById('vNext').onclick = () => { go(1); restart(); };
+  const wrap = box.parentElement; wrap.onmouseenter = () => { if (_vTimer) { clearInterval(_vTimer); _vTimer = null; } }; wrap.onmouseleave = restart;
+}
+
 function setLang(l) {
   LANG = l; document.documentElement.lang = l === 'en' ? 'en' : 'zh-Hant';
   document.getElementById('btnZh').classList.toggle('on', l === 'zh'); document.getElementById('btnEn').classList.toggle('on', l === 'en');
   document.title = l === 'en' ? 'CABG Immediate-Extubation ERAS Outcomes · Cardinal Tien Hospital' : 'CABG 立即拔管 ERAS 成效 · 天主教耕莘醫院';
-  renderKpi(); renderEras(); renderTable(); draw();
+  renderKpi(); renderEras(); renderTable(); draw(); renderVoices();
   try { localStorage.setItem('cth_cabg_lang', l); } catch (e) {}
 }
 document.getElementById('btnZh').addEventListener('click', () => setLang('zh'));
