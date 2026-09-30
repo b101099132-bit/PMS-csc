@@ -197,7 +197,7 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
       <input type="hidden" id="urine_rate" name="urine_rate">
 
       <div class="subhead">VIS 血管活性—強心藥物分數（抵達恢復室時 / 離開恢復室時）</div>
-      <div class="hint">Dopamine／Dobutamine／Norepinephrine(Levophed)／Milrinone(Primacor) 輸入幫浦速率 <strong>mL/hr</strong>，系統依院內固定泡法＋體重自動換算成 µg/kg/min（<strong>需先填上方體重</strong>）。Epinephrine 輸入 µg/kg/min、Vasopressin 輸入 U/kg/min（手動）。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vaso。<br>泡法：Dopamine 3 mg/mL（現成泡好）、Levophed 8mg/500mL、Gendobu 500mg/250mL、Primacor 100µg/mL、Perdipine 0.5mg/mL。Perdipine 為降壓藥、<strong>不列入 VIS</strong>，僅記錄。</div>
+      <div class="hint">Dopamine／Dobutamine／Norepinephrine(Levophed)／Milrinone(Primacor) 輸入幫浦速率 <strong>mL/hr</strong>，系統依院內固定泡法＋體重自動換算成 µg/kg/min（<strong>需先填上方體重</strong>）。Epinephrine 輸入 µg/kg/min、Vasopressin 輸入 U/kg/min（手動）。VIS ＝ Dopa＋Dobu＋100×Epi＋100×Norepi＋10×Milrinone＋10000×Vaso。<br>泡法：Dopamine 3 mg/mL（現成泡好）、Levophed 8mg/500mL、Gendobu 500mg/250mL、Primacor 100µg/mL、Perdipine 0.5mg/mL。Perdipine 為降壓藥、<strong>不列入 VIS</strong>，僅記錄。<br>離開恢復室若已停藥可留白：抵達時有用藥而離開欄位全空白，儲存時自動視為 0（VIS = 0）。</div>
       <div style="border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:10px">
         <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px">抵達恢復室時</div>
         <div class="row row-3">
@@ -591,12 +591,27 @@ document.querySelectorAll('.crit input[type=checkbox]').forEach(cb => cb.addEven
 ['ald_activity','ald_resp','ald_circ','ald_consc','ald_spo2'].forEach(id => $(id).addEventListener('change', computeCriteria));
 
 // ===== submit =====
+// ★2026-09-30 轉出恢復室 VIS 預設：抵達時任一藥有值、離開時 6 藥全空白 → 視為已停藥，全部填 0、VIS 分數 0
+const VIS_DRUGS = ['dopa','dobu','epi','norepi','milri','vaso'];
+function applyVisOutDefault(){
+  const val = (id) => { const el = $(id); return el ? String(el.value).trim() : ''; };
+  const inAny  = VIS_DRUGS.some(d => parseFloat(val('vis_in_'+d)) > 0);
+  const outAll = VIS_DRUGS.every(d => val('vis_out_'+d) === '');
+  if(!(inAny && outAll)) return false;
+  VIS_DRUGS.forEach(d => { $('vis_out_'+d).value = '0'; });
+  computeVis();
+  $('vis_out_score').value = '0';
+  $('vis_out_score_disp').textContent = '0（離開時未填，視為已停藥）';
+  return true;
+}
+
 $('recForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   $('formAlert').classList.remove('show');
   $('okAlert').classList.remove('show');
   if(!currentPatient){ $('formAlert').textContent='請先查詢病人'; $('formAlert').classList.add('show'); return; }
   computeAldrete(); computeCriteria(); computeVis();
+  applyVisOutDefault();        // ★2026-09-30 抵達有用藥、離開全空白 → 視為已停藥（全部填 0、VIS=0）
   DT_FIELDS.forEach(syncDT);   // 送出前確保時間隱藏合併值最新
   computeRates();              // 依最新時間/總量重算 mL/hr、mL/kg/hr
 
