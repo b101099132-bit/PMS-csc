@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>:root{color-scheme:light dark}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>恢復動能曲線</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --ground:#FBFAF7; --surface:#FFFFFF; --sunk:#F2EFE8;
+    --ink:#18191A; --ink2:#4E5254; --ink3:#868A8C;
+    --line:#E2DDD2; --grid:#E8E4DA;
+    --data:#1668B0; --data-wash:rgba(22,104,176,.12);
+    --alt:#B0540F;
+    --serif:"Noto Serif TC",'Songti TC','PMingLiU',Georgia,serif;
+    --sans:"Noto Sans TC",'PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,'SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --ground:#16181A; --surface:#1E2124; --sunk:#25292C;
+      --ink:#EFEEE9; --ink2:#B7BBBD; --ink3:#7F8386;
+      --line:#31363A; --grid:#2C3135;
+      --data:#4A97D6; --data-wash:rgba(74,151,214,.16);
+      --alt:#C08234;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --ground:#16181A; --surface:#1E2124; --sunk:#25292C;
+    --ink:#EFEEE9; --ink2:#B7BBBD; --ink3:#7F8386;
+    --line:#31363A; --grid:#2C3135;
+    --data:#4A97D6; --data-wash:rgba(74,151,214,.16);
+    --alt:#C08234;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground); color:var(--ink); font-family:var(--sans);
+       font-size:15px; line-height:1.72; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px; margin:0 auto; padding-block:40px 80px; padding-left:20px; padding-right:20px;
+        display:flex; flex-direction:column; gap:34px}
+
+  header{display:flex; flex-direction:column; gap:10px}
+  .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase;
+           color:var(--ink3); font-weight:600}
+  h1{font-family:var(--serif); font-weight:700; font-size:clamp(26px,4.2vw,36px); line-height:1.22;
+     margin:0; text-wrap:balance}
+  .dek{margin:0; color:var(--ink2); font-size:15.5px; max-width:58ch}
+
+  figure{margin:0; background:var(--surface); border:1px solid var(--line); border-radius:6px;
+         padding:22px 20px 18px; display:flex; flex-direction:column; gap:14px; position:relative}
+  .figtitle{font-family:var(--serif); font-weight:700; font-size:17px; line-height:1.4; margin:0}
+  .figsub{margin:0; font-size:13px; color:var(--ink3); line-height:1.6}
+  .chartbox{overflow-x:auto}
+  svg.chart{display:block; width:100%; min-width:620px; height:auto}
+  figcaption{font-size:13px; color:var(--ink2); line-height:1.7; margin:0; max-width:64ch}
+  figcaption b{color:var(--ink); font-weight:600}
+
+  .tip{position:absolute; pointer-events:none; opacity:0; transition:opacity .12s;
+       background:var(--ink); color:var(--ground); font-size:12.5px; line-height:1.5;
+       padding:7px 10px; border-radius:4px; white-space:nowrap; z-index:5;
+       font-family:var(--mono); font-weight:500}
+  .tip b{font-family:var(--sans); font-weight:700}
+
+  h2{font-family:var(--serif); font-weight:700; font-size:19px; margin:0; line-height:1.4}
+  section{display:flex; flex-direction:column; gap:14px}
+  p{margin:0; max-width:62ch; color:var(--ink2); line-height:1.8}
+  p b{color:var(--ink); font-weight:600}
+
+  .scroll{overflow-x:auto; border:1px solid var(--line); border-radius:5px; background:var(--surface)}
+  table{border-collapse:collapse; width:100%; min-width:520px; font-size:14px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); vertical-align:middle; color:var(--ink2)}
+  thead th{background:var(--sunk); font-family:var(--mono); font-size:10.5px; letter-spacing:.07em;
+           font-weight:600; color:var(--ink3); white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td.n{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+  td.after{color:var(--ink); font-weight:600}
+  td.arrow{text-align:center; color:var(--ink3); width:28px; padding-inline:0}
+
+  .pull{background:var(--sunk); border-left:3px solid var(--data); border-radius:0 5px 5px 0;
+        padding:16px 20px; display:flex; flex-direction:column; gap:9px}
+  .pull p{max-width:60ch; color:var(--ink)}
+
+  .note{font-size:13px; color:var(--ink3); line-height:1.75; max-width:68ch}
+  .note b{color:var(--ink2); font-weight:600}
+  ul{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
+  li{color:var(--ink2); line-height:1.7; font-size:14.5px}
+  li b{color:var(--ink); font-weight:600}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">耕莘 Cardiac ERAS · CABG 成效頁延伸閱讀</div>
+    <h1>恢復動能曲線</h1>
+    <p style="margin:6px 0 0;font-size:13px"><a href="../CTH-CABG.html" style="color:#1F5A5A">← 回 CABG 成效頁</a></p>
+    <p class="dek">恢復動能不是一個新的結果指標，是把恢復從「終點」改看成「軌跡」。傳統 ERAS 問病人有沒有恢復、幾天出院；這張圖問的是<b>幾小時</b>、<b>依什麼順序</b>。</p>
+  </header>
+
+  <figure id="fig">
+    <p class="figtitle">五個恢復里程碑的達成時間</p>
+    <p class="figsub">以轉入加護病房為時間零點 · 圓點為中位數、色條為四分位距 · 團隊成立後電子登錄之冠狀動脈繞道病人</p>
+
+    <div class="chartbox">
+      <svg class="chart" viewBox="0 0 900 340" role="img"
+           aria-label="五個恢復里程碑相對於轉入加護病房的達成時間：脫離呼吸器中位負0.4小時、首次喝水1.0小時、首次固體食物13.5小時、首次下床走路24.4小時、胸管全拔62.7小時。">
+
+        <defs>
+          <marker id="lt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M8,1 L1,4 L8,7 z" fill="var(--data)"/>
+          </marker>
+        </defs>
+
+        <!-- gridlines -->
+        <g stroke="var(--grid)" stroke-width="1">
+          <line x1="354.6" y1="40" x2="354.6" y2="272"/>
+          <line x1="481.5" y1="40" x2="481.5" y2="272"/>
+          <line x1="608.4" y1="40" x2="608.4" y2="272"/>
+          <line x1="735.3" y1="40" x2="735.3" y2="272"/>
+          <line x1="862"   y1="40" x2="862"   y2="272"/>
+        </g>
+
+        <!-- zero line = ICU admission -->
+        <line x1="227.7" y1="34" x2="227.7" y2="278" stroke="var(--ink2)" stroke-width="1.5"/>
+        <text x="227.7" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)"
+              font-family="var(--sans)">轉入加護病房</text>
+
+        <!-- rows -->
+        <!-- 1 脫離呼吸器 -->
+        <g class="row" data-tip="脫離呼吸器　中位 −0.4 h　IQR −0.6 ～ −0.3　n=53">
+          <rect x="196" y="48" width="666" height="38" fill="transparent"/>
+          <text x="188" y="63" text-anchor="end" font-size="13.5" font-weight="700" fill="var(--ink)" font-family="var(--sans)">脫離呼吸器</text>
+          <text x="188" y="79" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--mono)">n = 53</text>
+          <rect x="224.5" y="61" width="3" height="10" rx="1.5" fill="var(--data)" opacity=".7"/>
+          <circle cx="225.6" cy="66" r="5" fill="var(--data)" stroke="var(--surface)" stroke-width="2"/>
+          <path d="M222 66 L212 66" stroke="var(--data)" stroke-width="1.5" marker-end="url(#lt)"/>
+          <text x="238" y="70" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--mono)">−0.4 h</text>
+        </g>
+
+        <!-- 2 首次喝水 -->
+        <g class="row" data-tip="首次喝水　中位 1.0 h　IQR 0.2 ～ 2.2　n=47">
+          <rect x="196" y="94" width="666" height="38" fill="transparent"/>
+          <text x="188" y="109" text-anchor="end" font-size="13.5" font-weight="700" fill="var(--ink)" font-family="var(--sans)">首次喝水</text>
+          <text x="188" y="125" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--mono)">n = 47</text>
+          <rect x="228.8" y="107" width="10.5" height="10" rx="2" fill="var(--data)" opacity=".38"/>
+          <circle cx="233.0" cy="112" r="5" fill="var(--data)" stroke="var(--surface)" stroke-width="2"/>
+          <text x="256" y="117" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--mono)">1.0 h</text>
+        </g>
+
+        <!-- 3 首次固體食物 -->
+        <g class="row" data-tip="首次固體食物　中位 13.5 h　IQR 4.8 ～ 18.1　n=42">
+          <rect x="196" y="140" width="666" height="38" fill="transparent"/>
+          <text x="188" y="155" text-anchor="end" font-size="13.5" font-weight="700" fill="var(--ink)" font-family="var(--sans)">首次固體食物</text>
+          <text x="188" y="171" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--mono)">n = 42</text>
+          <rect x="253.1" y="153" width="70.3" height="10" rx="2" fill="var(--data)" opacity=".38"/>
+          <circle cx="299.1" cy="158" r="5" fill="var(--data)" stroke="var(--surface)" stroke-width="2"/>
+          <text x="331" y="163" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--mono)">13.5 h</text>
+        </g>
+
+        <!-- 4 首次下床走路 -->
+        <g class="row" data-tip="首次下床走路　中位 24.4 h　IQR 21.1 ～ 53.5　n=13">
+          <rect x="196" y="186" width="666" height="38" fill="transparent"/>
+          <text x="188" y="201" text-anchor="end" font-size="13.5" font-weight="700" fill="var(--ink)" font-family="var(--sans)">首次下床走路</text>
+          <text x="188" y="217" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--mono)">n = 13</text>
+          <rect x="339.3" y="199" width="171.3" height="10" rx="2" fill="var(--data)" opacity=".38"/>
+          <circle cx="356.7" cy="204" r="5" fill="var(--data)" stroke="var(--surface)" stroke-width="2"/>
+          <text x="520" y="209" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--mono)">24.4 h</text>
+        </g>
+
+        <!-- 5 胸管全拔 -->
+        <g class="row" data-tip="胸管全拔　中位 62.7 h　IQR 45.0 ～ 81.4　n=16">
+          <rect x="196" y="232" width="666" height="38" fill="transparent"/>
+          <text x="188" y="247" text-anchor="end" font-size="13.5" font-weight="700" fill="var(--ink)" font-family="var(--sans)">胸管全拔</text>
+          <text x="188" y="263" text-anchor="end" font-size="11" fill="var(--ink3)" font-family="var(--mono)">n = 16</text>
+          <rect x="465.6" y="245" width="192.5" height="10" rx="2" fill="var(--data)" opacity=".38"/>
+          <circle cx="559.2" cy="250" r="5" fill="var(--data)" stroke="var(--surface)" stroke-width="2"/>
+          <text x="570" y="242" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--mono)">62.7 h</text>
+        </g>
+
+        <!-- axis -->
+        <line x1="196" y1="278" x2="862" y2="278" stroke="var(--line)" stroke-width="1"/>
+        <g font-family="var(--mono)" font-size="11.5" fill="var(--ink3)" text-anchor="middle">
+          <text x="227.7" y="296">0</text>
+          <text x="354.6" y="296">24</text>
+          <text x="481.5" y="296">48</text>
+          <text x="608.4" y="296">72</text>
+          <text x="735.3" y="296">96</text>
+          <text x="862"   y="296">120</text>
+        </g>
+        <g font-family="var(--sans)" font-size="11" fill="var(--ink3)" text-anchor="middle">
+          <text x="291" y="314">第 1 天</text>
+          <text x="418" y="314">第 2 天</text>
+          <text x="545" y="314">第 3 天</text>
+          <text x="672" y="314">第 4 天</text>
+          <text x="799" y="314">第 5 天</text>
+        </g>
+        <text x="196" y="332" text-anchor="start" font-size="11.5" fill="var(--ink3)" font-family="var(--mono)">小時（自轉入加護病房起算）</text>
+      </svg>
+    </div>
+
+    <div class="tip" id="tip"></div>
+
+    <figcaption><b>讀法</b>：零點是轉入加護病房。<b>脫離呼吸器的中位數落在零點左側</b>——病人抵達加護病房時已經拔管，恢復不是從加護病房開始，是帶著恢復進去的。其後喝水在 1 小時內、固體食物 13.5 小時、下床走路在第一天結束前。</figcaption>
+  </figure>
+
+  <section>
+    <h2>這張圖和傳統指標差在哪裡</h2>
+    <div class="scroll"><table>
+      <thead><tr><th>指標類型</th><th>問的問題</th><th>形式</th></tr></thead>
+      <tbody>
+        <tr><td>傳統 ERAS outcome</td><td>有沒有達成？幾天出院？</td><td>終點事件</td></tr>
+        <tr><td>PROMs</td><td>病人主觀感受如何？</td><td>自陳量表</td></tr>
+        <tr><td>早期活動</td><td>這一項措施有沒有執行？</td><td>單一措施的遵從</td></tr>
+        <tr><td class="after">恢復動能</td><td class="after">以多快的速度、依什麼順序恢復？</td><td class="after">里程碑的時間軌跡</td></tr>
+      </tbody>
+    </table></div>
+    <p>PROMs 量的是病人怎麼<b>感受</b>，恢復動能量的是病人怎麼<b>移動</b>。早期活動是其中<b>一個</b>里程碑，恢復動能是把這些里程碑串成一條曲線。</p>
+  </section>
+
+  <section>
+    <h2>為什麼背景期沒有這條曲線</h2>
+    <div class="pull">
+      <p><b>因為沒有人在量。</b>背景期（2025/04/15 以前）的資料來自灌流紀錄與病歷回溯，<b>只有日期層級</b>——知道哪一天出院，不知道第幾小時下床。里程碑的小時數是電子登錄系統上線後才開始收的。</p>
+      <p>所以這條曲線沒有前後對照，<b>而這件事本身就是答案的一部分</b>：概念有沒有落地，看有沒有人為它做表單。我們為它做了，紙本與電子都有。</p>
+    </div>
+    <p>能夠前後對照的是日期層級的指標，這些有真實的背景值：</p>
+    <div class="scroll"><table>
+      <thead><tr><th>指標</th><th class="n">背景期</th><th></th><th class="n">平台期</th><th>分母</th></tr></thead>
+      <tbody>
+        <tr><td>手術室內拔管率</td><td class="n">0%</td><td class="arrow">→</td><td class="n after">93.8%</td><td>導入前 131 例／導入後 64 例</td></tr>
+        <tr><td>住院死亡率</td><td class="n">11.5%</td><td class="arrow">→</td><td class="n after">4.7%</td><td>同上</td></tr>
+        <tr><td>重新插管率</td><td class="n">5.3%</td><td class="arrow">→</td><td class="n after">4.7%</td><td>同上</td></tr>
+        <tr><td>加護病房滯留（中位，日曆天）</td><td class="n">4 天</td><td class="arrow">→</td><td class="n after">2 天</td><td>導入後 n=63</td></tr>
+        <tr><td>術後住院天數（中位）</td><td class="n">13 天</td><td class="arrow">→</td><td class="n after">8 天</td><td>導入後 n=62</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>方法與限制</h2>
+    <ul>
+      <li><b>資料來源</b>：手術病人管理系統「術後追蹤紀錄」（2026/09/29 17:00 匯出，已補登 2025 年拔管時刻），2025/04/16–2026/09/30 期間手術之單純冠狀動脈繞道（含 MICS-CABG）64 例，取其中有時間登錄者。時間差由抵達加護病房與各里程碑之日期時刻直接計算。時間差由系統自動計算（轉入加護病房時刻為基準）。</li>
+      <li><b>各里程碑的 n 不同</b>，因為登錄完整度不一致：脫離呼吸器 53 筆最完整，下床走路僅 13 筆。圖上每一列都標了自己的 n，中位數應與分母併讀。</li>
+      <li><b>未做任何排除</b>。加護病房滯留一筆 570 小時（住院死亡個案）未納入中位數計算。</li>
+      <li><b>脫離呼吸器仍有 11 例無時刻</b>（全部為 2025 年病例），其中包含 2025 年 3 例未於手術室拔管者；補齊後「抵達前已拔管」的比例會由 98% 降至約 93%，與整體拔管率一致。</li>
+      <li><b>仍在住院、或欄位尚未補登者不計入</b>，因此本圖不是全體病人的完整描述，而是有時間紀錄者的分布。</li>
+      <li><b>下床走路 n=13 偏少</b>，中位 24.4 小時、四分位距上緣到 53.5 小時，離散度明顯大於其他里程碑；此項登錄仍在補強中。</li>
+    </ul>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var fig = document.getElementById('fig');
+  var tip = document.getElementById('tip');
+  if(!fig || !tip) return;
+  var rows = fig.querySelectorAll('.row');
+  function show(e, text){
+    tip.textContent = text;
+    tip.style.opacity = '1';
+    var fr = fig.getBoundingClientRect();
+    var x = e.clientX - fr.left + 14;
+    var y = e.clientY - fr.top - 12;
+    if (x + tip.offsetWidth > fr.width - 8) x = fr.width - tip.offsetWidth - 8;
+    if (x < 8) x = 8;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  rows.forEach(function(r){
+    var txt = r.getAttribute('data-tip') || '';
+    r.style.cursor = 'default';
+    r.addEventListener('mousemove', function(e){ show(e, txt); });
+    r.addEventListener('mouseleave', function(){ tip.style.opacity = '0'; });
+  });
+})();
+</script>
+
+</body></html>

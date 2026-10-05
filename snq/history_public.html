@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>:root{color-scheme:light dark}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>心臟麻醉團隊改善歷程</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f9f8f4; --card:#ffffff; --ink:#16181a; --ink2:#494d52; --mut:#85888c;
+  --rule:#dfddd4; --line:rgba(22,24,26,.10);
+  --acc:#23506e; --mile:#6f5518; --milebg:rgba(111,85,24,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#141618; --card:#1c1e20; --ink:#f0efe9; --ink2:#bcbfc3; --mut:#85888c;
+    --rule:#2a2d30; --line:rgba(255,255,255,.11);
+    --acc:#8ec0de; --mile:#d3ab57; --milebg:rgba(211,171,87,.09);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#141618; --card:#1c1e20; --ink:#f0efe9; --ink2:#bcbfc3; --mut:#85888c;
+  --rule:#2a2d30; --line:rgba(255,255,255,.11);
+  --acc:#8ec0de; --mile:#d3ab57; --milebg:rgba(211,171,87,.09);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);
+  font:18.7px/1.85 "標楷體","DFKai-SB","BiauKai","AR PL UKai TW","AR PL UKai HK",
+       "Noto Serif CJK TC","PingFang TC",serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:940px;margin:0 auto;padding:46px 24px 88px}
+h1{font-size:31px;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.lede{color:var(--ink2);font-size:18.7px;margin:0 0 8px;max-width:60ch}
+.byline{color:var(--mut);font-size:16px;margin:18px 0 0;padding-top:13px;border-top:1px solid var(--line)}
+h2{font-size:23px;margin:54px 0 14px;letter-spacing:-.01em;text-wrap:balance;
+   padding-bottom:9px;border-bottom:2px solid var(--ink)}
+h2 .num{color:var(--acc);font-size:.86em;font-weight:700;margin-right:.55em;
+   letter-spacing:.02em}
+h2 .num::after{content:"　";letter-spacing:0}
+h3{font-size:19.5px;margin:30px 0 8px;text-wrap:balance}
+p{margin:0 0 15px;max-width:42em}
+.yr{margin:38px 0 16px;padding-bottom:7px;border-bottom:1px solid var(--rule);
+  font-size:17px;font-weight:700;letter-spacing:.04em;color:var(--ink2);
+  display:flex;justify-content:space-between;align-items:baseline}
+.yr em{font-style:normal;font-weight:400;color:var(--mut);font-size:15px}
+.it{display:grid;grid-template-columns:108px 1fr;gap:0 20px;
+  padding:18px 0;border-bottom:1px solid var(--line)}
+.dt{font-variant-numeric:tabular-nums;line-height:1.35}
+.dt b{display:block;font-size:20px;color:var(--acc);letter-spacing:-.01em}
+.dt span{display:block;font-size:14.7px;color:var(--mut);margin-top:3px;line-height:1.45}
+.nm{font-weight:700;font-size:20px;margin:0 0 8px;line-height:1.5;max-width:none}
+.rows{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;align-items:baseline}
+.k{font-size:17px;font-weight:700;color:var(--mut);letter-spacing:.04em;
+  white-space:nowrap;padding-top:2px}
+.v{margin:0;font-size:18.7px;line-height:1.82;color:var(--ink2);max-width:40em}
+.v b{color:var(--ink);font-weight:600}
+.it.mile{background:var(--milebg);margin:0 -14px;padding:16px 14px;border-radius:6px;border-bottom:0}
+.it.mile .dt b{color:var(--mile)}
+.it.mile .nm{color:var(--mile)}
+.obs{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--acc);
+  border-radius:0 8px 8px 0;padding:18px 20px 8px;margin:0 0 16px}
+.obs h3{margin:0 0 9px}
+.obs p{font-size:18.7px}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin:18px 0}
+.fig svg{display:block;width:100%;height:auto}
+.cap{font-size:17px;color:var(--ink2);margin:12px 0 0;line-height:1.65;max-width:none}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:18.7px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:16px;color:var(--mut);font-weight:700;letter-spacing:.03em}
+td.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+ol.refs{font-size:16px;color:var(--ink2);padding-left:20px;margin:12px 0 0;max-width:none}
+ol.refs li{margin:0 0 8px}
+ul{margin:0 0 15px;padding-left:24px;max-width:42em}
+li{margin:0 0 8px}
+sup{font-size:13px;color:var(--acc);font-weight:700}
+@media print{
+  @page{size:A4 portrait;margin:16mm 14mm}
+  body{background:#fff;font-size:14pt;line-height:1.8}
+  .wrap{max-width:none;padding:0}
+  h1{font-size:23pt} h2{font-size:17pt} h3{font-size:14.5pt}
+  .lede,.v,.obs p,p,li,table{font-size:14pt}
+  .nm{font-size:15pt} .dt b{font-size:15pt} .dt span{font-size:11pt}
+  .k{font-size:12.5pt} th{font-size:12pt} .cap{font-size:12.5pt} ol.refs{font-size:12pt}
+  .byline{font-size:12pt} .yr{font-size:13pt}
+  .it,.obs,.fig{break-inside:avoid}
+  h2{break-after:avoid}
+}
+.toc{display:flex;flex-wrap:wrap;gap:6px 14px;margin:14px 0 6px;font-size:13px}.toc a{color:#1F5A5A;text-decoration:none;border-bottom:1px dotted #9CB8B6}.toc a:hover{border-bottom-style:solid}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<h1>心臟麻醉團隊改善歷程</h1>
+<p class="lede">新店耕莘醫院心血管暨胸腔麻醉科團隊自 2025 年 4 月成立起，於心臟手術照護流程所推動之 26 項改善與制度建置。</p>
+<p class="lede">所列項目為<b>團隊層級</b>作法，適用全部心臟手術；冠狀動脈繞道手術（CABG）為 2026 年國家品質標章送件所呈現之術式。</p>
+<p class="byline">整理日期 2026 年 9 月　·　資料統計至 2026 年 9 月 30 日</p>
+<nav class="toc"><a href="#s1">壹 概述</a><a href="#s2">貳 改善歷程</a><a href="#s3">參 幾項觀察</a><a href="#s4">肆 動脈導管三段演進</a><a href="#s5">伍 現況</a><a href="../CTH-CABG.html">← 回 CABG 成效頁</a></nav>
+
+<h2 id="s1"><span class="num">壹</span>概述</h2>
+<p>本院為新北市新店區之區域教學醫院，年冠狀動脈繞道約 30–50 例。2025 年 4 月成立固定專責之心臟麻醉團隊，將術後拔管目標由「加護病房內 6 小時內拔管」推進至「手術室內即刻拔管」。</p>
+<p>改善以團隊會議決議、次一台刀即執行的方式推進。<b>23 項由團隊自主決定之項目，自決議至第一例執行之間隔中位數為 3 天</b>，其中 8 項於隔日執行；需經院內醫材審議與採購者則另計，最長一項為 207 天。</p>
+<p>本文依第一例執行日期排序，記錄每一項的原始問題、對策與佐證，並於第參節整理若干觀察、第肆節以動脈導管為例說明三段演進、第伍節列示現況數據。</p>
+<h2 id="s2"><span class="num">貳</span>改善歷程</h2><div class="yr">2025 年<em>團隊成立年　19 項</em></div><div class="it mile"><div class="dt"><b>04/15</b><span>籌備會議 04/14</span></div><div><p class="nm">心臟麻醉團隊成立</p><div class="rows"><span class="k">背景</span><p class="v">麻醉科過去僅參與術中照護，對術後狀況缺乏回饋管道。成立固定專責團隊並延伸至術後訪視，使照護品質的問題得以被觀察，PDCA 的查核階段亦因而有了資料來源</p><span class="k">說明</span><p class="v">成立當日即開始術前衛教，第一台手術於翌日（04/16）執行</p></div></div></div>
+<div class="it"><div class="dt"><b>04/16</b><span>04/14</span></div><div><p class="nm">使用專用動脈導管針</p><div class="rows"><span class="k">問題</span><p class="v">冠狀動脈繞道手術病人血管品質普遍不佳——管徑細、鈣化嚴重，傳統套管針不易一次成功，反覆穿刺為術後血腫之來源</p><span class="k">對策</span><p class="v">改用導絲導引（Seldinger）式專用動脈導管針，以軟導絲先行探路、導管沿導絲滑入，取代以針尖維持位置推送套管</p><span class="k">機轉</span><p class="v">詳見第肆節圖解</p></div></div></div>
+<div class="it"><div class="dt"><b>04/16</b><span>04/14</span></div><div><p class="nm">胸骨旁肋間神經阻斷改行淺層</p><div class="rows"><span class="k">觸發</span><p class="v">院內曾有深層阻斷傷及內乳動脈之事件。內乳動脈為冠狀動脈繞道最重要之移植血管，一旦受損將直接影響手術進行</p><span class="k">對策</span><p class="v">於團隊成立前之籌備會議與外科醫師共同討論決定；自團隊第一台刀起，不論取哪一側血管一律施行淺層阻斷</p><span class="k">說明</span><p class="v">熟練後可於五分鐘內完成，未因改為淺層而延長作業時間</p></div></div></div>
+<div class="it"><div class="dt"><b>06/14</b><span>05/28</span></div><div><p class="nm">術後統一使用高流量鼻導管（HFNC）</p><div class="rows"><span class="k">制度落差</span><p class="v">健保給付條件（57030B／57031B）要求 P/F ratio ≤ 300、RR &gt; 25 及 PaCO₂ ≤ 45 mmHg 三者並存。COPD 或睡眠呼吸中止症病人常因 PaCO₂ 偏高而不符條件，制度上導向非侵襲性陽壓呼吸治療（BiPAP）</p><span class="k">臨床衝突</span><p class="v">BiPAP 封住口鼻，與術後恢復所需之說話、喝水、咳嗽相斥</p><span class="k">對策</span><p class="v">統一使用 HFNC——符合適應症者以健保申報，不符合者於術前說明後自費。<b>給付條件決定的是誰付費，不是病人得到什麼照護</b></p><span class="k">配套</span><p class="v">自費部分納入本院「同莘無礙」自費耗材關懷計畫</p><span class="k">實證</span><p class="v">中華民國重症醫學會《濕化高流量氧氣重症治療台灣專家共識》指出，輕中度高碳酸血症病人使用 HFNC 於 pH 變化、氧合改善與二氧化碳清除上與 NIPPV 效益相同；心臟與胸腔大手術高風險族群術後預防性使用 HFNC 優於傳統氧氣治療</p></div></div></div>
+<div class="it"><div class="dt"><b>06/29</b><span>06/27</span></div><div><p class="nm">全團隊術後訪視詢問 Triflow（訂定 protocol）</p><div class="rows"><span class="k">起因一</span><p class="v">回饋迴路斷裂。麻醉科過去僅顧及術中、不參與術後，因而不知自身有何不足，亦無從改善</p><span class="k">起因二</span><p class="v">關係建立的缺口。麻醉科醫師術前會訪視病人，但麻醉專科護理師術前不一定看過病人，術後訪視時缺乏自然的切入點</p><span class="k">作法</span><p class="v">先由麻醉專科護理師於術後訪視時以「Triflow 吸幾顆」為話題與病人及家屬建立關係；其後擴及不分職類——外科醫師、麻醉科醫師、體外循環師、加護病房護理師——訪視時均順口詢問</p><span class="k">意外效果</span><p class="v">病人被問及「吸幾顆」時即知對方為團隊成員。此語從衛教提問成為團隊的識別記號，使照護的連續性被病人具體感受</p><span class="k">名稱</span><p class="v">「人山人海肺部復健計畫」之名稱係 2025 年 8 月參加第一屆心安優護獎時所取，較 protocol 訂定晚約兩個月</p><span class="k">資料來源</span><p class="v">護理紀錄無 Triflow 欄位，惟團隊之術後 milestone 紀錄（紙本與電子）均有登錄，可回溯每日達成量與各項恢復里程碑之達成時間</p></div></div></div>
+<div class="it"><div class="dt"><b>07/08</b><span>07/01</span></div><div><p class="nm">中央靜脈導管縫線改免縫貼 Tegaderm</p><div class="rows"><span class="k">問題</span><p class="v">縫線造成疼痛與出血，且縫鬆無固定力、縫緊拆線困難</p></div></div></div>
+<div class="it"><div class="dt"><b>07/08</b><span>07/02</span></div><div><p class="nm">彩色視覺類比疼痛評分量表</p><div class="rows"><span class="k">問題</span><p class="v">疼痛控制橫跨麻醉、心臟外科、重症、體外循環、呼吸治療五個單位，0–10 純數字量表於跨單位判讀與給藥決策上不一致</p><span class="k">對策</span><p class="v">改以色彩比對輔助判讀，使給藥決策更直覺、跨單位一致</p></div></div></div>
+<div class="it"><div class="dt"><b>07/08</b><span>07/03</span></div><div><p class="nm">引流管、尿管配置配合加護病房床位方向</p><div class="rows"><span class="k">問題</span><p class="v">管路排列組合因人而異，造成轉送困難與交班冗長</p><span class="k">對策</span><p class="v">統一管路配置方向，併同製作加護病房床邊配置小卡與視覺化交班人形區域圖</p></div></div></div>
+<div class="it"><div class="dt"><b>07/08</b><span>07/06</span></div><div><p class="nm">超音波導引動脈導管置放</p><div class="rows"><span class="k">觸發</span><p class="v">院內一例非本團隊照護之血管手術病人，術後動脈導管脫落、重新置放時反覆穿刺，發生嚴重血管併發症</p><span class="k">對策</span><p class="v">自 07/08 起全面改用超音波導引置放。事件至落地 4 天</p><span class="k">品管定位</span><p class="v">屬從外部事件與虛驚事件學習</p></div></div></div>
+<div class="it"><div class="dt"><b>07/23</b><span>試行</span></div><div><p class="nm">麻醉科接手術後止痛醫囑</p><div class="rows"><span class="k">背景</span><p class="v">彩色 VAS 導入後發現術後疼痛分數不理想。為統一多模式止痛之處方與劑量，由麻醉科暫時接手術後止痛醫囑並持續調整</p></div></div></div>
+<div class="it"><div class="dt"><b>08/04</b><span>08/03</span></div><div><p class="nm">術前口服 acetaminophen ＋ 清流質至術前 2 小時</p><div class="rows"><span class="k">問題</span><p class="v">ERAS 指引允許清流質至術前 2 小時，惟此為許可性規定，病房與病人多不會實際執行，為全球 ERAS 落實率偏低之典型原因</p><span class="k">對策</span><p class="v">將術前 2 小時口服 acetaminophen 開為醫囑。醫囑具指示性，護理師必須執行；而服藥必然需要飲水，清流質政策因而隨止痛醫囑一併落實</p><span class="k">品管定位</span><p class="v">以必須執行的動作帶動許可性規定，屬防呆設計之行為版（forcing function）</p></div></div></div>
+<div class="it"><div class="dt"><b>08/20</b><span>08/02</span></div><div><p class="nm">胸骨骨板固定</p><div class="rows"><span class="k">定位</span><p class="v">由心臟外科執行，加速骨骼癒合並減少疼痛；為多模式止痛中唯一之外科側對策</p><span class="k">質性發現</span><p class="v">團隊自病人主訴中分辨出疼痛「質地」而非分數的差異：傳統鋼絲固定者描述為刀割般劇烈、尖銳之痛；骨板固定者描述為悶痛、緊繃之感。推測與骨板自始即提供較高胸骨固定力有關</p></div></div></div>
+<div class="it"><div class="dt"><b>08/22</b><span>08/21</span></div><div><p class="nm">加入 Lyrica（pregabalin）</p><div class="rows"><span class="k">對策</span><p class="v">納入神經性疼痛用藥，進一步降低鴉片類藥物需求</p></div></div></div>
+<div class="it"><div class="dt"><b>09/03</b><span>08/29</span></div><div><p class="nm">中央靜脈導管改用無痛保膚膜</p><div class="rows"><span class="k">觸發</span><p class="v">2025/08/20 發生 1 例 Tegaderm 膠帶過敏致皮膚潰瘍並延遲出院</p><span class="k">對策</span><p class="v">全面採用無痛保膚膜（Cavilon），於膠帶與皮膚之間建立保護層</p><span class="k">成效</span><p class="v">導入後敷料相關皮膚事件維持 0 件</p></div></div></div>
+<div class="it"><div class="dt"><b>09/17</b><span>ASCA 研討會 09/16</span></div><div><p class="nm">低劑量 spinal morphine</p><div class="rows"><span class="k">來源</span><p class="v">2025/09/16 於亞洲心胸麻醉學會研討會聽聞此一止痛方式，當晚回顧文獻，隔日即用於第一例</p><span class="k">劑量的邏輯</span><p class="v">此技術三十餘年前即已存在（Mathews &amp; Abrams, <i>Lancet</i> 1980）。過往採高劑量時止痛效果佳但病人嗜睡、拔管延後（Chaney et al., <i>Anesth Analg</i> 1996），因而未被廣泛沿用</p><span class="k">文獻</span><p class="v">2022 年一篇統合分析（15 篇 RCT，劑量 ≤ 0.5 mg）顯示術後靜脈嗎啡用量減少 13–15 mg、拔管時間提早約 48 分鐘，且未觀察到呼吸抑制事件<sup>[1]</sup>。本團隊於多模式止痛之脈絡下採低劑量使用，非單一止痛手段</p></div></div></div>
+<div class="it"><div class="dt"><b>10/01</b><span>09/18</span></div><div><p class="nm">中央靜脈導管改用抗菌敷料</p><div class="rows"><span class="k">對策</span><p class="v">含 chlorhexidine 之 Tegaderm，抗菌並兼作緩衝，一併改善管路易折倒之問題</p></div></div></div>
+<div class="it"><div class="dt"><b>10/01</b><span>09/19</span></div><div><p class="nm">改用 4 way 中央靜脈導管並統一管路接法</p><div class="rows"><span class="k">階段零</span><p class="v">團隊成立前為 3 way 導管，病人帶病房建立之周邊靜脈路徑進入手術室，進房後再建立一條。接藥無固定規則，唯一原則為升壓藥與降壓藥分開</p><span class="k">階段一</span><p class="v">2025/04/15 起（3 way 時期）：右手 20G 走點滴給次要藥物，另建 18G 大針供緊急輸血；導管棕色接輸血、白色測壓兼跑非升壓強心 pump、藍色走升壓藥。白、藍同為 18G，開放護理師視情況彈性交換</p><span class="k">階段二</span><p class="v">2025/09/19 決議改用 4 way 導管並同時規定各腔用途，10/01 第一例（以試用方式先行進用，12/03 醫院正式進貨）。現行規則：灰 14G 輸血｜棕 16G 測中央靜脈壓、bolus 藥物、備用輸血｜白 18G 升壓降壓 pump｜藍 18G 走 Transamine、靜脈麻醉藥與止痛藥｜周邊靜脈給胃藥、protamine</p><span class="k">核心設計</span><p class="v">分類軸由藥理改為時間。舊原則「升壓與降壓分開」依藥理分類，但術後常需強心藥與降壓藥併用。新規則依「藥物何時停止」分類——白色為術後持續不中斷者，藍色為手術結束即停者。病人因而得以帶著已調妥劑量、未曾中斷的 pump 轉送</p><span class="k">併同處理</span><p class="v">麻醉科與加護病房之藥物泡製濃度一併統一。過往兩單位泡法不同，易生溝通誤差、劑量錯誤與到房後重新泡藥之延遲</p><span class="k">附帶效益</span><p class="v">4 way 導管使病人進房後不需再建立周邊靜脈路徑，省去術前置放不順之延遲，亦避免因穿刺失敗造成血管損傷——術中使用 heparin，手術室內失敗的穿刺常於術後形成瘀青</p></div></div></div>
+<div class="it mile"><div class="dt"><b>10/01</b><span>標準化完成</span></div><div><p class="nm">術後止痛醫囑權歸還外科醫師</p><div class="rows"><span class="k">說明</span><p class="v">多模式止痛方案經約兩個月密集調整——術前口服 acetaminophen、Lyrica、spinal morphine、術後常規 acetaminophen，外加外科側之胸骨骨板——待方案收斂後，將醫囑權交還原執行者</p><span class="k">品管定位</span><p class="v">由專科暫時介入建立標準、標準成熟後交還原執行者，使對策納入標準化體系而不依賴特定人員。改善自此進入維持階段</p></div></div></div>
+<div class="it"><div class="dt"><b>12/03</b><span>11/25</span></div><div><p class="nm">中央靜脈導管加上 StatLock 免縫固定座</p><div class="rows"><span class="k">對策</span><p class="v">以免縫固定座取代縫線固定</p></div></div></div>
+<div class="it"><div class="dt"><b>12/03</b><span>11/27</span></div><div><p class="nm">統一 4 way 16 公分全入</p><div class="rows"><span class="k">問題</span><p class="v">早期不同人固定深度不一，事後常無法確認置入深度，交班與記錄困難</p><span class="k">對策</span><p class="v">一插到底，置入深度由器材長度本身決定，無須判讀刻度</p><span class="k">成效</span><p class="v">置入深度一致率 100%。屬防呆設計</p></div></div></div>
+<div class="it"><div class="dt"><b>12/31</b><span>12/30</span></div><div><p class="nm">動脈導管改置解剖鼻煙壺處橈動脈</p><div class="rows"><span class="k">問題</span><p class="v">術後病人清醒活動後，肘部肱動脈導管幾乎均會脫落；改置腕部橈動脈後仍受手腕活動影響</p><span class="k">對策</span><p class="v">參考文獻改置解剖鼻煙壺（anatomical snuffbox）處之遠端橈動脈。詳見第肆節</p></div></div></div>
+<div class="yr">2026 年<em>1–8 月　7 項</em></div><div class="it"><div class="dt"><b>01/28</b><span>01/25</span></div><div><p class="nm">手術結束以溫水擦拭去除消毒藥水</p><div class="rows"><span class="k">問題</span><p class="v">病人術後抓管路。不以「病人不配合」作結，追問真因為消毒藥水殘留造成皮膚搔癢</p><span class="k">對策</span><p class="v">於手術結束時以溫水擦拭去除殘留</p></div></div></div>
+<div class="it"><div class="dt"><b>01/28</b><span>01/25</span></div><div><p class="nm">手術結束更換全新 Tegaderm</p><div class="rows"><span class="k">問題</span><p class="v">體外循環使用 heparin 後穿刺孔滲血、復溫流汗使黏性下降，敷料鬆脫</p><span class="k">對策</span><p class="v">送出手術室前重新黏貼。與上一項為同次會議決議、同日上線</p></div></div></div>
+<div class="it"><div class="dt"><b>03/29</b><span>辦法制定</span></div><div><p class="nm">跨科部經食道超音波（TEE）緊急借用辦法</p><div class="rows"><span class="k">問題</span><p class="v">麻醉科無 TEE 設備。常規排刀可提前向心臟內科商借，但下班時間與假日之急診刀無 TEE 可用</p><span class="k">落差本質</span><p class="v">此非單純設備問題，而是照護的時間性不平等——風險最高、最需要術中鑑別診斷的族群（急診、假日刀），反而取得不到此項工具</p><span class="k">對策</span><p class="v">訂定《食道超音波緊急借用及運送作業標準》第一版，共 5 頁九章。制定單位外科部、核准單位醫務部，跨心臟醫學中心、心臟外科、麻醉科三方；因跨科部須送院內二階辦法核定</p><span class="k">歷程</span><p class="v">行為改變先於制度：先於團隊會議將借用流程列為明確課題，跨心臟醫學中心、心臟外科、麻醉科協調出作法並實際執行，確認可行後始於 2026 年 3 月 29 日訂為正式辦法，由醫務部核准。辦法之作用為標準化（SDCA），使此項作法不隨當班人員與人事異動而回復原狀</p><span class="k">成效</span><p class="v">急診刀 TEE 使用率：2023 年 0／4、2024 年 5／12、2025 年 4／12（前三年合計 9／28＝32.1%）；<b>2026 年至 9 月 5 日 12／12＝100%</b>，其中包含 1 台急診 CABG。Fisher 精確檢定 p＝0.00006。四年為全數計數，非抽樣</p><span class="k">未使用者之組成</span><p class="v">前三年未使用 TEE 之 19 台中，Type A 主動脈剝離佔 10 台（53%），另有 4 台 CABG、1 台 AR/IE、2 台 check bleeding、2 台 cardiorrhaphy</p><span class="k">現存限制</span><p class="v">全院僅有一台 TEE，故辦法所能解決者為調度，而非數量。2025 年未使用之案例中，有一例急診 cardiorrhaphy 與常規心臟手術時間重疊，當時唯一機台正在使用中，並非借調未果。同時性衝突為已知之失效模式，2026 年至今未再發生</p><span class="k">文件內容</span><p class="v">第八章載明派任人員須接受流程說明、新進人員完成實地走訪、三單位定期檢視流程可行性——為 26 項中唯一教育訓練與稽核條款俱全者</p></div></div></div>
+<div class="it"><div class="dt"><b>04/01</b><span>03/31</span></div><div><p class="nm">雙保溫毯主動加熱並延伸至加護病房</p><div class="rows"><span class="k">觸發</span><p class="v">2026/03/30 一例微創瓣膜手術（術中降溫）病人於加護病房持續顫抖</p><span class="k">機轉</span><p class="v">體外循環復溫時核心復溫快於周邊，形成核心–周邊溫度梯度。脫離體外循環後周邊血管擴張、灌流回復，滯留於周邊之冷血回流核心，體溫於轉送與到達加護病房後仍持續下降（afterdrop）。離開手術室時體溫正常並不代表安全</p><span class="k">原有作法之缺口</span><p class="v">加護病房原僅有棉被與烤燈。但交接班整理管路、更換尿布時病人會有一段時間未覆蓋——被動保溫於掀開時即失效，而掀開的時機正是 afterdrop 發生的時段</p><span class="k">對策</span><p class="v">頭側、腳側各一台保溫毯，並延伸至加護病房持續保溫。決議翌日即自麻醉科借用一台送至加護病房並於當日使用，同時申請新機；04/10 加護病房自有新機上線</p><span class="k">文獻</span><p class="v">Levy JH, et al. Postoperative Cardiovascular Management. In: <i>Kaplan Essentials of Cardiac Anesthesia</i>. Ch 30:758–785 指出心臟手術病人常於到達加護病房時核心體溫低於 35 °C</p></div></div></div>
+<div class="it mile"><div class="dt"><b>04/17</b><span>術式擴展</span></div><div><p class="nm">本院第一例微創冠狀動脈繞道手術</p><div class="rows"><span class="k">說明</span><p class="v">既有照護流程未經修改即適用於新術式</p></div></div></div>
+<div class="it"><div class="dt"><b>05/13</b><span>04/22</span></div><div><p class="nm">主動以吸管飲水</p><div class="rows"><span class="k">問題</span><p class="v">過往由他人以棉枝沾水或倒水餵食，病人處於被動接受的位置</p><span class="k">對策</span><p class="v">改為病人自主以吸管吸吮。吸吮動作本身即為肺擴張訓練，並提供恢復進展之正向回饋</p><span class="k">文獻立場</span><p class="v">吸管與杯子之吸入風險並無差異，真正影響者為頭頸姿勢與自主控制節奏。加護病房病人約七成有口渴主訴，禁食為其獨立危險因子</p></div></div></div>
+<div class="it"><div class="dt"><b>07/29</b><span>07/28</span></div><div><p class="nm">術後先進恢復室初級恢復再轉送</p><div class="rows"><span class="k">觸發</span><p class="v">因醫院改建，加護病房 2026 年 10 月起由 C 棟 3 樓遷至 B 棟 4 樓；手術室位於 E 棟 3 樓，兩者由「同樓層不同棟」變為「不同棟又不同樓層」，轉送路程增加</p><span class="k">對策</span><p class="v">提前三個月改為術後先於恢復室初級恢復，依經驗約 1 小時病人已可飲水，此時再行轉送</p><span class="k">品管定位</span><p class="v">屬事前風險評估與前瞻性流程再設計。此一選項之所以成立，係因病人於一小時內即恢復至可飲水之程度</p></div></div></div>
+<div class="it"><div class="dt"><b>08/14</b><span>01/19</span></div><div><p class="nm">低風險者改用含二氧化碳偵測鼻導管</p><div class="rows"><span class="k">對策</span><p class="v">呼吸支持降階之同時加上二氧化碳監測</p><span class="k">期程</span><p class="v">因屬新醫材須經院內審議與採購：2026/01/19 決議、06/23 醫材會通過、08/01 到貨、08/14 第一例</p></div></div></div>
+<h2 id="s3"><span class="num">參</span>幾項觀察</h2>
+
+<div class="obs">
+<h3>一、這些改善之所以能被看見，前提是麻醉科走出了手術室</h3>
+<p>病人為何抓管路、敷料為何鬆脫、動脈導管為何在加護病房脫落、交班為何冗長、疼痛分數為何不理想、護理師如何餵病人喝水——這些問題，只參與術中的人看不見。</p>
+<p>這不僅是照護範圍的擴大，也是方法上的前提：<b>沒有術後的參與，PDCA 的查核階段就沒有資料來源</b>。26 項中絕大多數的問題發現，都來自術後訪視。</p>
+</div>
+
+<div class="obs">
+<h3>二、多模式止痛是一條有起點也有終點的完整循環</h3>
+<p>神經阻斷自團隊第一台刀即在使用，是基礎而非加碼。三個月後建立可靠的量測工具（彩色 VAS），發現分數不理想，麻醉科於是暫時接手術後止痛醫囑，在兩個多月內密集調整——術前口服 acetaminophen、Lyrica、spinal morphine、術後常規 acetaminophen，外加外科側的胸骨骨板——待方案收斂後，<b>於 2025/10/01 將醫囑權歸還外科醫師</b>。</p>
+<p>由專科暫時介入建立標準、標準成熟後交還原執行者，使對策納入標準化體系而不依賴特定人員。這也解釋了為何 10 月之後止痛相關改善即告停止——並非停止，而是收斂完成、交還執行。</p>
+</div>
+
+<div class="obs">
+<h3>三、以一個必須執行的醫囑，帶動一項只有許可的規定</h3>
+<p>ERAS 指引允許清流質至術前 2 小時，但此為許可性規定，病房與病人多不會實際執行，這是全球 ERAS 落實率偏低的典型原因。</p>
+<p>本團隊的作法是將術前 2 小時口服 acetaminophen 開為醫囑。醫囑具指示性，護理師必須執行；而服藥必然需要飲水，清流質政策因而隨止痛醫囑一併落實。<b>不以宣導推動，而使正確行為成為流程的必然結果。</b></p>
+</div>
+
+<div class="obs">
+<h3>四、三次因他人的事件而改變作法，且都不是團隊自己的病人</h3>
+<ul>
+<li><b>2025/04</b>　院內深層阻斷傷及內乳動脈之事件 → 團隊成立第一台刀即一律改行淺層</li>
+<li><b>2025/07</b>　院內非本團隊照護之病人動脈導管反覆穿刺致嚴重血管併發症 → 07/08 起全面改用超音波導引</li>
+<li><b>統一藥物泡製濃度</b>　源自他院案例。團隊於建立流程時即統一泡法，因而重新泡藥與給藥錯誤自始為 0 件</li>
+</ul>
+<p>三者的共同點不在於「來自外部」，而在於<b>本來都可以說與己無關</b>：前兩件發生於自己的部門內，但都不是團隊的病人、不是團隊執行的處置。前兩件並均於一週內改變作法。</p>
+</div>
+
+<div class="obs">
+<h3>五、術後先進恢復室，是為三個月後的搬遷預作準備</h3>
+<p>手術室位於 E 棟 3 樓，外科加護病房原在 C 棟 3 樓。因醫院改建，加護病房 2026 年 10 月起遷至 B 棟 4 樓，轉送路程大幅增加。團隊於 2026/07/29 起提前改為術後先進恢復室，約 1 小時病人已可飲水，此時再行轉送。</p>
+<p>此一選項之所以成立，係因病人在一小時內即恢復到可飲水的程度——<b>亦即前述所有改善累積出來的恢復速度，本身成為了流程再設計的條件</b>。</p>
+</div>
+
+<div class="obs">
+<h3>六、同一套流程在新術式上未經修改即成立</h3>
+<p>2026 年 4 月本院開始執行微創冠狀動脈繞道手術。至 9 月 30 日止，傳統 12 例、微創 13 例；除 7 月 26 日一例緊急手術外，全部於手術室內拔除氣管內管（9 月 23 日一例緊急手術亦於手術室內拔管）。<b>微創自第一例起即達成，未經流程調整。</b></p>
+<p>其中兩例於術中由微創轉為開胸（5/13 因術中出血緊急開胸止血、8/3 因右冠狀動脈路徑無法到達改開胸接血管），<b>依意向治療原則均未排除，且兩例仍於手術室內拔管</b>。</p>
+<p>流程係建立於傳統胸骨切開之族群，因而在術中臨時轉為開胸、且伴隨出血的非計畫情境下仍然適用。</p>
+</div>
+<h2 id="s4"><span class="num">肆</span>專題：動脈導管置放的三段演進</h2>
+<p>三段各有不同的觸發來源——病人族群特性、院內他處的併發症、自身改善的次級效應。</p>
+
+<h3>第一段　專用動脈導管針（2025/04/15）</h3>
+<p>冠狀動脈繞道手術病人的血管品質普遍不佳——管徑細、鈣化嚴重，以傳統套管針不易一次成功，而反覆穿刺正是術後血腫的來源。改用導絲導引（Seldinger）式的專用動脈導管針，將「以針尖定位推送套管」改為「軟導絲先行探路、導管沿導絲滑入」。</p>
+<div class="fig">
+<svg viewBox="0 0 900 440" role="img" aria-label="比較傳統套管針與導絲導引兩種動脈導管置放法：傳統法須帶著硬針把套管推進管腔，血管細小或鈣化時易穿透後壁；導絲導引法先送入軟導絲沿管腔前進，導管再沿導絲滑入，不需靠針尖定位。" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <!-- ROW A -->
+          <text x="20" y="24" font-size="13" font-weight="600" fill="currentColor">傳統套管針（catheter-over-needle）</text>
+
+          <!-- A1 -->
+          <g>
+            <rect x="25" y="96" width="250" height="42" fill="currentColor" fill-opacity="0.05"/>
+            <line x1="25" y1="96" x2="275" y2="96" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="25" y1="138" x2="275" y2="138" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="36" y1="50" x2="98" y2="96" stroke="currentColor" stroke-width="7" stroke-opacity="0.25" stroke-linecap="round"/>
+            <line x1="36" y1="50" x2="122" y2="114" stroke="currentColor" stroke-width="2"/>
+            <circle cx="122" cy="114" r="3" fill="currentColor"/>
+            <text x="25" y="164" font-size="11.5" fill="currentColor">① 見回血：針尖入腔，<tspan font-weight="600">套管口仍在管壁上</tspan></text>
+          </g>
+
+          <!-- A2 -->
+          <g>
+            <rect x="325" y="96" width="250" height="42" fill="currentColor" fill-opacity="0.05"/>
+            <line x1="325" y1="96" x2="575" y2="96" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="325" y1="138" x2="575" y2="138" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="336" y1="50" x2="424" y2="115" stroke="currentColor" stroke-width="7" stroke-opacity="0.25" stroke-linecap="round"/>
+            <line x1="336" y1="50" x2="450" y2="135" stroke="currentColor" stroke-width="2"/>
+            <line x1="352" y1="36" x2="392" y2="66" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah)"/>
+            <text x="396" y="48" font-size="11" fill="currentColor">整組前推</text>
+            <circle cx="452" cy="137" r="9" fill="none" stroke="#D9564F" stroke-width="2"/>
+            <line x1="461" y1="146" x2="500" y2="168" stroke="#D9564F" stroke-width="1.5"/>
+            <text x="325" y="164" font-size="11.5" fill="currentColor">② 帶著硬針推套管入腔</text>
+            <text x="504" y="172" font-size="11.5" font-weight="600" fill="#D9564F">後壁穿透</text>
+          </g>
+
+          <!-- A3 -->
+          <g>
+            <rect x="625" y="96" width="250" height="42" fill="currentColor" fill-opacity="0.05"/>
+            <line x1="625" y1="96" x2="875" y2="96" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="625" y1="138" x2="875" y2="138" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="636" y1="50" x2="724" y2="115" stroke="currentColor" stroke-width="7" stroke-opacity="0.25" stroke-linecap="round"/>
+            <text x="625" y="164" font-size="11.5" fill="currentColor">③ 退針，留置套管</text>
+          </g>
+
+          <!-- ROW B -->
+          <text x="20" y="230" font-size="13" font-weight="600" fill="currentColor">導絲導引（Seldinger，專用動脈導管針）</text>
+
+          <!-- B1 -->
+          <g>
+            <rect x="25" y="302" width="250" height="42" fill="currentColor" fill-opacity="0.05"/>
+            <line x1="25" y1="302" x2="275" y2="302" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="25" y1="344" x2="275" y2="344" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="36" y1="256" x2="122" y2="320" stroke="currentColor" stroke-width="2"/>
+            <circle cx="122" cy="320" r="3" fill="currentColor"/>
+            <text x="25" y="370" font-size="11.5" fill="currentColor">① 見回血：針尖入腔</text>
+          </g>
+
+          <!-- B2 -->
+          <g>
+            <rect x="325" y="302" width="250" height="42" fill="currentColor" fill-opacity="0.05"/>
+            <line x1="325" y1="302" x2="575" y2="302" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="325" y1="344" x2="575" y2="344" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="336" y1="256" x2="422" y2="320" stroke="currentColor" stroke-width="2"/>
+            <path d="M422 320 Q444 328 470 324 L556 324" fill="none" stroke="#2E9E8F" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ah)" color="#2E9E8F"/>
+            <text x="325" y="370" font-size="11.5" fill="currentColor">② <tspan font-weight="600" fill="#2E9E8F">軟導絲先行</tspan>，沿管腔前進</text>
+          </g>
+
+          <!-- B3 -->
+          <g>
+            <rect x="625" y="302" width="250" height="42" fill="currentColor" fill-opacity="0.05"/>
+            <line x1="625" y1="302" x2="875" y2="302" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="625" y1="344" x2="875" y2="344" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M636 256 L714 314 Q726 324 742 324 L830 324" fill="none" stroke="currentColor" stroke-width="7" stroke-opacity="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M722 320 Q744 328 770 324 L856 324" fill="none" stroke="#2E9E8F" stroke-width="1.6" stroke-dasharray="4 4" stroke-linecap="round"/>
+            <text x="625" y="370" font-size="11.5" fill="currentColor">③ 導管沿導絲滑入，退針與導絲</text>
+          </g>
+
+          <line x1="20" y1="196" x2="880" y2="196" stroke="currentColor" stroke-width="1" stroke-opacity="0.25"/>
+        </svg>
+<p class="cap">兩者的差別集中在第 ② 步：傳統法須帶著硬針將套管推入管腔，管徑細或鈣化時針尖易穿透後壁；導絲導引法先送入直徑更小、質地柔軟的導絲，導絲順著管腔前進，導管再沿導絲滑入，不需以針尖維持位置。</p>
+</div>
+
+<h3>第二段　超音波導引（2025/07/08）</h3>
+<p>2025 年 7 月，院內一例非本團隊照護之血管手術病人術後動脈導管脫落，重新置放時反覆穿刺，發生嚴重血管併發症。團隊於 07/06 開會、07/08 起全面改用超音波導引，<b>事件至落地 4 天</b>。</p>
+
+<h3>第三段　改置解剖鼻煙壺處橈動脈（2025/12/31）</h3>
+<p>演進係兩階段的：病人早期清醒活動後，肘部肱動脈導管幾乎均會脫落，因而盡量改置腕部橈動脈；惟腕部橈動脈仍受手腕活動影響，最終參考文獻改置解剖鼻煙壺（anatomical snuffbox）處之遠端橈動脈。</p>
+<p>最直接的支持來自 2025 年一項加護病房隨機對照試驗（200 人，血流動力學監測）：首刺成功率兩組無差異（86% vs 84%），但<b>遠端橈動脈組連續 72 小時的動脈波形喪失次數顯著較少</b>（三日皆 p &lt; 0.001），併發症無差異、止血時間較短。<sup>[2]</sup></p>
+<p>介入心臟學領域的統合分析（14 篇隨機試驗、6,208 人）則提供風險面的平衡：遠端橈動脈之橈動脈阻塞（RR 0.36）與血腫（RR 0.51）顯著較低，但改道率高出三倍（12.5% vs 3.8%）、穿刺時間較長、嘗試次數較多。<sup>[3]</sup> 惟該文所談為冠狀動脈攝影與介入用之鞘管——管徑較粗且於術後短時間內移除，與加護病房留置數日之動脈導管情境不同。</p>
+<p>統合分析所指出的主要代價是穿刺較為困難，而本團隊<b>係先於 2025/07/08 導入超音波導引，半年後（12/31）才改置遠端橈動脈</b>——前一段改善正好緩解後一段的代價。</p>
+<p>另有一項對 CABG 族群特別相關之理由：此術式的原始描述指出，穿刺點位於掌淺支與拇主要動脈起點之間，可保留掌淺弓之順向血流、避免前臂橈動脈栓塞。<sup>[4]</sup> 而前臂橈動脈正是冠狀動脈繞道的潛在移植血管。</p>
+<p>需一併留意者：遠端橈動脈管徑較細，有評論指出女性族群之證據仍不足，並建議置放前先以超音波評估<sup>[5]</sup>——與本團隊作法一致。</p>
+
+<ol class="refs">
+<li>Chen IW, Sun CK, Ko CC, et al. Analgesic efficacy of intrathecal morphine in cardiac surgery: a meta-analysis of randomized controlled trials. <i>Front Med.</i> 2022. doi:10.3389/fmed.2022.1017676</li>
+<li>Peng C, Wu W, Zhang Y, et al. Distal versus conventional radial artery catheterization for hemodynamic monitoring in intensive care setting: a randomized, controlled, non-inferiority trial. <i>BMC Anesthesiol.</i> 2025;25:348. doi:10.1186/s12871-025-03228-2</li>
+<li>Ferrante G, et al. Distal vs Conventional Radial Access for Coronary Angiography and/or Intervention: A Meta-Analysis of Randomized Trials. <i>JACC Cardiovasc Interv.</i> 2022. doi:10.1016/j.jcin.2022.09.006</li>
+<li>Kiemeneij F. Left distal transradial access in the anatomical snuffbox for coronary angiography (ldTRA) and interventions (ldTRI). <i>EuroIntervention.</i> 2017;13(7):851–857. doi:10.4244/EIJ-D-17-00079</li>
+<li>Taylan G, Öztürk C, Yalta K. Radial artery cannulation at the anatomical snuffbox: Hype or hope in interventional cardiology? <i>Balkan Med J.</i> 2021;38(4):251–252. doi:10.5152/balkanmedj.2021.21025</li>
+</ol>
+<h2 id="s5"><span class="num">伍</span>現況</h2>
+
+<h3>手術紀錄（2026 年 4 月起）</h3>
+<div class="scroll"><table>
+<thead><tr><th>術式</th><th class="n">4 月</th><th class="n">5 月</th><th class="n">6 月</th><th class="n">7 月</th><th class="n">8 月</th><th class="n">9 月</th><th class="n">合計</th></tr></thead>
+<tbody>
+<tr><td>傳統冠狀動脈繞道</td><td class="n">5</td><td class="n">0</td><td class="n">1</td><td class="n">2</td><td class="n">3</td><td class="n">1</td><td class="n"><b>12</b></td></tr>
+<tr><td>微創冠狀動脈繞道</td><td class="n">1</td><td class="n">2</td><td class="n">1</td><td class="n">5</td><td class="n">2</td><td class="n">2</td><td class="n"><b>13</b></td></tr>
+</tbody></table></div>
+<p style="font-size:13.2px;margin-top:10px">統計至 2026 年 9 月 30 日。除 7 月 26 日一例緊急手術外，全部病例均於手術室內拔除氣管內管（9 月 23 日一例緊急手術亦於手術室內拔管）。</p>
+
+<h3>心臟手術量與急診刀 TEE 使用率</h3>
+<div class="scroll"><table>
+<thead><tr><th>年</th><th class="n">心臟手術</th><th class="n">急診刀</th><th class="n">急診刀使用 TEE</th></tr></thead>
+<tbody>
+<tr><td>2023</td><td class="n">38</td><td class="n">4</td><td class="n">0／4　0%</td></tr>
+<tr><td>2024</td><td class="n">71</td><td class="n">12</td><td class="n">5／12　42%</td></tr>
+<tr><td>2025</td><td class="n">60</td><td class="n">12</td><td class="n">4／12　33%</td></tr>
+<tr><td><b>2026</b>（至 9/5）</td><td class="n"><b>68</b></td><td class="n"><b>12</b></td><td class="n"><b>12／12　100%</b></td></tr>
+</tbody></table></div>
+<p style="font-size:13.2px;margin-top:10px">四年累計心臟手術 237 例、急診刀 40 台，數據來源為年度體外循環登錄檔。此項為全心臟急診刀之流程指標，冠狀動脈繞道病人同樣適用；因繞道病人中急診刀極少，不另以繞道限縮分母。團隊成立於 2025 年 4 月 15 日（第一台刀 04/16），成立後至 2026 年 9 月 30 日冠狀動脈繞道累計 <b>64 例</b>（2025 年 23 例、2026 年 41 例）。2025 年之 TEE 使用率並未較 2024 年改善，此項係經單獨列為課題處理後始有變化。</p>
+
+<h3>已具備之量化資料</h3>
+<ul>
+<li>中央靜脈導管置入深度一致率 100%；敷料相關皮膚事件導入後 0 件</li>
+<li>藥物重新泡製與給藥錯誤 0 件——分母為團隊成立後冠狀動脈繞道累計 <b>64 例</b>（2025/04/16–12/31 共 23 例、2026/01/01–09/30 共 41 例）；統一泡法適用於團隊所有心臟手術，同期累計 152 例亦為 0 件</li>
+<li>急診刀 TEE 使用率：2023–2025 年 9／28（32.1%）→ 2026 年至 9 月 5 日 12／12（100%），Fisher 精確檢定 p＝0.00006</li>
+<li>術後到加護病房體溫：加護病房溫毯導入前後，體溫低於 36 °C 之比例由 46%（n=26）降至 29%（n=28）</li>
+</ul>
+</div>
+
+</body></html>
