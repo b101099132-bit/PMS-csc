@@ -103,8 +103,10 @@ html[lang=en] body{font-family:'Noto Sans TC',system-ui,sans-serif}
 <div class="lead"><span data-zh>2025 年以 4 月 15 日為切點分成導入前／後。淡色底 = 導入後。</span><span data-en>2025 is split at 15 Apr into before/after. Shaded area = after implementation.</span></div>
 <div class="grid2">
   <div class="card"><div style="font-weight:600;font-size:14px;margin-bottom:6px"><span data-zh>手術室內拔管率</span><span data-en>In-OR extubation rate</span></div><div id="cOr" class="chart"></div></div>
-  <div class="card"><div style="font-weight:600;font-size:14px;margin-bottom:6px"><span data-zh>ICU 天數與術後住院天數（中位數）</span><span data-en>ICU days and postoperative LOS (median)</span></div><div id="cDays" class="chart"></div></div>
+  <div class="card"><div style="font-weight:600;font-size:14px;margin-bottom:6px"><span data-zh>術後 6 小時內拔管率（含手術室內；ERAS Cardiac 指引建議 [4]）</span><span data-en>Extubation within 6 h (incl. in-OR; ERAS Cardiac guideline target [4])</span></div><div id="c6h" class="chart"></div></div>
 </div>
+<div class="card" style="margin-top:12px"><div style="font-weight:600;font-size:14px;margin-bottom:6px"><span data-zh>ICU 天數與術後住院天數（中位數）</span><span data-en>ICU days and postoperative LOS (median)</span></div><div id="cDays" class="chart" style="height:320px"></div></div>
+<div class="chart-note" id="refNote"></div>
 <div class="twrap" style="margin-top:12px"><table id="yearTable"></table></div>
 <div class="chart-note"><span data-zh>ICU 天數 = 轉出 ICU 日 − 手術日；住院天數 = 出院日 − 手術日（日曆天）。平均值受少數極長住院者影響（2023 年 1 例），以中位數為主。2026 年 2 例（9/23 手術）尚未出院，不計天數。</span><span data-en>ICU days = ICU transfer-out date − surgery date; LOS = discharge date − surgery date (calendar days). Means are skewed by a few very long stays (one case in 2023); medians are primary. Two 2026 patients (operated 23 Sep) not yet discharged are excluded from day counts.</span></div>
 
@@ -166,20 +168,28 @@ const D = {
     death: [[15,131],[3,64]], reint: [[7,131],[3,64]], r30: [[9,116],[3,58]], r90: [[20,116],[3,46]]
   },
   years: [
-    { k:'2020', n:18, or:[0,18], icu:[5,7.6], los:[15,21.3], death:3 },
-    { k:'2021', n:14, or:[0,14], icu:[4,9.9], los:[12.5,18.8], death:2 },
-    { k:'2022', n:14, or:[0,14], icu:[3,6.8], los:[12.5,14.1], death:1 },
-    { k:'2023', n:28, or:[0,28], icu:[4,20.4], los:[13,19.9], death:2 },
-    { k:'2024', n:50, or:[0,50], icu:[4,7.3], los:[11,16.0], death:6 },
-    { k:'2025a', n:7,  or:[0,7],  icu:[4,6.6], los:[10,12.3], death:1 },
-    { k:'2025b', n:23, or:[20,23], icu:[3,5.6], los:[10,14.0], death:1, post:true },
-    { k:'2026', n:41, or:[40,41], icu:[2,4.0], los:[8,12.0], death:2, post:true },
+    { k:'2020', n:18, or:[0,18], lt6:[6,18], icu:[5,7.6], los:[15,21.3], death:3 },
+    { k:'2021', n:14, or:[0,14], lt6:[8,14], icu:[4,9.9], los:[12.5,18.8], death:2 },
+    { k:'2022', n:14, or:[0,14], lt6:[8,14], icu:[3,6.8], los:[12.5,14.1], death:1 },
+    { k:'2023', n:28, or:[0,28], lt6:[14,28], icu:[4,20.4], los:[13,19.9], death:2 },
+    { k:'2024', n:50, or:[0,50], lt6:[21,50], icu:[4,7.3], los:[11,16.0], death:6 },
+    { k:'2025a', n:7,  or:[0,7], lt6:[2,7],  icu:[4,6.6], los:[10,12.3], death:1 },
+    { k:'2025b', n:23, or:[20,23], lt6:[20,23], icu:[3,5.6], los:[10,14.0], death:1, post:true },
+    { k:'2026', n:41, or:[40,41], lt6:[40,41], icu:[2,4.0], los:[8,12.0], death:2, post:true },
   ],
   eras: [
     { zh:'即刻拔管流程 · 常規 CABG', en:'Immediate-extubation pathway · elective CABG', k:57, n:57 },
     { zh:'即刻拔管流程 · 常規 CABG（扣除 MICS）', en:'Immediate-extubation pathway · elective, MICS excluded', k:44, n:44 },
     { zh:'即刻拔管流程 · 含急診手術', en:'Immediate-extubation pathway · incl. emergency', k:60, n:60 },
     { zh:'全部 CABG（Overall）', en:'All CABG (overall)', k:60, n:64 },
+  ],
+  refs: [
+    { n: 1, zh: 'Teman NR 等. Ann Thorac Surg 2024;118:692–99 — 美國 STS 全國登錄 669,099 例非緊急心臟手術，手術室內拔管 5.4%', en: 'Teman NR et al. Ann Thorac Surg 2024;118:692–99 — STS national database, 669,099 non-emergent cardiac operations, OR extubation 5.4%' },
+    { n: 2, zh: 'James L 等. Ann Thorac Surg 2024;117:87–94 — NYU Langone 2017–2022 單純 CABG 1,397 例：手術室內拔管 36.2%（由 6.2% 升至 83.3%）；ICU 14 vs 20 小時、住院 3 vs 5 天（手術室 vs ICU 拔管）', en: 'James L et al. Ann Thorac Surg 2024;117:87–94 — NYU Langone 2017–2022, 1,397 isolated CABG: OR extubation 36.2% (6.2%→83.3%); ICU 14 vs 20 h, LOS 3 vs 5 days (OR vs ICU extubation)' },
+    { n: 3, zh: 'Hayanga HK, Ellison MB, Badhwar V. JTCVS Tech 2021;8:95–99 — 美國 STS ACSD 單純 CABG 逾 60% 於 6 小時內拔管（STS 品質指標）', en: 'Hayanga HK, Ellison MB, Badhwar V. JTCVS Tech 2021;8:95–99 — STS ACSD: >60% of isolated CABG extubated within 6 h (STS quality metric)' },
+    { n: 4, zh: 'Engelman DT 等. JAMA Surg 2019;154:755–66 — ERAS Cardiac 指引：建議術後 6 小時內拔管', en: 'Engelman DT et al. JAMA Surg 2019;154:755–66 — ERAS Cardiac Society guideline: extubation within 6 h recommended' },
+    { n: 5, zh: 'Chou YY, Hwang JJ, Tung YC. PLoS One 2021;16:e0249750 — 台灣健保 2011–2015 CABG 12,892 例，住院中位 17 天（IQR 12–24；自入院日起算，含術前住院）', en: 'Chou YY, Hwang JJ, Tung YC. PLoS One 2021;16:e0249750 — Taiwan NHI 2011–2015, 12,892 CABG: median LOS 17 days (IQR 12–24; admission to discharge)' },
+    { n: 6, zh: 'STS/NQF #0117 Prolonged LOS Following CABG 指標規格（2020）— 美國 STS 單純 CABG 術後住院中位 6.0 天（2013 年）', en: 'STS/NQF #0117 Prolonged LOS Following CABG measure specification (2020) — STS isolated CABG median postoperative LOS 6.0 days (CY2013)' },
   ],
   momentum: [{"zh": "脫離呼吸器", "en": "Off ventilator", "n": 53, "med": -0.4, "q1": -0.6, "q3": -0.3}, {"zh": "首次喝水", "en": "First drink", "n": 47, "med": 1.0, "q1": 0.2, "q3": 2.2}, {"zh": "首次上坐", "en": "First sit up", "n": 46, "med": 6.5, "q1": 1.9, "q3": 16.0}, {"zh": "首次固體食物", "en": "First solid food", "n": 42, "med": 13.5, "q1": 4.6, "q3": 18.1}, {"zh": "首次下床走路", "en": "First walk", "n": 13, "med": 24.4, "q1": 21.1, "q3": 53.5}, {"zh": "胸管全拔", "en": "All chest tubes out", "n": 16, "med": 62.7, "q1": 43.8, "q3": 82.5}],
   hist: [{"y": "2025", "d": "04/15", "dec": "04/14", "zh": "心臟麻醉團隊成立", "en": "Cardiac anaesthesia team launched", "m": 1}, {"y": "2025", "d": "04/16", "dec": "04/14", "zh": "使用專用動脈導管針", "en": "Dedicated guidewire arterial cannula", "m": 0}, {"y": "2025", "d": "04/16", "dec": "04/14", "zh": "胸骨旁肋間神經阻斷改行淺層", "en": "Parasternal block changed to superficial plane", "m": 0}, {"y": "2025", "d": "06/14", "dec": "05/28", "zh": "術後統一使用高流量鼻導管（HFNC）", "en": "Routine postoperative HFNC", "m": 0}, {"y": "2025", "d": "06/29", "dec": "06/27", "zh": "全團隊術後訪視詢問 Triflow（訂定 protocol）", "en": "Whole-team postoperative visits with Triflow check (protocol)", "m": 0}, {"y": "2025", "d": "07/08", "dec": "07/01", "zh": "中央靜脈導管縫線改免縫貼 Tegaderm", "en": "Sutureless CVC fixation (Tegaderm)", "m": 0}, {"y": "2025", "d": "07/08", "dec": "07/02", "zh": "彩色視覺類比疼痛評分量表", "en": "Colour visual-analogue pain scale", "m": 0}, {"y": "2025", "d": "07/08", "dec": "07/03", "zh": "引流管、尿管配置配合加護病房床位方向", "en": "Drain/catheter layout matched to ICU bed orientation", "m": 0}, {"y": "2025", "d": "07/08", "dec": "07/06", "zh": "超音波導引動脈導管置放", "en": "Ultrasound-guided arterial cannulation", "m": 0}, {"y": "2025", "d": "07/23", "dec": "試行", "zh": "麻醉科接手術後止痛醫囑", "en": "Anaesthesia takes over postoperative analgesia orders (pilot)", "m": 0}, {"y": "2025", "d": "08/04", "dec": "08/03", "zh": "術前口服 acetaminophen ＋ 清流質至術前 2 小時", "en": "Preoperative oral acetaminophen + clear fluids until 2 h", "m": 0}, {"y": "2025", "d": "08/20", "dec": "08/02", "zh": "胸骨骨板固定", "en": "Rigid sternal plate fixation", "m": 0}, {"y": "2025", "d": "08/22", "dec": "08/21", "zh": "加入 Lyrica（pregabalin）", "en": "Pregabalin added to multimodal analgesia", "m": 0}, {"y": "2025", "d": "09/03", "dec": "08/29", "zh": "中央靜脈導管改用無痛保膚膜", "en": "Skin-protectant film for CVC dressing", "m": 0}, {"y": "2025", "d": "09/17", "dec": "09/16", "zh": "低劑量 spinal morphine", "en": "Low-dose intrathecal morphine", "m": 0}, {"y": "2025", "d": "10/01", "dec": "09/18", "zh": "中央靜脈導管改用抗菌敷料", "en": "Antimicrobial CVC dressing", "m": 0}, {"y": "2025", "d": "10/01", "dec": "09/19", "zh": "改用 4 way 中央靜脈導管並統一管路接法", "en": "4-lumen CVC with standardised line connections", "m": 0}, {"y": "2025", "d": "10/01", "dec": "標準化完成", "zh": "術後止痛醫囑權歸還外科醫師", "en": "Analgesia orders returned to surgeons after standardisation", "m": 1}, {"y": "2025", "d": "12/03", "dec": "11/25", "zh": "中央靜脈導管加上 StatLock 免縫固定座", "en": "StatLock sutureless CVC securement", "m": 0}, {"y": "2025", "d": "12/03", "dec": "11/27", "zh": "統一 4 way 16 公分全入", "en": "Standardised 16 cm full-insertion 4-lumen CVC", "m": 0}, {"y": "2025", "d": "12/31", "dec": "12/30", "zh": "動脈導管改置解剖鼻煙壺處橈動脈", "en": "Distal radial (snuffbox) arterial cannulation", "m": 0}, {"y": "2026", "d": "01/28", "dec": "01/25", "zh": "手術結束以溫水擦拭去除消毒藥水", "en": "Warm-water removal of skin antiseptic at end of surgery", "m": 0}, {"y": "2026", "d": "01/28", "dec": "01/25", "zh": "手術結束更換全新 Tegaderm", "en": "Fresh Tegaderm dressings at end of surgery", "m": 0}, {"y": "2026", "d": "03/29", "dec": "辦法制定", "zh": "跨科部經食道超音波（TEE）緊急借用辦法", "en": "Cross-department emergency TEE loan procedure", "m": 0}, {"y": "2026", "d": "04/01", "dec": "03/31", "zh": "雙保溫毯主動加熱並延伸至加護病房", "en": "Dual active warming blankets extended into ICU", "m": 0}, {"y": "2026", "d": "04/17", "dec": "術式擴展", "zh": "本院第一例微創冠狀動脈繞道手術", "en": "First MICS-CABG at this hospital", "m": 1}, {"y": "2026", "d": "05/13", "dec": "04/22", "zh": "主動以吸管飲水", "en": "Active straw drinking after extubation", "m": 0}, {"y": "2026", "d": "07/29", "dec": "07/28", "zh": "術後先進恢復室初級恢復再轉送", "en": "Primary recovery in PACU before ICU transfer", "m": 0}, {"y": "2026", "d": "08/14", "dec": "01/19", "zh": "低風險者改用含二氧化碳偵測鼻導管", "en": "CO₂-sampling nasal cannula for low-risk patients", "m": 0}],
@@ -230,6 +240,18 @@ function renderTable() {
   const rows = D.years.map(y => { const lbl = T.yearRow[y.k] ? t(...T.yearRow[y.k]) : y.k; return `<tr class="${y.post ? 'post' : ''}${y.k === '2025b' ? ' cut' : ''}"><td>${lbl}</td><td class="num">${y.n}</td><td class="num">${pct(...y.or)}（${y.or[0]}/${y.or[1]}）</td><td class="num">${y.icu[0]}（${y.icu[1].toFixed(1)}）</td><td class="num">${y.los[0]}（${y.los[1].toFixed(1)}）</td><td class="num">${y.death}</td><td class="num">${pct(y.death, y.n)}</td></tr>`; });
   document.getElementById('yearTable').innerHTML = `<thead><tr>${h.map((x, i) => `<th${i ? ' class="num"' : ''}>${x}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
 }
+// 文獻參考線：refs = [[值, 標籤, 文獻編號], …]；畫成無資料的 line series 只帶 markLine
+function refSeries(refs, color, unit) {
+  return { type: 'line', data: [], silent: true, markLine: { silent: true, symbol: 'none', animation: false, lineStyle: { color, type: [6, 4], width: 1.2, opacity: .75 },
+    label: { ...font, fontSize: 10, color, position: 'insideStartTop', distance: 3, backgroundColor: 'rgba(255,255,255,.88)', padding: [1, 4], borderRadius: 3, formatter: p => p.name },
+    data: refs.map(([v, lbl, n, pos]) => ({ yAxis: v, name: `${lbl} [${n}]`, label: pos ? { position: pos } : undefined })) } };
+}
+function renderRefNote() {
+  const el = document.getElementById('refNote'); if (!el) return;
+  el.innerHTML = `<b>${t('圖中虛線為文獻參考值', 'Dashed lines = published reference values')}</b>${t('（本院為單一區域醫院之全例次資料，各文獻之病人組成、定義與統計方式不同，僅供對照，不作統計比較）', ' (this hospital reports all consecutive cases from a single regional hospital; populations, definitions and statistics differ across sources, so lines are for orientation only, not statistical comparison)')}：<br>` +
+    D.refs.map(r => `[${r.n}] ${t(r.zh, r.en)}`).join('<br>');
+}
+
 function draw() {
   if (!window.echarts) return;
   Object.values(charts).forEach(c => { try { c.dispose(); } catch (e) {} }); charts = {};
@@ -240,14 +262,20 @@ function draw() {
   const base = { grid: { left: 40, right: 16, top: 30, bottom: 44 }, xAxis: { type: 'category', data: xs, axisLabel: { ...font, fontSize: 10.5, interval: 0, color: '#5C5C5C' }, axisTick: { show: false }, axisLine: { lineStyle: { color: '#E6E1D8' } } }, tooltip: { trigger: 'axis', textStyle: font } };
   charts.or = echarts.init(document.getElementById('cOr'), null, { renderer: 'svg' });
   charts.or.setOption({ ...base, yAxis: { type: 'value', min: 0, max: 100, axisLabel: { ...font, formatter: '{value}%', fontSize: 10.5, color: '#8A8580' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
-    series: [{ type: 'bar', data: D.years.map(y => Math.round(y.or[0] / y.or[1] * 1000) / 10), barMaxWidth: 34, itemStyle: { color: '#00908A', borderRadius: [4, 4, 0, 0] }, label: { show: true, position: 'top', ...font, fontSize: 11, color: '#1A1A1A', formatter: p => p.value ? p.value + '%' : '0%' }, markArea: mark, markLine: { silent: true, symbol: 'none', lineStyle: { color: '#8A8580', type: 'dashed' }, data: [{ xAxis: cutIdx - 0.5, label: { show: false } }] } }],
+    series: [{ type: 'bar', data: D.years.map(y => Math.round(y.or[0] / y.or[1] * 1000) / 10), barMaxWidth: 34, itemStyle: { color: '#00908A', borderRadius: [4, 4, 0, 0] }, label: { show: true, position: 'top', ...font, fontSize: 11, color: '#1A1A1A', formatter: p => p.value ? p.value + '%' : '0%' }, markArea: mark, markLine: { silent: true, symbol: 'none', lineStyle: { color: '#8A8580', type: 'dashed' }, data: [{ xAxis: cutIdx - 0.5, label: { show: false } }] } }, refSeries([[5.4, t('美國 STS 全國 5.4%', 'US STS national 5.4%'), 1], [36.2, t('NYU Langone 36.2%', 'NYU Langone 36.2%'), 2]], '#6E2E2B', '%')],
     tooltip: { trigger: 'axis', textStyle: font, formatter: p => { const y = D.years[p[0].dataIndex]; return `${p[0].axisValue.replace('\n', ' ')}<br>${t('手術室內拔管', 'In-OR extubation')}: <b>${y.or[0]} / ${y.or[1]}</b>`; } } });
+  charts.h6 = echarts.init(document.getElementById('c6h'), null, { renderer: 'svg' });
+  charts.h6.setOption({ ...base, yAxis: { type: 'value', min: 0, max: 100, axisLabel: { ...font, formatter: '{value}%', fontSize: 10.5, color: '#8A8580' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    series: [{ type: 'bar', data: D.years.map(y => Math.round(y.lt6[0] / y.lt6[1] * 1000) / 10), barMaxWidth: 34, itemStyle: { color: '#3F5F7F', borderRadius: [4, 4, 0, 0] }, label: { show: true, position: 'top', ...font, fontSize: 11, color: '#1A1A1A', formatter: p => p.value + '%' }, markArea: mark, markLine: { silent: true, symbol: 'none', lineStyle: { color: '#8A8580', type: 'dashed' }, data: [{ xAxis: cutIdx - 0.5, label: { show: false } }] } }, refSeries([[60, t('美國 STS >60%', 'US STS >60%'), 3, 'insideStartBottom']], '#6E2E2B', '%')],
+    tooltip: { trigger: 'axis', textStyle: font, formatter: p => { const y = D.years[p[0].dataIndex]; return `${p[0].axisValue.replace('\n', ' ')}<br>${t('6 小時內拔管', 'Extubated within 6 h')}: <b>${y.lt6[0]} / ${y.lt6[1]}</b>`; } } });
   charts.days = echarts.init(document.getElementById('cDays'), null, { renderer: 'svg' });
   charts.days.setOption({ ...base, legend: { top: 0, right: 0, textStyle: { ...font, fontSize: 11 }, itemWidth: 14, data: [t('住院天數', 'LOS'), t('ICU 天數', 'ICU days')] },
-    yAxis: { type: 'value', min: 0, axisLabel: { ...font, fontSize: 10.5, color: '#8A8580' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+    yAxis: { type: 'value', min: 0, max: 20, interval: 4, axisLabel: { ...font, fontSize: 10.5, color: '#8A8580' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
     series: [
       { name: t('住院天數', 'LOS'), type: 'line', data: D.years.map(y => y.los[0]), lineStyle: { width: 2, color: '#C2691F' }, itemStyle: { color: '#C2691F', borderColor: '#fff', borderWidth: 1.5 }, symbolSize: 8, label: { show: true, position: 'top', ...font, fontSize: 11, color: '#1A1A1A' }, markArea: mark, markLine: { silent: true, symbol: 'none', lineStyle: { color: '#8A8580', type: 'dashed' }, data: [{ xAxis: cutIdx - 0.5, label: { show: false } }] } },
       { name: t('ICU 天數', 'ICU days'), type: 'line', data: D.years.map(y => y.icu[0]), lineStyle: { width: 2, color: '#00908A' }, itemStyle: { color: '#00908A', borderColor: '#fff', borderWidth: 1.5 }, symbolSize: 8, label: { show: true, position: 'bottom', ...font, fontSize: 11, color: '#1A1A1A' } },
+      refSeries([[17, t('台灣健保 CABG 住院中位 17 天', 'Taiwan NHI CABG median LOS 17 d'), 5], [6, t('美國 STS 術後住院中位 6 天', 'US STS median postop LOS 6 d'), 6], [3, t('NYU 手術室拔管組住院 3 天', 'NYU in-OR group LOS 3 d'), 2, 'insideEndTop']], '#C2691F', t(' 天', ' d')),
+      refSeries([[0.6, t('NYU 手術室拔管組 ICU 14 小時', 'NYU in-OR group ICU 14 h'), 2]], '#00908A', ''),
     ] });
   drawFlow(); drawMom();
 }
@@ -321,7 +349,7 @@ function setLang(l) {
   LANG = l; document.documentElement.lang = l === 'en' ? 'en' : 'zh-Hant';
   document.getElementById('btnZh').classList.toggle('on', l === 'zh'); document.getElementById('btnEn').classList.toggle('on', l === 'en');
   document.title = l === 'en' ? 'CABG Immediate-Extubation Pathway Outcomes · Cardinal Tien Hospital' : 'CABG 即刻拔管流程成效 · 天主教耕莘醫院';
-  renderKpi(); renderEras(); renderTable(); renderHist(); draw(); renderVoices();
+  renderKpi(); renderEras(); renderTable(); renderHist(); renderRefNote(); draw(); renderVoices();
   try { localStorage.setItem('cth_cabg_lang', l); } catch (e) {}
 }
 document.getElementById('btnZh').addEventListener('click', () => setLang('zh'));
