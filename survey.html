@@ -683,6 +683,8 @@
       <div class="q-label"><span class="lang-zh">姓名</span><span class="lang-en">Name</span><span class="q-required">*</span></div>
       <input class="text-input" id="q-name" type="text" placeholder="請輸入您的姓名" data-placeholder-zh="請輸入您的姓名" data-placeholder-en="Please enter your name">
       <div class="error-msg"><span class="lang-zh">此欄位為必填</span><span class="lang-en">This field is required</span></div>
+      <!-- ★2026-10-17 PMS-cog 平板帶 ?pk=病人主鍵 進來時：姓名由後端依主鍵補上，此欄隱藏 -->
+      <div class="q-hint" id="pk-note" style="display:none;margin-top:8px"><span class="lang-zh">已由平板自動對應您的病歷，不需輸入姓名。</span><span class="lang-en">Linked to your record by the tablet; no name needed.</span></div>
     </div>
 
     <div class="q-card" id="qc-timing">
@@ -1251,7 +1253,7 @@ function validateSection(idx) {
 
   if (idx === 0) {
     const nameVal = document.getElementById('q-name').value.trim();
-    if (!nameVal)           setErr('qc-name');   else clearErr('qc-name');
+    if (!nameVal && !PATIENT_PK) setErr('qc-name');   else clearErr('qc-name');   // ★2026-10-17 有病人主鍵時姓名非必填
     if (!answers['timing']) setErr('qc-timing'); else clearErr('qc-timing');
     if (!answers['filler']) setErr('qc-filler'); else clearErr('qc-filler');
   }
@@ -1335,6 +1337,7 @@ function collectData() {
   const data = {
     timestamp:   new Date().toLocaleString('zh-TW'),
     姓名:         document.getElementById('q-name').value.trim(),
+    病人PK:       PATIENT_PK,   // ★2026-10-17 由 PMS-cog 平板帶入（網址 ?pk=），後端據此補姓名並寫入「病人PK」欄
     填寫時間:       answers['timing']  || '',
     填寫者:        answers['filler']  || '',
     // CARE 1–10
@@ -1466,6 +1469,14 @@ function setLang(lang) {
   }
 })();
 
+
+// ★2026-10-17 PMS-cog 平板串接：網址 ?pk=病人主鍵 → 隱藏姓名欄、送出時帶主鍵
+const PATIENT_PK = (function(){ try { const v = new URLSearchParams(location.search).get('pk') || ''; return /^[A-Za-z0-9_-]{1,40}$/.test(v) ? v : ''; } catch(e) { return ''; } })();
+if (PATIENT_PK) {
+  const inp = document.getElementById('q-name'); inp.style.display = 'none'; inp.removeAttribute('placeholder');
+  document.querySelector('#qc-name .q-required').style.display = 'none';
+  document.getElementById('pk-note').style.display = 'block';
+}
 
 // Init
 updateProgress();
