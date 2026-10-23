@@ -1637,6 +1637,10 @@ function renderDynamic() {
   // ===== 06 季度趨勢 =====
   html.push(renderQuarterTrend(cases.filter(c => matchAll(c, { ..._f, period: 'all' })), po.quarters));
 
+  // ===== 06' 恢復動能曲線（★2026-10-23：六個里程碑自轉入 ICU 起算的中位數／IQR，依目前篩選條件）=====
+  _momRows = momentumRows(sel);
+  html.push(renderMomentumSection(_momRows, g));
+
   // ===== 06+ 病人流向（沖積圖）＋ 案量組成（樹狀圖）（★2026-09-11，ECharts）=====
   const _flowRows = flowRowsByPeriod();
   html.push(renderFlowSection(_flowRows));
@@ -1771,6 +1775,54 @@ function renderDynamic() {
   bindDynamic();
   drawFlowCharts(_flowRows[_f.fperiod] || _flowRows.all);
   drawTrendCharts();
+  drawMomentumChart(_momRows);
+}
+
+/* ============================================================
+ *  ★2026-10-23 恢復動能曲線（同 CTH-CABG.html／SNQ 投影片「曲線版」）
+ *   - 六個里程碑：脫離呼吸器／首次喝水／首次上坐／首次固體食物／首次下床走路／胸管全拔
+ *   - 小時數 = 里程碑日期時間 − 轉入 ICU 日期時間（後端 cases[].ext/water/sit/food/walk/tube；需兩端皆有日期＋時間）
+ *   - 排除重大異常事件者；各里程碑 n 不同；n < SMALL_N 以淡色標示
+ * ============================================================ */
+let _momRows = [];
+const MOM_KEYS = [['ext', '脫離呼吸器'], ['water', '首次喝水'], ['sit', '首次上坐'], ['food', '首次固體食物'], ['walk', '首次下床走路'], ['tube', '胸管全拔']];
+function momentumRows(sel) {
+  const clean = sel.filter(c => !c.major);
+  return MOM_KEYS.map(([k, zh]) => { const st = S.summary(clean.map(c => c[k])); return { k, zh, n: st.n, med: st.median, q1: st.q1, q3: st.q3 }; });
+}
+function renderMomentumSection(M, g) {
+  const has = M.some(m => m.med != null);
+  const isStent = (_f.cat === '主動脈支架');
+  return `
+    <div class="chart-card flow-card" style="margin-top:12px">
+      <div class="chart-title"><span>恢復動能曲線 · 六個恢復里程碑的達成時間</span><span class="chart-sub">${escapeHtml(filterLabel(_f))} · 以轉入加護病房為時間零點 · 圓點 = 中位數、色條 = 四分位距 · 排除重大異常事件者</span></div>
+      ${has ? `<div class="flow-scroll"><div id="momChart" class="echart" style="min-width:560px;height:300px"></div></div>` : '<div class="placeholder-card"><div class="ph-title">此條件下尚無含時間戳記的里程碑資料</div></div>'}
+      <div class="chart-note">零點 = 轉入加護病房；脫離呼吸器中位數在零點左側 = 抵達 ICU 時已拔管。各里程碑 n 不同（僅計有日期與時間者；2025 年回溯案多數只有日期）；n &lt; ${SMALL_N} 之里程碑以淡色標示、僅供參考。${isStent ? '主動脈支架多為不插管 HFNC，「脫離呼吸器」不適用。' : ''}
+      ${M.filter(m => m.med == null).length ? '無資料：' + M.filter(m => m.med == null).map(m => m.zh).join('、') + '。' : ''}</div>
+    </div>`;
+}
+function drawMomentumChart(M) {
+  const el = $('momChart'); if (!el || !window.echarts) return;
+  if (_charts.mom) { try { _charts.mom.dispose(); } catch (e) {} }
+  const font = { fontFamily: "'Noto Sans TC', sans-serif" };
+  const rows = M.filter(m => m.med != null);
+  if (!rows.length) return;
+  const names = rows.map(m => `${m.zh}  (n=${m.n})`);
+  const xmax = Math.max(96, Math.ceil(Math.max(...rows.map(m => m.q3)) / 24) * 24);
+  const faint = (m) => m.n < SMALL_N;
+  _charts.mom = echarts.init(el, null, { renderer: 'svg' });
+  _charts.mom.setOption({
+    grid: { left: 150, right: 56, top: 10, bottom: 40 },
+    xAxis: { type: 'value', min: -8, max: xmax, interval: 8, axisLabel: { ...font, fontSize: 10.5, color: '#5C5C5C', formatter: v => v === 0 ? '轉入 ICU' : (v % 24 === 0 ? v + ' h' : '') }, splitLine: { interval: (i, v) => v % 24 === 0, lineStyle: { color: '#EEE8DC' } }, name: '小時（自轉入加護病房起算）', nameLocation: 'middle', nameGap: 26, nameTextStyle: { ...font, fontSize: 11, color: '#8A8580' } },
+    yAxis: { type: 'category', data: names, inverse: true, axisLabel: { ...font, fontSize: 11.5, color: '#1A1A1A' }, axisTick: { show: false }, axisLine: { show: false } },
+    tooltip: { trigger: 'item', textStyle: font, formatter: p => { const m = rows[p.dataIndex]; return m ? `${m.zh}<br>中位數 ${m.med} h · IQR ${m.q1}–${m.q3} h · n=${m.n}${faint(m) ? '（樣本少）' : ''}` : ''; } },
+    series: [
+      { type: 'custom', renderItem: (params, api) => { const y = api.coord([0, params.dataIndex])[1]; const x1 = api.coord([api.value(0), 0])[0], x2 = api.coord([api.value(1), 0])[0]; return { type: 'rect', shape: { x: x1, y: y - 9, width: Math.max(2, x2 - x1), height: 18, r: 3 }, style: { fill: faint(rows[params.dataIndex]) ? '#E6EEED' : '#CFE3E1' } }; }, encode: { x: [0, 1], y: 2 }, data: rows.map((m, i) => [m.q1, m.q3, i]), z: 1, silent: true },
+      { type: 'line', smooth: 0.4, symbol: 'none', silent: true, lineStyle: { color: '#7FA8A6', width: 2 }, data: rows.map((m, i) => [m.med, i]), z: 2 },
+      { type: 'scatter', symbolSize: 12, data: rows.map((m, i) => ({ value: [m.med, i], itemStyle: { color: faint(m) ? '#9FBDBB' : '#1F5A5A', borderColor: '#fff', borderWidth: 1.5 } })), label: { show: true, position: 'right', distance: 8, formatter: p => (p.value[0] > 0 ? '+' : (p.value[0] < 0 ? '−' : '')) + Math.abs(p.value[0]).toFixed(1) + ' h', ...font, fontSize: 11, color: '#1A1A1A' }, z: 3 },
+      { type: 'line', markLine: { silent: true, symbol: 'none', lineStyle: { color: '#B85450', type: 'dashed' }, label: { show: false }, data: [{ xAxis: 0 }] }, data: [] }
+    ]
+  });
 }
 
 /* ============================================================
