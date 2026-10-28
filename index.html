@@ -289,6 +289,16 @@ footer .clinic {
       <div class="card-arrow">→</div>
     </a>
 
+    <a class="card" data-color="navy" href="perfusion.html" id="card-perfusion">
+      <div class="card-head">
+        <span class="card-tag">03b · 體循</span>
+        <span class="card-role">體循師</span>
+      </div>
+      <div class="card-title">體循紀錄</div>
+      <p class="card-desc">離開手術室前登錄體外循環參數：CPB／X-clamp／循環停止／SCP／最低溫／超過濾／尿量／Cell saver 與循環輔助。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
     <a class="card" data-color="plum" href="postop.html" id="card-postop">
       <div class="card-head">
         <span class="card-tag">04 · 術後</span>
@@ -357,7 +367,7 @@ if (window.location.hash.startsWith('#k=')) {
 // 更新所有需要通行碼的連結
 function updateLinks() {
   const v = $('doctor_key').value.trim();
-  ['card-surgery', 'card-recovery', 'card-postop', 'card-dashboard', 'card-risk', 'card-study'].forEach(id => {
+  ['card-surgery', 'card-recovery', 'card-perfusion', 'card-postop', 'card-dashboard', 'card-risk', 'card-study'].forEach(id => {
     const card = $(id);
     // 第一次執行時存下原始 URL，之後不再讀已被加 hash 的版本
     let base = card.getAttribute('data-base');

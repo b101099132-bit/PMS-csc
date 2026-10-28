@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>體循紀錄 — 心臟外科手術病人管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:#FAF7F2; --paper:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --ink-faint:#8A8580;
+  --teal:#1F5A5A; --gold:#A87B4D; --navy:#2C4866; --plum:#6B5876;
+  --border:#E8E2D5; --border-strong:#D4CDB8;
+  --success:#4A7A5A; --success-bg:#EDF3EE; --warn:#B8842D; --warn-bg:#FBF3DE;
+  --error:#B85450; --error-bg:#FBEFEE;
+}
+body { font-family:'Noto Sans TC',system-ui,sans-serif; background:var(--cream); color:var(--ink);
+  font-size:15px; line-height:1.6; padding:20px 16px 60px; -webkit-font-smoothing:antialiased; }
+.container { max-width:760px; margin:0 auto; }
+header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; font-weight:500; margin-bottom:6px; }
+.brand h1 { font-family:'Noto Serif TC',serif; font-size:23px; font-weight:600; }
+.brand .flow { font-size:12px; color:var(--ink-faint); margin-top:4px; }
+.role-tag { background:var(--teal); color:#fff; padding:4px 12px; border-radius:3px; font-size:12px; letter-spacing:0.1em; font-weight:500; }
+
+.key-bar { background:#EEF2F7; border:1px solid #DCE3EB; border-radius:3px; padding:12px 16px; margin-bottom:18px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.key-bar label { font-size:13px; color:var(--navy); font-weight:500; }
+.key-bar input { flex:1; min-width:160px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:3px;
+  font-family:'JetBrains Mono',monospace; font-size:13px; background:#fff; }
+
+.card { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:18px 20px; margin-bottom:18px; }
+.card > h2 { font-family:'Noto Serif TC',serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:14px;
+  display:flex; align-items:baseline; gap:8px; }
+.card > h2 .num { font-size:12px; color:var(--gold); letter-spacing:0.1em; }
+.subhead { font-size:14px; color:var(--ink-soft); font-weight:600; margin:16px 0 8px; }
+.hint { font-size:12px; color:var(--ink-faint); line-height:1.7; margin-bottom:10px; }
+
+.row { display:grid; gap:12px; }
+.row-2 { grid-template-columns:repeat(2,1fr); }
+.row-3 { grid-template-columns:repeat(3,1fr); }
+.row-4 { grid-template-columns:repeat(4,1fr); }
+@media (max-width:560px){ .row-3,.row-4 { grid-template-columns:repeat(2,1fr); } }
+.field { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
+.field label { font-size:13px; color:var(--ink-soft); font-weight:500; }
+.field input, .field select, .field textarea {
+  padding:8px 10px; border:1px solid var(--border-strong); border-radius:6px; font-family:inherit; font-size:14px; background:#fff; width:100%; }
+.field textarea { min-height:56px; resize:vertical; }
+.field .sub { font-size:11px; color:var(--ink-faint); }
+
+.pcard { display:grid; grid-template-columns:repeat(2,1fr); gap:8px 18px; }
+.pcard .item { display:flex; flex-direction:column; }
+.pcard .item .lbl { font-size:11px; color:var(--ink-faint); }
+.pcard .item .val { font-size:15px; font-weight:500; }
+.pcard .item.wide { grid-column:1/-1; }
+
+.ald-score { font-family:'JetBrains Mono',monospace; font-weight:700; }
+.criteria-list { display:flex; flex-direction:column; gap:2px; }
+.crit { display:flex; align-items:flex-start; gap:10px; padding:9px 10px; border:1px solid var(--border); border-radius:6px; background:#fff; }
+.crit input[type=checkbox] { width:18px; height:18px; margin-top:2px; accent-color:var(--teal); flex-shrink:0; }
+.crit .ct { font-size:13.5px; }
+.crit .ct .k { font-weight:600; }
+.crit .ct .d { color:var(--ink-faint); font-size:12px; }
+.crit.on { background:var(--success-bg); border-color:#C2D8C2; }
+
+.verdict { border-radius:6px; padding:12px 16px; font-weight:600; font-size:15px; margin-top:12px; text-align:center; }
+.verdict.go { background:var(--success-bg); color:var(--success); border:1px solid #C2D8C2; }
+.verdict.hold { background:var(--warn-bg); color:var(--warn); border:1px solid #E6D3A0; }
+
+.btn { padding:11px 18px; border:none; border-radius:6px; cursor:pointer; font-family:inherit; font-size:15px; font-weight:600; }
+.btn-primary { background:var(--teal); color:#fff; width:100%; }
+.btn-primary:disabled { opacity:0.6; cursor:default; }
+.btn-ghost { background:#fff; border:1px solid var(--border-strong); color:var(--ink-soft); font-size:13px; font-weight:500; padding:7px 14px; }
+
+.alert { padding:11px 14px; border-radius:6px; margin-bottom:14px; font-size:14px; font-weight:500; display:none; }
+.alert.show { display:block; }
+.alert-error { background:var(--error-bg); color:var(--error); border-left:3px solid var(--error); }
+.alert-success { background:var(--success-bg); color:var(--success); border-left:3px solid var(--success); }
+
+.recent-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.recent-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:9px 12px;
+  border:1px solid var(--border); border-radius:6px; cursor:pointer; background:#fff; }
+.recent-item:hover { border-color:var(--teal); background:var(--cream); }
+.recent-item .nm { font-weight:500; }
+.recent-item .mt { font-size:12px; color:var(--ink-faint); }
+.recent-empty { padding:14px; text-align:center; color:var(--ink-faint); font-size:13px; font-style:italic; }
+.divider-or { text-align:center; color:var(--ink-faint); font-size:12px; margin:12px 0; }
+
+.loading { display:inline-block; width:14px; height:14px; border:2px solid currentColor; border-right-color:transparent;
+  border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:-2px; margin-right:6px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.disabled { opacity:0.5; pointer-events:none; }
+footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-faint); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="brand">
+      <div class="eyebrow">Perfusion / CPB</div>
+      <h1>體循紀錄</h1>
+      <div class="flow">體外循環參數：CPB／X-clamp／循環停止／SCP／最低溫／超過濾／尿量／Cell saver，離開手術室前登錄</div>
+    </div>
+    <span class="role-tag">體循</span>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後查詢病人" autocomplete="off">
+  </div>
+
+  <div class="alert alert-error" id="topAlert"></div>
+
+  <!-- 1. 查詢病人 -->
+  <div class="card" id="lookupCard">
+    <h2><span class="num">1</span><span>查詢病人</span></h2>
+    <div class="row row-2">
+      <div class="field"><label for="lookup_birthdate">出生年月日</label><input type="date" id="lookup_birthdate"></div>
+      <div class="field"><label for="lookup_id4">身分證末 4 碼</label><input type="text" id="lookup_id4" maxlength="4" inputmode="numeric" placeholder="0000"></div>
+    </div>
+    <button type="button" class="btn btn-ghost" id="lookupBtn">查詢病人</button>
+    <div class="divider-or">或，輸入姓名搜尋（不限 14 天）</div>
+    <div class="row" style="grid-template-columns:1fr auto;align-items:end">
+      <div class="field" style="margin-bottom:0">
+        <label for="lookup_name">病人姓名（可只輸入部分）</label>
+        <input type="text" id="lookup_name" autocomplete="off" placeholder="例：陳、陳月">
+      </div>
+      <button type="button" class="btn btn-ghost" id="nameSearchBtn">搜尋</button>
+    </div>
+    <div class="recent-list" id="nameResults"></div>
+    <div class="divider-or">或從最近手術病人挑選</div>
+    <div class="recent-list" id="recentList"><div class="recent-empty">輸入通行碼後顯示最近手術病人</div></div>
+  </div>
+
+  <!-- 2. 體循紀錄表單 -->
+  <div class="card disabled" id="formCard">
+    <h2><span class="num">2</span><span>體外循環紀錄</span></h2>
+    <div class="pcard" id="patientCard" style="margin-bottom:16px">
+      <div class="item"><span class="lbl">姓名</span><span class="val" id="pc_name">—</span></div>
+      <div class="item"><span class="lbl">性別 / 年齡</span><span class="val" id="pc_ga">—</span></div>
+      <div class="item"><span class="lbl">病人主鍵</span><span class="val" id="pc_pk" style="font-family:'JetBrains Mono',monospace;font-size:13px">—</span></div>
+      <div class="item"><span class="lbl">術式</span><span class="val" id="pc_surgery">—</span></div>
+      <div class="item wide"><span class="lbl">既有紀錄</span><span class="val" id="pc_existing" style="font-size:13px;color:var(--ink-soft)">—</span></div>
+    </div>
+
+    <div class="alert alert-error" id="formAlert"></div>
+    <div class="alert alert-success" id="okAlert"></div>
+
+    <form id="ioForm" autocomplete="off">
+      <div class="subhead">體外循環／灌流參數</div>
+      <div class="hint">單位：分鐘／℃／mL。沒有執行的項目填 0（例如 on-pump beating 的 X-clamp＝0、未循環停止＝0）；未知或未記錄請留白。</div>
+      <div class="row row-3">
+        <div class="field"><label for="cpb">CPB 時間（分）</label><input type="number" id="cpb" name="cpb" min="0" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="xclamp">主動脈阻斷 X-clamp（分）</label><input type="number" id="xclamp" name="xclamp" min="0" step="1" inputmode="numeric"><span class="sub" id="heartHint">0 = 跳動心臟（beating heart）</span></div>
+        <div class="field"><label for="tmin">最低溫（℃）</label><input type="number" id="tmin" name="tmin" min="10" max="40" step="0.1" inputmode="decimal"><span class="sub" id="tempHint"></span></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label for="arrest">循環停止 Arrest（分）</label><input type="number" id="arrest" name="arrest" min="0" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="scp">選擇性腦灌流 SCP（分）</label><input type="number" id="scp" name="scp" min="0" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="dc">D.C. 電擊去顫（次）</label><input type="number" id="dc" name="dc" min="0" step="1" inputmode="numeric"></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label for="uf">超過濾量 Ultrafiltration（mL）</label><input type="number" id="uf" name="uf" min="0" step="10" inputmode="numeric"></div>
+        <div class="field"><label for="urine">術中尿量（mL）</label><input type="number" id="urine" name="urine" min="0" step="10" inputmode="numeric"></div>
+        <div class="field"><label for="cellsaver">Cell saver 回收（mL）</label><input type="number" id="cellsaver" name="cellsaver" min="0" step="10" inputmode="numeric"><span class="sub">未使用請留白或 0</span></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label for="muf">MUF（改良式超過濾）</label><select id="muf" name="muf"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        <div class="field"><label for="plate">鋼骨鋼板（胸骨固定）</label><select id="plate" name="plate"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        <div class="field"><label for="intub_days">術前插管（天）</label><input type="number" id="intub_days" name="intub_days" min="0" step="1" inputmode="numeric"><span class="sub">未插管填 0</span></div>
+      </div>
+
+      <div class="subhead">循環輔助</div>
+      <div class="row row-4">
+        <div class="field"><label for="iabp_pre">術前 IABP</label><select id="iabp_pre" name="iabp_pre"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        <div class="field"><label for="iabp_post">術後 IABP</label><select id="iabp_post" name="iabp_post"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        <div class="field"><label for="ecmo_pre">術前 ECMO</label><select id="ecmo_pre" name="ecmo_pre"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        <div class="field"><label for="ecmo_post">術後 ECMO</label><select id="ecmo_post" name="ecmo_post"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+      </div>
+
+      <div class="subhead">體型</div>
+      <div class="row row-3">
+        <div class="field"><label for="ht">身高（cm）</label><input type="number" id="ht" name="ht" min="100" max="220" step="0.1" inputmode="decimal"></div>
+        <div class="field"><label for="wt">體重（kg）</label><input type="number" id="wt" name="wt" min="20" max="250" step="0.1" inputmode="decimal"><span class="sub">空白時帶入術前體重</span></div>
+        <div class="field"><label>BMI／BSA（自動）</label><input type="text" id="bodyCalc" readonly tabindex="-1" style="background:var(--cream)"></div>
+      </div>
+
+      <div class="field"><label for="note">備註</label><textarea id="note" name="note" placeholder="例：灌流特殊事件、血品、D.C. 原因…"></textarea></div>
+      <div class="row row-2">
+        <div class="field"><label for="filler">填寫者</label><input type="text" id="filler" name="filler" placeholder="體循師姓名"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" id="saveBtn">儲存體循紀錄</button>
+    </form>
+  </div>
+
+  <footer>心臟外科手術病人管理系統 · 體循紀錄 v1.0 · 2024–2026/10 資料由體循師 CPB 年度資料庫回填</footer>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = (id) => document.getElementById(id);
+let currentPatient = null;
+function maskName(n){ const t=String(n==null?'':n).trim(); if(t.length<=1) return t; if(t.length===2) return t[0]+'*'; return t[0]+'*'+t[t.length-1]; }   // ★2026-09-26 姓名遮罩（與術後追蹤一致）
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ===== key hash carry =====
+if (window.location.hash.startsWith('#k=')) $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+$('doctor_key').addEventListener('change', () => {
+  const v = $('doctor_key').value;
+  if (v){ history.replaceState(null,'','#k='+encodeURIComponent(v)); loadRecent(); }
+});
+$('doctor_key').addEventListener('blur', () => { if($('doctor_key').value.trim()) loadRecent(); });
+
+// ===== JSONP =====
+function jsonp(url, params, timeoutMs = 25000){
+  return new Promise((resolve,reject)=>{
+    const cb = '_rec_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp = new URLSearchParams({...params, callback:cb});
+    const s = document.createElement('script');
+    const t = setTimeout(()=>{cl();reject(new Error('查詢逾時'));}, timeoutMs);
+    function cl(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = d => { cl(); resolve(d); };
+    s.onerror = () => { cl(); reject(new Error('連線失敗')); };
+    s.src = url+'?'+usp.toString();
+    document.body.appendChild(s);
+  });
+}
+
+function showTop(msg){ const el=$('topAlert'); el.textContent=msg; el.classList.add('show'); }
+function hideTop(){ $('topAlert').classList.remove('show'); }
+
+// ===== recent operated patients =====
+async function loadRecent(){
+  const key = $('doctor_key').value.trim();
+  const box = $('recentList');
+  if(!key){ box.innerHTML='<div class="recent-empty">輸入通行碼後顯示最近手術病人</div>'; return; }
+  box.innerHTML='<div class="recent-empty"><span class="loading"></span> 載入中…</div>';
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'recentSurgeries', key });
+    if(res.error){ box.innerHTML='<div class="recent-empty">'+escapeHtml(res.error==='unauthorized'?'通行碼錯誤':res.error)+'</div>'; return; }
+    if(!res.list || !res.list.length){ box.innerHTML='<div class="recent-empty">最近 14 天沒有手術病人</div>'; return; }
+    box.innerHTML = res.list.map(p => `
+      <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
+        <div><span class="nm">${escapeHtml(maskName(p.name))}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null?p.age+'歲':''}</span></div>
+        <div class="mt">${escapeHtml(p.surgery||'')}${p.surgeryDate?' · '+p.surgeryDate.slice(5):''}</div>
+      </div>`).join('');
+    box.querySelectorAll('.recent-item').forEach(it => it.addEventListener('click', ()=>doLookup(it.dataset.pk)));
+  }catch(err){ box.innerHTML='<div class="recent-empty" style="color:var(--error)">載入失敗：'+escapeHtml(err.message)+'</div>'; }
+}
+
+// ===== 姓名搜尋（後端 searchPatients：病人主檔姓名子字串比對，不限日期）=====
+async function searchByName(){
+  hideTop();
+  const key = $('doctor_key').value.trim();
+  const q = $('lookup_name').value.trim();
+  const box = $('nameResults');
+  if(!key){ showTop('請先輸入通行碼'); return; }
+  if(!q){ showTop('請輸入姓名（可只輸入部分）'); return; }
+  box.innerHTML='<div class="recent-empty"><span class="loading"></span> 搜尋中…</div>';
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'searchPatients', key, q });
+    if(res.error){ box.innerHTML='<div class="recent-empty">'+escapeHtml(res.error==='unauthorized'?'通行碼錯誤':res.error)+'</div>'; return; }
+    if(!res.list || !res.list.length){ box.innerHTML='<div class="recent-empty">找不到姓名含「'+escapeHtml(q)+'」的病人</div>'; return; }
+    // 姓名有遮罩，同姓者以術式／手術日／年齡區分
+    box.innerHTML = res.list.map(p => `
+      <div class="recent-item" data-pk="${escapeHtml(p.pk)}">
+        <div><span class="nm">${escapeHtml(maskName(p.name)||'—')}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null&&p.age!==''?p.age+'歲':''}</span>${p.surgeryStatus?' <span class="mt" style="color:var(--gold)">· '+escapeHtml(p.surgeryStatus)+'</span>':''}</div>
+        <div class="mt">${escapeHtml(p.surgery||'—')}${(p.scheduledDate||p.createdDate)?' · '+escapeHtml(p.scheduledDate||p.createdDate):''}</div>
+      </div>`).join('') + (res.count>res.list.length?'<div class="recent-empty">共 '+res.count+' 筆，僅顯示前 '+res.list.length+' 筆，請輸入更完整的姓名</div>':'');
+    box.querySelectorAll('.recent-item').forEach(it => it.addEventListener('click', ()=>doLookup(it.dataset.pk)));
+  }catch(err){ box.innerHTML='<div class="recent-empty" style="color:var(--error)">搜尋失敗：'+escapeHtml(err.message)+'</div>'; }
+}
+$('nameSearchBtn').addEventListener('click', searchByName);
+$('lookup_name').addEventListener('keydown', ev => { if(ev.key==='Enter'){ ev.preventDefault(); searchByName(); } });
+
+// ===== lookup =====
+$('lookupBtn').addEventListener('click', () => {
+  hideTop();
+  const key = $('doctor_key').value.trim();
+  const bd = $('lookup_birthdate').value;
+  const id4 = $('lookup_id4').value.trim();
+  if(!key){ showTop('請先輸入通行碼'); return; }
+  if(!bd || !/^[0-9]{4}$/.test(id4)){ showTop('請填出生年月日與身分證末 4 碼'); return; }
+  doLookup(bd.replace(/-/g,'') + '-' + id4);
+});
+
+async function doLookup(pk){
+  hideTop();
+  const key = $('doctor_key').value.trim();
+  if(!key){ showTop('請先輸入通行碼'); return; }
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'lookupIntraop', pk, key });
+    if(res.error==='unauthorized'){ showTop('通行碼錯誤'); return; }
+    if(!res.found){ showTop('找不到此病人，請確認或先完成術前/手術收案'); return; }
+    currentPatient = res;
+    showPatient(res);
+  }catch(err){ showTop('查詢失敗：'+err.message); }
+}
+
+
+function showPatient(p){
+  $('pc_name').textContent = maskName(p.name) || '—';
+  $('pc_ga').textContent = (p.gender||'—') + ' / ' + (p.age!=null?p.age+' 歲':'—');
+  $('pc_pk').textContent = p.pk || '—';
+  $('pc_surgery').textContent = p.currentSurgery || '—';
+  $('formCard').classList.remove('disabled');
+  $('okAlert').classList.remove('show');
+  $('ioForm').reset();
+  const io = p.intraop || {};
+  $('pc_existing').textContent = io.exists ? `已有紀錄（${io.source||'—'}${io.updatedAt?' · '+io.updatedAt:''}${io.caseId?' · 體循 CaseID '+io.caseId:''}），存檔會覆蓋有填的欄位` : '尚無體循紀錄';
+  const setV = (id, v) => { if(v!=null && v!=='' && $(id)) $(id).value = v; };
+  ['cpb','xclamp','arrest','scp','tmin','dc','muf','uf','urine','cellsaver','plate','iabp_pre','iabp_post','ecmo_pre','ecmo_post','intub_days','ht','wt','note'].forEach(k => setV(k, io[k]));
+  if(!$('wt').value && p.preopWeight != null && p.preopWeight !== '') $('wt').value = p.preopWeight;
+  try { const f = localStorage.getItem('pms_perfusion_filler'); if (f && !$('filler').value) $('filler').value = f; } catch(e) {}
+  updateHints();
+  $('formCard').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+function updateHints(){
+  const xc = parseFloat($('xclamp').value), cpb = parseFloat($('cpb').value), t = parseFloat($('tmin').value);
+  $('heartHint').textContent = isNaN(xc) ? '0 = 跳動心臟（beating heart）' : (xc > 0 ? `心臟停跳 · 阻斷 ${xc} 分` : '跳動心臟（on-pump beating）');
+  $('tempHint').textContent = isNaN(t) ? '' : (t >= 36 ? '常溫' : (t >= 32 ? '輕中度低溫' : '深低溫'));
+  const h = parseFloat($('ht').value), w = parseFloat($('wt').value);
+  if (!isNaN(h) && !isNaN(w) && h > 0 && w > 0) {
+    const bmi = w / Math.pow(h/100, 2), bsa = Math.sqrt(h * w / 3600);
+    $('bodyCalc').value = `BMI ${bmi.toFixed(1)} · BSA ${bsa.toFixed(2)} m²`;
+  } else $('bodyCalc').value = '';
+}
+['xclamp','cpb','tmin','ht','wt'].forEach(id => $(id).addEventListener('input', updateHints));
+
+$('ioForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('formAlert').classList.remove('show'); $('okAlert').classList.remove('show');
+  if(!currentPatient){ $('formAlert').textContent='請先查詢病人'; $('formAlert').classList.add('show'); return; }
+  if($('cpb').value === ''){ $('formAlert').textContent='請至少填 CPB 時間（分）'; $('formAlert').classList.add('show'); return; }
+  const btn = $('saveBtn'); btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
+  const fd = new FormData($('ioForm'));
+  fd.append('action','saveIntraop'); fd.append('pk', currentPatient.pk); fd.append('key', $('doctor_key').value.trim());
+  try{
+    await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+    try { localStorage.setItem('pms_perfusion_filler', $('filler').value.trim()); } catch(err) {}
+    const el = $('okAlert'); el.textContent = '已儲存體循紀錄'; el.classList.add('show');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }catch(err){ $('formAlert').textContent = '儲存失敗：' + err.message; $('formAlert').classList.add('show'); }
+  finally{ btn.disabled = false; btn.textContent = '儲存體循紀錄'; }
+});
+window.addEventListener('load', () => { if($('doctor_key').value.trim()) loadRecent(); });
+</script>
+</body>
+</html>

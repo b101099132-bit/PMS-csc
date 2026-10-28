@@ -550,6 +550,7 @@ header {
 .cat-table .cat-row[data-cat]:hover { background: var(--teal-tint); }
 .cat-table .cat-row.selected { background: var(--teal-soft); }
 .cat-table .cat-row.selected .cat-name { color: var(--teal); font-weight: 600; }
+.cat-table tr.group-start td { border-top: 1px dashed var(--border-strong); }
 .cat-table .cat-row.total td { border-top: 2px solid var(--border-strong); border-bottom: none; font-weight: 500; background: var(--cream); }
 .cat-name { font-weight: 500; color: var(--ink); }
 
@@ -1476,7 +1477,7 @@ function histFor(h, cat) {
   if (!h.hasCategoryColumn && cat === 'CABG') return h.overall;
   return null;
 }
-const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all', nature: 'all', fperiod: 'all' };   // fperiod：沖積圖／樹狀圖專用時段（2026-09-24）   // nature：all / elective（常規）/ emerg（急診）★2026-09-12 依灌注表回填
+const _f = { cat: 'all', period: 'all', mics: 'all', eras: 'all', nature: 'all', fperiod: 'all', cpb: 'all', heart: 'all', temp: 'all' };   // ★2026-10-28 cpb/heart/temp：術中條件（體外循環）   // fperiod：沖積圖／樹狀圖專用時段（2026-09-24）   // nature：all / elective（常規）/ emerg（急診）★2026-09-12 依灌注表回填
 const CAT_ORDER = ['CABG', '主動脈手術', '瓣膜', 'CABG+瓣膜', '主動脈支架', '其他'];   // ★2026-09-14 MICS-CABG 併入 CABG（用途徑篩選區分）
 const CAT_LABEL = {
   'CABG': '冠狀動脈繞道 CABG（含 MICS-CABG）',
@@ -1519,6 +1520,10 @@ function matchBase(c, f) {   // 不含類別的篩選（類別總覽表要跨類
   if (f.eras === 'non' && c.eras !== '否') return false;
   if (f.nature === 'elective' && c.nature !== '常規') return false;
   if (f.nature === 'emerg' && c.nature !== '急診') return false;
+  // ★2026-10-28 術中條件（需有術中紀錄；選了條件者自動排除無紀錄案）
+  if (f.cpb !== 'all' && !(c.io && c.io.cpbBand === f.cpb)) return false;
+  if (f.heart !== 'all' && !(c.io && c.io.heart === f.heart)) return false;
+  if (f.temp !== 'all' && !(c.io && c.io.tempBand === f.temp)) return false;
   return true;
 }
 function matchAll(c, f) { return matchBase(c, f) && (f.cat === 'all' || c.cat === f.cat); }
@@ -1579,6 +1584,9 @@ function filterLabel(f) {
   if (f.mics !== 'all') parts.push(f.mics === 'mics' ? '微創 MICS' : '傳統開胸');
   if (f.eras !== 'all') parts.push(f.eras === 'eras' ? 'ERAS 流程' : '非 ERAS 流程');
   if (f.nature !== 'all') parts.push(f.nature === 'emerg' ? '急診刀' : '常規刀');
+  if (f.cpb !== 'all') parts.push('CPB ' + f.cpb + ' 分');
+  if (f.heart !== 'all') parts.push(f.heart === '跳動' ? '跳動心臟' : '心臟停跳');
+  if (f.temp !== 'all') parts.push(f.temp);
   return parts.join(' · ');
 }
 
@@ -1612,6 +1620,12 @@ function renderDynamic() {
   const natureChips = [['all', '全部'], ['elective', '常規刀'], ['emerg', '急診刀']].map(([v, l]) => chip('nature', v, l, v === 'all' ? null : cases.filter(c => c.nature === (v === 'emerg' ? '急診' : '常規')).length, _f.nature === v));
   const natureUnknown = cases.filter(c => !c.nature).length;
   const unclassified = cases.filter(c => c.eras !== '是' && c.eras !== '否').length;
+  // ★2026-10-28 術中條件（體外循環）：計數 = 全部案中有術中紀錄且落在該層者
+  const ioN = (fn) => cases.filter(c => c.io && fn(c.io)).length;
+  const ioTotal = cases.filter(c => c.io).length;
+  const cpbChips = [chip('cpb', 'all', '全部', null, _f.cpb === 'all')].concat(['<120', '120–180', '≥180'].map(b => chip('cpb', b, 'CPB ' + b + ' 分', ioN(io => io.cpbBand === b), _f.cpb === b)));
+  const heartChips = [chip('heart', 'all', '全部', null, _f.heart === 'all')].concat([['跳動', '跳動心臟'], ['停跳', '心臟停跳']].map(([v, l]) => chip('heart', v, l, ioN(io => io.heart === v), _f.heart === v)));
+  const tempChips = [chip('temp', 'all', '全部', null, _f.temp === 'all')].concat([['常溫', '常溫 ≥36℃'], ['輕中度低溫', '輕中度低溫 32–35℃'], ['深低溫', '深低溫 <32℃']].map(([v, l]) => chip('temp', v, l, ioN(io => io.tempBand === v), _f.temp === v)));
 
   html.push(`
     <h2 class="section-title">
@@ -1626,6 +1640,7 @@ function renderDynamic() {
         <div><div class="filter-label">術式途徑</div><div class="chip-row">${micsChips.join('')}</div></div>
         <div><div class="filter-label">流程</div><div class="chip-row">${erasChips.join('')}</div></div>
       </div>
+      <div class="filter-row"><div class="filter-label">術中條件（體外循環紀錄，${ioTotal} / ${cases.length} 筆有紀錄；選任一條件即只看有紀錄者）</div><div class="chip-row">${cpbChips.join('')}<span style="width:10px"></span>${heartChips.join('')}<span style="width:10px"></span>${tempChips.join('')}</div></div>
       <div class="filter-row"><div class="filter-label">手術性質（依灌注 CPB／大支架表）${natureUnknown ? `<span style="font-weight:400;color:var(--muted)"> · ${natureUnknown} 筆未標記，選常規或急診時不計入</span>` : ''}</div><div class="chip-row">${natureChips.join('')}</div></div>
       <div class="filter-summary">目前條件：<strong>${escapeHtml(filterLabel(_f))}</strong> · n = <strong>${g.n}</strong>${g.nMajor ? `（含 ${g.nMajor} 例重大異常事件，里程碑不計入）` : ''}${g.n && g.n < SMALL_N ? smallN() : ''}</div>
     </div>
@@ -1633,6 +1648,9 @@ function renderDynamic() {
 
   // ===== 05 手術類別總覽 =====
   html.push(renderCategoryTable(base, cases));
+
+  // ===== 05+ 手術複雜度與拔管（★2026-10-28 術中紀錄）=====
+  html.push(renderIntraopSection(sel));
 
   // ===== 06 季度趨勢 =====
   html.push(renderQuarterTrend(cases.filter(c => matchAll(c, { ..._f, period: 'all' })), po.quarters));
@@ -1776,6 +1794,106 @@ function renderDynamic() {
   drawFlowCharts(_flowRows[_f.fperiod] || _flowRows.all);
   drawTrendCharts();
   drawMomentumChart(_momRows);
+  drawIntraopCharts(_ioSel);
+}
+
+/* ============================================================
+ *  ★2026-10-28 05+ 手術複雜度與拔管（體外循環紀錄）
+ *   - 資料：cases[].io（後端由「術中紀錄」表以 PK 併入）；只看目前篩選條件下有術中紀錄者
+ *   - 圖 A：各類別 CPB 時間分布（箱型；鬚 = 最小／最大）
+ *   - 圖 B：依 CPB 分層之手術室內拔管率／6 小時內拔管率（分母 = 有拔管分級者，排除重大異常事件）
+ *   - 表 C：分層摘要（CPB／心臟狀態／最低溫）含 ICU 與住院中位
+ *   - 分層切點暫定：CPB 120／180 分；溫度 36／32 ℃；X-clamp 0 = 跳動心臟
+ * ============================================================ */
+let _ioSel = [];
+function ioStats(rows) {
+  const g = computeGroup(rows);
+  return { n: rows.length, or: g.rates.extubatedInOR, early: g.rates.earlyExtubation, icu: g.metrics.icuStay, los: g.metrics.hospitalLOS };
+}
+function renderIntraopSection(sel) {
+  _ioSel = sel.filter(c => c.io && c.io.cpb != null);
+  const io = _ioSel;
+  const n = io.length;
+  const sum = (k) => S.summary(io.map(c => c.io[k]));
+  const cnt = (fn) => io.filter(c => fn(c.io)).length;
+  const cpb = sum('cpb'), tmin = sum('tmin');
+  const arrested = io.filter(c => c.io.heart === '停跳');
+  const xc = S.summary(arrested.map(c => c.io.xclamp));
+  const head = `
+    <h2 class="section-title">
+      <span class="num">05+</span>
+      <span>手術複雜度與拔管 · 體外循環紀錄</span>
+      <span class="sub">${escapeHtml(filterLabel(_f))} · 有術中紀錄 ${n} / ${sel.length} 筆</span>
+    </h2>`;
+  if (!n) return head + '<div class="placeholder-card"><div class="ph-title">此條件下沒有術中（體外循環）紀錄</div><div class="ph-desc">主動脈支架（EVAR／TEVAR）不使用體外循環；其他術式請確認「術中紀錄」表是否已登錄。</div></div>';
+  const tile = (l, v, sub) => `<div class="ms-tile"><div class="ms-label">${l}</div><div class="ms-value">${v}</div>${sub ? `<div class="ms-def">${sub}</div>` : ''}</div>`;
+  const med = (m, u) => m.median == null ? '—' : `${m.median}<span class="ms-unit">${u}</span>`;
+  const tiles = [
+    tile('CPB 時間（中位）', med(cpb, ' 分'), cpb.n ? `IQR ${fmt1(cpb.q1)}–${fmt1(cpb.q3)} · n=${cpb.n}` : ''),
+    tile('跳動心臟（X-clamp 0）', `${cnt(x => x.heart === '跳動')}<span class="ms-unit"> / ${cnt(x => x.heart)}</span>`, '停跳者阻斷中位 ' + (xc.median == null ? '—' : xc.median + ' 分')),
+    tile('最低溫（中位）', med(tmin, ' ℃'), `常溫 ${cnt(x => x.tempBand === '常溫')} · 輕中度 ${cnt(x => x.tempBand === '輕中度低溫')} · 深低溫 ${cnt(x => x.tempBand === '深低溫')}`),
+    tile('循環停止／SCP', `${cnt(x => x.arrest > 0)}<span class="ms-unit"> / ${cnt(x => x.scp > 0)}</span>`, '有循環停止 ／ 有選擇性腦灌流'),
+    tile('術後 IABP／ECMO', `${cnt(x => x.iabpPost === true)}<span class="ms-unit"> / ${cnt(x => x.ecmoPost === true)}</span>`, `術前 IABP ${cnt(x => x.iabpPre === true)} · 術前 ECMO ${cnt(x => x.ecmoPre === true)}`),
+    tile('鋼骨鋼板／Cell saver', `${cnt(x => x.plate)}<span class="ms-unit"> / ${cnt(x => x.cellsaver > 0)}</span>`, '空白視為未使用'),
+  ].join('');
+  // 表 C
+  const strata = [
+    ['CPB <120 分', c => c.io.cpbBand === '<120'], ['CPB 120–180 分', c => c.io.cpbBand === '120–180'], ['CPB ≥180 分', c => c.io.cpbBand === '≥180'],
+    ['跳動心臟', c => c.io.heart === '跳動'], ['心臟停跳', c => c.io.heart === '停跳'],
+    ['常溫 ≥36℃', c => c.io.tempBand === '常溫'], ['輕中度低溫 32–35℃', c => c.io.tempBand === '輕中度低溫'], ['深低溫 <32℃', c => c.io.tempBand === '深低溫'],
+  ];
+  const pc = (r) => r.pct == null ? '<span class="muted">—</span>' : `${r.pct}<span class="u">%</span><span class="frac">${r.count}/${r.total}</span>`;
+  const mc = (m, u) => m.median == null ? '<span class="muted">—</span>' : `${m.median}<span class="u">${u}</span><span class="frac">IQR ${fmt1(m.q1)}–${fmt1(m.q3)}</span>`;
+  const trs = strata.map(([label, fn], i) => { const r = io.filter(fn); if (!r.length) return ''; const st = ioStats(r); return `<tr class="${i === 3 || i === 5 ? 'group-start' : ''}"><td class="cat-name">${label}${st.n < SMALL_N ? smallN() : ''}</td><td class="num">${st.n}</td><td class="num">${pc(st.or)}</td><td class="num">${pc(st.early)}</td><td class="num">${mc(st.icu, ' 時')}</td><td class="num">${mc(st.los, ' 天')}</td></tr>`; }).join('');
+  const all = ioStats(io);
+  return head + `
+    <div class="ms-card"><div class="ms-grid" style="grid-template-columns:repeat(3,1fr)">${tiles}</div><div class="chart-note">只計目前條件下有術中紀錄者；分層切點暫定 CPB 120／180 分、溫度 36／32 ℃，X-clamp＝0 視為跳動心臟（on-pump beating）。</div></div>
+    <div class="trend-grid" style="margin-top:12px">
+      <div class="chart-card flow-card"><div class="chart-title"><span>A · 各類別 CPB 時間分布</span><span class="chart-sub">箱型 = IQR，線 = 中位數，鬚 = 最小／最大 · n 標於類別</span></div><div class="flow-scroll"><div id="ioBoxChart" class="echart" style="height:${Math.max(220, 60 + 44 * [...new Set(io.map(c => c.cat))].length)}px"></div></div></div>
+      <div class="chart-card flow-card"><div class="chart-title"><span>B · 依 CPB 分層之拔管成效</span><span class="chart-sub">分母 = 有拔管分級者，排除重大異常事件者</span></div><div class="flow-scroll"><div id="ioBandChart" class="echart" style="height:260px"></div></div></div>
+    </div>
+    <div class="cat-table-wrap" style="margin-top:12px"><table class="cat-table">
+      <thead><tr><th>分層</th><th class="num">n</th><th class="num">手術室內拔管</th><th class="num">6 小時內拔管</th><th class="num">ICU 滯留（中位）</th><th class="num">住院天數（中位）</th></tr></thead>
+      <tbody>${trs}<tr class="cat-row total"><td class="cat-name">全部有術中紀錄者</td><td class="num">${all.n}</td><td class="num">${pc(all.or)}</td><td class="num">${pc(all.early)}</td><td class="num">${mc(all.icu, ' 時')}</td><td class="num">${mc(all.los, ' 天')}</td></tr></tbody>
+    </table></div>
+    <div class="chart-note">術中紀錄 2024–2026/10 由體循師 CPB 年度資料庫回填（鋼骨鋼板／Cell saver 空白 = 未使用）；之後由體循師於「體循紀錄」頁登錄。回溯期（2025/04/15 以前）個案尚未併入此區。</div>`;
+}
+function drawIntraopCharts(io) {
+  ['ioBox', 'ioBand'].forEach(k => { if (_charts[k]) { try { _charts[k].dispose(); } catch (e) {} delete _charts[k]; } });
+  if (!window.echarts || !io || !io.length) return;
+  const font = { fontFamily: "'Noto Sans TC', sans-serif" };
+  // A 箱型
+  const bx = $('ioBoxChart');
+  if (bx) {
+    const cats = CAT_ORDER.filter(c => io.some(x => x.cat === c));
+    const data = cats.map(cat => { const v = S.nums(io.filter(x => x.cat === cat).map(x => x.io.cpb)).sort((a, b) => a - b); return v.length ? [v[0], S.quantile(v, .25), S.quantile(v, .5), S.quantile(v, .75), v[v.length - 1]] : [null, null, null, null, null]; });
+    const names = cats.map(cat => `${cat}  (n=${io.filter(x => x.cat === cat).length})`);
+    _charts.ioBox = echarts.init(bx, null, { renderer: 'svg' });
+    _charts.ioBox.setOption({
+      grid: { left: 150, right: 30, top: 10, bottom: 36 },
+      xAxis: { type: 'value', name: 'CPB 分鐘', nameLocation: 'middle', nameGap: 24, nameTextStyle: { ...font, fontSize: 11, color: '#8A8580' }, axisLabel: { ...font, fontSize: 10.5 }, splitLine: { lineStyle: { color: '#EEE8DC' } }, min: 0 },
+      yAxis: { type: 'category', data: names, inverse: true, axisLabel: { ...font, fontSize: 11.5 }, axisTick: { show: false }, axisLine: { show: false } },
+      tooltip: { trigger: 'item', textStyle: font, formatter: p => { const d = p.data; return `${names[p.dataIndex]}<br>中位 ${d[3]} 分 · IQR ${d[2]}–${d[4]} · 範圍 ${d[1]}–${d[5]}`; } },
+      series: [{ type: 'boxplot', data, boxWidth: [10, 22], itemStyle: { color: '#CFE3E1', borderColor: '#1F5A5A', borderWidth: 1.5 } },
+        { type: 'scatter', symbolSize: 5, itemStyle: { color: 'rgba(31,90,90,.35)' }, data: io.map(x => [x.io.cpb, cats.indexOf(x.cat)]).filter(d => d[1] >= 0), tooltip: { formatter: p => `${cats[p.value[1]]}：${p.value[0]} 分` } }]
+    });
+  }
+  // B 分層長條
+  const bd = $('ioBandChart');
+  if (bd) {
+    const bands = ['<120', '120–180', '≥180'];
+    const st = bands.map(b => ioStats(io.filter(c => c.io.cpbBand === b)));
+    const mk = (key, name, color) => ({ type: 'bar', name, barMaxWidth: 40, itemStyle: { color, borderRadius: [4, 4, 0, 0] }, data: st.map(s2 => s2[key].pct), label: { ...font, show: true, position: 'top', fontSize: 11, color: '#5C5C5C', formatter: p => { const r = st[p.dataIndex][key]; return r.pct == null ? '—' : `${r.pct}%\n${r.count}/${r.total}`; } } });
+    _charts.ioBand = echarts.init(bd, null, { renderer: 'svg' });
+    _charts.ioBand.setOption({
+      grid: { left: 44, right: 16, top: 52, bottom: 30 },
+      legend: { top: 0, textStyle: { ...font, fontSize: 11 } },
+      tooltip: { trigger: 'axis', textStyle: font, valueFormatter: v => v == null ? '—' : v + '%' },
+      xAxis: { type: 'category', data: bands.map((b, i) => `CPB ${b} 分 (n=${st[i].n})`), axisLabel: { ...font, fontSize: 11 } },
+      yAxis: { type: 'value', min: 0, max: 115, interval: 20, axisLabel: { ...font, fontSize: 11, formatter: v => v > 100 ? '' : v + '%' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
+      series: [mk('or', '手術室內拔管', '#1F5A5A'), mk('early', '6 小時內拔管', '#A87B4D')]
+    });
+  }
 }
 
 /* ============================================================
