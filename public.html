@@ -1842,7 +1842,7 @@ function drawCharts() {
     const mk = (key, name, color) => ({ type: 'bar', name, barMaxWidth: 40, itemStyle: { color, borderRadius: [4, 4, 0, 0] }, data: st.map(b => b[key].pct), label: { ...font, show: true, position: 'top', fontSize: 11, color: '#5C5C5C', formatter: p => { const r = st[p.dataIndex][key]; return r.pct == null ? '—' : `${r.pct}%\n${r.count}/${r.total}`; } } });
     _charts.ioBand = echarts.init($('ioBandChart'), null, { renderer: 'svg' });
     _charts.ioBand.setOption({ grid: { left: 44, right: 16, top: 52, bottom: 30 }, legend: { top: 0, textStyle: { ...font, fontSize: 11 } }, tooltip: { trigger: 'axis', valueFormatter: v => v == null ? '—' : v + '%' },
-      xAxis: { type: 'category', data: st.map(b => `CPB ${b.band} 分 (n=${b.n})`), axisLabel: { ...font, fontSize: 11 } },
+      xAxis: { type: 'category', data: st.map(b => `CPB ${b.band} 分\n(n=${b.n})`), axisLabel: { ...font, fontSize: 11, interval: 0 } },
       yAxis: { type: 'value', min: 0, max: 115, interval: 20, axisLabel: { ...font, fontSize: 11, formatter: v => v > 100 ? '' : v + '%' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
       series: [mk('or', '手術室內拔管', '#1F5A5A'), mk('early', '6 小時內拔管', '#A87B4D')] });
   }

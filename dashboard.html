@@ -1850,8 +1850,8 @@ function renderIntraopSection(sel) {
   return head + `
     <div class="ms-card"><div class="ms-grid" style="grid-template-columns:repeat(3,1fr)">${tiles}</div><div class="chart-note">只計目前條件下有術中紀錄者；分層切點暫定 CPB 120／180 分、溫度 36／32 ℃，X-clamp＝0 視為跳動心臟（on-pump beating）。</div></div>
     <div class="trend-grid" style="margin-top:12px">
-      <div class="chart-card flow-card"><div class="chart-title"><span>A · 各類別 CPB 時間分布</span><span class="chart-sub">箱型 = IQR，線 = 中位數，鬚 = 最小／最大 · n 標於類別</span></div><div class="flow-scroll"><div id="ioBoxChart" class="echart" style="height:${Math.max(220, 60 + 44 * [...new Set(io.map(c => c.cat))].length)}px"></div></div></div>
-      <div class="chart-card flow-card"><div class="chart-title"><span>B · 依 CPB 分層之拔管成效</span><span class="chart-sub">分母 = 有拔管分級者，排除重大異常事件者</span></div><div class="flow-scroll"><div id="ioBandChart" class="echart" style="height:260px"></div></div></div>
+      <div class="chart-card flow-card"><div class="chart-title"><span>A · 各類別 CPB 時間分布</span><span class="chart-sub">箱型 = IQR，線 = 中位數，鬚 = 最小／最大 · n 標於類別</span></div><div class="flow-scroll"><div id="ioBoxChart" class="echart" style="min-width:0;height:${Math.max(220, 60 + 44 * [...new Set(io.map(c => c.cat))].length)}px"></div></div></div>
+      <div class="chart-card flow-card"><div class="chart-title"><span>B · 依 CPB 分層之拔管成效</span><span class="chart-sub">分母 = 有拔管分級者，排除重大異常事件者</span></div><div class="flow-scroll"><div id="ioBandChart" class="echart" style="min-width:0;height:260px"></div></div></div>
     </div>
     <div class="cat-table-wrap" style="margin-top:12px"><table class="cat-table">
       <thead><tr><th>分層</th><th class="num">n</th><th class="num">手術室內拔管</th><th class="num">6 小時內拔管</th><th class="num">ICU 滯留（中位）</th><th class="num">住院天數（中位）</th></tr></thead>
@@ -1868,10 +1868,10 @@ function drawIntraopCharts(io) {
   if (bx) {
     const cats = CAT_ORDER.filter(c => io.some(x => x.cat === c));
     const data = cats.map(cat => { const v = S.nums(io.filter(x => x.cat === cat).map(x => x.io.cpb)).sort((a, b) => a - b); return v.length ? [v[0], S.quantile(v, .25), S.quantile(v, .5), S.quantile(v, .75), v[v.length - 1]] : [null, null, null, null, null]; });
-    const names = cats.map(cat => `${cat}  (n=${io.filter(x => x.cat === cat).length})`);
+    const names = cats.map(cat => `${cat}\n(n=${io.filter(x => x.cat === cat).length})`);
     _charts.ioBox = echarts.init(bx, null, { renderer: 'svg' });
     _charts.ioBox.setOption({
-      grid: { left: 150, right: 30, top: 10, bottom: 36 },
+      grid: { left: 118, right: 24, top: 10, bottom: 36 },
       xAxis: { type: 'value', name: 'CPB 分鐘', nameLocation: 'middle', nameGap: 24, nameTextStyle: { ...font, fontSize: 11, color: '#8A8580' }, axisLabel: { ...font, fontSize: 10.5 }, splitLine: { lineStyle: { color: '#EEE8DC' } }, min: 0 },
       yAxis: { type: 'category', data: names, inverse: true, axisLabel: { ...font, fontSize: 11.5 }, axisTick: { show: false }, axisLine: { show: false } },
       tooltip: { trigger: 'item', textStyle: font, formatter: p => { const d = p.data; return `${names[p.dataIndex]}<br>中位 ${d[3]} 分 · IQR ${d[2]}–${d[4]} · 範圍 ${d[1]}–${d[5]}`; } },
@@ -1890,7 +1890,7 @@ function drawIntraopCharts(io) {
       grid: { left: 44, right: 16, top: 52, bottom: 30 },
       legend: { top: 0, textStyle: { ...font, fontSize: 11 } },
       tooltip: { trigger: 'axis', textStyle: font, valueFormatter: v => v == null ? '—' : v + '%' },
-      xAxis: { type: 'category', data: bands.map((b, i) => `CPB ${b} 分 (n=${st[i].n})`), axisLabel: { ...font, fontSize: 11 } },
+      xAxis: { type: 'category', data: bands.map((b, i) => `CPB ${b} 分\n(n=${st[i].n})`), axisLabel: { ...font, fontSize: 11, interval: 0 } },
       yAxis: { type: 'value', min: 0, max: 115, interval: 20, axisLabel: { ...font, fontSize: 11, formatter: v => v > 100 ? '' : v + '%' }, splitLine: { lineStyle: { color: '#EEE8DC' } } },
       series: [mk('or', '手術室內拔管', '#1F5A5A'), mk('early', '6 小時內拔管', '#A87B4D')]
     });
