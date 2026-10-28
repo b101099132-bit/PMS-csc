@@ -1816,7 +1816,8 @@ function renderIntraopSection(sel) {
   const n = io.length;
   const sum = (k) => S.summary(io.map(c => c.io[k]));
   const cnt = (fn) => io.filter(c => fn(c.io)).length;
-  const cpb = sum('cpb'), tmin = sum('tmin');
+  const cpb = sum('cpb');
+  const coldT = S.summary(io.filter(c => c.io.tempBand && c.io.tempBand !== '常溫').map(c => c.io.tmin));
   const arrested = io.filter(c => c.io.heart === '停跳');
   const xc = S.summary(arrested.map(c => c.io.xclamp));
   const head = `
@@ -1831,7 +1832,7 @@ function renderIntraopSection(sel) {
   const tiles = [
     tile('CPB 時間（中位）', med(cpb, ' 分'), cpb.n ? `IQR ${fmt1(cpb.q1)}–${fmt1(cpb.q3)} · n=${cpb.n}` : ''),
     tile('跳動心臟（X-clamp 0）', `${cnt(x => x.heart === '跳動')}<span class="ms-unit"> / ${cnt(x => x.heart)}</span>`, '停跳者阻斷中位 ' + (xc.median == null ? '—' : xc.median + ' 分')),
-    tile('最低溫（中位）', med(tmin, ' ℃'), `常溫 ${cnt(x => x.tempBand === '常溫')} · 輕中度 ${cnt(x => x.tempBand === '輕中度低溫')} · 深低溫 ${cnt(x => x.tempBand === '深低溫')}`),
+    tile('體溫管理 · 常溫（≥36℃）比例', (() => { const k = cnt(x => x.tempBand === '常溫'), t = cnt(x => x.tempBand); return t ? `${S.pct(k, t)}<span class="ms-unit">% · ${k}/${t}</span>` : '—'; })(), `輕中度低溫 ${cnt(x => x.tempBand === '輕中度低溫')} · 深低溫 ${cnt(x => x.tempBand === '深低溫')}${coldT.median != null ? ` · 低溫組最低溫中位 ${coldT.median} ℃` : ''}`),
     tile('循環停止／SCP', `${cnt(x => x.arrest > 0)}<span class="ms-unit"> / ${cnt(x => x.scp > 0)}</span>`, '有循環停止 ／ 有選擇性腦灌流'),
     tile('術後 IABP／ECMO', `${cnt(x => x.iabpPost === true)}<span class="ms-unit"> / ${cnt(x => x.ecmoPost === true)}</span>`, `術前 IABP ${cnt(x => x.iabpPre === true)} · 術前 ECMO ${cnt(x => x.ecmoPre === true)}`),
     tile('鋼骨鋼板／Cell saver', `${cnt(x => x.plate)}<span class="ms-unit"> / ${cnt(x => x.cellsaver > 0)}</span>`, '空白視為未使用'),
