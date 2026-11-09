@@ -1837,6 +1837,21 @@ function renderIntraopSection(sel) {
     tile('術後 IABP／ECMO', `${cnt(x => x.iabpPost === true)}<span class="ms-unit"> / ${cnt(x => x.ecmoPost === true)}</span>`, `術前 IABP ${cnt(x => x.iabpPre === true)} · 術前 ECMO ${cnt(x => x.ecmoPre === true)}`),
     tile('鋼骨鋼板／Cell saver', `${cnt(x => x.plate)}<span class="ms-unit"> / ${cnt(x => x.cellsaver > 0)}</span>`, '空白視為未使用'),
   ].join('');
+  // ★2026-11-09 灌流品質（進階欄位：2026/11 起體循師登錄；有填者才計）
+  const advN = io.filter(c => c.io.tArtMax != null || c.io.hbMin != null || c.io.do2iMin != null || c.io.cpbPrbc != null || c.io.primePrbc != null || c.io.mapMean != null).length;
+  let advTiles = '';
+  if (advN) {
+    const kn = (fn, denomFn) => { const d = io.filter(c => denomFn(c.io)); const k = d.filter(c => fn(c.io)).length; return d.length ? `${k}<span class="ms-unit"> / ${d.length}</span>` : '—'; };
+    const hb = S.summary(io.map(c => c.io.hbMin)), mapm = S.summary(io.map(c => c.io.mapMean)), do2 = S.summary(io.map(c => c.io.do2iMin));
+    advTiles = `<div class="ms-card" style="margin-top:12px"><div class="ms-grid" style="grid-template-columns:repeat(3,1fr)">
+      ${tile('動脈出口最高溫 >37 ℃', kn(x => x.tArtMax > 37, x => x.tArtMax != null), 'STS／SCA／AmSECT 指引：復溫時動脈出口溫 ≤37 ℃')}
+      ${tile('CPB 最低 Hb（中位）', med(hb, ' g/dL'), hb.n ? `IQR ${fmt1(hb.q1)}–${fmt1(hb.q3)} · n=${hb.n}` : '尚無資料')}
+      ${tile('最低 DO2i <272', kn(x => x.do2iMin < 272, x => x.do2iMin != null), do2.median != null ? `DO2i 中位 ${do2.median} mL/min/m²（GIFT 閾值 272）` : '需同時填最低 Hb 與流量指數')}
+      ${tile('CPB 期間任何 pRBC（含預充）', kn(x => (x.cpbPrbc || 0) + (x.primePrbc || 0) > 0, x => x.cpbPrbc != null || x.primePrbc != null), 'RAP 使用 ' + io.filter(c => c.io.rap === true).length + ' 例')}
+      ${tile('CPB 平均 MAP（中位）', med(mapm, ' mmHg'), mapm.n ? `最低 MAP 中位 ${fmt1(S.summary(io.map(c => c.io.mapMin)).median)} · n=${mapm.n}` : '尚無資料')}
+      ${tile('SCP 期間 NIRS 相對下降 >20%', kn(x => x.nirsDrop > 20, x => x.nirsDrop != null), '雙側最大相對下降；主動脈弓手術')}
+    </div><div class="chart-note">灌流品質進階欄位自 2026/11 起由體循師登錄，分母 = 該欄位有填者（${advN} 例有任一進階欄位）。</div></div>`;
+  }
   // 表 C
   const strata = [
     ['CPB <120 分', c => c.io.cpbBand === '<120'], ['CPB 120–180 分', c => c.io.cpbBand === '120–180'], ['CPB ≥180 分', c => c.io.cpbBand === '≥180'],
@@ -1849,6 +1864,7 @@ function renderIntraopSection(sel) {
   const all = ioStats(io);
   return head + `
     <div class="ms-card"><div class="ms-grid" style="grid-template-columns:repeat(3,1fr)">${tiles}</div><div class="chart-note">只計目前條件下有術中紀錄者；分層切點暫定 CPB 120／180 分、溫度 36／32 ℃，X-clamp＝0 視為跳動心臟（on-pump beating）。</div></div>
+    ${advTiles}
     <div class="trend-grid" style="margin-top:12px">
       <div class="chart-card flow-card"><div class="chart-title"><span>A · 各類別 CPB 時間分布</span><span class="chart-sub">箱型 = IQR，線 = 中位數，鬚 = 最小／最大 · n 標於類別</span></div><div class="flow-scroll"><div id="ioBoxChart" class="echart" style="min-width:0;height:${Math.max(220, 60 + 44 * [...new Set(io.map(c => c.cat))].length)}px"></div></div></div>
       <div class="chart-card flow-card"><div class="chart-title"><span>B · 依 CPB 分層之拔管成效</span><span class="chart-sub">分母 = 有拔管分級者，排除重大異常事件者</span></div><div class="flow-scroll"><div id="ioBandChart" class="echart" style="min-width:0;height:260px"></div></div></div>

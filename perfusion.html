@@ -93,6 +93,10 @@ header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--
   border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:-2px; margin-right:6px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .disabled { opacity:0.5; pointer-events:none; }
+details.adv { border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin:12px 0; background:#FCFBF8; }
+details.adv summary { cursor:pointer; font-weight:600; color:var(--teal); font-size:14px; }
+details.adv summary .why { font-weight:400; font-size:12px; color:var(--ink-faint); margin-left:8px; }
+details.adv[open] summary { margin-bottom:8px; }
 footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-faint); }
 </style>
 </head>
@@ -154,24 +158,24 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
       <div class="subhead">體外循環／灌流參數</div>
       <div class="hint">單位：分鐘／℃／mL。沒有執行的項目填 0（例如 on-pump beating 的 X-clamp＝0、未循環停止＝0）；未知或未記錄請留白。</div>
       <div class="row row-3">
-        <div class="field"><label for="cpb">CPB 時間（分）</label><input type="number" id="cpb" name="cpb" min="0" step="1" inputmode="numeric"></div>
-        <div class="field"><label for="xclamp">主動脈阻斷 X-clamp（分）</label><input type="number" id="xclamp" name="xclamp" min="0" step="1" inputmode="numeric"><span class="sub" id="heartHint">0 = 跳動心臟（beating heart）</span></div>
-        <div class="field"><label for="tmin">最低溫（℃）</label><input type="number" id="tmin" name="tmin" min="10" max="40" step="0.1" inputmode="decimal"><span class="sub" id="tempHint"></span></div>
+        <div class="field"><label for="cpb">CPB 時間（分）</label><input type="number" id="cpb" name="cpb" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="xclamp">主動脈阻斷 X-clamp（分）</label><input type="number" id="xclamp" name="xclamp" min="0" step="any" inputmode="decimal"><span class="sub" id="heartHint">0 = 跳動心臟（beating heart）</span></div>
+        <div class="field"><label for="tmin">最低溫（℃）</label><input type="number" id="tmin" name="tmin" min="10" max="40" step="any" inputmode="decimal"><span class="sub" id="tempHint"></span></div>
       </div>
       <div class="row row-3">
-        <div class="field"><label for="arrest">循環停止 Arrest（分）</label><input type="number" id="arrest" name="arrest" min="0" step="1" inputmode="numeric"></div>
-        <div class="field"><label for="scp">選擇性腦灌流 SCP（分）</label><input type="number" id="scp" name="scp" min="0" step="1" inputmode="numeric"></div>
-        <div class="field"><label for="dc">D.C. 電擊去顫（次）</label><input type="number" id="dc" name="dc" min="0" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="arrest">循環停止 Arrest（分）</label><input type="number" id="arrest" name="arrest" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="scp">選擇性腦灌流 SCP（分）</label><input type="number" id="scp" name="scp" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="dc">D.C. 電擊去顫（次）</label><input type="number" id="dc" name="dc" min="0" step="any" inputmode="decimal"></div>
       </div>
       <div class="row row-3">
-        <div class="field"><label for="uf">超過濾量 Ultrafiltration（mL）</label><input type="number" id="uf" name="uf" min="0" step="10" inputmode="numeric"></div>
-        <div class="field"><label for="urine">術中尿量（mL）</label><input type="number" id="urine" name="urine" min="0" step="10" inputmode="numeric"></div>
-        <div class="field"><label for="cellsaver">Cell saver 回收（mL）</label><input type="number" id="cellsaver" name="cellsaver" min="0" step="10" inputmode="numeric"><span class="sub">未使用請留白或 0</span></div>
+        <div class="field"><label for="uf">超過濾量 Ultrafiltration（mL）</label><input type="number" id="uf" name="uf" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="urine">術中尿量（mL）</label><input type="number" id="urine" name="urine" min="0" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="cellsaver">Cell saver 回收（mL）</label><input type="number" id="cellsaver" name="cellsaver" min="0" step="any" inputmode="decimal"><span class="sub">未使用請留白或 0</span></div>
       </div>
       <div class="row row-3">
         <div class="field"><label for="muf">MUF（改良式超過濾）</label><select id="muf" name="muf"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
         <div class="field"><label for="plate">鋼骨鋼板（胸骨固定）</label><select id="plate" name="plate"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
-        <div class="field"><label for="intub_days">術前插管（天）</label><input type="number" id="intub_days" name="intub_days" min="0" step="1" inputmode="numeric"><span class="sub">未插管填 0</span></div>
+        <div class="field"><label for="intub_days">術前插管（天）</label><input type="number" id="intub_days" name="intub_days" min="0" step="any" inputmode="decimal"><span class="sub">未插管填 0</span></div>
       </div>
 
       <div class="subhead">循環輔助</div>
@@ -184,10 +188,71 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
 
       <div class="subhead">體型</div>
       <div class="row row-3">
-        <div class="field"><label for="ht">身高（cm）</label><input type="number" id="ht" name="ht" min="100" max="220" step="0.1" inputmode="decimal"></div>
-        <div class="field"><label for="wt">體重（kg）</label><input type="number" id="wt" name="wt" min="20" max="250" step="0.1" inputmode="decimal"><span class="sub">空白時帶入術前體重</span></div>
+        <div class="field"><label for="ht">身高（cm）</label><input type="number" id="ht" name="ht" min="100" max="220" step="any" inputmode="decimal"></div>
+        <div class="field"><label for="wt">體重（kg）</label><input type="number" id="wt" name="wt" min="20" max="250" step="any" inputmode="decimal"><span class="sub">空白時帶入術前體重</span></div>
         <div class="field"><label>BMI／BSA（自動）</label><input type="text" id="bodyCalc" readonly tabindex="-1" style="background:var(--cream)"></div>
       </div>
+
+      <details class="adv" id="advTemp"><summary>溫度管理（進階）<span class="why">STS／SCA／AmSECT 2015：動脈出口溫 ≤37 ℃、核心溫以膀胱／肛溫為準</span></summary>
+        <div class="row row-4">
+          <div class="field"><label for="t_art_max">動脈出口最高溫（℃）</label><input type="number" id="t_art_max" name="t_art_max" min="30" max="40" step="any" inputmode="decimal"><span class="sub" id="tArtHint">復溫時氧合器動脈出口溫，指引上限 37</span></div>
+          <div class="field"><label for="core_site">核心溫部位</label><select id="core_site" name="core_site"><option value="">—</option><option>膀胱溫</option><option>肛溫</option><option>鼻咽溫</option><option>口咽溫</option><option>食道溫</option></select></div>
+          <div class="field"><label for="core_min">核心溫最低（℃）</label><input type="number" id="core_min" name="core_min" min="10" max="40" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="core_end">核心溫 CPB 結束（℃）</label><input type="number" id="core_end" name="core_end" min="25" max="40" step="any" inputmode="decimal"><span class="sub">離開體外循環時，供算 afterdrop</span></div>
+        </div>
+      </details>
+
+      <details class="adv" id="advPerf"><summary>灌流壓與氧輸送（進階）<span class="why">MAP 與自動調節下限、GIFT 試驗 DO2i ≥ 272 mL/min/m²、最低 Hb 與 AKI</span></summary>
+        <div class="row row-4">
+          <div class="field"><label for="map_target">目標 MAP（mmHg）</label><input type="number" id="map_target" name="map_target" min="30" max="120" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="map_mean">CPB 平均 MAP（mmHg）</label><input type="number" id="map_mean" name="map_mean" min="30" max="120" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="map_min">CPB 最低 MAP（mmHg）</label><input type="number" id="map_min" name="map_min" min="10" max="120" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="map_low50_min">MAP &lt;50 累計（分）</label><input type="number" id="map_low50_min" name="map_low50_min" min="0" step="any" inputmode="decimal"><span class="sub">沒有就留白</span></div>
+        </div>
+        <div class="row row-3">
+          <div class="field"><label for="hb_min">CPB 最低 Hb（g/dL）</label><input type="number" id="hb_min" name="hb_min" min="3" max="20" step="any" inputmode="decimal"><span class="sub">若只有 Hct，Hb ≈ Hct ÷ 3</span></div>
+          <div class="field"><label for="ci_min">CPB 最低流量指數（L/min/m²）</label><input type="number" id="ci_min" name="ci_min" min="0.5" max="5" step="any" inputmode="decimal"><span class="sub">最低 Hb 當下的泵流量 ÷ BSA</span></div>
+          <div class="field"><label for="do2i_min">最低 DO2i（mL/min/m²，自動）</label><input type="number" id="do2i_min" name="do2i_min" step="any" readonly tabindex="-1" style="background:var(--cream)"><span class="sub" id="do2Hint">= 13.4 × Hb × CI（SaO₂ 視為 100%）</span></div>
+        </div>
+      </details>
+
+      <details class="adv" id="advScp"><summary>選擇性腦灌流監測（主動脈弓）<span class="why">SCP 10–15 mL/kg/min、右橈壓 40–70 mmHg、雙側 NIRS、雙側橈動脈壓</span></summary>
+        <div class="row row-3">
+          <div class="field"><label for="scp_side">SCP 側別</label><select id="scp_side" name="scp_side"><option value="">—</option><option>單側（右）</option><option>雙側</option><option>無</option></select></div>
+          <div class="field"><label for="scp_flow">SCP 流量（mL/min）</label><input type="number" id="scp_flow" name="scp_flow" min="0" step="any" inputmode="decimal"></div>
+          <div class="field"><label>SCP 流量指數（mL/kg/min，自動）</label><input type="number" id="scp_flow_idx" name="scp_flow_idx" step="any" readonly tabindex="-1" style="background:var(--cream)"></div>
+        </div>
+        <div class="row row-2">
+          <div class="field"><label for="scp_press_r">SCP 灌流壓／右橈動脈（mmHg）</label><input type="number" id="scp_press_r" name="scp_press_r" min="0" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="scp_press_l">SCP 期間左橈動脈壓（mmHg）</label><input type="number" id="scp_press_l" name="scp_press_l" min="0" step="any" inputmode="decimal"><span class="sub">左右壓差大 → 左側灌流不足警訊</span></div>
+        </div>
+        <div class="row row-4">
+          <div class="field"><label for="nirs_l_base">NIRS 左 基礎值（%）</label><input type="number" id="nirs_l_base" name="nirs_l_base" min="0" max="100" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="nirs_r_base">NIRS 右 基礎值（%）</label><input type="number" id="nirs_r_base" name="nirs_r_base" min="0" max="100" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="nirs_l_min">NIRS 左 最低（%）</label><input type="number" id="nirs_l_min" name="nirs_l_min" min="0" max="100" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="nirs_r_min">NIRS 右 最低（%）</label><input type="number" id="nirs_r_min" name="nirs_r_min" min="0" max="100" step="any" inputmode="decimal"><span class="sub" id="nirsHint"></span></div>
+        </div>
+      </details>
+
+      <details class="adv" id="advBlood"><summary>預充與輸血<span class="why">STS／SCA／AmSECT／SABM 2021 血液管理：預充量、RAP、CPB 期間 pRBC</span></summary>
+        <div class="row row-3">
+          <div class="field"><label for="prime_vol">Priming 容量（mL）</label><input type="number" id="prime_vol" name="prime_vol" min="0" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="prime_prbc">Priming pRBC（U）</label><input type="number" id="prime_prbc" name="prime_prbc" min="0" step="any" inputmode="decimal"><span class="sub">沒加填 0</span></div>
+          <div class="field"><label for="cpb_prbc">CPB 期間輸注 pRBC（U）</label><input type="number" id="cpb_prbc" name="cpb_prbc" min="0" step="any" inputmode="decimal"><span class="sub">不含 priming；沒輸填 0</span></div>
+        </div>
+        <div class="row row-2">
+          <div class="field"><label for="cpb_other_blood">CPB 期間其他血品</label><input type="text" id="cpb_other_blood" name="cpb_other_blood" placeholder="例：FFP 2U、PLT 12U、Fibrinogen 2g"></div>
+          <div class="field"><label for="rap">RAP 逆行自體預充</label><select id="rap" name="rap"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        </div>
+      </details>
+
+      <details class="adv" id="advDevice"><summary>醫材（瓣膜／人工血管）</summary>
+        <div class="row row-3">
+          <div class="field"><label for="valve_type">瓣膜種類</label><select id="valve_type" name="valve_type"><option value="">—</option><option>無</option><option>生物瓣</option><option>機械瓣</option><option>修補環</option><option>生物瓣＋修補環</option></select></div>
+          <div class="field"><label for="valve_model">瓣膜品牌／型號／尺寸</label><input type="text" id="valve_model" name="valve_model" placeholder="例：Epic 27 mm；MC3 30"></div>
+          <div class="field"><label for="graft_model">人工血管／支架品牌尺寸</label><input type="text" id="graft_model" name="graft_model" placeholder="例：Frozenix 31×120；Gelweave 28"></div>
+        </div>
+      </details>
 
       <div class="field"><label for="note">備註</label><textarea id="note" name="note" placeholder="例：灌流特殊事件、血品、D.C. 原因…"></textarea></div>
       <div class="row row-2">
@@ -197,7 +262,7 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
     </form>
   </div>
 
-  <footer>心臟外科手術病人管理系統 · 體循紀錄 v1.0 · 2024–2026/10 資料由體循師 CPB 年度資料庫回填</footer>
+  <footer>心臟外科手術病人管理系統 · 體循紀錄 v1.1 · 2024–2026/10 資料由體循師 CPB 年度資料庫回填；進階欄位 2026/11 起登錄</footer>
 </div>
 
 <script>
@@ -313,7 +378,17 @@ function showPatient(p){
   const io = p.intraop || {};
   $('pc_existing').textContent = io.exists ? `已有紀錄（${io.source||'—'}${io.updatedAt?' · '+io.updatedAt:''}${io.caseId?' · 體循 CaseID '+io.caseId:''}），存檔會覆蓋有填的欄位` : '尚無體循紀錄';
   const setV = (id, v) => { if(v!=null && v!=='' && $(id)) $(id).value = v; };
-  ['cpb','xclamp','arrest','scp','tmin','dc','muf','uf','urine','cellsaver','plate','iabp_pre','iabp_post','ecmo_pre','ecmo_post','intub_days','ht','wt','note'].forEach(k => setV(k, io[k]));
+  ['cpb','xclamp','arrest','scp','tmin','dc','muf','uf','urine','cellsaver','plate','iabp_pre','iabp_post','ecmo_pre','ecmo_post','intub_days','ht','wt','note',
+   't_art_max','core_site','core_min','core_end','map_target','map_mean','map_min','map_low50_min','hb_min','ci_min','do2i_min',
+   'scp_side','scp_flow','scp_flow_idx','scp_press_r','scp_press_l','nirs_l_base','nirs_r_base','nirs_l_min','nirs_r_min',
+   'prime_vol','prime_prbc','cpb_prbc','cpb_other_blood','rap','valve_type','valve_model','graft_model'].forEach(k => setV(k, io[k]));
+  // 有填過的進階區塊自動展開；SCP > 0 自動展開腦灌流區
+  const anyOf = (ids) => ids.some(k => io[k] !== undefined && io[k] !== null && io[k] !== '');
+  $('advTemp').open = anyOf(['t_art_max','core_site','core_min','core_end']);
+  $('advPerf').open = anyOf(['map_target','map_mean','map_min','hb_min','ci_min']);
+  $('advScp').open = anyOf(['scp_side','scp_flow','scp_press_r','nirs_l_base']) || (parseFloat(io.scp) > 0);
+  $('advBlood').open = anyOf(['prime_vol','prime_prbc','cpb_prbc','rap']);
+  $('advDevice').open = anyOf(['valve_type','valve_model','graft_model']);
   if(!$('wt').value && p.preopWeight != null && p.preopWeight !== '') $('wt').value = p.preopWeight;
   try { const f = localStorage.getItem('pms_perfusion_filler'); if (f && !$('filler').value) $('filler').value = f; } catch(e) {}
   updateHints();
@@ -328,8 +403,20 @@ function updateHints(){
     const bmi = w / Math.pow(h/100, 2), bsa = Math.sqrt(h * w / 3600);
     $('bodyCalc').value = `BMI ${bmi.toFixed(1)} · BSA ${bsa.toFixed(2)} m²`;
   } else $('bodyCalc').value = '';
+  // ★進階：DO2i、SCP 流量指數、NIRS 下降、動脈出口溫提示
+  const hb = parseFloat($('hb_min').value), ci = parseFloat($('ci_min').value);
+  $('do2i_min').value = (!isNaN(hb) && !isNaN(ci)) ? Math.round(13.4 * hb * ci) : '';
+  $('do2Hint').textContent = $('do2i_min').value ? ($('do2i_min').value < 272 ? `DO2i ${$('do2i_min').value} < 272（GIFT 閾值，AKI 風險 ↑）` : `DO2i ${$('do2i_min').value} ≥ 272`) : '= 13.4 × Hb × CI（SaO₂ 視為 100%）';
+  const sf = parseFloat($('scp_flow').value);
+  $('scp_flow_idx').value = (!isNaN(sf) && !isNaN(w) && w > 0) ? (sf / w).toFixed(1) : '';
+  const ta = parseFloat($('t_art_max').value);
+  $('tArtHint').textContent = isNaN(ta) ? '復溫時氧合器動脈出口溫，指引上限 37' : (ta > 37 ? `${ta} ℃ 超過指引上限 37 ℃` : '符合 ≤37 ℃');
+  const drops = [];
+  [['nirs_l_base','nirs_l_min','左'],['nirs_r_base','nirs_r_min','右']].forEach(([b, m, side]) => { const bv = parseFloat($(b).value), mv = parseFloat($(m).value); if (!isNaN(bv) && !isNaN(mv) && bv > 0) drops.push(`${side} −${Math.round((bv - mv) / bv * 100)}%`); });
+  $('nirsHint').textContent = drops.length ? drops.join('　') + '（>20% 相對下降視為警訊）' : '';
+  const scp = parseFloat($('scp').value); if (!isNaN(scp) && scp > 0 && !$('advScp').open) $('advScp').open = true;
 }
-['xclamp','cpb','tmin','ht','wt'].forEach(id => $(id).addEventListener('input', updateHints));
+['xclamp','cpb','tmin','ht','wt','hb_min','ci_min','scp_flow','t_art_max','nirs_l_base','nirs_l_min','nirs_r_base','nirs_r_min','scp'].forEach(id => $(id).addEventListener('input', updateHints));
 
 $('ioForm').addEventListener('submit', async (e) => {
   e.preventDefault();
