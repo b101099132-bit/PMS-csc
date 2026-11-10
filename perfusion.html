@@ -193,6 +193,28 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
         <div class="field"><label>BMI／BSA（自動）</label><input type="text" id="bodyCalc" readonly tabindex="-1" style="background:var(--cream)"></div>
       </div>
 
+      <details class="adv" id="advSetup" open><summary>插管與灌流設定<span class="why">每台刀都填；氧合器／氣體策略／Cardioplegia 途徑會記住上一例</span></summary>
+        <div class="row row-2">
+          <div class="field"><label>動脈插管部位（可複選）</label>
+            <div class="criteria-list" id="cannArtBox" style="flex-direction:row;flex-wrap:wrap;gap:6px">
+              <label class="crit" style="padding:6px 10px"><input type="checkbox" value="升主動脈"><span class="ct">升主動脈</span></label><label class="crit" style="padding:6px 10px"><input type="checkbox" value="右鎖骨下動脈"><span class="ct">右鎖骨下動脈</span></label><label class="crit" style="padding:6px 10px"><input type="checkbox" value="右腋動脈"><span class="ct">右腋動脈</span></label><label class="crit" style="padding:6px 10px"><input type="checkbox" value="股動脈"><span class="ct">股動脈</span></label><label class="crit" style="padding:6px 10px"><input type="checkbox" value="人工血管分支"><span class="ct">人工血管分支</span></label><label class="crit" style="padding:6px 10px"><input type="checkbox" value="其他"><span class="ct">其他</span></label>
+            </div><input type="hidden" id="cann_art" name="cann_art"></div>
+          <div class="field"><label for="cann_ven">靜脈插管</label><select id="cann_ven" name="cann_ven"><option value="">—</option><option>兩階段單管</option><option>雙腔（上下腔）</option><option>股靜脈</option><option>股靜脈＋上腔</option><option>其他</option></select></div>
+        </div>
+        <div class="row row-3">
+          <div class="field"><label for="gas_strategy">氣體策略</label><select id="gas_strategy" name="gas_strategy"><option value="">—</option><option>alpha-stat</option><option>pH-stat</option><option>混合（降溫 pH-stat、回溫 alpha-stat）</option></select></div>
+          <div class="field"><label for="oxygenator">氧合器型號</label><input type="text" id="oxygenator" name="oxygenator" placeholder="例：Capiox FX25"></div>
+          <div class="field"><label for="head_ice">頭部冰敷</label><select id="head_ice" name="head_ice"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+        </div>
+        <div class="row row-4">
+          <div class="field"><label for="cp_total">Cardioplegia 總量（mL）</label><input type="number" id="cp_total" name="cp_total" min="0" step="any" inputmode="decimal"><span class="sub">跳動心臟未給填 0</span></div>
+          <div class="field"><label for="cp_route">Cardioplegia 途徑</label><select id="cp_route" name="cp_route"><option value="">—</option><option>無</option><option>順行</option><option>逆行</option><option>順行＋逆行</option><option>冠狀動脈開口直接</option></select></div>
+          <div class="field"><label for="lactate_max">CPB 最高乳酸（mmol/L）</label><input type="number" id="lactate_max" name="lactate_max" min="0" step="any" inputmode="decimal"></div>
+          <div class="field"><label for="rewarm_min">回溫至 36 ℃ 所需（分）</label><input type="number" id="rewarm_min" name="rewarm_min" min="0" step="any" inputmode="decimal"><span class="sub">回溫開始到核心溫 36 ℃</span></div>
+        </div>
+        <div class="row row-3"><div class="field"><label for="scp_line_temp">SCP 管路溫（℃）</label><input type="number" id="scp_line_temp" name="scp_line_temp" min="10" max="40" step="any" inputmode="decimal"><span class="sub">有 SCP 才填</span></div></div>
+      </details>
+
       <details class="adv" id="advTemp"><summary>溫度管理（進階）<span class="why">STS／SCA／AmSECT 2015：動脈出口溫 ≤37 ℃、核心溫以膀胱／肛溫為準</span></summary>
         <div class="row row-4">
           <div class="field"><label for="t_art_max">動脈出口最高溫（℃）</label><input type="number" id="t_art_max" name="t_art_max" min="30" max="40" step="any" inputmode="decimal"><span class="sub" id="tArtHint">復溫時氧合器動脈出口溫，指引上限 37</span></div>
@@ -381,7 +403,14 @@ function showPatient(p){
   ['cpb','xclamp','arrest','scp','tmin','dc','muf','uf','urine','cellsaver','plate','iabp_pre','iabp_post','ecmo_pre','ecmo_post','intub_days','ht','wt','note',
    't_art_max','core_site','core_min','core_end','map_target','map_mean','map_min','map_low50_min','hb_min','ci_min','do2i_min',
    'scp_side','scp_flow','scp_flow_idx','scp_press_r','scp_press_l','nirs_l_base','nirs_r_base','nirs_l_min','nirs_r_min',
-   'prime_vol','prime_prbc','cpb_prbc','cpb_other_blood','rap','valve_type','valve_model','graft_model'].forEach(k => setV(k, io[k]));
+   'prime_vol','prime_prbc','cpb_prbc','cpb_other_blood','rap','valve_type','valve_model','graft_model',
+   'cann_ven','gas_strategy','oxygenator','head_ice','cp_total','cp_route','lactate_max','rewarm_min','scp_line_temp'].forEach(k => setV(k, io[k]));
+  // 動脈插管（複選）回填
+  const artSel = String(io.cann_art || '').split('、').filter(Boolean);
+  document.querySelectorAll('#cannArtBox input').forEach(cb => { cb.checked = artSel.indexOf(cb.value) >= 0; cb.closest('.crit').classList.toggle('on', cb.checked); });
+  syncCannArt();
+  // 氧合器／氣體策略／Cardioplegia 途徑：沒有既有值時帶入上一例
+  try { const d = JSON.parse(localStorage.getItem('pms_perfusion_defaults') || '{}'); ['oxygenator','gas_strategy','cp_route'].forEach(k => { if (!$(k).value && d[k]) $(k).value = d[k]; }); } catch(e) {}
   // 有填過的進階區塊自動展開；SCP > 0 自動展開腦灌流區
   const anyOf = (ids) => ids.some(k => io[k] !== undefined && io[k] !== null && io[k] !== '');
   $('advTemp').open = anyOf(['t_art_max','core_site','core_min','core_end']);
@@ -394,6 +423,8 @@ function showPatient(p){
   updateHints();
   $('formCard').scrollIntoView({ behavior:'smooth', block:'start' });
 }
+function syncCannArt(){ $('cann_art').value = [...document.querySelectorAll('#cannArtBox input:checked')].map(cb => cb.value).join('、'); }
+document.querySelectorAll('#cannArtBox input').forEach(cb => cb.addEventListener('change', () => { cb.closest('.crit').classList.toggle('on', cb.checked); syncCannArt(); }));
 function updateHints(){
   const xc = parseFloat($('xclamp').value), cpb = parseFloat($('cpb').value), t = parseFloat($('tmin').value);
   $('heartHint').textContent = isNaN(xc) ? '0 = 跳動心臟（beating heart）' : (xc > 0 ? `心臟停跳 · 阻斷 ${xc} 分` : '跳動心臟（on-pump beating）');
@@ -424,11 +455,12 @@ $('ioForm').addEventListener('submit', async (e) => {
   if(!currentPatient){ $('formAlert').textContent='請先查詢病人'; $('formAlert').classList.add('show'); return; }
   if($('cpb').value === ''){ $('formAlert').textContent='請至少填 CPB 時間（分）'; $('formAlert').classList.add('show'); return; }
   const btn = $('saveBtn'); btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
+  syncCannArt();
   const fd = new FormData($('ioForm'));
   fd.append('action','saveIntraop'); fd.append('pk', currentPatient.pk); fd.append('key', $('doctor_key').value.trim());
   try{
     await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
-    try { localStorage.setItem('pms_perfusion_filler', $('filler').value.trim()); } catch(err) {}
+    try { localStorage.setItem('pms_perfusion_filler', $('filler').value.trim()); localStorage.setItem('pms_perfusion_defaults', JSON.stringify({ oxygenator: $('oxygenator').value, gas_strategy: $('gas_strategy').value, cp_route: $('cp_route').value })); } catch(err) {}
     const el = $('okAlert'); el.textContent = '已儲存體循紀錄'; el.classList.add('show');
     window.scrollTo({ top:0, behavior:'smooth' });
   }catch(err){ $('formAlert').textContent = '儲存失敗：' + err.message; $('formAlert').classList.add('show'); }
