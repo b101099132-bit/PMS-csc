@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>術中事件時間軸 — 心臟外科手術病人管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:#FAF7F2; --paper:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --ink-faint:#8A8580;
+  --teal:#1F5A5A; --gold:#A87B4D; --navy:#2C4866; --plum:#6B5876;
+  --border:#E8E2D5; --border-strong:#D4CDB8;
+  --success:#4A7A5A; --success-bg:#EDF3EE; --warn:#B8842D; --warn-bg:#FBF3DE;
+  --error:#B85450; --error-bg:#FBEFEE;
+}
+body { font-family:'Noto Sans TC',system-ui,sans-serif; background:var(--cream); color:var(--ink);
+  font-size:15px; line-height:1.6; padding:20px 16px 90px; -webkit-font-smoothing:antialiased; }
+.container { max-width:860px; margin:0 auto; }
+header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; font-weight:500; margin-bottom:6px; }
+.brand h1 { font-family:'Noto Serif TC',serif; font-size:23px; font-weight:600; }
+.brand .flow { font-size:12px; color:var(--ink-faint); margin-top:4px; }
+.role-tag { background:var(--teal); color:#fff; padding:4px 12px; border-radius:3px; font-size:12px; letter-spacing:0.1em; font-weight:500; }
+.key-bar { background:#EEF2F7; border:1px solid #DCE3EB; border-radius:3px; padding:12px 16px; margin-bottom:18px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.key-bar label { font-size:13px; color:var(--navy); font-weight:500; }
+.key-bar input { flex:1; min-width:160px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:13px; background:#fff; }
+.card { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:18px 20px; margin-bottom:18px; }
+.card > h2 { font-family:'Noto Serif TC',serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:14px; display:flex; align-items:baseline; gap:8px; }
+.card > h2 .num { font-size:12px; color:var(--gold); letter-spacing:0.1em; }
+.subhead { font-size:14px; color:var(--ink-soft); font-weight:600; margin:16px 0 8px; }
+.hint { font-size:12px; color:var(--ink-faint); line-height:1.7; margin-bottom:10px; }
+.row { display:grid; gap:12px; }
+.row-2 { grid-template-columns:repeat(2,1fr); } .row-3 { grid-template-columns:repeat(3,1fr); } .row-4 { grid-template-columns:repeat(4,1fr); }
+@media (max-width:560px){ .row-3,.row-4 { grid-template-columns:repeat(2,1fr); } }
+.field { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
+.field label { font-size:13px; color:var(--ink-soft); font-weight:500; }
+.field input, .field select, .field textarea { padding:8px 10px; border:1px solid var(--border-strong); border-radius:6px; font-family:inherit; font-size:14px; background:#fff; width:100%; }
+.field textarea { min-height:56px; resize:vertical; }
+.pcard { display:grid; grid-template-columns:repeat(2,1fr); gap:8px 18px; }
+.pcard .item { display:flex; flex-direction:column; } .pcard .item .lbl { font-size:11px; color:var(--ink-faint); } .pcard .item .val { font-size:15px; font-weight:500; } .pcard .item.wide { grid-column:1/-1; }
+.btn { padding:11px 18px; border:none; border-radius:6px; cursor:pointer; font-family:inherit; font-size:15px; font-weight:600; }
+.btn-primary { background:var(--teal); color:#fff; } .btn-primary:disabled { opacity:0.6; cursor:default; }
+.btn-ghost { background:#fff; border:1px solid var(--border-strong); color:var(--ink-soft); font-size:13px; font-weight:500; padding:7px 14px; }
+.btn-gold { background:var(--gold); color:#fff; }
+.alert { padding:11px 14px; border-radius:6px; margin-bottom:14px; font-size:14px; font-weight:500; display:none; } .alert.show { display:block; }
+.alert-error { background:var(--error-bg); color:var(--error); border-left:3px solid var(--error); }
+.alert-success { background:var(--success-bg); color:var(--success); border-left:3px solid var(--success); }
+.recent-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.recent-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:9px 12px; border:1px solid var(--border); border-radius:6px; cursor:pointer; background:#fff; }
+.recent-item:hover { border-color:var(--teal); background:var(--cream); } .recent-item .nm { font-weight:500; } .recent-item .mt { font-size:12px; color:var(--ink-faint); }
+.recent-empty { padding:14px; text-align:center; color:var(--ink-faint); font-size:13px; font-style:italic; }
+.divider-or { text-align:center; color:var(--ink-faint); font-size:12px; margin:12px 0; }
+.loading { display:inline-block; width:14px; height:14px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:-2px; margin-right:6px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.disabled { opacity:0.5; pointer-events:none; }
+details.adv { border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin:12px 0; background:#FCFBF8; }
+details.adv summary { cursor:pointer; font-weight:600; color:var(--teal); font-size:14px; } details.adv summary .why { font-weight:400; font-size:12px; color:var(--ink-faint); margin-left:8px; } details.adv[open] summary { margin-bottom:8px; }
+footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-faint); }
+/* 事件面板 */
+.clock { font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:var(--navy); }
+.clock small { font-size:11px; color:var(--ink-faint); font-weight:400; margin-left:8px; font-family:'Noto Sans TC',sans-serif; }
+.grp { margin:10px 0 4px; font-size:12px; letter-spacing:0.15em; color:var(--gold); font-weight:600; text-transform:uppercase; }
+.evgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; } @media (max-width:560px){ .evgrid { grid-template-columns:repeat(2,1fr); } }
+.evbtn { padding:12px 8px; border:1px solid var(--border-strong); border-radius:8px; background:#fff; font-family:inherit; font-size:14px; font-weight:600; color:var(--ink); cursor:pointer; min-height:52px; line-height:1.3; position:relative; }
+.evbtn:active { background:var(--cream); } .evbtn.done { border-color:var(--teal); background:var(--success-bg); color:var(--teal); }
+.evbtn.done::after { content:attr(data-t); position:absolute; right:6px; bottom:3px; font-size:10px; font-family:'JetBrains Mono',monospace; color:var(--success); font-weight:500; }
+.evbtn.warn { border-color:#E6D3A0; background:var(--warn-bg); } .evbtn.sub { font-weight:500; font-size:13px; }
+.evlist { display:flex; flex-direction:column; gap:6px; }
+.evrow { border:1px solid var(--border); border-radius:8px; background:#fff; padding:8px 10px; display:grid; grid-template-columns:auto 1fr auto; gap:6px 10px; align-items:start; }
+.evrow .t { font-family:'JetBrains Mono',monospace; font-size:13px; } .evrow .t input { width:92px; font-family:'JetBrains Mono',monospace; font-size:13px; padding:4px 6px; border:1px solid var(--border-strong); border-radius:6px; }
+.evrow .t .d { display:block; font-size:10px; color:var(--ink-faint); }
+.evrow .c { font-weight:600; } .evrow .c .code { font-size:10px; color:var(--ink-faint); font-family:'JetBrains Mono',monospace; margin-left:6px; font-weight:400; }
+.evrow .f { grid-column:2/3; display:flex; flex-wrap:wrap; gap:6px; } .evrow .f label { font-size:11px; color:var(--ink-faint); display:flex; flex-direction:column; }
+.evrow .f input, .evrow .f select { padding:4px 6px; border:1px solid var(--border-strong); border-radius:6px; font-size:13px; font-family:inherit; min-width:70px; }
+.evrow .f input.note { min-width:160px; flex:1; }
+.evrow .x { background:none; border:none; color:var(--error); font-size:18px; cursor:pointer; line-height:1; padding:2px 6px; }
+.badge { display:inline-block; font-size:10px; padding:1px 6px; border-radius:10px; background:#EEE; color:var(--ink-soft); margin-left:6px; vertical-align:middle; } .badge.late { background:var(--warn-bg); color:var(--warn); }
+.actionbar { position:fixed; left:0; right:0; bottom:0; background:rgba(250,247,242,0.96); border-top:1px solid var(--border); padding:10px 16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; z-index:5; backdrop-filter:blur(4px); }
+.actionbar .st { font-size:12px; color:var(--ink-faint); align-self:center; }
+.actionbar .st.dirty { color:var(--warn); font-weight:600; }
+table.mini { width:100%; border-collapse:collapse; font-size:13px; } table.mini th, table.mini td { border-bottom:1px solid var(--border); padding:5px 6px; text-align:left; } table.mini th { color:var(--ink-faint); font-weight:500; font-size:12px; }
+table.mini td input { width:100%; padding:4px 6px; border:1px solid var(--border-strong); border-radius:6px; font-size:13px; font-family:inherit; }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.4); display:none; align-items:flex-start; justify-content:center; padding:20px; z-index:20; overflow:auto; } .modal.show { display:flex; }
+.modal .box { background:#fff; border-radius:8px; max-width:720px; width:100%; padding:18px 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="eyebrow">Perfusion / Events</div>
+      <h1>術中事件時間軸</h1>
+      <div class="flow">體循端手動紀錄：事件時間、設定值、血氣。連續數值由錄影／HemoSphere／Root 取得，這裡只記螢幕上讀不到的東西。時間以 HLM 時鐘為準。</div>
+    </div>
+    <span class="role-tag">體循</span>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後查詢病人" autocomplete="off">
+  </div>
+  <div class="alert alert-error" id="topAlert"></div>
+  <div class="alert alert-success" id="okAlert"></div>
+
+  <!-- 1 查詢病人 -->
+  <div class="card" id="lookupCard">
+    <h2><span class="num">1</span><span>查詢病人</span></h2>
+    <div class="row row-2">
+      <div class="field"><label for="lookup_birthdate">出生年月日</label><input type="date" id="lookup_birthdate"></div>
+      <div class="field"><label for="lookup_id4">身分證末 4 碼</label><input type="text" id="lookup_id4" maxlength="4" inputmode="numeric" placeholder="0000"></div>
+    </div>
+    <button type="button" class="btn btn-ghost" id="lookupBtn">查詢病人</button>
+    <div class="divider-or">或，輸入姓名搜尋（不限 14 天）</div>
+    <div class="row" style="grid-template-columns:1fr auto;align-items:end">
+      <div class="field" style="margin-bottom:0"><label for="lookup_name">病人姓名（可只輸入部分）</label><input type="text" id="lookup_name" autocomplete="off" placeholder="例：陳、陳月"></div>
+      <button type="button" class="btn btn-ghost" id="nameSearchBtn">搜尋</button>
+    </div>
+    <div class="recent-list" id="nameResults"></div>
+    <div class="divider-or">或從最近手術病人挑選</div>
+    <div class="recent-list" id="recentList"><div class="recent-empty">輸入通行碼後顯示最近手術病人</div></div>
+  </div>
+
+  <div id="work" class="disabled">
+  <!-- 2 病人與案件設定 -->
+  <div class="card">
+    <h2><span class="num">2</span><span>病人與案件設定</span></h2>
+    <div class="pcard" style="margin-bottom:14px">
+      <div class="item"><span class="lbl">姓名</span><span class="val" id="pc_name">—</span></div>
+      <div class="item"><span class="lbl">性別 / 年齡</span><span class="val" id="pc_ga">—</span></div>
+      <div class="item"><span class="lbl">病人主鍵</span><span class="val" id="pc_pk" style="font-family:'JetBrains Mono',monospace;font-size:13px">—</span></div>
+      <div class="item"><span class="lbl">術式</span><span class="val" id="pc_surgery">—</span></div>
+      <div class="item wide"><span class="lbl">雲端既有事件</span><span class="val" id="pc_existing" style="font-size:13px;color:var(--ink-soft)">—</span></div>
+    </div>
+    <div class="row row-3">
+      <div class="field"><label>手術日</label><input type="date" id="s_surgery_date"></div>
+      <div class="field"><label>手機 − HLM 時鐘（分）</label><input type="number" id="s_clock_offset_phone_min" value="0" step="1"><span class="hint" style="margin:0">按鈕時間會自動扣掉，以 HLM 為準</span></div>
+      <div class="field"><label>填寫者</label><input type="text" id="s_filler" placeholder="體循師姓名"></div>
+    </div>
+    <details class="adv" id="advSet"><summary>開台前設定<span class="why">三機對時、泵頭對應、插管、SACP 計畫、氣體策略</span></summary>
+      <div class="row row-3">
+        <div class="field"><label>HemoSphere − HLM（分）</label><input type="number" id="s_clock_offset_hemosphere_min" step="1"></div>
+        <div class="field"><label>Root − HLM（分）</label><input type="number" id="s_clock_offset_root_min" step="1"></div>
+        <div class="field"><label>HLM 機型</label><input type="text" id="s_hlm_model"></div>
+      </div>
+      <div class="field"><label>泵頭對應（主泵／左 SACP／右 SACP／cardioplegia 各對應哪個畫面）</label><input type="text" id="s_pump_map" placeholder="例：主泵=大螢幕; P/S1-P=左SACP; P/S1-S=右SACP"></div>
+      <div class="row row-2">
+        <div class="field"><label>氧合器型號</label><input type="text" id="s_oxygenator_model"></div>
+        <div class="field"><label>Prime 組成</label><input type="text" id="s_prime_composition" placeholder="例：Plasmalyte 1000 + albumin 100 + ..."></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>插管（動脈／靜脈）</label><input type="text" id="s_cannulation" placeholder="例：右腋動脈＋人工血管分支／兩階段單管"></div>
+        <div class="field"><label>SACP 計畫</label><input type="text" id="s_sacp_plan" placeholder="例：雙側 10 mL/kg/min，18 °C，右橈 50–70"></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label>溫度計畫</label><input type="text" id="s_temp_plan" placeholder="例：鼻咽 28 → 停循環；膀胱為核心"></div>
+        <div class="field"><label>氣體策略</label><select id="s_gas_strategy"><option value="">—</option><option>alpha-stat</option><option>pH-stat</option><option>混合（降溫 pH-stat、回溫 alpha-stat）</option></select></div>
+        <div class="field"><label>頭部冰敷</label><select id="s_head_ice"><option value="">—</option><option>是</option><option>否</option></select></div>
+      </div>
+      <div class="field"><label>錄影／匯出檔案清單（一行一個，收台時填）</label><textarea id="s_recording_files" placeholder="IMG_3201.MOV&#10;HemoSphere_xxx.csv&#10;Root_2000206206_..."></textarea></div>
+    </details>
+  </div>
+
+  <!-- 3 事件 -->
+  <div class="card">
+    <h2><span class="num">3</span><span>事件按鈕</span></h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px">
+      <div class="clock"><span id="clockNow">--:--:--</span><small>HLM 時間（已套用偏移）</small></div>
+      <div class="hint" style="margin:0">按一下＝新增一列並帶時間；按錯在下方清單刪除；改過時間的列標為「補登」</div>
+    </div>
+    <div id="evPanel"></div>
+    <div class="subhead">事件清單（依時間）</div>
+    <div class="evlist" id="evList"><div class="recent-empty">尚無事件</div></div>
+  </div>
+
+  <!-- 4 設定值 -->
+  <div class="card">
+    <h2><span class="num">4</span><span>設定值更改</span><span class="hint" style="margin:0;font-weight:400">目標值，不是量測值</span></h2>
+    <div class="row" style="grid-template-columns:2fr 1fr 1fr auto;align-items:end">
+      <div class="field" style="margin:0"><label>項目</label><select id="setParam">
+        <option value="SET_SACP_FLOW" data-unit="mL/min">SACP 目標流量</option>
+        <option value="SET_SACP_PRESS" data-unit="mmHg">SACP 目標壓力（備註寫量測位置）</option>
+        <option value="SET_SACP_WATER" data-unit="°C">SACP 熱交換器設定溫</option>
+        <option value="SET_MAIN_WATER" data-unit="°C">主迴路熱交換器設定溫</option>
+        <option value="SET_REWARM_LIMIT" data-unit="°C">回溫梯度上限（出口−核心）</option>
+        <option value="SET_SWEEP" data-unit="L/min">Sweep gas</option>
+        <option value="SET_FIO2" data-unit="%">FiO₂</option>
+        <option value="SET_HCT_TARGET" data-unit="%">Hct 目標</option>
+        <option value="DRUG_PUMP" data-unit="">經泵給藥（數值欄寫藥名＋劑量）</option>
+        <option value="TRANSFUSION" data-unit="U">輸血（備註寫血品）</option>
+      </select></div>
+      <div class="field" style="margin:0"><label>數值</label><input type="text" id="setVal" inputmode="decimal"></div>
+      <div class="field" style="margin:0"><label>備註</label><input type="text" id="setNote"></div>
+      <button type="button" class="btn btn-ghost" id="setAdd">＋ 現在</button>
+    </div>
+  </div>
+
+  <!-- 5 血氣 -->
+  <div class="card">
+    <h2><span class="num">5</span><span>血氣／檢驗</span><span class="hint" style="margin:0;font-weight:400">每次抽血一列，時間＝抽血時間</span></h2>
+    <div class="row row-4">
+      <div class="field"><label>抽血時間 HH:MM</label><input type="text" id="bg_t" placeholder="現在" inputmode="numeric"></div>
+      <div class="field"><label>部位</label><select id="bg_site"><option>動脈</option><option>靜脈</option><option>SACP 線</option></select></div>
+      <div class="field"><label>溫度校正</label><select id="bg_corr"><option>37 °C</option><option>病人溫</option></select></div>
+      <div class="field"><label>pH</label><input type="text" id="bg_pH" inputmode="decimal"></div>
+      <div class="field"><label>pCO₂</label><input type="text" id="bg_pCO2" inputmode="decimal"></div>
+      <div class="field"><label>pO₂</label><input type="text" id="bg_pO2" inputmode="decimal"></div>
+      <div class="field"><label>HCO₃</label><input type="text" id="bg_HCO3" inputmode="decimal"></div>
+      <div class="field"><label>BE</label><input type="text" id="bg_BE" inputmode="decimal"></div>
+      <div class="field"><label>Na</label><input type="text" id="bg_Na" inputmode="decimal"></div>
+      <div class="field"><label>K</label><input type="text" id="bg_K" inputmode="decimal"></div>
+      <div class="field"><label>iCa</label><input type="text" id="bg_iCa" inputmode="decimal"></div>
+      <div class="field"><label>Glucose</label><input type="text" id="bg_Glu" inputmode="decimal"></div>
+      <div class="field"><label>Lactate</label><input type="text" id="bg_Lac" inputmode="decimal"></div>
+      <div class="field"><label>Hb</label><input type="text" id="bg_Hb" inputmode="decimal"></div>
+      <div class="field"><label>Hct</label><input type="text" id="bg_Hct" inputmode="decimal"></div>
+      <div class="field"><label>SvO₂（檢驗）</label><input type="text" id="bg_SvO2" inputmode="decimal"></div>
+    </div>
+    <button type="button" class="btn btn-ghost" id="bgAdd">＋ 新增血氣</button>
+  </div>
+
+  <!-- 6 收台 -->
+  <div class="card">
+    <h2><span class="num">6</span><span>收台固定量</span></h2>
+    <div class="row row-4">
+      <div class="field"><label>Priming 容量 mL</label><input type="number" id="tt_prime_vol"></div>
+      <div class="field"><label>Priming pRBC U</label><input type="number" id="tt_prime_prbc" step="0.5"></div>
+      <div class="field"><label>CPB 期間 pRBC U</label><input type="number" id="tt_cpb_prbc" step="0.5"></div>
+      <div class="field"><label>其他血品</label><input type="text" id="tt_cpb_other_blood"></div>
+      <div class="field"><label>超濾量 mL</label><input type="number" id="tt_uf"></div>
+      <div class="field"><label>術中尿量 mL</label><input type="number" id="tt_urine"></div>
+      <div class="field"><label>Cell saver mL</label><input type="number" id="tt_cellsaver"></div>
+      <div class="field"><label>動脈出口最高溫 °C</label><input type="number" id="tt_t_art_max" step="0.1"></div>
+      <div class="field"><label>最低核心溫 °C</label><input type="number" id="tt_core_min" step="0.1"></div>
+      <div class="field"><label>核心溫位點</label><select id="tt_core_site"><option value="">—</option><option>膀胱溫</option><option>肛溫</option><option>鼻咽溫</option><option>口咽溫</option><option>食道溫</option></select></div>
+      <div class="field"><label>最低鼻咽溫 °C</label><input type="number" id="tt_tmin" step="0.1"></div>
+      <div class="field"><label>CPB 結束核心溫 °C</label><input type="number" id="tt_core_end" step="0.1"></div>
+      <div class="field"><label>體重 kg</label><input type="number" id="tt_wt" step="0.1"></div>
+      <div class="field"><label>MAP 目標 mmHg</label><input type="number" id="tt_map_target"></div>
+    </div>
+    <div class="hint">NIRS 基礎／最低、MAP 平均／最低、DO₂i 等需要 HemoSphere 連續資料的欄位不在這裡填，之後由分析結果回填術中紀錄。</div>
+  </div>
+  </div><!-- /work -->
+
+  <footer>心臟外科手術病人管理系統 · 術中事件時間軸 v1.0 · 2026/11 · 資料不進儀表板／公開版；events.csv 供 DSA 研究 build_merged.py 使用</footer>
+</div>
+
+<div class="actionbar" id="actionbar">
+  <span class="st" id="saveState">—</span>
+  <button type="button" class="btn btn-primary" id="saveBtn">儲存到雲端</button>
+  <button type="button" class="btn btn-ghost" id="csvBtn">匯出 events.csv</button>
+  <button type="button" class="btn btn-gold" id="wbBtn">計算並寫回術中紀錄</button>
+</div>
+
+<div class="modal" id="wbModal"><div class="box">
+  <h2 style="font-family:'Noto Serif TC',serif;font-size:16px;color:var(--teal);margin-bottom:8px">寫回「術中紀錄」摘要 — 預覽</h2>
+  <div class="hint">由事件與血氣算出；可直接修改再送出。空白欄位不會覆蓋術中紀錄既有值。</div>
+  <table class="mini" id="wbTable"></table>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+    <button type="button" class="btn btn-ghost" id="wbCancel">取消</button>
+    <button type="button" class="btn btn-primary" id="wbSend" style="width:auto">送出寫回</button>
+  </div>
+</div></div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = (id) => document.getElementById(id);
+let currentPatient = null, EV = [], dirty = false;
+function maskName(n){ const t=String(n==null?'':n).trim(); if(t.length<=1) return t; if(t.length===2) return t[0]+'*'; return t[0]+'*'+t[t.length-1]; }
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function fmt(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds()); }
+function parseT(s){ const m=String(s).match(/^(\d{4})-(\d\d)-(\d\d)[ T](\d\d):(\d\d)(?::(\d\d))?$/); return m? new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+(m[6]||0)) : null; }
+function nowHLM(){ const off = parseFloat($('s_clock_offset_phone_min').value)||0; return new Date(Date.now() - off*60000); }
+function minutes(a,b){ const A=parseT(a),B=parseT(b); return (A&&B)? Math.round((B-A)/60000) : null; }
+
+// ===== key hash carry =====
+if (window.location.hash.startsWith('#k=')) $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+$('doctor_key').addEventListener('change', () => { const v=$('doctor_key').value; if(v){ history.replaceState(null,'','#k='+encodeURIComponent(v)); loadRecent(); } });
+$('doctor_key').addEventListener('blur', () => { if($('doctor_key').value.trim()) loadRecent(); });
+
+// ===== JSONP（同 perfusion.html）=====
+function jsonp(url, params, timeoutMs = 25000){
+  return new Promise((resolve,reject)=>{
+    const cb = '_ev_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp = new URLSearchParams({...params, callback:cb});
+    const s = document.createElement('script');
+    const t = setTimeout(()=>{cl();reject(new Error('查詢逾時'));}, timeoutMs);
+    function cl(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = d => { cl(); resolve(d); };
+    s.onerror = () => { cl(); reject(new Error('連線失敗')); };
+    s.src = url+'?'+usp.toString(); document.body.appendChild(s);
+  });
+}
+function showTop(msg){ const el=$('topAlert'); el.textContent=msg; el.classList.add('show'); $('okAlert').classList.remove('show'); window.scrollTo({top:0,behavior:'smooth'}); }
+function hideTop(){ $('topAlert').classList.remove('show'); }
+function showOk(msg){ const el=$('okAlert'); el.textContent=msg; el.classList.add('show'); hideTop(); setTimeout(()=>el.classList.remove('show'), 4000); }
+
+// ===== 最近手術／姓名搜尋／查詢（同 perfusion.html）=====
+async function loadRecent(){
+  const key=$('doctor_key').value.trim(), box=$('recentList');
+  if(!key){ box.innerHTML='<div class="recent-empty">輸入通行碼後顯示最近手術病人</div>'; return; }
+  box.innerHTML='<div class="recent-empty"><span class="loading"></span> 載入中…</div>';
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'recentSurgeries', key });
+    if(res.error){ box.innerHTML='<div class="recent-empty">'+escapeHtml(res.error==='unauthorized'?'通行碼錯誤':res.error)+'</div>'; return; }
+    if(!res.list || !res.list.length){ box.innerHTML='<div class="recent-empty">最近 14 天沒有手術病人</div>'; return; }
+    box.innerHTML = res.list.map(p => `<div class="recent-item" data-pk="${escapeHtml(p.pk)}"><div><span class="nm">${escapeHtml(maskName(p.name))}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null?p.age+'歲':''}</span></div><div class="mt">${escapeHtml(p.surgery||'')}${p.surgeryDate?' · '+p.surgeryDate.slice(5):''}</div></div>`).join('');
+    box.querySelectorAll('.recent-item').forEach(it => it.addEventListener('click', ()=>doLookup(it.dataset.pk)));
+  }catch(err){ box.innerHTML='<div class="recent-empty" style="color:var(--error)">載入失敗：'+escapeHtml(err.message)+'</div>'; }
+}
+async function searchByName(){
+  hideTop(); const key=$('doctor_key').value.trim(), q=$('lookup_name').value.trim(), box=$('nameResults');
+  if(!key){ showTop('請先輸入通行碼'); return; } if(!q){ showTop('請輸入姓名（可只輸入部分）'); return; }
+  box.innerHTML='<div class="recent-empty"><span class="loading"></span> 搜尋中…</div>';
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'searchPatients', key, q });
+    if(res.error){ box.innerHTML='<div class="recent-empty">'+escapeHtml(res.error==='unauthorized'?'通行碼錯誤':res.error)+'</div>'; return; }
+    if(!res.list || !res.list.length){ box.innerHTML='<div class="recent-empty">找不到姓名含「'+escapeHtml(q)+'」的病人</div>'; return; }
+    box.innerHTML = res.list.map(p => `<div class="recent-item" data-pk="${escapeHtml(p.pk)}"><div><span class="nm">${escapeHtml(maskName(p.name)||'—')}</span> <span class="mt">${escapeHtml(p.gender||'')} ${p.age!=null&&p.age!==''?p.age+'歲':''}</span></div><div class="mt">${escapeHtml(p.surgery||'—')}${(p.scheduledDate||p.createdDate)?' · '+escapeHtml(p.scheduledDate||p.createdDate):''}</div></div>`).join('');
+    box.querySelectorAll('.recent-item').forEach(it => it.addEventListener('click', ()=>doLookup(it.dataset.pk)));
+  }catch(err){ box.innerHTML='<div class="recent-empty" style="color:var(--error)">搜尋失敗：'+escapeHtml(err.message)+'</div>'; }
+}
+$('nameSearchBtn').addEventListener('click', searchByName);
+$('lookup_name').addEventListener('keydown', ev => { if(ev.key==='Enter'){ ev.preventDefault(); searchByName(); } });
+$('lookupBtn').addEventListener('click', () => {
+  hideTop(); const key=$('doctor_key').value.trim(), bd=$('lookup_birthdate').value, id4=$('lookup_id4').value.trim();
+  if(!key){ showTop('請先輸入通行碼'); return; } if(!bd || !/^[0-9]{4}$/.test(id4)){ showTop('請填出生年月日與身分證末 4 碼'); return; }
+  doLookup(bd.replace(/-/g,'') + '-' + id4);
+});
+async function doLookup(pk){
+  hideTop(); const key=$('doctor_key').value.trim(); if(!key){ showTop('請先輸入通行碼'); return; }
+  if(dirty && !confirm('目前病人有未儲存的變更（已存在本機），仍要切換病人？')) return;
+  try{
+    const res = await jsonp(APPS_SCRIPT_URL, { action:'lookupIntraop', pk, key });
+    if(res.error==='unauthorized'){ showTop('通行碼錯誤'); return; }
+    if(!res.found){ showTop('找不到此病人，請確認或先完成術前/手術收案'); return; }
+    currentPatient = res;
+    const ev = await jsonp(APPS_SCRIPT_URL, { action:'lookupEvents', pk, key });
+    showPatient(res, ev && ev.found ? ev : { events:[], settings:null });
+  }catch(err){ showTop('查詢失敗：'+err.message); }
+}
+
+// ===== 事件定義 =====
+const BRANCHES = ['無名動脈','左頸總動脈','左鎖骨下動脈','左椎動脈(ILVA)','其他'];
+const EVDEF = [
+  { grp:'體外循環', items:[
+    { code:'CPB_ON', label:'CPB 開始', fields:[{k:'flow',l:'流量 L/min'}] },
+    { code:'XCLAMP_ON', label:'主動脈夾上' },
+    { code:'CP_DOSE', label:'Cardioplegia', sub:true, multi:true, fields:[{k:'dose',l:'mL'},{k:'route',l:'途徑',opt:['順行','逆行','冠狀動脈開口直接']},{k:'temp',l:'°C'}] },
+    { code:'COOL_TARGET_CHANGE', label:'降溫目標更改', sub:true, multi:true, fields:[{k:'from',l:'原 °C'},{k:'to',l:'新 °C'}] },
+  ]},
+  { grp:'停循環與腦灌流', items:[
+    { code:'CA_START', label:'停循環開始', fields:[{k:'core',l:'核心溫 °C'},{k:'np',l:'鼻咽 °C'},{k:'art',l:'動脈血 °C'}] },
+    { code:'SACP_START', label:'SACP 開始', fields:[{k:'flow',l:'mL/min'},{k:'temp',l:'管路 °C'},{k:'press',l:'壓力 mmHg'},{k:'site',l:'量測',opt:['右橈','左橈','管路壓']}] },
+    { code:'SACP_FLOW_CHANGE', label:'SACP 流量/溫度更改', sub:true, multi:true, fields:[{k:'flow',l:'mL/min'},{k:'temp',l:'°C'},{k:'why',l:'原因',opt:['計畫','壓力','腦氧','誤觸','其他']}] },
+    { code:'SACP_R_IN', label:'右 SACP 管插入', sub:true }, { code:'SACP_R_OUT', label:'右 SACP 管移除', sub:true },
+    { code:'SACP_L_IN', label:'左 SACP 管插入', sub:true }, { code:'SACP_L_OUT', label:'左 SACP 管移除', sub:true },
+    { code:'SACP_3RD_IN', label:'第三支插入', sub:true, fields:[{k:'vessel',l:'血管',opt:BRANCHES}] }, { code:'SACP_3RD_OUT', label:'第三支移除', sub:true, fields:[{k:'vessel',l:'血管',opt:BRANCHES}] },
+    { code:'DISTAL_DONE', label:'遠端吻合完成／全身灌流', fields:[{k:'flow',l:'主泵 L/min'}] },
+    { code:'SACP_END', label:'SACP 結束（最後一支移除）' },
+  ]},
+  { grp:'回溫與分支', items:[
+    { code:'REWARM_START', label:'回溫開始', fields:[{k:'target',l:'目標 °C'},{k:'water',l:'水箱 °C'},{k:'sacp',l:'SACP 同步回溫',opt:['是','否(維持低溫)']}] },
+    { code:'BRANCH_START', label:'分支開始縫', sub:true, multi:true, fields:[{k:'vessel',l:'分支',opt:BRANCHES}] },
+    { code:'BRANCH_DONE', label:'分支完成', sub:true, multi:true, fields:[{k:'vessel',l:'分支',opt:BRANCHES}] },
+    { code:'REWARM_36', label:'核心溫達 36 °C', sub:true },
+    { code:'XCLAMP_OFF', label:'主動脈夾下' },
+    { code:'CPB_OFF', label:'CPB 結束' },
+  ]},
+  { grp:'其他', items:[
+    { code:'ABNORMAL', label:'異常事件', warn:true, multi:true, fields:[{k:'what',l:'內容',opt:['誤觸','管路','暫停灌流','空氣','電源','其他']}] },
+    { code:'NOTE', label:'備註', sub:true, multi:true },
+  ]},
+];
+const CODEMAP = {}; EVDEF.forEach(g => g.items.forEach(it => CODEMAP[it.code] = it));
+const SETLABEL = {}; [...$('setParam').options].forEach(o => SETLABEL[o.value] = o.textContent);
+function labelOf(code){ if(CODEMAP[code]) return CODEMAP[code].label; if(SETLABEL[code]) return SETLABEL[code]; if(code==='ABG') return '血氣'; if(code==='TOTALS') return '收台固定量'; return code; }
+
+function renderPanel(){
+  $('evPanel').innerHTML = EVDEF.map(g => `<div class="grp">${g.grp}</div><div class="evgrid">` + g.items.map(it =>
+    `<button type="button" class="evbtn${it.sub?' sub':''}${it.warn?' warn':''}" data-code="${it.code}">${it.label}</button>`).join('') + '</div>').join('');
+  $('evPanel').querySelectorAll('.evbtn').forEach(b => b.addEventListener('click', () => addEvent(b.dataset.code)));
+}
+function addEvent(code, t, value, unit, note){
+  const it = CODEMAP[code] || {};
+  if (it && !it.multi && EV.some(e => e.code===code) && !confirm(labelOf(code)+' 已經記錄過，仍要再新增一列？')) return;
+  EV.push({ id: Date.now()+'_'+Math.random().toString(36).slice(2,6), t: t || fmt(nowHLM()), code, value: value||'', unit: unit||'', note: note||'', src:'手動', created: fmt(new Date()) });
+  markDirty(); renderList();
+}
+function fieldsHtml(e){
+  const it = CODEMAP[e.code]; if(!it || !it.fields) return '';
+  let v = {}; try { v = e.value ? JSON.parse(e.value) : {}; } catch(x){ v = {}; }
+  return it.fields.map(f => f.opt
+    ? `<label>${f.l}<select data-k="${f.k}"><option value=""></option>${f.opt.map(o=>`<option${v[f.k]===o?' selected':''}>${o}</option>`).join('')}</select></label>`
+    : `<label>${f.l}<input data-k="${f.k}" value="${escapeHtml(v[f.k]||'')}" inputmode="decimal"></label>`).join('');
+}
+function renderList(){
+  EV.sort((a,b)=> a.t<b.t?-1:(a.t>b.t?1:0));
+  const box = $('evList');
+  if(!EV.length){ box.innerHTML='<div class="recent-empty">尚無事件</div>'; updateBtns(); return; }
+  box.innerHTML = EV.map(e => {
+    const it = CODEMAP[e.code]; const hasJson = it && it.fields;
+    const valCell = hasJson ? fieldsHtml(e) : (e.code==='ABG'||e.code==='TOTALS' ? `<span style="font-size:12px;color:var(--ink-soft)">${escapeHtml(summ(e))}</span>` : `<label>數值<input data-k="__v" value="${escapeHtml(e.value)}"></label><label>單位<input data-k="__u" value="${escapeHtml(e.unit)}" style="min-width:60px"></label>`);
+    return `<div class="evrow" data-id="${e.id}">
+      <div class="t"><input value="${e.t.slice(11)}" data-k="__t"><span class="d">${e.t.slice(0,10)}</span></div>
+      <div class="c">${escapeHtml(labelOf(e.code))}<span class="code">${e.code}</span>${e.src==='補登'?'<span class="badge late">補登</span>':''}</div>
+      <button type="button" class="x" data-del="${e.id}" title="刪除">×</button>
+      <div class="f">${valCell}<label>備註<input class="note" data-k="__n" value="${escapeHtml(e.note)}"></label></div>
+    </div>`; }).join('');
+  box.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => { if(confirm('刪除這一列？')){ EV = EV.filter(e=>e.id!==b.dataset.del); markDirty(); renderList(); } }));
+  box.querySelectorAll('.evrow').forEach(row => {
+    const e = EV.find(x=>x.id===row.dataset.id);
+    row.querySelectorAll('[data-k]').forEach(inp => inp.addEventListener('change', () => {
+      const k = inp.dataset.k;
+      if(k==='__t'){ const nt = normTime(inp.value, e.t); if(!nt){ inp.style.borderColor='var(--error)'; return; } inp.style.borderColor=''; if(nt!==e.t){ e.t=nt; e.src='補登'; } renderList(); }
+      else if(k==='__v') e.value = inp.value; else if(k==='__u') e.unit = inp.value; else if(k==='__n') e.note = inp.value;
+      else { let v={}; try{ v=e.value?JSON.parse(e.value):{}; }catch(x){} v[k]=inp.value; e.value=JSON.stringify(v); e.unit='json'; }
+      markDirty();
+    }));
+  });
+  updateBtns();
+}
+function summ(e){ try{ const v=JSON.parse(e.value); return Object.entries(v).filter(([k,x])=>x!=='').map(([k,x])=>k+' '+x).join(' · '); }catch(x){ return e.value; } }
+function normTime(s, prevT){
+  const m = String(s).trim().match(/^(\d{1,2}):?(\d{2})(?::?(\d{2}))?$/); if(!m) return null;
+  const h=+m[1], mi=+m[2], se=+(m[3]||0); if(h>23||mi>59||se>59) return null;
+  const base = parseT(prevT) || nowHLM();
+  // 跨午夜：手術日為基準；時間在 00:00–05:59 且基準日已有 ≥18:00 事件 → 視為隔日
+  const sd = $('s_surgery_date').value || prevT.slice(0,10);
+  let d = new Date(sd+'T00:00:00'); d.setHours(h,mi,se,0);
+  const hasEvening = EV.some(x => x.t.slice(0,10)===sd && +x.t.slice(11,13)>=18);
+  if(h<6 && hasEvening) d.setDate(d.getDate()+1);
+  return fmt(d);
+}
+function updateBtns(){
+  $('evPanel').querySelectorAll('.evbtn').forEach(b => { const e = EV.filter(x=>x.code===b.dataset.code); if(e.length){ b.classList.add('done'); b.dataset.t = e[e.length-1].t.slice(11,16)+(e.length>1?' ×'+e.length:''); } else { b.classList.remove('done'); b.dataset.t=''; } });
+}
+
+// ===== 設定值／血氣／收台 =====
+$('setAdd').addEventListener('click', () => {
+  const o = $('setParam').selectedOptions[0]; const v = $('setVal').value.trim(); if(!v){ showTop('請填數值'); return; }
+  addEvent(o.value, null, v, o.dataset.unit, $('setNote').value.trim()); $('setVal').value=''; $('setNote').value='';
+});
+const BGK = ['pH','pCO2','pO2','HCO3','BE','Na','K','iCa','Glu','Lac','Hb','Hct','SvO2'];
+$('bgAdd').addEventListener('click', () => {
+  const v = { site: $('bg_site').value, corr: $('bg_corr').value }; let any=false;
+  BGK.forEach(k => { const x=$('bg_'+k).value.trim(); if(x){ v[k]=x; any=true; } });
+  if(!any){ showTop('請至少填一個血氣數值'); return; }
+  let t = null; if($('bg_t').value.trim()){ t = normTime($('bg_t').value, fmt(nowHLM())); if(!t){ showTop('抽血時間格式錯誤（HH:MM）'); return; } }
+  EV.push({ id: Date.now()+'_bg', t: t||fmt(nowHLM()), code:'ABG', value: JSON.stringify(v), unit:'json', note:'', src: t?'補登':'手動', created: fmt(new Date()) });
+  BGK.forEach(k => $('bg_'+k).value=''); $('bg_t').value=''; markDirty(); renderList(); showOk('已新增血氣');
+});
+const TTK = ['prime_vol','prime_prbc','cpb_prbc','cpb_other_blood','uf','urine','cellsaver','t_art_max','core_min','core_site','tmin','core_end','wt','map_target'];
+function totalsObj(){ const o={}; TTK.forEach(k => { const x=$('tt_'+k).value; if(x!=='') o[k]=x; }); return o; }
+function loadTotals(){ const e = EV.find(x=>x.code==='TOTALS'); if(!e) return; try{ const v=JSON.parse(e.value); TTK.forEach(k => { if(v[k]!=null) $('tt_'+k).value=v[k]; }); }catch(x){} }
+function syncTotals(){ const o = totalsObj(); EV = EV.filter(x=>x.code!=='TOTALS'); if(Object.keys(o).length){ const off = EV.find(x=>x.code==='CPB_OFF'); EV.push({ id:'totals', t: off?off.t:fmt(nowHLM()), code:'TOTALS', value: JSON.stringify(o), unit:'json', note:'收台固定量', src:'手動', created: fmt(new Date()) }); } }
+TTK.forEach(k => $('tt_'+k).addEventListener('change', () => { syncTotals(); markDirty(); renderList(); }));
+
+// ===== 設定（案件）=====
+const SK = ['surgery_date','clock_offset_phone_min','clock_offset_hemosphere_min','clock_offset_root_min','hlm_model','pump_map','oxygenator_model','prime_composition','cannulation','sacp_plan','temp_plan','gas_strategy','head_ice','recording_files','filler'];
+function settingsObj(){ const s={}; SK.forEach(k => s[k]=$('s_'+k).value); s.recording_files = JSON.stringify(s.recording_files.split('\n').map(x=>x.trim()).filter(Boolean)); return s; }
+function loadSettings(s){ SK.forEach(k => { let v = s && s[k]!=null ? s[k] : ''; if(k==='recording_files'){ try{ v = JSON.parse(v||'[]').join('\n'); }catch(x){} } if(v!=='' || k==='surgery_date') $('s_'+k).value = v; }); }
+SK.forEach(k => $('s_'+k).addEventListener('change', markDirty));
+
+// ===== 本機暫存 =====
+function lsKey(){ return 'pms_events_'+(currentPatient?currentPatient.pk:''); }
+function markDirty(){ dirty = true; $('saveState').textContent='未儲存（已存本機）'; $('saveState').classList.add('dirty'); try{ localStorage.setItem(lsKey(), JSON.stringify({ EV, settings: settingsObj(), ts: Date.now() })); }catch(x){} }
+function markClean(msg){ dirty = false; $('saveState').textContent = msg || '已儲存'; $('saveState').classList.remove('dirty'); }
+
+function showPatient(p, ev){
+  $('pc_name').textContent = maskName(p.name)||'—'; $('pc_ga').textContent = (p.gender||'—')+' / '+(p.age!=null?p.age+' 歲':'—');
+  $('pc_pk').textContent = p.pk||'—'; $('pc_surgery').textContent = p.currentSurgery||'—';
+  $('work').classList.remove('disabled');
+  // 雲端 vs 本機：本機較新且有未儲存 → 用本機
+  let local=null; try{ local = JSON.parse(localStorage.getItem(lsKey())||'null'); }catch(x){}
+  const cloudN = (ev.events||[]).length;
+  $('pc_existing').textContent = cloudN ? `雲端已有 ${cloudN} 筆事件${ev.settings&&ev.settings.updatedAt?'（設定更新 '+ev.settings.updatedAt+'）':''}` : '雲端尚無事件';
+  const cloudTs = ev.settings && ev.settings.updatedAt ? new Date(ev.settings.updatedAt.replace(' ','T')).getTime() : 0;
+  if(local && local.EV && local.EV.length && local.ts > cloudTs && confirm('本機有這位病人較新的未儲存事件（'+local.EV.length+' 筆），要載入本機版本嗎？（取消＝載入雲端版本）')){
+    EV = local.EV; loadSettings(local.settings); markDirty();
+  } else {
+    EV = (ev.events||[]).map((e,i)=>({ id:'c'+i, t:e.t, code:e.code, value:e.value, unit:e.unit, note:e.note, src:e.src||'手動', created:e.created }));
+    loadSettings(ev.settings || {}); markClean(cloudN?'與雲端一致':'—');
+  }
+  if(!$('s_surgery_date').value) $('s_surgery_date').value = (ev.surgeryDate || p.currentScheduledDate || new Date().toISOString().slice(0,10));
+  try{ const f=localStorage.getItem('pms_perfusion_filler'); if(f && !$('s_filler').value) $('s_filler').value=f; }catch(x){}
+  try{ const d=JSON.parse(localStorage.getItem('pms_events_defaults')||'{}'); ['hlm_model','pump_map','oxygenator_model','gas_strategy'].forEach(k => { if(!$('s_'+k).value && d[k]) $('s_'+k).value=d[k]; }); }catch(x){}
+  if(!$('tt_wt').value && p.preopWeight) $('tt_wt').value = p.preopWeight;
+  loadTotals(); renderList();
+  $('work').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ===== 儲存到雲端 =====
+$('saveBtn').addEventListener('click', async () => {
+  if(!currentPatient){ showTop('請先查詢病人'); return; }
+  const btn=$('saveBtn'); btn.disabled=true; btn.innerHTML='<span class="loading"></span>儲存中…';
+  try{
+    syncTotals();
+    const fd = new FormData();
+    fd.append('action','saveEvents'); fd.append('key',$('doctor_key').value.trim()); fd.append('pk',currentPatient.pk);
+    fd.append('surgery_date',$('s_surgery_date').value); fd.append('filler',$('s_filler').value.trim());
+    fd.append('events', JSON.stringify(EV.map(e=>({ t:e.t, code:e.code, value:e.value, unit:e.unit, note:e.note, src:e.src, created:e.created }))));
+    fd.append('settings', JSON.stringify(settingsObj()));
+    await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+    try{ localStorage.setItem('pms_perfusion_filler',$('s_filler').value.trim()); localStorage.setItem('pms_events_defaults', JSON.stringify({ hlm_model:$('s_hlm_model').value, pump_map:$('s_pump_map').value, oxygenator_model:$('s_oxygenator_model').value, gas_strategy:$('s_gas_strategy').value })); }catch(x){}
+    markClean('已儲存 '+new Date().toTimeString().slice(0,5)); showOk('已儲存 '+EV.length+' 筆事件到雲端');
+  }catch(err){ showTop('儲存失敗：'+err.message+'（本機仍保留）'); }
+  finally{ btn.disabled=false; btn.textContent='儲存到雲端'; }
+});
+
+// ===== 匯出 events.csv =====
+$('csvBtn').addEventListener('click', () => {
+  if(!EV.length){ showTop('沒有事件可匯出'); return; }
+  const q = s => '"'+String(s==null?'':s).replace(/"/g,'""')+'"';
+  const rows = [['time','code','value','unit','note'].join(',')].concat([...EV].sort((a,b)=>a.t<b.t?-1:1).map(e => [e.t,e.code,e.value,e.unit,e.note].map(q).join(',')));
+  const s = settingsObj(); rows.push(['#settings','', JSON.stringify(s),'json',''].map(q).join(','));
+  const blob = new Blob(['﻿'+rows.join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'events_'+(currentPatient?currentPatient.pk:'case')+'_'+($('s_surgery_date').value||'').replace(/-/g,'')+'.csv'; a.click();
+});
+
+// ===== 計算並寫回術中紀錄 =====
+function firstT(code){ const e = EV.find(x=>x.code===code); return e?e.t:null; }
+function lastT(code){ const a = EV.filter(x=>x.code===code); return a.length?a[a.length-1].t:null; }
+function jv(e,k){ try{ return JSON.parse(e.value)[k]; }catch(x){ return undefined; } }
+function computeWriteback(){
+  const out = {};
+  const put = (k,v) => { if(v!==null && v!==undefined && v!=='' && !(typeof v==='number' && isNaN(v))) out[k]=v; };
+  put('cpb', minutes(firstT('CPB_ON'), lastT('CPB_OFF')));
+  put('xclamp', minutes(firstT('XCLAMP_ON'), lastT('XCLAMP_OFF')));
+  put('arrest', minutes(firstT('CA_START'), firstT('DISTAL_DONE')));
+  put('scp', minutes(firstT('SACP_START'), lastT('SACP_END')));
+  put('rewarm_min', minutes(firstT('REWARM_START'), firstT('REWARM_36')));
+  const ss = EV.find(x=>x.code==='SACP_START');
+  if(ss){ put('scp_flow', jv(ss,'flow')); put('scp_line_temp', jv(ss,'temp')); const site=jv(ss,'site'); if(site==='左橈') put('scp_press_l', jv(ss,'press')); else put('scp_press_r', jv(ss,'press')); }
+  if(ss){ const L = EV.some(x=>x.code==='SACP_L_IN'), R = EV.some(x=>x.code==='SACP_R_IN'); if(L||R) put('scp_side', L?'雙側':'單側（右）'); } else if(EV.some(x=>x.code==='CA_START')) put('scp_side','無');
+  const ca = EV.find(x=>x.code==='CA_START'); if(ca){ put('tmin', jv(ca,'np')); if(!$('tt_core_min').value) put('core_min', jv(ca,'core')); }
+  const cps = EV.filter(x=>x.code==='CP_DOSE'); if(cps.length){ const tot = cps.reduce((s,e)=>s+(parseFloat(jv(e,'dose'))||0),0); if(tot) put('cp_total', tot); const routes=[...new Set(cps.map(e=>jv(e,'route')).filter(Boolean))]; if(routes.length) put('cp_route', routes.length>1 ? '順行＋逆行' : (routes[0]==='冠狀動脈開口直接'?'冠狀動脈開口直接':routes[0])); }
+  const bgs = EV.filter(x=>x.code==='ABG'); const hb = bgs.map(e=>parseFloat(jv(e,'Hb'))).filter(v=>!isNaN(v)); const lac = bgs.map(e=>parseFloat(jv(e,'Lac'))).filter(v=>!isNaN(v));
+  if(hb.length) put('hb_min', Math.min(...hb)); if(lac.length) put('lactate_max', Math.max(...lac));
+  TTK.forEach(k => put(k, $('tt_'+k).value));
+  put('gas_strategy', $('s_gas_strategy').value); put('head_ice', $('s_head_ice').value); put('oxygenator', $('s_oxygenator_model').value);
+  const c = $('s_cannulation').value; if(c){ const art=['升主動脈','右鎖骨下動脈','右腋動脈','股動脈','人工血管分支'].filter(a=>c.indexOf(a)>=0); if(art.length) put('cann_art', art.join('、')); const ven=['兩階段單管','雙腔（上下腔）','股靜脈＋上腔','股靜脈'].find(v=>c.indexOf(v)>=0); if(ven) put('cann_ven', ven); }
+  const wt = parseFloat($('tt_wt').value); if(wt && out.scp_flow) put('scp_flow_idx', Math.round(parseFloat(out.scp_flow)/wt*10)/10);
+  put('filler', $('s_filler').value.trim());
+  return out;
+}
+const WBL = { cpb:'CPB 時間(分)', xclamp:'X-clamp(分)', arrest:'停循環(分)', scp:'SCP(分)', rewarm_min:'回溫至 36 °C(分)', tmin:'最低鼻咽溫', core_min:'核心溫最低', core_site:'核心溫位點', core_end:'CPB 結束核心溫', t_art_max:'動脈出口最高溫',
+  scp_side:'SCP 側別', scp_flow:'SCP 流量 mL/min', scp_flow_idx:'SCP 流量指數 mL/kg/min', scp_line_temp:'SCP 管路溫', scp_press_r:'SCP 壓/右橈', scp_press_l:'SCP 期間左橈壓', cp_total:'Cardioplegia 總量', cp_route:'Cardioplegia 途徑',
+  hb_min:'CPB 最低 Hb', lactate_max:'CPB 最高乳酸', prime_vol:'Priming 容量', prime_prbc:'Priming pRBC', cpb_prbc:'CPB pRBC', cpb_other_blood:'其他血品', uf:'超濾量', urine:'尿量', cellsaver:'Cell saver', wt:'體重', map_target:'目標 MAP',
+  gas_strategy:'氣體策略', head_ice:'頭部冰敷', oxygenator:'氧合器', cann_art:'動脈插管', cann_ven:'靜脈插管', filler:'填寫者' };
+$('wbBtn').addEventListener('click', () => {
+  if(!currentPatient){ showTop('請先查詢病人'); return; }
+  const o = computeWriteback();
+  $('wbTable').innerHTML = '<tr><th>欄位</th><th>值</th><th>術中紀錄既有</th></tr>' + Object.keys(WBL).map(k => `<tr><td>${WBL[k]}</td><td><input data-wb="${k}" value="${escapeHtml(o[k]!=null?o[k]:'')}"></td><td style="color:var(--ink-faint)">${escapeHtml((currentPatient.intraop||{})[k]!=null?(currentPatient.intraop||{})[k]:'')}</td></tr>`).join('');
+  $('wbModal').classList.add('show');
+});
+$('wbCancel').addEventListener('click', () => $('wbModal').classList.remove('show'));
+$('wbSend').addEventListener('click', async () => {
+  const btn=$('wbSend'); btn.disabled=true; btn.innerHTML='<span class="loading"></span>送出中…';
+  try{
+    const fd = new FormData(); fd.append('action','saveIntraop'); fd.append('key',$('doctor_key').value.trim()); fd.append('pk',currentPatient.pk);
+    $('wbTable').querySelectorAll('[data-wb]').forEach(inp => { if(inp.value.trim()!=='') fd.append(inp.dataset.wb, inp.value.trim()); });
+    await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+    $('wbModal').classList.remove('show'); showOk('已寫回術中紀錄摘要');
+  }catch(err){ showTop('寫回失敗：'+err.message); }
+  finally{ btn.disabled=false; btn.textContent='送出寫回'; }
+});
+
+// ===== 時鐘 =====
+setInterval(() => { $('clockNow').textContent = fmt(nowHLM()).slice(11); }, 500);
+window.addEventListener('beforeunload', e => { if(dirty){ e.preventDefault(); e.returnValue=''; } });
+renderPanel();
+window.addEventListener('load', () => { if($('doctor_key').value.trim()) loadRecent(); });
+</script>
+</body>
+</html>
