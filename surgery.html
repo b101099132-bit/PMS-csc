@@ -732,6 +732,30 @@ footer {
               <input type="number" id="emerg_weight" step="0.1" min="0" max="300" placeholder="kg">
             </div>
           </div>
+          <!-- ★2026-11-14 EuroSCORE II 補充：年齡／性別／體重／Crea／LVEF／急迫性／術前危急／術式 已在上方，系統自動帶入；以下 11 項由病歷補齊，可先空白、日後由風險因子頁補 -->
+          <details id="emergEsBox" style="margin-top:14px;border:1px solid #E3DCCB;border-radius:8px;background:#FBF9F4;padding:10px 14px">
+            <summary style="cursor:pointer;font-weight:600;color:#6B5A3E">EuroSCORE II 補充（選填，可後補）<span style="font-weight:400;color:#8A8274;font-size:13px;margin-left:8px">年齡、體重、Crea、LVEF、急迫性、術前危急、術式已自動帶入，只需補下列病史</span></summary>
+            <div class="row row-3" style="margin-top:10px">
+              <div class="field"><label for="emerg_dm">糖尿病</label><select id="emerg_dm"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field" id="emergIddmField" style="display:none"><label for="emerg_es_dm_insulin">使用胰島素</label><select id="emerg_es_dm_insulin"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="emerg_copd">慢性肺病（長期支氣管擴張劑／類固醇）</label><select id="emerg_copd"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="emerg_esrd">透析中（ESRD）</label><select id="emerg_esrd"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+            </div>
+            <div class="row row-3">
+              <div class="field"><label for="emerg_es_nyha">NYHA 分級</label><select id="emerg_es_nyha"><option value="">—</option><option value="1">I</option><option value="2">II</option><option value="3">III</option><option value="4">IV</option></select></div>
+              <div class="field"><label for="emerg_es_ccs4">靜止時心絞痛（CCS 4）</label><select id="emerg_es_ccs4"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="emerg_es_recent_mi">90 天內心肌梗塞</label><select id="emerg_es_recent_mi"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+            </div>
+            <div class="row row-3">
+              <div class="field"><label for="emerg_es_eca">心外動脈病變<span class="urg-hint" style="display:block;font-weight:400">跛行、頸動脈 >50%、截肢、周邊血管介入</span></label><select id="emerg_es_eca"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="emerg_es_mobility">行動嚴重受限<span class="urg-hint" style="display:block;font-weight:400">肌肉骨骼或神經疾病所致</span></label><select id="emerg_es_mobility"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="emerg_es_redo">曾開胸心臟手術</label><select id="emerg_es_redo"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+            </div>
+            <div class="row row-2">
+              <div class="field"><label for="emerg_es_endocarditis">活動性心內膜炎（手術時仍在抗生素治療）</label><select id="emerg_es_endocarditis"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="emerg_es_pa">肺動脈收縮壓（mmHg）</label><select id="emerg_es_pa"><option value="">—</option><option value="<31">&lt;31</option><option value="31-55">31–55</option><option value=">=55">≥55</option></select></div>
+            </div>
+          </details>
           <div style="margin-top:10px">
             <button type="button" class="btn btn-primary" id="emergSubmitBtn">建立收案</button>
             <button type="button" id="emergCancelBtn" style="margin-left:8px;padding:10px 18px;border:1px solid #CFC7B6;background:#fff;border-radius:6px;cursor:pointer;color:#6B6457">取消</button>
@@ -898,6 +922,30 @@ footer {
               <div class="radio-group" style="flex-wrap:wrap;gap:8px 12px"><div class="option"><input type="checkbox" id="s_preop_ett" name="preop_ett" value="是"><label for="s_preop_ett">術前插管</label></div><div class="option"><input type="checkbox" id="s_preop_ecmo" name="preop_ecmo" value="是"><label for="s_preop_ecmo">術前 ECMO</label></div><div class="option"><input type="checkbox" id="s_preop_cpr" name="preop_cpr" value="是"><label for="s_preop_cpr">術前 CPR</label></div><div class="option"><input type="checkbox" id="s_preop_iabp" name="preop_iabp" value="是"><label for="s_preop_iabp">術前 IABP</label></div><div class="option"><input type="checkbox" id="s_preop_inotrope" name="preop_inotrope" value="是"><label for="s_preop_inotrope">術前強心／升壓劑</label></div></div>
               <input type="text" id="s_preop_note" name="preop_note" maxlength="200" placeholder="備註（選填）：例 ECMO 置放時間、CPR 持續時間、IABP 1:1、Levophed 0.1" style="margin-top:8px">
             </div>
+          <!-- ★2026-11-14 EuroSCORE II 補充（預約表單；select 有 name，隨 FormData 送出） -->
+<details id="sEsBox" style="margin-top:14px;border:1px solid #E3DCCB;border-radius:8px;background:#FBF9F4;padding:10px 14px">
+            <summary style="cursor:pointer;font-weight:600;color:#6B5A3E">EuroSCORE II 補充（選填，可後補）<span id="sEsScore" style="margin-left:8px;color:#3A6A4A;font-weight:600"></span><span style="font-weight:400;color:#8A8274;font-size:13px;margin-left:8px">年齡、體重、Crea、LVEF、急迫性、術前危急、術式已自動帶入，只需補下列病史</span></summary>
+            <div class="row row-3" style="margin-top:10px">
+              <div class="field"><label for="s_dm">糖尿病</label><select id="s_dm" name="dm"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field" id="sIddmField" style="display:none"><label for="s_es_dm_insulin">使用胰島素</label><select id="s_es_dm_insulin" name="es_dm_insulin"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="s_copd">慢性肺病（長期支氣管擴張劑／類固醇）</label><select id="s_copd" name="copd"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="s_esrd">透析中（ESRD）</label><select id="s_esrd" name="esrd"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+            </div>
+            <div class="row row-3">
+              <div class="field"><label for="s_es_nyha">NYHA 分級</label><select id="s_es_nyha" name="es_nyha"><option value="">—</option><option value="1">I</option><option value="2">II</option><option value="3">III</option><option value="4">IV</option></select></div>
+              <div class="field"><label for="s_es_ccs4">靜止時心絞痛（CCS 4）</label><select id="s_es_ccs4" name="es_ccs4"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="s_es_recent_mi">90 天內心肌梗塞</label><select id="s_es_recent_mi" name="es_recent_mi"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+            </div>
+            <div class="row row-3">
+              <div class="field"><label for="s_es_eca">心外動脈病變<span class="urg-hint" style="display:block;font-weight:400">跛行、頸動脈 >50%、截肢、周邊血管介入</span></label><select id="s_es_eca" name="es_eca"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="s_es_mobility">行動嚴重受限<span class="urg-hint" style="display:block;font-weight:400">肌肉骨骼或神經疾病所致</span></label><select id="s_es_mobility" name="es_mobility"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="s_es_redo">曾開胸心臟手術</label><select id="s_es_redo" name="es_redo"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+            </div>
+            <div class="row row-2">
+              <div class="field"><label for="s_es_endocarditis">活動性心內膜炎（手術時仍在抗生素治療）</label><select id="s_es_endocarditis" name="es_endocarditis"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
+              <div class="field"><label for="s_es_pa">肺動脈收縮壓（mmHg）</label><select id="s_es_pa" name="es_pa"><option value="">—</option><option value="<31">&lt;31</option><option value="31-55">31–55</option><option value=">=55">≥55</option></select></div>
+            </div>
+          </details>
         <input type="hidden" name="preop_form" value="1">
         <div class="submit-area">
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">儲存預約</button>
@@ -1230,6 +1278,14 @@ function showPatient(p) {
   document.querySelectorAll('input[name="urgency"]').forEach(rb => { rb.checked = String(p.urgency || '') === rb.value; });
   [['preop_ett', 'preopEtt'], ['preop_ecmo', 'preopEcmo'], ['preop_cpr', 'preopCpr'], ['preop_iabp', 'preopIabp'], ['preop_inotrope', 'preopInotrope']].forEach(([n, k]) => { if ($('s_' + n)) $('s_' + n).checked = p[k] === '是'; });
   if ($('s_preop_note')) $('s_preop_note').value = p.preopNote || '';
+  // ★2026-11-14 EuroSCORE II 補充回填（共病來自主檔、ES 欄位來自危險因子預測表）
+  const esv = p.es || {};
+  const setSel = (id, v) => { const el = $(id); if (!el) return; el.value = (v == null ? '' : String(v)); if (el.value !== String(v == null ? '' : v)) el.value = ''; };
+  setSel('s_dm', p.dm); setSel('s_copd', p.copd); setSel('s_esrd', p.esrd);
+  ['es_dm_insulin', 'es_nyha', 'es_ccs4', 'es_recent_mi', 'es_eca', 'es_mobility', 'es_redo', 'es_endocarditis', 'es_pa'].forEach(k => setSel('s_' + k, esv[k]));
+  if ($('sIddmField')) $('sIddmField').style.display = ($('s_dm') && $('s_dm').value === '是') ? '' : 'none';
+  if ($('sEsScore')) $('sEsScore').textContent = (esv.es_mortality != null && esv.es_mortality !== '') ? '預測死亡率 ' + esv.es_mortality + '%' : '';
+  if ($('sEsBox')) $('sEsBox').open = Object.keys(esv).length === 0 || esv.es_mortality == null || esv.es_mortality === '';
 
   patientCard.style.display = 'grid';
   surgerySection.classList.remove('disabled');
@@ -1467,7 +1523,13 @@ surgeryForm.addEventListener('submit', async (e) => {
     ['preop_ett', 'preop_ecmo', 'preop_cpr', 'preop_iabp', 'preop_inotrope'].forEach(n => { if ($('emerg_' + n)) $('emerg_' + n).checked = false; });
     if ($('emerg_preop_note')) $('emerg_preop_note').value = '';
     if ($('emerg_reop')) { $('emerg_reop').checked = false; $('emerg_reop_of').value = ''; $('emergReopBox').style.display = 'none'; }
+    ES_EMERG_IDS.forEach(id => { if ($('emerg_' + id)) $('emerg_' + id).value = ''; });
+    if ($('emergIddmField')) $('emergIddmField').style.display = 'none';
+    if ($('emergEsBox')) $('emergEsBox').open = false;
   };
+  const ES_EMERG_IDS = ['dm', 'es_dm_insulin', 'copd', 'esrd', 'es_nyha', 'es_ccs4', 'es_recent_mi', 'es_eca', 'es_mobility', 'es_redo', 'es_endocarditis', 'es_pa'];
+  if ($('s_dm')) $('s_dm').addEventListener('change', () => { const isDm = $('s_dm').value === '是'; $('sIddmField').style.display = isDm ? '' : 'none'; if (!isDm) $('s_es_dm_insulin').value = ''; });
+  if ($('emerg_dm')) $('emerg_dm').addEventListener('change', () => { const isDm = $('emerg_dm').value === '是'; $('emergIddmField').style.display = isDm ? '' : 'none'; if (!isDm) $('emerg_es_dm_insulin').value = ''; });
 
   tog.addEventListener('click', () => {
     form.style.display = 'block';
@@ -1529,6 +1591,8 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('lvef', lvef);
     fd.append('crea_pre', crea);
     fd.append('weight_pre', weight);
+    // ★2026-11-14 EuroSCORE II 補充（有填才送；共病 dm/copd/esrd 寫主檔，其餘寫危險因子預測表，後端立即算分）
+    ES_EMERG_IDS.forEach(id => { const el = $('emerg_' + id); if (el && el.value) fd.append(id, el.value); });
     try {
       await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd });
       form.style.display = 'none';
