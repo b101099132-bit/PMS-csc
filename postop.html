@@ -988,6 +988,29 @@ footer {
               <input type="checkbox" name="major_event" value="住院死亡"> 住院死亡</label>
           </div>
         </div>
+        <!-- ★2026-11-14 重新插管時刻（STS prolonged ventilation 累計口徑：第一次通氣時數＋重新插管到再次脫離呼吸器時數） -->
+        <div class="field" id="reintubBox" style="border:1px dashed #D4CDB8;border-radius:6px;padding:10px 12px;background:#FCFBF8">
+          <label>重新插管時刻（勾選「重新插管」者請填；舊病人可日後補登）</label>
+          <div class="milestone-row" style="margin-top:6px">
+            <div class="milestone-label">重新插管</div>
+            <div class="milestone-input">
+              <input type="date" id="m_reintub__d">
+              <input type="text" class="dt-time" id="m_reintub__t" inputmode="numeric" maxlength="5" placeholder="HH:mm">
+              <input type="hidden" name="m_reintub" id="m_reintub">
+            </div>
+            <button type="button" class="btn-now" data-target="m_reintub">現在</button>
+          </div>
+          <div class="milestone-row">
+            <div class="milestone-label">再次脫離呼吸器</div>
+            <div class="milestone-input">
+              <input type="date" id="m_reextub__d">
+              <input type="text" class="dt-time" id="m_reextub__t" inputmode="numeric" maxlength="5" placeholder="HH:mm">
+              <input type="hidden" name="m_reextub" id="m_reextub">
+            </div>
+            <button type="button" class="btn-now" data-target="m_reextub">現在</button>
+          </div>
+          <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">再次脫離呼吸器未填者，累計通氣時數以出院（或死亡）時間計算。多次重新插管者請填第一次插管與最後一次脫離。</div>
+        </div>
         <div class="field">
           <label for="major_event_note">重大事件補充說明</label>
           <textarea id="major_event_note" name="major_event_note" placeholder="例：急救原因、再次手術原因…"></textarea>
@@ -1149,7 +1172,8 @@ function setDT(name, iso){
   if(te){ te.value = t; te.style.borderColor = ''; }
   if(hid) hid.value = (d && t) ? (d + 'T' + t) : '';
 }
-function syncAllMilestones(){ MILESTONES.forEach(m => syncDT(m.name)); }
+const EXTRA_DT = ['m_reintub', 'm_reextub'];   // ★2026-11-14 重大異常事件區的時間欄（不在 MILESTONES）
+function syncAllMilestones(){ MILESTONES.forEach(m => syncDT(m.name)); EXTRA_DT.forEach(syncDT); }
 
 // ========== Build milestone rows ==========
 // ★氣道方式：不插管 HFNC → 清空並鎖住「脫離呼吸器」；其他 → 解鎖
@@ -1228,6 +1252,9 @@ function buildMilestones() {
   if ($('airway')) $('airway').addEventListener('change', applyAirway);
 
   // Bind "now" buttons（填今天日期 + 現在時間 HH:mm）
+  // ★2026-11-14 重新插管／再次脫離呼吸器：同步隱藏值 + 「現在」鈕
+  EXTRA_DT.forEach(k => { ['__d', '__t'].forEach(sfx => { const el = $(k + sfx); if (el) { el.addEventListener('input', () => syncDT(k)); el.addEventListener('change', () => syncDT(k)); } }); });
+  document.querySelectorAll('#reintubBox .btn-now').forEach(btn => btn.addEventListener('click', () => { const d = new Date(), p2 = n => String(n).padStart(2, '0'); setDT(btn.dataset.target, `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`); }));
   $('milestoneList').querySelectorAll('.btn-now').forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.dataset.target;
@@ -1562,6 +1589,7 @@ function fillExisting(p) {
   MILESTONES.forEach(m => {
     if (po[m.name]) setDT(m.name, po[m.name]);
   });
+  EXTRA_DT.forEach(k => setDT(k, po[k] || ''));   // ★2026-11-14
   // ★2026-09-30 術後紀錄未填「脫離呼吸器」時，預帶恢復室紀錄的拔管時刻（儲存後才寫入）
   if (!po.m_extubate && p.prefillExtubate && $('m_extubate__d') && !$('m_extubate__d').disabled) {
     setDT('m_extubate', p.prefillExtubate);

@@ -1572,6 +1572,17 @@ function computeGroup(rows) {
   };
 }
 
+/* ★2026-11-14 認證／國際口徑：30 天死亡（分母 = 手術滿 30 天或已死亡）、住院死亡、術後插管 >24h（分母 = 有插管且有拔管時間）、30 天再入院（分母 = 已填是／否） */
+function cadMetrics(rows) {
+  const mature = rows.filter(c => c.daysSince == null || c.daysSince >= 30 || c.deathDays != null);
+  const d30 = mature.filter(c => c.deathDays != null && c.deathDays <= 30).length;
+  const inh = rows.filter(c => c.major && c.major.indexOf('住院死亡') >= 0).length;
+  const vent = rows.filter(c => (c.extOr != null || c.ext != null) && c.airway !== '不插管 HFNC');
+  const v24 = vent.filter(c => (c.extOr != null ? c.extOr : c.ext) > 24).length;
+  const rk = rows.filter(c => c.readm30 === '是' || c.readm30 === '否');
+  const r = (k, n) => ({ count: k, total: n, pct: S.pct(k, n) });
+  return { death30: r(d30, mature.length), inHosp: r(inh, rows.length), vent24: r(v24, vent.length), readm30: r(rk.filter(c => c.readm30 === '是').length, rk.length), ventSrcRr: vent.filter(c => c.extOrSrc === 'rr').length };
+}
 function periodOptions(cases) {
   const years = [...new Set(cases.map(c => c.y).filter(Boolean))].sort();
   const quarters = [...new Set(cases.map(c => c.q).filter(Boolean))].sort();
@@ -1669,6 +1680,7 @@ function renderDynamic() {
   // ===== 07 指標明細 =====
   const mm = g.metrics;
   const isStent = (_f.cat === '主動脈支架');
+  const isCabgView = (_f.cat === 'all' || _f.cat === 'CABG' || _f.cat === 'CABG+瓣膜');   // ★2026-11-14 08+ 與 STS 參照只在 CABG 相關檢視顯示
   if (isStent) {
     // ★主動脈支架：發展不插管麻醉、目標 48 小時內出院 → 不看拔管時間，只看 不插管率 / 48h 出院率 / 住院天數
     const cp2 = g.complications;
@@ -1750,14 +1762,29 @@ function renderDynamic() {
     <div class="rate-grid comp" style="margin-top:12px">
       ${rateCardS('術後急救 (CPR)', '重大異常事件記錄', cp.cpr, null, true)}
       ${rateCardS('重新插管', '重大異常事件記錄', cp.reintubation, null, true)}
-      ${rateCardS('再次手術', '重大異常事件記錄', cp.reoperation, null, true)}
-      ${rateCardS('中風', '重大異常事件記錄', cp.stroke, null, true)}
-      ${rateCardS('急性腎損傷 AKI', 'KDIGO 判讀 ≠ 無AKI；分母 = 有判讀者', cp.aki, null, true)}
+      ${rateCardS('再次手術', '重大異常事件記錄', cp.reoperation, isCabgView ? { pct: 2.4, label: 'STS 單純 CABG 再手術（出血／填塞／心因）2011–14' } : null, true)}
+      ${rateCardS('中風', '重大異常事件記錄', cp.stroke, isCabgView ? { pct: 1.3, label: 'STS 單純 CABG 永久性中風 2011–14' } : null, true)}
+      ${rateCardS('急性腎損傷 AKI', 'KDIGO 判讀 ≠ 無AKI；分母 = 有判讀者', cp.aki, isCabgView ? { pct: 2.2, label: 'STS 腎衰竭（新透析或 RIFLE）2011–14，口徑較嚴' } : null, true)}
       ${rateCardS('術後 ECMO', '重大異常事件記錄', cp.ecmo, null, true)}
-      ${rateCardS('住院死亡', '重大異常事件記錄', cp.death, null, true)}
+      ${rateCardS('住院死亡', '重大異常事件記錄', cp.death, isCabgView ? { pct: 2.4, label: 'STS operative mortality（住院或 30 天內）2011–14' } : null, true)}
       ${rateCardS('術後 IABP', '一般異常事件記錄（記錄、不結案、不排除里程碑）', cp.iabp, null, true)}
     </div>
   `);
+  // ===== 08+ 認證與國際口徑（★2026-11-14：醫策會 CAD 指標 #8/#9/#12/#13/#14 與 CMS Care Compare、STS 的定義對齊）=====
+  if (isCabgView) {
+    const cadK = cadMetrics(sel);
+    html.push(`
+      <h2 class="section-title"><span class="num">08+</span><span>認證與國際口徑 · CABG</span><span class="sub">${escapeHtml(filterLabel(_f))}${_f.cat === 'all' ? ' · 目前為全部類別，單純性 CABG 請切到「CABG」' : (_f.cat === 'CABG' ? ' · 單純性 CABG（CAD #8）' : ' · CABG 合併術式')}</span></h2>
+      <div class="stat-legend">醫策會 CAD 品質指標（114.08.01 版）口徑；參照值：CMS Care Compare 2026-11（Medicare 65 歲以上、風險標準化）與 STS 2018 風險模型發展世代（單純 CABG，2011/07–2014/06，n≈439,000）。本院為全年齡、未風險校正，僅供數量級對照。</div>
+      <div class="rate-grid">
+        ${rateCardS('30 天死亡率（CAD #8/#9）', '手術後 30 天內死亡（含住院與出院後）；分母 = 手術滿 30 天或已死亡者', cadK.death30, { pct: 2.4, label: 'CMS 全國 RSMR 2022/07–2025/06（STS operative mortality 亦 2.4%）' })}
+        ${rateCardS('住院死亡率（CAD #13）', '重大異常事件「住院死亡」（含放棄急救後死亡）；本院無病危自動出院個案，口徑與 CAD #13「含病危自動出院」一致', cadK.inHosp, null)}
+        ${rateCardS('術後插管 >24 小時（CAD #14／STS）', `脫離呼吸器 − 離開手術室 >24 h；離開手術室以抵達恢復室時間代替（${cadK.ventSrcRr} 例），無恢復室紀錄者以抵達 ICU 代替（${cadK.vent24.total - cadK.ventSrcRr} 例）；重新插管者累計至再次脫離呼吸器（未填則至出院／死亡），與 STS 口徑一致`, cadK.vent24, { pct: 9.3, label: 'STS 單純 CABG prolonged ventilation 2011–14' })}
+        ${rateCardS('30 天非計畫性再入院（CAD #12）', '出院後 30 天內再入院 = 是；分母 = 已填是／否者。CMS 為全因非計畫性、風險標準化', cadK.readm30, { pct: 11.0, label: 'CMS 全國 RSRR 2023/07–2025/06' })}
+      </div>
+      <div class="chart-note">定義來源：O'Brien SM et al. Ann Thorac Surg 2018;105:1419–28（STS 2018 風險模型 Part 2，表 2）；CMS Care Compare Complications & Deaths／Unplanned Hospital Visits（2026-11-12 release）；CMS QPP Measure #164（CABG prolonged intubation >24 h after OR exit）。</div>
+    `);
+  }
   }   // end if (!isStent)
 
   // ===== 09 病人清單（套用類別 + 期間篩選）=====
@@ -2730,7 +2757,7 @@ function metricCardS(label, m, unit) {
 // ---- 08 率卡（單值 + 可選歷史基準）----
 function rateCardS(label, defText, r, histRef, isComp) {
   const histLine = histRef && histRef.pct != null
-    ? `<div class="historical-ref">${escapeHtml(histRef.label || '歷史')}：<span class="hist-val">${histRef.pct}%</span>（${histRef.count} / ${histRef.total}）</div>`
+    ? `<div class="historical-ref">${escapeHtml(histRef.label || '歷史')}：<span class="hist-val">${histRef.pct}%</span>${histRef.count != null ? `（${histRef.count} / ${histRef.total}）` : ''}</div>`
     : '';
   const cls = isComp ? ' comp' : '';
   if (!r || r.pct == null) {
