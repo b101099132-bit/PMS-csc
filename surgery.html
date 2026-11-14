@@ -706,8 +706,14 @@ footer {
                 <div class="option"><input type="checkbox" id="emerg_reop" name="emerg_reop" value="1"><label for="emerg_reop">是，本次為同一住院之再次手術</label></div>
               </div>
               <div id="emergReopBox" style="display:none;margin-top:8px">
-                <label for="emerg_reop_of">指標手術（第一次手術）的病人主鍵 <span class="req">*</span></label>
-                <input type="text" id="emerg_reop_of" autocomplete="off" placeholder="例：EMG-20260527-02（可從術後追蹤「近期手術」清單複製）">
+                <label for="emerg_reop_search">指標手術（第一次手術）病人 <span class="req">*</span></label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="text" id="emerg_reop_search" autocomplete="off" placeholder="輸入姓名搜尋（預設帶入上方姓名）" style="flex:1">
+                  <button type="button" class="btn-refresh" id="emergReopSearchBtn">🔍 搜尋</button>
+                </div>
+                <div id="emergReopResults" style="display:none;margin-top:6px;max-height:220px;overflow:auto;border:1px solid #E3DCCB;border-radius:6px;background:#fff"></div>
+                <div id="emergReopPicked" style="display:none;margin-top:6px;padding:8px 10px;background:#EDF4ED;border:1px solid #C2D8C2;border-radius:6px;font-size:13px;color:#3A6A4A"></div>
+                <input type="hidden" id="emerg_reop_of">
                 <div class="hint" style="font-size:12px;color:var(--muted,#8A8580);margin-top:4px">勾選後，這一筆只計入手術量，不進 ERAS 成效與里程碑；併發症請在指標手術的術後追蹤標「再次手術」。</div>
               </div>
             </div>
@@ -733,8 +739,8 @@ footer {
             </div>
           </div>
           <!-- ★2026-11-14 EuroSCORE II 補充：年齡／性別／體重／Crea／LVEF／急迫性／術前危急／術式 已在上方，系統自動帶入；以下 11 項由病歷補齊，可先空白、日後由風險因子頁補 -->
-          <details id="emergEsBox" style="margin-top:14px;border:1px solid #E3DCCB;border-radius:8px;background:#FBF9F4;padding:10px 14px">
-            <summary style="cursor:pointer;font-weight:600;color:#6B5A3E">EuroSCORE II 補充（選填，可後補）<span style="font-weight:400;color:#8A8274;font-size:13px;margin-left:8px">年齡、體重、Crea、LVEF、急迫性、術前危急、術式已自動帶入，只需補下列病史</span></summary>
+          <details id="emergEsBox" open style="margin-top:14px;border:1px solid #E3DCCB;border-radius:8px;background:#FBF9F4;padding:10px 14px">
+            <summary style="cursor:pointer;font-weight:600;color:#6B5A3E">EuroSCORE II</summary>
             <div class="row row-3" style="margin-top:10px">
               <div class="field"><label for="emerg_dm">糖尿病</label><select id="emerg_dm"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
               <div class="field" id="emergIddmField" style="display:none"><label for="emerg_es_dm_insulin">使用胰島素</label><select id="emerg_es_dm_insulin"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
@@ -924,7 +930,7 @@ footer {
             </div>
           <!-- ★2026-11-14 EuroSCORE II 補充（預約表單；select 有 name，隨 FormData 送出） -->
 <details id="sEsBox" style="margin-top:14px;border:1px solid #E3DCCB;border-radius:8px;background:#FBF9F4;padding:10px 14px">
-            <summary style="cursor:pointer;font-weight:600;color:#6B5A3E">EuroSCORE II 補充（選填，可後補）<span id="sEsScore" style="margin-left:8px;color:#3A6A4A;font-weight:600"></span><span style="font-weight:400;color:#8A8274;font-size:13px;margin-left:8px">年齡、體重、Crea、LVEF、急迫性、術前危急、術式已自動帶入，只需補下列病史</span></summary>
+            <summary style="cursor:pointer;font-weight:600;color:#6B5A3E">EuroSCORE II<span id="sEsScore" style="margin-left:8px;color:#3A6A4A;font-weight:600"></span></summary>
             <div class="row row-3" style="margin-top:10px">
               <div class="field"><label for="s_dm">糖尿病</label><select id="s_dm" name="dm"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
               <div class="field" id="sIddmField" style="display:none"><label for="s_es_dm_insulin">使用胰島素</label><select id="s_es_dm_insulin" name="es_dm_insulin"><option value="">—</option><option value="否">否</option><option value="是">是</option></select></div>
@@ -1522,10 +1528,10 @@ surgeryForm.addEventListener('submit', async (e) => {
     document.querySelectorAll('input[name="emerg_urgency"]').forEach(rb => { rb.checked = false; });
     ['preop_ett', 'preop_ecmo', 'preop_cpr', 'preop_iabp', 'preop_inotrope'].forEach(n => { if ($('emerg_' + n)) $('emerg_' + n).checked = false; });
     if ($('emerg_preop_note')) $('emerg_preop_note').value = '';
-    if ($('emerg_reop')) { $('emerg_reop').checked = false; $('emerg_reop_of').value = ''; $('emergReopBox').style.display = 'none'; }
+    if ($('emerg_reop')) { $('emerg_reop').checked = false; $('emerg_reop_of').value = ''; $('emergReopBox').style.display = 'none'; $('emerg_reop_search').value = ''; $('emergReopResults').style.display = 'none'; $('emergReopResults').innerHTML = ''; $('emergReopPicked').style.display = 'none'; }
     ES_EMERG_IDS.forEach(id => { if ($('emerg_' + id)) $('emerg_' + id).value = ''; });
     if ($('emergIddmField')) $('emergIddmField').style.display = 'none';
-    if ($('emergEsBox')) $('emergEsBox').open = false;
+    if ($('emergEsBox')) $('emergEsBox').open = true;
   };
   const ES_EMERG_IDS = ['dm', 'es_dm_insulin', 'copd', 'esrd', 'es_nyha', 'es_ccs4', 'es_recent_mi', 'es_eca', 'es_mobility', 'es_redo', 'es_endocarditis', 'es_pa'];
   if ($('s_dm')) $('s_dm').addEventListener('change', () => { const isDm = $('s_dm').value === '是'; $('sIddmField').style.display = isDm ? '' : 'none'; if (!isDm) $('s_es_dm_insulin').value = ''; });
@@ -1566,7 +1572,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     if (!name || !diagnosis || !egfr || !lvef || !crea || !weight) { alertEl.textContent = '姓名、診斷、術前 eGFR / LVEF / Crea / 體重 皆為必填'; alertEl.classList.add('show'); return; }
     if (!types.length) { alertEl.textContent = '請至少勾選一項術式'; alertEl.classList.add('show'); return; }
     if (!urgency) { alertEl.textContent = '請選擇手術急迫性（Elective／Urgent／Emergent／Salvage）'; alertEl.classList.add('show'); return; }
-    if (reopChk && !reopOf) { alertEl.textContent = '已勾選同一住院再次手術，請填指標手術的病人主鍵'; alertEl.classList.add('show'); return; }
+    if (reopChk && !reopOf) { alertEl.textContent = '已勾選同一住院再次手術，請搜尋並點選指標手術（第一次手術）的病人'; alertEl.classList.add('show'); return; }
     if (types.indexOf('其他') >= 0 && !surgery) { alertEl.textContent = '術式選「其他」時請填手術內容補述'; alertEl.classList.add('show'); return; }
 
     const btn = $('emergSubmitBtn');
@@ -1652,7 +1658,37 @@ window.addEventListener('load', () => {
     $('doctor_key').focus();
   }
 });
-document.addEventListener('DOMContentLoaded', () => { const cb = document.getElementById('emerg_reop'); if (cb) cb.addEventListener('change', () => { document.getElementById('emergReopBox').style.display = cb.checked ? '' : 'none'; }); });
+document.addEventListener('DOMContentLoaded', () => {
+  const cb = document.getElementById('emerg_reop'); if (!cb) return;
+  // ★2026-11-14 指標手術改用姓名搜尋點選，不必手打病人主鍵
+  const doReopSearch = async () => {
+    const key = $('doctor_key') ? $('doctor_key').value.trim() : '';
+    const q = $('emerg_reop_search').value.trim();
+    const box = $('emergReopResults');
+    if (!key) { box.style.display = 'block'; box.innerHTML = '<div class="recent-empty">請先輸入醫師通行碼</div>'; return; }
+    if (!q) { box.style.display = 'none'; return; }
+    box.style.display = 'block'; box.innerHTML = '<div class="recent-empty"><span class="loading"></span> 搜尋中…</div>';
+    try {
+      const res = await jsonp(APPS_SCRIPT_URL, { action: 'searchPatients', key, q });
+      if (res.error) { box.innerHTML = `<div class="recent-empty">搜尋失敗：${escapeHtml(res.error)}</div>`; return; }
+      const list = (res.list || []).filter(x => x.surgeryStatus === '已完成');
+      if (!list.length) { box.innerHTML = `<div class="recent-empty">查無「${escapeHtml(q)}」已完成手術的病人；請確認姓名或先建立第一次手術</div>`; return; }
+      box.innerHTML = list.map(x => `<div class="recent-item" data-pk="${escapeHtml(x.pk)}" data-label="${escapeHtml(x.name + ' · ' + (x.surgery || '') + (x.actualDate ? ' · 手術 ' + x.actualDate : ''))}" style="cursor:pointer"><div class="recent-name">${escapeHtml(x.name)}${x.gender ? '（' + escapeHtml(x.gender) + (x.age ? '，' + x.age + ' 歲' : '') + '）' : ''}</div><div class="recent-detail"><span class="surgery">${escapeHtml(x.surgery || '')}${x.actualDate ? ' · 手術 ' + x.actualDate : ''}</span><span style="color:#8A8274;font-size:12px;margin-left:8px">${escapeHtml(x.pk)}</span></div></div>`).join('');
+      box.querySelectorAll('.recent-item').forEach(el => el.addEventListener('click', () => {
+        $('emerg_reop_of').value = el.dataset.pk;
+        $('emergReopPicked').innerHTML = '✓ 指標手術：<strong>' + escapeHtml(el.dataset.label) + '</strong><span style="color:#8A8274;margin-left:8px;font-size:12px">' + escapeHtml(el.dataset.pk) + '</span>';
+        $('emergReopPicked').style.display = 'block';
+        box.style.display = 'none';
+      }));
+    } catch (err) { box.innerHTML = `<div class="recent-empty">搜尋失敗：${escapeHtml(err.message)}</div>`; }
+  };
+  cb.addEventListener('change', () => {
+    $('emergReopBox').style.display = cb.checked ? '' : 'none';
+    if (cb.checked && !$('emerg_reop_of').value) { const nm = $('emerg_name').value.trim(); if (nm) { $('emerg_reop_search').value = nm; doReopSearch(); } }
+  });
+  $('emergReopSearchBtn').addEventListener('click', doReopSearch);
+  $('emerg_reop_search').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); doReopSearch(); } });
+});
 </script>
 </body>
 </html>
