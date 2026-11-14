@@ -1583,6 +1583,37 @@ function cadMetrics(rows) {
   const r = (k, n) => ({ count: k, total: n, pct: S.pct(k, n) });
   return { death30: r(d30, mature.length), inHosp: r(inh, rows.length), vent24: r(v24, vent.length), readm30: r(rk.filter(c => c.readm30 === '是').length, rk.length), ventSrcRr: vent.filter(c => c.extOrSrc === 'rr').length };
 }
+function oeMetrics(rows) {   // O/E：觀察 operative mortality（住院死亡或 30 天內死亡）÷ EuroSCORE II 預期死亡數
+  const scored = rows.filter(c => c.es2 != null);
+  const mature = scored.filter(c => c.daysSince == null || c.daysSince >= 30 || c.deathDays != null);
+  const obs = mature.filter(c => (c.major && c.major.indexOf('住院死亡') >= 0) || (c.deathDays != null && c.deathDays <= 30)).length;
+  const exp = mature.reduce((a, c) => a + c.es2 / 100, 0);
+  const meanEs = mature.length ? mature.reduce((a, c) => a + c.es2, 0) / mature.length : null;
+  // Byar 近似 Poisson 95% CI（observed 的區間 ÷ expected）
+  let lo = null, hi = null;
+  if (exp > 0) { const o = obs; lo = o === 0 ? 0 : (o * Math.pow(1 - 1 / (9 * o) - 1.96 / (3 * Math.sqrt(o)), 3)) / exp; const o1 = o + 1; hi = (o1 * Math.pow(1 - 1 / (9 * o1) + 1.96 / (3 * Math.sqrt(o1)), 3)) / exp; }
+  return { nAll: rows.length, nScored: scored.length, n: mature.length, obs: obs, exp: exp, oe: exp > 0 ? obs / exp : null, lo: lo, hi: hi, meanEs: meanEs };
+}
+function renderOeSection(sel) {
+  const k = oeMetrics(sel);
+  const cov = k.nAll ? Math.round(k.nScored / k.nAll * 100) : 0;
+  const f1 = (v) => v == null ? '—' : (Math.round(v * 100) / 100).toFixed(2);
+  const oeTxt = k.oe == null ? '—' : f1(k.oe);
+  const ciTxt = k.lo == null ? '' : `95% CI ${f1(k.lo)}–${f1(k.hi)}`;
+  const verdict = k.oe == null ? '' : (k.hi != null && k.hi < 1 ? '顯著優於預期' : (k.lo != null && k.lo > 1 ? '顯著高於預期' : '與預期無顯著差異'));
+  const warn = k.n < 30 ? `<div class="chart-note" style="color:var(--warn,#b45309)">目前只有 ${k.nScored}／${k.nAll} 例（${cov}%）有 EuroSCORE II 分數，O/E 需 ≥30 例且涵蓋率 >80% 才具參考性；請先補齊「EuroSCORE_II_待補清單」。</div>` : '';
+  return `
+      <h2 class="section-title"><span class="num">08++</span><span>風險校正死亡 O/E · EuroSCORE II</span><span class="sub">${escapeHtml(filterLabel(_f))}</span></h2>
+      <div class="stat-legend">O/E = 觀察 operative mortality（住院死亡或術後 30 天內死亡）÷ EuroSCORE II 預期死亡數（各病人預測死亡率加總）。分母 = 有 EuroSCORE II 且追蹤滿 30 天或已死亡者；O/E &lt; 1 表示實際死亡低於風險模型預期。</div>
+      <div class="rate-grid">
+        <div class="rate-card"><div class="rate-label">O/E 比</div><div class="rate-value">${oeTxt}</div><div class="rate-frac">${ciTxt}${verdict ? ' · ' + verdict : ''}</div></div>
+        <div class="rate-card"><div class="rate-label">觀察死亡 ／ 預期死亡</div><div class="rate-value">${k.obs} ／ ${f1(k.exp)}</div><div class="rate-frac">n = ${k.n}（有分數且追蹤成熟）</div></div>
+        <div class="rate-card"><div class="rate-label">平均預測死亡率</div><div class="rate-value">${k.meanEs == null ? '—' : f1(k.meanEs) + '%'}</div><div class="rate-frac">EuroSCORE II 平均（反映收案風險輪廓）</div></div>
+        <div class="rate-card"><div class="rate-label">EuroSCORE II 涵蓋率</div><div class="rate-value">${cov}%</div><div class="rate-frac">${k.nScored}／${k.nAll} 例已有 18 項完整分數</div></div>
+      </div>
+      ${warn}
+      <div class="chart-note">Nashef SA et al. EuroSCORE II. Eur J Cardiothorac Surg 2012;41:734–45。95% CI 以 Byar 近似法（觀察死亡數的 Poisson 區間 ÷ 預期死亡數）計算。</div>`;
+}
 function periodOptions(cases) {
   const years = [...new Set(cases.map(c => c.y).filter(Boolean))].sort();
   const quarters = [...new Set(cases.map(c => c.q).filter(Boolean))].sort();
@@ -1785,6 +1816,8 @@ function renderDynamic() {
       <div class="chart-note">定義來源：O'Brien SM et al. Ann Thorac Surg 2018;105:1419–28（STS 2018 風險模型 Part 2，表 2）；CMS Care Compare Complications & Deaths／Unplanned Hospital Visits（2026-11-12 release）；CMS QPP Measure #164（CABG prolonged intubation >24 h after OR exit）。</div>
     `);
   }
+  // ===== 08++ 風險校正死亡 O/E（★2026-11-14：EuroSCORE II；適用所有心臟手術，支架除外）=====
+  html.push(renderOeSection(sel));
   }   // end if (!isStent)
 
   // ===== 09 病人清單（套用類別 + 期間篩選）=====
