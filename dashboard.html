@@ -1612,7 +1612,91 @@ function renderOeSection(sel) {
         <div class="rate-card"><div class="rate-label">EuroSCORE II 涵蓋率</div><div class="rate-value">${cov}%</div><div class="rate-frac">${k.nScored}／${k.nAll} 例已有 18 項完整分數</div></div>
       </div>
       ${warn}
-      <div class="chart-note">Nashef SA et al. EuroSCORE II. Eur J Cardiothorac Surg 2012;41:734–45。95% CI 以 Byar 近似法（觀察死亡數的 Poisson 區間 ÷ 預期死亡數）計算。</div>`;
+      <div class="chart-note">Nashef SA et al. EuroSCORE II. Eur J Cardiothorac Surg 2012;41:734–45。95% CI 以 Byar 近似法（觀察死亡數的 Poisson 區間 ÷ 預期死亡數）計算。</div>
+      ${renderOeCompare(k)}`;
+}
+// ★2026-11-16 成立前 vs 成立後 風險校正比較（背景期 = 歷史背景表逐列的 EuroSCORE II；成立後 = 目前篩選的 sel）
+let _oeCmp = null;
+function oeBgRows() {   // 背景期逐列，套用目前的類別／常規急診／微創／ERAS 篩選（不套期間）
+  const h = _dashData && _dashData.historical;
+  return (h && h.cases ? h.cases : []).filter(hc => {
+    const inPre = hc.d ? hc.d <= FLOW_CUT : (hc.y && hc.y < 2025);
+    if (!inPre) return false;
+    if ((hc.cats || []).indexOf('主動脈支架') >= 0 && (hc.cats || []).length === 1) return false;
+    if (_f.cat !== 'all' && (hc.cats || []).indexOf(_f.cat) < 0) return false;
+    if (_f.nature === 'emerg' && hc.emerg !== 1) return false;
+    if (_f.nature === 'elective' && hc.emerg !== 0) return false;
+    if (_f.mics === 'mics' && !hc.mics) return false;
+    if (_f.mics === 'open' && hc.mics) return false;
+    if (_f.eras === 'eras' && hc.eras !== 1) return false;
+    if (_f.eras === 'non' && hc.eras === 1) return false;
+    return true;
+  });
+}
+function oeFromList(list) {   // list: [{es2, dead}]
+  const sc = list.filter(c => c.es2 != null);
+  const obs = sc.filter(c => c.dead).length;
+  const exp = sc.reduce((a, c) => a + c.es2 / 100, 0);
+  let lo = null, hi = null;
+  if (exp > 0) { const o = obs; lo = o === 0 ? 0 : (o * Math.pow(1 - 1 / (9 * o) - 1.96 / (3 * Math.sqrt(o)), 3)) / exp; const o1 = o + 1; hi = (o1 * Math.pow(1 - 1 / (9 * o1) + 1.96 / (3 * Math.sqrt(o1)), 3)) / exp; }
+  return { nAll: list.length, n: sc.length, obs: obs, exp: exp, oe: exp > 0 ? obs / exp : null, lo: lo, hi: hi,
+    meanEs: sc.length ? sc.reduce((a, c) => a + c.es2, 0) / sc.length : null, obsPct: sc.length ? obs / sc.length * 100 : null };
+}
+function renderOeCompare(post) {
+  const pre = oeFromList(oeBgRows().map(hc => ({ es2: hc.es2, dead: !!hc.opDeath })));
+  _oeCmp = null;
+  if (!pre.n) return `<div class="chart-note" style="margin-top:14px">成立前（背景期）尚無 EuroSCORE II 分數可比較：請確認已將回溯清單匯入（importEuroscoreSheet）且「歷史背景」表有病歷號與手術日。</div>`;
+  const postPct = post.n ? post.obs / post.n * 100 : null;
+  const f2 = (v) => v == null ? '—' : (Math.round(v * 100) / 100).toFixed(2);
+  const f1p = (v) => v == null ? '—' : (Math.round(v * 10) / 10).toFixed(1) + '%';
+  const ci = (o) => o.lo == null ? '—' : `${f2(o.lo)}–${f2(o.hi)}`;
+  // 兩期 O/E 比值（成立後 ÷ 成立前）：log 法，var ≈ 1/O1 + 1/O2；任一期觀察死亡為 0 時不計算
+  let ratioTxt = '兩期其中一期觀察死亡為 0 或無資料，無法計算 O/E 比值的信賴區間。';
+  if (post.oe != null && pre.oe != null && post.obs > 0 && pre.obs > 0) {
+    const rr = post.oe / pre.oe, se = Math.sqrt(1 / post.obs + 1 / pre.obs);
+    const l = rr * Math.exp(-1.96 * se), u = rr * Math.exp(1.96 * se);
+    ratioTxt = `成立後 ÷ 成立前 的 O/E 比值 = <strong>${f2(rr)}</strong>（95% CI ${f2(l)}–${f2(u)}）；${u < 1 ? '成立後風險校正死亡顯著較低' : (l > 1 ? '成立後風險校正死亡顯著較高' : '兩期差異未達統計顯著')}。`;
+  }
+  _oeCmp = { pre: pre, post: post };
+  const row = (name, o, pct, n) => `<tr><td><strong>${name}</strong></td><td>${n}</td><td>${f1p(o.meanEs)}</td><td>${f2(o.exp)}</td><td>${o.obs}</td><td>${f1p(pct)}</td><td><strong>${f2(o.oe)}</strong></td><td>${ci(o)}</td></tr>`;
+  return `
+      <h3 style="margin:22px 0 6px;font-size:15px">團隊成立前 vs 成立後 · 風險校正死亡比較</h3>
+      <div class="stat-legend">成立前 = 2025/04/15 以前（歷史背景表，共 ${pre.nAll} 例，其中 ${pre.n} 例有 EuroSCORE II）；成立後 = 目前篩選條件下的病人。兩期套用相同的類別／常規急診篩選。「平均預測死亡率」反映兩期收治病人的風險輪廓；O/E 則是扣除風險差異後的比較。</div>
+      <div class="cat-table-wrap"><table class="cat-table" style="min-width:640px">
+        <thead><tr><th>時期</th><th>n（有分數）</th><th>平均預測死亡率</th><th>預期死亡</th><th>觀察死亡</th><th>觀察死亡率</th><th>O/E</th><th>95% CI</th></tr></thead>
+        <tbody>${row('成立前（背景期）', pre, pre.obsPct, pre.n)}${row('成立後', post, postPct, post.n)}</tbody>
+      </table></div>
+      <div class="echart" id="oeCmpChart" style="height:170px;min-width:0;margin-top:10px"></div>
+      <div class="chart-note">${ratioTxt} 圖中圓點為 O/E、橫線為 95% CI、虛線為 O/E = 1（實際等於預期）。背景期為回溯病歷審查所得，部分項目（NYHA、CCS4）依紀錄推估；${_f.cat === 'all' ? '目前為全部類別，兩期術式組成不同，建議切到「CABG」比較。' : ''}</div>`;
+}
+function drawOeCompare() {
+  const el = document.getElementById('oeCmpChart');
+  if (!el || !_oeCmp || typeof echarts === 'undefined') return;
+  const A = [['成立後', _oeCmp.post, '#2F6F6B'], ['成立前（背景期）', _oeCmp.pre, '#A87B4D']];
+  const xmax = Math.max(1.5, ...A.map(a => a[1].hi || 0)) * 1.08;
+  _charts.oeCmp = echarts.init(el, null, { renderer: 'svg' });
+  _charts.oeCmp.setOption({
+    animation: false,
+    grid: { left: 118, right: 60, top: 14, bottom: 34 },
+    xAxis: { type: 'value', min: 0, max: Math.ceil(xmax * 10) / 10, name: 'O/E', nameLocation: 'middle', nameGap: 22, splitLine: { lineStyle: { color: '#EEE9DC' } } },
+    yAxis: { type: 'category', data: A.map(a => a[0]), axisTick: { show: false }, axisLine: { show: false }, axisLabel: { fontSize: 12 } },
+    tooltip: { trigger: 'item', formatter: (p) => { const o = A[p.dataIndex][1]; return `${A[p.dataIndex][0]}<br>O/E ${o.oe == null ? '—' : o.oe.toFixed(2)}（95% CI ${o.lo == null ? '—' : o.lo.toFixed(2)}–${o.hi == null ? '—' : o.hi.toFixed(2)}）<br>觀察 ${o.obs}／預期 ${o.exp.toFixed(2)}，n=${o.n}`; } },
+    series: [{
+      type: 'custom', data: A.map((a, i) => [a[1].oe == null ? 0 : a[1].oe, i, a[1].lo == null ? 0 : a[1].lo, a[1].hi == null ? 0 : a[1].hi]),
+      renderItem: (params, api) => {
+        const i = api.value(1), c = A[i][2];
+        const p = api.coord([api.value(0), i]), l = api.coord([api.value(2), i]), u = api.coord([api.value(3), i]);
+        return { type: 'group', children: [
+          { type: 'line', shape: { x1: l[0], y1: p[1], x2: u[0], y2: p[1] }, style: { stroke: c, lineWidth: 2 } },
+          { type: 'line', shape: { x1: l[0], y1: p[1] - 6, x2: l[0], y2: p[1] + 6 }, style: { stroke: c, lineWidth: 2 } },
+          { type: 'line', shape: { x1: u[0], y1: p[1] - 6, x2: u[0], y2: p[1] + 6 }, style: { stroke: c, lineWidth: 2 } },
+          { type: 'circle', shape: { cx: p[0], cy: p[1], r: 6 }, style: { fill: c } },
+          { type: 'text', style: { x: u[0] + 8, y: p[1] - 7, text: A[i][1].oe == null ? '—' : A[i][1].oe.toFixed(2), fill: '#333', fontSize: 12, fontWeight: 600 } },
+        ] };
+      },
+      markLine: { symbol: 'none', silent: true, lineStyle: { type: 'dashed', color: '#999' }, label: { formatter: 'O/E = 1', position: 'insideEndTop', color: '#777' }, data: [{ xAxis: 1 }] },
+    }],
+  });
 }
 function periodOptions(cases) {
   const years = [...new Set(cases.map(c => c.y).filter(Boolean))].sort();
@@ -1855,6 +1939,7 @@ function renderDynamic() {
   drawTrendCharts();
   drawMomentumChart(_momRows);
   drawIntraopCharts(_ioSel);
+  drawOeCompare();
 }
 
 /* ============================================================
