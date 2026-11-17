@@ -1238,6 +1238,11 @@ footer {
 .gap-hint { font-size: 12px; color: var(--ink-faint, #8A8580); margin: 6px 0 4px; }
 .gap-row { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; padding: 4px 0; }
 .gap-row .mono { font-family: ui-monospace, monospace; font-size: 11px; }
+/* ★2026-11-17 頂端「資料待補清單」快捷鍵 */
+.btn-jump-gaps { display: none; align-items: center; gap: 6px; background: #FBF3EA; border: 1px solid #E3C9AE; color: #8A4B1F; border-radius: 3px; padding: 7px 12px; font-size: 13px; cursor: pointer; font-family: inherit; }
+.btn-jump-gaps:hover { border-color: #8A4B1F; }
+.btn-jump-gaps .gap-n { padding: 0 7px; }
+#gapsSection { scroll-margin-top: 16px; }
 </style>
 </head>
 <body>
@@ -1249,7 +1254,10 @@ footer {
       <h1>儀表板</h1>
       <div class="as-of" id="asOf"></div>
     </div>
-    <span class="role-tag">管理</span>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <button type="button" class="btn-jump-gaps" id="jumpGapsBtn" title="跳到資料待補清單">📋 資料待補清單 <span class="gap-n" id="jumpGapsN"></span></button>
+      <span class="role-tag">管理</span>
+    </div>
   </header>
 
   <div class="key-bar">
@@ -3523,17 +3531,28 @@ const GAP_DEFS = [
   ['noDischarge', '術後超過 30 天仍無出院日', '確認是否仍住院，或補填出院日'],
   ['urgency', '手術急迫性空白（2026-09-25 起的手術）', '在手術預約資訊選擇 Elective／Urgent／Emergent／Salvage'],
 ];
+// ★2026-11-17 頂端快捷鍵：載入後顯示，點擊捲到 08+ 資料待補清單
+function updateJumpGapsBtn(total) {
+  const b = $('jumpGapsBtn'); if (!b) return;
+  b.style.display = $('gapsSection') ? 'inline-flex' : 'none';
+  $('jumpGapsN').textContent = total ? total : '✓';
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#jumpGapsBtn')) return;
+  const t = $('gapsSection'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 function renderDataGaps(gaps) {
   if (!gaps) return '';
   const rows = GAP_DEFS.filter(([k]) => gaps[k] && gaps[k].length);
   const total = rows.reduce((a, [k]) => a + gaps[k].length, 0);
+  setTimeout(() => updateJumpGapsBtn(total), 0);   // ★2026-11-17 頂端快捷鍵顯示筆數
   const body = rows.length ? rows.map(([k, label, hint]) => `
     <details class="gap-item"><summary><span class="gap-label">${escapeHtml(label)}</span><span class="gap-n">${gaps[k].length}</span></summary>
       <div class="gap-hint">${escapeHtml(hint)}</div>
       <div class="gap-list">${gaps[k].map(g => `<div class="gap-row"><span class="name" title="${escapeHtml(g.pk || '')}">${escapeHtml(maskName(g.name))}</span><span class="meta">${escapeHtml(g.date || '—')} · ${escapeHtml(g.surgery || '—')}</span><span class="meta mono">${escapeHtml(g.pk || '')}</span></div>`).join('')}</div>
     </details>`).join('') : '<div class="plist-empty">目前沒有待補資料 ✓</div>';
   return `
-    <h2 class="section-title"><span class="num">08+</span><span>資料待補清單</span><span class="sub">${total ? `共 ${total} 筆 · 點開看是哪幾位` : '全部完整'}</span></h2>
+    <h2 class="section-title" id="gapsSection"><span class="num">08+</span><span>資料待補清單</span><span class="sub">${total ? `共 ${total} 筆 · 點開看是哪幾位` : '全部完整'}</span></h2>
     <div class="gap-card">${body}</div>`;
 }
 function statusPill(p) {
