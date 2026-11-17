@@ -666,8 +666,8 @@
   <div class="notice">
     <span class="lang-zh"><strong>📋 填寫說明</strong></span><span class="lang-en"><strong>📋 Instructions</strong></span>
     <span class="lang-zh">本問卷旨在了解您在<strong>心臟加速康復團隊</strong>照護下的親身經驗（包含術前、手術、術後復健、出院後追蹤），協助我們持續精進加速康復的照護品質。
-    您的回覆將予以<strong>保密</strong>，不影響您的後續醫療照護。請依實際感受誠實填答，每題只能選擇一個答案。</span><span class="lang-en">This survey aims to understand your experience under our <strong>Cardiac Enhanced Recovery Team</strong>'s care (including pre-op, surgery, post-op rehabilitation, and post-discharge follow-up), helping us continuously improve care quality.
-    Your responses will be kept <strong>confidential</strong> and will not affect your subsequent medical care. Please answer honestly. Each question allows only one answer.</span>
+    您的回覆將予以<strong>保密</strong>，不影響您的後續醫療照護；文字意見只有在您於最後一題勾選同意時，才會以不具名方式公開。請依實際感受誠實填答，每題只能選擇一個答案。</span><span class="lang-en">This survey aims to understand your experience under our <strong>Cardiac Enhanced Recovery Team</strong>'s care (including pre-op, surgery, post-op rehabilitation, and post-discharge follow-up), helping us continuously improve care quality.
+    Your responses will be kept <strong>confidential</strong> and will not affect your subsequent medical care; written comments are posted anonymously only if you agree in the last question. Please answer honestly. Each question allows only one answer.</span>
   </div>
 
   <!-- ══════════════════════════════════════════
@@ -1141,6 +1141,20 @@
       <textarea class="textarea-input" id="q-open4" placeholder="請自由填寫……" data-placeholder-zh="請自由填寫……" data-placeholder-en="Please feel free to write…"></textarea>
     </div>
 
+    <!-- ★2026-11-17 病人自行決定文字意見是否可不具名公開 -->
+    <div class="q-card" id="qc-consent">
+      <div class="q-label"><span class="lang-zh">5. 您是否同意本團隊將您第 1、4 題的文字意見，以<strong>不具名</strong>方式刊登於團隊公開網頁？</span><span class="lang-en">5. Do you agree that our team may post your written comments from Q1 and Q4 <strong>anonymously</strong> on our public webpage?</span></div>
+      <div class="q-hint"><span class="lang-zh">不會顯示您的姓名或病歷資料，只會標示「本人」或「家屬」填寫。不同意或未選擇，皆不會公開，也不影響您的醫療照護。</span><span class="lang-en">Your name and medical record will not be shown; only "patient" or "family" will be indicated. If you disagree or leave this blank, nothing will be posted, and your care will not be affected.</span></div>
+      <div class="options-list" id="consent-opts">
+        <label class="option-item">
+          <input type="radio" name="consent" value="同意"> <span class="lang-zh">同意不具名公開</span><span class="lang-en">I agree to anonymous posting</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="consent" value="不同意"> <span class="lang-zh">不同意公開</span><span class="lang-en">I do not agree</span>
+        </label>
+      </div>
+    </div>
+
     <div class="nav-bar">
       <button class="btn btn-prev" onclick="prevSection(5)"><span class="lang-zh">← 上一步</span><span class="lang-en">← Previous</span></button>
       <button class="btn btn-submit" id="submit-btn" onclick="submitForm()">
@@ -1151,9 +1165,9 @@
     <p class="form-footer">
       <span class="lang-zh">※ 本問卷改編自 CARE（Consultation and Relational Empathy）量表，<br>
       原版由 Dr Stewart Mercer 等人開發（2000–2003）。<br>
-      您的填答將完全保密，僅用於醫療品質改善。</span><span class="lang-en">※ This survey is adapted from the CARE (Consultation and Relational Empathy) Measure,<br>
+      您的填答將保密，僅用於醫療品質改善；文字意見僅在您同意時以不具名方式公開。</span><span class="lang-en">※ This survey is adapted from the CARE (Consultation and Relational Empathy) Measure,<br>
       originally developed by Dr Stewart Mercer et al. (2000–2003).<br>
-      Your responses are kept strictly confidential, used only for quality improvement.</span>
+      Your responses are kept confidential and used for quality improvement; written comments are posted anonymously only with your consent.</span>
     </p>
   </div>
 
@@ -1366,6 +1380,8 @@ function collectData() {
     需改善之處:      document.getElementById('q-open2').value.trim(),
     出院後疑慮:      document.getElementById('q-open3').value.trim(),
     其他意見:        document.getElementById('q-open4').value.trim(),
+    // ★2026-11-17 病人同意公開（未選＝不同意，確保新版填答一律有值，與舊資料的空白區分）
+    同意公開:        answers['consent'] === '同意' ? '同意' : '不同意',
   };
   return data;
 }
