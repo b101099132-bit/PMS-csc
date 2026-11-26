@@ -309,6 +309,13 @@ async function openCase(pk, version){
     CUR.input = JSON.parse(JSON.stringify(d.result.input || {}));
     CUR.input.m = CUR.input.m || {}; CUR.input.ov = CUR.input.ov || {}; CUR.input.fr = CUR.input.fr || {};
     CUR.ver = d.case.version; CUR.verReason = d.case.versionReason || '';
+    // ★2026-11-26 第 5、6 項：查核頁尚未輸入時，先帶入收案頁填的麻醉計畫（實際不同可更正）
+    CUR.planUsed = {};
+    if (!d.locked && d.plan) {
+      if (Array.isArray(d.plan['5']) && d.plan['5'].length && CUR.input.m['5'] === undefined) { CUR.input.m['5'] = d.plan['5'].slice(); CUR.planUsed['5'] = 1; }
+      if (d.plan['6'] && !CUR.input.m['6']) { CUR.input.m['6'] = d.plan['6']; CUR.planUsed['6'] = 1; }
+      if (d.plan['9'] && !CUR.input.m['9']) { CUR.input.m['9'] = d.plan['9']; CUR.planUsed['9'] = 1; }
+    }
     renderDetail();
   } catch (err) { $('panel').innerHTML = '<p>' + escapeHtml(err.message) + '</p><button class="btn" onclick="closeDetail()">關閉</button>'; }
 }
@@ -316,16 +323,17 @@ function closeDetail(){ $('detail').classList.remove('show'); CUR = null; }
 $('detail').addEventListener('click', e => { if (e.target === $('detail')) closeDetail(); });
 
 /* 依目前輸入即時計算手動項目結果（自動項目沿用後端判定；後端判為不適用的規則優先） */
+const MANUAL_NA = /^(查核頁勾選|查核頁更正|術後追蹤頁登錄)/;   // 這些開頭的「不適用」是人工輸入而非規則，仍可在查核頁更改
 function liveRes(def, it){
   const m = CUR.input.m, ov = CUR.input.ov[def.n];
   if (ov && ov.res) return ov.res;
-  const ruleNA = it.auto === 'NA' && !/^查核頁勾選/.test(it.ev);
+  const ruleNA = it.auto === 'NA' && !MANUAL_NA.test(it.ev);
   if (def.type === 'auto' || ruleNA) return it.auto;
   const k = String(def.n), v = m[k];
   switch (def.type) {
     case 'edu': return (it.ev.indexOf('平台已發送') === 0 || v) ? 'Y' : 'N';
     case 'yn': return v === '是' ? 'Y' : 'N';
-    case 'yn3': return v === '是' ? 'Y' : (v === '不適用' ? 'NA' : 'N');
+    case 'yn3': return (v === '是' || v === '不適用') ? 'Y' : 'N';   // 未曾>180（存值「不適用」）亦算達成
     case 'multi': return Array.isArray(v) && v.length >= 2 ? 'Y' : 'N';
     case 'icdsc': return v && v.done === '是' ? 'Y' : 'N';
     case 'select': return v && v.sel ? 'Y' : 'N';
@@ -336,14 +344,15 @@ function liveRes(def, it){
 }
 function inputHtml(def, it, locked){
   const k = String(def.n), v = CUR.input.m[k], dis = locked ? 'disabled' : '';
-  const ruleNA = it.auto === 'NA' && !/^查核頁勾選/.test(it.ev);
+  const ruleNA = it.auto === 'NA' && !MANUAL_NA.test(it.ev);
   if (def.type === 'auto' || (ruleNA && def.type !== 'edu')) return '';
+  const planHint = (CUR.planUsed && CUR.planUsed[k]) ? ('<span class="hint">已帶入' + (k === '9' ? '術後追蹤頁' : '收案頁') + '登錄的內容，如有不同請更正</span>') : '';
   const radio = (opts) => opts.map(o => `<label><input type="radio" name="m${k}" value="${o}" ${v===o?'checked':''} ${dis} data-k="${k}" data-t="radio"> ${o}</label>`).join('');
   switch (def.type) {
     case 'edu': return it.ev.indexOf('平台已發送') === 0 ? '' : `<div class="inputs"><label><input type="checkbox" data-k="1" data-t="flag" ${v?'checked':''} ${dis}> 已完成紙本／口頭衛教（未經平台發送）</label></div>`;
-    case 'yn': return `<div class="inputs">${radio(['是','否'])}</div>`;
-    case 'yn3': return `<div class="inputs">${radio(['是','否','不適用'])}<span class="hint">加護病房期間血糖未曾 >180 mg/dL 請勾不適用</span></div>`;
-    case 'multi': { const a = Array.isArray(v) ? v : []; return `<div class="inputs">${def.opts.map(o => `<label><input type="checkbox" data-k="${k}" data-t="multi" value="${o}" ${a.indexOf(o)>=0?'checked':''} ${dis}> ${o}</label>`).join('')}<span class="hint">勾選兩種以上即達成</span></div>`; }
+    case 'yn': return `<div class="inputs">${radio(['是','否'])}${planHint}</div>`;
+    case 'yn3': return `<div class="inputs">${[['不適用','未曾 >180'],['是','曾 >180，已給胰島素'],['否','曾 >180，未給胰島素']].map(([o,l]) => `<label><input type="radio" name="m${k}" value="${o}" ${v===o?'checked':''} ${dis} data-k="${k}" data-t="radio"> ${l}</label>`).join('')}<span class="hint">恢復室至轉出加護病房期間；未曾 >180 亦算達成</span>${planHint}</div>`;
+    case 'multi': { const a = Array.isArray(v) ? v : []; return `<div class="inputs">${def.opts.map(o => `<label><input type="checkbox" data-k="${k}" data-t="multi" value="${o}" ${a.indexOf(o)>=0?'checked':''} ${dis}> ${o}</label>`).join('')}<span class="hint">勾選兩種以上即達成</span>${planHint}</div>`; }
     case 'icdsc': { const x = v || {}; return `<div class="inputs"><label><input type="radio" name="m${k}" data-k="${k}" data-t="icdsc-done" value="是" ${x.done==='是'?'checked':''} ${dis}> 已完成</label><label><input type="radio" name="m${k}" data-k="${k}" data-t="icdsc-done" value="否" ${x.done==='否'?'checked':''} ${dis}> 未完成</label><label>最高分 <input type="number" min="0" max="8" style="width:64px" data-k="${k}" data-t="icdsc-max" value="${x.max!=null?x.max:''}" ${dis}></label><span class="hint">依加護病房紙本「術後意識與譫妄評估紀錄表（RASS＋ICDSC）」</span></div>`; }
     case 'select': { const x = v || {}; return `<div class="inputs">${def.opts.map(o => `<label><input type="radio" name="m${k}" data-k="${k}" data-t="sel" value="${o}" ${x.sel===o?'checked':''} ${dis}> ${o}選案標準</label>`).join('')}<label>原因 <input type="text" style="width:220px" data-k="${k}" data-t="sel-reason" value="${escapeHtml(x.reason||'')}" placeholder="不符合時填寫" ${dis}></label></div>`; }
     case 'check': { const a = Array.isArray(v) ? v : []; return `<div class="inputs">${def.opts.map(o => `<label><input type="checkbox" data-k="${k}" data-t="multi" value="${o}" ${a.indexOf(o)>=0?'checked':''} ${dis}> ${o}</label>`).join('')}</div>`; }
@@ -368,7 +377,7 @@ function renderDetail(){
     const res = liveRes(def, it), ov = CUR.input.ov[def.n];
     html += `<div class="item" id="it${def.n}"><div class="item-top"><div class="item-n">${def.n}</div><div class="item-main">
       <div class="item-name">${escapeHtml(def.name)}</div><div class="item-crit">${escapeHtml(def.crit)}</div>
-      <div class="item-ev"><span class="src">${(def.type==='auto' || it.ev.indexOf('平台已發送')===0) ? '自動' : (it.auto==='NA' && !/^查核頁勾選/.test(it.ev) ? '規則' : '查核頁')}</span>${escapeHtml(it.ev)}</div></div>
+      <div class="item-ev"><span class="src">${(def.type==='auto' || it.ev.indexOf('平台已發送')===0) ? '自動' : (it.auto==='NA' && !MANUAL_NA.test(it.ev) ? '規則' : (/^收案/.test(it.ev) ? '收案頁' : (/^術後追蹤/.test(it.ev) ? '術後追蹤頁' : '查核頁')))}</span>${escapeHtml(it.ev.replace(/^(收案頁|術後追蹤頁)登錄/, '登錄'))}</div></div>
       <span class="res ${res}" id="res${def.n}">${RES_TXT[res]}${ov && ov.res ? '（改判）':''}</span></div>
       ${inputHtml(def, it, locked)}
       <div class="subrow" id="fr${def.n}" style="display:${res==='N'?'flex':'none'}">未達成原因 <select data-n="${def.n}" data-t="fr" ${dis}><option value="">—</option>${['未執行','已執行未登錄'].map(o=>`<option ${CUR.input.fr[def.n]===o?'selected':''}>${o}</option>`).join('')}</select></div>

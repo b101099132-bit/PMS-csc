@@ -966,6 +966,19 @@ footer {
             <input type="number" id="max_pain" name="max_pain" step="1" min="0" max="10">
           </div>
         </div>
+        <!-- ★2026-11-26 術後血糖 >180 與胰島素處置（ERAS 核心查核心臟版第 9 項來源） -->
+        <div class="row row-3">
+          <div class="field">
+            <label for="glucose180">術後血糖 &gt;180 mg/dL</label>
+            <select id="glucose180" name="glucose180">
+              <option value="">—</option>
+              <option value="未曾>180">未曾 &gt;180</option>
+              <option value="曾>180，已給胰島素">曾 &gt;180，已給胰島素</option>
+              <option value="曾>180，未給胰島素">曾 &gt;180，未給胰島素</option>
+            </select>
+            <div class="hint" style="font-size:11px;color:var(--ink-faint)">恢復室至轉出加護病房期間</div>
+          </div>
+        </div>
 
         <div class="subhead" style="font-size:14px;color:#A04545;margin-top:18px">重大異常事件</div>
         <div class="field" data-name="major_event">
@@ -1613,6 +1626,7 @@ function fillExisting(p) {
   if (po.icu_temp != null && po.icu_temp !== '') $('icu_temp').value = po.icu_temp;
   if (po.max_temp != null && po.max_temp !== '') $('max_temp').value = po.max_temp;
   if (po.max_pain != null && po.max_pain !== '') $('max_pain').value = po.max_pain;
+  if ($('glucose180')) $('glucose180').value = po.glucose180 || '';   // ★2026-11-26
 
   // ROX 指數評估（回填 16 原始輸入，計算值由 computeRox 重算）
   ['4h', '6h', '10h', '12h'].forEach(tp => {

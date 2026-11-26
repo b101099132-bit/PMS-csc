@@ -762,6 +762,8 @@ footer {
               <div class="field"><label for="emerg_es_pa">肺動脈收縮壓（mmHg）</label><select id="emerg_es_pa"><option value="">—</option><option value="<31">&lt;31</option><option value="31-55">31–55</option><option value=">=55">≥55</option></select></div>
             </div>
           </details>
+          <!-- ★2026-11-26 麻醉計畫（ERAS 核心查核第 5、6 項來源），由 planRender() 產生 -->
+          <div id="emergPlanBox"></div>
           <div style="margin-top:10px">
             <button type="button" class="btn btn-primary" id="emergSubmitBtn">建立收案</button>
             <button type="button" id="emergCancelBtn" style="margin-left:8px;padding:10px 18px;border:1px solid #CFC7B6;background:#fff;border-radius:6px;cursor:pointer;color:#6B6457">取消</button>
@@ -952,6 +954,8 @@ footer {
               <div class="field"><label for="s_es_pa">肺動脈收縮壓（mmHg）</label><select id="s_es_pa" name="es_pa"><option value="">—</option><option value="<31">&lt;31</option><option value="31-55">31–55</option><option value=">=55">≥55</option></select></div>
             </div>
           </details>
+          <!-- ★2026-11-26 麻醉計畫（ERAS 核心查核第 5、6 項來源），由 planRender() 產生；送出時以 formData.set 帶入 -->
+          <div id="sPlanBox"></div>
         <input type="hidden" name="preop_form" value="1">
         <div class="submit-area">
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">儲存預約</button>
@@ -990,6 +994,31 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZ
 
 // ===== DOM refs =====
 const $ = (id) => document.getElementById(id);
+/* ★2026-11-26 麻醉計畫（收案時決定）：寫入病人主檔，ERAS 核心查核頁第 5 項（多模式止痛）、第 6 項（Tranexamic acid）自動帶入。
+   選項須與 audit.js AU_ITEMS 心臟版第 5 項 opts 一致。prefix：emerg＝急診收案、s＝預約表單 */
+const PLAN_OPTS = ['Acetaminophen', 'NSAID／COX-2', 'Gabapentinoid', '區域神經阻斷', '傷口浸潤或導管', 'Lidocaine靜脈輸注', 'Dexmedetomidine', 'Ketamine', '其他'];
+function planRender(prefix) {
+  const box = $(prefix + 'PlanBox'); if (!box) return;
+  box.innerHTML = '<details open style="margin-top:14px;border:1px solid #E3DCCB;border-radius:8px;background:#FBF9F4;padding:10px 14px">'
+    + '<summary style="cursor:pointer;font-weight:600;color:#6B5A3E">麻醉計畫（ERAS 查核）<span class="urg-hint" style="font-weight:400;margin-left:8px">心臟手術填寫；主動脈支架免填</span></summary>'
+    + '<div class="field" style="margin-top:10px"><label>多模式止痛：使用的非鴉片類止痛方式（可複選，兩種以上即達成）</label>'
+    + '<div class="radio-group" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px 12px">'
+    + PLAN_OPTS.map((o, i) => '<div class="option"><input type="checkbox" id="' + prefix + '_plan_a' + i + '" class="' + prefix + '-plan-opt" value="' + o + '"><label for="' + prefix + '_plan_a' + i + '">' + o + '</label></div>').join('')
+    + '</div></div>'
+    + '<div class="row row-3"><div class="field"><label for="' + prefix + '_plan_txa">Tranexamic acid（體外循環手術）</label>'
+    + '<select id="' + prefix + '_plan_txa"><option value="">—</option><option value="是">使用</option><option value="否">不使用</option></select></div></div>'
+    + '</details>';
+}
+function planGet(prefix) {
+  return { a: Array.from(document.querySelectorAll('.' + prefix + '-plan-opt:checked')).map(c => c.value).join('、'),
+    txa: $(prefix + '_plan_txa') ? $(prefix + '_plan_txa').value : '' };
+}
+function planSet(prefix, a, txa) {
+  const list = String(a || '').split('、');
+  document.querySelectorAll('.' + prefix + '-plan-opt').forEach(c => { c.checked = list.indexOf(c.value) >= 0; });
+  if ($(prefix + '_plan_txa')) $(prefix + '_plan_txa').value = (txa === '是' || txa === '否') ? txa : '';
+}
+planRender('emerg'); planRender('s');
 const lookupBtn = $('lookupBtn');
 const surgerySection = $('surgerySection');
 const surgeryForm = $('surgeryForm');
@@ -1292,6 +1321,7 @@ function showPatient(p) {
   if ($('sIddmField')) $('sIddmField').style.display = ($('s_dm') && $('s_dm').value === '是') ? '' : 'none';
   if ($('sEsScore')) $('sEsScore').textContent = (esv.es_mortality != null && esv.es_mortality !== '') ? '預測死亡率 ' + esv.es_mortality + '%' : '';
   if ($('sEsBox')) $('sEsBox').open = Object.keys(esv).length === 0 || esv.es_mortality == null || esv.es_mortality === '';
+  planSet('s', p.planAnalgesia, p.planTxa);   // ★2026-11-26 麻醉計畫回填
 
   patientCard.style.display = 'grid';
   surgerySection.classList.remove('disabled');
@@ -1472,6 +1502,7 @@ surgeryForm.addEventListener('submit', async (e) => {
   const formData = new FormData(surgeryForm);
   formData.delete('surgery_type');                          // 移除多個同名值
   formData.set('surgery_type', checkedTypes.join(','));     // 改存逗號分隔
+  { const pl = planGet('s'); formData.set('plan_form', '1'); formData.set('plan_analgesia', pl.a); formData.set('plan_txa', pl.txa); }   // ★2026-11-26 麻醉計畫
   formData.append('action', 'updateSurgery');
   formData.append('pk', currentPatient.pk);
   formData.append('key', $('doctor_key').value.trim());
@@ -1530,6 +1561,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     if ($('emerg_preop_note')) $('emerg_preop_note').value = '';
     if ($('emerg_reop')) { $('emerg_reop').checked = false; $('emerg_reop_of').value = ''; $('emergReopBox').style.display = 'none'; $('emerg_reop_search').value = ''; $('emergReopResults').style.display = 'none'; $('emergReopResults').innerHTML = ''; $('emergReopPicked').style.display = 'none'; }
     ES_EMERG_IDS.forEach(id => { if ($('emerg_' + id)) $('emerg_' + id).value = ''; });
+    planSet('emerg', '', '');
     if ($('emergIddmField')) $('emergIddmField').style.display = 'none';
     if ($('emergEsBox')) $('emergEsBox').open = true;
   };
@@ -1599,6 +1631,7 @@ surgeryForm.addEventListener('submit', async (e) => {
     fd.append('weight_pre', weight);
     // ★2026-11-14 EuroSCORE II 補充（有填才送；共病 dm/copd/esrd 寫主檔，其餘寫危險因子預測表，後端立即算分）
     ES_EMERG_IDS.forEach(id => { const el = $('emerg_' + id); if (el && el.value) fd.append(id, el.value); });
+    { const pl = planGet('emerg'); fd.append('plan_form', '1'); fd.append('plan_analgesia', pl.a); fd.append('plan_txa', pl.txa); }   // ★2026-11-26 麻醉計畫
     try {
       await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd });
       form.style.display = 'none';
