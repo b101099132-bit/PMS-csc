@@ -135,6 +135,8 @@ footer { margin-top:30px; text-align:center; font-size:12px; color:var(--ink-fai
 .tag.void { background:var(--na-bg); color:var(--na); text-decoration:line-through; }
 tr.voided td { color:var(--ink-faint); }
 .late { color:var(--error); font-weight:600; }
+#kpis { grid-template-columns:repeat(3,1fr); }
+@media (max-width:760px){ #kpis { grid-template-columns:repeat(2,1fr); } }
 .foot { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; }
 .loading { display:inline-block; width:12px; height:12px; border:2px solid var(--border-strong); border-top-color:var(--teal); border-radius:50%; animation:sp .8s linear infinite; margin-right:6px; vertical-align:middle; }
 @keyframes sp { to { transform:rotate(360deg); } }
@@ -147,7 +149,7 @@ footer { margin-top:26px; font-size:12px; color:var(--ink-faint); text-align:cen
     <div class="brand">
       <div class="eyebrow">Night &amp; Holiday Emergency Response</div>
       <h1>夜間急重症出動覆核</h1>
-      <div class="flow">LINE 出動群組自動記錄通知與到院時間 → 一週內覆核人員、角色與處置起訖 → 到院時效與季積分</div>
+      <div class="flow">LINE 出動群組自動記錄通知、到院、完成置放與離開時間 → 一週內覆核 → 到院時效、置放時效與季積分</div>
     </div>
     <span class="role-tag" id="roleTag">團隊</span>
   </header>
@@ -174,8 +176,8 @@ footer { margin-top:26px; font-size:12px; color:var(--ink-faint); text-align:cen
   <div class="card tbl-wrap">
     <h2>出動事件</h2>
     <table class="list">
-      <thead><tr><th>通知時間</th><th>類別</th><th class="hide-m">來源</th><th>出動人員與到院</th><th class="hide-m">處置時數</th><th>覆核</th></tr></thead>
-      <tbody id="evBody"><tr><td colspan="6" class="hint">輸入通行碼後載入。</td></tr></tbody>
+      <thead><tr><th>通知時間</th><th>類別</th><th class="hide-m">來源</th><th>出動人員與到院</th><th class="hide-m">完成置放</th><th class="hide-m">處置時數</th><th>覆核</th></tr></thead>
+      <tbody id="evBody"><tr><td colspan="7" class="hint">輸入通行碼後載入。</td></tr></tbody>
     </table>
   </div>
 
@@ -258,10 +260,11 @@ function md(t){ t = norm(t); return t ? t.slice(5,10).replace('-','/') : ''; }
 
 // ===== 事件的有效內容：已覆核以覆核內容為準，否則用 LINE 自動記錄 =====
 function eff(ev){
-  if (ev.rv) return Object.assign({ place:'', start:'', result:'', note:'', pid:'', void:false, voidReason:'' }, ev.rv, { notify: norm(ev.rv.notify), end: norm(ev.rv.end), reviewed: true, pk: ev.pk });
+  if (ev.rv) return Object.assign({ place:'', start:'', result:'', note:'', pid:'', void:false, voidReason:'' }, ev.rv, { notify: norm(ev.rv.notify), end: norm(ev.rv.end),
+    done: ev.rv.done !== undefined ? norm(ev.rv.done) : norm(ev.raw.done), reviewed: true, pk: ev.pk });
   const r = ev.raw;
-  return { cat: r.cat, notify: norm(r.notify), place:'', start:'', end: norm(r.end), result:'', note:'', pid:'', pk: ev.pk, void: r.status === '取消', voidReason:'', reviewed: false,
-    people: (r.arr || []).map(a => ({ uid: a.uid || '', name: a.name || '', role: a.role || '', lead: false, arrive: norm(a.t), leave: '' })) };
+  return { cat: r.cat, notify: norm(r.notify), place:'', start:'', done: norm(r.done), end: norm(r.end), result:'', note:'', pid:'', pk: ev.pk, void: r.status === '取消', voidReason:'', reviewed: false,
+    people: (r.arr || []).map(a => ({ uid: a.uid || '', name: a.name || '', role: a.role || '', lead: false, arrive: norm(a.t), leave: norm(a.leave) })) };
 }
 /* 每人：到院分鐘、時數、積分 */
 function personCalc(e, p){
@@ -272,11 +275,19 @@ function personCalc(e, p){
   return { min, within: min != null && min <= 60, hrs, score: Math.round(score * 100) / 100, noEnd: hrs == null };
 }
 function counted(e){ return !e.void && inWindow(e.notify); }
+/* 葉克膜完成置放時效：通知→完成、第一位到場→完成（分鐘）；無完成時間或非葉克膜置放回傳 null */
+function doneCalc(e){
+  if (e.cat !== '葉克膜置放' || !e.done) return null;
+  const first = e.people.map(p => p.arrive).filter(Boolean).sort()[0] || '';
+  const n = minsBetween(e.notify, e.done), a = first ? minsBetween(first, e.done) : null;
+  return { fromNotify: n, fromArrive: (a != null && a >= 0) ? a : null };
+}
+function median(xs){ xs = xs.filter(x => x != null).sort((a, b) => a - b); if (!xs.length) return null; const m = xs.length >> 1; return xs.length % 2 ? xs[m] : Math.round((xs[m - 1] + xs[m]) / 2); }
 
 async function load(keepQ){
   const key = $('doctor_key').value.trim(); if (!key) return;
   $('errAlert').classList.remove('show');
-  $('evBody').innerHTML = '<tr><td colspan="6"><span class="loading"></span>載入中…</td></tr>';
+  $('evBody').innerHTML = '<tr><td colspan="7"><span class="loading"></span>載入中…</td></tr>';
   try {
     const d = await jsonp({ action:'dispatchList', key });
     if (!d || !d.ok) { showErr(d && d.error === 'unauthorized' ? '通行碼錯誤' : '載入失敗：' + (d && d.error || '')); $('evBody').innerHTML=''; return; }
@@ -323,25 +334,31 @@ function render(){
   const pending = evs.filter(ev => !ev.e.reviewed && !ev.e.void).length;
   const regDen = valid.length + cand.length;
   const pct = (a, b) => b ? (Math.round(a / b * 1000) / 10) + '%' : '—';
+  const dcs = valid.map(ev => doneCalc(ev.e)).filter(Boolean);
+  const mN = median(dcs.map(d => d.fromNotify)), mA = median(dcs.map(d => d.fromArrive));
   $('kpis').innerHTML = [
     ['出動事件', valid.length, '應變時段內、未作廢' + (evs.length - valid.length ? '；另 ' + (evs.length - valid.length) + ' 筆不計' : '')],
     ['待覆核', pending, '目標：事件後一週內完成', pending > 0],
     ['1 小時內到院率', pct(pin, pn), pn ? pin + '／' + pn + ' 人次' : '尚無到院紀錄'],
-    ['出動事件登錄率', pct(valid.length, regDen), regDen ? valid.length + '／' + regDen + '（分母含未登錄的夜間假日急診手術）' : '尚無事件', cand.length > 0]
+    ['出動事件登錄率', pct(valid.length, regDen), regDen ? valid.length + '／' + regDen + '（分母含未登錄的夜間假日急診手術）' : '尚無事件', cand.length > 0],
+    ['通知到完成置放', mN != null ? mN + ' 分' : '—', dcs.length ? '葉克膜置放 ' + dcs.length + ' 例之中位數' : '尚無完成置放時間'],
+    ['到場到完成置放', mA != null ? mA + ' 分' : '—', '自第一位成員到場起算，中位數']
   ].map(k => `<div class="kpi"><div class="lbl">${k[0]}</div><div class="val ${k[3] ? 'bad' : ''}">${k[1]}</div><div class="sub">${k[2]}</div></div>`).join('');
   // 事件表
   $('evBody').innerHTML = evs.length ? evs.map(ev => {
     const e = ev.e, win = inWindow(e.notify);
     const ppl = e.people.map(p => { const c = personCalc(e, p); return `${escapeHtml(p.name)}${p.lead ? '★' : ''}${p.role ? '' : '<span class="flag">待補職類</span>'} <span class="mono ${c.min != null && !c.within ? 'late' : ''}">${c.min != null ? '+' + c.min + '分' : '未記到院'}</span>`; }).join('　');
     const dur = minsBetween(e.people.map(p => p.arrive).filter(Boolean).sort()[0] || e.notify, e.end);
+    const dc = doneCalc(e);
     return `<tr class="case ${e.void ? 'voided' : ''}" data-id="${escapeHtml(ev.id)}">
       <td class="mono">${md(e.notify)} ${hm(e.notify)}${win ? '' : '<br><span class="flag">非應變時段</span>'}</td>
       <td><span class="tag ${e.void ? 'void' : (CAT_CLS[e.cat] || 'cat-n')}">${escapeHtml(e.cat || '未分類')}</span></td>
       <td class="hide-m hint">${escapeHtml(ev.src)}${ev.gname ? '<br>' + escapeHtml(ev.gname) : ''}</td>
       <td>${ppl || '<span class="hint">尚無人回「到」</span>'}</td>
+      <td class="hide-m mono">${dc ? hm(e.done) + '<br><span class="hint">通知後 ' + dc.fromNotify + ' 分' + (dc.fromArrive != null ? '、到場後 ' + dc.fromArrive + ' 分' : '') + '</span>' : (e.cat === '葉克膜置放' ? '<span class="hint">未記完成</span>' : '<span class="hint">—</span>')}</td>
       <td class="hide-m mono">${e.end && dur != null && dur >= 0 ? (Math.round(dur / 6) / 10) + ' h' : '<span class="hint">未記結束</span>'}</td>
       <td>${e.void ? '<span class="tag st-no">作廢</span>' : (e.reviewed ? '<span class="tag st-ok">已覆核</span>' : '<span class="tag st-miss">待覆核</span>')}</td></tr>`;
-  }).join('') : '<tr><td colspan="6" class="hint">這一季沒有出動事件。</td></tr>';
+  }).join('') : '<tr><td colspan="7" class="hint">這一季沒有出動事件。</td></tr>';
   $('evBody').querySelectorAll('tr.case').forEach(tr => tr.addEventListener('click', () => openEvent(tr.dataset.id)));
   // 候選
   $('candCard').style.display = cand.length ? '' : 'none';
@@ -374,11 +391,11 @@ function exportCsv(){
   if (!DATA) return;
   const q = $('fQ').value, evs = DATA.events.filter(ev => q === 'all' || ev.q === q);
   const cell = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
-  const out = [['季別','事件編號','類別','通知時間','應變時段','作廢','覆核','姓名','職類','主責','到院時間','到院分鐘','1小時內','離開或結束時間','時數','積分','地點','結果','備註'].map(cell).join(',')];
-  evs.forEach(ev => { const e = ev.e; (e.people.length ? e.people : [null]).forEach(p => {
+  const out = [['季別','事件編號','類別','通知時間','應變時段','作廢','覆核','姓名','職類','主責','到院時間','到院分鐘','1小時內','離開或結束時間','時數','積分','完成置放時間','通知到完成(分)','第一位到場到完成(分)','地點','結果','備註'].map(cell).join(',')];
+  evs.forEach(ev => { const e = ev.e, dc = doneCalc(e) || {}; (e.people.length ? e.people : [null]).forEach(p => {
     const c = p ? personCalc(e, p) : {};
     out.push([ev.q, ev.id, e.cat, e.notify, inWindow(e.notify) ? '是' : '否', e.void ? '是' : '', e.reviewed ? '已覆核' : '待覆核', p ? p.name : '', p ? p.role : '', p && p.lead ? '是' : '',
-      p ? p.arrive : '', c.min != null ? c.min : '', p && c.min != null ? (c.within ? '是' : '否') : '', p ? (p.leave || e.end) : e.end, c.hrs != null ? c.hrs.toFixed(2) : '', p && counted(e) ? c.score : '', e.place, e.result, e.note].map(cell).join(','));
+      p ? p.arrive : '', c.min != null ? c.min : '', p && c.min != null ? (c.within ? '是' : '否') : '', p ? (p.leave || e.end) : e.end, c.hrs != null ? c.hrs.toFixed(2) : '', p && counted(e) ? c.score : '', e.done || '', dc.fromNotify != null ? dc.fromNotify : '', dc.fromArrive != null ? dc.fromArrive : '', e.place, e.result, e.note].map(cell).join(','));
   }); });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob(['﻿' + out.join('\r\n')], { type:'text/csv;charset=utf-8' }));
@@ -392,7 +409,7 @@ function openEvent(id, pk){
   if (ev) e = JSON.parse(JSON.stringify(ev.e));
   else {
     const c = pk ? DATA.cases.find(x => x.pk === pk) : null;
-    e = { cat: c ? '急診心臟手術' : '葉克膜置放', notify: c ? c.date + ' ' + (c.roomIn || '00:00') : '', place: c ? '手術室' : '', start:'', end:'', result: c ? '完成急診手術' : '', note:'', pid:'', pk: c ? c.pk : '', void:false, voidReason:'', people: [], reviewed:false };
+    e = { cat: c ? '急診心臟手術' : '葉克膜置放', notify: c ? c.date + ' ' + (c.roomIn || '00:00') : '', place: c ? '手術室' : '', start:'', done:'', end:'', result: c ? '完成急診手術' : '', note:'', pid:'', pk: c ? c.pk : '', void:false, voidReason:'', people: [], reviewed:false };
   }
   CUR = { ev, e };
   $('detail').classList.add('show');
@@ -409,14 +426,15 @@ function renderDetail(){
     <div class="meta">${ev ? escapeHtml(ev.id) + ' · ' + escapeHtml(ev.src) + (ev.gname ? '（' + escapeHtml(ev.gname) + '）' : '') + (ev.rvBy ? ' · 上次覆核：' + escapeHtml(ev.rvBy) + ' ' + escapeHtml(ev.rvAt) : '') : '沒有經 LINE 群組啟動的出動，在這裡補登'}</div></div>
     <button class="close" onclick="closeDetail()" aria-label="關閉">×</button></div>`;
   if (ev && ev.src !== '人工補登') html += `<div class="card" style="padding:10px 14px"><div class="hint">LINE 原始紀錄：${escapeHtml(ev.raw.cat)}，通知 ${escapeHtml(norm(ev.raw.notify))}（${escapeHtml(ev.raw.by)}）${ev.raw.msg ? '，訊息「' + escapeHtml(ev.raw.msg) + '」' : ''}；
-    到院 ${(ev.raw.arr || []).map(a => escapeHtml(a.name) + ' ' + escapeHtml(String(a.t).slice(11, 16))).join('、') || '無'}${ev.raw.end ? '；結束 ' + escapeHtml(norm(ev.raw.end)) : ''}${ev.raw.status === '取消' ? '；已在群組取消' : ''}</div></div>`;
+    到院 ${(ev.raw.arr || []).map(a => escapeHtml(a.name) + ' ' + escapeHtml(String(a.t).slice(11, 16)) + (a.leave ? '（離開 ' + escapeHtml(String(a.leave).slice(11, 16)) + '）' : '')).join('、') || '無'}${ev.raw.done ? '；完成置放 ' + escapeHtml(norm(ev.raw.done)) : ''}${ev.raw.end ? '；結束 ' + escapeHtml(norm(ev.raw.end)) : ''}${ev.raw.status === '取消' ? '；已在群組取消' : ''}</div></div>`;
   html += `<div class="card"><h2>事件</h2><div class="frm">
     <div><label>事件類別</label><select id="f_cat">${opt(DATA.cats, e.cat)}</select></div>
     <div><label>通知時間（到院時效起算點）</label><input type="datetime-local" id="f_notify" value="${dtv(e.notify)}"></div>
     <div><label>集合地點</label><select id="f_place">${opt(PLACES, e.place, true)}</select></div>
     <div><label>結果</label><select id="f_result">${opt(RESULTS, e.result, true)}</select></div>
     <div><label>開始處置時間</label><input type="datetime-local" id="f_start" value="${dtv(e.start)}"></div>
-    <div><label>處置結束時間（累積時間算到這裡）</label><input type="datetime-local" id="f_end" value="${dtv(e.end)}"></div>
+    <div><label>完成置放時間（葉克膜開始運轉）</label><input type="datetime-local" id="f_done" value="${dtv(e.done)}"></div>
+    <div><label>結束時間（交班完、人員離開；累積時間算到這裡）</label><input type="datetime-local" id="f_end" value="${dtv(e.end)}"></div>
     <div><label>連結平台急診手術（前後一天內）</label><select id="f_pk"><option value="">— 不連結（葉克膜或未開刀）—</option>${near.map(c => `<option value="${escapeHtml(c.pk)}" ${c.pk === e.pk ? 'selected' : ''}>${c.date} ${escapeHtml(c.name)} ${escapeHtml(c.surgery)}</option>`).join('')}</select></div>
     <div><label>病人識別（病歷號；未連結手術時填）</label><input type="text" id="f_pid" value="${escapeHtml(e.pid)}" maxlength="40"></div>
     <div class="full"><label>重要事件備註</label><input type="text" id="f_note" value="${escapeHtml(e.note)}" maxlength="300"></div>
@@ -429,7 +447,7 @@ function renderDetail(){
     <input type="text" id="f_voidReason" value="${escapeHtml(e.voidReason)}" placeholder="作廢原因" maxlength="100" style="margin-left:10px;padding:4px 8px;border:1px solid var(--border-strong);border-radius:3px;font-size:13px;width:220px;max-width:100%"></div>`;
   html += `<div class="foot"><div class="hint" id="saveNote"></div><div><button class="btn" onclick="closeDetail()">取消</button> <button class="btn primary" id="saveBtn" onclick="saveEvent()">${ev ? '儲存覆核' : '建立出動紀錄'}</button></div></div>`;
   $('panel').innerHTML = html;
-  ['cat','notify','place','result','start','end','pk','pid','note','voidReason'].forEach(k => $('f_' + k).addEventListener('change', () => { CUR.e[k] = (k === 'notify' || k === 'start' || k === 'end') ? norm($('f_' + k).value) : $('f_' + k).value; refreshCalc(); }));
+  ['cat','notify','place','result','start','done','end','pk','pid','note','voidReason'].forEach(k => $('f_' + k).addEventListener('change', () => { CUR.e[k] = (k === 'notify' || k === 'start' || k === 'done' || k === 'end') ? norm($('f_' + k).value) : $('f_' + k).value; refreshCalc(); }));
   $('f_void').addEventListener('change', () => { CUR.e.void = $('f_void').checked; });
   $('addP').addEventListener('click', () => { CUR.e.people.push({ uid:'', name:'', role:'', lead:false, arrive:'', leave:'' }); drawPeople(); });
   drawPeople();
@@ -437,7 +455,9 @@ function renderDetail(){
 /* 只更新計算結果（到院分鐘、積分、提示），不重畫輸入欄，避免打字中失去游標 */
 function refreshCalc(){
   const e = CUR.e;
-  $('winNote').innerHTML = !e.notify ? '' : (inWindow(e.notify) ? '通知時間在應變時段內。' : '<span class="bad-t">通知時間不在應變時段（平日 08:00–16:00），這筆不列入統計與積分。</span>');
+  const dc = doneCalc(e);
+  $('winNote').innerHTML = (!e.notify ? '' : (inWindow(e.notify) ? '通知時間在應變時段內。' : '<span class="bad-t">通知時間不在應變時段（平日 08:00–16:00），這筆不列入統計與積分。</span>'))
+    + (dc ? '　完成置放：通知後 ' + dc.fromNotify + ' 分' + (dc.fromArrive != null ? '、第一位到場後 ' + dc.fromArrive + ' 分' : '') + '。' : '');
   $('pplBody').querySelectorAll('tr[data-i]').forEach(tr => {
     const p = e.people[+tr.dataset.i]; if (!p) return;
     const c = personCalc(e, p), a = tr.querySelector('.c-min'), b = tr.querySelector('.c-score');
@@ -484,7 +504,9 @@ async function saveEvent(){
     if (e.people.some(p => !p.role)) return fail('有人員未選職類。');
     const bad = e.people.find(p => p.arrive && minsBetween(e.notify, p.arrive) < 0);
     if (bad) return fail(bad.name + ' 的到院時間早於通知時間，請核對。');
-    if (e.end && minsBetween(e.notify, e.end) < 0) return fail('處置結束時間早於通知時間，請核對。');
+    if (e.end && minsBetween(e.notify, e.end) < 0) return fail('結束時間早於通知時間，請核對。');
+    if (e.done && minsBetween(e.notify, e.done) < 0) return fail('完成置放時間早於通知時間，請核對。');
+    if (e.done && e.end && minsBetween(e.done, e.end) < 0) return fail('結束時間早於完成置放時間，請核對。');
   }
   $('saveBtn').disabled = true; $('saveBtn').textContent = '儲存中…';
   try {
