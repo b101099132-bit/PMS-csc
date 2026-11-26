@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>夜間急重症出動覆核 — 心臟外科手術病人管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:#FAF7F2; --paper:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --ink-faint:#8A8580;
+  --teal:#1F5A5A; --gold:#A87B4D; --navy:#2C4866; --plum:#6B5876;
+  --border:#E8E2D5; --border-strong:#D4CDB8;
+  --success:#4A7A5A; --success-bg:#EDF3EE; --warn:#B8842D; --warn-bg:#FBF3DE;
+  --error:#B85450; --error-bg:#FBEFEE; --na:#8A8580; --na-bg:#F1EEE8;
+}
+body { font-family:'Noto Sans TC',system-ui,sans-serif; background:var(--cream); color:var(--ink);
+  font-size:15px; line-height:1.6; padding:20px 16px 60px; -webkit-font-smoothing:antialiased; }
+.container { max-width:1100px; margin:0 auto; }
+header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; font-weight:500; margin-bottom:6px; }
+.brand h1 { font-family:'Noto Serif TC',serif; font-size:23px; font-weight:600; }
+.brand .flow { font-size:12px; color:var(--ink-faint); margin-top:4px; }
+.role-tag { background:var(--teal); color:#fff; padding:4px 12px; border-radius:3px; font-size:12px; letter-spacing:0.1em; font-weight:500; }
+.key-bar { background:#EEF2F7; border:1px solid #DCE3EB; border-radius:3px; padding:12px 16px; margin-bottom:18px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.key-bar label { font-size:13px; color:var(--navy); font-weight:500; }
+.key-bar input { padding:7px 12px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; background:#fff; }
+.key-bar #doctor_key { flex:1; min-width:150px; font-family:'JetBrains Mono',monospace; }
+.key-bar #filler { width:140px; }
+.btn { border:1px solid var(--border-strong); background:#fff; color:var(--ink); border-radius:3px; padding:7px 14px; font-size:13px; cursor:pointer; font-family:inherit; }
+.btn:hover { border-color:var(--navy); color:var(--navy); }
+.btn.primary { background:var(--teal); color:#fff; border-color:var(--teal); }
+.btn.primary:hover { background:#174848; color:#fff; }
+.btn:disabled { opacity:.55; cursor:default; }
+.alert { display:none; padding:10px 14px; border-radius:3px; font-size:13px; margin-bottom:14px; }
+.alert.show { display:block; }
+.alert.err { background:var(--error-bg); color:var(--error); border:1px solid #F0D3D1; }
+.alert.ok { background:var(--success-bg); color:var(--success); border:1px solid #D3E3D6; }
+.tabs { display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.tab { padding:8px 16px; font-size:14px; cursor:pointer; border:1px solid transparent; border-bottom:none; border-radius:3px 3px 0 0; color:var(--ink-soft); background:none; font-family:inherit; }
+.tab.active { background:var(--paper); border-color:var(--border); color:var(--teal); font-weight:600; margin-bottom:-1px; }
+.filters { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.filters label { font-size:12px; color:var(--ink-faint); }
+.filters select { padding:6px 10px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; background:#fff; font-family:inherit; }
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+@media (max-width:760px){ .kpis { grid-template-columns:repeat(2,1fr); } }
+.kpi { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:12px 14px; }
+.kpi .lbl { font-size:12px; color:var(--ink-faint); }
+.kpi .val { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal); line-height:1.3; }
+.kpi .val.bad { color:var(--error); }
+.kpi .sub { font-size:11px; color:var(--ink-faint); }
+.card { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:16px 18px; margin-bottom:16px; }
+.card > h2 { font-family:'Noto Serif TC',serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:12px; }
+.hint { font-size:12px; color:var(--ink-faint); line-height:1.7; }
+table.list { width:100%; border-collapse:collapse; font-size:13px; }
+table.list th { text-align:left; font-weight:500; color:var(--ink-faint); font-size:12px; padding:6px 8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+table.list td { padding:8px; border-bottom:1px solid #F0ECE4; vertical-align:middle; }
+table.list tr.case:hover { background:#FBF8F2; cursor:pointer; }
+.mono { font-family:'JetBrains Mono',monospace; }
+.tag { display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; white-space:nowrap; }
+.tag.cardiac { background:#E7EEF0; color:var(--teal); }
+.tag.stent { background:#EEE8F1; color:var(--plum); }
+.tag.st-no { background:var(--na-bg); color:var(--ink-soft); }
+.tag.st-miss { background:var(--warn-bg); color:var(--warn); }
+.tag.st-ok { background:var(--success-bg); color:var(--success); }
+.tag.st-lock { background:#E7ECF3; color:var(--navy); }
+.tag.sample { background:#FBEFEE; color:var(--error); }
+.bar { position:relative; width:90px; height:8px; background:#EFEAE0; border-radius:4px; display:inline-block; vertical-align:middle; margin-right:6px; }
+.bar > i { position:absolute; left:0; top:0; bottom:0; border-radius:4px; background:var(--teal); }
+.bar > b { position:absolute; top:-3px; bottom:-3px; width:1px; background:var(--gold); left:70%; }
+.dots { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1px; white-space:nowrap; }
+.dots .Y { color:var(--success); } .dots .N { color:var(--error); } .dots .NA, .dots .P { color:#C9C2B4; }
+@media (max-width:760px){ .hide-m { display:none; } .bar { display:none; } table.list td, table.list th { padding:6px 4px; } }
+.tbl-wrap { overflow-x:auto; }
+
+/* detail panel */
+#detail { display:none; position:fixed; inset:0; background:rgba(26,26,26,.35); z-index:50; overflow-y:auto; padding:20px 12px; }
+#detail.show { display:block; }
+.panel { max-width:860px; margin:0 auto; background:var(--cream); border-radius:6px; padding:18px 18px 24px; box-shadow:0 8px 30px rgba(0,0,0,.15); }
+.panel-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:12px; }
+.panel-head h3 { font-family:'Noto Serif TC',serif; font-size:19px; }
+.panel-head .meta { font-size:13px; color:var(--ink-soft); }
+.close { background:none; border:none; font-size:24px; cursor:pointer; color:var(--ink-faint); line-height:1; }
+.ver-box { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:12px; font-size:13px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.ver-box select, .ver-box input { padding:5px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.phase { font-size:12px; color:var(--gold); letter-spacing:.15em; margin:14px 0 6px; font-weight:600; }
+.item { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:8px; }
+.item-top { display:flex; gap:10px; align-items:flex-start; }
+.item-n { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gold); width:22px; flex:none; padding-top:2px; }
+.item-main { flex:1; min-width:0; }
+.item-name { font-weight:600; font-size:14px; }
+.item-crit { font-size:12px; color:var(--ink-faint); }
+.item-ev { font-size:12px; color:var(--ink-soft); margin-top:4px; }
+.item-ev .src { font-size:11px; color:var(--ink-faint); border:1px solid var(--border); border-radius:8px; padding:0 6px; margin-right:6px; }
+.res { flex:none; font-size:12px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
+.res.Y { background:var(--success-bg); color:var(--success); }
+.res.N { background:var(--error-bg); color:var(--error); }
+.res.NA, .res.P { background:var(--na-bg); color:var(--na); }
+.inputs { margin:8px 0 0 32px; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13px; align-items:center; }
+.inputs label { display:inline-flex; gap:4px; align-items:center; cursor:pointer; }
+.inputs input[type=text], .inputs input[type=number], .inputs input[type=date], .inputs select { padding:4px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.subrow { margin:6px 0 0 32px; font-size:12px; color:var(--ink-soft); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.subrow select, .subrow input { padding:3px 6px; border:1px solid var(--border-strong); border-radius:3px; font-size:12px; font-family:inherit; }
+.link { background:none; border:none; color:var(--navy); text-decoration:underline; cursor:pointer; font-size:12px; font-family:inherit; padding:0; }
+.foot { position:sticky; bottom:0; background:var(--cream); border-top:1px solid var(--border); margin-top:14px; padding-top:12px;
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+.foot .rate { font-size:14px; }
+.foot .rate b { font-family:'JetBrains Mono',monospace; font-size:20px; color:var(--teal); }
+.loading { display:inline-block; width:12px; height:12px; border:2px solid #ccc; border-top-color:var(--teal); border-radius:50%; animation:spin 1s linear infinite; margin-right:6px; vertical-align:-2px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+table.rep { width:100%; border-collapse:collapse; font-size:13px; }
+table.rep th, table.rep td { padding:6px 8px; border-bottom:1px solid #F0ECE4; text-align:left; }
+table.rep th { color:var(--ink-faint); font-weight:500; font-size:12px; }
+table.rep td.num { font-family:'JetBrains Mono',monospace; text-align:right; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:860px){ .two { grid-template-columns:1fr; } }
+footer { margin-top:30px; text-align:center; font-size:12px; color:var(--ink-faint); }
+.ppl { width:100%; border-collapse:collapse; font-size:13px; }
+.ppl th { text-align:left; font-weight:500; color:var(--ink-faint); font-size:12px; padding:4px 6px; white-space:nowrap; }
+.ppl td { padding:4px 6px; vertical-align:middle; }
+.ppl input[type=text], .ppl select, .ppl input[type=datetime-local] { padding:4px 6px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; width:100%; min-width:0; background:#fff; }
+.ppl input.nm { min-width:104px; } .ppl select.rl { min-width:150px; } .ppl input.dt { min-width:178px; }
+.ppl td.mono { white-space:nowrap; } .ppl .link { white-space:nowrap; }
+#evBody .flag { margin-left:4px; }
+.frm { display:grid; grid-template-columns:repeat(2,1fr); gap:10px 14px; }
+@media (max-width:640px){ .frm { grid-template-columns:1fr; } }
+.frm label { display:block; font-size:12px; color:var(--ink-faint); margin-bottom:3px; }
+.frm input, .frm select, .frm textarea { width:100%; padding:6px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; background:#fff; }
+.frm .full { grid-column:1 / -1; }
+.tag.cat-e { background:#E7EEF0; color:var(--teal); } .tag.cat-n { background:var(--na-bg); color:var(--ink-soft); } .tag.cat-s { background:#EEE8F1; color:var(--plum); }
+.tag.void { background:var(--na-bg); color:var(--na); text-decoration:line-through; }
+tr.voided td { color:var(--ink-faint); }
+.late { color:var(--error); font-weight:600; }
+.foot { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; }
+.loading { display:inline-block; width:12px; height:12px; border:2px solid var(--border-strong); border-top-color:var(--teal); border-radius:50%; animation:sp .8s linear infinite; margin-right:6px; vertical-align:middle; }
+@keyframes sp { to { transform:rotate(360deg); } }
+footer { margin-top:26px; font-size:12px; color:var(--ink-faint); text-align:center; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="eyebrow">Night &amp; Holiday Emergency Response</div>
+      <h1>夜間急重症出動覆核</h1>
+      <div class="flow">LINE 出動群組自動記錄通知與到院時間 → 一週內覆核人員、角色與處置起訖 → 到院時效與季積分</div>
+    </div>
+    <span class="role-tag" id="roleTag">團隊</span>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後載入" autocomplete="off">
+    <label for="filler">覆核者</label>
+    <input type="text" id="filler" placeholder="您的姓名">
+    <button class="btn" id="reloadBtn" type="button">↻ 重新載入</button>
+  </div>
+
+  <div class="alert err" id="errAlert"></div>
+  <div class="alert ok" id="okAlert"></div>
+
+  <div class="filters">
+    <label>季別</label><select id="fQ"></select>
+    <button class="btn" id="newBtn" type="button">＋ 人工補登出動</button>
+    <span class="hint" id="holNote"></span>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="card tbl-wrap">
+    <h2>出動事件</h2>
+    <table class="list">
+      <thead><tr><th>通知時間</th><th>類別</th><th class="hide-m">來源</th><th>出動人員與到院</th><th class="hide-m">處置時數</th><th>覆核</th></tr></thead>
+      <tbody id="evBody"><tr><td colspan="6" class="hint">輸入通行碼後載入。</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="card tbl-wrap" id="candCard" style="display:none">
+    <h2>夜間／假日急診手術，尚無出動紀錄</h2>
+    <p class="hint" style="margin-bottom:8px">由平台急診手術收案自動列出（手術日為週六日或國定假日，或病人入室時間在 16:00 之後、08:00 之前）。這些列入登錄率的分母；按「補登」建立出動紀錄，或在已有的出動事件裡連結這位病人。</p>
+    <table class="list">
+      <thead><tr><th>手術日</th><th>入室</th><th>姓名</th><th>術式</th><th></th></tr></thead>
+      <tbody id="candBody"></tbody>
+    </table>
+  </div>
+
+  <div class="card tbl-wrap">
+    <h2>個人出動與季積分</h2>
+    <p class="hint" style="margin-bottom:8px">單次積分＝（1.0＋到院至離開每滿 1 小時 0.5）× 角色係數（主責醫師 <span id="coefTxt">1.2</span>、其餘 1.0）。等級依個人季積分相對團隊平均：≥1.2 倍 A、0.8–1.2 倍 B、&lt;0.8 倍 C。只計應變時段內、未作廢的事件。</p>
+    <table class="list">
+      <thead><tr><th>姓名</th><th>職類</th><th>出動次數</th><th class="hide-m">1 小時內到院</th><th class="hide-m">累積時數</th><th>季積分</th><th>等級</th></tr></thead>
+      <tbody id="ppBody"></tbody>
+    </table>
+    <div style="margin-top:10px"><button class="btn" id="csvBtn" type="button">匯出 CSV</button></div>
+  </div>
+
+  <footer>心臟外科手術病人管理系統 · 夜間急重症出動覆核 · 依「夜間急重症應變作業標準流程暨出動登錄辦法」；應變時段為平日 16:00 至翌日 08:00、週六日及國定假日全日，以通知時間認定</footer>
+</div>
+
+<div id="detail"><div class="panel" id="panel"></div></div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = (id) => document.getElementById(id);
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const PLACES = ['加護病房', '手術室', '急診', '其他'];
+const RESULTS = ['葉克膜置放', '評估後未置放', '完成急診手術'];
+const CAT_CLS = { '葉克膜置放':'cat-e', '評估未置放':'cat-n', '急診心臟手術':'cat-s' };
+let DATA = null, CUR = null;
+
+if (window.location.hash.startsWith('#k=')) $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+try { $('filler').value = localStorage.getItem('eras_audit_filler') || ''; } catch(e){}
+$('filler').addEventListener('change', () => { try { localStorage.setItem('eras_audit_filler', $('filler').value.trim()); } catch(e){} });
+$('doctor_key').addEventListener('change', () => { const v=$('doctor_key').value; if(v){ history.replaceState(null,'','#k='+encodeURIComponent(v)); load(); } });
+$('reloadBtn').addEventListener('click', () => load(true));
+$('fQ').addEventListener('change', render);
+$('newBtn').addEventListener('click', () => openEvent(null));
+$('csvBtn').addEventListener('click', exportCsv);
+
+function jsonp(params, timeoutMs = 45000){
+  return new Promise((resolve,reject)=>{
+    const cb = '_dp_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp = new URLSearchParams({...params, callback:cb});
+    const s = document.createElement('script');
+    const t = setTimeout(()=>{cl();reject(new Error('查詢逾時'));}, timeoutMs);
+    function cl(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = d => { cl(); resolve(d); };
+    s.onerror = () => { cl(); reject(new Error('連線失敗')); };
+    s.src = APPS_SCRIPT_URL+'?'+usp.toString();
+    document.body.appendChild(s);
+  });
+}
+async function post(fields){
+  const fd = new FormData();
+  Object.keys(fields).forEach(k => fd.append(k, fields[k]));
+  fd.append('key', $('doctor_key').value.trim());
+  await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+}
+function showErr(m){ const e=$('errAlert'); e.textContent=m; e.classList.add('show'); }
+function showOk(m){ const e=$('okAlert'); e.textContent=m; e.classList.add('show'); setTimeout(()=>e.classList.remove('show'), 4000); }
+function qLabel(q){ const m = /^(\d+)Q(\d)$/.exec(q); return m ? `${m[1]} 年第 ${m[2]} 季` : q; }
+
+// ===== 時間工具（一律當作台灣時間的字串 yyyy-MM-dd HH:mm 處理，不依賴瀏覽器時區） =====
+function norm(t){ t = String(t||'').replace('T',' '); return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(t) ? t.slice(0,16) : ''; }
+function ms(t){ t = norm(t); return t ? Date.UTC(+t.slice(0,4), +t.slice(5,7)-1, +t.slice(8,10), +t.slice(11,13), +t.slice(14,16)) : NaN; }
+function minsBetween(a, b){ const x = ms(a), y = ms(b); return (isNaN(x) || isNaN(y)) ? null : Math.round((y - x) / 60000); }
+function dow(d){ return new Date(Date.UTC(+d.slice(0,4), +d.slice(5,7)-1, +d.slice(8,10))).getUTCDay(); }
+function isOffDay(d){ const w = dow(d); return w === 0 || w === 6 || DATA.holidays.indexOf(d) >= 0; }
+function quarterOf(t){ t = norm(t) || String(t||''); if (!/^\d{4}-\d{2}/.test(t)) return ''; return (+t.slice(0,4) - 1911) + 'Q' + (Math.floor((+t.slice(5,7) - 1) / 3) + 1); }
+/* 應變時段：平日 16:00–翌日 08:00；週六日與國定假日全日（以通知時間認定） */
+function inWindow(t){ t = norm(t); if (!t) return false; const h = +t.slice(11,13); return h >= 16 || h < 8 || isOffDay(t.slice(0,10)); }
+function hm(t){ t = norm(t); return t ? t.slice(11,16) : ''; }
+function md(t){ t = norm(t); return t ? t.slice(5,10).replace('-','/') : ''; }
+
+// ===== 事件的有效內容：已覆核以覆核內容為準，否則用 LINE 自動記錄 =====
+function eff(ev){
+  if (ev.rv) return Object.assign({ place:'', start:'', result:'', note:'', pid:'', void:false, voidReason:'' }, ev.rv, { notify: norm(ev.rv.notify), end: norm(ev.rv.end), reviewed: true, pk: ev.pk });
+  const r = ev.raw;
+  return { cat: r.cat, notify: norm(r.notify), place:'', start:'', end: norm(r.end), result:'', note:'', pid:'', pk: ev.pk, void: r.status === '取消', voidReason:'', reviewed: false,
+    people: (r.arr || []).map(a => ({ uid: a.uid || '', name: a.name || '', role: a.role || '', lead: false, arrive: norm(a.t), leave: '' })) };
+}
+/* 每人：到院分鐘、時數、積分 */
+function personCalc(e, p){
+  const min = minsBetween(e.notify, p.arrive), out = p.leave || e.end;
+  const durMin = minsBetween(p.arrive, out);
+  const hrs = (durMin != null && durMin >= 0) ? durMin / 60 : null;
+  const score = (1 + (hrs != null ? Math.floor(hrs) * 0.5 : 0)) * (p.lead ? DATA.leadCoef : 1);
+  return { min, within: min != null && min <= 60, hrs, score: Math.round(score * 100) / 100, noEnd: hrs == null };
+}
+function counted(e){ return !e.void && inWindow(e.notify); }
+
+async function load(keepQ){
+  const key = $('doctor_key').value.trim(); if (!key) return;
+  $('errAlert').classList.remove('show');
+  $('evBody').innerHTML = '<tr><td colspan="6"><span class="loading"></span>載入中…</td></tr>';
+  try {
+    const d = await jsonp({ action:'dispatchList', key });
+    if (!d || !d.ok) { showErr(d && d.error === 'unauthorized' ? '通行碼錯誤' : '載入失敗：' + (d && d.error || '')); $('evBody').innerHTML=''; return; }
+    DATA = d;
+    DATA.events.forEach(ev => { ev.e = eff(ev); ev.q = quarterOf(ev.e.notify); });
+    DATA.events.sort((a, b) => a.e.notify < b.e.notify ? 1 : -1);
+    $('roleTag').textContent = d.role === 'admin' ? '管理' : '團隊';
+    $('coefTxt').textContent = d.leadCoef;
+    const qs = {};
+    DATA.events.forEach(ev => { if (ev.q) qs[ev.q] = (qs[ev.q] || 0) + 1; });
+    candidates().forEach(c => { const q = quarterOf(c.date); qs[q] = qs[q] || 0; });
+    const now = new Date(), nowQ = (now.getFullYear() - 1911) + 'Q' + (Math.floor(now.getMonth() / 3) + 1);
+    if (!(nowQ in qs)) qs[nowQ] = 0;
+    const prev = keepQ ? $('fQ').value : '';
+    $('fQ').innerHTML = Object.keys(qs).sort().reverse().map(q => `<option value="${q}">${qLabel(q)}（${qs[q]}）</option>`).join('') + '<option value="all">全部</option>';
+    $('fQ').value = (prev && [...$('fQ').options].some(o=>o.value===prev)) ? prev : nowQ;
+    $('holNote').textContent = d.holidays.length ? '' : '尚未建立國定假日清單：目前只把週六日視為假日。';
+    render();
+  } catch (err) { showErr(err.message); $('evBody').innerHTML=''; }
+}
+
+/* 應有出動紀錄的急診手術：candStart 之後、夜間或假日、且沒有任何未作廢事件連結它 */
+function candidates(){
+  if (!DATA) return [];
+  const linked = {};
+  DATA.events.forEach(ev => { if (ev.e && !ev.e.void && ev.e.pk) linked[ev.e.pk] = 1; });
+  return DATA.cases.filter(c => {
+    if (c.date < DATA.candStart || linked[c.pk]) return false;
+    if (isOffDay(c.date)) return true;
+    if (!c.roomIn) return false;   // 平日且沒有入室時間：無法判斷，不列
+    const h = +c.roomIn.slice(0, 2); return h >= 16 || h < 8;
+  }).sort((a, b) => a.date < b.date ? 1 : -1);
+}
+
+function render(){
+  if (!DATA) return;
+  const q = $('fQ').value;
+  const evs = DATA.events.filter(ev => q === 'all' || ev.q === q);
+  const cand = candidates().filter(c => q === 'all' || quarterOf(c.date) === q);
+  const valid = evs.filter(ev => counted(ev.e));
+  // KPI
+  let pn = 0, pin = 0;
+  valid.forEach(ev => ev.e.people.forEach(p => { const c = personCalc(ev.e, p); if (c.min != null) { pn++; if (c.within) pin++; } }));
+  const pending = evs.filter(ev => !ev.e.reviewed && !ev.e.void).length;
+  const regDen = valid.length + cand.length;
+  const pct = (a, b) => b ? (Math.round(a / b * 1000) / 10) + '%' : '—';
+  $('kpis').innerHTML = [
+    ['出動事件', valid.length, '應變時段內、未作廢' + (evs.length - valid.length ? '；另 ' + (evs.length - valid.length) + ' 筆不計' : '')],
+    ['待覆核', pending, '目標：事件後一週內完成', pending > 0],
+    ['1 小時內到院率', pct(pin, pn), pn ? pin + '／' + pn + ' 人次' : '尚無到院紀錄'],
+    ['出動事件登錄率', pct(valid.length, regDen), regDen ? valid.length + '／' + regDen + '（分母含未登錄的夜間假日急診手術）' : '尚無事件', cand.length > 0]
+  ].map(k => `<div class="kpi"><div class="lbl">${k[0]}</div><div class="val ${k[3] ? 'bad' : ''}">${k[1]}</div><div class="sub">${k[2]}</div></div>`).join('');
+  // 事件表
+  $('evBody').innerHTML = evs.length ? evs.map(ev => {
+    const e = ev.e, win = inWindow(e.notify);
+    const ppl = e.people.map(p => { const c = personCalc(e, p); return `${escapeHtml(p.name)}${p.lead ? '★' : ''}${p.role ? '' : '<span class="flag">待補職類</span>'} <span class="mono ${c.min != null && !c.within ? 'late' : ''}">${c.min != null ? '+' + c.min + '分' : '未記到院'}</span>`; }).join('　');
+    const dur = minsBetween(e.people.map(p => p.arrive).filter(Boolean).sort()[0] || e.notify, e.end);
+    return `<tr class="case ${e.void ? 'voided' : ''}" data-id="${escapeHtml(ev.id)}">
+      <td class="mono">${md(e.notify)} ${hm(e.notify)}${win ? '' : '<br><span class="flag">非應變時段</span>'}</td>
+      <td><span class="tag ${e.void ? 'void' : (CAT_CLS[e.cat] || 'cat-n')}">${escapeHtml(e.cat || '未分類')}</span></td>
+      <td class="hide-m hint">${escapeHtml(ev.src)}${ev.gname ? '<br>' + escapeHtml(ev.gname) : ''}</td>
+      <td>${ppl || '<span class="hint">尚無人回「到」</span>'}</td>
+      <td class="hide-m mono">${e.end && dur != null && dur >= 0 ? (Math.round(dur / 6) / 10) + ' h' : '<span class="hint">未記結束</span>'}</td>
+      <td>${e.void ? '<span class="tag st-no">作廢</span>' : (e.reviewed ? '<span class="tag st-ok">已覆核</span>' : '<span class="tag st-miss">待覆核</span>')}</td></tr>`;
+  }).join('') : '<tr><td colspan="6" class="hint">這一季沒有出動事件。</td></tr>';
+  $('evBody').querySelectorAll('tr.case').forEach(tr => tr.addEventListener('click', () => openEvent(tr.dataset.id)));
+  // 候選
+  $('candCard').style.display = cand.length ? '' : 'none';
+  $('candBody').innerHTML = cand.map(c => `<tr><td class="mono">${c.date}</td><td class="mono">${escapeHtml(c.roomIn || '—')}</td><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.surgery)}${c.reop ? ' <span class="hint">（再次手術）</span>' : ''}</td>
+    <td><button class="btn" data-pk="${escapeHtml(c.pk)}">補登</button></td></tr>`).join('');
+  $('candBody').querySelectorAll('button').forEach(b => b.addEventListener('click', () => openEvent(null, b.dataset.pk)));
+  // 個人
+  const rows = personRows(valid);
+  $('ppBody').innerHTML = rows.length ? rows.map(r => `<tr><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.role || '—')}</td><td class="mono">${r.n}</td><td class="hide-m mono">${r.timed ? r.within + '／' + r.timed : '—'}</td>
+    <td class="hide-m mono">${r.hrs.toFixed(1)} h${r.noEnd ? ' <span class="hint">（' + r.noEnd + ' 次未記結束）</span>' : ''}</td><td class="mono">${r.score.toFixed(2)}</td><td><span class="tag ${r.grade === 'A' ? 'st-ok' : (r.grade === 'C' ? 'st-miss' : 'st-lock')}">${r.grade}</span></td></tr>`).join('')
+    : '<tr><td colspan="7" class="hint">這一季尚無可計分的出動。</td></tr>';
+}
+/* 依姓名彙整；等級：相對團隊平均 ≥1.2 A、0.8–1.2 B、<0.8 C */
+function personRows(valid){
+  const map = {};
+  valid.forEach(ev => ev.e.people.forEach(p => {
+    const k = p.name; if (!k) return;
+    const c = personCalc(ev.e, p), r = map[k] = map[k] || { name: p.name, role: p.role, n: 0, timed: 0, within: 0, hrs: 0, score: 0, noEnd: 0 };
+    if (p.role) r.role = p.role;
+    r.n++; if (c.min != null) { r.timed++; if (c.within) r.within++; }
+    if (c.hrs != null) r.hrs += c.hrs; else r.noEnd++;
+    r.score += c.score;
+  }));
+  const rows = Object.keys(map).map(k => map[k]);
+  const avg = rows.length ? rows.reduce((a, r) => a + r.score, 0) / rows.length : 0;
+  rows.forEach(r => { r.score = Math.round(r.score * 100) / 100; r.grade = !avg ? 'B' : (r.score >= avg * 1.2 ? 'A' : (r.score < avg * 0.8 ? 'C' : 'B')); });
+  return rows.sort((a, b) => b.score - a.score);
+}
+function exportCsv(){
+  if (!DATA) return;
+  const q = $('fQ').value, evs = DATA.events.filter(ev => q === 'all' || ev.q === q);
+  const cell = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const out = [['季別','事件編號','類別','通知時間','應變時段','作廢','覆核','姓名','職類','主責','到院時間','到院分鐘','1小時內','離開或結束時間','時數','積分','地點','結果','備註'].map(cell).join(',')];
+  evs.forEach(ev => { const e = ev.e; (e.people.length ? e.people : [null]).forEach(p => {
+    const c = p ? personCalc(e, p) : {};
+    out.push([ev.q, ev.id, e.cat, e.notify, inWindow(e.notify) ? '是' : '否', e.void ? '是' : '', e.reviewed ? '已覆核' : '待覆核', p ? p.name : '', p ? p.role : '', p && p.lead ? '是' : '',
+      p ? p.arrive : '', c.min != null ? c.min : '', p && c.min != null ? (c.within ? '是' : '否') : '', p ? (p.leave || e.end) : e.end, c.hrs != null ? c.hrs.toFixed(2) : '', p && counted(e) ? c.score : '', e.place, e.result, e.note].map(cell).join(','));
+  }); });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿' + out.join('\r\n')], { type:'text/csv;charset=utf-8' }));
+  a.download = '夜間出動_' + q + '.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+}
+
+// ===== 單一事件：覆核／補登 =====
+function openEvent(id, pk){
+  const ev = id ? DATA.events.find(x => x.id === id) : null;
+  let e;
+  if (ev) e = JSON.parse(JSON.stringify(ev.e));
+  else {
+    const c = pk ? DATA.cases.find(x => x.pk === pk) : null;
+    e = { cat: c ? '急診心臟手術' : '葉克膜置放', notify: c ? c.date + ' ' + (c.roomIn || '00:00') : '', place: c ? '手術室' : '', start:'', end:'', result: c ? '完成急診手術' : '', note:'', pid:'', pk: c ? c.pk : '', void:false, voidReason:'', people: [], reviewed:false };
+  }
+  CUR = { ev, e };
+  $('detail').classList.add('show');
+  renderDetail();
+}
+function closeDetail(){ $('detail').classList.remove('show'); CUR = null; }
+function dtv(t){ t = norm(t); return t ? t.replace(' ', 'T') : ''; }
+function renderDetail(){
+  const { ev, e } = CUR;
+  const opt = (arr, v, blank) => (blank ? '<option value="">—</option>' : '') + arr.map(o => `<option ${o === v ? 'selected' : ''}>${escapeHtml(o)}</option>`).join('');
+  const day = (e.notify || '').slice(0, 10);
+  const near = DATA.cases.filter(c => c.pk === e.pk || (day && Math.abs(ms(c.date + ' 00:00') - ms(day + ' 00:00')) <= 86400000));
+  let html = `<div class="panel-head"><div><h3>${ev ? '出動事件覆核' : '人工補登出動'}</h3>
+    <div class="meta">${ev ? escapeHtml(ev.id) + ' · ' + escapeHtml(ev.src) + (ev.gname ? '（' + escapeHtml(ev.gname) + '）' : '') + (ev.rvBy ? ' · 上次覆核：' + escapeHtml(ev.rvBy) + ' ' + escapeHtml(ev.rvAt) : '') : '沒有經 LINE 群組啟動的出動，在這裡補登'}</div></div>
+    <button class="close" onclick="closeDetail()" aria-label="關閉">×</button></div>`;
+  if (ev && ev.src !== '人工補登') html += `<div class="card" style="padding:10px 14px"><div class="hint">LINE 原始紀錄：${escapeHtml(ev.raw.cat)}，通知 ${escapeHtml(norm(ev.raw.notify))}（${escapeHtml(ev.raw.by)}）${ev.raw.msg ? '，訊息「' + escapeHtml(ev.raw.msg) + '」' : ''}；
+    到院 ${(ev.raw.arr || []).map(a => escapeHtml(a.name) + ' ' + escapeHtml(String(a.t).slice(11, 16))).join('、') || '無'}${ev.raw.end ? '；結束 ' + escapeHtml(norm(ev.raw.end)) : ''}${ev.raw.status === '取消' ? '；已在群組取消' : ''}</div></div>`;
+  html += `<div class="card"><h2>事件</h2><div class="frm">
+    <div><label>事件類別</label><select id="f_cat">${opt(DATA.cats, e.cat)}</select></div>
+    <div><label>通知時間（到院時效起算點）</label><input type="datetime-local" id="f_notify" value="${dtv(e.notify)}"></div>
+    <div><label>集合地點</label><select id="f_place">${opt(PLACES, e.place, true)}</select></div>
+    <div><label>結果</label><select id="f_result">${opt(RESULTS, e.result, true)}</select></div>
+    <div><label>開始處置時間</label><input type="datetime-local" id="f_start" value="${dtv(e.start)}"></div>
+    <div><label>處置結束時間（累積時間算到這裡）</label><input type="datetime-local" id="f_end" value="${dtv(e.end)}"></div>
+    <div><label>連結平台急診手術（前後一天內）</label><select id="f_pk"><option value="">— 不連結（葉克膜或未開刀）—</option>${near.map(c => `<option value="${escapeHtml(c.pk)}" ${c.pk === e.pk ? 'selected' : ''}>${c.date} ${escapeHtml(c.name)} ${escapeHtml(c.surgery)}</option>`).join('')}</select></div>
+    <div><label>病人識別（病歷號；未連結手術時填）</label><input type="text" id="f_pid" value="${escapeHtml(e.pid)}" maxlength="40"></div>
+    <div class="full"><label>重要事件備註</label><input type="text" id="f_note" value="${escapeHtml(e.note)}" maxlength="300"></div>
+  </div><div class="hint" id="winNote" style="margin-top:8px"></div></div>`;
+  html += `<div class="card tbl-wrap"><h2>出動人員</h2>
+    <table class="ppl"><thead><tr><th>姓名</th><th>職類</th><th>主責醫師</th><th>到院時間</th><th>離開時間（空白＝處置結束）</th><th>到院</th><th>積分</th><th></th></tr></thead><tbody id="pplBody"></tbody></table>
+    <div style="margin-top:8px"><button class="btn" type="button" id="addP">＋ 新增人員</button> <span class="hint">姓名可從已綁定成員選，或直接輸入。</span></div>
+    <datalist id="memList">${DATA.members.map(m => `<option value="${escapeHtml(m.name)}">`).join('')}</datalist></div>`;
+  html += `<div class="card" style="padding:10px 14px"><label style="font-size:13px;cursor:pointer"><input type="checkbox" id="f_void" ${e.void ? 'checked' : ''}> 作廢，不列入統計（測試、誤發或重複）</label>
+    <input type="text" id="f_voidReason" value="${escapeHtml(e.voidReason)}" placeholder="作廢原因" maxlength="100" style="margin-left:10px;padding:4px 8px;border:1px solid var(--border-strong);border-radius:3px;font-size:13px;width:220px;max-width:100%"></div>`;
+  html += `<div class="foot"><div class="hint" id="saveNote"></div><div><button class="btn" onclick="closeDetail()">取消</button> <button class="btn primary" id="saveBtn" onclick="saveEvent()">${ev ? '儲存覆核' : '建立出動紀錄'}</button></div></div>`;
+  $('panel').innerHTML = html;
+  ['cat','notify','place','result','start','end','pk','pid','note','voidReason'].forEach(k => $('f_' + k).addEventListener('change', () => { CUR.e[k] = (k === 'notify' || k === 'start' || k === 'end') ? norm($('f_' + k).value) : $('f_' + k).value; refreshCalc(); }));
+  $('f_void').addEventListener('change', () => { CUR.e.void = $('f_void').checked; });
+  $('addP').addEventListener('click', () => { CUR.e.people.push({ uid:'', name:'', role:'', lead:false, arrive:'', leave:'' }); drawPeople(); });
+  drawPeople();
+}
+/* 只更新計算結果（到院分鐘、積分、提示），不重畫輸入欄，避免打字中失去游標 */
+function refreshCalc(){
+  const e = CUR.e;
+  $('winNote').innerHTML = !e.notify ? '' : (inWindow(e.notify) ? '通知時間在應變時段內。' : '<span class="bad-t">通知時間不在應變時段（平日 08:00–16:00），這筆不列入統計與積分。</span>');
+  $('pplBody').querySelectorAll('tr[data-i]').forEach(tr => {
+    const p = e.people[+tr.dataset.i]; if (!p) return;
+    const c = personCalc(e, p), a = tr.querySelector('.c-min'), b = tr.querySelector('.c-score');
+    a.textContent = c.min != null ? '+' + c.min + '分' : '—'; a.className = 'mono c-min ' + (c.min != null && !c.within ? 'late' : '');
+    b.innerHTML = c.score.toFixed(2) + (c.noEnd ? '<span class="hint">*</span>' : '');
+  });
+  $('saveNote').textContent = e.people.some(p => personCalc(e, p).noEnd) ? '* 未填處置結束或離開時間者，只計基本分 1.0。' : '';
+}
+function drawPeople(){
+  const e = CUR.e;
+  $('pplBody').innerHTML = e.people.map((p, i) => {
+    return `<tr data-i="${i}">
+      <td><input type="text" class="nm" data-f="name" list="memList" value="${escapeHtml(p.name)}" maxlength="30"></td>
+      <td><select class="rl" data-f="role"><option value="">—</option>${DATA.roles.map(r => `<option ${r === p.role ? 'selected' : ''}>${r}</option>`).join('')}</select></td>
+      <td style="text-align:center"><input type="checkbox" data-f="lead" ${p.lead ? 'checked' : ''}></td>
+      <td><input type="datetime-local" class="dt" data-f="arrive" value="${dtv(p.arrive)}"></td>
+      <td><input type="datetime-local" class="dt" data-f="leave" value="${dtv(p.leave)}"></td>
+      <td class="mono c-min"></td>
+      <td class="mono c-score"></td>
+      <td><button class="link" type="button" data-f="del">移除</button></td></tr>`;
+  }).join('') || '<tr><td colspan="8" class="hint">尚無人員，請按「新增人員」。</td></tr>';
+  refreshCalc();
+  $('pplBody').querySelectorAll('[data-f]').forEach(el => {
+    const i = +el.closest('tr').dataset.i, f = el.dataset.f;
+    if (f === 'del') return el.addEventListener('click', () => { CUR.e.people.splice(i, 1); drawPeople(); });
+    el.addEventListener('change', () => {
+      const p = CUR.e.people[i];
+      if (f === 'lead') p.lead = el.checked;
+      else if (f === 'arrive' || f === 'leave') p[f] = norm(el.value);
+      else p[f] = el.value.trim();
+      if (f === 'name') { const m = DATA.members.find(x => x.name === p.name); if (m) { p.uid = m.uid; if (!p.role) { p.role = m.role; el.closest('tr').querySelector('[data-f="role"]').value = m.role; } } }
+      refreshCalc();
+    });
+  });
+}
+async function saveEvent(){
+  const { ev, e } = CUR, filler = $('filler').value.trim();
+  const fail = (m) => { $('saveNote').innerHTML = '<span class="bad-t">' + m + '</span>'; };
+  if (!filler) return fail('請先在頁面上方填寫覆核者姓名。');
+  if (!e.cat || !e.notify) return fail('事件類別與通知時間必填。');
+  if (e.void && !e.voidReason.trim()) return fail('請填寫作廢原因。');
+  if (!e.void) {
+    if (e.people.some(p => !p.name)) return fail('有人員未填姓名，請填寫或移除。');
+    if (e.people.some(p => !p.role)) return fail('有人員未選職類。');
+    const bad = e.people.find(p => p.arrive && minsBetween(e.notify, p.arrive) < 0);
+    if (bad) return fail(bad.name + ' 的到院時間早於通知時間，請核對。');
+    if (e.end && minsBetween(e.notify, e.end) < 0) return fail('處置結束時間早於通知時間，請核對。');
+  }
+  $('saveBtn').disabled = true; $('saveBtn').textContent = '儲存中…';
+  try {
+    await post({ action:'saveDispatch', id: ev ? ev.id : '', filler, data: JSON.stringify(e) });
+    closeDetail();
+    showOk('已送出，重新載入中…');
+    setTimeout(() => load(true), 1500);
+  } catch (err) { $('saveBtn').disabled = false; $('saveBtn').textContent = '儲存'; fail('儲存失敗：' + err.message); }
+}
+$('detail').addEventListener('click', e => { if (e.target === $('detail')) closeDetail(); });
+if ($('doctor_key').value) load();
+</script>
+</body>
+</html>

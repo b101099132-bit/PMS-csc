@@ -359,6 +359,16 @@ footer .clinic {
       <div class="card-arrow">→</div>
     </a>
 
+    <a class="card" data-color="navy" href="dispatch.html" id="card-dispatch">
+      <div class="card-head">
+        <span class="card-tag">11 · 出動</span>
+        <span class="card-role">團隊</span>
+      </div>
+      <div class="card-title">夜間急重症出動覆核</div>
+      <p class="card-desc">LINE 出動群組自動記錄的葉克膜與急診心臟手術出動：覆核通知與到院時間、人員角色，產出 1 小時內到院率與個人季積分。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
     <a class="card" data-color="sage" href="edu/index.html" id="card-edu">
       <div class="card-head">
         <span class="card-tag">08 · 衛教</span>
@@ -387,7 +397,7 @@ if (window.location.hash.startsWith('#k=')) {
 // 更新所有需要通行碼的連結
 function updateLinks() {
   const v = $('doctor_key').value.trim();
-  ['card-surgery', 'card-recovery', 'card-perfusion', 'card-postop', 'card-dashboard', 'card-risk', 'card-study', 'card-audit', 'card-stent24'].forEach(id => {
+  ['card-surgery', 'card-recovery', 'card-perfusion', 'card-postop', 'card-dashboard', 'card-risk', 'card-study', 'card-audit', 'card-stent24', 'card-dispatch'].forEach(id => {
     const card = $(id);
     // 第一次執行時存下原始 URL，之後不再讀已被加 hash 的版本
     let base = card.getAttribute('data-base');
