@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>支架 24 小時出院路徑 — 心臟外科手術病人管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:#FAF7F2; --paper:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --ink-faint:#8A8580;
+  --teal:#1F5A5A; --gold:#A87B4D; --navy:#2C4866; --plum:#6B5876;
+  --border:#E8E2D5; --border-strong:#D4CDB8;
+  --success:#4A7A5A; --success-bg:#EDF3EE; --warn:#B8842D; --warn-bg:#FBF3DE;
+  --error:#B85450; --error-bg:#FBEFEE; --na:#8A8580; --na-bg:#F1EEE8;
+}
+body { font-family:'Noto Sans TC',system-ui,sans-serif; background:var(--cream); color:var(--ink);
+  font-size:15px; line-height:1.6; padding:20px 16px 60px; -webkit-font-smoothing:antialiased; }
+.container { max-width:1100px; margin:0 auto; }
+header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; font-weight:500; margin-bottom:6px; }
+.brand h1 { font-family:'Noto Serif TC',serif; font-size:23px; font-weight:600; }
+.brand .flow { font-size:12px; color:var(--ink-faint); margin-top:4px; }
+.role-tag { background:var(--teal); color:#fff; padding:4px 12px; border-radius:3px; font-size:12px; letter-spacing:0.1em; font-weight:500; }
+.key-bar { background:#EEF2F7; border:1px solid #DCE3EB; border-radius:3px; padding:12px 16px; margin-bottom:18px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.key-bar label { font-size:13px; color:var(--navy); font-weight:500; }
+.key-bar input { padding:7px 12px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; background:#fff; }
+.key-bar #doctor_key { flex:1; min-width:150px; font-family:'JetBrains Mono',monospace; }
+.key-bar #filler { width:140px; }
+.btn { border:1px solid var(--border-strong); background:#fff; color:var(--ink); border-radius:3px; padding:7px 14px; font-size:13px; cursor:pointer; font-family:inherit; }
+.btn:hover { border-color:var(--navy); color:var(--navy); }
+.btn.primary { background:var(--teal); color:#fff; border-color:var(--teal); }
+.btn.primary:hover { background:#174848; color:#fff; }
+.btn:disabled { opacity:.55; cursor:default; }
+.alert { display:none; padding:10px 14px; border-radius:3px; font-size:13px; margin-bottom:14px; }
+.alert.show { display:block; }
+.alert.err { background:var(--error-bg); color:var(--error); border:1px solid #F0D3D1; }
+.alert.ok { background:var(--success-bg); color:var(--success); border:1px solid #D3E3D6; }
+.tabs { display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.tab { padding:8px 16px; font-size:14px; cursor:pointer; border:1px solid transparent; border-bottom:none; border-radius:3px 3px 0 0; color:var(--ink-soft); background:none; font-family:inherit; }
+.tab.active { background:var(--paper); border-color:var(--border); color:var(--teal); font-weight:600; margin-bottom:-1px; }
+.filters { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.filters label { font-size:12px; color:var(--ink-faint); }
+.filters select { padding:6px 10px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; background:#fff; font-family:inherit; }
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+@media (max-width:760px){ .kpis { grid-template-columns:repeat(2,1fr); } }
+.kpi { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:12px 14px; }
+.kpi .lbl { font-size:12px; color:var(--ink-faint); }
+.kpi .val { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal); line-height:1.3; }
+.kpi .val.bad { color:var(--error); }
+.kpi .sub { font-size:11px; color:var(--ink-faint); }
+.card { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:16px 18px; margin-bottom:16px; }
+.card > h2 { font-family:'Noto Serif TC',serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:12px; }
+.hint { font-size:12px; color:var(--ink-faint); line-height:1.7; }
+table.list { width:100%; border-collapse:collapse; font-size:13px; }
+table.list th { text-align:left; font-weight:500; color:var(--ink-faint); font-size:12px; padding:6px 8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+table.list td { padding:8px; border-bottom:1px solid #F0ECE4; vertical-align:middle; }
+table.list tr.case:hover { background:#FBF8F2; cursor:pointer; }
+.mono { font-family:'JetBrains Mono',monospace; }
+.tag { display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; white-space:nowrap; }
+.tag.cardiac { background:#E7EEF0; color:var(--teal); }
+.tag.stent { background:#EEE8F1; color:var(--plum); }
+.tag.st-no { background:var(--na-bg); color:var(--ink-soft); }
+.tag.st-miss { background:var(--warn-bg); color:var(--warn); }
+.tag.st-ok { background:var(--success-bg); color:var(--success); }
+.tag.st-lock { background:#E7ECF3; color:var(--navy); }
+.tag.sample { background:#FBEFEE; color:var(--error); }
+.bar { position:relative; width:90px; height:8px; background:#EFEAE0; border-radius:4px; display:inline-block; vertical-align:middle; margin-right:6px; }
+.bar > i { position:absolute; left:0; top:0; bottom:0; border-radius:4px; background:var(--teal); }
+.bar > b { position:absolute; top:-3px; bottom:-3px; width:1px; background:var(--gold); left:70%; }
+.dots { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1px; white-space:nowrap; }
+.dots .Y { color:var(--success); } .dots .N { color:var(--error); } .dots .NA, .dots .P { color:#C9C2B4; }
+@media (max-width:760px){ .hide-m { display:none; } .bar { display:none; } table.list td, table.list th { padding:6px 4px; } }
+.tbl-wrap { overflow-x:auto; }
+
+/* detail panel */
+#detail { display:none; position:fixed; inset:0; background:rgba(26,26,26,.35); z-index:50; overflow-y:auto; padding:20px 12px; }
+#detail.show { display:block; }
+.panel { max-width:860px; margin:0 auto; background:var(--cream); border-radius:6px; padding:18px 18px 24px; box-shadow:0 8px 30px rgba(0,0,0,.15); }
+.panel-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:12px; }
+.panel-head h3 { font-family:'Noto Serif TC',serif; font-size:19px; }
+.panel-head .meta { font-size:13px; color:var(--ink-soft); }
+.close { background:none; border:none; font-size:24px; cursor:pointer; color:var(--ink-faint); line-height:1; }
+.ver-box { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:12px; font-size:13px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.ver-box select, .ver-box input { padding:5px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.phase { font-size:12px; color:var(--gold); letter-spacing:.15em; margin:14px 0 6px; font-weight:600; }
+.item { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:8px; }
+.item-top { display:flex; gap:10px; align-items:flex-start; }
+.item-n { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gold); width:22px; flex:none; padding-top:2px; }
+.item-main { flex:1; min-width:0; }
+.item-name { font-weight:600; font-size:14px; }
+.item-crit { font-size:12px; color:var(--ink-faint); }
+.item-ev { font-size:12px; color:var(--ink-soft); margin-top:4px; }
+.item-ev .src { font-size:11px; color:var(--ink-faint); border:1px solid var(--border); border-radius:8px; padding:0 6px; margin-right:6px; }
+.res { flex:none; font-size:12px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
+.res.Y { background:var(--success-bg); color:var(--success); }
+.res.N { background:var(--error-bg); color:var(--error); }
+.res.NA, .res.P { background:var(--na-bg); color:var(--na); }
+.inputs { margin:8px 0 0 32px; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13px; align-items:center; }
+.inputs label { display:inline-flex; gap:4px; align-items:center; cursor:pointer; }
+.inputs input[type=text], .inputs input[type=number], .inputs input[type=date], .inputs select { padding:4px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.subrow { margin:6px 0 0 32px; font-size:12px; color:var(--ink-soft); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.subrow select, .subrow input { padding:3px 6px; border:1px solid var(--border-strong); border-radius:3px; font-size:12px; font-family:inherit; }
+.link { background:none; border:none; color:var(--navy); text-decoration:underline; cursor:pointer; font-size:12px; font-family:inherit; padding:0; }
+.foot { position:sticky; bottom:0; background:var(--cream); border-top:1px solid var(--border); margin-top:14px; padding-top:12px;
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+.foot .rate { font-size:14px; }
+.foot .rate b { font-family:'JetBrains Mono',monospace; font-size:20px; color:var(--teal); }
+.loading { display:inline-block; width:12px; height:12px; border:2px solid #ccc; border-top-color:var(--teal); border-radius:50%; animation:spin 1s linear infinite; margin-right:6px; vertical-align:-2px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+table.rep { width:100%; border-collapse:collapse; font-size:13px; }
+table.rep th, table.rep td { padding:6px 8px; border-bottom:1px solid #F0ECE4; text-align:left; }
+table.rep th { color:var(--ink-faint); font-weight:500; font-size:12px; }
+table.rep td.num { font-family:'JetBrains Mono',monospace; text-align:right; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:860px){ .two { grid-template-columns:1fr; } }
+footer { margin-top:30px; text-align:center; font-size:12px; color:var(--ink-faint); }
+</style>
+<style>
+.ind-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+@media (max-width:860px){ .ind-grid { grid-template-columns:repeat(2,1fr); } }
+.ind { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 12px; border-left:4px solid var(--border-strong); }
+.ind.ok { border-left-color:var(--success); } .ind.bad { border-left-color:var(--error); } .ind.na { border-left-color:var(--border-strong); }
+.ind .lbl { font-size:12px; color:var(--ink-soft); }
+.ind .val { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; color:var(--teal); }
+.ind.bad .val { color:var(--error); }
+.ind .sub { font-size:11px; color:var(--ink-faint); }
+.stop { border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:14px; }
+.stop.ok { background:var(--success-bg); color:var(--success); border:1px solid #D3E3D6; }
+.stop.bad { background:var(--error-bg); color:var(--error); border:1px solid #F0D3D1; font-weight:600; }
+.sec { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:14px 16px; margin-bottom:12px; }
+.sec h4 { font-family:'Noto Serif TC',serif; font-size:15px; color:var(--teal); margin-bottom:4px; }
+.sec .who { font-size:12px; color:var(--ink-faint); margin-bottom:8px; }
+.crit-row { display:flex; justify-content:space-between; gap:10px; align-items:center; padding:6px 0; border-bottom:1px solid #F3EFE7; font-size:13px; }
+.crit-row:last-child { border-bottom:none; }
+.crit-row .yn label { margin-left:10px; cursor:pointer; }
+.verdict { display:inline-block; font-size:13px; font-weight:600; padding:3px 12px; border-radius:12px; margin-top:8px; }
+.verdict.Y { background:var(--success-bg); color:var(--success); } .verdict.N { background:var(--error-bg); color:var(--error); } .verdict.U { background:var(--na-bg); color:var(--na); }
+.grid2 { display:grid; grid-template-columns:repeat(2,1fr); gap:6px 16px; font-size:13px; }
+@media (max-width:560px){ .grid2 { grid-template-columns:1fr; } }
+.kv .k { color:var(--ink-faint); font-size:12px; } .kv .v { font-family:'JetBrains Mono',monospace; }
+.frow { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; font-size:13px; padding:5px 0; }
+.frow input[type=text], .frow input[type=date], .frow select { padding:4px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.frow label { cursor:pointer; display:inline-flex; gap:4px; align-items:center; }
+.frow .lab { min-width:150px; font-weight:500; }
+.fu-row { display:grid; grid-template-columns:40px 150px 140px 1fr; gap:8px; align-items:center; font-size:13px; padding:5px 0; }
+@media (max-width:560px){ .fu-row { grid-template-columns:40px 1fr; } }
+.fu-row input, .fu-row select { padding:4px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; width:100%; }
+.flag { display:inline-block; font-size:11px; padding:0 6px; border-radius:8px; background:var(--error-bg); color:var(--error); margin-right:3px; }
+.ok-t { color:var(--success); } .bad-t { color:var(--error); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="eyebrow">Aortic Stent · 24h Discharge Pathway</div>
+      <h1>主動脈支架 24 小時內出院路徑</h1>
+      <div class="flow">術前選案 → 加護病房連續監測 ≥16 小時 → 出院檢核 → 出院後第 1、3、7 日追蹤 → 30 日安全事件</div>
+    </div>
+    <span class="role-tag" id="roleTag">團隊</span>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後載入" autocomplete="off">
+    <label for="filler">填寫者</label>
+    <input type="text" id="filler" placeholder="您的姓名">
+    <button class="btn" id="reloadBtn" type="button">↻ 重新載入</button>
+  </div>
+
+  <div class="alert err" id="errAlert"></div>
+  <div class="alert ok" id="okAlert"></div>
+
+  <div class="filters">
+    <label>季別</label><select id="fQ"></select>
+    <span class="hint" id="yearNote"></span>
+  </div>
+
+  <div id="stopBox"></div>
+  <div class="ind-grid" id="inds"></div>
+
+  <div class="card tbl-wrap">
+    <table class="list">
+      <thead><tr><th>手術日</th><th>姓名</th><th class="hide-m">術式</th><th>選案</th><th>路徑結果</th><th>ICU→離院</th><th class="hide-m">檢核／追蹤</th><th class="hide-m">事件</th></tr></thead>
+      <tbody id="caseBody"><tr><td colspan="8" class="hint">輸入通行碼後載入。</td></tr></tbody>
+    </table>
+  </div>
+
+  <footer>心臟外科手術病人管理系統 · 支架 24 小時內出院路徑 · 依「選案標準與安全監測指標」；選案評估、出院檢核與追蹤同步帶入 ERAS 核心查核支架版第 2、10、11 項</footer>
+</div>
+
+<div id="detail"><div class="panel" id="panel"></div></div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = (id) => document.getElementById(id);
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const OUTCOMES = ['循路徑出院', '路徑中止', '未納入路徑'];
+const OUT_HINT = { '循路徑出院':'評核通過，由加護病房於抵達後 24 小時內直接出院', '路徑中止':'已選案但未能由加護病房於 24 小時內直接出院（轉一般病房或延後出院）', '未納入路徑':'不符合選案標準，或未採用本路徑' };
+let DATA = null, CUR = null;
+
+if (window.location.hash.startsWith('#k=')) $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+try { $('filler').value = localStorage.getItem('eras_audit_filler') || ''; } catch(e){}
+$('filler').addEventListener('change', () => { try { localStorage.setItem('eras_audit_filler', $('filler').value.trim()); } catch(e){} });
+$('doctor_key').addEventListener('change', () => { const v=$('doctor_key').value; if(v){ history.replaceState(null,'','#k='+encodeURIComponent(v)); load(); } });
+$('reloadBtn').addEventListener('click', () => load(true));
+$('fQ').addEventListener('change', render);
+
+function jsonp(params, timeoutMs = 45000){
+  return new Promise((resolve,reject)=>{
+    const cb = '_st_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp = new URLSearchParams({...params, callback:cb});
+    const s = document.createElement('script');
+    const t = setTimeout(()=>{cl();reject(new Error('查詢逾時'));}, timeoutMs);
+    function cl(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = d => { cl(); resolve(d); };
+    s.onerror = () => { cl(); reject(new Error('連線失敗')); };
+    s.src = APPS_SCRIPT_URL+'?'+usp.toString();
+    document.body.appendChild(s);
+  });
+}
+async function post(fields){
+  const fd = new FormData();
+  Object.keys(fields).forEach(k => fd.append(k, fields[k]));
+  fd.append('key', $('doctor_key').value.trim());
+  await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+}
+function showErr(m){ const e=$('errAlert'); e.textContent=m; e.classList.add('show'); }
+function showOk(m){ const e=$('okAlert'); e.textContent=m; e.classList.add('show'); setTimeout(()=>e.classList.remove('show'), 4000); }
+function qLabel(q){ const m = /^(\d+)Q(\d)$/.exec(q); return m ? `${m[1]} 年第 ${m[2]} 季` : q; }
+function prevQ(q){ const m = /^(\d+)Q(\d)$/.exec(q); if (!m) return ''; let y=+m[1], k=+m[2]-1; if (k<1){ k=4; y--; } return y+'Q'+k; }
+
+async function load(keepQ){
+  const key = $('doctor_key').value.trim(); if (!key) return;
+  $('errAlert').classList.remove('show');
+  $('caseBody').innerHTML = '<tr><td colspan="8"><span class="loading"></span>載入中…</td></tr>';
+  try {
+    const d = await jsonp({ action:'stentList', key });
+    if (!d || !d.ok) { showErr(d && d.error === 'unauthorized' ? '通行碼錯誤' : '載入失敗：' + (d && d.error || '')); $('caseBody').innerHTML=''; return; }
+    DATA = d;
+    $('roleTag').textContent = d.role === 'admin' ? '管理' : '團隊';
+    const prev = keepQ ? $('fQ').value : '';
+    $('fQ').innerHTML = d.quarters.map(x => `<option value="${x.q}">${qLabel(x.q)}（${x.n}）</option>`).join('') + '<option value="all">全部</option>';
+    if (prev && [...$('fQ').options].some(o=>o.value===prev)) $('fQ').value = prev;
+    render();
+  } catch (err) { showErr(err.message); $('caseBody').innerHTML=''; }
+}
+
+// ===== 指標 =====
+function indOf(cs){
+  const pd = cs.filter(c => c.outcome === '循路徑出院'), el = cs.filter(c => c.eligible === true);
+  const r = (a, b) => b ? Math.round(a / b * 1000) / 10 : null;
+  const cnt = (arr, f) => arr.filter(f).length;
+  return {
+    n: cs.length, pd: pd.length, el: el.length,
+    dc24: { a: cnt(el, c => c.within24 === true), b: el.length },
+    assess: { a: cnt(cs, c => c.assessed), b: cs.length },
+    check: { a: cnt(pd, c => c.chkPass), b: pd.length },
+    readmit: { a: cnt(pd, c => c.readmitUnplanned), b: pd.length },
+    ed72: { a: cnt(pd, c => c.ed72), b: pd.length },
+    access: { a: cnt(pd, c => c.access), b: pd.length },
+    icuRe: { a: cnt(pd, c => c.icuRe), b: pd.length, count: true },
+    death: { a: cnt(pd, c => c.death), b: pd.length, count: true },
+    abort: { a: cnt(el, c => c.outcome === '路徑中止'), b: el.length },
+    fu: { a: cnt(pd, c => c.fuDone), b: pd.length },
+    elig: { a: el.length, b: cs.length },
+    r
+  };
+}
+const IND_DEFS = [
+  ['dc24','24小時內出院率','符合選案者中，抵達ICU後24小時內離院'], ['assess','術前選案評估完成率','支架手術全部案件'], ['check','出院前檢核表完成率','循路徑出院者'],
+  ['readmit','30日內非計畫性再入院率','循路徑出院者'], ['ed72','出院後72小時內急診返診率','循路徑出院者'], ['access','穿刺處併發症發生率','出血、血腫、假性動脈瘤（30日內）'],
+  ['icuRe','出院後非計畫性再入住加護病房','例數；每例根本原因分析'], ['death','30日內死亡或提早出院相關重大不良事件','例數；發生即停損'], ['abort','路徑中止率','已選案但未能24小時內直接出院'],
+  ['fu','出院後追蹤完成率（D1、3、7）','循路徑出院者'], ['elig','選案符合率','建立基線，僅供監測']
+];
+function judge(key, x, roc){
+  const t = DATA.targets[key] || {}, tv = roc != null ? t[roc] : undefined;
+  if (t.dir === 'base') return { cls:'na', txt:'建立基線' };
+  if (tv === undefined) return { cls:'na', txt:'' };
+  if (t.dir === 'n<=') return { cls: x.a <= tv ? 'ok' : 'bad', txt: '目標 ≤' + tv + ' 例' };
+  if (!x.b) return { cls:'na', txt: (t.dir === '>=' ? '目標 ≥' : '目標 ≤') + tv + '%' };
+  const v = x.a / x.b * 100;
+  return { cls: (t.dir === '>=' ? v >= tv : v <= tv) ? 'ok' : 'bad', txt: (t.dir === '>=' ? '目標 ≥' : '目標 ≤') + tv + '%' };
+}
+function exceeds(key, cs, roc){
+  const x = indOf(cs)[key], t = DATA.targets[key] || {}, tv = t[roc];
+  if (tv === undefined || !x.b) return false;
+  return x.a / x.b * 100 > tv;
+}
+function render(){
+  if (!DATA) return;
+  const q = $('fQ').value, roc = /^\d+/.test(q) ? parseInt(q, 10) : null;
+  const cs = DATA.cases.filter(c => q === 'all' || c.q === q);
+  const k = indOf(cs);
+  // 年度案件數 <20 → 以例數判定
+  const yearPd = roc ? DATA.cases.filter(c => c.q.indexOf(roc + 'Q') === 0 && c.outcome === '循路徑出院').length : null;
+  $('yearNote').textContent = roc ? `${roc} 年循路徑出院累計 ${yearPd} 例${yearPd < 20 ? '（未滿 20 例，比率易受單一個案影響，以發生例數搭配逐案檢討判定）' : ''}` : '';
+  $('inds').innerHTML = IND_DEFS.map(([key, lbl, sub]) => {
+    const x = k[key], j = judge(key, x, roc);
+    const val = x.count ? x.a + ' 例' : (x.b ? k.r(x.a, x.b) + '%' : '—');
+    return `<div class="ind ${j.cls}"><div class="lbl">${lbl}</div><div class="val">${val}</div><div class="sub">${x.count ? '' : x.a + '／' + x.b + '　'}${j.txt}</div><div class="sub">${sub}</div></div>`;
+  }).join('');
+  // 停損
+  let stop = [];
+  if (roc) {
+    const yr = DATA.cases.filter(c => c.q.indexOf(roc + 'Q') === 0 && c.outcome === '循路徑出院');
+    if (yr.some(c => c.death)) stop.push(roc + ' 年發生死亡或與提早出院相關之重大不良事件');
+    const pq = prevQ(q), pcs = DATA.cases.filter(c => c.q === pq);
+    [['readmit','30日內非計畫性再入院率'],['ed72','72小時內急診返診率'],['access','穿刺處併發症發生率']].forEach(([key, lbl]) => {
+      if (exceeds(key, cs, roc) && exceeds(key, pcs, parseInt(pq, 10))) stop.push(lbl + '連續兩季（' + qLabel(pq) + '、' + qLabel(q) + '）超過目標');
+    });
+  }
+  $('stopBox').innerHTML = !roc ? '' : stop.length
+    ? `<div class="stop bad">⚠ 停損機制啟動：${stop.map(escapeHtml).join('；')}。應暫停擴大選案，召開心臟血管外科、心胸麻醉科及醫務部檢討會議。</div>`
+    : `<div class="stop ok">停損檢核：目前無觸發條件（死亡／重大不良事件 0 例；再入院、72 小時返診、穿刺處併發症無連續兩季超標）。</div>`;
+  // 清單
+  if (!cs.length) { $('caseBody').innerHTML = '<tr><td colspan="8" class="hint">此季別沒有支架手術。</td></tr>'; return; }
+  $('caseBody').innerHTML = cs.map(c => {
+    const sel = !c.assessed ? '<span class="tag st-no">未評估</span>' : (c.eligible ? '<span class="tag st-ok">符合</span>' : '<span class="tag st-miss">不符合</span>');
+    const out = c.outcome ? `<span class="tag ${c.outcome==='循路徑出院'?'st-ok':c.outcome==='路徑中止'?'st-miss':'st-no'}">${c.outcome}</span>` : '<span class="hint">—</span>';
+    const hrs = c.hours == null ? '<span class="hint">—</span>' : `<span class="mono ${c.within24?'ok-t':'bad-t'}">${c.hours} h</span>`;
+    const flags = [c.ed72&&'72h返診', c.readmitUnplanned&&'非計畫再入院', c.access&&'穿刺處', c.icuRe&&'再入ICU', c.death&&'死亡／重大'].filter(Boolean).map(f=>`<span class="flag">${f}</span>`).join('');
+    return `<tr class="case" data-pk="${escapeHtml(c.pk)}"><td class="mono">${c.date}</td><td>${escapeHtml(c.name)}</td><td class="hide-m">${escapeHtml(c.surgery)}</td>
+      <td>${sel}</td><td>${out}</td><td>${hrs}</td><td class="hide-m">${c.chkPass?'✓':'·'} 檢核　${c.fuDone?'✓':'·'} 追蹤</td><td class="hide-m">${flags}</td></tr>`;
+  }).join('');
+  document.querySelectorAll('tr.case').forEach(tr => tr.addEventListener('click', () => openCase(tr.dataset.pk)));
+}
+
+// ===== 單案 =====
+async function openCase(pk){
+  $('panel').innerHTML = '<span class="loading"></span>載入中…';
+  $('detail').classList.add('show');
+  try {
+    const d = await jsonp({ action:'lookupStent', key:$('doctor_key').value.trim(), pk });
+    if (!d || !d.ok) { $('panel').innerHTML = '<p>' + escapeHtml(d && d.error || '載入失敗') + '</p><button class="btn" onclick="closeDetail()">關閉</button>'; return; }
+    CUR = d;
+    const r = CUR.rec = JSON.parse(JSON.stringify(d.rec || {}));
+    r.inc = r.inc || []; r.exc = r.exc || []; r.chk = r.chk || []; r.fu = r.fu || {}; r.ev = r.ev || {};
+    renderDetail();
+  } catch (err) { $('panel').innerHTML = '<p>' + escapeHtml(err.message) + '</p><button class="btn" onclick="closeDetail()">關閉</button>'; }
+}
+function closeDetail(){ $('detail').classList.remove('show'); CUR = null; }
+$('detail').addEventListener('click', e => { if (e.target === $('detail')) closeDetail(); });
+
+function verdict(){
+  const r = CUR.rec, D = CUR.defs;
+  const done = D.inc.every((_,i) => r.inc[i]) && D.exc.every((_,i) => r.exc[i]) && (r.assessor || '').trim();
+  if (!done) return ['U', '選案評估未完成（' + (D.inc.filter((_,i)=>r.inc[i]).length + D.exc.filter((_,i)=>r.exc[i]).length) + '／10 項，評估者' + ((r.assessor||'').trim() ? '已填' : '未填') + '）'];
+  const ok = r.inc.every(v => v === '是') && r.exc.every(v => v === '否');
+  return ok ? ['Y', '符合選案標準'] : ['N', '不符合選案標準'];
+}
+function ynRow(group, i, label, v){
+  const nm = group + i;
+  return `<div class="crit-row"><span>${escapeHtml(label)}</span><span class="yn">${['是','否'].map(o => `<label><input type="radio" name="${nm}" data-g="${group}" data-i="${i}" value="${o}" ${v===o?'checked':''}> ${o}</label>`).join('')}</span></div>`;
+}
+function renderDetail(){
+  const d = CUR, c = d.case, r = d.rec, a = d.auto, D = d.defs;
+  const [vc, vt] = verdict();
+  const ev = r.ev;
+  const evRow = (key, lbl, extra) => `<div class="frow"><span class="lab">${lbl}</span>${['否','是'].map(o => `<label><input type="radio" name="ev_${key}" data-ev="${key}" value="${o}" ${ev[key]===o?'checked':''}> ${o}</label>`).join('')}${extra||''}</div>`;
+  let html = `<div class="panel-head"><div><h3>${escapeHtml(c.name)}　<span class="tag stent">主動脈支架</span></h3>
+    <div class="meta">${c.date}（${qLabel(c.q)}）· ${escapeHtml(c.surgery)}${c.urgency ? ' · 手術急迫性 ' + c.urgency : ''}${r._filler ? '　· 上次填寫：' + escapeHtml(r._filler) + ' ' + escapeHtml(r._updated || '') : ''}</div></div>
+    <button class="close" onclick="closeDetail()" aria-label="關閉">×</button></div>`;
+  if (c.version !== 'stent') html += `<div class="alert err show">此病人在 ERAS 核心查核被設為心臟手術版，不列入支架路徑統計。</div>`;
+  // ① 選案
+  html += `<div class="sec"><h4>① 術前選案評估</h4><div class="who">心臟血管外科與心胸麻醉科於術前共同評估；須符合全部納入條件且無任一排除條件</div>
+    <div class="subhead" style="font-size:13px;color:var(--ink-soft);margin:4px 0">納入條件（皆須「是」）</div>${D.inc.map((t,i) => ynRow('inc', i, t, r.inc[i])).join('')}
+    <div class="subhead" style="font-size:13px;color:var(--ink-soft);margin:10px 0 4px">排除條件（皆須「否」）</div>${D.exc.map((t,i) => ynRow('exc', i, t, r.exc[i])).join('')}
+    <div class="frow" style="margin-top:8px"><span class="lab">評估者</span><input type="text" data-f="assessor" value="${escapeHtml(r.assessor||'')}" placeholder="姓名（可多位）" style="width:200px"><span class="lab" style="min-width:auto">評估日期</span><input type="date" data-f="assessDate" value="${escapeHtml(r.assessDate||'')}"></div>
+    <span class="verdict ${vc}" id="verdict">${escapeHtml(vt)}</span></div>`;
+  // ② ICU 與出院
+  const hrsTxt = a.hours == null ? '—（抵達ICU或離院時間未登錄於術後追蹤）' : `${a.hours} 小時　<b class="${a.within24?'ok-t':'bad-t'}">${a.within24 ? '24 小時內' : '超過 24 小時'}</b>`;
+  html += `<div class="sec"><h4>② 加護病房監測與出院</h4><div class="who">時間由「手術完成與術後追蹤」帶入；如需更正請回該頁修改</div>
+    <div class="grid2"><div class="kv"><div class="k">抵達加護病房</div><div class="v">${a.icuArrive || '—'}</div></div><div class="kv"><div class="k">轉出加護病房</div><div class="v">${a.icuOut || '—'}</div></div>
+      <div class="kv"><div class="k">離院</div><div class="v">${a.discharge || '—'}</div></div><div class="kv"><div class="k">抵達ICU → 離院</div><div class="v">${hrsTxt}</div></div>
+      <div class="kv"><div class="k">加護病房連續監測</div><div class="v">${a.icuHours == null ? '—' : a.icuHours + ' 小時 ' + (a.icuHours >= 16 ? '<span class="ok-t">（≥16 小時）</span>' : '<span class="bad-t">（未滿 16 小時）</span>')}</div></div></div>
+    <div class="subhead" style="font-size:13px;color:var(--ink-soft);margin:12px 0 4px">出院檢核表（六項全數通過才可由加護病房直接出院）</div>
+    <div class="frow">${D.chk.map((t,i) => `<label><input type="checkbox" data-chk="${i}" ${r.chk[i]?'checked':''}> ${escapeHtml(t)}</label>`).join('')}</div>
+    <div class="subhead" style="font-size:13px;color:var(--ink-soft);margin:12px 0 4px">路徑結果</div>
+    ${OUTCOMES.map(o => `<div class="frow"><label><input type="radio" name="outcome" data-f="outcome" value="${o}" ${r.outcome===o?'checked':''}> <b>${o}</b></label><span class="hint">${OUT_HINT[o]}</span></div>`).join('')}
+    <div class="frow"><span class="lab">中止原因</span><input type="text" data-f="abortReason" value="${escapeHtml(r.abortReason||'')}" placeholder="路徑中止時必填" style="flex:1;min-width:200px"></div></div>`;
+  // ③ 追蹤
+  html += `<div class="sec"><h4>③ 出院後追蹤（第 1、3、7 日）</h4><div class="who">居家監測與電子訪視；記錄追蹤日期、有無異常與處置</div>
+    ${D.fu.map(k => { const f = r.fu[k] || {}; return `<div class="fu-row"><b>${k}</b><input type="date" data-fu="${k}" data-fk="date" value="${escapeHtml(f.date||'')}">
+      <select data-fu="${k}" data-fk="abn"><option value="">有無異常</option>${['無異常','有異常'].map(o=>`<option ${f.abn===o?'selected':''}>${o}</option>`).join('')}</select>
+      <input type="text" data-fu="${k}" data-fk="act" value="${escapeHtml(f.act||'')}" placeholder="異常內容與處置"></div>`; }).join('')}</div>`;
+  // ④ 事件
+  html += `<div class="sec"><h4>④ 30 日內安全事件</h4><div class="who">自出院日起 30 日內；有發生時填寫日期與說明</div>
+    ${evRow('ed72','出院後72小時內急診返診', `<input type="date" data-ev2="ed72Date" value="${escapeHtml(ev.ed72Date||'')}"><input type="text" data-ev2="ed72Note" value="${escapeHtml(ev.ed72Note||'')}" placeholder="原因" style="flex:1;min-width:160px">`)}
+    ${evRow('readmitUnplanned','30日內非計畫性再入院', `<span class="hint">術後追蹤「30天再入院」：${escapeHtml(a.readmit30 || '未填')}${a.readmit30Date ? '（' + a.readmit30Date + '）' : ''}</span>`)}
+    <div class="frow"><span class="lab">穿刺處併發症</span>${D.access.map(t => `<label><input type="checkbox" data-acc="${t}" ${(ev.access||[]).indexOf(t)>=0?'checked':''}> ${t}</label>`).join('')}<input type="date" data-ev2="accessDate" value="${escapeHtml(ev.accessDate||'')}"></div>
+    ${evRow('icuRe','出院後非計畫性再入住加護病房', `<input type="text" data-ev2="icuReNote" value="${escapeHtml(ev.icuReNote||'')}" placeholder="原因（須做根本原因分析）" style="flex:1;min-width:160px">`)}
+    ${evRow('death','30日內死亡或與提早出院相關之重大不良事件', `<input type="text" data-ev2="deathNote" value="${escapeHtml(ev.deathNote||'')}" placeholder="說明（發生即啟動停損）" style="flex:1;min-width:160px">`)}</div>`;
+  html += `<div class="foot"><div class="hint">選案評估、出院檢核與追蹤會同步帶入 ERAS 核心查核支架版第 2、10、11 項</div>
+    <div><button class="btn" onclick="closeDetail()">取消</button> <button class="btn primary" id="saveBtn" onclick="saveCase()">儲存</button></div></div>`;
+  $('panel').innerHTML = html;
+  $('panel').querySelectorAll('input,select').forEach(el => el.addEventListener(el.type === 'text' ? 'input' : 'change', onInput));
+}
+function onInput(e){
+  const el = e.target, r = CUR.rec;
+  if (el.dataset.g) { r[el.dataset.g][+el.dataset.i] = el.value; }
+  else if (el.dataset.f) { r[el.dataset.f] = el.value; }
+  else if (el.dataset.chk != null) { r.chk[+el.dataset.chk] = el.checked; }
+  else if (el.dataset.fu) { r.fu[el.dataset.fu] = Object.assign({}, r.fu[el.dataset.fu], { [el.dataset.fk]: el.value }); }
+  else if (el.dataset.ev) { r.ev[el.dataset.ev] = el.value; }
+  else if (el.dataset.ev2) { r.ev[el.dataset.ev2] = el.value; }
+  else if (el.dataset.acc) { const a = r.ev.access || []; r.ev.access = el.checked ? a.concat(a.indexOf(el.dataset.acc)<0?[el.dataset.acc]:[]) : a.filter(x => x !== el.dataset.acc); }
+  const [vc, vt] = verdict(); const v = $('verdict'); v.className = 'verdict ' + vc; v.textContent = vt;
+}
+async function saveCase(){
+  const filler = $('filler').value.trim(), r = CUR.rec;
+  if (!filler) { alert('請先在上方填寫填寫者姓名'); $('filler').focus(); return; }
+  if (r.outcome === '路徑中止' && !(r.abortReason || '').trim()) { alert('路徑中止請填寫原因'); return; }
+  if (r.outcome === '循路徑出院' && verdict()[0] !== 'Y') { if (!confirm('選案評估未完成或不符合選案標準，仍要記為「循路徑出院」？')) return; }
+  if (r.outcome === '循路徑出院' && !CUR.defs.chk.every((_,i) => r.chk[i])) { if (!confirm('出院檢核表未全數通過，仍要記為「循路徑出院」？')) return; }
+  const btn = $('saveBtn'); btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
+  try {
+    const rec = Object.assign({}, r); delete rec._filler; delete rec._updated;
+    await post({ action:'saveStent', pk:CUR.case.pk, filler, rec: JSON.stringify(rec) });
+    closeDetail(); showOk('已儲存，正在重新整理…');
+    setTimeout(() => load(true), 1500);
+  } catch (err) { alert('儲存失敗：' + err.message); btn.disabled = false; btn.textContent = '儲存'; }
+}
+window.addEventListener('load', () => { if ($('doctor_key').value.trim()) load(); });
+</script>
+</body>
+</html>

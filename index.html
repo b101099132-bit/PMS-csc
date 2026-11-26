@@ -339,6 +339,26 @@ footer .clinic {
       <div class="card-arrow">→</div>
     </a>
 
+    <a class="card" data-color="gold" href="eras-audit.html" id="card-audit">
+      <div class="card-head">
+        <span class="card-tag">09 · 查核</span>
+        <span class="card-role">團隊</span>
+      </div>
+      <div class="card-title">ERAS 核心查核</div>
+      <p class="card-desc">逐案查核 ERAS 核心項目（心臟手術 18 項、主動脈支架 12 項），自動帶入既有紀錄，產出季遵從率與抽查名單。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" data-color="plum" href="stent-24h.html" id="card-stent24">
+      <div class="card-head">
+        <span class="card-tag">10 · 支架</span>
+        <span class="card-role">團隊</span>
+      </div>
+      <div class="card-title">支架 24 小時出院路徑</div>
+      <p class="card-desc">主動脈支架術前選案、加護病房出院檢核、出院後第 1、3、7 日追蹤與 30 日安全事件；季指標與停損燈號。</p>
+      <div class="card-arrow">→</div>
+    </a>
+
     <a class="card" data-color="sage" href="edu/index.html" id="card-edu">
       <div class="card-head">
         <span class="card-tag">08 · 衛教</span>
@@ -367,7 +387,7 @@ if (window.location.hash.startsWith('#k=')) {
 // 更新所有需要通行碼的連結
 function updateLinks() {
   const v = $('doctor_key').value.trim();
-  ['card-surgery', 'card-recovery', 'card-perfusion', 'card-postop', 'card-dashboard', 'card-risk', 'card-study'].forEach(id => {
+  ['card-surgery', 'card-recovery', 'card-perfusion', 'card-postop', 'card-dashboard', 'card-risk', 'card-study', 'card-audit', 'card-stent24'].forEach(id => {
     const card = $(id);
     // 第一次執行時存下原始 URL，之後不再讀已被加 hash 的版本
     let base = card.getAttribute('data-base');

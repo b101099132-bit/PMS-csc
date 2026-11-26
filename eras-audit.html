@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERAS 核心查核 — 心臟外科手術病人管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:#FAF7F2; --paper:#FFFFFF; --ink:#1A1A1A; --ink-soft:#5C5C5C; --ink-faint:#8A8580;
+  --teal:#1F5A5A; --gold:#A87B4D; --navy:#2C4866; --plum:#6B5876;
+  --border:#E8E2D5; --border-strong:#D4CDB8;
+  --success:#4A7A5A; --success-bg:#EDF3EE; --warn:#B8842D; --warn-bg:#FBF3DE;
+  --error:#B85450; --error-bg:#FBEFEE; --na:#8A8580; --na-bg:#F1EEE8;
+}
+body { font-family:'Noto Sans TC',system-ui,sans-serif; background:var(--cream); color:var(--ink);
+  font-size:15px; line-height:1.6; padding:20px 16px 60px; -webkit-font-smoothing:antialiased; }
+.container { max-width:1100px; margin:0 auto; }
+header { margin:16px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.brand .eyebrow { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; font-weight:500; margin-bottom:6px; }
+.brand h1 { font-family:'Noto Serif TC',serif; font-size:23px; font-weight:600; }
+.brand .flow { font-size:12px; color:var(--ink-faint); margin-top:4px; }
+.role-tag { background:var(--teal); color:#fff; padding:4px 12px; border-radius:3px; font-size:12px; letter-spacing:0.1em; font-weight:500; }
+.key-bar { background:#EEF2F7; border:1px solid #DCE3EB; border-radius:3px; padding:12px 16px; margin-bottom:18px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.key-bar label { font-size:13px; color:var(--navy); font-weight:500; }
+.key-bar input { padding:7px 12px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; background:#fff; }
+.key-bar #doctor_key { flex:1; min-width:150px; font-family:'JetBrains Mono',monospace; }
+.key-bar #filler { width:140px; }
+.btn { border:1px solid var(--border-strong); background:#fff; color:var(--ink); border-radius:3px; padding:7px 14px; font-size:13px; cursor:pointer; font-family:inherit; }
+.btn:hover { border-color:var(--navy); color:var(--navy); }
+.btn.primary { background:var(--teal); color:#fff; border-color:var(--teal); }
+.btn.primary:hover { background:#174848; color:#fff; }
+.btn:disabled { opacity:.55; cursor:default; }
+.alert { display:none; padding:10px 14px; border-radius:3px; font-size:13px; margin-bottom:14px; }
+.alert.show { display:block; }
+.alert.err { background:var(--error-bg); color:var(--error); border:1px solid #F0D3D1; }
+.alert.ok { background:var(--success-bg); color:var(--success); border:1px solid #D3E3D6; }
+.tabs { display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:16px; }
+.tab { padding:8px 16px; font-size:14px; cursor:pointer; border:1px solid transparent; border-bottom:none; border-radius:3px 3px 0 0; color:var(--ink-soft); background:none; font-family:inherit; }
+.tab.active { background:var(--paper); border-color:var(--border); color:var(--teal); font-weight:600; margin-bottom:-1px; }
+.filters { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.filters label { font-size:12px; color:var(--ink-faint); }
+.filters select { padding:6px 10px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; background:#fff; font-family:inherit; }
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+@media (max-width:760px){ .kpis { grid-template-columns:repeat(2,1fr); } }
+.kpi { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:12px 14px; }
+.kpi .lbl { font-size:12px; color:var(--ink-faint); }
+.kpi .val { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:var(--teal); line-height:1.3; }
+.kpi .val.bad { color:var(--error); }
+.kpi .sub { font-size:11px; color:var(--ink-faint); }
+.card { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:16px 18px; margin-bottom:16px; }
+.card > h2 { font-family:'Noto Serif TC',serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:12px; }
+.hint { font-size:12px; color:var(--ink-faint); line-height:1.7; }
+table.list { width:100%; border-collapse:collapse; font-size:13px; }
+table.list th { text-align:left; font-weight:500; color:var(--ink-faint); font-size:12px; padding:6px 8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+table.list td { padding:8px; border-bottom:1px solid #F0ECE4; vertical-align:middle; }
+table.list tr.case:hover { background:#FBF8F2; cursor:pointer; }
+.mono { font-family:'JetBrains Mono',monospace; }
+.tag { display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; white-space:nowrap; }
+.tag.cardiac { background:#E7EEF0; color:var(--teal); }
+.tag.stent { background:#EEE8F1; color:var(--plum); }
+.tag.st-no { background:var(--na-bg); color:var(--ink-soft); }
+.tag.st-miss { background:var(--warn-bg); color:var(--warn); }
+.tag.st-ok { background:var(--success-bg); color:var(--success); }
+.tag.st-lock { background:#E7ECF3; color:var(--navy); }
+.tag.sample { background:#FBEFEE; color:var(--error); }
+.bar { position:relative; width:90px; height:8px; background:#EFEAE0; border-radius:4px; display:inline-block; vertical-align:middle; margin-right:6px; }
+.bar > i { position:absolute; left:0; top:0; bottom:0; border-radius:4px; background:var(--teal); }
+.bar > b { position:absolute; top:-3px; bottom:-3px; width:1px; background:var(--gold); left:70%; }
+.dots { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1px; white-space:nowrap; }
+.dots .Y { color:var(--success); } .dots .N { color:var(--error); } .dots .NA, .dots .P { color:#C9C2B4; }
+@media (max-width:760px){ .hide-m { display:none; } .bar { display:none; } table.list td, table.list th { padding:6px 4px; } }
+.tbl-wrap { overflow-x:auto; }
+
+/* detail panel */
+#detail { display:none; position:fixed; inset:0; background:rgba(26,26,26,.35); z-index:50; overflow-y:auto; padding:20px 12px; }
+#detail.show { display:block; }
+.panel { max-width:860px; margin:0 auto; background:var(--cream); border-radius:6px; padding:18px 18px 24px; box-shadow:0 8px 30px rgba(0,0,0,.15); }
+.panel-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:12px; }
+.panel-head h3 { font-family:'Noto Serif TC',serif; font-size:19px; }
+.panel-head .meta { font-size:13px; color:var(--ink-soft); }
+.close { background:none; border:none; font-size:24px; cursor:pointer; color:var(--ink-faint); line-height:1; }
+.ver-box { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:12px; font-size:13px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.ver-box select, .ver-box input { padding:5px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.phase { font-size:12px; color:var(--gold); letter-spacing:.15em; margin:14px 0 6px; font-weight:600; }
+.item { background:var(--paper); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:8px; }
+.item-top { display:flex; gap:10px; align-items:flex-start; }
+.item-n { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gold); width:22px; flex:none; padding-top:2px; }
+.item-main { flex:1; min-width:0; }
+.item-name { font-weight:600; font-size:14px; }
+.item-crit { font-size:12px; color:var(--ink-faint); }
+.item-ev { font-size:12px; color:var(--ink-soft); margin-top:4px; }
+.item-ev .src { font-size:11px; color:var(--ink-faint); border:1px solid var(--border); border-radius:8px; padding:0 6px; margin-right:6px; }
+.res { flex:none; font-size:12px; font-weight:600; padding:2px 10px; border-radius:10px; white-space:nowrap; }
+.res.Y { background:var(--success-bg); color:var(--success); }
+.res.N { background:var(--error-bg); color:var(--error); }
+.res.NA, .res.P { background:var(--na-bg); color:var(--na); }
+.inputs { margin:8px 0 0 32px; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13px; align-items:center; }
+.inputs label { display:inline-flex; gap:4px; align-items:center; cursor:pointer; }
+.inputs input[type=text], .inputs input[type=number], .inputs input[type=date], .inputs select { padding:4px 8px; border:1px solid var(--border-strong); border-radius:3px; font-size:13px; font-family:inherit; }
+.subrow { margin:6px 0 0 32px; font-size:12px; color:var(--ink-soft); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.subrow select, .subrow input { padding:3px 6px; border:1px solid var(--border-strong); border-radius:3px; font-size:12px; font-family:inherit; }
+.link { background:none; border:none; color:var(--navy); text-decoration:underline; cursor:pointer; font-size:12px; font-family:inherit; padding:0; }
+.foot { position:sticky; bottom:0; background:var(--cream); border-top:1px solid var(--border); margin-top:14px; padding-top:12px;
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+.foot .rate { font-size:14px; }
+.foot .rate b { font-family:'JetBrains Mono',monospace; font-size:20px; color:var(--teal); }
+.loading { display:inline-block; width:12px; height:12px; border:2px solid #ccc; border-top-color:var(--teal); border-radius:50%; animation:spin 1s linear infinite; margin-right:6px; vertical-align:-2px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+table.rep { width:100%; border-collapse:collapse; font-size:13px; }
+table.rep th, table.rep td { padding:6px 8px; border-bottom:1px solid #F0ECE4; text-align:left; }
+table.rep th { color:var(--ink-faint); font-weight:500; font-size:12px; }
+table.rep td.num { font-family:'JetBrains Mono',monospace; text-align:right; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:860px){ .two { grid-template-columns:1fr; } }
+footer { margin-top:30px; text-align:center; font-size:12px; color:var(--ink-faint); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="eyebrow">Cardiac ERAS · Audit</div>
+      <h1>ERAS 核心項目逐案查核</h1>
+      <div class="flow">心臟手術版 18 項 · 主動脈支架版 12 項 · 依「Cardiac ERAS 核心項目逐案查核表」</div>
+    </div>
+    <span class="role-tag" id="roleTag">團隊</span>
+  </header>
+
+  <div class="key-bar">
+    <label for="doctor_key">通行碼</label>
+    <input type="password" id="doctor_key" placeholder="輸入後載入" autocomplete="off">
+    <label for="filler">查核者</label>
+    <input type="text" id="filler" placeholder="您的姓名">
+    <button class="btn" id="reloadBtn" type="button">↻ 重新載入</button>
+  </div>
+
+  <div class="alert err" id="errAlert"></div>
+  <div class="alert ok" id="okAlert"></div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="cases" type="button">個案查核</button>
+    <button class="tab" data-tab="report" type="button">季報表</button>
+  </div>
+
+  <div class="filters">
+    <label>季別</label><select id="fQ"></select>
+    <label>版本</label><select id="fV"><option value="">全部</option><option value="cardiac">心臟手術</option><option value="stent">主動脈支架</option></select>
+    <label class="tab-cases">狀態</label><select id="fS" class="tab-cases"><option value="">全部</option><option value="no">未查核</option><option value="miss">查核頁待補</option><option value="ok">已查核</option><option value="sample">抽查個案</option></select>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section id="paneCases">
+    <div class="card tbl-wrap">
+      <table class="list">
+        <thead><tr><th>手術日</th><th>姓名</th><th class="hide-m">術式</th><th>版本</th><th class="hide-m">各項結果</th><th>遵從率</th><th>狀態</th></tr></thead>
+        <tbody id="caseBody"><tr><td colspan="7" class="hint">輸入通行碼後載入。</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="paneReport" style="display:none"></section>
+
+  <footer>心臟外科手術病人管理系統 · ERAS 核心查核 · 自動項目每次開啟時由原始表單重新判定，季別鎖定後固定</footer>
+</div>
+
+<div id="detail"><div class="panel" id="panel"></div></div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzr5eDnHyyq2hWZJ1pD4x5z7h8LkabeZMNDcl6o1lWx0e3bE4CLDCkmqYCzPA1qagU2ug/exec';
+const $ = (id) => document.getElementById(id);
+function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const RES_TXT = { Y:'達成', N:'未達成', NA:'不適用', P:'待追蹤' };
+const VER_TXT = { cardiac:'心臟手術', stent:'主動脈支架' };
+// 計畫書目標（民國年）：遵從率；呼吸訓練、24h 行走僅 116 年有明訂
+const TARGET = { rate:{116:70,117:80,118:90}, breath:{116:50}, walk:{116:70} };
+
+let DATA = null, CUR = null, curTab = 'cases';
+
+// ===== 通行碼／查核者 =====
+if (window.location.hash.startsWith('#k=')) $('doctor_key').value = decodeURIComponent(window.location.hash.slice(3));
+try { $('filler').value = localStorage.getItem('eras_audit_filler') || ''; } catch(e){}
+$('filler').addEventListener('change', () => { try { localStorage.setItem('eras_audit_filler', $('filler').value.trim()); } catch(e){} });
+$('doctor_key').addEventListener('change', () => { const v=$('doctor_key').value; if(v){ history.replaceState(null,'','#k='+encodeURIComponent(v)); load(); } });
+$('reloadBtn').addEventListener('click', () => load());
+
+function jsonp(params, timeoutMs = 45000){
+  return new Promise((resolve,reject)=>{
+    const cb = '_au_cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const usp = new URLSearchParams({...params, callback:cb});
+    const s = document.createElement('script');
+    const t = setTimeout(()=>{cl();reject(new Error('查詢逾時'));}, timeoutMs);
+    function cl(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = d => { cl(); resolve(d); };
+    s.onerror = () => { cl(); reject(new Error('連線失敗')); };
+    s.src = APPS_SCRIPT_URL+'?'+usp.toString();
+    document.body.appendChild(s);
+  });
+}
+async function post(fields){
+  const fd = new FormData();
+  Object.keys(fields).forEach(k => fd.append(k, fields[k]));
+  fd.append('key', $('doctor_key').value.trim());
+  await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd });
+}
+function showErr(m){ const e=$('errAlert'); e.textContent=m; e.classList.add('show'); }
+function showOk(m){ const e=$('okAlert'); e.textContent=m; e.classList.add('show'); setTimeout(()=>e.classList.remove('show'), 4000); }
+function hideAlerts(){ $('errAlert').classList.remove('show'); }
+
+// ===== 載入清單 =====
+async function load(keepQ){
+  const key = $('doctor_key').value.trim();
+  if (!key) return;
+  hideAlerts();
+  $('caseBody').innerHTML = '<tr><td colspan="7"><span class="loading"></span>載入中…（需讀取全部病人，約 10–20 秒）</td></tr>';
+  try {
+    const d = await jsonp({ action:'auditList', key, q:'all' });
+    if (!d || !d.ok) { showErr(d && d.error === 'unauthorized' ? '通行碼錯誤' : '載入失敗：' + (d && d.error || '')); $('caseBody').innerHTML=''; return; }
+    DATA = d;
+    $('roleTag').textContent = d.role === 'admin' ? '管理' : '團隊';
+    const prev = keepQ ? $('fQ').value : '';
+    $('fQ').innerHTML = d.quarters.map(x => `<option value="${x.q}">${qLabel(x.q)}（${x.n}）${d.locks[x.q] && d.locks[x.q].locked ? ' 🔒' : ''}</option>`).join('') + '<option value="all">全部</option>';
+    if (prev && [...$('fQ').options].some(o=>o.value===prev)) $('fQ').value = prev;
+    render();
+  } catch (err) { showErr(err.message); $('caseBody').innerHTML=''; }
+}
+function qLabel(q){ const m = /^(\d+)Q(\d)$/.exec(q); return m ? `${m[1]} 年第 ${m[2]} 季` : q; }
+['fQ','fV','fS'].forEach(id => $(id).addEventListener('change', render));
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+  curTab = t.dataset.tab;
+  $('paneCases').style.display = curTab === 'cases' ? '' : 'none';
+  $('paneReport').style.display = curTab === 'report' ? '' : 'none';
+  document.querySelectorAll('.tab-cases').forEach(x => x.style.display = curTab === 'cases' ? '' : 'none');
+  render();
+}));
+
+function statusOf(c){
+  if (c.locked) return ['st-lock','已鎖定'];
+  if (!c.audited) return ['st-no','未查核'];
+  if (c.manualMissing > 0) return ['st-miss','待補 '+c.manualMissing+' 項'];
+  return ['st-ok','已查核'];
+}
+function casesInView(ignoreStatus){
+  if (!DATA) return [];
+  const q = $('fQ').value, v = $('fV').value, s = ignoreStatus ? '' : $('fS').value;
+  const sample = (DATA.locks[q] && DATA.locks[q].sample) || [];
+  return DATA.cases.filter(c => (q === 'all' || c.q === q) && (!v || c.version === v) && (
+    !s || (s === 'no' && !c.audited && !c.locked) || (s === 'miss' && c.audited && c.manualMissing > 0) || (s === 'ok' && c.audited && !c.manualMissing) || (s === 'sample' && sample.indexOf(c.pk) >= 0)));
+}
+
+// ===== 指標 =====
+function kpiOf(cases){
+  const rates = cases.filter(c => c.rate != null).map(c => c.rate);
+  const mean = rates.length ? Math.round(rates.reduce((a,b)=>a+b,0)/rates.length*10)/10 : null;
+  const prop = (key) => { let y=0,n=0; cases.forEach(c => { const idx = DATA.kpi[key][c.version]-1; const r = c.r[idx]; if (r==='Y') y++; else if (r==='N') n++; }); return { y, d:y+n, v: (y+n) ? Math.round(y/(y+n)*1000)/10 : null }; };
+  return { n: cases.length, mean, breath: prop('breath'), walk: prop('walk'), audited: cases.filter(c=>c.audited||c.locked).length,
+    pending: cases.filter(c => c.r.indexOf('P') >= 0).length };
+}
+function renderKpis(cases){
+  const k = kpiOf(cases), q = $('fQ').value, roc = /^\d+/.test(q) ? parseInt(q,10) : null;
+  const tgt = (key) => roc && TARGET[key][roc] != null ? TARGET[key][roc] : null;
+  const cell = (lbl, v, t, sub) => `<div class="kpi"><div class="lbl">${lbl}</div><div class="val ${v!=null && t!=null && v<t ? 'bad':''}">${v==null?'—':v+'%'}</div><div class="sub">${t!=null?'目標 ≥'+t+'%　':''}${sub}</div></div>`;
+  $('kpis').innerHTML =
+    cell('整體遵從率（個案遵從率平均）', k.mean, tgt('rate'), k.n+' 例') +
+    cell('呼吸訓練完成率', k.breath.v, tgt('breath'), k.breath.y+'／'+k.breath.d) +
+    cell('拔管後 24 小時內行走達成率', k.walk.v, tgt('walk'), k.walk.y+'／'+k.walk.d) +
+    `<div class="kpi"><div class="lbl">已查核</div><div class="val">${k.audited}<span style="font-size:14px;color:var(--ink-faint)">／${k.n}</span></div><div class="sub">待追蹤（出院未滿30天）${k.pending} 例</div></div>`;
+}
+
+function render(){
+  if (!DATA) return;
+  renderKpis(casesInView(true));
+  if (curTab === 'cases') renderCases(); else renderReport();
+}
+function renderCases(){
+  const list = casesInView(false), q = $('fQ').value;
+  const sample = (DATA.locks[q] && DATA.locks[q].sample) || [];
+  if (!list.length) { $('caseBody').innerHTML = '<tr><td colspan="7" class="hint">沒有符合的個案。</td></tr>'; return; }
+  $('caseBody').innerHTML = list.map(c => {
+    const [cls, txt] = statusOf(c);
+    const dots = c.r.map(r => `<span class="${r}">${r==='Y'?'●':r==='N'?'○':'·'}</span>`).join('');
+    return `<tr class="case" data-pk="${escapeHtml(c.pk)}">
+      <td class="mono">${c.date}</td><td>${escapeHtml(c.name)}</td><td class="hide-m">${escapeHtml(c.surgery)}</td>
+      <td><span class="tag ${c.version}">${VER_TXT[c.version]}</span>${c.version!==c.autoVersion?' <span class="hint" title="已手動切換">↺</span>':''}</td>
+      <td class="hide-m dots">${dots}</td>
+      <td style="white-space:nowrap"><span class="bar"><i style="width:${c.rate||0}%"></i><b></b></span><span class="mono">${c.rate==null?'—':c.rate+'%'}</span> <span class="hint">${c.y}/${c.y+c.n}</span></td>
+      <td><span class="tag ${cls}">${txt}</span>${sample.indexOf(c.pk)>=0?' <span class="tag sample">抽查</span>':''}</td></tr>`;
+  }).join('');
+  document.querySelectorAll('tr.case').forEach(tr => tr.addEventListener('click', () => openCase(tr.dataset.pk)));
+}
+
+// ===== 單案查核 =====
+async function openCase(pk, version){
+  $('panel').innerHTML = '<span class="loading"></span>載入中…';
+  $('detail').classList.add('show');
+  try {
+    const params = { action:'lookupAudit', key:$('doctor_key').value.trim(), pk };
+    if (version) params.version = version;
+    const d = await jsonp(params);
+    if (!d || !d.ok) { $('panel').innerHTML = '<p>' + escapeHtml(d && d.error || '載入失敗') + '</p><button class="btn" onclick="closeDetail()">關閉</button>'; return; }
+    CUR = d;
+    CUR.input = JSON.parse(JSON.stringify(d.result.input || {}));
+    CUR.input.m = CUR.input.m || {}; CUR.input.ov = CUR.input.ov || {}; CUR.input.fr = CUR.input.fr || {};
+    CUR.ver = d.case.version; CUR.verReason = d.case.versionReason || '';
+    renderDetail();
+  } catch (err) { $('panel').innerHTML = '<p>' + escapeHtml(err.message) + '</p><button class="btn" onclick="closeDetail()">關閉</button>'; }
+}
+function closeDetail(){ $('detail').classList.remove('show'); CUR = null; }
+$('detail').addEventListener('click', e => { if (e.target === $('detail')) closeDetail(); });
+
+/* 依目前輸入即時計算手動項目結果（自動項目沿用後端判定；後端判為不適用的規則優先） */
+function liveRes(def, it){
+  const m = CUR.input.m, ov = CUR.input.ov[def.n];
+  if (ov && ov.res) return ov.res;
+  const ruleNA = it.auto === 'NA' && !/^查核頁勾選/.test(it.ev);
+  if (def.type === 'auto' || ruleNA) return it.auto;
+  const k = String(def.n), v = m[k];
+  switch (def.type) {
+    case 'edu': return (it.ev.indexOf('平台已發送') === 0 || v) ? 'Y' : 'N';
+    case 'yn': return v === '是' ? 'Y' : 'N';
+    case 'yn3': return v === '是' ? 'Y' : (v === '不適用' ? 'NA' : 'N');
+    case 'multi': return Array.isArray(v) && v.length >= 2 ? 'Y' : 'N';
+    case 'icdsc': return v && v.done === '是' ? 'Y' : 'N';
+    case 'select': return v && v.sel ? 'Y' : 'N';
+    case 'check': return Array.isArray(v) && v.length >= def.opts.length ? 'Y' : 'N';
+    case 'dates': return v && v.d1 && v.d3 && v.d7 ? 'Y' : 'N';
+  }
+  return it.auto;
+}
+function inputHtml(def, it, locked){
+  const k = String(def.n), v = CUR.input.m[k], dis = locked ? 'disabled' : '';
+  const ruleNA = it.auto === 'NA' && !/^查核頁勾選/.test(it.ev);
+  if (def.type === 'auto' || (ruleNA && def.type !== 'edu')) return '';
+  const radio = (opts) => opts.map(o => `<label><input type="radio" name="m${k}" value="${o}" ${v===o?'checked':''} ${dis} data-k="${k}" data-t="radio"> ${o}</label>`).join('');
+  switch (def.type) {
+    case 'edu': return it.ev.indexOf('平台已發送') === 0 ? '' : `<div class="inputs"><label><input type="checkbox" data-k="1" data-t="flag" ${v?'checked':''} ${dis}> 已完成紙本／口頭衛教（未經平台發送）</label></div>`;
+    case 'yn': return `<div class="inputs">${radio(['是','否'])}</div>`;
+    case 'yn3': return `<div class="inputs">${radio(['是','否','不適用'])}<span class="hint">加護病房期間血糖未曾 >180 mg/dL 請勾不適用</span></div>`;
+    case 'multi': { const a = Array.isArray(v) ? v : []; return `<div class="inputs">${def.opts.map(o => `<label><input type="checkbox" data-k="${k}" data-t="multi" value="${o}" ${a.indexOf(o)>=0?'checked':''} ${dis}> ${o}</label>`).join('')}<span class="hint">勾選兩種以上即達成</span></div>`; }
+    case 'icdsc': { const x = v || {}; return `<div class="inputs"><label><input type="radio" name="m${k}" data-k="${k}" data-t="icdsc-done" value="是" ${x.done==='是'?'checked':''} ${dis}> 已完成</label><label><input type="radio" name="m${k}" data-k="${k}" data-t="icdsc-done" value="否" ${x.done==='否'?'checked':''} ${dis}> 未完成</label><label>最高分 <input type="number" min="0" max="8" style="width:64px" data-k="${k}" data-t="icdsc-max" value="${x.max!=null?x.max:''}" ${dis}></label><span class="hint">依加護病房紙本「術後意識與譫妄評估紀錄表（RASS＋ICDSC）」</span></div>`; }
+    case 'select': { const x = v || {}; return `<div class="inputs">${def.opts.map(o => `<label><input type="radio" name="m${k}" data-k="${k}" data-t="sel" value="${o}" ${x.sel===o?'checked':''} ${dis}> ${o}選案標準</label>`).join('')}<label>原因 <input type="text" style="width:220px" data-k="${k}" data-t="sel-reason" value="${escapeHtml(x.reason||'')}" placeholder="不符合時填寫" ${dis}></label></div>`; }
+    case 'check': { const a = Array.isArray(v) ? v : []; return `<div class="inputs">${def.opts.map(o => `<label><input type="checkbox" data-k="${k}" data-t="multi" value="${o}" ${a.indexOf(o)>=0?'checked':''} ${dis}> ${o}</label>`).join('')}</div>`; }
+    case 'dates': { const x = v || {}; return `<div class="inputs">${['d1','d3','d7'].map((dk,i) => `<label>${def.opts[i]} <input type="date" data-k="${k}" data-t="date" data-dk="${dk}" value="${x[dk]||''}" ${dis}></label>`).join('')}</div>`; }
+  }
+  return '';
+}
+function renderDetail(){
+  const d = CUR, c = d.case, locked = d.locked, dis = locked ? 'disabled' : '';
+  const defs = d.defs, items = d.result.items;
+  let html = `<div class="panel-head"><div><h3>${escapeHtml(c.name)}　<span class="tag ${CUR.ver}">${VER_TXT[CUR.ver]}</span></h3>
+    <div class="meta">${c.date}（${qLabel(c.q)}）· ${escapeHtml(c.surgery)}${c.auditor ? '　· 上次查核：'+escapeHtml(c.auditor)+' '+escapeHtml(c.auditedAt) : ''}</div></div>
+    <button class="close" onclick="closeDetail()" aria-label="關閉">×</button></div>`;
+  if (locked) html += `<div class="alert ok show">${qLabel(c.q)} 已鎖定，以下為鎖定時的快照，不可修改。</div>`;
+  html += `<div class="ver-box">查核表版本：<select id="verSel" ${dis}><option value="cardiac" ${CUR.ver==='cardiac'?'selected':''}>心臟手術版（18 項）</option><option value="stent" ${CUR.ver==='stent'?'selected':''}>主動脈支架版（12 項）</option></select>
+    <span class="hint">依術式自動判定為「${VER_TXT[c.autoVersion]}」</span>
+    <span id="verReasonWrap" style="display:${CUR.ver!==c.autoVersion?'inline':'none'}">切換理由 <input type="text" id="verReason" value="${escapeHtml(CUR.verReason)}" placeholder="必填" ${dis}></span></div>`;
+  let ph = '';
+  defs.forEach((def, i) => {
+    const it = items[i];
+    if (def.ph !== ph) { ph = def.ph; html += `<div class="phase">${ph}</div>`; }
+    const res = liveRes(def, it), ov = CUR.input.ov[def.n];
+    html += `<div class="item" id="it${def.n}"><div class="item-top"><div class="item-n">${def.n}</div><div class="item-main">
+      <div class="item-name">${escapeHtml(def.name)}</div><div class="item-crit">${escapeHtml(def.crit)}</div>
+      <div class="item-ev"><span class="src">${(def.type==='auto' || it.ev.indexOf('平台已發送')===0) ? '自動' : (it.auto==='NA' && !/^查核頁勾選/.test(it.ev) ? '規則' : '查核頁')}</span>${escapeHtml(it.ev)}</div></div>
+      <span class="res ${res}" id="res${def.n}">${RES_TXT[res]}${ov && ov.res ? '（改判）':''}</span></div>
+      ${inputHtml(def, it, locked)}
+      <div class="subrow" id="fr${def.n}" style="display:${res==='N'?'flex':'none'}">未達成原因 <select data-n="${def.n}" data-t="fr" ${dis}><option value="">—</option>${['未執行','已執行未登錄'].map(o=>`<option ${CUR.input.fr[def.n]===o?'selected':''}>${o}</option>`).join('')}</select></div>
+      <div class="subrow">${ov && ov.res ? `改判為 <select data-n="${def.n}" data-t="ov-res" ${dis}>${['Y','N','NA'].map(o=>`<option value="${o}" ${ov.res===o?'selected':''}>${RES_TXT[o]}</option>`).join('')}</select> 理由 <input type="text" style="width:240px" data-n="${def.n}" data-t="ov-reason" value="${escapeHtml(ov.reason||'')}" placeholder="必填" ${dis}> ${locked?'':`<button class="link" data-n="${def.n}" data-t="ov-clear">取消改判</button>`}`
+        : (locked ? '' : `<button class="link" data-n="${def.n}" data-t="ov-add">改判</button>`)}</div></div>`;
+  });
+  if (c.inSample) html += `<div class="card" style="margin-top:12px"><h2>本季抽查個案</h2><div class="inputs" style="margin-left:0">病歷核對結果
+    <select id="sampleRes" ${dis}><option value="">—</option>${['相符','不相符'].map(o=>`<option ${c.sampleResult===o?'selected':''}>${o}</option>`).join('')}</select>
+    <input type="text" id="sampleNote" style="width:300px" value="${escapeHtml(c.sampleNote||'')}" placeholder="不相符之項目與說明" ${dis}></div></div>`;
+  html += `<div class="foot"><div class="rate">個案遵從率 <b id="liveRate"></b> <span class="hint" id="liveCnt"></span></div>
+    <div>${locked ? '' : '<button class="btn" onclick="closeDetail()">取消</button> <button class="btn primary" id="saveBtn" onclick="saveCase()">儲存查核</button>'}</div></div>`;
+  $('panel').innerHTML = html;
+  updateLive();
+  if (locked) return;
+  $('verSel').addEventListener('change', e => {
+    if (!confirm('切換查核表版本會改用另一版的項目，尚未儲存的勾選不會保留，請切換後重新勾選。確定切換？')) { e.target.value = CUR.ver; return; }
+    const reason = $('verReason') ? $('verReason').value : '';
+    openCase(c.pk, e.target.value).then(() => { if (CUR) { CUR.verReason = reason; renderDetail(); } });
+  });
+  $('panel').querySelectorAll('input,select,button.link').forEach(el => el.addEventListener(el.tagName === 'BUTTON' ? 'click' : 'change', onInput));
+  $('panel').querySelectorAll('input[type=text],input[type=number]').forEach(el => el.addEventListener('input', onInput));
+}
+function onInput(e){
+  const el = e.target, t = el.dataset.t, k = el.dataset.k, n = el.dataset.n, m = CUR.input.m;
+  if (!t) { if (el.id === 'verReason') CUR.verReason = el.value; return; }
+  if (t === 'radio') m[k] = el.value;
+  else if (t === 'flag') m[k] = el.checked ? 1 : 0;
+  else if (t === 'multi') { const a = Array.isArray(m[k]) ? m[k] : []; m[k] = el.checked ? a.concat(a.indexOf(el.value)<0?[el.value]:[]) : a.filter(x => x !== el.value); }
+  else if (t === 'icdsc-done') m[k] = Object.assign({}, m[k], { done: el.value });
+  else if (t === 'icdsc-max') m[k] = Object.assign({}, m[k], { max: el.value === '' ? '' : Number(el.value) });
+  else if (t === 'sel') m[k] = Object.assign({}, m[k], { sel: el.value });
+  else if (t === 'sel-reason') m[k] = Object.assign({}, m[k], { reason: el.value });
+  else if (t === 'date') m[k] = Object.assign({}, m[k], { [el.dataset.dk]: el.value });
+  else if (t === 'fr') CUR.input.fr[n] = el.value;
+  else if (t === 'ov-res') CUR.input.ov[n].res = el.value;
+  else if (t === 'ov-reason') { CUR.input.ov[n].reason = el.value; return updateLive(); }
+  else if (t === 'ov-add') { const it = CUR.result.items.find(x => x.n == n); CUR.input.ov[n] = { res: liveRes(CUR.defs.find(x=>x.n==n), it) === 'Y' ? 'N' : 'Y', reason: '' }; return renderDetail(); }
+  else if (t === 'ov-clear') { delete CUR.input.ov[n]; return renderDetail(); }
+  if (t === 'ov-res') return renderDetail();
+  updateLive();
+}
+function updateLive(){
+  let y = 0, nn = 0;
+  CUR.defs.forEach((def, i) => {
+    const r = liveRes(def, CUR.result.items[i]);
+    const el = $('res'+def.n); if (el) { el.className = 'res ' + r; el.textContent = RES_TXT[r] + (CUR.input.ov[def.n] && CUR.input.ov[def.n].res ? '（改判）' : ''); }
+    const fr = $('fr'+def.n); if (fr) fr.style.display = r === 'N' ? 'flex' : 'none';
+    if (r === 'Y') y++; else if (r === 'N') nn++;
+  });
+  $('liveRate').textContent = (y+nn) ? (Math.round(y/(y+nn)*1000)/10) + '%' : '—';
+  $('liveCnt').textContent = `達成 ${y}／適用 ${y+nn}`;
+}
+async function saveCase(){
+  const filler = $('filler').value.trim();
+  if (!filler) { alert('請先在上方填寫查核者姓名'); $('filler').focus(); return; }
+  if (CUR.ver !== CUR.case.autoVersion && !($('verReason') && $('verReason').value.trim())) { alert('已切換查核表版本，請填寫切換理由'); return; }
+  const missOv = Object.keys(CUR.input.ov).filter(n => !(CUR.input.ov[n].reason || '').trim());
+  if (missOv.length) { alert('第 ' + missOv.join('、') + ' 項已改判，請填寫改判理由'); return; }
+  // 清掉已不是未達成的原因
+  CUR.defs.forEach((def, i) => { if (liveRes(def, CUR.result.items[i]) !== 'N') delete CUR.input.fr[def.n]; });
+  const btn = $('saveBtn'); btn.disabled = true; btn.innerHTML = '<span class="loading"></span>儲存中…';
+  try {
+    await post({ action:'saveAudit', pk:CUR.case.pk, filler, version:CUR.ver, version_reason: $('verReason') ? $('verReason').value.trim() : '',
+      input: JSON.stringify(CUR.input), sample_result: $('sampleRes') ? $('sampleRes').value : '', sample_note: $('sampleNote') ? $('sampleNote').value.trim() : '' });
+    const pk = CUR.case.pk;
+    closeDetail(); showOk('已儲存查核，正在重新整理清單…');
+    setTimeout(() => load(true), 1500);
+  } catch (err) { alert('儲存失敗：' + err.message); btn.disabled = false; btn.textContent = '儲存查核'; }
+}
+
+// ===== 季報表 =====
+function renderReport(){
+  const q = $('fQ').value, cases = casesInView(true), lk = DATA.locks[q] || {};
+  const isQ = q !== 'all';
+  let html = '';
+  if (!cases.length) { $('paneReport').innerHTML = '<div class="card hint">此季別沒有個案。</div>'; return; }
+  // 逐項達成率
+  const itemTable = (ver) => {
+    const cs = cases.filter(c => c.version === ver); if (!cs.length) return '';
+    const rows = DATA.items[ver].map((def, i) => {
+      let y=0,n=0,na=0,p=0; const fr = { '未執行':0, '已執行未登錄':0 };
+      cs.forEach(c => { const r = c.r[i]; if (r==='Y') y++; else if (r==='N') n++; else if (r==='P') p++; else na++; (c.fails||[]).forEach(f => { if (f[0]===def.n && fr[f[1]]!=null) fr[f[1]]++; }); });
+      return `<tr><td class="mono">${def.n}</td><td>${escapeHtml(def.name)}</td><td class="num">${(y+n)?(Math.round(y/(y+n)*1000)/10)+'%':'—'}</td><td class="num">${y}/${y+n}</td><td class="num">${na}${p?' ＋待追蹤 '+p:''}</td><td class="num">${fr['未執行']||''}</td><td class="num">${fr['已執行未登錄']||''}</td></tr>`;
+    }).join('');
+    return `<div class="card"><h2>${VER_TXT[ver]}版逐項達成率（${cs.length} 例）</h2><table class="rep"><thead><tr><th>#</th><th>項目</th><th style="text-align:right">達成率</th><th style="text-align:right">達成／適用</th><th style="text-align:right">不適用</th><th style="text-align:right">未執行</th><th style="text-align:right">已執行未登錄</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  };
+  html += `<div class="two"><div>${itemTable('cardiac')}</div><div>${itemTable('stent')}</div></div>`;
+  // 改判與版本切換
+  const ovRows = [];
+  cases.forEach(c => { if (c.version !== c.autoVersion) ovRows.push(`<tr><td class="mono">${c.date}</td><td>${escapeHtml(c.name)}</td><td>版本 ${VER_TXT[c.autoVersion]} → ${VER_TXT[c.version]}</td><td>${escapeHtml(c.versionReason)}</td></tr>`);
+    (c.overrides||[]).forEach(o => ovRows.push(`<tr><td class="mono">${c.date}</td><td>${escapeHtml(c.name)}</td><td>第 ${o[0]} 項 ${RES_TXT[o[1]]} → ${RES_TXT[o[2]]}</td><td>${escapeHtml(o[3])}</td></tr>`)); });
+  html += `<div class="card"><h2>版本切換與改判紀錄（${ovRows.length}）</h2>${ovRows.length ? `<table class="rep"><thead><tr><th>手術日</th><th>姓名</th><th>內容</th><th>理由</th></tr></thead><tbody>${ovRows.join('')}</tbody></table>` : '<p class="hint">無。</p>'}</div>`;
+  // 抽查
+  if (isQ) {
+    const smp = lk.sample || [];
+    const sRows = smp.map(pk => { const c = DATA.cases.find(x => x.pk === pk); return c ? `<tr class="case" data-pk="${escapeHtml(pk)}"><td class="mono">${c.date}</td><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.surgery)}</td><td>${escapeHtml(c.sampleResult || '未核對')}</td></tr>` : ''; }).join('');
+    html += `<div class="card"><h2>10% 病歷核對抽查</h2>${smp.length ? `<p class="hint">產生時間 ${escapeHtml(lk.sampleAt)}，點選個案登錄核對結果。</p><table class="list"><thead><tr><th>手術日</th><th>姓名</th><th>術式</th><th>核對結果</th></tr></thead><tbody>${sRows}</tbody></table>` : '<p class="hint">尚未產生抽查名單。</p>'}
+      ${lk.locked ? '' : `<p style="margin-top:10px"><button class="btn" id="sampleBtn">${smp.length ? '重新產生抽查名單' : '產生抽查名單'}</button></p>`}</div>`;
+  }
+  // 匯出與鎖定
+  html += `<div class="card"><h2>匯出與鎖定</h2><p><button class="btn" id="csvBtn">匯出逐案查核結果（Excel 可開啟的 CSV）</button></p>`;
+  if (isQ) {
+    if (lk.locked) html += `<p class="hint" style="margin-top:10px">🔒 ${qLabel(q)} 已於 ${escapeHtml(lk.lockedAt)} 由 ${escapeHtml(lk.lockedBy)} 鎖定，作為獎金核發依據。</p>${DATA.role==='admin'?'<p><button class="btn" id="unlockBtn">解除鎖定（管理員）</button></p>':''}`;
+    else html += DATA.role === 'admin' ? `<p style="margin-top:10px"><button class="btn primary" id="lockBtn">鎖定 ${qLabel(q)}</button></p><p class="hint">鎖定會把本季全部個案（含未查核者）的當下判定寫入快照，之後原始資料再改也不影響本季結果。</p>` : '<p class="hint" style="margin-top:10px">季別鎖定由管理員執行。</p>';
+  }
+  html += '</div>';
+  $('paneReport').innerHTML = html;
+  $('paneReport').querySelectorAll('tr.case').forEach(tr => tr.addEventListener('click', () => openCase(tr.dataset.pk)));
+  if ($('csvBtn')) $('csvBtn').addEventListener('click', () => exportCsv(cases, q));
+  if ($('sampleBtn')) $('sampleBtn').addEventListener('click', async () => { if (!confirm('隨機抽出本季 10% 個案（至少 1 例）？' + ((lk.sample||[]).length ? '會取代目前的名單。' : ''))) return; await post({ action:'auditSample', q }); showOk('已產生抽查名單，重新整理中…'); setTimeout(() => load(true), 1500); });
+  if ($('lockBtn')) $('lockBtn').addEventListener('click', async () => { const f = $('filler').value.trim(); if (!f) { alert('請先填寫查核者姓名'); return; } if (!confirm('確定鎖定 ' + qLabel(q) + '？')) return; await post({ action:'lockAuditQuarter', q, filler:f }); showOk('已送出鎖定，重新整理中…'); setTimeout(() => load(true), 3000); });
+  if ($('unlockBtn')) $('unlockBtn').addEventListener('click', async () => { if (!confirm('確定解除 ' + qLabel(q) + ' 的鎖定？')) return; await post({ action:'lockAuditQuarter', q, unlock:'1', filler:$('filler').value.trim() }); showOk('已解除鎖定，重新整理中…'); setTimeout(() => load(true), 1500); });
+}
+function exportCsv(cases, q){
+  const maxN = 18;
+  const head = ['季別','手術日','病人主鍵','姓名','術式','版本','個案遵從率%','達成數','適用數'].concat(Array.from({length:maxN}, (_,i)=>'項'+(i+1))).concat(['查核者','查核時間','抽查核對']);
+  const rows = cases.map(c => [c.q, c.date, c.pk, c.name, c.surgery, VER_TXT[c.version], c.rate==null?'':c.rate, c.y, c.y+c.n]
+    .concat(Array.from({length:maxN}, (_,i) => c.r[i] ? RES_TXT[c.r[i]] : '')).concat([c.auditor, c.auditedAt, c.sampleResult]));
+  const esc = v => { const s = String(v==null?'':v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; };
+  const csv = '﻿' + [head].concat(rows).map(r => r.map(esc).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8' }));
+  a.download = 'ERAS核心查核_' + (q === 'all' ? '全部' : q) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+window.addEventListener('load', () => { if ($('doctor_key').value.trim()) load(); });
+</script>
+</body>
+</html>
