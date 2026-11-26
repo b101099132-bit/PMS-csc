@@ -155,6 +155,10 @@ footer { text-align:center; margin-top:36px; padding-top:20px; border-top:1px so
     <div class="alert alert-success" id="okAlert"></div>
 
     <form id="ioForm" autocomplete="off">
+      <div class="subhead">時間</div>
+      <div class="row row-3">
+        <div class="field"><label for="room_in">病人入室時間</label><input type="time" id="room_in" name="room_in"><span class="sub">病人進入手術室的時間；平日 16:00 後或假日開刀會自動列入夜間急重症應變出動統計</span></div>
+      </div>
       <div class="subhead">體外循環／灌流參數</div>
       <div class="hint">單位：分鐘／℃／mL。沒有執行的項目填 0（例如 on-pump beating 的 X-clamp＝0、未循環停止＝0）；未知或未記錄請留白。</div>
       <div class="row row-3">
@@ -404,7 +408,7 @@ function showPatient(p){
    't_art_max','core_site','core_min','core_end','map_target','map_mean','map_min','map_low50_min','hb_min','ci_min','do2i_min',
    'scp_side','scp_flow','scp_flow_idx','scp_press_r','scp_press_l','nirs_l_base','nirs_r_base','nirs_l_min','nirs_r_min',
    'prime_vol','prime_prbc','cpb_prbc','cpb_other_blood','rap','valve_type','valve_model','graft_model',
-   'cann_ven','gas_strategy','oxygenator','head_ice','cp_total','cp_route','lactate_max','rewarm_min','scp_line_temp'].forEach(k => setV(k, io[k]));
+   'cann_ven','gas_strategy','oxygenator','head_ice','cp_total','cp_route','lactate_max','rewarm_min','scp_line_temp','room_in'].forEach(k => setV(k, io[k]));
   // 動脈插管（複選）回填
   const artSel = String(io.cann_art || '').split('、').filter(Boolean);
   document.querySelectorAll('#cannArtBox input').forEach(cb => { cb.checked = artSel.indexOf(cb.value) >= 0; cb.closest('.crit').classList.toggle('on', cb.checked); });
